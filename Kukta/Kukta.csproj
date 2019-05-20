@@ -126,6 +126,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Calendar\Calendar.cs" />
+    <Compile Include="Calendar\CalendarDay.cs" />
     <Compile Include="FoodFramework\FileTask\DeleteCategoryTask.cs" />
     <Compile Include="FoodFramework\FileTask\DeleteFoodFileAsync.cs" />
     <Compile Include="FoodFramework\FileTask\GetBaseFoods.cs" />
@@ -146,6 +148,11 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Menu\TemplateDay.cs" />
+    <Compile Include="Menu\EMealType.cs" />
+    <Compile Include="Menu\Meal.cs" />
+    <Compile Include="Menu\TemplateManager.cs" />
+    <Compile Include="Menu\WeekTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\FoodCategories.xaml.cs">
       <DependentUpon>FoodCategories.xaml</DependentUpon>
@@ -155,6 +162,9 @@
     </Compile>
     <Compile Include="Screens\FoodFrame.xaml.cs">
       <DependentUpon>FoodFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\WeekTemplates.xaml.cs">
+      <DependentUpon>WeekTemplates.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\FoodFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\WeekTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -41,6 +41,13 @@
                         </StackPanel>
                     </ListBoxItem>
 
+                    <ListBoxItem >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="36" Text="H" Margin="10, 0"/>
+                            <TextBlock  FontSize="32" Text="Hét sablonok" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+
                 </ListBox>
             </SplitView.Pane>
             <SplitView.Content>
