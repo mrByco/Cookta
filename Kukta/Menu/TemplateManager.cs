@@ -10,6 +10,5 @@ namespace Kukta.Menu
     class TemplateManager : ASingleton<TemplateManager>
     {
         public List<WeekTemplate> WeekTempltates = new List<WeekTemplate>();
-        public 
     }
 }
