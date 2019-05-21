@@ -23,12 +23,15 @@ namespace Kukta
     public delegate void VoidDelegate();
     public delegate ContentDialog DialogDelegate(ContentDialog baseDialog);
 
-
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App : Application
     {
+        public const string BaseFoodRoot = "Assets/Foods";
+        public const string CustomFoodRoot = "CustomFoods";
+        public const string CustomCategoryRoot = "CustomCategories";
+
         internal FoodDatabase FoodDatabase;
         internal static MainPage RootPage;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kukta.FoodFramework.FileTask
+namespace Kukta.SaveLoad.File
 {
     interface IFileTask
     {

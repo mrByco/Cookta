@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kukta.FoodFramework;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Kukta.FoodFramework.FileTask
+namespace Kukta.SaveLoad.File.Tasks
 {
-    class ReadCustomFoodsFromFileAsync : IFileTask
+    class LoadAllSerializableFromFolder<Original, Data> : IFileTask
+        where Original : new()
     {
-        private string SubFolder;
-        private Action<List<Food>> onLoaded;
-        public ReadCustomFoodsFromFileAsync(string subFolder, Action<List<Food>> onLoaded)
+        private readonly string SubFolder;
+        private readonly Action<List<Original>> onLoaded;
+        public LoadAllSerializableFromFolder(string subFolder, Action<List<Original>> onLoaded)
         {
             SubFolder = subFolder;
             this.onLoaded = onLoaded;
@@ -30,19 +32,16 @@ namespace Kukta.FoodFramework.FileTask
             storageFolder = await storageFolder.CreateFolderAsync(SubFolder, CreationCollisionOption.OpenIfExists);
             var files = await storageFolder.GetFilesAsync();
 
-            List<Food> foods = new List<Food>();
+            List<Original> items = new List<Original>();
             foreach (StorageFile file in files)
             {
                 string jsonText = await FileIO.ReadTextAsync(file);
-                try
-                {
-                    Food food = Food.FromFoodData(JsonConvert.DeserializeObject<FoodData>(jsonText));
-                    foods.Add(food);
-                }
-                catch { }
+                IStorageable item = new Original() as IStorageable;
+                item.FromDataClass(JsonConvert.DeserializeObject<Data>(jsonText));
+                items.Add((Original)item);
             }
             if (onLoaded != null)
-                onLoaded(foods);
+                onLoaded(items);
             return;
         }
     }

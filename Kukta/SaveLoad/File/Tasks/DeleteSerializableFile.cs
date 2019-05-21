@@ -5,22 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Kukta.FoodFramework.FileTask
+namespace Kukta.SaveLoad.File.Tasks
 {
-    class DeleteCategoryTask : IFileTask
+    class DeleteSerializableFile : IFileTask
     {
-        private string SubFolder;
-        private string CategoryName;
-        
-        public DeleteCategoryTask(string subFolder, string categoryName)
+        private readonly string SubFolder;
+        private readonly string FileName;
+
+        public DeleteSerializableFile(string subFolder, string fileName)
         {
             SubFolder = subFolder;
-            CategoryName = categoryName;
+            FileName = fileName;
         }
 
         public string Name()
         {
-            return "Deleting Category file";
+            return "Deleting file";
         }
 
         public async Task OperateAsync()
@@ -28,7 +28,7 @@ namespace Kukta.FoodFramework.FileTask
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
 
             storageFolder = await storageFolder.CreateFolderAsync(SubFolder, CreationCollisionOption.OpenIfExists);
-            StorageFile file = await storageFolder.GetFileAsync(CategoryName + ".json");
+            StorageFile file = await storageFolder.GetFileAsync(FileName + ".json");
 
             await file.DeleteAsync();
             return;

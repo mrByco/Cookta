@@ -1,4 +1,6 @@
-﻿using Kukta.FoodFramework.FileTask;
+﻿
+using Kukta.SaveLoad.File;
+using Kukta.SaveLoad.File.Tasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,17 +12,16 @@ namespace Kukta.FoodFramework
 {
     class FoodDatabase : FrameWork.ASingleton<FoodDatabase>
     {
-        private const string BaseFoodRoot = "Assets/Foods";
-        private const string CustomFoodRoot = "CustomFoods";
-        private const string CustomCategoryRoot = "CustomCategories";
-
         //Events
         internal event VoidDelegate OnFoodsChanged;
         internal event VoidDelegate OnCategoriesChanged;
         internal event VoidDelegate OnDatabaseChanged;
 
+        private FileManager FoodFileManager;
+
         public FoodDatabase() : base()
         {
+            FoodFileManager = new FileManager();
             m_Categories = new List<FoodCategory>();
             m_CustomFoods = new List<Food>();
             LoadCustomFoodsAsync();
@@ -47,16 +48,16 @@ namespace Kukta.FoodFramework
 
         public void SaveCategory(FoodCategory category)
         {
-            FoodParser.AddTask(new SaveCategoryTask(CustomCategoryRoot, category));
+            FoodFileManager.AddTask(new SaveSerializable(App.CustomCategoryRoot, category));
         }
         public void SaveCategory(FoodCategory category, string OldCategoryName)
         {
-            FoodParser.AddTask(new SaveCategoryTask(CustomCategoryRoot, category, OldCategoryName));
+            FoodFileManager.AddTask(new SaveSerializable(App.CustomCategoryRoot, category, OldCategoryName));
         }
         public void DeleteCategory(FoodCategory category)
         {
             m_Categories.Remove(category);
-            FoodParser.AddTask(new DeleteFoodFileAsync(CustomCategoryRoot, category.CategoryName));
+            FoodFileManager.AddTask(new DeleteSerializableFile(App.CustomCategoryRoot, category.CategoryName));
             if (OnCategoriesChanged != null)
                 OnCategoriesChanged.Invoke();
             if (OnDatabaseChanged != null)
@@ -64,7 +65,7 @@ namespace Kukta.FoodFramework
         }
         private void LoadCategories()
         {
-            FoodParser.AddTask(new LoadCategories(CustomCategoryRoot, (categories) =>
+            FoodFileManager.AddTask(new LoadAllSerializableFromFolder<FoodCategory, FoodCategoryData>(App.CustomCategoryRoot, (categories) =>
             {
                 m_Categories = categories;
                 try
@@ -85,7 +86,7 @@ namespace Kukta.FoodFramework
             if (m_DefaultFoods == null)
             {
                 m_DefaultFoods = new List<Food>();
-                FoodParser.AddTask(new GetBaseFoods((foods) =>
+                FoodFileManager.AddTask(new LoadAllSerializableFromAssetsFolder<Food, FoodData>("Assets/Foods", foods =>
                 {
                     m_DefaultFoods = foods;
                     try
@@ -105,7 +106,7 @@ namespace Kukta.FoodFramework
 
         private void LoadCustomFoodsAsync()
         {
-            FoodParser.AddTask(new ReadCustomFoodsFromFileAsync(CustomFoodRoot, (foods) =>
+            FoodFileManager.AddTask(new LoadAllSerializableFromFolder<Food, FoodData>(App.CustomFoodRoot, (foods) =>
             {
                 m_CustomFoods = foods;
                 if (OnFoodsChanged != null)
@@ -127,7 +128,7 @@ namespace Kukta.FoodFramework
                 }
             }
 
-            FoodParser.AddTask(new DeleteFoodFileAsync(CustomFoodRoot, food.Name));
+            FoodFileManager.AddTask(new DeleteSerializableFile(App.CustomFoodRoot, food.Name));
             m_CustomFoods.Remove(food);
             if (OnFoodsChanged != null)
                 OnFoodsChanged.Invoke();
@@ -169,7 +170,7 @@ namespace Kukta.FoodFramework
         {
             if (FoodDatabase.Instance.Foods.Contains(food))
             {
-                FoodParser.AddTask(new SaveFoodToFile(food, CustomFoodRoot));
+                FoodFileManager.AddTask(new SaveSerializable(App.CustomFoodRoot, food));
                 return true;
             }
             return false;
@@ -178,15 +179,10 @@ namespace Kukta.FoodFramework
         {
             if (FoodDatabase.Instance.Foods.Contains(food))
             {
-                FoodParser.AddTask(new SaveFoodToFile(food, CustomFoodRoot, oldName));
+                FoodFileManager.AddTask(new SaveSerializable(App.CustomFoodRoot, food, oldName));
                 return true;
             }
             return false;
-        }
-        //Unused method
-        private void SaveAll()
-        {
-            FoodParser.AddTask(new SaveFoodsToFile(m_CustomFoods, CustomFoodRoot));
         }
     }
 }
