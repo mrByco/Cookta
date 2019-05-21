@@ -57,7 +57,8 @@ namespace Kukta
                     break;
                 case ContentType.WeekTemplates:
                     ContentFrame.Navigate(typeof(WeekTemplatePage), null);
-                    break;}
+                    break;
+            }
         }
         internal void ShowWarning(string title, string desc)
         {

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Kukta.FrameWork;
+﻿using Kukta.FrameWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +10,6 @@ namespace Kukta.Menu
     class TemplateManager : ASingleton<TemplateManager>
     {
         public List<WeekTemplate> WeekTempltates = new List<WeekTemplate>();
+        public 
     }
 }

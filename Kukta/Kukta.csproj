@@ -126,10 +126,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    
-    <Compile Include="FoodFramework\Food.cs" />
-    <Compile Include="FoodFramework\FoodCategory.cs" />
-    <Compile Include="FoodFramework\FoodDatabase.cs" /><Compile Include="FoodFramework\FileTask\DeleteCategoryTask.cs" />
+    <Compile Include="Calendar\Calendar.cs" />
+    <Compile Include="Calendar\CalendarDay.cs" />
+    <Compile Include="FoodFramework\FileTask\DeleteCategoryTask.cs" />
     <Compile Include="FoodFramework\FileTask\DeleteFoodFileAsync.cs" />
     <Compile Include="FoodFramework\FileTask\GetBaseFoods.cs" />
     <Compile Include="FoodFramework\FileTask\IFileTask.cs" />
@@ -138,6 +137,10 @@
     <Compile Include="FoodFramework\FileTask\SaveCategoryTask.cs" />
     <Compile Include="FoodFramework\FileTask\SaveFoodsToFile.cs" />
     <Compile Include="FoodFramework\FileTask\SaveFoodToFile.cs" />
+    <Compile Include="FoodFramework\Food.cs" />
+    <Compile Include="FoodFramework\FoodCategory.cs" />
+    <Compile Include="FoodFramework\FoodDatabase.cs" />
+    <Compile Include="FoodFramework\FoodParser.cs" />
     <Compile Include="FrameWork\ASingleton.cs" />
     <Compile Include="FrameWork\FoodButton.cs" />
     <Compile Include="FrameWork\FoodCategorieButton.cs" />
@@ -151,12 +154,6 @@
     <Compile Include="Menu\TemplateManager.cs" />
     <Compile Include="Menu\WeekTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveLoad\File\FileManager.cs" />
-    <Compile Include="SaveLoad\File\IStorageable.cs" />
-    <Compile Include="SaveLoad\File\Tasks\DeleteSerializableFile.cs" />
-    <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromAssetsFolder.cs" />
-    <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromFolder.cs" />
-    <Compile Include="SaveLoad\File\Tasks\SaveSerializable.cs" />
     <Compile Include="Screens\FoodCategories.xaml.cs">
       <DependentUpon>FoodCategories.xaml</DependentUpon>
     </Compile>
