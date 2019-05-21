@@ -56,7 +56,7 @@ namespace Kukta
                     ContentFrame.Navigate(typeof(FoodCategories), null);
                     break;
                 case ContentType.WeekTemplates:
-                    ContentFrame.Navigate(typeof(WeekTemplatePage), null);
+                    ContentFrame.Navigate(typeof(WeekTemplates), null);
                     break;
             }
         }
