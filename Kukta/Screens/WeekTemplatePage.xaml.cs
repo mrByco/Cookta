@@ -1,4 +1,5 @@
-﻿using Kukta.Menu;
+﻿using Kukta.FrameWork;
+using Kukta.Menu;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,9 +26,12 @@ namespace Kukta.Screens
     {
         private WeekTemplate Current;
         private List<UIElement> generatedElements = new List<UIElement>();
+        internal static Dictionary<EMealType, int> RowByMealType;
         public WeekTemplatePage()
         {
             this.InitializeComponent();
+
+            OpenTemplate(TemplateManager.Instance.WeekTempltates[0]);
         }
 
         internal void OpenTemplate(WeekTemplate week)
@@ -53,9 +57,17 @@ namespace Kukta.Screens
                 }
             }
             DrawMeals(sortedMealTypes);
+
+            //Draw all days
+            foreach (TemplateDay day in Current.Days)
+            {
+                DrawDay(day);
+            }
+
         }
         private void DrawMeals(List<EMealType> meals)
         {
+            RowByMealType = new Dictionary<EMealType, int>();
             foreach (EMealType type in meals)
             {
                 TextBlock TextBlock = new TextBlock();
@@ -71,13 +83,26 @@ namespace Kukta.Screens
                     WeekGrid.RowDefinitions.Add(row);
                 }
                 Grid.SetRow(TextBlock, (int)type + 1);
+                RowByMealType.Add(type, (int)type + 1);
+
             }
         }
-        private void OpenDay()
+        private void DrawDay(TemplateDay day)
         {
+            int column = (int)day.DayType;
+            if (column == 0) column = 7;
 
+            foreach (EMealType mealType in RowByMealType.Keys)
+            {
+                Meal meal = day.GetMealOf(mealType);
+                int row = RowByMealType[mealType];
+                MealContent content = new MealContent(meal);
+                WeekGrid.Children.Add(content);
+                generatedElements.Add(content);
+                Grid.SetColumn(content, column);
+                Grid.SetRow(content, row);
+            }
+            
         }
-
-
     }
 }

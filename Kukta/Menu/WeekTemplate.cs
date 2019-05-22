@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.Menu
 {
-    class WeekTemplate
+    internal class WeekTemplate
     {
         internal TemplateDay[] Days;
         internal Guid guid = Guid.NewGuid();

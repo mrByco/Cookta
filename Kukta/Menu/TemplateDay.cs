@@ -9,7 +9,7 @@ namespace Kukta.Menu
 {
     class TemplateDay
     {
-        private Dictionary<EMealType, List<Meal>> Meals = new Dictionary<EMealType, List<Meal>>();
+        private List<Meal> Meals = new List<Meal>();
         private DayOfWeek m_DayOfWeek;
         public DayOfWeek DayType
         {
@@ -19,18 +19,43 @@ namespace Kukta.Menu
         public TemplateDay(DayOfWeek dayOfWeek)
         {
             m_DayOfWeek = dayOfWeek;
-            foreach (EMealType mealType in Enum.GetValues(typeof(EMealType)))
+        }
+        public void AddCategoryToMeal(EMealType mealType, FoodCategory category)
+        {
+            Meal meal = Meals.Find(m => m.Type == mealType);
+            if (meal == null)
             {
-                Meals.Add(mealType, new List<Meal>());
+                meal = new Meal(mealType);
+                Meals.Add(meal);
+            }
+            meal.Categories.Add(category);
+        }
+        public void RemoveCategoryFromMeal(EMealType type, FoodCategory category)
+        {
+            Meal meal = Meals.Find(m => m.Type == type);
+            if (meal != null)
+            {
+                meal.Categories.Remove(category);
+            }
+            if (meal.Categories.Count == 0)
+            {
+                Meals.Remove(meal);
             }
         }
-        internal List<Meal> GetMealsOf(EMealType eMealType)
+        internal Meal GetMealOf(EMealType eMealType)
         {
-            return Meals[eMealType];
+            return Meals.Find((meal) => meal.Type == eMealType); ;
         }
+        internal List<Meal> GetMeals()
+        {
+            return Meals;
+        }
+
         internal List<EMealType> GetMealTypes()
         {
-            return new List<EMealType>(Meals.Keys);
+            List<EMealType> mealTypes = new List<EMealType>();
+            Meals.ForEach(meal => mealTypes.Add(meal.Type));
+            return mealTypes;
         }
 
 

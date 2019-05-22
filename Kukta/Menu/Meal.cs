@@ -11,9 +11,9 @@ namespace Kukta.Menu
     {
         internal EMealType Type;
         internal List<FoodCategory> Categories = new List<FoodCategory>();
-        public Meal(EMealType tpye)
+        public Meal(EMealType type)
         {
-            Type = Type;
+            Type = type;
         }
     }
 }

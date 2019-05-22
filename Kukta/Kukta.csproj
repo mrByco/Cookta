@@ -135,6 +135,7 @@
     <Compile Include="FrameWork\FoodButton.cs" />
     <Compile Include="FrameWork\FoodCategorieButton.cs" />
     <Compile Include="FrameWork\FoodList.cs" />
+    <Compile Include="FrameWork\MealContent.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

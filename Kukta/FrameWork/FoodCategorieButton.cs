@@ -13,10 +13,11 @@ namespace Kukta.FrameWork
     {
         private FoodCategory category;
         private Action<FoodCategory> onClick;
+        private Action<FoodCategory> onDelete;
 
         private Button MainButton;
         private Button DeleteButton;
-        public FoodCategorieButton(FoodCategory category, Action<FoodCategory> onClick) : base()
+        public FoodCategorieButton(FoodCategory category, Action<FoodCategory> onClick, Action<FoodCategory> onDelete) : base()
         {
             MainButton = new Button();
             DeleteButton = new Button();
@@ -57,7 +58,7 @@ namespace Kukta.FrameWork
         }
         public void DeleteClick(object sender, RoutedEventArgs e)
         {
-            FoodDatabase.Instance.DeleteCategory(category);
+            onDelete(category);
         }
 }
 }

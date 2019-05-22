@@ -60,7 +60,9 @@ namespace Kukta.Screens
 
         private void AddCategorieToStackPanel(FoodCategory category)
         {
-            CategorieList.Children.Add(new FoodCategorieButton(category, SelectCategorie));
+            CategorieList.Children.Add(new FoodCategorieButton(category, SelectCategorie, callBackCategory => {
+                FoodDatabase.Instance.DeleteCategory(callBackCategory);
+            }));
         }
 
         public void RefreshFoodList()
