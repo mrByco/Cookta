@@ -131,10 +131,12 @@
     <Compile Include="FoodFramework\Food.cs" />
     <Compile Include="FoodFramework\FoodCategory.cs" />
     <Compile Include="FoodFramework\FoodDatabase.cs" />
+    <Compile Include="FoodFramework\IMealingItem.cs" />
     <Compile Include="FrameWork\ASingleton.cs" />
     <Compile Include="FrameWork\FoodButton.cs" />
     <Compile Include="FrameWork\FoodCategorieButton.cs" />
     <Compile Include="FrameWork\FoodList.cs" />
+    <Compile Include="FrameWork\IMealingItemButton.cs" />
     <Compile Include="FrameWork\MealContent.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

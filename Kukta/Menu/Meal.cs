@@ -10,7 +10,7 @@ namespace Kukta.Menu
     class Meal
     {
         internal EMealType Type;
-        internal List<FoodCategory> Categories = new List<FoodCategory>();
+        internal List<IMealingItem> Items = new List<IMealingItem>();
         public Meal(EMealType type)
         {
             Type = type;

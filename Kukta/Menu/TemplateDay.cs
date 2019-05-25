@@ -11,16 +11,18 @@ namespace Kukta.Menu
     {
         private List<Meal> Meals = new List<Meal>();
         private DayOfWeek m_DayOfWeek;
+        private event VoidDelegate m_OnDayChanged;
         public DayOfWeek DayType
         {
             get { return m_DayOfWeek; }
         }
 
-        public TemplateDay(DayOfWeek dayOfWeek)
+        public TemplateDay(DayOfWeek dayOfWeek, Action onChanged)
         {
             m_DayOfWeek = dayOfWeek;
+            m_OnDayChanged += new VoidDelegate(onChanged);
         }
-        public void AddCategoryToMeal(EMealType mealType, FoodCategory category)
+        public void AddItemToMeal(EMealType mealType, IMealingItem category)
         {
             Meal meal = Meals.Find(m => m.Type == mealType);
             if (meal == null)
@@ -28,19 +30,21 @@ namespace Kukta.Menu
                 meal = new Meal(mealType);
                 Meals.Add(meal);
             }
-            meal.Categories.Add(category);
+            meal.Items.Add(category);
+            m_OnDayChanged?.Invoke();
         }
-        public void RemoveCategoryFromMeal(EMealType type, FoodCategory category)
+        public void RemoveItemFromMeal(EMealType type, IMealingItem category)
         {
             Meal meal = Meals.Find(m => m.Type == type);
             if (meal != null)
             {
-                meal.Categories.Remove(category);
+                meal.Items.Remove(category);
             }
-            if (meal.Categories.Count == 0)
+            if (meal.Items.Count == 0)
             {
                 Meals.Remove(meal);
             }
+            m_OnDayChanged?.Invoke();
         }
         internal Meal GetMealOf(EMealType eMealType)
         {

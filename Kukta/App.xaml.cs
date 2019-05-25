@@ -22,7 +22,7 @@ namespace Kukta
 {
     //Base delegates
     internal delegate void VoidDelegate();
-    internal delegate WeekTemplate WeekTemplateDelegate();
+    internal delegate void WeekTemplateDelegate(WeekTemplate template);
     internal delegate ContentDialog DialogDelegate(ContentDialog baseDialog);
 
     /// <summary>
@@ -33,6 +33,7 @@ namespace Kukta
         public const string BaseFoodRoot = "Assets/Foods";
         public const string CustomFoodRoot = "CustomFoods";
         public const string CustomCategoryRoot = "CustomCategories";
+        public const string TemplateRoot = "WeekTemplates";
 
         internal FoodDatabase FoodDatabase;
         internal TemplateManager TemplateDatabase;
@@ -88,6 +89,8 @@ namespace Kukta
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            InitManagers();
         }
 
         /// <summary>
@@ -112,6 +115,15 @@ namespace Kukta
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void InitManagers()
+        {
+            FoodDatabase.Instance.LoadBaseFoods();
+            FoodDatabase.Instance.LoadCustomFoods();
+            FoodDatabase.Instance.LoadCategories();
+            TemplateManager.Instance.LoadTemplates();
+            
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Kukta.FoodFramework;
 using Kukta.FrameWork;
+using Kukta.SaveLoad.File;
+using Kukta.SaveLoad.File.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +13,47 @@ namespace Kukta.Menu
     class TemplateManager : ASingleton<TemplateManager>
     {
         public VoidDelegate OnTemplatesChanged;
-        public WeekTemplateDelegate OnWeekTemplateChanged;
 
-        public List<WeekTemplate> WeekTempltates = new List<WeekTemplate>();
+        private List<WeekTemplate> m_WeekTempltates = new List<WeekTemplate>();
 
         public TemplateManager()
         {
             //Inint sample templates
-            WeekTemplate template = new WeekTemplate();
-            template.Days[0].AddCategoryToMeal(EMealType.Dinner, new FoodCategory() { CategoryName = "Sample2", guid = Guid.NewGuid() });
-            template.Days[0].AddCategoryToMeal(EMealType.Breakfast, new FoodCategory() { CategoryName = "Sample1", guid = Guid.NewGuid() });
-            template.Days[0].AddCategoryToMeal(EMealType.Breakfast, new FoodCategory() { CategoryName = "Sample4", guid = Guid.NewGuid() });
-            template.Days[0].AddCategoryToMeal(EMealType.Lunch, new FoodCategory() { CategoryName = "Sample3", guid = Guid.NewGuid() });
-            WeekTempltates.Add(template);
+        }
+
+        public List<WeekTemplate> GetTemplates()
+        {
+            return m_WeekTempltates;
+        }
+        public void AddTemplate(WeekTemplate template)
+        {
+            m_WeekTempltates.Add(template);
+            SaveTemplate(template);
+            OnTemplatesChanged?.Invoke();
+        }
+        public void RemoveTemplate(WeekTemplate template)
+        {
+            m_WeekTempltates.Remove(template);
+            OnTemplatesChanged?.Invoke();
+            FileManager.AddTask(new DeleteSerializableFile(App.TemplateRoot, template.GetFileName()));
+        }
+
+        internal void SaveTemplate(WeekTemplate template)
+        {
+            FileManager.AddTask(new SaveSerializable(App.TemplateRoot, template));
+        }
+        internal void SaveTemplate(WeekTemplate template, string oldName)
+        {
+            FileManager.AddTask(new SaveSerializable(App.TemplateRoot, template, oldName));
+        }
+
+        internal void LoadTemplates()
+        {
+            FileManager.AddTask(new LoadAllSerializableFromFolder<WeekTemplate, WeekTemplateData>(App.TemplateRoot, (templates) => 
+            {
+                m_WeekTempltates = templates;
+                OnTemplatesChanged?.Invoke();
+            }));
         }
     }
 }

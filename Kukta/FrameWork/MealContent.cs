@@ -13,10 +13,17 @@ namespace Kukta.FrameWork
     class MealContent : StackPanel
     {
         public Meal Meal;
+        public Action<Meal> OnAddItemClick;
+        public Action<IMealingItem> OnItemRemoveClick;
 
-        public MealContent(Meal meal)
+        public MealContent(Meal meal, Action<Meal> onAddItemClick, Action<IMealingItem> onItemRemoveClick)
         {
             Meal = meal;
+
+            base.Margin = new Thickness(5, 5, 5, 10);
+
+            OnAddItemClick = onAddItemClick;
+            OnItemRemoveClick = onItemRemoveClick;
             RefreshMealContent();
         }
 
@@ -24,10 +31,13 @@ namespace Kukta.FrameWork
         {
             if (Meal != null)
             {
-                foreach (FoodCategory cat in Meal.Categories)
+                foreach (FoodCategory cat in Meal.Items)
                 {
 
-                    base.Children.Add(new FoodCategorieButton(cat, null, (category) => { }));
+                    base.Children.Add(new FoodCategorieButton(cat, null, (category) => 
+                    {
+                        OnItemRemoveClick(category);
+                    }, new Thickness()));
                 }
             }
 
@@ -39,10 +49,10 @@ namespace Kukta.FrameWork
             base.Children.Add(AddMealButton);
 
         }
-
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (OnAddItemClick != null)
+                OnAddItemClick(Meal);
         }
     }
 }

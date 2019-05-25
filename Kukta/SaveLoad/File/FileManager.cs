@@ -9,8 +9,8 @@ namespace Kukta.SaveLoad.File
 {
     class FileManager
     {
-        private List<IFileTask> fileTasks = new List<IFileTask>();
-        public void AddTask(IFileTask task)
+        private static List<IFileTask> fileTasks = new List<IFileTask>();
+        public static void AddTask(IFileTask task)
         {
             fileTasks.Add(task);
             if (fileTasks.Count == 1)
@@ -18,7 +18,7 @@ namespace Kukta.SaveLoad.File
                 DoNextTask();
             }
         }
-        private async void DoNextTask()
+        private static async void DoNextTask()
         {
             if (fileTasks.Count > 0)
             {

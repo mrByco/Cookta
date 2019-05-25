@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.FoodFramework
 {
-    class FoodCategory : IStorageable
+    class FoodCategory : IStorageable, IMealingItem
     {
         internal string CategoryName;
         private List<Food> Foods;
@@ -88,6 +88,21 @@ namespace Kukta.FoodFramework
         public Type GetDataType()
         {
             return typeof(FoodCategoryData);
+        }
+
+        public Food GetMealFood(int seed)
+        {
+            Random random = new Random(seed);
+            return Foods[random.Next(0, Foods.Count() - 1)];
+        }
+        public string GetName()
+        {
+            return CategoryName;
+        }
+
+        public Guid GetGuid()
+        {
+            return guid;
         }
     }
     class FoodCategoryData

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.Menu
 {
-    enum EMealType
+    public enum EMealType
     {
         Breakfast,
         Lunch,

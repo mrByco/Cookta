@@ -31,17 +31,19 @@ namespace Kukta.SaveLoad.File.Tasks
 
             storageFolder = await storageFolder.CreateFolderAsync(SubFolder, CreationCollisionOption.OpenIfExists);
             var files = await storageFolder.GetFilesAsync();
-
             List<Original> items = new List<Original>();
             foreach (StorageFile file in files)
             {
                 string jsonText = await FileIO.ReadTextAsync(file);
+                if (jsonText == "")
+                {
+                    continue;
+                }
                 IStorageable item = new Original() as IStorageable;
                 item.FromDataClass(JsonConvert.DeserializeObject<Data>(jsonText));
                 items.Add((Original)item);
             }
-            if (onLoaded != null)
-                onLoaded(items);
+            onLoaded?.Invoke(items);
             return;
         }
     }

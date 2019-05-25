@@ -6,47 +6,80 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto">
-        <ScrollViewer.Content>
-            <Grid x:Name="WeekGrid">
+            <ScrollViewer.Content>
+                <Grid x:Name="WeekGrid">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                    <ColumnDefinition Width="*" MinWidth="200"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
-                <ComboBox Grid.Column="0"
+                    <ComboBox Grid.Column="0"
                           Grid.Row="0"
-                          HorizontalAlignment="Stretch">
-                    <ComboBoxItem>
-                        <TextBlock Text="asd1"/>
-                    </ComboBoxItem>
-                    <ComboBoxItem>
-                        <TextBlock Text="asd2"/>
-                    </ComboBoxItem>
-                </ComboBox>
+                          HorizontalAlignment="Stretch"
+                              x:Name="TemplateSelector"
+                              SelectionChanged="TemplateSelector_SelectionChanged">
+                        <ComboBoxItem>
+                            <TextBlock Text="asd1"/>
+                        </ComboBoxItem>
 
-                <TextBlock Grid.Column="1" Text="Hétfő" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="Kedd" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="3" Text="Szerda" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="4" Text="Csütörtök" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="5" Text="Péntek" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="6" Text="Szombat" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="7" Text="Vasárnap" HorizontalAlignment="Center"/>
+                    </ComboBox>
 
-            </Grid>
-        </ScrollViewer.Content>
-    </ScrollViewer>
+                    <TextBlock Grid.Column="1" Text="Hétfő" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="Kedd" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="3" Text="Szerda" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="4" Text="Csütörtök" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="5" Text="Péntek" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="6" Text="Szombat" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="7" Text="Vasárnap" HorizontalAlignment="Center"/>
+
+                </Grid>
+            </ScrollViewer.Content>
+        </ScrollViewer>
+
+        <ContentDialog x:Name="AddFoodToMealDialog"
+                       PrimaryButtonText="Hozzáadás">
+            <ContentDialog.Content>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Hidden">
+                    <ScrollViewer.Content>
+                        <StackPanel Orientation="Vertical"
+                                x:Name="AddFoodToMealList">
+                            
+                        </StackPanel>
+                    </ScrollViewer.Content>
+                </ScrollViewer>
+            </ContentDialog.Content>
+
+        </ContentDialog>
+
+        <ContentDialog x:Name="NewWeekTemplateDialog"
+                       PrimaryButtonText="Hozzáadás"
+                       PrimaryButtonClick="NewWeekTemplateDialog_PrimaryButtonClick">
+            <ContentDialog.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Sablon neve: " VerticalAlignment="Center"/>
+                    <TextBox x:Name="NewCategoryNameTextBox" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </ContentDialog.Content>
+            
+        </ContentDialog>
+    </Grid>
+
+
 </Page>

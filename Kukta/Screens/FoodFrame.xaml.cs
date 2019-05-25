@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,8 +31,8 @@ namespace Kukta.Screens
 
         private Food CurrentFood;
 
-        
-        
+
+
         internal void OpenFood(Food food)
         {
             try
@@ -60,25 +61,28 @@ namespace Kukta.Screens
             CurrentFood.Name = FoodName.Text;
         }
 
-        private void RefreshDetails()
+        private async void RefreshDetails()
         {
-            if (CurrentFood == null)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                FoodName.Text = "Open a food";
-                FoodName.IsEnabled = false;
-                FoodDescription.IsEnabled = false;
-                FoodDescription.Text = "Open a food";
-                RemoveButton.IsEnabled = false;
+                if (CurrentFood == null)
+                {
+                    FoodName.Text = "Open a food";
+                    FoodName.IsEnabled = false;
+                    FoodDescription.IsEnabled = false;
+                    FoodDescription.Text = "Open a food";
+                    RemoveButton.IsEnabled = false;
 
-            }
-            else
-            {
-                FoodName.Text = CurrentFood.Name;
-                FoodName.IsEnabled = CurrentFood.CustomFood;
-                FoodDescription.IsEnabled = CurrentFood.CustomFood;
-                FoodDescription.Text = CurrentFood.Desc.Replace("\n", "\r\n");
-                RemoveButton.IsEnabled = CurrentFood.CustomFood;
-            }
+                }
+                else
+                {
+                    FoodName.Text = CurrentFood.Name;
+                    FoodName.IsEnabled = CurrentFood.CustomFood;
+                    FoodDescription.IsEnabled = CurrentFood.CustomFood;
+                    FoodDescription.Text = CurrentFood.Desc.Replace("\n", "\r\n");
+                    RemoveButton.IsEnabled = CurrentFood.CustomFood;
+                }
+            });
         }
     }
 }
