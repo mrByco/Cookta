@@ -10,8 +10,13 @@
     Loaded="Page_Loaded">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Auto">
+                  VerticalScrollBarVisibility="Auto"
+                      Grid.Row="0">
             <ScrollViewer.Content>
                 <Grid x:Name="WeekGrid">
 
@@ -51,6 +56,12 @@
                 </Grid>
             </ScrollViewer.Content>
         </ScrollViewer>
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal">
+            <Button Margin="20, 5"
+                    Content="Sablon törlése"
+                    Click="OnDeleteWeekButtonClick"/>
+        </StackPanel>
 
         <ContentDialog x:Name="AddFoodToMealDialog"
                        PrimaryButtonText="Hozzáadás">
@@ -72,10 +83,11 @@
                        PrimaryButtonText="Hozzáadás"
                        PrimaryButtonClick="NewWeekTemplateDialog_PrimaryButtonClick">
             <ContentDialog.Content>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Sablon neve: " VerticalAlignment="Center"/>
-                    <TextBox x:Name="NewCategoryNameTextBox" HorizontalAlignment="Stretch"/>
-                </StackPanel>
+                <RelativePanel VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch">
+                    <TextBlock x:Name="NewCategoryNameLabel" RelativePanel.AlignVerticalCenterWithPanel="True" HorizontalAlignment="Center"  Text="Sablon neve: " Margin="5"/>
+                    <TextBox x:Name="NewCategoryNameTextBox" RelativePanel.RightOf="NewCategoryNameLabel" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="5"/>
+                </RelativePanel>
             </ContentDialog.Content>
             
         </ContentDialog>

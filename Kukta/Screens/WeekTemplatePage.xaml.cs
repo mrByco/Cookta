@@ -46,34 +46,18 @@ namespace Kukta.Screens
             }
             catch { }
             Current = week;
-            Current.OnTemplateChanged += new WeekTemplateDelegate(OpenTemplate);
             generatedElements.ForEach(element => WeekGrid.Children.Remove(element));
 
-            //Make meal types by 
-            /*List<EMealType> mealTypes = new List<EMealType>();
-            foreach (TemplateDay day in Current.Days)
+            if (Current != null)
             {
-                day.GetMealTypes().ForEach(mealType =>
+                Current.OnTemplateChanged += new WeekTemplateDelegate(OpenTemplate);
+                DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
+                //Draw all days
+                foreach (TemplateDay day in Current.Days)
                 {
-                    if (!mealTypes.Contains(mealType)) mealTypes.Add(mealType);
-                });
-            }
-            List<EMealType> sortedMealTypes = new List<EMealType>();
-            foreach (EMealType type in Enum.GetValues(typeof(EMealType)))
-            {
-                if (mealTypes.Contains(type))
-                {
-                    sortedMealTypes.Add(type);
+                    DrawDay(day);
                 }
-            }*/
-            DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
-
-            //Draw all days
-            foreach (TemplateDay day in Current.Days)
-            {
-                DrawDay(day);
             }
-
         }
         private void DrawMeals(List<EMealType> meals)
         {
@@ -168,6 +152,7 @@ namespace Kukta.Screens
             ComboboxActionMap.Add(i, () =>
             {
                 NewWeekTemplateDialog.ShowAsync();
+                NewCategoryNameTextBox.Text = "";
             });
             
         }
@@ -192,6 +177,15 @@ namespace Kukta.Screens
                 ComboboxActionMap[TemplateSelector.SelectedIndex].Invoke();
             }
             catch { }
+        }
+
+        private void OnDeleteWeekButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (Current != null)
+            {
+                TemplateManager.Instance.RemoveTemplate(Current);
+                OpenTemplate(null);
+            }
         }
     }
 }
