@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.FoodFramework
 {
-    interface IMealingItem
+    public interface IMealingItem
     {
         Food GetMealFood(int seed);
         Guid GetGuid();

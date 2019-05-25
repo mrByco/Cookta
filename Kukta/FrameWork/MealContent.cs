@@ -15,10 +15,12 @@ namespace Kukta.FrameWork
         public Meal Meal;
         public Action<Meal> OnAddItemClick;
         public Action<IMealingItem> OnItemRemoveClick;
+        private bool m_AddButtonEnabled;
 
-        public MealContent(Meal meal, Action<Meal> onAddItemClick, Action<IMealingItem> onItemRemoveClick)
+        public MealContent(Meal meal, Action<Meal> onAddItemClick, Action<IMealingItem> onItemRemoveClick, bool addButtonEnabled)
         {
             Meal = meal;
+            m_AddButtonEnabled = addButtonEnabled;
 
             base.Margin = new Thickness(5, 5, 5, 10);
 
@@ -40,14 +42,15 @@ namespace Kukta.FrameWork
                     }, new Thickness()));
                 }
             }
-
-            Button AddMealButton = new Button();
-            AddMealButton.Content = "Kategória hozzáadása";
-            AddMealButton.HorizontalAlignment = HorizontalAlignment.Stretch;
-            AddMealButton.VerticalAlignment = VerticalAlignment.Top;
-            AddMealButton.Click += OnAddButtonClick;
-            base.Children.Add(AddMealButton);
-
+            if (m_AddButtonEnabled)
+            {
+                Button AddMealButton = new Button();
+                AddMealButton.Content = "Kategória hozzáadása";
+                AddMealButton.HorizontalAlignment = HorizontalAlignment.Stretch;
+                AddMealButton.VerticalAlignment = VerticalAlignment.Top;
+                AddMealButton.Click += OnAddButtonClick;
+                base.Children.Add(AddMealButton);
+            }
         }
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
         {

@@ -51,6 +51,11 @@ namespace Kukta.Menu
             }
         }
 
+        internal TemplateDay GetDay(DateTime dateTime)
+        {
+            throw new NotImplementedException();
+        }
+
         internal void Save()
         {
             TemplateManager.Instance.SaveTemplate(this);

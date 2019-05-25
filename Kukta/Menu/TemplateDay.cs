@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.Menu
 {
-    class TemplateDay
+    public class TemplateDay
     {
         private List<Meal> Meals = new List<Meal>();
         private DayOfWeek m_DayOfWeek;

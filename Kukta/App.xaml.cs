@@ -1,4 +1,5 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.Calendar;
+using Kukta.FoodFramework;
 using Kukta.Menu;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Kukta
     //Base delegates
     internal delegate void VoidDelegate();
     internal delegate void WeekTemplateDelegate(WeekTemplate template);
+    internal delegate void DayDelegate(CalendarDay day);
     internal delegate ContentDialog DialogDelegate(ContentDialog baseDialog);
 
     /// <summary>
@@ -37,6 +39,7 @@ namespace Kukta
 
         internal FoodDatabase FoodDatabase;
         internal TemplateManager TemplateDatabase;
+        internal Calendar.Calendar Calendar;
         internal static MainPage RootPage;
 
         public App()
@@ -45,6 +48,7 @@ namespace Kukta
             this.Suspending += OnSuspending;
             FoodDatabase = FoodDatabase.Instance;
             TemplateDatabase = TemplateManager.Instance;
+            this.Calendar = Kukta.Calendar.Calendar.Instance;
         }
 
         /// <summary>

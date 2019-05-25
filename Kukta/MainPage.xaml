@@ -47,6 +47,13 @@
                             <TextBlock  FontSize="32" Text="Hét sablonok" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
+                    
+                    <ListBoxItem >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="36" Text="N" Margin="10, 0"/>
+                            <TextBlock  FontSize="32" Text="Naptár" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
 
                 </ListBox>
             </SplitView.Pane>

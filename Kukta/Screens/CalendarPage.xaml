@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="Kukta.Screens.CalendarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.Screens"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <RelativePanel>
+            <Button RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    x:Name="BackButton"
+                    Click="BackButtonClick"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE72B;"
+                    FontSize="36"/>
+            <TextBlock RelativePanel.AlignHorizontalCenterWithPanel="True"
+                       RelativePanel.AlignVerticalCenterWithPanel="True"
+                       Text="WeekTemplateInfo"
+                       x:Name="WeekTemplateInfoTextBlock"
+                       FontSize="24"/>
+
+            <Button RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    x:Name="ForwardButton"
+                    Click="ForwardButtonClick"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE72A;"
+                    FontSize="36"/>
+        </RelativePanel>
+
+        <!-- Content -->
+        <Frame x:Name="CalendarWeekFrame" Grid.Row="1">
+
+        </Frame>
+
+
+    </Grid>
+</Page>
