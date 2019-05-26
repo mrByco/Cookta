@@ -9,7 +9,10 @@ namespace Kukta.Menu
     public enum EMealType
     {
         Breakfast,
+        Elevenses,
         Lunch,
-        Dinner
+        Snack,
+        Dinner,
+        AfterDinner
     }
 }

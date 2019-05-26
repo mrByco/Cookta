@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.Calendar
 {
-    class FixedMealing
+    public class FixedMealing
     {
         internal List<IMealingItem> items;
         internal EMealType type;

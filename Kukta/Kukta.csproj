@@ -140,6 +140,7 @@
     <Compile Include="FrameWork\FoodList.cs" />
     <Compile Include="FrameWork\IMealingItemButton.cs" />
     <Compile Include="FrameWork\MealContent.cs" />
+    <Compile Include="FrameWork\WeekTemplateCombobox.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

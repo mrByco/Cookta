@@ -60,5 +60,10 @@ namespace Kukta.Screens
         {
             OpenWeek(DateTime.Now, new SlideNavigationTransitionInfo());
         }
+
+        private void ApplyWeekTemplateToWeekButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

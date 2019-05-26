@@ -45,6 +45,27 @@
 
         </Frame>
 
+        <RelativePanel Grid.Row="2">
+            <Button Name="ApplyWeekTemplateToWeekButton"
+                    Click="ApplyWeekTemplateToWeekButton_Click"
+                    Content="Sablán alkalmazása"
+                    RelativePanel.AlignRightWithPanel="True"/>
+            
+        </RelativePanel>
+
+
+        <ContentDialog Name="ApplyWeekTemplateToWeekDialog"
+                       Title="Sablon alkalmazása"
+                       IsPrimaryButtonEnabled="True"
+                       PrimaryButtonText="Alkalmazás">
+            <RelativePanel>
+                <StackPanel Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True">
+                    <TextBlock Text="Sablon: "/>
+                    <ComboBox Name="WeekTemplateCombobox"/>
+                </StackPanel >
+            </RelativePanel>
+
+        </ContentDialog>
 
     </Grid>
 </Page>

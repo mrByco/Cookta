@@ -30,7 +30,7 @@ namespace Kukta.Menu
                 meal = new Meal(mealType);
                 Meals.Add(meal);
             }
-            meal.Items.Add(category);
+            meal.AddItem(category);
             m_OnDayChanged?.Invoke();
         }
         public void RemoveItemFromMeal(EMealType type, IMealingItem category)
@@ -38,9 +38,9 @@ namespace Kukta.Menu
             Meal meal = Meals.Find(m => m.Type == type);
             if (meal != null)
             {
-                meal.Items.Remove(category);
+                meal.RemoveItem(category);
             }
-            if (meal.Items.Count == 0)
+            if (meal.GetItems().Count == 0)
             {
                 Meals.Remove(meal);
             }

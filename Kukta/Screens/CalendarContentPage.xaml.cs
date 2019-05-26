@@ -39,7 +39,7 @@ namespace Kukta.Screens
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            DateTime startDay = (DateTime)e.Parameter;
+            DateTime startDay = ((DateTime)e.Parameter).StartOfWeek(DayOfWeek.Monday);
             DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
             for (int i = 0; i < 7; i++)
             {
@@ -69,7 +69,7 @@ namespace Kukta.Screens
                 TextBlock.VerticalAlignment = VerticalAlignment.Center;
                 TextBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 //Make grid row if not exist
-                if (ContentGrid.RowDefinitions.Count <= meals.Count)
+                if (ContentGrid.RowDefinitions.Count <= meals.Count + 1)
                 {
                     RowDefinition row = new RowDefinition
                     {
@@ -78,8 +78,8 @@ namespace Kukta.Screens
                     };
                     ContentGrid.RowDefinitions.Add(row);
                 }
-                Grid.SetRow(TextBlock, (int)type + 1);
-                RowByMealType.Add(type, (int)type + 1);
+                Grid.SetRow(TextBlock, (int)type + 2);
+                RowByMealType.Add(type, (int)type + 2);
 
             }
         }
@@ -88,27 +88,47 @@ namespace Kukta.Screens
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                int dayIndex = day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1;
                 try
                 {
-                    List<UIElement> elements = ElementsByDayindex[day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1];
+                    day.OnDayChanged -= DrawDay;
+                    List<UIElement> elements = ElementsByDayindex[dayIndex];
                     if (elements != null)
                         elements.ForEach(e => { ContentGrid.Children.Remove(e); });
                 }
                 catch
                 {
                 }
-                if (ElementsByDayindex.ContainsKey(day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1))
-                    ElementsByDayindex[day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1] = new List<UIElement>();
+                day.OnDayChanged += DrawDay;
+                if (ElementsByDayindex.ContainsKey(dayIndex))
+                    ElementsByDayindex[dayIndex] = new List<UIElement>();
                 else
-                    ElementsByDayindex.Add(day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1, new List<UIElement>());
+                    ElementsByDayindex.Add(dayIndex, new List<UIElement>());
 
                 TextBlock dayText = new TextBlock()
                 {
                     Text = day.DateTime.DayOfWeek.ToString()
                 };
-                ElementsByDayindex[day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1].Add(dayText);
+                ElementsByDayindex[dayIndex].Add(dayText);
                 ContentGrid.Children.Add(dayText);
-                Grid.SetColumn(dayText, day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1);
+                Grid.SetColumn(dayText, dayIndex);
+
+
+                StackPanel templateSelector = new StackPanel() { Orientation = Orientation.Horizontal};
+                ElementsByDayindex[dayIndex].Add(templateSelector);
+                ContentGrid.Children.Add(templateSelector);
+                Grid.SetColumn(templateSelector, dayIndex);
+                Grid.SetRow(templateSelector, 1);
+                WeekTemplateCombobox templateSelectorCombobox = new WeekTemplateCombobox(day);
+                templateSelector.Children.Add(templateSelectorCombobox);
+                Button newSeedButton = new Button()
+                {
+                    Content = "N"
+                };
+                newSeedButton.Click += (sender, args) => { day.NextSeed(); };
+                templateSelector.Children.Add(newSeedButton);
+
+
 
                 if (day == null)
                 {
@@ -127,9 +147,10 @@ namespace Kukta.Screens
                     {
                         foodList.Children.Add(new FoodButton(food.Guid, null));
                     }
-                    Grid.SetColumn(foodList, day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1);
+                    Grid.SetColumn(foodList, dayIndex);
                     Grid.SetRow(foodList, RowByMealType[type]);
                     ContentGrid.Children.Add(foodList);
+                    ElementsByDayindex[dayIndex].Add(foodList);
 
                 }
             });

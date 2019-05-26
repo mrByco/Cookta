@@ -1,4 +1,6 @@
 ﻿using Kukta.FrameWork;
+using Kukta.SaveLoad.File;
+using Kukta.SaveLoad.File.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,31 @@ namespace Kukta.Calendar
                 Days.Add(calendarDay);
             }
             return calendarDay;
+        }
+
+        public void SaveDay(CalendarDay day)
+        {
+            FileManager.AddTask(new SaveSerializable(App.CalendarRoot, day));
+        }
+        public void LoadAll()
+        {
+            FileManager.AddTask(new LoadAllSerializableFromFolder<CalendarDay, CalendarDayData>(App.CalendarRoot, days => 
+            {
+                foreach (CalendarDay day in days)
+                {
+                    OverwriteDayValues(day);
+                }
+            }));
+        }
+        private void OverwriteDayValues(CalendarDay day)
+        {
+            CalendarDay original = this.Days.Find((d) => d.Guid == day.Guid);
+            if (original == null)
+            {
+                original = new CalendarDay();
+                Days.Add(original);
+            }
+            original.FromDataClass(day.GetDataClass());
         }
     }
 }

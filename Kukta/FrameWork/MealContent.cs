@@ -33,7 +33,7 @@ namespace Kukta.FrameWork
         {
             if (Meal != null)
             {
-                foreach (FoodCategory cat in Meal.Items)
+                foreach (FoodCategory cat in Meal.GetItems())
                 {
 
                     base.Children.Add(new FoodCategorieButton(cat, null, (category) => 
