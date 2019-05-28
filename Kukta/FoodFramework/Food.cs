@@ -1,4 +1,5 @@
-﻿using Kukta.FoodFramework.FileTask;
+﻿
+using Kukta.SaveLoad.File;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.FoodFramework
 {
-    class Food
+    public class Food : IStorageable, IMealingItem
     {
         internal event VoidDelegate OnFoodEdited;
 
@@ -44,7 +45,13 @@ namespace Kukta.FoodFramework
         {
             return FoodDatabase.Instance.SaveFood(this, oldName);
         }
-        public FoodData ToFoodData()
+
+        public string GetFileName()
+        {
+            return Name;
+        }
+
+        public object GetDataClass()
         {
             return new FoodData()
             {
@@ -54,14 +61,34 @@ namespace Kukta.FoodFramework
                 customfood = CustomFood
             };
         }
-        public static Food FromFoodData(FoodData data)
+
+        public void FromDataClass(object dataClass)
         {
-            return new Food(Guid.Parse(data.guid))
-            {
-                Name = data.name,
-                CustomFood = data.customfood,
-                Desc = data.desc
-            };
+            FoodData data = dataClass as FoodData;
+            Guid = Guid.Parse(data.guid);
+            Name = data.name;
+            CustomFood = data.customfood;
+            Desc = data.desc;
+        }
+
+        public Type GetDataType()
+        {
+            return typeof(FoodData);
+        }
+
+        public Food GetMealFood(int seed)
+        {
+            return this;
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
+        public Guid GetGuid()
+        {
+            return Guid;
         }
     }
     class FoodData

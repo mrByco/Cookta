@@ -52,10 +52,10 @@
                        SecondaryButtonClick="AddFoodDialog_SecondaryButtonClick">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Recept hozzáadása"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Név: "/>
-                    <TextBox x:Name="FoodNameText" TextChanged="FoodNameText_TextChanged"/>
-                </StackPanel>
+                <RelativePanel>
+                    <TextBlock Name="FoodNameTextLabel" Text="Név: " RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <TextBox x:Name="FoodNameText" TextChanged="FoodNameText_TextChanged" RelativePanel.RightOf="FoodNameTextLabel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                </RelativePanel>
             </StackPanel>
             
         </ContentDialog>

@@ -13,10 +13,11 @@ namespace Kukta.FrameWork
     {
         private FoodCategory category;
         private Action<FoodCategory> onClick;
+        private Action<FoodCategory> onDelete;
 
         private Button MainButton;
         private Button DeleteButton;
-        public FoodCategorieButton(FoodCategory category, Action<FoodCategory> onClick) : base()
+        public FoodCategorieButton(FoodCategory category, Action<FoodCategory> onClick, Action<FoodCategory> onDelete, Thickness margin) : base()
         {
             MainButton = new Button();
             DeleteButton = new Button();
@@ -28,8 +29,8 @@ namespace Kukta.FrameWork
 
             base.ColumnDefinitions.Add(row1);
             base.ColumnDefinitions.Add(row2);
-            
-            base.Margin = new Thickness(0, 3, 0, 3);
+
+            base.Margin = margin;
 
             MainButton.Content = category.CategoryName;
             MainButton.Click += SelectClick;
@@ -48,16 +49,17 @@ namespace Kukta.FrameWork
             base.Children.Add(DeleteButton);
             Grid.SetColumn(DeleteButton, 1);
             
-            this.category = category;
             this.onClick = onClick;
+            this.onDelete = onDelete;
+            this.category = category;
         }
         public void SelectClick(object sender, RoutedEventArgs e)
         {
-            onClick(category);
+            onClick?.Invoke(category);
         }
         public void DeleteClick(object sender, RoutedEventArgs e)
         {
-            FoodDatabase.Instance.DeleteCategory(category);
+            onDelete?.Invoke(category);
         }
 }
 }

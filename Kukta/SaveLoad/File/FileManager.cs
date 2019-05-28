@@ -1,16 +1,13 @@
-﻿using Kukta.FoodFramework.FileTask;
-using Newtonsoft.Json;
+﻿
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
-namespace Kukta.FoodFramework
+namespace Kukta.SaveLoad.File
 {
-    class FoodParser
+    class FileManager
     {
         private static List<IFileTask> fileTasks = new List<IFileTask>();
         public static void AddTask(IFileTask task)
@@ -30,12 +27,6 @@ namespace Kukta.FoodFramework
                 DoNextTask();
                 return;
             }
-        }
-
-        internal static Food ParseBaseFood(string path)
-        {
-            FoodData data = JsonConvert.DeserializeObject<FoodData>(File.ReadAllText(path));
-            return Food.FromFoodData(data);
         }
     }
 }

@@ -6,8 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     RequestedTheme="Dark"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
+    
+    
     <Grid Background="{StaticResource Gray0}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350"/>
@@ -79,11 +82,11 @@
                        SecondaryButtonText="Mégse"
                        SecondaryButtonClick="CancelCategorieAddClick">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Kategória hozzáadása"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Kategória neve: "/>
-                    <TextBox x:Name="CategoryNameTextBox" TextChanged="CategoryNameTextChanged"/>
-                </StackPanel>
+                <TextBlock Text="Kategória hozzáadása" FontSize="24"/>
+                <RelativePanel>
+                    <TextBlock Text="Kategória neve: " Name="CategoryNameTextLabel" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <TextBox x:Name="CategoryNameTextBox" TextChanged="CategoryNameTextChanged" RelativePanel.RightOf="CategoryNameTextLabel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                </RelativePanel>
             </StackPanel>
 
         </ContentDialog>

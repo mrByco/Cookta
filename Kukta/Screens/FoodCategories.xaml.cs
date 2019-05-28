@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,7 +30,8 @@ namespace Kukta.Screens
         private FoodCategory Selected
         {
             get { return m_Selected; }
-            set {
+            set
+            {
                 m_Selected = value;
                 if (value != null)
                 {
@@ -38,29 +41,31 @@ namespace Kukta.Screens
             }
         }
 
-
         public FoodCategories()
         {
             this.InitializeComponent();
-            RefreshCategorieList();
-            RefreshFoodList();
 
             FoodDatabase.Instance.OnCategoriesChanged += new VoidDelegate(RefreshCategorieList);
         }
 
-        public void RefreshCategorieList()
+        public async void RefreshCategorieList()
         {
-            string filter = SearchTextBox.Text;
-            CategorieList.Children.Clear();
-            List<FoodCategory> categories = FoodDatabase.Instance.Categories;
-            if (filter != "")
-            categories = categories.FindAll((categ) => categ.CategoryName.ToUpper().Contains(filter.ToUpper()));
-            categories.ForEach((categ) => AddCategorieToStackPanel(categ));
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                string filter = SearchTextBox.Text;
+                CategorieList.Children.Clear();
+                List<FoodCategory> categories = FoodDatabase.Instance.Categories;
+                if (filter != "")
+                    categories = categories.FindAll((categ) => categ.CategoryName.ToUpper().Contains(filter.ToUpper()));
+                categories.ForEach((categ) => AddCategorieToStackPanel(categ));
+            });
         }
-
         private void AddCategorieToStackPanel(FoodCategory category)
         {
-            CategorieList.Children.Add(new FoodCategorieButton(category, SelectCategorie));
+            CategorieList.Children.Add(new FoodCategorieButton(category, SelectCategorie, callBackCategory =>
+            {
+                FoodDatabase.Instance.DeleteCategory(callBackCategory);
+            }, new Thickness(0, 3, 0, 3)));
         }
 
         public void RefreshFoodList()
@@ -90,7 +95,7 @@ namespace Kukta.Screens
         {
             Selected = category;
         }
-        
+
         private async void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
             if (Selected == null)
@@ -139,7 +144,7 @@ namespace Kukta.Screens
 
         private void AddFoodClick(Food clicked)
         {
-                Selected.AddFood(clicked);
+            Selected.AddFood(clicked);
         }
 
         private void CategoryNameTextChanged(object sender, TextChangedEventArgs e)
@@ -149,6 +154,12 @@ namespace Kukta.Screens
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            RefreshCategorieList();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            RefreshFoodList();
             RefreshCategorieList();
         }
     }

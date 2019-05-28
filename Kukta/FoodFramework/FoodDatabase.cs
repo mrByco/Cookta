@@ -1,4 +1,6 @@
-﻿using Kukta.FoodFramework.FileTask;
+﻿
+using Kukta.SaveLoad.File;
+using Kukta.SaveLoad.File.Tasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,21 +12,39 @@ namespace Kukta.FoodFramework
 {
     class FoodDatabase : FrameWork.ASingleton<FoodDatabase>
     {
-        private const string BaseFoodRoot = "Assets/Foods";
-        private const string CustomFoodRoot = "CustomFoods";
-        private const string CustomCategoryRoot = "CustomCategories";
-
         //Events
         internal event VoidDelegate OnFoodsChanged;
         internal event VoidDelegate OnCategoriesChanged;
         internal event VoidDelegate OnDatabaseChanged;
+        internal event VoidDelegate OnDatabaseLoaded;
+
+        /*private bool m_FoodsLoaded;
+        private bool FoodsLoaded
+        { get => m_FoodsLoaded;
+            set
+            {
+                m_FoodsLoaded = value;
+                if (m_FoodsLoaded && m_CategoriesLoaded)
+                    OnDatabaseLoaded?.Invoke();
+            }
+        }
+        private bool m_CategoriesLoaded;
+        private bool CategoriesLoaded
+        {
+            get => m_CategoriesLoaded;
+            set
+            {
+                m_CategoriesLoaded = value;
+                if (m_FoodsLoaded && m_CategoriesLoaded)
+                    OnDatabaseLoaded?.Invoke();
+            }
+        }*/
+
 
         public FoodDatabase() : base()
         {
             m_Categories = new List<FoodCategory>();
             m_CustomFoods = new List<Food>();
-            LoadCustomFoodsAsync();
-            LoadCategories();
         }
 
         //CATEGORIES
@@ -47,65 +67,57 @@ namespace Kukta.FoodFramework
 
         public void SaveCategory(FoodCategory category)
         {
-            FoodParser.AddTask(new SaveCategoryTask(CustomCategoryRoot, category));
+            FileManager.AddTask(new SaveSerializable(App.CustomCategoryRoot, category));
         }
         public void SaveCategory(FoodCategory category, string OldCategoryName)
         {
-            FoodParser.AddTask(new SaveCategoryTask(CustomCategoryRoot, category, OldCategoryName));
+            FileManager.AddTask(new SaveSerializable(App.CustomCategoryRoot, category, OldCategoryName));
         }
         public void DeleteCategory(FoodCategory category)
         {
             m_Categories.Remove(category);
-            FoodParser.AddTask(new DeleteFoodFileAsync(CustomCategoryRoot, category.CategoryName));
+            FileManager.AddTask(new DeleteSerializableFile(App.CustomCategoryRoot, category.CategoryName));
             if (OnCategoriesChanged != null)
                 OnCategoriesChanged.Invoke();
             if (OnDatabaseChanged != null)
                 OnDatabaseChanged.Invoke();
         }
-        private void LoadCategories()
+        internal void LoadCategories()
         {
-            FoodParser.AddTask(new LoadCategories(CustomCategoryRoot, (categories) =>
+            FileManager.AddTask(new LoadAllSerializableFromFolder<FoodCategory, FoodCategoryData>(App.CustomCategoryRoot, (categories) =>
             {
                 m_Categories = categories;
-                try
-                {
-                    if (OnCategoriesChanged != null)
-                        OnCategoriesChanged.Invoke();
-                    if (OnDatabaseChanged != null)
-                        OnDatabaseChanged.Invoke();
-                }
-                catch { }
+                if (OnCategoriesChanged != null)
+                    OnCategoriesChanged.Invoke();
+                if (OnDatabaseChanged != null)
+                    OnDatabaseChanged.Invoke();
             }));
         }
 
         //FOODS
         private List<Food> m_DefaultFoods;
-        private List<Food> GetBaseFoods()
-        {
-            if (m_DefaultFoods == null)
-            {
-                m_DefaultFoods = new List<Food>();
-                FoodParser.AddTask(new GetBaseFoods((foods) =>
-                {
-                    m_DefaultFoods = foods;
-                    try
-                    {
-                        if (OnFoodsChanged != null)
-                            OnFoodsChanged.Invoke();
-                        if (OnDatabaseChanged != null)
-                            OnDatabaseChanged.Invoke();
-                    }
-                    catch { }
-                }
-                ));
-            }
 
-            return m_DefaultFoods;
+        internal void LoadBaseFoods()
+        {
+            m_DefaultFoods = new List<Food>();
+            FileManager.AddTask(new LoadAllSerializableFromAssetsFolder<Food, FoodData>("Assets/Foods", foods =>
+            {
+                m_DefaultFoods = foods;
+                try
+                {
+                    if (OnFoodsChanged != null)
+                        OnFoodsChanged.Invoke();
+                    if (OnDatabaseChanged != null)
+                        OnDatabaseChanged.Invoke();
+                }
+                catch { }
+            }
+            ));
         }
 
-        private void LoadCustomFoodsAsync()
+        internal void LoadCustomFoods()
         {
-            FoodParser.AddTask(new ReadCustomFoodsFromFileAsync(CustomFoodRoot, (foods) =>
+            FileManager.AddTask(new LoadAllSerializableFromFolder<Food, FoodData>(App.CustomFoodRoot, (foods) =>
             {
                 m_CustomFoods = foods;
                 if (OnFoodsChanged != null)
@@ -127,7 +139,7 @@ namespace Kukta.FoodFramework
                 }
             }
 
-            FoodParser.AddTask(new DeleteFoodFileAsync(CustomFoodRoot, food.Name));
+            FileManager.AddTask(new DeleteSerializableFile(App.CustomFoodRoot, food.Name));
             m_CustomFoods.Remove(food);
             if (OnFoodsChanged != null)
                 OnFoodsChanged.Invoke();
@@ -138,8 +150,8 @@ namespace Kukta.FoodFramework
             get
             {
                 List<Food> allFoods = new List<Food>();
-                m_CustomFoods.ForEach((food) => allFoods.Add(food));
-                GetBaseFoods().ForEach((food) => allFoods.Add(food));
+                m_CustomFoods?.ForEach((food) => allFoods.Add(food));
+                m_DefaultFoods?.ForEach((food) => allFoods.Add(food));
                 return allFoods;
             }
         }
@@ -160,6 +172,20 @@ namespace Kukta.FoodFramework
         {
             return Foods.Find((food) => food.Guid == guid);
         }
+        internal IMealingItem Get(Guid guid)
+        {
+            foreach (Food food in Foods)
+            {
+                if (food.Guid == guid)
+                    return food;
+            }
+            foreach (FoodCategory category in Categories)
+            {
+                if (category.guid == guid)
+                    return category;
+            }
+            return null;
+        }
         internal List<Food> GetFoods(FoodCategory category)
         {
             return category.GetFoods();
@@ -169,7 +195,7 @@ namespace Kukta.FoodFramework
         {
             if (FoodDatabase.Instance.Foods.Contains(food))
             {
-                FoodParser.AddTask(new SaveFoodToFile(food, CustomFoodRoot));
+                FileManager.AddTask(new SaveSerializable(App.CustomFoodRoot, food));
                 return true;
             }
             return false;
@@ -178,15 +204,10 @@ namespace Kukta.FoodFramework
         {
             if (FoodDatabase.Instance.Foods.Contains(food))
             {
-                FoodParser.AddTask(new SaveFoodToFile(food, CustomFoodRoot, oldName));
+                FileManager.AddTask(new SaveSerializable(App.CustomFoodRoot, food, oldName));
                 return true;
             }
             return false;
-        }
-        //Unused method
-        private void SaveAll()
-        {
-            FoodParser.AddTask(new SaveFoodsToFile(m_CustomFoods, CustomFoodRoot));
         }
     }
 }

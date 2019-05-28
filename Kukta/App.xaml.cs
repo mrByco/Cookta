@@ -1,4 +1,6 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.Calendar;
+using Kukta.FoodFramework;
+using Kukta.Menu;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,15 +23,24 @@ namespace Kukta
 {
     //Base delegates
     public delegate void VoidDelegate();
+    public delegate void WeekTemplateDelegate(WeekTemplate template);
+    public delegate void DayDelegate(CalendarDay day);
     public delegate ContentDialog DialogDelegate(ContentDialog baseDialog);
-
 
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App : Application
     {
+        public const string BaseFoodRoot = "Assets/Foods";
+        public const string CustomFoodRoot = "CustomFoods";
+        public const string CustomCategoryRoot = "CustomCategories";
+        public const string TemplateRoot = "WeekTemplates";
+        public const string CalendarRoot = "Calendar";
+
         internal FoodDatabase FoodDatabase;
+        internal TemplateManager TemplateDatabase;
+        internal Calendar.Calendar Calendar;
         internal static MainPage RootPage;
 
         public App()
@@ -37,7 +48,8 @@ namespace Kukta
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             FoodDatabase = FoodDatabase.Instance;
-
+            TemplateDatabase = TemplateManager.Instance;
+            this.Calendar = Kukta.Calendar.Calendar.Instance;
         }
 
         /// <summary>
@@ -82,6 +94,8 @@ namespace Kukta
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            InitManagers();
         }
 
         /// <summary>
@@ -106,6 +120,16 @@ namespace Kukta
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void InitManagers()
+        {
+            FoodDatabase.Instance.LoadBaseFoods();
+            FoodDatabase.Instance.LoadCustomFoods();
+            FoodDatabase.Instance.LoadCategories();
+            TemplateManager.Instance.LoadTemplates();
+            Calendar.LoadAll();
+            
         }
     }
 }

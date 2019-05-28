@@ -55,6 +55,12 @@ namespace Kukta
                 case ContentType.CategorieEditor:
                     ContentFrame.Navigate(typeof(FoodCategories), null);
                     break;
+                case ContentType.WeekTemplates:
+                    ContentFrame.Navigate(typeof(WeekTemplatePage), null);
+                    break;
+                case ContentType.Calendar:
+                    ContentFrame.Navigate(typeof(CalendarPage), null);
+                    break;
             }
         }
         internal void ShowWarning(string title, string desc)
@@ -66,6 +72,6 @@ namespace Kukta
         }
     }
     public enum ContentType {
-        FoodEditor, CategorieEditor
+        FoodEditor, CategorieEditor, WeekTemplates, Calendar
     }
 }

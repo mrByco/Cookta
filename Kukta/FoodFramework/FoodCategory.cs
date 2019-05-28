@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kukta.SaveLoad.File;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.FoodFramework
 {
-    class FoodCategory
+    class FoodCategory : IStorageable, IMealingItem
     {
         internal string CategoryName;
         private List<Food> Foods;
@@ -31,15 +32,12 @@ namespace Kukta.FoodFramework
             Foods = foods;
             this.Save();
         }
-        public static FoodCategory FromData(FoodCategoryData data)
+        public void FromDataClass(object DataClass)
         {
-            FoodCategory category = new FoodCategory()
-            {
-                CategoryName = data.CategoryName,
-                Foods = fromGuidList(data.FoodGuids),
-                guid = Guid.Parse(data.guid)
-            };
-            return category;
+            FoodCategoryData data = DataClass as FoodCategoryData;
+            CategoryName = data.CategoryName;
+            Foods = fromGuidList(data.FoodGuids);
+            guid = Guid.Parse(data.guid);
         }
         private static List<Food> fromGuidList(List<string> stringGuids)
         {
@@ -65,7 +63,13 @@ namespace Kukta.FoodFramework
         {
             FoodDatabase.Instance.SaveCategory(this, oldName);
         }
-        public FoodCategoryData ToData()
+
+        public string GetFileName()
+        {
+            return CategoryName;
+        }
+
+        public object GetDataClass()
         {
             List<string> strGuids = new List<string>();
             foreach (Food food in Foods)
@@ -78,6 +82,30 @@ namespace Kukta.FoodFramework
                 FoodGuids = strGuids,
                 guid = this.guid.ToString()
             };
+        }
+
+
+        public Type GetDataType()
+        {
+            return typeof(FoodCategoryData);
+        }
+
+        public Food GetMealFood(int seed)
+        {
+            Random random = new Random(seed);
+            if (Foods.Count == 0)
+                return null;
+            else
+                return Foods[random.Next(0, Foods.Count())];
+        }
+        public string GetName()
+        {
+            return CategoryName;
+        }
+
+        public Guid GetGuid()
+        {
+            return guid;
         }
     }
     class FoodCategoryData

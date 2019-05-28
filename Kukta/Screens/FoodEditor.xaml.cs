@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -40,16 +41,19 @@ namespace Kukta.Screens
             RefreshList();
         }
 
-        internal void RefreshList()
+        internal async void RefreshList()
         {
-            FoodList.Children.Clear();
-            List<Food> foods = FoodDatabase.Instance.Foods;
-
-            if (SearchTextBox.Text != "")
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                foods = foods.FindAll((food) => food.Name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
-            }
-            foods.ForEach((food) => AddFood(food));
+                FoodList.Children.Clear();
+                List<Food> foods = FoodDatabase.Instance.Foods;
+
+                if (SearchTextBox.Text != "")
+                {
+                    foods = foods.FindAll((food) => food.Name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
+                }
+                foods.ForEach((food) => AddFood(food));
+            });
         }
 
         private void AddFood(Food food)

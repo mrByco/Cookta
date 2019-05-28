@@ -1,37 +1,38 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Kukta.FoodFramework.FileTask
+namespace Kukta.SaveLoad.File.Tasks
 {
-    class SaveFoodToFile : IFileTask
+    class SaveSerializable : IFileTask
     {
-        private string OldName;
-        private Food Food;
-        private string Subfolder;
 
-        public SaveFoodToFile(Food food, string subFolder)
-        {
-            Subfolder = subFolder;
-            Food = food;
-            OldName = null;
-        }
-        public SaveFoodToFile(Food food, string subFolder, string oldName)
-        {
-            Subfolder = subFolder;
-            Food = food;
-            OldName = oldName;
-        }
+        private readonly string OldName;
+        private IStorageable Storageable;
+        private readonly string Subfolder;
 
         public string Name()
         {
-            return "Saving foods...";
+            return "Saving files...";
         }
+
+        public SaveSerializable(string subFolder, IStorageable storageable)
+        {
+            Subfolder = subFolder;
+            Storageable = storageable;
+            OldName = null;
+        }
+        public SaveSerializable(string subFolder, IStorageable storageable, string oldName)
+        {
+            Subfolder = subFolder;
+            Storageable = storageable;
+            OldName = oldName;
+        }
+
 
         public async Task OperateAsync()
         {
@@ -43,17 +44,17 @@ namespace Kukta.FoodFramework.FileTask
             {
                 StorageFile oldFile = await storageFolder.CreateFileAsync(OldName + ".json", CreationCollisionOption.OpenIfExists);
                 await oldFile.DeleteAsync();
-            } catch { }
+            }
+            catch { }
             //Create new file
-            StorageFile file = await storageFolder.CreateFileAsync(Food.Name + ".json", CreationCollisionOption.ReplaceExisting);
+            StorageFile file = await storageFolder.CreateFileAsync(Storageable.GetFileName() + ".json", CreationCollisionOption.ReplaceExisting);
             var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
             var dataWriter = new Windows.Storage.Streams.DataWriter(stream);
-            dataWriter.WriteString(JsonConvert.SerializeObject(Food.ToFoodData(), Formatting.Indented));
+            dataWriter.WriteString(JsonConvert.SerializeObject(Storageable.GetDataClass(), Formatting.Indented));
             await dataWriter.StoreAsync();
             await stream.FlushAsync();
             stream.Dispose();
-
             return;
         }
     }

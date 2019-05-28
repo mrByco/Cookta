@@ -9,31 +9,24 @@ using Windows.UI.Xaml.Controls;
 
 namespace Kukta.FrameWork
 {
-    class FoodButton : Button
+    class IMealingItemButton : Button
     {
-        public Guid FoodGuid;
-        private Action<Food> OnClick;
-        public FoodButton(Guid foodGuid, Action<Food> onClick) : base()
+        public IMealingItem Item;
+        private Action<IMealingItem> OnClick;
+        public IMealingItemButton(IMealingItem item, Action<IMealingItem> onClick) : base()
         {
-            FoodGuid = foodGuid;
-            Food food = FoodDatabase.Instance.GetFood(FoodGuid);
-            base.Content = food.Name;
+            Item = item;
+            base.Content = item.GetName();
             base.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
             base.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
             OnClick = onClick;
             base.Click += ButtonClick;
-            food.OnFoodEdited += new VoidDelegate(refreshFoodButton);
             base.Margin = new Thickness(0, 3, 0, 3);
 
         }
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            OnClick?.Invoke(FoodDatabase.Instance.GetFood(FoodGuid));
-        }
-        private void refreshFoodButton()
-        {
-            Food food = FoodDatabase.Instance.GetFood(FoodGuid);
-            base.Content = food.Name;
+            OnClick(Item);
         }
     }
 }
