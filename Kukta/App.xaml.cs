@@ -1,4 +1,5 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.Calendar;
+using Kukta.FoodFramework;
 using Kukta.Menu;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,10 @@ using Windows.UI.Xaml.Navigation;
 namespace Kukta
 {
     //Base delegates
-    internal delegate void VoidDelegate();
-    internal delegate void WeekTemplateDelegate(WeekTemplate template);
-    internal delegate ContentDialog DialogDelegate(ContentDialog baseDialog);
+    public delegate void VoidDelegate();
+    public delegate void WeekTemplateDelegate(WeekTemplate template);
+    public delegate void DayDelegate(CalendarDay day);
+    public delegate ContentDialog DialogDelegate(ContentDialog baseDialog);
 
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -34,9 +36,11 @@ namespace Kukta
         public const string CustomFoodRoot = "CustomFoods";
         public const string CustomCategoryRoot = "CustomCategories";
         public const string TemplateRoot = "WeekTemplates";
+        public const string CalendarRoot = "Calendar";
 
         internal FoodDatabase FoodDatabase;
         internal TemplateManager TemplateDatabase;
+        internal Calendar.Calendar Calendar;
         internal static MainPage RootPage;
 
         public App()
@@ -45,6 +49,7 @@ namespace Kukta
             this.Suspending += OnSuspending;
             FoodDatabase = FoodDatabase.Instance;
             TemplateDatabase = TemplateManager.Instance;
+            this.Calendar = Kukta.Calendar.Calendar.Instance;
         }
 
         /// <summary>
@@ -123,6 +128,7 @@ namespace Kukta
             FoodDatabase.Instance.LoadCustomFoods();
             FoodDatabase.Instance.LoadCategories();
             TemplateManager.Instance.LoadTemplates();
+            Calendar.LoadAll();
             
         }
     }

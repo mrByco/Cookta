@@ -128,16 +128,19 @@
     </Compile>
     <Compile Include="Calendar\Calendar.cs" />
     <Compile Include="Calendar\CalendarDay.cs" />
+    <Compile Include="Calendar\FixedMealing.cs" />
     <Compile Include="FoodFramework\Food.cs" />
     <Compile Include="FoodFramework\FoodCategory.cs" />
     <Compile Include="FoodFramework\FoodDatabase.cs" />
     <Compile Include="FoodFramework\IMealingItem.cs" />
     <Compile Include="FrameWork\ASingleton.cs" />
+    <Compile Include="FrameWork\DateTimeExtensions.cs" />
     <Compile Include="FrameWork\FoodButton.cs" />
     <Compile Include="FrameWork\FoodCategorieButton.cs" />
     <Compile Include="FrameWork\FoodList.cs" />
     <Compile Include="FrameWork\IMealingItemButton.cs" />
     <Compile Include="FrameWork\MealContent.cs" />
+    <Compile Include="FrameWork\WeekTemplateCombobox.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,12 @@
     <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromAssetsFolder.cs" />
     <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromFolder.cs" />
     <Compile Include="SaveLoad\File\Tasks\SaveSerializable.cs" />
+    <Compile Include="Screens\CalendarContentPage.xaml.cs">
+      <DependentUpon>CalendarContentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CalendarPage.xaml.cs">
+      <DependentUpon>CalendarPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\FoodCategories.xaml.cs">
       <DependentUpon>FoodCategories.xaml</DependentUpon>
     </Compile>
@@ -232,6 +241,14 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\CalendarContentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\CalendarPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\FoodCategories.xaml">
       <SubType>Designer</SubType>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.SaveLoad.File
 {
-    interface IFileTask
+    public interface IFileTask
     {
         string Name();
         Task OperateAsync();

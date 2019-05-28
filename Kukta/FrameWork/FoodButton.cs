@@ -28,7 +28,7 @@ namespace Kukta.FrameWork
         }
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            OnClick(FoodDatabase.Instance.GetFood(FoodGuid));
+            OnClick?.Invoke(FoodDatabase.Instance.GetFood(FoodGuid));
         }
         private void refreshFoodButton()
         {

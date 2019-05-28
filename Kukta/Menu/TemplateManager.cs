@@ -38,6 +38,11 @@ namespace Kukta.Menu
             FileManager.AddTask(new DeleteSerializableFile(App.TemplateRoot, template.GetFileName()));
         }
 
+        internal WeekTemplate GetTemplate(Guid weekTemplateGuid)
+        {
+            return m_WeekTempltates.Find(t => t.guid == weekTemplateGuid);
+        }
+
         internal void SaveTemplate(WeekTemplate template)
         {
             FileManager.AddTask(new SaveSerializable(App.TemplateRoot, template));

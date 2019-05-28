@@ -100,7 +100,7 @@ namespace Kukta.Screens
                     (item) =>
                     {
                         day.RemoveItemFromMeal(mealType, item);
-                    });
+                    }, true);
                 WeekGrid.Children.Add(content);
                 generatedElements.Add(content);
                 Grid.SetColumn(content, column);

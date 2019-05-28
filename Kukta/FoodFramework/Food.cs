@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kukta.FoodFramework
 {
-    class Food : IStorageable, IMealingItem
+    public class Food : IStorageable, IMealingItem
     {
         internal event VoidDelegate OnFoodEdited;
 

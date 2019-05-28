@@ -1,4 +1,5 @@
 ﻿using Kukta.FoodFramework;
+using Kukta.FrameWork;
 using Kukta.Menu;
 using Kukta.SaveLoad.File;
 using Newtonsoft.Json;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Kukta.Menu
 {
-    internal class WeekTemplate : IStorageable
+    public class WeekTemplate : IStorageable
     {
         public event WeekTemplateDelegate OnTemplateChanged;
-        internal TemplateDay[] Days;
-        internal Guid guid = Guid.NewGuid();
+        public TemplateDay[] Days;
+        public Guid guid = Guid.NewGuid();
         private string m_TemplateName;
         internal string TemplateName
         {
@@ -51,6 +52,11 @@ namespace Kukta.Menu
             }
         }
 
+        internal TemplateDay GetDay(DateTime dateTime)
+        {
+            return Days[(int)dateTime.DayOfWeek];
+        }
+
         internal void Save()
         {
             TemplateManager.Instance.SaveTemplate(this);
@@ -76,7 +82,7 @@ namespace Kukta.Menu
                 foreach (Meal meal in this.Days[i].GetMeals())
                 {
                     List<string> itemGuids = new List<string>();
-                    meal.Items.ForEach((item) =>
+                    meal.GetItems().ForEach((item) =>
                     {
                         itemGuids.Add(item.GetGuid().ToString());
                     });
@@ -119,8 +125,14 @@ namespace Kukta.Menu
                         {
                             foreach (string s in mealData.items)
                             {
-                                IMealingItem item = FoodDatabase.Instance.Get(Guid.Parse(s));
-                                this.Days[dayData.index].AddItemToMeal(mealData.mealType, item);
+                                try
+                                {
+                                    IMealingItem item = FoodDatabase.Instance.Get(Guid.Parse(s));
+                                    this.Days[dayData.index].AddItemToMeal(mealData.mealType, item);
+                                }
+                                catch
+                                {
+                                }
                             }
                         }
                     }
@@ -131,7 +143,6 @@ namespace Kukta.Menu
     public class WeekTemplateData
     {
         public List<TemplateDayData> days = new List<TemplateDayData>();
-        internal Dictionary<int, Dictionary<EMealType, List<string>>> ddays;
         public string name;
         public string guid;
     }

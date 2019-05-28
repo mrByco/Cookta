@@ -93,7 +93,10 @@ namespace Kukta.FoodFramework
         public Food GetMealFood(int seed)
         {
             Random random = new Random(seed);
-            return Foods[random.Next(0, Foods.Count() - 1)];
+            if (Foods.Count == 0)
+                return null;
+            else
+                return Foods[random.Next(0, Foods.Count() - 1)];
         }
         public string GetName()
         {
