@@ -54,23 +54,6 @@ namespace Kukta.Calendar
             Calendar.Instance.SaveDay(this);
         }
 
-        /*public List<Food> GetFoodsOf(EMealType type)
-        {
-            List<IMealingItem> mealingItems = GetMealsOf(type);
-
-            //Generate Foods by the seed
-            Random random = new Random(Seed);
-            List<Food> foods = new List<Food>();
-
-            foreach (IMealingItem item in mealingItems)
-            {
-                Food f = item.GetMealFood(random.Next(1, 9999));
-                if (f != null)
-                    foods.Add(f);
-            }
-            return foods;
-        }*/
-
         public Guid GetTemplateGuid()
         {
             return WeekTemplateGuid;

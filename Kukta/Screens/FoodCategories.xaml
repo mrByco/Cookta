@@ -82,11 +82,11 @@
                        SecondaryButtonText="Mégse"
                        SecondaryButtonClick="CancelCategorieAddClick">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Kategória hozzáadása"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Kategória neve: "/>
-                    <TextBox x:Name="CategoryNameTextBox" TextChanged="CategoryNameTextChanged"/>
-                </StackPanel>
+                <TextBlock Text="Kategória hozzáadása" FontSize="24"/>
+                <RelativePanel>
+                    <TextBlock Text="Kategória neve: " Name="CategoryNameTextLabel" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <TextBox x:Name="CategoryNameTextBox" TextChanged="CategoryNameTextChanged" RelativePanel.RightOf="CategoryNameTextLabel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                </RelativePanel>
             </StackPanel>
 
         </ContentDialog>
