@@ -42,7 +42,14 @@ namespace Kukta.Calendar
         }
         public void AttachToTemplate(WeekTemplate template)
         {
-            WeekTemplateGuid = template.guid;
+            if (template == null)
+            {
+                WeekTemplateGuid = Guid.Empty;
+            }
+            else
+            {
+                WeekTemplateGuid = template.guid;
+            }
             OnDayChanged?.Invoke(this);
             Calendar.Instance.SaveDay(this);
         }

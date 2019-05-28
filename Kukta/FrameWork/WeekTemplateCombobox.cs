@@ -45,6 +45,13 @@ namespace Kukta.FrameWork
                     base.SelectedIndex = i;
                 i++;
             }
+
+            base.Items.Add(new TextBlock() { Text = "Nincs kijelölve" });
+            indexItemMap.Add(i, null);
+            if (base.SelectedIndex == -1)
+            {
+                base.SelectedIndex = i;
+            }
         }
 
 

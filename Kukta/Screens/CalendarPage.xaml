@@ -45,7 +45,7 @@
 
         </Frame>
 
-        <RelativePanel Grid.Row="2">
+        <RelativePanel Grid.Row="2" Visibility="Collapsed">
             <Button Name="ApplyWeekTemplateToWeekButton"
                     Click="ApplyWeekTemplateToWeekButton_Click"
                     Content="Sablán alkalmazása"

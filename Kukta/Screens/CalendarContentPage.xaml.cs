@@ -120,10 +120,14 @@ namespace Kukta.Screens
                 Grid.SetColumn(templateSelector, dayIndex);
                 Grid.SetRow(templateSelector, 1);
                 WeekTemplateCombobox templateSelectorCombobox = new WeekTemplateCombobox(day);
+                templateSelector.VerticalAlignment = VerticalAlignment.Center;
                 templateSelector.Children.Add(templateSelectorCombobox);
                 Button newSeedButton = new Button()
                 {
-                    Content = "N"
+                    Content = "\xE72C",
+                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                    VerticalAlignment = VerticalAlignment.Stretch
+
                 };
                 newSeedButton.Click += (sender, args) => { day.NextSeed(); };
                 templateSelector.Children.Add(newSeedButton);
