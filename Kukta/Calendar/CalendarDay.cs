@@ -54,7 +54,7 @@ namespace Kukta.Calendar
             Calendar.Instance.SaveDay(this);
         }
 
-        public List<Food> GetFoodsOf(EMealType type)
+        /*public List<Food> GetFoodsOf(EMealType type)
         {
             List<IMealingItem> mealingItems = GetMealsOf(type);
 
@@ -69,24 +69,24 @@ namespace Kukta.Calendar
                     foods.Add(f);
             }
             return foods;
-        }
+        }*/
 
         public Guid GetTemplateGuid()
         {
             return WeekTemplateGuid;
         }
 
-        private List<IMealingItem> GetMealsOf(EMealType type)
+        public List<Food> GetFoodsOf(EMealType type)
         {
-            List<IMealingItem> items = new List<IMealingItem>();
+            List<KeyValuePair<IMealingItem, EMealType>> items = new List<KeyValuePair<IMealingItem, EMealType>>();
+
+            //Generate Foods by the seed
+            Random random = new Random(Seed);
 
             //Get fixed items
             fixedMealings.ForEach(fMeal =>
             {
-                if (fMeal.type == type)
-                {
-                    fMeal.items.ForEach(item => { items.Add(item); });
-                }
+                fMeal.items.ForEach(item => { items.Add(new KeyValuePair<IMealingItem, EMealType>(item, fMeal.type)); });
             });
 
             //Get generated items
@@ -94,14 +94,26 @@ namespace Kukta.Calendar
             if (week != null)
             {
                 TemplateDay tmpDay = week.GetDay(DateTime);
-                tmpDay.GetMealOf(type)?.GetItems()?.ForEach(item =>
+                tmpDay.GetMeals().ForEach(meal =>
                 {
-                    if (item != null)
-                        items.Add(item);
+                    meal.GetItems().ForEach(item =>
+                    {
+                        items.Add(new KeyValuePair<IMealingItem, EMealType>(item, meal.Type));
+                    });
                 });
             }
+            List<Food> foods = new List<Food>();
 
-            return items;
+            foreach (KeyValuePair<IMealingItem, EMealType> pair in items)
+            {
+                Food food = pair.Key.GetMealFood(random.Next(0, 99999));
+                if (pair.Value == type)
+                {
+                    foods.Add(food);
+                }
+            }
+
+            return foods;
         }
 
         public string GetFileName()

@@ -96,7 +96,7 @@ namespace Kukta.FoodFramework
             if (Foods.Count == 0)
                 return null;
             else
-                return Foods[random.Next(0, Foods.Count() - 1)];
+                return Foods[random.Next(0, Foods.Count())];
         }
         public string GetName()
         {
