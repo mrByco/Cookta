@@ -54,6 +54,12 @@
                             <TextBlock  FontSize="32" Text="Naptár" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
+                    <ListBoxItem >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  FontSize="36" Text="A" Margin="10, 0"/>
+                            <TextBlock  FontSize="32" Text="AuthTest" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
 
                 </ListBox>
             </SplitView.Pane>

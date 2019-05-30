@@ -1,4 +1,5 @@
 ﻿using Kukta.Screens;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +37,7 @@ namespace Kukta
         {
             HamburgerSplitView.IsPaneOpen = !HamburgerSplitView.IsPaneOpen;
         }
-        
+
 
         private void IconsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -61,6 +62,34 @@ namespace Kukta
                 case ContentType.Calendar:
                     ContentFrame.Navigate(typeof(CalendarPage), null);
                     break;
+                case ContentType.Auth:
+                    LogIn();
+                    break;
+            }
+        }
+
+        public async void LogIn()
+        {
+            AuthenticationResult authResult = null;
+            IEnumerable<IAccount> accounts = await App.PublicClientApp.GetAccountsAsync();
+            try
+            {
+                IAccount currentUserAccount = GetAccountByPolicy(accounts, App.PolicySignUpSignIn);
+                authResult = await App.PublicClientApp.AcquireTokenSilentAsync(App.ApiScopes, currentUserAccount, App.Authority, false);
+
+                //DisplayBasicTokenInfo(authResult);
+                //UpdateSignInState(true);
+            }
+            catch (MsalUiRequiredException ex)
+            {
+                authResult = await App.PublicClientApp.AcquireTokenAsync(App.ApiScopes, GetAccountByPolicy(accounts, App.PolicySignUpSignIn), UIBehavior.SelectAccount, string.Empty, null, App.Authority);
+                //DisplayBasicTokenInfo(authResult);
+                //UpdateSignInState(true);
+            }
+
+            catch (Exception ex)
+            {
+                //ResultText.Text = $"Users:{string.Join(",", accounts.Select(u => u.Username))}{Environment.NewLine}Error Acquiring Token:{Environment.NewLine}{ex}";
             }
         }
         internal void ShowWarning(string title, string desc)
@@ -70,8 +99,19 @@ namespace Kukta
             WarningDialog.PrimaryButtonText = "OK";
             WarningDialog.ShowAsync();
         }
+        private IAccount GetAccountByPolicy(IEnumerable<IAccount> accounts, string policy)
+        {
+            foreach (var account in accounts)
+            {
+                string userIdentifier = account.HomeAccountId.ObjectId.Split('.')[0];
+                if (userIdentifier.EndsWith(policy.ToLower())) return account;
+            }
+
+            return null;
+        }
     }
-    public enum ContentType {
-        FoodEditor, CategorieEditor, WeekTemplates, Calendar
+    public enum ContentType
+    {
+        FoodEditor, CategorieEditor, WeekTemplates, Calendar, Auth
     }
 }

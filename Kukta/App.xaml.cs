@@ -1,11 +1,15 @@
-﻿using Kukta.Calendar;
+﻿
+using Kukta.Calendar;
 using Kukta.FoodFramework;
 using Kukta.Menu;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -37,6 +41,9 @@ namespace Kukta
         public const string CustomCategoryRoot = "CustomCategories";
         public const string TemplateRoot = "WeekTemplates";
         public const string CalendarRoot = "Calendar";
+        
+
+
 
         internal FoodDatabase FoodDatabase;
         internal TemplateManager TemplateDatabase;
@@ -50,8 +57,15 @@ namespace Kukta
             FoodDatabase = FoodDatabase.Instance;
             TemplateDatabase = TemplateManager.Instance;
             this.Calendar = Kukta.Calendar.Calendar.Instance;
+
+            InitFirebaseAsync();
         }
 
+        //Start firebase
+        public static async Task InitFirebaseAsync()
+        {
+
+        }
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -129,7 +143,24 @@ namespace Kukta
             FoodDatabase.Instance.LoadCategories();
             TemplateManager.Instance.LoadTemplates();
             Calendar.LoadAll();
-            
+
         }
+
+        //Cloud thinks..
+        private static string Tenant = "kukta.onmicrosoft.com";
+        private static string ClientId = "4b7e5d88-ba84-426c-bba5-7492a7f76762";
+        public static string PolicySignUpSignIn = "B2C_1_create_user";
+        public static string PolicyEditProfile = "nothink";
+        public static string PolicyResetPassword = "nothink";
+
+        public static string[] ApiScopes = { "https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read" };
+        public static string ApiEndpoint = "https://fabrikamb2chello.azurewebsites.net/hello";
+
+        private static string BaseAuthority = "https://login.microsoftonline.com/tfp/{tenant}/{policy}/oauth2/v2.0/authorize";
+        public static string Authority = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicySignUpSignIn);
+        public static string AuthorityEditProfile = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyEditProfile);
+        public static string AuthorityResetPassword = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyResetPassword);
+
+        public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority);
     }
 }
