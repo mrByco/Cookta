@@ -83,26 +83,32 @@
                        SecondaryButtonClick="CancelCategorieAddClick">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Kategória hozzáadása" FontSize="24"/>
-                <RelativePanel>
+                    <RelativePanel>
                     <TextBlock Text="Kategória neve: " Name="CategoryNameTextLabel" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                     <TextBox x:Name="CategoryNameTextBox" TextChanged="CategoryNameTextChanged" RelativePanel.RightOf="CategoryNameTextLabel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                 </RelativePanel>
-            </StackPanel>
+            </StackPanel> 
 
         </ContentDialog>
 
         <ContentDialog x:Name="AddFoodDialog"
                        PrimaryButtonText="Mégsem"
                        IsPrimaryButtonEnabled="True">
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
+            <StackPanel>
+                <RelativePanel Name="SearchPanel">
+                    <TextBlock Name="SearchTextabel" RelativePanel.AlignLeftWithPanel="True" Text="Keresés: "/>
+                    <TextBox RelativePanel.AlignLeftWith="SearchTextabel" RelativePanel.AlignRightWithPanel="True" Name="AddCategorieSearchBox" SelectionChanged="AddCategorieSearchBox_SelectionChanged"/>
+                </RelativePanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Hidden">
-                <ScrollViewer.Content>
-                    <StackPanel Orientation="Vertical"
+                    <ScrollViewer.Content>
+                        <StackPanel Orientation="Vertical"
                                 x:Name="AddFoodDialogList">
 
-                    </StackPanel>
-                </ScrollViewer.Content>
-            </ScrollViewer>
+                        </StackPanel>
+                    </ScrollViewer.Content>
+                </ScrollViewer>
+            </StackPanel>
 
         </ContentDialog>
     </Grid>

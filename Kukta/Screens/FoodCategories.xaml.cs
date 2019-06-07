@@ -103,10 +103,18 @@ namespace Kukta.Screens
                 App.RootPage.ShowWarning("Nincs kategória kijelölve", "");
                 return;
             }
+            RefreshAddFoodDialog();
+            await AddFoodDialog.ShowAsync();
+        }
+        private void RefreshAddFoodDialog()
+        {
+            //TO-DO 
+            //Rename the categorie labels to food (in xaml in dialog)
+            //Implement the string filer
+            string filter = AddCategorieSearchBox.Text;
             AddFoodDialogList.Children.Clear();
             List<Food> foods = FoodDatabase.Instance.Foods;
             foods.ForEach((food) => AddFoodDialogList.Children.Add(new FoodButton(food.Guid, OnAddFoodDialogFoodClick)));
-            await AddFoodDialog.ShowAsync();
         }
 
         private void OnAddFoodDialogFoodClick(Food food)
@@ -161,6 +169,16 @@ namespace Kukta.Screens
         {
             RefreshFoodList();
             RefreshCategorieList();
+        }
+
+        private void AddCategorieSearchBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void AddCategorieDialogRefresh()
+        {
+            
+
         }
     }
 }
