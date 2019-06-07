@@ -6,77 +6,71 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     RequestedTheme="Dark"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <RelativePanel  Grid.Row="0">
-            <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" FontSize="36" Click="HamburgerButton_Click"/>
-        </RelativePanel>
-        <SplitView Name="HamburgerSplitView" 
-                   Grid.Row="1" 
-                   DisplayMode="CompactOverlay" 
-                   OpenPaneLength="200" 
-                   CompactPaneLength="56" 
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch">
-            <SplitView.Pane>
+    <NavigationView x:Name="NavView"
+                    SelectionChanged="NavView_SelectionChanged">
+        <NavigationView.MenuItems>
+            <!--NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
+            <NavigationViewItemSeparator/>-->
+            <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            
+            <NavigationViewItemHeader x:Name="MainPagesHeader"
+                                           Content="Étrend"/>
+            <NavigationViewItem Tag="calendar" Content="Naptár">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Tag="templates" Content="Sablonok">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A5;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Tag="categories" Content="Kategóriák">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF168;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Tag="foods" Content="Ételek">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED56;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
 
-                <ListBox SelectionMode="Single" Name="IconsListBox" SelectionChanged="IconsListBox_SelectionChanged">
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="36" Text="É" Margin="11, 0"/>
-                            <TextBlock  FontSize="32" Text="Ételek" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
 
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="36" Text="K" Margin="10, 0"/>
-                            <TextBlock  FontSize="32" Text="Kateóriák" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
+        <ScrollViewer>
+            <Frame x:Name="ContentFrame"  IsTabStop="True"
+                   NavigationFailed="ContentFrame_NavigationFailed"/>
 
-                    <ListBoxItem >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="36" Text="H" Margin="10, 0"/>
-                            <TextBlock  FontSize="32" Text="Hét sablonok" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    
-                    <ListBoxItem >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="36" Text="N" Margin="10, 0"/>
-                            <TextBlock  FontSize="32" Text="Naptár" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="36" Text="A" Margin="10, 0"/>
-                            <TextBlock  FontSize="32" Text="AuthTest" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
+        </ScrollViewer>
+    </NavigationView>
 
-                </ListBox>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <Frame Background="{StaticResource Gray0}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" x:Name="ContentFrame"/>
-            </SplitView.Content>
-        </SplitView>
 
-        <TextBlock 
-            Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Text="Title"
-            HorizontalAlignment="Center"
-            x:Name="ContentTitle"/>
 
-        <ContentDialog x:Name="WarningDialog">
-        </ContentDialog>
-    </Grid>
+        <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup>
+            <VisualState>
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger
+                        MinWindowWidth="{x:Bind NavView.CompactModeThresholdWidth}"/>
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <!-- Remove the next 3 lines for left-only navigation. -->
+                    <Setter Target="NavView.PaneDisplayMode" Value="Top"/>
+                    <Setter Target="NavViewSearchBox.Width" Value="200"/>
+                    <Setter Target="MainPagesHeader.Visibility" Value="Collapsed"/>
+                    <!-- Leave the next line for left-only navigation. -->
+                    <Setter Target="ContentFrame.Padding" Value="24,0,24,24"/>
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 </Page>

@@ -57,15 +57,9 @@ namespace Kukta
             FoodDatabase = FoodDatabase.Instance;
             TemplateDatabase = TemplateManager.Instance;
             this.Calendar = Kukta.Calendar.Calendar.Instance;
-
-            InitFirebaseAsync();
+            
         }
-
-        //Start firebase
-        public static async Task InitFirebaseAsync()
-        {
-
-        }
+        
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -153,14 +147,19 @@ namespace Kukta
         public static string PolicyEditProfile = "nothink";
         public static string PolicyResetPassword = "nothink";
 
-        public static string[] ApiScopes = { "https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read" };
-        public static string ApiEndpoint = "https://fabrikamb2chello.azurewebsites.net/hello";
+        public static string[] ApiScopes = {
+            "https://kukta.onmicrosoft.com/kuktapi/user_impersonation"//,
+           // "https://kukta.onmicrosoft.com/kuktawebapi/write",
+           // "https://kukta.onmicrosoft.com/kuktawebapi/read",
+           // "https://kukta.onmicrosoft.com/kuktawebapi/user_impersonation",
+        };//"https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read" };
+        public static string ApiEndpoint = "";//"https://fabrikamb2chello.azurewebsites.net/hello";
 
         private static string BaseAuthority = "https://login.microsoftonline.com/tfp/{tenant}/{policy}/oauth2/v2.0/authorize";
         public static string Authority = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicySignUpSignIn);
         public static string AuthorityEditProfile = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyEditProfile);
         public static string AuthorityResetPassword = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyResetPassword);
 
-        public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority);
+        public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority, new TokenCache());
     }
 }

@@ -129,6 +129,7 @@
     <Compile Include="Calendar\Calendar.cs" />
     <Compile Include="Calendar\CalendarDay.cs" />
     <Compile Include="Calendar\FixedMealing.cs" />
+    <Compile Include="Cloud\AccountManager.cs" />
     <Compile Include="FoodFramework\Food.cs" />
     <Compile Include="FoodFramework\FoodCategory.cs" />
     <Compile Include="FoodFramework\FoodDatabase.cs" />
@@ -269,13 +270,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Client">
-      <Version>2.7.1</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.7</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt">
+      <Version>5.4.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

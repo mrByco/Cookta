@@ -100,7 +100,7 @@ namespace Kukta.Screens
         {
             if (Selected == null)
             {
-                App.RootPage.ShowWarning("Nincs kategória kijelölve", "");
+                //App.RootPage.ShowWarning("Nincs kategória kijelölve", "");
                 return;
             }
             AddFoodDialogList.Children.Clear();
