@@ -9,53 +9,59 @@
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
-
-    <NavigationView x:Name="NavView"
+    <Grid>
+        <NavigationView x:Name="NavView"
                     SelectionChanged="NavView_SelectionChanged">
-        <NavigationView.MenuItems>
-            <!--NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
+            <NavigationView.MenuItems>
+                <!--NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
             <NavigationViewItemSeparator/>-->
-            <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            
-            <NavigationViewItemHeader x:Name="MainPagesHeader"
+                <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemHeader x:Name="MainPagesHeader"
                                            Content="Étrend"/>
-            <NavigationViewItem Tag="calendar" Content="Naptár">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem Tag="templates" Content="Sablonok">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A5;"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem Tag="categories" Content="Kategóriák">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF168;"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem Tag="foods" Content="Ételek">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED56;"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-        </NavigationView.MenuItems>
+                <NavigationViewItem Tag="calendar" Content="Naptár">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="templates" Content="Sablonok">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A5;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="categories" Content="Kategóriák">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF168;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="foods" Content="Ételek">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED56;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
 
 
-        <ScrollViewer>
-            <Frame x:Name="ContentFrame"  IsTabStop="True"
+
+            <ScrollViewer>
+                <Frame x:Name="ContentFrame"  IsTabStop="True"
                    NavigationFailed="ContentFrame_NavigationFailed"/>
 
-        </ScrollViewer>
-    </NavigationView>
+            </ScrollViewer>
+        </NavigationView>
+        <ContentDialog  x:Name="SignInUpProfileDialog"
+                        IsPrimaryButtonEnabled="False">
+            
+        </ContentDialog>
 
 
+    </Grid>
 
-        <VisualStateManager.VisualStateGroups>
+    <VisualStateManager.VisualStateGroups>
         <VisualStateGroup>
             <VisualState>
                 <VisualState.StateTriggers>

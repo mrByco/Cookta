@@ -2,7 +2,6 @@
 using Kukta.Calendar;
 using Kukta.FoodFramework;
 using Kukta.Menu;
-using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -69,12 +68,16 @@ namespace Kukta
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
+            InitManagers();
+            InitClient();
+
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Windows.UI.Colors.Gray;
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
             {
+
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
@@ -103,7 +106,6 @@ namespace Kukta
                 Window.Current.Activate();
             }
 
-            InitManagers();
         }
 
         /// <summary>
@@ -139,8 +141,13 @@ namespace Kukta
             Calendar.LoadAll();
 
         }
+        private void InitClient()
+        {
+        }
 
-        //Cloud thinks..
+
+
+        /*//Cloud thinks..
         private static string Tenant = "kukta.onmicrosoft.com";
         private static string ClientId = "4b7e5d88-ba84-426c-bba5-7492a7f76762";
         public static string PolicySignUpSignIn = "B2C_1_create_user";
@@ -160,6 +167,6 @@ namespace Kukta
         public static string AuthorityEditProfile = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyEditProfile);
         public static string AuthorityResetPassword = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyResetPassword);
 
-        public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority, new TokenCache());
+        public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority, new TokenCache());*/
     }
 }

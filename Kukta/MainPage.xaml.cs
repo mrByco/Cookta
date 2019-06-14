@@ -1,9 +1,9 @@
-﻿using Kukta.Screens;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Tokens;
+﻿using Kukta.FrameWork;
+using Kukta.Screens;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -52,16 +52,6 @@ namespace Kukta
 
 
 
-        private IAccount GetAccountByPolicy(IEnumerable<IAccount> accounts, string policy)
-        {
-            foreach (var account in accounts)
-            {
-                string userIdentifier = account.HomeAccountId.ObjectId.Split('.')[0];
-                if (userIdentifier.EndsWith(policy.ToLower())) return account;
-            }
-
-            return null;
-        }
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
@@ -78,7 +68,8 @@ namespace Kukta
             {
                 if (((NavigationViewItem)args.SelectedItem).Tag.ToString() == "account")
                 {
-                    ShowAccountSignIn();
+                    //do login
+                    Networking.SignUpLogin();
                 }
                 else
                 {
@@ -88,44 +79,9 @@ namespace Kukta
             }
         }
 
-        private async void ShowAccountSignIn()
-        {
-
-            AuthenticationResult authResult = null;
-            IEnumerable<IAccount> accounts = await App.PublicClientApp.GetAccountsAsync();
-            try
-            {
-
-                authResult = await App.PublicClientApp.AcquireTokenSilentAsync(App.ApiScopes, GetAccountByPolicy(accounts, App.PolicySignUpSignIn), App.Authority, true);
-                UpdateSignInState(authResult);
-                CallApiButton_Click();
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                authResult = await App.PublicClientApp.AcquireTokenAsync(App.ApiScopes, GetAccountByPolicy(accounts, App.PolicySignUpSignIn), UIBehavior.SelectAccount, App.Authority);
-                
-                UpdateSignInState(authResult);
-            }
-        }
-
-        private async void ShowAccountDialogAsync()
-        {
-
-        }
 
 
 
-        private void UpdateSignInState(AuthenticationResult authResult)
-        {
-            if (authResult?.AccessToken != null)
-            {
-                AccountItem.Content = GetClaims(authResult.AccessToken).FirstOrDefault((c) => { return c.Type == "name"; }).Value;
-            }
-            else
-            {
-                AccountItem.Content = "Bejelentkezés";
-            }
-        }
 
         private void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
         {
@@ -155,88 +111,6 @@ namespace Kukta
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-
-            try
-            {
-                IEnumerable<IAccount> accounts = await App.PublicClientApp.GetAccountsAsync();
-
-                AuthenticationResult authResult = await App.PublicClientApp.AcquireTokenSilentAsync(App.ApiScopes, GetAccountByPolicy(accounts, App.PolicySignUpSignIn), App.Authority, true);
-
-                UpdateSignInState(authResult);
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                // Ignore, user will need to sign in interactively.
-                UpdateSignInState(null);
-                //Un-comment for debugging purposes
-                //ResultText.Text = $"Error Acquiring Token Silently:{Environment.NewLine}{ex}";
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        public static IEnumerable<Claim> GetClaims(string token)
-        {
-            var t = new JwtSecurityToken(token);
-
-            return t.Claims;
-        }
-        private async void CallApiButton_Click()
-        {
-            AuthenticationResult authResult = null;
-            IEnumerable<IAccount> accounts = await App.PublicClientApp.GetAccountsAsync();
-            try
-            {
-                authResult = await App.PublicClientApp.AcquireTokenSilentAsync(App.ApiScopes, GetAccountByPolicy(accounts, App.PolicySignUpSignIn), App.Authority, false);
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
-
-
-                try
-                {
-                    authResult = await App.PublicClientApp.AcquireTokenAsync(App.ApiScopes, GetAccountByPolicy(accounts, App.PolicySignUpSignIn));
-                }
-                catch (MsalException msalex)
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
-
-            if (authResult != null)
-            {
-                string u = await GetHttpContentWithToken("https://kuktaservice.azurewebsites.net/api/values", authResult.AccessToken);
-
-            }
-        }
-
-        /// <summary>
-        /// Perform an HTTP GET request to a URL using an HTTP Authorization header
-        /// </summary>
-        /// <param name="url">The URL</param>
-        /// <param name="token">The token</param>
-        /// <returns>String containing the results of the GET operation</returns>
-        public async Task<string> GetHttpContentWithToken(string url, string token)
-        {
-            var httpClient = new HttpClient();
-            HttpResponseMessage response;
-            try
-            {
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                response = await httpClient.SendAsync(request);
-                var content = await response.Content.ReadAsStringAsync();
-                return content;
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-
         }
     }
 }
