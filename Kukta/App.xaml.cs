@@ -2,11 +2,13 @@
 using Kukta.Calendar;
 using Kukta.FoodFramework;
 using Kukta.Menu;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -49,10 +51,16 @@ namespace Kukta
         internal Calendar.Calendar Calendar;
         internal static MainPage RootPage;
 
+        internal static RestClient RestClient;
+
+
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            RestClient = new RestClient("http://192.168.1.74:1337/"/*"https://kuktaservices.azurewebsites.net/"*/);
+
             FoodDatabase = FoodDatabase.Instance;
             TemplateDatabase = TemplateManager.Instance;
             this.Calendar = Kukta.Calendar.Calendar.Instance;

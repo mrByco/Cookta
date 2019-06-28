@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.FoodFrameworkV2;
 using Kukta.FrameWork;
 using System;
 using System.Collections.Generic;
@@ -31,9 +31,6 @@ namespace Kukta.Screens
         {
             this.InitializeComponent();
             RefreshList();
-            FoodDatabase.Instance.OnFoodsChanged += new VoidDelegate(RefreshList);
-            FoodContentFrame.Navigate(typeof(FoodFrame), null);
-            FoodContent = FoodContentFrame.Content as FoodFrame;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -43,14 +40,14 @@ namespace Kukta.Screens
 
         internal async void RefreshList()
         {
+            List<Food> foods = await Food.GetMyFoods();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 FoodList.Children.Clear();
-                List<Food> foods = FoodDatabase.Instance.Foods;
 
                 if (SearchTextBox.Text != "")
                 {
-                    foods = foods.FindAll((food) => food.Name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
+                    foods = foods.FindAll((food) => food.name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
                 }
                 foods.ForEach((food) => AddFood(food));
             });
@@ -58,18 +55,19 @@ namespace Kukta.Screens
 
         private void AddFood(Food food)
         {
-            FoodList.Children.Add((UIElement)new FoodButton(food.Guid, OpenFoodOnContentViewer));
+            FoodList.Children.Add(new LargeFoodButton((id) => { MainPage.NavigateTo("fooddetail", null, id); }, food));
         }
 
         private async void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
-            FoodNameText.Text = "";
-            await AddFoodDialog.ShowAsync();
+            MainPage.NavigateTo("fooddetail", null, null);
+            /*FoodNameText.Text = "";
+            await AddFoodDialog.ShowAsync();*/
         }
 
         private void ApplyFoodClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            FoodDatabase.Instance.AddFood(FoodNameText.Text);
+            throw new NotImplementedException();
         }
 
         private void RefreshApplyButtonEnabled()
@@ -94,10 +92,7 @@ namespace Kukta.Screens
 
         private void OpenFoodOnContentViewer(Food food)
         {
-            if (FoodContent != null)
-            {
-                FoodContent.OpenFood(food);
-            }
+            throw new NotImplementedException();
         }
     }
 }

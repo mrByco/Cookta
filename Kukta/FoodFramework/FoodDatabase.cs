@@ -1,8 +1,12 @@
 ﻿
+using IdentityModel.Client;
+using Kukta.FrameWork;
 using Kukta.SaveLoad.File;
 using Kukta.SaveLoad.File.Tasks;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -172,6 +176,33 @@ namespace Kukta.FoodFramework
         {
             return Foods.Find((food) => food.Guid == guid);
         }
+
+        /*public async Task<FoodUploadObejct> GetFoodOnline(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+            if (Networking.aResult.AccessToken != null)
+            {
+                var res = await App.RestClient.GetRequest("food").
+                    WithOAuthBearer(Networking.aResult.AccessToken).
+                    AddContent("{food: {_id: "+ "s" +"}}").ExecuteAsync<Response>();
+                Debug.WriteLine(res.Json);
+                return JsonConvert.DeserializeObject<FoodUploadObejct>(res.Json.ToString());
+            }
+            return null;
+        }
+        public async Task<FoodUploadObejct> InsertFoodOnline(FoodUploadObejct content)
+        {
+            string json = JsonConvert.SerializeObject(content);
+
+            var res = await App.RestClient.GetRequest("food").
+                WithOAuthBearer(Networking.aResult.AccessToken).
+                AddContent(json).ExecuteAsync<Response>();
+            Debug.WriteLine(res.Json);
+            return JsonConvert.DeserializeObject<FoodUploadObejct>(res.Json.ToString());
+        }*/
         internal IMealingItem Get(Guid guid)
         {
             foreach (Food food in Foods)

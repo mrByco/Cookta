@@ -129,17 +129,19 @@
     <Compile Include="Calendar\Calendar.cs" />
     <Compile Include="Calendar\CalendarDay.cs" />
     <Compile Include="Calendar\FixedMealing.cs" />
-    <Compile Include="Cloud\AccountManager.cs" />
+    <Compile Include="FoodFrameworkV2\Food.cs" />
     <Compile Include="FoodFramework\Food.cs" />
     <Compile Include="FoodFramework\FoodCategory.cs" />
     <Compile Include="FoodFramework\FoodDatabase.cs" />
     <Compile Include="FoodFramework\IMealingItem.cs" />
     <Compile Include="FrameWork\ASingleton.cs" />
     <Compile Include="FrameWork\DateTimeExtensions.cs" />
+    <Compile Include="FrameWork\FoodButtonV2.cs" />
     <Compile Include="FrameWork\FoodButton.cs" />
     <Compile Include="FrameWork\FoodCategorieButton.cs" />
     <Compile Include="FrameWork\FoodList.cs" />
     <Compile Include="FrameWork\IMealingItemButton.cs" />
+    <Compile Include="FrameWork\LargeFoodButton.cs" />
     <Compile Include="FrameWork\MealContent.cs" />
     <Compile Include="FrameWork\Networking.cs" />
     <Compile Include="FrameWork\ProfilePanel.cs" />
@@ -169,6 +171,9 @@
     </Compile>
     <Compile Include="Screens\FoodCategories.xaml.cs">
       <DependentUpon>FoodCategories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\FoodDetailPage.xaml.cs">
+      <DependentUpon>FoodDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\FoodEditor.xaml.cs">
       <DependentUpon>FoodEditor.xaml</DependentUpon>
@@ -255,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\FoodCategories.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\FoodDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

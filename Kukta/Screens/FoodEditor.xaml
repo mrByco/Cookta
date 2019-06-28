@@ -11,7 +11,6 @@
 
     <Grid Background="{StaticResource Gray7}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -34,7 +33,7 @@
             </Grid>
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           Grid.Row="1"
-                          HorizontalScrollBarVisibility="Hidden" >
+                          HorizontalScrollBarVisibility="Hidden">
                 <ScrollViewer.Content>
                     <StackPanel Orientation="Vertical" Background="{StaticResource Gray0}"
                             x:Name="FoodList">
@@ -42,8 +41,7 @@
                 </ScrollViewer.Content>
             </ScrollViewer>
         </Grid>
-        <Frame x:Name="FoodContentFrame" Grid.Column="1"/>
-        
+
         <ContentDialog x:Name="AddFoodDialog"
                        PrimaryButtonText="Hozzáadás"
                        IsPrimaryButtonEnabled="False"

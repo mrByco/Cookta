@@ -1,6 +1,6 @@
-﻿using Kukta.FrameWork;
+﻿using IdentityModel.OidcClient;
+using Kukta.FrameWork;
 using Kukta.Screens;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,11 +27,16 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Kukta
 {
+    public delegate void NavigateTo(string tag, object param, NavigationTransitionInfo info);
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+        private static event NavigateTo DoNav;
+        
+        public event WeekTemplateDelegate OnTemplateChanged;
         // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
 {
@@ -40,11 +45,14 @@ namespace Kukta
     ("templates", typeof(WeekTemplatePage)),
     ("categories", typeof(FoodCategories)),
     ("foods", typeof(FoodEditor)),
+    ("fooddetail", typeof(FoodDetailPage)),
 };
 
         public MainPage()
         {
             this.InitializeComponent();
+            Networking.LoginChanged += UpdateLoginButton;
+            DoNav += new NavigateTo(NavView_Navigate);
             //SetContent(ContentType.CategorieEditor);
         }
 
@@ -62,28 +70,43 @@ namespace Kukta
         {
             if (args.IsSettingsSelected == true)
             {
-                NavView_Navigate("settings", null);
+                NavView_Navigate("settings", null, null);
             }
             else if ((NavigationViewItem)args.SelectedItem != null)
             {
                 if (((NavigationViewItem)args.SelectedItem).Tag.ToString() == "account")
                 {
                     //do login
-                    Networking.SignUpLogin();
+                    if (Networking.aResult != null)
+                    {
+                        SignInUpProfileDialog.Content = new ProfilePanel();
+                        SignInUpProfileDialog.ShowAsync();
+                    }
+                    else
+                    {
+                        Networking.SignUpLogin();
+                    }
                 }
                 else
                 {
                     var navItemTag = ((NavigationViewItem)args.SelectedItem).Tag.ToString();
-                    NavView_Navigate(navItemTag, null);
+                    NavView_Navigate(navItemTag, null, null);
                 }
             }
         }
 
+        private void UpdateLoginButton(LoginResult result)
+        {
+            AccountItem.Content = result == null ? "Bejelentkezés" : Networking.GetClaim("name");
+        }
+
+        public static void NavigateTo(string navItemTag, NavigationTransitionInfo info, object param)
+        {
+            DoNav.Invoke(navItemTag, param, info);
+        }
 
 
-
-
-        private void NavView_Navigate(string navItemTag, NavigationTransitionInfo transitionInfo)
+        private void NavView_Navigate(string navItemTag, object parameter, NavigationTransitionInfo transitionInfo)
         {
             Type _page = null;
             if (navItemTag == "settings")
@@ -103,14 +126,15 @@ namespace Kukta
             if (!(_page is null) && !Type.Equals(preNavPageType, _page))
             {
                 if (transitionInfo == null)
-                    ContentFrame.Navigate(_page, null, transitionInfo);
+                    ContentFrame.Navigate(_page, parameter, transitionInfo);
                 else
-                    ContentFrame.Navigate(_page, null, transitionInfo);
+                    ContentFrame.Navigate(_page, parameter, transitionInfo);
             }
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            UpdateLoginButton(Networking.aResult);
         }
     }
 }

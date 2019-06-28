@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.FoodFrameworkV2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +9,26 @@ using Windows.UI.Xaml.Controls;
 
 namespace Kukta.FrameWork
 {
-    class FoodButton : Button
+    class FoodButtonV2 : Button
     {
-        public Guid FoodGuid;
         public string _id;
+        private Food food;
 
         private Action<Food> OnClick;
-        public FoodButton(Guid foodGuid, Action<Food> onClick) : base()
+        public FoodButtonV2(Food food, Action<Food> onClick) : base()
         {
-            FoodGuid = foodGuid;
-            Food food = FoodDatabase.Instance.GetFood(FoodGuid);
-            base.Content = food.Name;
+            this.food = food;
+            this._id = food._id;
+            base.Content = food.name;
             base.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
             base.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
             OnClick = onClick;
             base.Click += ButtonClick;
-            food.OnFoodEdited += new VoidDelegate(refreshFoodButton);
             base.Margin = new Thickness(0, 3, 0, 3);
-
         }
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            OnClick?.Invoke(FoodDatabase.Instance.GetFood(FoodGuid));
-        }
-        private void refreshFoodButton()
-        {
-            Food food = FoodDatabase.Instance.GetFood(FoodGuid);
-            base.Content = food.Name;
+            OnClick.Invoke(food);
         }
     }
 }

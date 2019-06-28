@@ -13,8 +13,8 @@
         <NavigationView x:Name="NavView"
                     SelectionChanged="NavView_SelectionChanged">
             <NavigationView.MenuItems>
-                <!--NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
-            <NavigationViewItemSeparator/>-->
+                <NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
+            <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
@@ -54,7 +54,8 @@
             </ScrollViewer>
         </NavigationView>
         <ContentDialog  x:Name="SignInUpProfileDialog"
-                        IsPrimaryButtonEnabled="False">
+                        IsPrimaryButtonEnabled="True"
+                        PrimaryButtonText="OK">
             
         </ContentDialog>
 
