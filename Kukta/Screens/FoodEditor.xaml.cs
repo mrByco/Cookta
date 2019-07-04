@@ -41,16 +41,19 @@ namespace Kukta.Screens
         internal async void RefreshList()
         {
             List<Food> foods = await Food.GetMyFoods();
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (foods != null)
             {
-                FoodList.Children.Clear();
-
-                if (SearchTextBox.Text != "")
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    foods = foods.FindAll((food) => food.name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
-                }
-                foods.ForEach((food) => AddFood(food));
-            });
+                    FoodList.Children.Clear();
+
+                    if (SearchTextBox.Text != "")
+                    {
+                        foods = foods.FindAll((food) => food.name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
+                    }
+                    foods.ForEach((food) => AddFood(food));
+                });
+            }
         }
 
         private void AddFood(Food food)
@@ -68,26 +71,6 @@ namespace Kukta.Screens
         private void ApplyFoodClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             throw new NotImplementedException();
-        }
-
-        private void RefreshApplyButtonEnabled()
-        {
-            bool enabled = false;
-            if (FoodNameText.Text != "")
-            {
-                enabled = true;
-            }
-            AddFoodDialog.IsPrimaryButtonEnabled = enabled;
-        }
-
-        private void AddFoodDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            AddFoodDialog.Hide();
-        }
-
-        private void FoodNameText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            RefreshApplyButtonEnabled();
         }
 
         private void OpenFoodOnContentViewer(Food food)

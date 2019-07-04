@@ -5,18 +5,19 @@
     xmlns:local="using:Kukta"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    RequestedTheme="Dark"
+    RequestedTheme="Light"
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
     <Grid>
         <NavigationView x:Name="NavView"
+                        AlwaysShowHeader="False"
                     SelectionChanged="NavView_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
             <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
-                    <NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>   
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
@@ -56,7 +57,14 @@
         <ContentDialog  x:Name="SignInUpProfileDialog"
                         IsPrimaryButtonEnabled="True"
                         PrimaryButtonText="OK">
-            
+
+        </ContentDialog>
+        <ContentDialog  x:Name="NoServicesDialog"
+                        IsPrimaryButtonEnabled="True"
+                        PrimaryButtonText="OK">
+            <ContentDialog.Content>
+                <TextBlock Text="Sorry, kukta web services not available currently. Try again later."/>
+            </ContentDialog.Content>
         </ContentDialog>
 
 

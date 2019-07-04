@@ -1,11 +1,13 @@
 ﻿using Kukta.FrameWork;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -25,13 +27,21 @@ namespace Kukta.FoodFrameworkV2
         }
         public bool subcribed;
         public bool liked;
+        public bool isPrivate;
         public string name;
         public string desc;
+        public string imageURL;
+        public List<Ingredient> ingredients = new List<Ingredient>();
 
         public BitmapImage getImage()
         {
-            //Placeholder
-            return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png?sv=2018-03-28&ss=bqtf&srt=sco&sp=rwdlacup&se=2019-06-28T17:38:34Z&sig=kA%2B8%2FjsZ4LMncIaQVq5d%2FjOOBZ7BgpHxjOAfO9G1eCg%3D&_=1561714723334"
+            if (imageURL != null && imageURL != "")
+            {
+                var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
+                bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                return bitmapImage;
+            }
+            return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
                 , UriKind.Absolute));
         }
 
@@ -41,17 +51,29 @@ namespace Kukta.FoodFrameworkV2
 
             Networking.GetRequestSimple()
         }*/
-        public static async Task<Food> InsterFood(Food food)
+        public static async Task<Food> InsterFood(Food food, StorageFile Image)
         {
             string FoodText = CreateFoodToServer(food);
-            var res = await Networking.PutRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
-            food = ParseFoodFromServerJson(res.Content);
+
+            var foodRes = await Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
+
+            food = ParseFoodFromServerJson(foodRes.Content);
+
+            if (foodRes.StatusCode == System.Net.HttpStatusCode.OK && Image != null)
+                await Networking.JpegImageUploadWithAuth("foodimage", food._id, Image);
+
             return food;
         }
 
         public static async Task<List<Food>> GetMyFoods()
         {
             var res = await Networking.GetRequestWithForceAuth("myfoods", "");
+
+            if (res.StatusCode == 0)
+            {
+                MainPage.instance.ShowServiceError();
+                return null;
+            }
             var json = (res.Content);
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
@@ -103,6 +125,25 @@ namespace Kukta.FoodFrameworkV2
             food.liked = jFood.GetValue("liked").Value<bool>();
             food.name = jFood.GetValue("name").Value<string>();
             food.desc = jFood.GetValue("desc").Value<string>();
+            bool? nullablePrivate = jFood.GetValue("private")?.Value<bool?>();
+            food.isPrivate = nullablePrivate != null ? (bool)nullablePrivate : true;
+            food.imageURL = jFood.GetValue("image")?.Value<string>();
+            JArray jarray = jFood.GetValue("ingredients").Value<JArray>();
+            if (jarray != null)
+            {
+                food.ingredients = new List<Ingredient>();
+                for (int i = 0; i < jarray.Count; i++)
+                {
+                    string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
+                    string UnitName = jarray.ElementAt(i).Value<string>("unit");
+                    double Value = jarray.ElementAt(i).Value<double>("value");
+                    food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, UnitName));
+                }
+            }
+            else
+            {
+                food.ingredients = new List<Ingredient>();
+            }
 
             return food;
         }
@@ -110,13 +151,25 @@ namespace Kukta.FoodFrameworkV2
         {
             JObject jFood = new JObject();
 
+            JArray ingArray = new JArray();
+            foreach (Ingredient ing in food.ingredients)
+            {
+                JObject jObject = new JObject();
+                jObject.Add("ingredientID", ing.Type.ID);
+                jObject.Add("unit", ing.UnitName);
+                jObject.Add("value", ing.Value);
+                ingArray.Add(jObject);
+            }
+
             if (food._id != null)
             {
                 jFood.Add("_id", JToken.FromObject(food._id));
             }
             jFood.Add("name", JToken.FromObject(food.name));
+            jFood.Add("private", JToken.FromObject(food.isPrivate));
             jFood.Add("makeTime", JToken.FromObject(food.makeTime));
             jFood.Add("desc", JToken.FromObject(food.desc));
+            jFood.Add("ingredients", ingArray);
 
             return jFood.ToString(Formatting.None);
 

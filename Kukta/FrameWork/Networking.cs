@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Kukta.FrameWork
@@ -21,11 +23,15 @@ namespace Kukta.FrameWork
 
         private static void InitClient()
         {
-            Client = new Auth0Client(new Auth0ClientOptions
+            Auth0ClientOptions clientOptions = new Auth0ClientOptions()
             {
                 Domain = "kukta.eu.auth0.com",
                 ClientId = "Dqp8IjQxj6Afkkgkvfk1BnYwYg65MtXC"
-            });
+            };
+            clientOptions.PostLogoutRedirectUri = clientOptions.PostLogoutRedirectUri;
+            Client = new Auth0Client(clientOptions);
+            
+            
         }
 
         public async static Task<LoginResult> SignUpLogin()
@@ -52,9 +58,10 @@ namespace Kukta.FrameWork
         }
 
 
-        internal static void Logout(object sender, RoutedEventArgs e)
+        internal static async void Logout(object sender, RoutedEventArgs e)
         {
-            Client.LogoutAsync();
+            var res = await Client.LogoutAsync(true);
+            
             aResult = null;
             LoginChanged.Invoke(aResult);
         }
@@ -74,7 +81,7 @@ namespace Kukta.FrameWork
             return "Unvailable.";
         }
 
-        public static async Task<IRestResponse> PutRequestWithForceAuth(string path, string body)
+        public static async Task<IRestResponse> PostRequestWithForceAuth(string path, string body)
         {
             var request = new RestRequest(path, Method.POST);
             if (Networking.aResult?.AccessToken == null)
@@ -86,7 +93,32 @@ namespace Kukta.FrameWork
             request.AddHeader("Content-Type", "application/json");
             request.AddJsonBody(body);
 
-            return App.RestClient.Post(request);
+            var response = App.RestClient.Post(request);
+            await checkResponse(response);
+            return response;
+        }
+        public static async Task<IRestResponse> JpegImageUploadWithAuth(string resource, string id, StorageFile file)
+        {
+            var request = new RestRequest(resource, Method.POST);
+            if (Networking.aResult?.AccessToken == null)
+            {
+                await Networking.SignUpLogin();
+            }
+            request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
+            request.AddParameter("_id", id, ParameterType.QueryString);
+
+            if (file != null)
+            {
+                request.AddFile("foo", file.Path, "image/jpeg");
+            }
+            else
+            {
+                return null;
+            }
+
+            var response = App.RestClient.Post(request);
+            await checkResponse(response);
+            return response;
         }
         public static async Task<IRestResponse> DeleteRequestWithForceAuth(string path, string _id)
         {
@@ -98,7 +130,9 @@ namespace Kukta.FrameWork
             request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
             request.AddParameter("_id", _id, ParameterType.QueryString);
 
-            return App.RestClient.Delete(request);
+            var response = App.RestClient.Delete(request);
+            await checkResponse(response);
+            return response;
         }
         public static async Task<IRestResponse> GetRequestWithForceAuth(string path, string id)
         {
@@ -111,19 +145,39 @@ namespace Kukta.FrameWork
             request.RequestFormat = DataFormat.Json;
             request.AddParameter("_id", id, ParameterType.QueryString);
 
-            return App.RestClient.Get(request);
+            var response = App.RestClient.Get(request);
+            await checkResponse(response);
+            return response;
         }
         public static async Task<IRestResponse> GetRequestSimple(string path, string id)
         {
             var request = new RestRequest(path, Method.GET);
-            if (Networking.aResult.AccessToken != null)
+            if (Networking.aResult?.AccessToken != null)
             {
                 request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
             }
             request.RequestFormat = DataFormat.Json;
             request.AddParameter("_id", id, ParameterType.QueryString);
+            var response = App.RestClient.Get(request);
+            await checkResponse(response);
 
-            return App.RestClient.Get(request);
+            return response;
+        }
+
+        private static async Task checkResponse(IRestResponse response)
+        {
+            if (response.StatusCode == HttpStatusCode.NotFound
+                || response.StatusCode == HttpStatusCode.Forbidden
+                || response.StatusCode == HttpStatusCode.RequestTimeout
+                || response.StatusCode == HttpStatusCode.InternalServerError
+                || response.StatusCode == HttpStatusCode.NotFound
+                || response.StatusCode == HttpStatusCode.ServiceUnavailable
+                || response.StatusCode == 0) 
+            {
+                await new ServicesNotAvailable().ShowAsync();
+                return;
+            }
+            return;
         }
 
         /* public static async Task<string> GetRequest()

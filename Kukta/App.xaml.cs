@@ -42,7 +42,7 @@ namespace Kukta
         public const string CustomCategoryRoot = "CustomCategories";
         public const string TemplateRoot = "WeekTemplates";
         public const string CalendarRoot = "Calendar";
-        
+
 
 
 
@@ -59,14 +59,8 @@ namespace Kukta
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            RestClient = new RestClient("http://192.168.1.74:1337/"/*"https://kuktaservices.azurewebsites.net/"*/);
-
-            FoodDatabase = FoodDatabase.Instance;
-            TemplateDatabase = TemplateManager.Instance;
-            this.Calendar = Kukta.Calendar.Calendar.Instance;
-            
         }
-        
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -76,11 +70,18 @@ namespace Kukta
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
+            bool debugServer = true;
+            RestClient = new RestClient(debugServer ? "http://localhost:1337/" : "https://kuktaservices.azurewebsites.net/");
+            InitDatabases();
+            FoodDatabase = FoodDatabase.Instance;
+            TemplateDatabase = TemplateManager.Instance;
+            this.Calendar = Kukta.Calendar.Calendar.Instance;
+
             InitManagers();
-            InitClient();
 
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = Windows.UI.Colors.Gray;
+            titleBar.BackgroundColor = Windows.UI.Colors.Blue;
+            titleBar.ButtonBackgroundColor = Windows.UI.Colors.Blue;
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -149,9 +150,12 @@ namespace Kukta
             Calendar.LoadAll();
 
         }
-        private void InitClient()
+        private async void InitDatabases()
         {
+            await FoodFrameworkV2.Unit.Init();
+            await FoodFrameworkV2.IngredientType.Init();
         }
+    }
 
 
 
@@ -176,5 +180,4 @@ namespace Kukta
         public static string AuthorityResetPassword = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyResetPassword);
 
         public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority, new TokenCache());*/
-    }
 }

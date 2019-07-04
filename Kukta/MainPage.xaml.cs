@@ -33,27 +33,27 @@ namespace Kukta
     /// </summary>
     public sealed partial class MainPage : Page
     {
-
+        public static MainPage instance;
         private static event NavigateTo DoNav;
         
         public event WeekTemplateDelegate OnTemplateChanged;
         // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
-        private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
+        private readonly List<(string Tag, Type Page, bool setNavNull)> _pages = new List<(string Tag, Type Page, bool setNavNull)>
 {
-    ("home", typeof(CalendarPage)),
-    ("calendar", typeof(CalendarPage)),
-    ("templates", typeof(WeekTemplatePage)),
-    ("categories", typeof(FoodCategories)),
-    ("foods", typeof(FoodEditor)),
-    ("fooddetail", typeof(FoodDetailPage)),
+    ("home", typeof(CalendarPage), false),
+    ("calendar", typeof(CalendarPage), false),
+    ("templates", typeof(WeekTemplatePage), false),
+    ("categories", typeof(FoodCategories), false),
+    ("foods", typeof(FoodEditor), false),
+    ("fooddetail", typeof(FoodDetailPage), true),
 };
 
         public MainPage()
         {
             this.InitializeComponent();
+            instance = this;
             Networking.LoginChanged += UpdateLoginButton;
             DoNav += new NavigateTo(NavView_Navigate);
-            //SetContent(ContentType.CategorieEditor);
         }
 
 
@@ -95,6 +95,11 @@ namespace Kukta
             }
         }
 
+        public async void ShowServiceError()
+        {
+            await NoServicesDialog.ShowAsync();
+        }
+
         private void UpdateLoginButton(LoginResult result)
         {
             AccountItem.Content = result == null ? "Bejelentkezés" : Networking.GetClaim("name");
@@ -117,6 +122,11 @@ namespace Kukta
             {
                 var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
                 _page = item.Page;
+                if (item.setNavNull)
+                {
+                    NavView.SelectedItem = null;
+                    NavView.UpdateLayout();
+                }
             }
             // Get the page type before navigation so you can prevent duplicate
             // entries in the backstack.

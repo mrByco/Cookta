@@ -130,6 +130,8 @@
     <Compile Include="Calendar\CalendarDay.cs" />
     <Compile Include="Calendar\FixedMealing.cs" />
     <Compile Include="FoodFrameworkV2\Food.cs" />
+    <Compile Include="FoodFrameworkV2\Ingredient.cs" />
+    <Compile Include="FoodFrameworkV2\Unit.cs" />
     <Compile Include="FoodFramework\Food.cs" />
     <Compile Include="FoodFramework\FoodCategory.cs" />
     <Compile Include="FoodFramework\FoodDatabase.cs" />
@@ -141,10 +143,14 @@
     <Compile Include="FrameWork\FoodCategorieButton.cs" />
     <Compile Include="FrameWork\FoodList.cs" />
     <Compile Include="FrameWork\IMealingItemButton.cs" />
+    <Compile Include="FrameWork\IngredientList.cs" />
     <Compile Include="FrameWork\LargeFoodButton.cs" />
     <Compile Include="FrameWork\MealContent.cs" />
     <Compile Include="FrameWork\Networking.cs" />
     <Compile Include="FrameWork\ProfilePanel.cs" />
+    <Compile Include="FrameWork\ServicesNotAvailable.xaml.cs">
+      <DependentUpon>ServicesNotAvailable.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FrameWork\SignInUpPanel.cs" />
     <Compile Include="FrameWork\WeekTemplateCombobox.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -180,6 +186,9 @@
     </Compile>
     <Compile Include="Screens\FoodFrame.xaml.cs">
       <DependentUpon>FoodFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\WeekTemplatePage.xaml.cs">
       <DependentUpon>WeekTemplatePage.xaml</DependentUpon>
@@ -247,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="FrameWork\ServicesNotAvailable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -275,6 +288,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Screens\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Screens\WeekTemplatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -286,6 +303,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>

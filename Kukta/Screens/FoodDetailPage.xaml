@@ -5,10 +5,12 @@
     xmlns:local="using:Kukta.Screens"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
+    RequestedTheme="Light"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid Background="LightBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
@@ -20,18 +22,26 @@
             HorizontalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Vertical">
                 <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="24"/>
-                <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24"/>
+                <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24" PlaceholderText="Recept neve"/>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Name="DescTextBlock" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20"/>
-                    <TextBox Name="DescTextBox" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" AcceptsReturn="True" TextWrapping="Wrap"/>
-
-                    <StackPanel Grid.Column="1" Name="IngredientsList" />
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Name="DescTextBlock" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20"/>
+                        <TextBox Name="DescTextBox" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" AcceptsReturn="True" TextWrapping="Wrap" PlaceholderText="Recept leírása"/>
+                        <controls:ImageCropper x:Name="ImageCropper" Visibility="Collapsed" />
+                        <Image x:Name="Image" Visibility="Visible" MaxHeight="450" MinHeight="200"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Name="UploadImageBTN" Content="Kép feltöltése" Click="UploadImageBTN_Click" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Name="leftOrderStackPanel" Grid.Column="1">
+                        <StackPanel  Name="IngredientsListPanel"/>
+                        <ToggleSwitch x:Name="IsPublicToggle" Header="A recept publikus és elérhető mindenki számára." OnContent="Elérhető" OffContent="Nem elérhető"/>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

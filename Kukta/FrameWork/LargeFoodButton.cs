@@ -37,9 +37,13 @@ namespace Kukta.FrameWork
             foodID = food._id;
             this.OnClick = onClick;
 
-            image = new Image();
+            image = new Image()
+            {
+                Height = 300,
+                Margin = new Thickness(5),
+            };
             image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.Source = food.getImage();
+            image.Source =  food.getImage();
             root.Children.Add(image);
             Grid.SetColumn(image, 0);
 
