@@ -53,12 +53,12 @@ namespace Kukta.FrameWork
                 Debug.WriteLine($"access_token: {result.AccessToken}");
             }
             aResult = result;
-            LoginChanged.Invoke(aResult);
+            LoginChanged?.Invoke(aResult);
             return result;
         }
 
 
-        internal static async void Logout(object sender, RoutedEventArgs e)
+        internal static async Task Logout()
         {
             var res = await Client.LogoutAsync(true);
             

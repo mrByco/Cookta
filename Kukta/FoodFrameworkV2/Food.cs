@@ -31,26 +31,45 @@ namespace Kukta.FoodFrameworkV2
         public string name;
         public string desc;
         public string imageURL;
+        private long? imageUploaded;
         public List<Ingredient> ingredients = new List<Ingredient>();
 
-        public BitmapImage getImage()
+        public BitmapImage getImage
         {
-            if (imageURL != null && imageURL != "")
+            get
             {
-                var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
-                bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                return bitmapImage;
+                if (imageURL != null && imageURL != "")
+                {
+                    var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
+                    if (!GetCacheingEnabled(_id, imageUploaded))
+                        bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                    return bitmapImage;
+                }
+                return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
+                    , UriKind.Absolute));
             }
-            return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
-                , UriKind.Absolute));
         }
 
-
-        /*public static async Task<Food> GetFood(string id)
+        private static Dictionary<string, long?> KnownImages = new Dictionary<string, long?>();
+        private static bool GetCacheingEnabled(string id, long? CurrentImageVersion)
         {
+            long? lastImage;
+            if (KnownImages.TryGetValue(id, out lastImage))
+            {
+                if (lastImage == CurrentImageVersion)
+                {
+                    return true;
+                }
+                KnownImages[id] = CurrentImageVersion;
+                return false;
+            }
+            else
+            {
+                KnownImages.Add(id, CurrentImageVersion);
+                return false;
+            }
+        }
 
-            Networking.GetRequestSimple()
-        }*/
         public static async Task<Food> InsterFood(Food food, StorageFile Image)
         {
             string FoodText = CreateFoodToServer(food);
@@ -65,16 +84,26 @@ namespace Kukta.FoodFrameworkV2
             return food;
         }
 
+        public static async Task<List<Food>> GetLastFoods(int page, int itemsPerPage)
+        {
+            var res = await Networking.GetRequestSimple("foods", "");
+            JToken token = JToken.Parse(res.Content);
+            JArray tokenList = token.Value<JArray>("foods");
+
+            List<Food> foods = new List<Food>();
+            for (int i = 0; i < tokenList.Count; i++)
+            {
+                JToken foodToken = tokenList.ElementAt<JToken>(i);
+                Food food = ParseFoodFromServerJson(foodToken.ToString(Formatting.None));
+                foods.Add(food);
+            }
+            return foods;
+
+        }
+
         public static async Task<List<Food>> GetMyFoods()
         {
             var res = await Networking.GetRequestWithForceAuth("myfoods", "");
-
-            if (res.StatusCode == 0)
-            {
-                MainPage.instance.ShowServiceError();
-                return null;
-            }
-            var json = (res.Content);
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -128,6 +157,7 @@ namespace Kukta.FoodFrameworkV2
             bool? nullablePrivate = jFood.GetValue("private")?.Value<bool?>();
             food.isPrivate = nullablePrivate != null ? (bool)nullablePrivate : true;
             food.imageURL = jFood.GetValue("image")?.Value<string>();
+            food.imageUploaded = jFood.GetValue("imageUploaded")?.Value<long?>();
             JArray jarray = jFood.GetValue("ingredients").Value<JArray>();
             if (jarray != null)
             {

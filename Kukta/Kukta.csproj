@@ -153,7 +153,10 @@
     </Compile>
     <Compile Include="FrameWork\SignInUpPanel.cs" />
     <Compile Include="FrameWork\WeekTemplateCombobox.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Pages\InitPage.xaml.cs">
+      <DependentUpon>InitPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu\TemplateDay.cs" />
@@ -161,6 +164,9 @@
     <Compile Include="Menu\Meal.cs" />
     <Compile Include="Menu\TemplateManager.cs" />
     <Compile Include="Menu\WeekTemplate.cs" />
+    <Compile Include="Pages\RootPage.xaml.cs">
+      <DependentUpon>RootPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveLoad\File\FileManager.cs" />
     <Compile Include="SaveLoad\File\IFileTask.cs" />
@@ -202,11 +208,14 @@
     <None Include="Kukta_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\kukta-logo-white-blue.png" />
+    <Content Include="Assets\kukta-logo-white.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\login-background.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -260,9 +269,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="Pages\InitPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RootPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\CalendarContentPage.xaml">
       <SubType>Designer</SubType>

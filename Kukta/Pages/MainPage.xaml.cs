@@ -40,7 +40,7 @@ namespace Kukta
         // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
         private readonly List<(string Tag, Type Page, bool setNavNull)> _pages = new List<(string Tag, Type Page, bool setNavNull)>
 {
-    ("home", typeof(CalendarPage), false),
+    ("home", typeof(HomePage), false),
     ("calendar", typeof(CalendarPage), false),
     ("templates", typeof(WeekTemplatePage), false),
     ("categories", typeof(FoodCategories), false),
@@ -79,7 +79,7 @@ namespace Kukta
                     //do login
                     if (Networking.aResult != null)
                     {
-                        SignInUpProfileDialog.Content = new ProfilePanel();
+                        SignInUpProfileDialog.Content = new ProfilePanel(SignInUpProfileDialog.Hide);
                         SignInUpProfileDialog.ShowAsync();
                     }
                     else

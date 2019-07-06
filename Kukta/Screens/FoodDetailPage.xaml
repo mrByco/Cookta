@@ -58,7 +58,12 @@
         </StackPanel>
         <ProgressRing 
             Visibility="Visible"
-            Name="ProgressRing">
+            IsActive="True"
+            Name="ProgressRing"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            MaxHeight="250"
+            MaxWidth="250">
         </ProgressRing>
     </Grid>
 </Page>

@@ -44,11 +44,12 @@ namespace Kukta
         public const string CalendarRoot = "Calendar";
 
 
-
+        public static App instance;
 
         internal FoodDatabase FoodDatabase;
         internal TemplateManager TemplateDatabase;
-        internal Calendar.Calendar Calendar;
+        internal static Calendar.Calendar Calendar;
+        internal static InitPage InitPage;
         internal static MainPage RootPage;
 
         internal static RestClient RestClient;
@@ -56,6 +57,7 @@ namespace Kukta
 
         public App()
         {
+            
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
@@ -70,14 +72,7 @@ namespace Kukta
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
-            bool debugServer = true;
-            RestClient = new RestClient(debugServer ? "http://localhost:1337/" : "https://kuktaservices.azurewebsites.net/");
-            InitDatabases();
-            FoodDatabase = FoodDatabase.Instance;
-            TemplateDatabase = TemplateManager.Instance;
-            this.Calendar = Kukta.Calendar.Calendar.Instance;
 
-            InitManagers();
 
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Windows.UI.Colors.Blue;
@@ -108,13 +103,26 @@ namespace Kukta
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                    RootPage = rootFrame.Content as MainPage;
+                    rootFrame.Navigate(typeof(InitPage), e.Arguments);
+                    InitPage = rootFrame.Content as InitPage;
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
 
+        }
+
+        public static void SwapToInitPage()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(InitPage), "LOGOUT");
+            InitPage = rootFrame.Content as InitPage;
+        }
+        public static void SwapToRootPage()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(MainPage), null);
+            RootPage = rootFrame.Content as MainPage;
         }
 
         /// <summary>
@@ -141,20 +149,6 @@ namespace Kukta
             deferral.Complete();
         }
 
-        private void InitManagers()
-        {
-            FoodDatabase.Instance.LoadBaseFoods();
-            FoodDatabase.Instance.LoadCustomFoods();
-            FoodDatabase.Instance.LoadCategories();
-            TemplateManager.Instance.LoadTemplates();
-            Calendar.LoadAll();
-
-        }
-        private async void InitDatabases()
-        {
-            await FoodFrameworkV2.Unit.Init();
-            await FoodFrameworkV2.IngredientType.Init();
-        }
     }
 
 

@@ -105,7 +105,7 @@ namespace Kukta.Screens
 
                 ImageCropper.Visibility = Visibility.Collapsed;
                 this.Image.Visibility = Visibility.Visible;
-                this.Image.Source = CurrentFood.getImage();
+                this.Image.Source = CurrentFood.getImage;
 
                 UploadImageBTN.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 SaveBTN.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;

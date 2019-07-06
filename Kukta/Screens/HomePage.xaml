@@ -3,16 +3,43 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Kukta.Screens"
+    xmlns:Frame2="using:Kukta.FoodFrameworkV2"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <RelativePanel Name="HeaderPanel" Grid.Row="0" Background="AliceBlue">
+            <StackPanel Orientation="Horizontal" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+                <Button Name="HomeBTN" Click="HomeBTN_Click" Content="Kezdőlap" Background="Transparent" VerticalAlignment="Stretch" FontSize="22" Foreground="Gray" FontWeight="ExtraLight"/>
+                <Button Name="NewFoodsBTN" Click="NewFoodsBTN_Click" Content="Új feltöltések" Background="Transparent" VerticalAlignment="Stretch" FontSize="22" Foreground="Gray" FontWeight="ExtraLight"/>
+            </StackPanel>
+            <AutoSuggestBox Name="Searchbox" 
+                            PlaceholderText="Keresés" 
+                            RelativePanel.AlignRightWithPanel="True" 
+                            Width="150" QueryIcon="Find"
+                            Margin="0, 0, 30, 0"
+                            RelativePanel.AlignVerticalCenterWithPanel="True"/>
+        </RelativePanel>
+
+        <GridView Name="DataPanel" ItemsSource="{x:Bind Foods}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="Frame2:Food">
+                    <StackPanel Margin="10" Background="LightCoral" VerticalAlignment="Stretch" Orientation="Vertical" HorizontalAlignment="Stretch">
+                        <Image Source="{x:Bind getImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignTopWithPanel="True"/>
+                        <TextBlock Text="{x:Bind name}" Name="FoodNameText" FontSize="20" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="LightCyan"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
         <RelativePanel Name="Header"/>
     </Grid>
 </Page>

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Kukta.FoodFrameworkV2;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,6 +27,34 @@ namespace Kukta.Screens
         public HomePage()
         {
             this.InitializeComponent();
+        }
+
+        
+
+        private ObservableCollection<Food> m_foods = new ObservableCollection<Food>();
+        public ObservableCollection<Food> Foods
+        {
+            get
+            {
+                return m_foods;
+            }
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            m_foods = new ObservableCollection<Food>(await Food.GetLastFoods(1, 50));
+            DataPanel.ItemsSource = m_foods;
+
+        }
+
+        private void HomeBTN_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NewFoodsBTN_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

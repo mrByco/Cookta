@@ -43,7 +43,7 @@ namespace Kukta.FrameWork
                 Margin = new Thickness(5),
             };
             image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.Source =  food.getImage();
+            image.Source =  food.getImage;
             root.Children.Add(image);
             Grid.SetColumn(image, 0);
 
