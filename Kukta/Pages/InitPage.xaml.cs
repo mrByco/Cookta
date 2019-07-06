@@ -33,7 +33,7 @@ namespace Kukta
         }
         public async void Init()
         {
-            bool debugServer = true;
+            bool debugServer = false;
             App.RestClient = new RestClient(debugServer ? "http://192.168.1.74:1337/" : "https://kuktaservices.azurewebsites.net/");
             /*FoodDatabase = FoodDatabase.Instance;
             TemplateDatabase = TemplateManager.Instance;
