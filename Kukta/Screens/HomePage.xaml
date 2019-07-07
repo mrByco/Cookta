@@ -29,7 +29,7 @@
                             RelativePanel.AlignVerticalCenterWithPanel="True"/>
         </RelativePanel>
 
-        <GridView Name="DataPanel" ItemsSource="{x:Bind Foods}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True">
+        <GridView Name="DataPanel" ItemsSource="{x:Bind Foods}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="DataPanel_ItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="Frame2:Food">
                     <StackPanel Margin="10" Background="LightCoral" VerticalAlignment="Stretch" Orientation="Vertical" HorizontalAlignment="Stretch">

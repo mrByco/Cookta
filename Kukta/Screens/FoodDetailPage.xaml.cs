@@ -78,8 +78,8 @@ namespace Kukta.Screens
                 SaveBTN.Visibility = Visibility.Visible;
                 EditBTN.Visibility = Visibility.Collapsed;
                 DeleteBTN.Visibility = Visibility.Collapsed;
-                Subscribe.Visibility = Visibility.Collapsed;
-                Unsubscribe.Visibility = Visibility.Collapsed;
+                SubscribeBTN.Visibility = Visibility.Collapsed;
+                UnsubscribeBTN.Visibility = Visibility.Collapsed;
                 IsPublicToggle.Visibility = Visibility.Visible;
                 IsPublicToggle.IsOn = false;
             });
@@ -111,8 +111,8 @@ namespace Kukta.Screens
                 SaveBTN.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 EditBTN.Visibility = CurrentFood.owning && !editMode ? Visibility.Visible : Visibility.Collapsed;
                 DeleteBTN.Visibility = CurrentFood.owning ? Visibility.Visible : Visibility.Collapsed;
-                Subscribe.Visibility = !CurrentFood.subcribed ? Visibility.Visible : Visibility.Collapsed;
-                Unsubscribe.Visibility = CurrentFood.subcribed ? Visibility.Visible : Visibility.Collapsed;
+                SubscribeBTN.Visibility = !CurrentFood.subcribed ? Visibility.Visible : Visibility.Collapsed;
+                UnsubscribeBTN.Visibility = CurrentFood.subcribed ? Visibility.Visible : Visibility.Collapsed;
             });
         }
 
@@ -204,6 +204,27 @@ namespace Kukta.Screens
             else
             {
             }
+        }
+
+        private void SubscribeBTN_Click(object sender, RoutedEventArgs e)
+        {
+            SetSubStateForFood(true);
+        }
+
+        private void UnsubscribeBTN_Click(object sender, RoutedEventArgs e)
+        {
+            SetSubStateForFood(false);
+        }
+        private async void SetSubStateForFood(bool sub)
+        {
+            bool? subcribed = await Food.SetSubForfood(CurrentFood._id, sub);
+            if (subcribed == null)
+            {
+                Update(CurrentFood._id, false);
+                return;
+            }
+            CurrentFood.subcribed = (bool)subcribed;
+            await SetUIShowFood(false);
         }
     }
 }

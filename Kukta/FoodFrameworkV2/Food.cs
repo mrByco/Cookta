@@ -100,6 +100,15 @@ namespace Kukta.FoodFrameworkV2
             return foods;
 
         }
+        public static async Task<bool?> SetSubForfood(string foodID, bool state)
+        {
+            var res = state ? await Networking.GetRequestWithForceAuth("sub", foodID) : await Networking.GetRequestWithForceAuth("unsub", foodID);
+            if (res.Content == "success")
+            {
+                return state;
+            }
+            return null;
+        }
 
         public static async Task<List<Food>> GetMyFoods()
         {
