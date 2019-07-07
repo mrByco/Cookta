@@ -1,10 +1,11 @@
 ﻿using Kukta.FoodFrameworkV2;
-using Kukta.FrameWork;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -25,57 +26,70 @@ namespace Kukta.Screens
     /// </summary>
     public sealed partial class FoodEditor : Page
     {
-        private FoodFrame FoodContent;
-
+        //
         public FoodEditor()
         {
             this.InitializeComponent();
-            RefreshList();
         }
+        private Visibility ContentVisibility;
+        private Visibility LoadingVisibibity;
+
+        private ObservableCollection<Food> FilteredMyFoods = new ObservableCollection<Food>();
+        private ObservableCollection<Food> FilteredSubcribtedFoods = new ObservableCollection<Food>();
+
+        private List<Food> MyFoods = new List<Food>();
+        private List<Food> SubcribtedFoods = new List<Food>();
+
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefreshList();
+            FilterUpdateUI();
         }
 
-        internal async void RefreshList()
-        {
-            List<Food> foods = await Food.GetMyFoods();
-            if (foods != null)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    FoodList.Children.Clear();
-
-                    if (SearchTextBox.Text != "")
-                    {
-                        foods = foods.FindAll((food) => food.name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
-                    }
-                    foods.ForEach((food) => AddFood(food));
-                });
-            }
-        }
-
-        private void AddFood(Food food)
-        {
-            FoodList.Children.Add(new LargeFoodButton((id) => { MainPage.NavigateTo("fooddetail", null, id); }, food));
-        }
 
         private async void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
             MainPage.NavigateTo("fooddetail", null, null);
-            /*FoodNameText.Text = "";
-            await AddFoodDialog.ShowAsync();*/
         }
 
-        private void ApplyFoodClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            await DownloadFoods();
         }
 
-        private void OpenFoodOnContentViewer(Food food)
+        private async Task DownloadFoods()
         {
-            throw new NotImplementedException();
+            await SetLoading(true);
+            MyFoods = await Food.GetMyFoods();
+            SubcribtedFoods = await Food.GetSubFoods();
+            FilterUpdateUI();
+            await SetLoading(true);
+        }
+
+        private void FilterUpdateUI()
+        {
+            string filter = SearchTextBox.Text;
+            FilteredMyFoods = new ObservableCollection<Food>(MyFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
+            FilteredSubcribtedFoods = new ObservableCollection<Food>(SubcribtedFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
+            MyFoodsListView.ItemsSource = FilteredMyFoods;
+            SubFoodsListView.ItemsSource = FilteredSubcribtedFoods;
+        }
+
+        private async Task SetLoading(bool isLoading)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ContentVisibility = isLoading ? Visibility.Collapsed : Visibility.Visible;
+                LoadingVisibibity = isLoading ? Visibility.Visible : Visibility.Collapsed;
+            });
+            return;
+        }
+
+        private void FoodClick(object sender, ItemClickEventArgs e)
+        {
+            Food clickedFood = e.ClickedItem as Food;
+            MainPage.NavigateTo("fooddetail", null, clickedFood._id);
+            return;
         }
     }
 }

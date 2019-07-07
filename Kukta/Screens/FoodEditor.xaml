@@ -5,42 +5,69 @@
     xmlns:local="using:Kukta.Screens"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Frame2="using:Kukta.FoodFrameworkV2"
     RequestedTheme="Light"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <!-- FoodList -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <!-- Search bar -->
-            <Grid Grid.Row="0"  Margin="0, 0, 10, 5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" AcceptsReturn="False" PlaceholderText="Keresés" Grid.Column="0"/>
-                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE721;" Grid.Column="1" VerticalAlignment="Stretch"/>
-                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Grid.Column="2" x:Name="AddFoodButton" Click="AddFoodButton_Click" VerticalAlignment="Stretch"/>
-            </Grid>
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          Grid.Row="1"
-                          HorizontalScrollBarVisibility="Hidden">
-                <ScrollViewer.Content>
-                    <StackPanel Orientation="Vertical" Background="LightCyan"
-                            x:Name="FoodList">
-                    </StackPanel>
-                </ScrollViewer.Content>
-            </ScrollViewer>
+        <Grid Grid.Row="0"  Margin="0, 0, 10, 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" AcceptsReturn="False" PlaceholderText="Keresés" Grid.Column="0"/>
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE721;" Grid.Column="1" VerticalAlignment="Stretch"/>
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Grid.Column="2" x:Name="AddFoodButton" Click="AddFoodButton_Click" VerticalAlignment="Stretch"/>
         </Grid>
+        <ListView HorizontalContentAlignment="Stretch" Background="LightCyan" IsItemClickEnabled="False" SelectionMode="None" Grid.Row="1">
+            <Border Background="LightGreen" Margin="0, 10" Visibility="{x:Bind ContentVisibility}">
+                <TextBlock Text="Saját ételek: " FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Left" Foreground="DarkGray" Margin="30, 0"/>
+            </Border>
 
+            <ListView Name="MyFoodsListView" ItemsSource="{x:Bind FilteredMyFoods}" Visibility="{x:Bind ContentVisibility}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="FoodClick">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="Frame2:Food">
+                        <RelativePanel Margin="10">
+                            <Image Source="{x:Bind getImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
+                            <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
+                                <TextBlock Height="25" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
+                                <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
+                                <TextBlock Height="25" Text="{x:Bind GetIngredientArray}" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                            </StackPanel>
+                        </RelativePanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Border Background="LightGreen" Margin="0, 10" Visibility="{x:Bind ContentVisibility}">
+                <TextBlock Text="Feliratkozás: " FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Left" Foreground="DarkGray" Margin="30, 0"/>
+            </Border>
+
+            <ListView Name="SubFoodsListView" ItemsSource="{x:Bind FilteredSubcribtedFoods}" Visibility="{x:Bind ContentVisibility}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="FoodClick">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="Frame2:Food">
+                        <RelativePanel Margin="10">
+                            <Image Source="{x:Bind getImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
+                            <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
+                                <TextBlock Height="25" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Left" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
+                                <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
+                                <TextBlock Height="25" Text="{x:Bind GetIngredientArray}" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                            </StackPanel>
+                        </RelativePanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ProgressRing Visibility="{x:Bind LoadingVisibibity}"/>
+
+        </ListView>
     </Grid>
 </Page>

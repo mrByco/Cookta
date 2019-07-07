@@ -35,9 +35,7 @@ namespace Kukta
         {
             bool debugServer = false;
             App.RestClient = new RestClient(debugServer ? "http://192.168.1.74:1337/" : "https://kuktaservices.azurewebsites.net/");
-            /*FoodDatabase = FoodDatabase.Instance;
-            TemplateDatabase = TemplateManager.Instance;
-            Calendar = Kukta.Calendar.Calendar.Instance;*/
+
             FoodDatabase.Instance.LoadBaseFoods();
             FoodDatabase.Instance.LoadCustomFoods();
             FoodDatabase.Instance.LoadCategories();

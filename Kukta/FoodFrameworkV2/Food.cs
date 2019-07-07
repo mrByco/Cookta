@@ -50,6 +50,21 @@ namespace Kukta.FoodFrameworkV2
             }
         }
 
+        public string GetIngredientArray
+        {
+            get
+            {
+                string list = "";
+                foreach (Ingredient ing in ingredients)
+                {
+                    if (list.Length > 0)
+                        list = list + ", ";
+                    list = list + ing.Type.Name;
+                }
+                return list;
+            }
+        }
+
         private static Dictionary<string, long?> KnownImages = new Dictionary<string, long?>();
         private static bool GetCacheingEnabled(string id, long? CurrentImageVersion)
         {
@@ -113,6 +128,21 @@ namespace Kukta.FoodFrameworkV2
         public static async Task<List<Food>> GetMyFoods()
         {
             var res = await Networking.GetRequestWithForceAuth("myfoods", "");
+            JToken token = JToken.Parse(res.Content);
+            JArray tokenList = token.Value<JArray>("foods");
+
+            List<Food> foods = new List<Food>();
+            for (int i = 0; i < tokenList.Count; i++)
+            {
+                JToken foodToken = tokenList.ElementAt<JToken>(i);
+                Food food = ParseFoodFromServerJson(foodToken.ToString(Formatting.None));
+                foods.Add(food);
+            }
+            return foods;
+        }
+        public static async Task<List<Food>> GetSubFoods()
+        {
+            var res = await Networking.GetRequestWithForceAuth("subfoods", "");
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
