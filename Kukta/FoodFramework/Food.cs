@@ -1,4 +1,5 @@
 ﻿
+using Kukta.FrameWork;
 using Kukta.SaveLoad.File;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,25 @@ namespace Kukta.FoodFramework
 
         public bool CustomFood;
         public Guid Guid;
+
+        public string _id;
+        public string owner;
+        public bool owning
+        {
+            get
+            {
+                if (Networking.aResult == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return owner == Networking.GetClaim("sub");
+                }
+
+            }
+        }
+        public bool subscribed;
 
         public Food()
         {
@@ -93,9 +113,11 @@ namespace Kukta.FoodFramework
     }
     class FoodData
     {
+        public string _id;
         public string name;
         public string guid;
         public string desc;
+
         public bool customfood;
     }
 }

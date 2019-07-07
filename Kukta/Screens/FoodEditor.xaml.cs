@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.FoodFrameworkV2;
 using Kukta.FrameWork;
 using System;
 using System.Collections.Generic;
@@ -31,9 +31,6 @@ namespace Kukta.Screens
         {
             this.InitializeComponent();
             RefreshList();
-            FoodDatabase.Instance.OnFoodsChanged += new VoidDelegate(RefreshList);
-            FoodContentFrame.Navigate(typeof(FoodFrame), null);
-            FoodContent = FoodContentFrame.Content as FoodFrame;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -43,61 +40,42 @@ namespace Kukta.Screens
 
         internal async void RefreshList()
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            List<Food> foods = await Food.GetMyFoods();
+            if (foods != null)
             {
-                FoodList.Children.Clear();
-                List<Food> foods = FoodDatabase.Instance.Foods;
-
-                if (SearchTextBox.Text != "")
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    foods = foods.FindAll((food) => food.Name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
-                }
-                foods.ForEach((food) => AddFood(food));
-            });
+                    FoodList.Children.Clear();
+
+                    if (SearchTextBox.Text != "")
+                    {
+                        foods = foods.FindAll((food) => food.name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
+                    }
+                    foods.ForEach((food) => AddFood(food));
+                });
+            }
         }
 
         private void AddFood(Food food)
         {
-            FoodList.Children.Add((UIElement)new FoodButton(food.Guid, OpenFoodOnContentViewer));
+            FoodList.Children.Add(new LargeFoodButton((id) => { MainPage.NavigateTo("fooddetail", null, id); }, food));
         }
 
         private async void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
-            FoodNameText.Text = "";
-            await AddFoodDialog.ShowAsync();
+            MainPage.NavigateTo("fooddetail", null, null);
+            /*FoodNameText.Text = "";
+            await AddFoodDialog.ShowAsync();*/
         }
 
         private void ApplyFoodClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            FoodDatabase.Instance.AddFood(FoodNameText.Text);
-        }
-
-        private void RefreshApplyButtonEnabled()
-        {
-            bool enabled = false;
-            if (FoodNameText.Text != "")
-            {
-                enabled = true;
-            }
-            AddFoodDialog.IsPrimaryButtonEnabled = enabled;
-        }
-
-        private void AddFoodDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            AddFoodDialog.Hide();
-        }
-
-        private void FoodNameText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            RefreshApplyButtonEnabled();
+            throw new NotImplementedException();
         }
 
         private void OpenFoodOnContentViewer(Food food)
         {
-            if (FoodContent != null)
-            {
-                FoodContent.OpenFood(food);
-            }
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Kukta.FrameWork
     class FoodButton : Button
     {
         public Guid FoodGuid;
+        public string _id;
+
         private Action<Food> OnClick;
         public FoodButton(Guid foodGuid, Action<Food> onClick) : base()
         {

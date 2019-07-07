@@ -1,0 +1,16 @@
+﻿<ContentDialog
+    x:Class="Kukta.FrameWork.ServicesNotAvailable"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.FrameWork"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="A kukta szerverek nem elérhetőek :("
+    PrimaryButtonText="Kilépés"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+
+    <Grid>
+        <TextBlock FontSize="15" Text="Kérlek próbáld meg később."/>
+    </Grid>
+</ContentDialog>

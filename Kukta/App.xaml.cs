@@ -1,11 +1,16 @@
-﻿using Kukta.Calendar;
+﻿
+using Kukta.Calendar;
 using Kukta.FoodFramework;
 using Kukta.Menu;
+using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -38,18 +43,24 @@ namespace Kukta
         public const string TemplateRoot = "WeekTemplates";
         public const string CalendarRoot = "Calendar";
 
+
+        public static App instance;
+
         internal FoodDatabase FoodDatabase;
         internal TemplateManager TemplateDatabase;
-        internal Calendar.Calendar Calendar;
+        internal static Calendar.Calendar Calendar;
+        internal static InitPage InitPage;
         internal static MainPage RootPage;
+
+        internal static RestClient RestClient;
+
 
         public App()
         {
+            
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            FoodDatabase = FoodDatabase.Instance;
-            TemplateDatabase = TemplateManager.Instance;
-            this.Calendar = Kukta.Calendar.Calendar.Instance;
+
         }
 
         /// <summary>
@@ -61,12 +72,16 @@ namespace Kukta
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
+
+
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = Windows.UI.Colors.Gray;
+            titleBar.BackgroundColor = Windows.UI.Colors.Blue;
+            titleBar.ButtonBackgroundColor = Windows.UI.Colors.Blue;
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
             {
+
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
@@ -88,14 +103,26 @@ namespace Kukta
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                    RootPage = rootFrame.Content as MainPage;
+                    rootFrame.Navigate(typeof(InitPage), e.Arguments);
+                    InitPage = rootFrame.Content as InitPage;
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
 
-            InitManagers();
+        }
+
+        public static void SwapToInitPage()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(InitPage), "LOGOUT");
+            InitPage = rootFrame.Content as InitPage;
+        }
+        public static void SwapToRootPage()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(MainPage), null);
+            RootPage = rootFrame.Content as MainPage;
         }
 
         /// <summary>
@@ -122,14 +149,29 @@ namespace Kukta
             deferral.Complete();
         }
 
-        private void InitManagers()
-        {
-            FoodDatabase.Instance.LoadBaseFoods();
-            FoodDatabase.Instance.LoadCustomFoods();
-            FoodDatabase.Instance.LoadCategories();
-            TemplateManager.Instance.LoadTemplates();
-            Calendar.LoadAll();
-            
-        }
     }
+
+
+
+        /*//Cloud thinks..
+        private static string Tenant = "kukta.onmicrosoft.com";
+        private static string ClientId = "4b7e5d88-ba84-426c-bba5-7492a7f76762";
+        public static string PolicySignUpSignIn = "B2C_1_create_user";
+        public static string PolicyEditProfile = "nothink";
+        public static string PolicyResetPassword = "nothink";
+
+        public static string[] ApiScopes = {
+            "https://kukta.onmicrosoft.com/kuktapi/user_impersonation"//,
+           // "https://kukta.onmicrosoft.com/kuktawebapi/write",
+           // "https://kukta.onmicrosoft.com/kuktawebapi/read",
+           // "https://kukta.onmicrosoft.com/kuktawebapi/user_impersonation",
+        };//"https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read" };
+        public static string ApiEndpoint = "";//"https://fabrikamb2chello.azurewebsites.net/hello";
+
+        private static string BaseAuthority = "https://login.microsoftonline.com/tfp/{tenant}/{policy}/oauth2/v2.0/authorize";
+        public static string Authority = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicySignUpSignIn);
+        public static string AuthorityEditProfile = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyEditProfile);
+        public static string AuthorityResetPassword = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyResetPassword);
+
+        public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority, new TokenCache());*/
 }

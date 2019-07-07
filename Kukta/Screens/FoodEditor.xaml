@@ -5,13 +5,12 @@
     xmlns:local="using:Kukta.Screens"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    RequestedTheme="Dark"
+    RequestedTheme="Light"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Background="{StaticResource Gray7}">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -22,42 +21,26 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!-- Search bar -->
-            <Grid Grid.Row="0" Background="{StaticResource Gray2}" Margin="0, 0, 0, 5">
+            <Grid Grid.Row="0"  Margin="0, 0, 10, 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" AcceptsReturn="False" PlaceholderText="Keresés" Grid.Column="0"/>
-                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE721;" Grid.Column="1" VerticalAlignment="Stretch" Background="{StaticResource Gray2}"/>
-                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Grid.Column="2" x:Name="AddFoodButton" Click="AddFoodButton_Click" VerticalAlignment="Stretch" Background="{StaticResource Gray2}"/>
+                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE721;" Grid.Column="1" VerticalAlignment="Stretch"/>
+                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Grid.Column="2" x:Name="AddFoodButton" Click="AddFoodButton_Click" VerticalAlignment="Stretch"/>
             </Grid>
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           Grid.Row="1"
-                          HorizontalScrollBarVisibility="Hidden" >
+                          HorizontalScrollBarVisibility="Hidden">
                 <ScrollViewer.Content>
-                    <StackPanel Orientation="Vertical" Background="{StaticResource Gray0}"
+                    <StackPanel Orientation="Vertical" Background="LightCyan"
                             x:Name="FoodList">
                     </StackPanel>
                 </ScrollViewer.Content>
             </ScrollViewer>
         </Grid>
-        <Frame x:Name="FoodContentFrame" Grid.Column="1"/>
-        
-        <ContentDialog x:Name="AddFoodDialog"
-                       PrimaryButtonText="Hozzáadás"
-                       IsPrimaryButtonEnabled="False"
-                       PrimaryButtonClick="ApplyFoodClick"
-                       SecondaryButtonText="Mégse"
-                       SecondaryButtonClick="AddFoodDialog_SecondaryButtonClick">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Recept hozzáadása"/>
-                <RelativePanel>
-                    <TextBlock Name="FoodNameTextLabel" Text="Név: " RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                    <TextBox x:Name="FoodNameText" TextChanged="FoodNameText_TextChanged" RelativePanel.RightOf="FoodNameTextLabel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                </RelativePanel>
-            </StackPanel>
-            
-        </ContentDialog>
+
     </Grid>
 </Page>
