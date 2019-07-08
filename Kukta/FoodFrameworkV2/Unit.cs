@@ -32,7 +32,7 @@ namespace Kukta.FoodFrameworkV2
 
         public static async Task Init()
         {
-            var res = await Networking.GetRequestSimple("units", "");
+            var res = await Networking.GetRequestSimple("units", new Dictionary<string, object>());
             if (res.StatusCode != System.Net.HttpStatusCode.OK)
             {
 

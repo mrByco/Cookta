@@ -50,7 +50,7 @@ namespace Kukta.FoodFrameworkV2
 
         public static async Task Init()
         {
-            var res = await Networking.GetRequestSimple("ingredients", "");
+            var res = await Networking.GetRequestSimple("ingredients", new Dictionary<string, object>());
             JArray array = JArray.Parse(res.Content);
             types = new List<IngredientType>();
             for (int i = 0; i < array.Count; i++)
