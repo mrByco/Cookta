@@ -153,7 +153,6 @@ namespace Kukta.FrameWork
             {
                 request.AddParameter(name, query[name], ParameterType.QueryString);
             }
-            request.AddParameter("_id", id, ParameterType.QueryString);
 
             var response = App.RestClient.Get(request);
             await checkResponse(response);
@@ -171,7 +170,6 @@ namespace Kukta.FrameWork
             {
                 request.AddParameter(name, query[name], ParameterType.QueryString);
             }
-            //request.AddParameter("_id", id, ParameterType.QueryString);
             var response = App.RestClient.Get(request);
             await checkResponse(response);
 

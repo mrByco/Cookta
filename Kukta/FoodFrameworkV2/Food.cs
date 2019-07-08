@@ -107,7 +107,9 @@ namespace Kukta.FoodFrameworkV2
         }
         public static async Task<bool?> SetSubForfood(string foodID, bool state)
         {
-            var res = state ? await Networking.GetRequestWithForceAuth("sub", foodID) : await Networking.GetRequestWithForceAuth("unsub", foodID);
+            var query = new Dictionary<string, object>();
+            query.Add("_id", foodID);
+            var res = state ? await Networking.GetRequestWithForceAuth("sub", query) : await Networking.GetRequestWithForceAuth("unsub", query);
             if (res.Content == "success")
             {
                 return state;
