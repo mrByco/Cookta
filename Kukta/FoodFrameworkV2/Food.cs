@@ -149,7 +149,7 @@ namespace Kukta.FoodFrameworkV2
         }
         public static async Task<List<Food>> GetSubFoods()
         {
-            var res = await Networking.GetRequestWithForceAuth("subfoods", "");
+            var res = await Networking.GetRequestWithForceAuth("subfoods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 

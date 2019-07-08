@@ -1,4 +1,5 @@
-﻿using Kukta.FoodFrameworkV2;
+﻿using Kukta.ContentDialogs;
+using Kukta.FoodFrameworkV2;
 using Kukta.FrameWork;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,8 @@ namespace Kukta.Screens
 
                 ImageCropper.Visibility = Visibility.Collapsed;
                 this.Image.Visibility = Visibility.Collapsed;
+                ReportNoIngredient.Visibility = Visibility.Visible;
+                OtherSettingsTextBlock.Visibility = Visibility.Visible;
 
                 UploadImageBTN.Visibility = Visibility.Visible;
                 SaveBTN.Visibility = Visibility.Visible;
@@ -101,7 +104,10 @@ namespace Kukta.Screens
                 DescTextBlock.Text = CurrentFood.desc;
                 IsPublicToggle.IsOn = !CurrentFood.isPrivate;
 
+                ReportNoIngredient.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
+                OtherSettingsTextBlock.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
+
 
                 ImageCropper.Visibility = Visibility.Collapsed;
                 this.Image.Visibility = Visibility.Visible;
@@ -225,6 +231,11 @@ namespace Kukta.Screens
             }
             CurrentFood.subcribed = (bool)subcribed;
             await SetUIShowFood(false);
+        }
+
+        private async void ReportNoIngredientBTN_click(object sender, RoutedEventArgs e)
+        {
+            await new ReportNotFountIngredientDialog().ShowAsync();
         }
     }
 }

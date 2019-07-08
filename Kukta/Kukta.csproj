@@ -129,6 +129,9 @@
     <Compile Include="Calendar\Calendar.cs" />
     <Compile Include="Calendar\CalendarDay.cs" />
     <Compile Include="Calendar\FixedMealing.cs" />
+    <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
+      <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FoodFrameworkV2\Food.cs" />
     <Compile Include="FoodFrameworkV2\Ingredient.cs" />
     <Compile Include="FoodFrameworkV2\Unit.cs" />
@@ -265,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ContentDialogs\ReportNotFountIngredientDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FrameWork\ServicesNotAvailable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

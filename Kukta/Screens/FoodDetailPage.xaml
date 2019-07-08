@@ -15,47 +15,58 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Name="ButtonBar"
+                    Background="Coral"
+                    HorizontalAlignment="Stretch"
+                    FlowDirection="RightToLeft"
+                    Grid.Row="1"
+                    Spacing="10">
+            <Button Name="SaveBTN" Content="Mentés" Click="SaveBTN_Click" Margin="5"/>
+            <Button Name="EditBTN" Content="Szerkesztés" Click="EditBTN_Click" Margin="5"/>
+            <Button Name="DeleteBTN" Content="Törlés" Click="DeleteBTN_Click" Margin="5"/>
+            <Button Name="SubscribeBTN" Content="Feliratkozás" Margin="5" Click="SubscribeBTN_Click"/>
+            <Button Name="UnsubscribeBTN" Content="Leiratkozás" Margin="5" Click="UnsubscribeBTN_Click"/>
+        </StackPanel>
         <ScrollViewer
             Name="Content"
+            Grid.Row="0"
             Visibility="Collapsed"
+            VerticalContentAlignment="Stretch"
             VerticalScrollBarVisibility="Auto"
             HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="24"/>
-                <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24" PlaceholderText="Recept neve"/>
-
+            <ScrollViewer.Content>
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Row="0">
+
+                    <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="24" Grid.Row="0" Grid.ColumnSpan="2"/>
+                    <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24" PlaceholderText="Recept neve" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+                    <StackPanel Grid.Row="1">
                         <TextBlock Name="DescTextBlock" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="20"/>
                         <TextBox Name="DescTextBox" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" AcceptsReturn="True" TextWrapping="Wrap" PlaceholderText="Recept leírása"/>
                         <controls:ImageCropper x:Name="ImageCropper" Visibility="Collapsed" />
-                        <Image x:Name="Image" Visibility="Visible" MaxHeight="450" MinHeight="200"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Name="UploadImageBTN" Content="Kép feltöltése" Click="UploadImageBTN_Click" HorizontalAlignment="Right"/>
+                        <Image x:Name="Image" Visibility="Visible" HorizontalAlignment="Stretch"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20">
+                            <Button Name="UploadImageBTN" Content="Kép feltöltése/módosítása" Click="UploadImageBTN_Click" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Name="leftOrderStackPanel" Grid.Column="1">
+                    <StackPanel Name="leftOrderStackPanel" Grid.Row="1" Grid.Column="1">
                         <StackPanel  Name="IngredientsListPanel"/>
+                        <HyperlinkButton Content="Nem találom a hozzávalót!" Name="ReportNoIngredient" Click="ReportNoIngredientBTN_click"/>
+                        <TextBlock FontSize="24" Text="Egyéb beállítások" HorizontalAlignment="Center" Name="OtherSettingsTextBlock"/>
                         <ToggleSwitch x:Name="IsPublicToggle" Header="A recept publikus és elérhető mindenki számára." OnContent="Elérhető" OffContent="Nem elérhető"/>
                     </StackPanel>
                 </Grid>
-            </StackPanel>
+            </ScrollViewer.Content>
         </ScrollViewer>
-        <StackPanel Orientation="Horizontal"
-                    Name="ButtonBar"
-                    HorizontalAlignment="Right"
-                    Grid.Row="1"
-                    Spacing="10">
-            <Button Name="SaveBTN" Content="Mentés" Click="SaveBTN_Click" Margin="10"/>
-            <Button Name="EditBTN" Content="Szerkesztés" Click="EditBTN_Click" Margin="10"/>
-            <Button Name="DeleteBTN" Content="Törlés" Click="DeleteBTN_Click" Margin="10"/>
-            <Button Name="SubscribeBTN" Content="Feliratkozás" Margin="10" Click="SubscribeBTN_Click"/>
-            <Button Name="UnsubscribeBTN" Content="Leiratkozás" Margin="10" Click="UnsubscribeBTN_Click"/>
-        </StackPanel>
         <ProgressRing 
             Visibility="Visible"
             IsActive="True"

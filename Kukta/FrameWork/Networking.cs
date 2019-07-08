@@ -178,15 +178,22 @@ namespace Kukta.FrameWork
 
         private static async Task checkResponse(IRestResponse response)
         {
-            if (response.StatusCode == HttpStatusCode.NotFound
-                || response.StatusCode == HttpStatusCode.Forbidden
-                || response.StatusCode == HttpStatusCode.RequestTimeout
-                || response.StatusCode == HttpStatusCode.InternalServerError
-                || response.StatusCode == HttpStatusCode.NotFound
-                || response.StatusCode == HttpStatusCode.ServiceUnavailable
-                || response.StatusCode == 0) 
+            try
             {
-                await new ServicesNotAvailable().ShowAsync();
+                if (response.StatusCode == HttpStatusCode.NotFound
+                    || response.StatusCode == HttpStatusCode.Forbidden
+                    || response.StatusCode == HttpStatusCode.RequestTimeout
+                    || response.StatusCode == HttpStatusCode.InternalServerError
+                    || response.StatusCode == HttpStatusCode.NotFound
+                    || response.StatusCode == HttpStatusCode.ServiceUnavailable
+                    || response.StatusCode == 0)
+                {
+                    await new ServicesNotAvailable().ShowAsync();
+                    return;
+                }
+            }
+            catch
+            {
                 return;
             }
             return;

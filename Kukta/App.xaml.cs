@@ -13,8 +13,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -147,6 +149,29 @@ namespace Kukta
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+        public static void Sendnotification(string Title, string Message)
+        {
+            // template to load for showing Toast Notification
+            var xmlToastTemplate = "<toast launch=\"app-defined-string\">" +
+                                     "<visual>" +
+                                       "<binding template =\"ToastGeneric\">" +
+                                         "<text>" + Title + "</text>" +
+                                         "<text>" +
+                                           Message +
+                                         "</text>" +
+                                       "</binding>" +
+                                     "</visual>" +
+                                   "</toast>";
+
+            // load the template as XML document
+            var xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(xmlToastTemplate);
+
+            // create the toast notification and show to user
+            var toastNotification = new ToastNotification(xmlDocument);
+            var notification = ToastNotificationManager.CreateToastNotifier();
+            notification.Show(toastNotification);
         }
 
     }

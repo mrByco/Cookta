@@ -48,11 +48,8 @@
 
 
 
-            <ScrollViewer>
-                <Frame x:Name="ContentFrame"  IsTabStop="True"
+            <Frame x:Name="ContentFrame"  IsTabStop="True"
                    NavigationFailed="ContentFrame_NavigationFailed"/>
-
-            </ScrollViewer>
         </NavigationView>
         <ContentDialog  x:Name="SignInUpProfileDialog"
                         IsPrimaryButtonEnabled="True"
