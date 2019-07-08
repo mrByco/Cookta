@@ -97,7 +97,7 @@ namespace Kukta.FrameWork
             await checkResponse(response);
             return response;
         }
-        public static async Task<IRestResponse> JpegImageUploadWithAuth(string resource, string id, StorageFile file)
+        public static async Task<IRestResponse> JpegImageUploadWithAuth(string resource, Dictionary<string, object> query, StorageFile file)
         {
             var request = new RestRequest(resource, Method.POST);
             if (Networking.aResult?.AccessToken == null)
@@ -105,7 +105,10 @@ namespace Kukta.FrameWork
                 await Networking.SignUpLogin();
             }
             request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
-            request.AddParameter("_id", id, ParameterType.QueryString);
+            foreach (string name in query.Keys.ToArray())
+            {
+                request.AddParameter(name, query[name], ParameterType.QueryString);
+            }
 
             if (file != null)
             {
@@ -120,7 +123,7 @@ namespace Kukta.FrameWork
             await checkResponse(response);
             return response;
         }
-        public static async Task<IRestResponse> DeleteRequestWithForceAuth(string path, string _id)
+        public static async Task<IRestResponse> DeleteRequestWithForceAuth(string path, Dictionary<string, object> query)
         {
             var request = new RestRequest(path, Method.DELETE);
             if (Networking.aResult?.AccessToken == null)
@@ -128,13 +131,17 @@ namespace Kukta.FrameWork
                 await Networking.SignUpLogin();
             }
             request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
-            request.AddParameter("_id", _id, ParameterType.QueryString);
-
+            foreach (string name in query.Keys.ToArray())
+            {
+                request.AddParameter(name, query[name], ParameterType.QueryString);
+            }
+            //request.AddParameter("_id", _, ParameterType.QueryString);
+            
             var response = App.RestClient.Delete(request);
             await checkResponse(response);
             return response;
         }
-        public static async Task<IRestResponse> GetRequestWithForceAuth(string path, string id)
+        public static async Task<IRestResponse> GetRequestWithForceAuth(string path, Dictionary<string, object> query)
         {
             var request = new RestRequest(path, Method.GET);
             if (Networking.aResult?.AccessToken == null)
@@ -142,14 +149,17 @@ namespace Kukta.FrameWork
                 await Networking.SignUpLogin();
             }
             request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
-            request.RequestFormat = DataFormat.Json;
+            foreach (string name in query.Keys.ToArray())
+            {
+                request.AddParameter(name, query[name], ParameterType.QueryString);
+            }
             request.AddParameter("_id", id, ParameterType.QueryString);
 
             var response = App.RestClient.Get(request);
             await checkResponse(response);
             return response;
         }
-        public static async Task<IRestResponse> GetRequestSimple(string path, string id)
+        public static async Task<IRestResponse> GetRequestSimple(string path, Dictionary<string, object> query)
         {
             var request = new RestRequest(path, Method.GET);
             if (Networking.aResult?.AccessToken != null)
@@ -157,7 +167,11 @@ namespace Kukta.FrameWork
                 request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
             }
             request.RequestFormat = DataFormat.Json;
-            request.AddParameter("_id", id, ParameterType.QueryString);
+            foreach (string name in query.Keys.ToArray())
+            {
+                request.AddParameter(name, query[name], ParameterType.QueryString);
+            }
+            //request.AddParameter("_id", id, ParameterType.QueryString);
             var response = App.RestClient.Get(request);
             await checkResponse(response);
 
@@ -179,10 +193,5 @@ namespace Kukta.FrameWork
             }
             return;
         }
-
-        /* public static async Task<string> GetRequest()
-         {
-
-         }*/
     }
 }

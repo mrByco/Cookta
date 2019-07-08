@@ -79,14 +79,19 @@ namespace Kukta.FoodFrameworkV2
             food = ParseFoodFromServerJson(foodRes.Content);
 
             if (foodRes.StatusCode == System.Net.HttpStatusCode.OK && Image != null)
-                await Networking.JpegImageUploadWithAuth("foodimage", food._id, Image);
+            {
+                var query = new Dictionary<string, object>();
+                query.Add("_id", food._id);
+                var res = await Networking.GetRequestSimple("food", query);
+                await Networking.JpegImageUploadWithAuth("foodimage", query, Image);
+            }
 
             return food;
         }
 
         public static async Task<List<Food>> GetLastFoods(int page, int itemsPerPage)
         {
-            var res = await Networking.GetRequestSimple("foods", "");
+            var res = await Networking.GetRequestSimple("foods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -103,7 +108,7 @@ namespace Kukta.FoodFrameworkV2
 
         public static async Task<List<Food>> GetMyFoods()
         {
-            var res = await Networking.GetRequestWithForceAuth("myfoods", "");
+            var res = await Networking.GetRequestWithForceAuth("myfoods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -119,7 +124,9 @@ namespace Kukta.FoodFrameworkV2
 
         internal static async Task<Food> Get(string _id)
         {
-            var res = await Networking.GetRequestSimple("food", _id);
+            var query = new Dictionary<string, object>();
+            query.Add("_id", _id);
+            var res = await Networking.GetRequestSimple("food", query);
             Food food = ParseFoodFromServerJson(res.Content);
             return food;
         }
@@ -130,8 +137,10 @@ namespace Kukta.FoodFrameworkV2
         /// <returns>true if success</returns>
         internal static async Task<bool> Delete(string id)
         {
-            var res = Networking.DeleteRequestWithForceAuth("food", id);
-            if (res.Result.IsSuccessful && res.Result.Content == "success")
+            var query = new Dictionary<string, object>();
+            query.Add("_id", id);
+            var res = await Networking.DeleteRequestWithForceAuth("food", query);
+            if (res.IsSuccessful && res.Content == "success")
             {
                 return true;
             }

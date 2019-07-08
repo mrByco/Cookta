@@ -66,6 +66,7 @@ namespace IngredientUpdater
             using (StreamReader reader = new StreamReader(fileStream))
             {
                 string line = reader.ReadLine();
+                int LineIndex = 1;
                 if (line == null)
                 {
                     return true;
@@ -90,6 +91,7 @@ namespace IngredientUpdater
                 while (line != null)
                 {
                     line = reader.ReadLine();
+                    LineIndex++;
                     if (line == null)
                         return true;
                     string[] datas = line.Split(",");
@@ -121,7 +123,7 @@ namespace IngredientUpdater
                         catch (Exception e)
                         {
                             Console.WriteLine(e.Message);
-                            Console.WriteLine("Error at index: " + i);
+                            Console.WriteLine("Error at index: " + i + " at verb: " + datas[i] + " at line: " + LineIndex);
                             return false;
                         }
 
