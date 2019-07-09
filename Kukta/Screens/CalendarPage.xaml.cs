@@ -1,6 +1,9 @@
-﻿using Kukta.FrameWork;
+﻿using Kukta.Calendar;
+using Kukta.FrameWork;
+using Kukta.Menu;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -12,7 +15,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,46 +26,44 @@ namespace Kukta.Screens
     /// </summary>
     public sealed partial class CalendarPage : Page
     {
-        private DateTime StartDateTime;
-
-        public string HeadTitle
-        {
-            get
-            {
-                return " | " + StartDateTime.ToString("MM.dd") + " - " + StartDateTime.AddDays(6).ToString("MM.dd");
-            }
-        }
-
-        public void OpenWeek(DateTime dateTime, NavigationTransitionInfo info)
-        {
-            this.StartDateTime = dateTime.StartOfWeek(DayOfWeek.Monday);
-            CalendarWeekFrame.Navigate(typeof(CalendarContentPage), dateTime.CutToDay(), info);
-            WeekTemplateInfoTextBlock.Text = HeadTitle;
-        }
-
         public CalendarPage()
         {
             this.InitializeComponent();
         }
+        public List<CalendarDay> CalendarDays = new List<CalendarDay>();
+        //public List<Tuple<EMealType, List<Tuple<DateTime, List<IMealingItem>>>>> MealsOfWeek = new List<Tuple<EMealType, List<Tuple<DateTime, List<IMealingItem>>>>>();
 
-        private void BackButtonClick(object sender, RoutedEventArgs e)
+        private ObservableCollection<Screens.Calendar.MealDayList> mealsAndDays = new ObservableCollection<Screens.Calendar.MealDayList>();
+        private void UpdateDays(List<CalendarDay> days)
         {
-            OpenWeek(StartDateTime.AddDays(-7), new SlideNavigationTransitionInfo());
+            CalendarDays = days;
         }
-
-        private void ForwardButtonClick(object sender, RoutedEventArgs e)
+    }
+}
+namespace Kukta.Screens.Calendar
+{
+    internal class MealDayList
+    {
+        internal ObservableCollection<CalendarMeal> meals = new ObservableCollection<CalendarMeal>();
+        internal EMealType type;
+        internal MealDayList(List<CalendarDay> days, EMealType type)
         {
-            OpenWeek(StartDateTime.AddDays(7), new SlideNavigationTransitionInfo());
+            meals = new ObservableCollection<CalendarMeal>();
+            foreach (CalendarDay day in days)
+            {
+                meals.Add(new CalendarMeal(day, type));
+            }
+            this.type = type;
         }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+    }
+    internal class CalendarMeal
+    {
+        internal ObservableCollection<IMealingItem> items = new ObservableCollection<IMealingItem>();
+        internal DateTime date;
+        internal CalendarMeal (CalendarDay day, EMealType type)
         {
-            OpenWeek(DateTime.Now, new SlideNavigationTransitionInfo());
-        }
-
-        private void ApplyWeekTemplateToWeekButton_Click(object sender, RoutedEventArgs e)
-        {
-
+            items = new ObservableCollection<IMealingItem>(day.GetItemsOf(type));
+            date = day.DateTime.CutToDay();
         }
     }
 }

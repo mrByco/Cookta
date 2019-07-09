@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.FoodFrameworkV2;
 using Kukta.Menu;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace Kukta.Calendar
 {
-    public class FixedMealing
+    public interface IMealingItem
     {
-        internal List<IMealingItem> items;
-        internal EMealType type;
+        Food GetMealFood();
+        void NewSeed();
+        string GetName();
     }
 }

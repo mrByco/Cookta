@@ -36,7 +36,7 @@ namespace Kukta
         public static MainPage instance;
         private static event NavigateTo DoNav;
         
-        public event WeekTemplateDelegate OnTemplateChanged;
+
         // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
         private readonly List<(string Tag, Type Page, bool setNavNull)> _pages = new List<(string Tag, Type Page, bool setNavNull)>
 {

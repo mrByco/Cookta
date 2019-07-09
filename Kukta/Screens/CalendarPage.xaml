@@ -1,71 +1,50 @@
-﻿<Page
+﻿                                                                                                                                                                                                                                                                                                                    <Page
     x:Class="Kukta.Screens.CalendarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Kukta.Screens"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Calendar="using:Kukta.Calendar"
+    xmlns:CalendarLocal="using:Kukta.Screens.Calendar"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="Page_Loaded">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-
-        <!-- HEADER -->
-        <RelativePanel>
-            <Button RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignTopWithPanel="True"
-                    x:Name="BackButton"
-                    Click="BackButtonClick"
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE72B;"
-                    FontSize="36"/>
-            <TextBlock RelativePanel.AlignHorizontalCenterWithPanel="True"
-                       RelativePanel.AlignVerticalCenterWithPanel="True"
-                       Text="WeekTemplateInfo"
-                       x:Name="WeekTemplateInfoTextBlock"
-                       FontSize="24"/>
-
-            <Button RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.AlignTopWithPanel="True"
-                    x:Name="ForwardButton"
-                    Click="ForwardButtonClick"
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE72A;"
-                    FontSize="36"/>
-        </RelativePanel>
-
-        <!-- Content -->
-        <Frame x:Name="CalendarWeekFrame" Grid.Row="1">
-
-        </Frame>
-
-        <RelativePanel Grid.Row="2" Visibility="Collapsed">
-            <Button Name="ApplyWeekTemplateToWeekButton"
-                    Click="ApplyWeekTemplateToWeekButton_Click"
-                    Content="Sablán alkalmazása"
-                    RelativePanel.AlignRightWithPanel="True"/>
+        <ListView Name="MyFoodsListView" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True">
             
-        </RelativePanel>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="CalendarLocal:MealDayList">
+                    <RelativePanel Margin="10">
 
+                        <ListView Name="Mealings" SelectionMode="None" ItemsSource="{x:Bind meals}" IsItemClickEnabled="True">
 
-        <ContentDialog Name="ApplyWeekTemplateToWeekDialog"
-                       Title="Sablon alkalmazása"
-                       IsPrimaryButtonEnabled="True"
-                       PrimaryButtonText="Alkalmazás">
-            <RelativePanel>
-                <StackPanel Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True">
-                    <TextBlock Text="Sablon: "/>
-                    <ComboBox Name="WeekTemplateCombobox"/>
-                </StackPanel >
-            </RelativePanel>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Background="Transparent"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
 
-        </ContentDialog>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="CalendarLocal:CalendarMeal">
+                                    <StackPanel>
+                                        <ListView>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="Calendar:AMealingItem">
+                                                    <TextBlock Text="{x:Bind getName}"/>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+                    </RelativePanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
 
     </Grid>
 </Page>

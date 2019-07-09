@@ -126,47 +126,34 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Calendar\Calendar.cs" />
+    <Compile Include="Calendar\AMealingItem.cs" />
     <Compile Include="Calendar\CalendarDay.cs" />
-    <Compile Include="Calendar\FixedMealing.cs" />
+    <Compile Include="Calendar\Mealing.cs" />
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="FoodFrameworkV2\Food.cs" />
     <Compile Include="FoodFrameworkV2\Ingredient.cs" />
     <Compile Include="FoodFrameworkV2\Unit.cs" />
-    <Compile Include="FoodFramework\Food.cs" />
-    <Compile Include="FoodFramework\FoodCategory.cs" />
-    <Compile Include="FoodFramework\FoodDatabase.cs" />
-    <Compile Include="FoodFramework\IMealingItem.cs" />
+    <Compile Include="Calendar\IMealingItem.cs" />
     <Compile Include="FrameWork\ASingleton.cs" />
     <Compile Include="FrameWork\DateTimeExtensions.cs" />
     <Compile Include="FrameWork\FoodButtonV2.cs" />
-    <Compile Include="FrameWork\FoodButton.cs" />
-    <Compile Include="FrameWork\FoodCategorieButton.cs" />
-    <Compile Include="FrameWork\FoodList.cs" />
     <Compile Include="FrameWork\IMealingItemButton.cs" />
     <Compile Include="FrameWork\IngredientList.cs" />
     <Compile Include="FrameWork\LargeFoodButton.cs" />
-    <Compile Include="FrameWork\MealContent.cs" />
     <Compile Include="FrameWork\Networking.cs" />
     <Compile Include="FrameWork\ProfilePanel.cs" />
     <Compile Include="FrameWork\ServicesNotAvailable.xaml.cs">
       <DependentUpon>ServicesNotAvailable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FrameWork\SignInUpPanel.cs" />
-    <Compile Include="FrameWork\WeekTemplateCombobox.cs" />
     <Compile Include="Pages\InitPage.xaml.cs">
       <DependentUpon>InitPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Menu\TemplateDay.cs" />
     <Compile Include="Menu\EMealType.cs" />
-    <Compile Include="Menu\Meal.cs" />
-    <Compile Include="Menu\TemplateManager.cs" />
-    <Compile Include="Menu\WeekTemplate.cs" />
     <Compile Include="Pages\RootPage.xaml.cs">
       <DependentUpon>RootPage.xaml</DependentUpon>
     </Compile>
@@ -178,9 +165,6 @@
     <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromAssetsFolder.cs" />
     <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromFolder.cs" />
     <Compile Include="SaveLoad\File\Tasks\SaveSerializable.cs" />
-    <Compile Include="Screens\CalendarContentPage.xaml.cs">
-      <DependentUpon>CalendarContentPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Screens\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
     </Compile>
@@ -192,9 +176,6 @@
     </Compile>
     <Compile Include="Screens\FoodEditor.xaml.cs">
       <DependentUpon>FoodEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Screens\FoodFrame.xaml.cs">
-      <DependentUpon>FoodFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -288,10 +269,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Screens\CalendarContentPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Screens\CalendarPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -305,10 +282,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\FoodEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Screens\FoodFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

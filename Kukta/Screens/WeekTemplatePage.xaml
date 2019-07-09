@@ -5,93 +5,9 @@
     xmlns:local="using:Kukta.Screens"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="Page_Loaded">
+    mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Auto"
-                      Grid.Row="0">
-            <ScrollViewer.Content>
-                <Grid x:Name="WeekGrid">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <ComboBox Grid.Column="0"
-                          Grid.Row="0"
-                          HorizontalAlignment="Stretch"
-                              x:Name="TemplateSelector"
-                              SelectionChanged="TemplateSelector_SelectionChanged">
-                        <ComboBoxItem>
-                            <TextBlock Text="asd1"/>
-                        </ComboBoxItem>
-
-                    </ComboBox>
-
-                    <TextBlock Grid.Column="1" Text="Hétfő" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="Kedd" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="3" Text="Szerda" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="4" Text="Csütörtök" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="5" Text="Péntek" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="6" Text="Szombat" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="7" Text="Vasárnap" HorizontalAlignment="Center"/>
-
-                </Grid>
-            </ScrollViewer.Content>
-        </ScrollViewer>
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal">
-            <Button Margin="20, 5"
-                    Content="Sablon törlése"
-                    Click="OnDeleteWeekButtonClick"/>
-        </StackPanel>
-
-        <ContentDialog x:Name="AddFoodToMealDialog"
-                       PrimaryButtonText="Hozzáadás">
-            <ContentDialog.Content>
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Hidden">
-                    <ScrollViewer.Content>
-                        <StackPanel Orientation="Vertical"
-                                x:Name="AddFoodToMealList">
-                            
-                        </StackPanel>
-                    </ScrollViewer.Content>
-                </ScrollViewer>
-            </ContentDialog.Content>
-
-        </ContentDialog>
-
-        <ContentDialog x:Name="NewWeekTemplateDialog"
-                       PrimaryButtonText="Hozzáadás"
-                       PrimaryButtonClick="NewWeekTemplateDialog_PrimaryButtonClick">
-            <ContentDialog.Content>
-                <RelativePanel VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch">
-                    <TextBlock x:Name="NewCategoryNameLabel" RelativePanel.AlignVerticalCenterWithPanel="True" HorizontalAlignment="Center"  Text="Sablon neve: " Margin="5"/>
-                    <TextBox x:Name="NewCategoryNameTextBox" RelativePanel.RightOf="NewCategoryNameLabel" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="5"/>
-                </RelativePanel>
-            </ContentDialog.Content>
-            
-        </ContentDialog>
+        <TextBlock Text="Hamarosan....." FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
     </Grid>
-
-
 </Page>

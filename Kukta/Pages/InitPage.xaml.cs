@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.Calendar;
 using Kukta.FrameWork;
 using Kukta.Menu;
 using RestSharp;
@@ -36,14 +36,10 @@ namespace Kukta
             bool debugServer = false;
             App.RestClient = new RestClient(debugServer ? "http://192.168.1.74:1337/" : "https://kuktaservices.azurewebsites.net/");
 
-            FoodDatabase.Instance.LoadBaseFoods();
-            FoodDatabase.Instance.LoadCustomFoods();
-            FoodDatabase.Instance.LoadCategories();
-            TemplateManager.Instance.LoadTemplates();
-            //App.Calendar.LoadAll();
+            await SetLoading(true);
             await FoodFrameworkV2.Unit.Init();
             await FoodFrameworkV2.IngredientType.Init();
-            SetLoading(false);
+            await SetLoading(false);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

@@ -1,6 +1,5 @@
 ﻿
 using Kukta.Calendar;
-using Kukta.FoodFramework;
 using Kukta.Menu;
 using RestSharp;
 using System;
@@ -30,7 +29,6 @@ namespace Kukta
 {
     //Base delegates
     public delegate void VoidDelegate();
-    public delegate void WeekTemplateDelegate(WeekTemplate template);
     public delegate void DayDelegate(CalendarDay day);
     public delegate ContentDialog DialogDelegate(ContentDialog baseDialog);
 
@@ -48,9 +46,6 @@ namespace Kukta
 
         public static App instance;
 
-        internal FoodDatabase FoodDatabase;
-        internal TemplateManager TemplateDatabase;
-        internal static Calendar.Calendar Calendar;
         internal static InitPage InitPage;
         internal static MainPage RootPage;
 

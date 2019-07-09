@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.Calendar;
 using Kukta.FrameWork;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,11 @@ namespace Kukta.Screens
     /// </summary>
     public sealed partial class FoodCategories : Page
     {
-        private FoodCategory m_Selected = null;
+        public FoodCategories()
+        {
+            this.InitializeComponent();
+        }
+        /*private FoodCategory m_Selected = null;
         private FoodCategory Selected
         {
             get { return m_Selected; }
@@ -179,6 +183,6 @@ namespace Kukta.Screens
         {
             
 
-        }
+        }*/
     }
 }

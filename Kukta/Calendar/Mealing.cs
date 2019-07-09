@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kukta.FoodFramework
+namespace Kukta.Calendar
 {
-    public interface IMealingItem
+    public class Mealing
     {
-        Food GetMealFood(int seed);
-        Guid GetGuid();
-        string GetName();
+        public List<IMealingItem> items = new List<IMealingItem>();
     }
 }
