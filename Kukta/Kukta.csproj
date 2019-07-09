@@ -165,6 +165,9 @@
     <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromAssetsFolder.cs" />
     <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromFolder.cs" />
     <Compile Include="SaveLoad\File\Tasks\SaveSerializable.cs" />
+    <Compile Include="Screens\CalendarContentPage.xaml.cs">
+      <DependentUpon>CalendarContentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
     </Compile>
@@ -268,6 +271,10 @@
     <Page Include="Pages\RootPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\CalendarContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\CalendarPage.xaml">
       <SubType>Designer</SubType>
