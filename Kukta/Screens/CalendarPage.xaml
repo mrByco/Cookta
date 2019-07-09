@@ -11,8 +11,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView Name="MyFoodsListView" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True">
-            
+        <!--<ListView Name="MyFoodsListView" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="CalendarLocal:MealDayList">
                     <RelativePanel Margin="10">
@@ -43,7 +42,7 @@
                     </RelativePanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </ListView>-->
 
 
     </Grid>
