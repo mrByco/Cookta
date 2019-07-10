@@ -51,13 +51,13 @@
                 <TextBlock Text="Feliratkozás: " FontSize="16" FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Left" Foreground="DarkGray" Margin="30, 0"/>
             </Border>
 
-            <ListView Name="SubFoodsListView" ItemsSource="{x:Bind FilteredSubcribtedFoods}" Visibility="{x:Bind ContentVisibility}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="FoodClick">
+            <ListView Name="SubFoodsListView" ItemsSource="{x:Bind FilteredSubcribtedFoods}" Visibility="{x:Bind ContentVisibility}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="FoodClick" HorizontalContentAlignment="Right">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="Frame2:Food">
-                        <RelativePanel Margin="10">
+                        <RelativePanel Margin="10" HorizontalAlignment="Stretch">
                             <Image Source="{x:Bind getImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
                             <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
-                                <TextBlock Height="25" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Left" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
+                                <TextBlock Height="25" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
                                 <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
                                 <TextBlock Height="25" Text="{x:Bind GetIngredientArray}" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                             </StackPanel>

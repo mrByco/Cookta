@@ -13,5 +13,7 @@ namespace Kukta.Calendar
         Food GetMealFood();
         void NewSeed();
         string GetName();
+        string GetId();
+        string ToString();
     }
 }

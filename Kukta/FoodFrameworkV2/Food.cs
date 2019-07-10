@@ -1,4 +1,5 @@
-﻿using Kukta.FrameWork;
+﻿using Kukta.Calendar;
+using Kukta.FrameWork;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -13,7 +14,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Kukta.FoodFrameworkV2
 {
-    public class Food
+    public class Food : IMealingItem
     {
         public string _id;
         public string owner;
@@ -34,6 +35,11 @@ namespace Kukta.FoodFrameworkV2
         private long? imageUploaded;
         public List<Ingredient> ingredients = new List<Ingredient>();
 
+        public Food GetMealFood() { return this; }
+        public string GetId() { return _id; }
+        public void NewSeed() { return; }
+        public string GetName() { return name; }
+
         public BitmapImage getImage
         {
             get
@@ -48,6 +54,11 @@ namespace Kukta.FoodFrameworkV2
                 return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
                     , UriKind.Absolute));
             }
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
 
         public string GetIngredientArray
@@ -162,6 +173,14 @@ namespace Kukta.FoodFrameworkV2
             }
             return foods;
         }
+        public static async Task<List<IMealingItem>> GetSubAndMyFoods()
+        {
+            List<Food> foods = await GetMyFoods();
+            foods.AddRange(await GetSubFoods());
+            List<IMealingItem> items = new List<IMealingItem>();
+            foods.ForEach((food) => { items.Add(food as IMealingItem); });
+            return items;
+        }
 
         internal static async Task<Food> Get(string _id)
         {
@@ -254,7 +273,6 @@ namespace Kukta.FoodFrameworkV2
             return jFood.ToString(Formatting.None);
 
         }
-
     }
 
 

@@ -33,7 +33,7 @@ namespace Kukta
         }
         public async void Init()
         {
-            bool debugServer = false;
+            bool debugServer = true;
             App.RestClient = new RestClient(debugServer ? "http://192.168.1.74:1337/" : "https://kuktaservices.azurewebsites.net/");
 
             await SetLoading(true);

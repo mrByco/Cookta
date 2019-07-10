@@ -126,7 +126,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Calendar\AMealingItem.cs" />
     <Compile Include="Calendar\CalendarDay.cs" />
     <Compile Include="Calendar\Mealing.cs" />
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">

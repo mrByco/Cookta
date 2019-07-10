@@ -2,6 +2,7 @@
 using Kukta.FrameWork;
 using Kukta.Menu;
 using Kukta.SaveLoad.File;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,12 @@ namespace Kukta.Calendar
         {
             DateTime = dateTime.CutToDay();
         }
-        public CalendarDay()
-        {
-
-        }
+        public CalendarDay() {}
         public List<IMealingItem> GetItemsOf(EMealType type)
         {
             int index = (int)type;
             var mealing = mealings[index];
-            return mealing.items;
+            return mealing?.items ?? new List<IMealingItem>();
         }
         public string GetDayString()
         {
@@ -39,7 +37,13 @@ namespace Kukta.Calendar
             var query = new Dictionary<string, object>();
             query.Add("date", dateTime.ToString("yyyy-MM-dd"));
             var response = await Networking.GetRequestWithForceAuth("day", query);
-            return await ParseDayFromServerJson(response.Content);
+            return response.Content == "" ? new CalendarDay(dateTime) : await ParseDayFromServerJson(response.Content);
+        }
+        internal static async Task SaveDay(CalendarDay day)
+        {
+            string body = CreateDayToServer(day);
+            var res = await Networking.PostRequestWithForceAuth("day", body);
+            return;
         }
 
         private static async Task<CalendarDay> ParseDayFromServerJson(string json)
@@ -85,31 +89,36 @@ namespace Kukta.Calendar
             }
             return day;
         }
-        public static string CreateDayToServer(CalendarDay days)
+        public static string CreateDayToServer(CalendarDay day)
         {
-            JObject jFood = new JObject();
+            JObject jDay = new JObject();
 
-            JArray ingArray = new JArray();
-            foreach (Ingredient ing in food.ingredients)
+            JArray mealArray = new JArray();
+            for (int i = 0; i < day.mealings.Length; i++)
             {
-                JObject jObject = new JObject();
-                jObject.Add("ingredientID", ing.Type.ID);
-                jObject.Add("unit", ing.UnitName);
-                jObject.Add("value", ing.Value);
-                ingArray.Add(jObject);
+                Mealing meal = day.mealings[i];
+                foreach (IMealingItem item in meal.items)
+                {
+                    JObject jObject = new JObject();
+                    string type = "";
+                    if (item is Food)
+                    {
+                        type = "food";
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                    jObject.Add("type", type);
+                    jObject.Add("mealIndex", i);
+                    jObject.Add("id", item.GetId());
+                    mealArray.Add(jObject);
+                }
             }
+            jDay.Add("date", JToken.FromObject(day.DateTime.ToString("yyyy-MM-dd")));
+            jDay.Add("mealings", mealArray);
 
-            if (food._id != null)
-            {
-                jFood.Add("_id", JToken.FromObject(food._id));
-            }
-            jFood.Add("name", JToken.FromObject(food.name));
-            jFood.Add("private", JToken.FromObject(food.isPrivate));
-            jFood.Add("makeTime", JToken.FromObject(food.makeTime));
-            jFood.Add("desc", JToken.FromObject(food.desc));
-            jFood.Add("ingredients", ingArray);
-
-            return jFood.ToString(Formatting.None);
+            return jDay.ToString(Formatting.None);
 
         }
     }

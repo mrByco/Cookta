@@ -5,6 +5,7 @@ using Kukta.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -23,6 +24,11 @@ namespace Kukta.Screens
         private Dictionary<EMealType, int> RowByMealType = new Dictionary<EMealType, int>();
         // -1 is alvays the Mealtypes
         private Dictionary<int, List<UIElement>> ElementsByDayindex = new Dictionary<int, List<UIElement>>();
+        private DateTime CurrentDate;
+        private FrameworkElement lastClicked;
+        private StackPanel lastClickedStack;
+
+        private CalendarDay[] days = new CalendarDay[7];
 
         public CalendarContentPage()
         {
@@ -30,16 +36,22 @@ namespace Kukta.Screens
             DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+#pragma warning disable CS0628 // New protected member declared in sealed class
+        protected async void OnNavigatedTo(DateTime e)
+#pragma warning restore CS0628 // New protected member declared in sealed class
         {
-            DateTime startDay = ((DateTime)e.Parameter).StartOfWeek(DayOfWeek.Monday);
+            DateTime startDay = e.StartOfWeek(DayOfWeek.Monday);
+            CurrentDate = startDay;
             DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
             for (int i = 0; i < 7; i++)
             {
                 DrawDay(await CalendarDay.GetDay(startDay.AddDays(i).CutToDay()));
             }
         }
-
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            OnNavigatedTo((DateTime)e.Parameter);
+        }
 
         private void DrawMeals(List<EMealType> meals)
         {
@@ -91,6 +103,10 @@ namespace Kukta.Screens
                 catch
                 {
                 }
+                if (dayIndex >= 0)
+                {
+                    days[dayIndex] = day;
+                }
                 if (ElementsByDayindex.ContainsKey(dayIndex))
                     ElementsByDayindex[dayIndex] = new List<UIElement>();
                 else
@@ -119,18 +135,136 @@ namespace Kukta.Screens
 
                 foreach (EMealType type in RowByMealType.Keys)
                 {
-                    StackPanel foodList = new StackPanel();
+                    StackPanel itemList = new StackPanel();
 
-                    foreach (Food food in day.GetItemsOf(type))
+                    if (day.GetItemsOf(type).Count > 0)
                     {
-                        foodList.Children.Add(new TextBlock() { Text = food.name});
+                        foreach (IMealingItem item in day.GetItemsOf(type))
+                        {
+                            AddIMealButtonToStackPanel(item, itemList);
+                        }
                     }
-                    Grid.SetColumn(foodList, dayIndex);
-                    Grid.SetRow(foodList, RowByMealType[type]);
-                    ContentGrid.Children.Add(foodList);
-                    ElementsByDayindex[dayIndex].Add(foodList);
+                    else
+                    {
+                        AddIMealButtonToStackPanel(null, itemList);
+                    }
+
+                    Grid.SetColumn(itemList, dayIndex);
+                    Grid.SetRow(itemList, RowByMealType[type]);
+                    ContentGrid.Children.Add(itemList);
+                    ElementsByDayindex[dayIndex].Add(itemList);
                 }
             });
+        }
+
+        private void ItemClicked(IMealingItem item, FrameworkElement button)
+        {
+            lastClicked = button;
+            lastClickedStack = button.Parent as StackPanel;
+            if (item == null)
+            {
+                FlyoutMenu.ShowAt(button);
+            }
+            else if (item is Food food)
+            {
+
+            }
+        }
+
+        private void AddItemClick(object sender, RoutedEventArgs e)
+        {
+            ChangeToItemAdder(lastClicked);
+        }
+
+        private void ChangeToItemAdder(FrameworkElement toPlace)
+        {
+            StackPanel stack = toPlace.Parent as StackPanel;
+            int place = stack.Children.IndexOf(toPlace);
+            stack.Children.Remove(toPlace);
+            AutoSuggestBox adder = GetItemAdder(stack);
+            stack.Children.Insert(place, adder);
+            adder.Focus(FocusState.Programmatic);
+
+        }
+        private AutoSuggestBox GetItemAdder(StackPanel forStack)
+        {
+            AutoSuggestBox suggBox = new AutoSuggestBox()
+            {
+                PlaceholderText = "Étel vagy kategória",
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(10, 0, 10, 0),
+            };
+            Action setItems = async () => 
+            {
+                List<IMealingItem> items = await Food.GetSubAndMyFoods();
+                suggBox.TextChanged += (box, args) =>
+                {
+                    box.ItemsSource = items.FindAll((item) => { return item.ToString().ToLower().Contains(box.Text.ToLower()); });
+                };
+                suggBox.QuerySubmitted += async (box, args) =>
+                {
+                    IMealingItem choosenItem = (box.ItemsSource as List<IMealingItem>).Find((item) => { return item.ToString().Equals(args.QueryText); });
+                    
+                    //await AddItemTo(box.Parent, box, choosenItem);
+                };
+            };
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            suggBox.LostFocus += (sender, args) => { AddItemTo(forStack, suggBox, null); };
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            setItems.Invoke();
+            return suggBox;
+        }
+        private async Task AddItemTo(StackPanel parent, AutoSuggestBox adder, IMealingItem choosen)
+        {
+            int place = parent.Children.IndexOf(adder);
+            parent.Children.Remove(adder);
+            if (choosen != null)
+            {
+                Button btn = new Button()
+                {
+                    Content = choosen.ToString(),
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Margin = new Thickness(10, 0, 10, 0),
+                };
+                btn.Click += (sender, args) =>
+                {
+                    ItemClicked(choosen, btn);
+                };
+                parent.Children.Insert(place, btn);
+            }
+            else if (parent.Children.Count == 0)
+            {
+                AddIMealButtonToStackPanel(null, parent);
+            }
+        }
+        private void AddIMealButtonToStackPanel(IMealingItem item, StackPanel stack)
+        {
+            if (item == null)
+            {
+                Button btn = new Button()
+                {
+                    Content = "-",
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Margin = new Thickness(10, 0, 10, 0),
+                };
+                btn.Click += (sender, args) =>
+                {
+                    ItemClicked(null, btn);
+                };
+                stack.Children.Add(btn);
+            }
+            else
+            {
+                Button btn = new Button()
+                {
+                    Content = item.GetMealFood().GetName(),
+                };
+                btn.Click += (sender, args) =>
+                {
+                    ItemClicked(item, btn);
+                };
+                stack.Children.Add(btn);
+            }
         }
     }
 }
