@@ -15,22 +15,33 @@ namespace Kukta.Calendar
     public class CalendarDay
     {
         public DateTime DateTime;
-        public Mealing[] mealings = new Mealing[6];
-        public CalendarDay(DateTime dateTime)
+        public readonly Mealing[] mealings = new Mealing[6];
+        public CalendarDay(DateTime dateTime) : this()
         {
             DateTime = dateTime.CutToDay();
         }
-        public CalendarDay() {}
-        public List<IMealingItem> GetItemsOf(EMealType type)
+        public CalendarDay()
+        {
+            for (int i = 0; i < mealings.Length; i++)
+            {
+                mealings[i] = new Mealing(this);
+            }
+        }
+        public ref List<IMealingItem> GetItemsOf(EMealType type)
         {
             int index = (int)type;
             var mealing = mealings[index];
-            return mealing?.items ?? new List<IMealingItem>();
+            return ref mealing.items;
         }
         public string GetDayString()
         {
             return DateTime.ToString("yyyy-MM-dd");
         }
+        public ref Mealing GetMealing(EMealType type)
+        {
+            return ref mealings[(int)type];
+        }
+
 
         internal static async Task<CalendarDay> GetDay(DateTime dateTime)
         {

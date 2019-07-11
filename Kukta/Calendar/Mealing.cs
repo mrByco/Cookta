@@ -10,5 +10,10 @@ namespace Kukta.Calendar
     public class Mealing
     {
         public List<IMealingItem> items = new List<IMealingItem>();
+        public readonly CalendarDay day;
+        public Mealing(CalendarDay day)
+        {
+            this.day = day;
+        }
     }
 }

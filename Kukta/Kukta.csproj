@@ -127,6 +127,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Calendar\CalendarDay.cs" />
+    <Compile Include="Calendar\IMealingPH.cs" />
     <Compile Include="Calendar\Mealing.cs" />
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
@@ -136,6 +137,8 @@
     <Compile Include="FoodFrameworkV2\Unit.cs" />
     <Compile Include="Calendar\IMealingItem.cs" />
     <Compile Include="FrameWork\ASingleton.cs" />
+    <Compile Include="FrameWork\CalendarButton.cs" />
+    <Compile Include="FrameWork\CelandarDay.cs" />
     <Compile Include="FrameWork\DateTimeExtensions.cs" />
     <Compile Include="FrameWork\FoodButtonV2.cs" />
     <Compile Include="FrameWork\IMealingItemButton.cs" />

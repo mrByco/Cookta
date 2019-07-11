@@ -30,7 +30,7 @@
         </ScrollViewer>
         <Grid.ContextFlyout>
             <MenuFlyout x:Name="FlyoutMenu">
-                <MenuFlyoutItem Name="AddItem" Click="AddItemClick" Text="Hozzáadás"/>
+                <MenuFlyoutItem Name="AddItem" Text="Hozzáadás"/>
             </MenuFlyout>
         </Grid.ContextFlyout>
     </Grid>
