@@ -37,7 +37,9 @@ namespace Kukta.Screens
         {
             DateTime startDay = e.StartOfWeek(DayOfWeek.Monday);
             DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
-            Task.Run( () => {DrawAllDays(startDay); });
+#pragma warning disable CS4014 
+            Task.Run( () => { DrawAllDays(startDay); });
+#pragma warning restore CS4014
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

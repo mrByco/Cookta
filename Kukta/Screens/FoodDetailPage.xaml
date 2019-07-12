@@ -3,9 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Kukta.Screens"
+    xmlns:foods="using:Kukta.FoodFrameworkV2"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:frame="using:Kukta.FrameWork"
     mc:Ignorable="d"
     RequestedTheme="Light"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -63,6 +65,7 @@
                         <HyperlinkButton Content="Nem találom a hozzávalót!" Name="ReportNoIngredient" Click="ReportNoIngredientBTN_click"/>
                         <TextBlock FontSize="24" Text="Egyéb beállítások" HorizontalAlignment="Center" Name="OtherSettingsTextBlock"/>
                         <ToggleSwitch x:Name="IsPublicToggle" Header="A recept publikus és elérhető mindenki számára." OnContent="Elérhető" OffContent="Nem elérhető"/>
+                        <frame:TagPanel x:Name="Tags"  TagsChanged="TagPanel_TagsChanged"/>
                     </StackPanel>
                 </Grid>
             </ScrollViewer.Content>

@@ -33,6 +33,18 @@ namespace Kukta.Screens
         {
             this.InitializeComponent();
         }
+        private List<Tag> m_CurrentTags;
+        public List<string> CurrentTags
+        {
+            get
+            {
+                return CurrentTags;
+            }
+            set
+            {
+                m_CurrentTags = FoodFrameworkV2.Tag.GetTagsByTexts(value, "hu-hu");
+            }
+        }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -76,6 +88,7 @@ namespace Kukta.Screens
                 this.Image.Visibility = Visibility.Collapsed;
                 ReportNoIngredient.Visibility = Visibility.Visible;
                 OtherSettingsTextBlock.Visibility = Visibility.Visible;
+                Tags.EditEnabled = true;
 
                 UploadImageBTN.Visibility = Visibility.Visible;
                 SaveBTN.Visibility = Visibility.Visible;
@@ -107,6 +120,8 @@ namespace Kukta.Screens
                 ReportNoIngredient.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 OtherSettingsTextBlock.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
+                Tags.EditEnabled = editMode;
+                Tags.Tags = CurrentFood.Tags;
 
 
                 ImageCropper.Visibility = Visibility.Collapsed;
@@ -170,6 +185,7 @@ namespace Kukta.Screens
                 desc = DescTextBox.Text,
                 ingredients = IngList.GetIngredients(),
                 isPrivate = !IsPublicToggle.IsOn,
+                Tags = Tags.Tags
             }, storageFile);
 
             await SetLoading(false);
@@ -236,6 +252,11 @@ namespace Kukta.Screens
         private async void ReportNoIngredientBTN_click(object sender, RoutedEventArgs e)
         {
             await new ReportNotFountIngredientDialog().ShowAsync();
+        }
+
+        private void TagPanel_TagsChanged(TagPanel panel, List<Tag> tags)
+        {
+
         }
     }
 }

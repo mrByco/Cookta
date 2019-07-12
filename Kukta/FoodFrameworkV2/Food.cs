@@ -33,6 +33,7 @@ namespace Kukta.FoodFrameworkV2
         public string desc;
         public string imageURL;
         private long? imageUploaded;
+        public List<Tag> Tags = new List<Tag>();
         public List<Ingredient> ingredients = new List<Ingredient>();
 
         public Food GetMealFood() { return this; }
@@ -226,6 +227,16 @@ namespace Kukta.FoodFrameworkV2
             bool? nullablePrivate = jFood.GetValue("private")?.Value<bool?>();
             food.isPrivate = nullablePrivate != null ? (bool)nullablePrivate : true;
             food.imageURL = jFood.GetValue("image")?.Value<string>();
+            var tagArray = jFood.GetValue("tags")?.Value<JArray>();
+            if (tagArray != null)
+            {
+                for (int i = 0; i < tagArray.Count; i++)
+                {
+                    string str = tagArray.ElementAt(i).ToObject<string>();
+                    food.Tags.Add(Tag.GetTagById(str));
+                }
+            }
+
             food.imageUploaded = jFood.GetValue("imageUploaded")?.Value<long?>();
             JArray jarray = jFood.GetValue("ingredients").Value<JArray>();
             if (jarray != null)
@@ -268,47 +279,15 @@ namespace Kukta.FoodFrameworkV2
             jFood.Add("private", JToken.FromObject(food.isPrivate));
             jFood.Add("makeTime", JToken.FromObject(food.makeTime));
             jFood.Add("desc", JToken.FromObject(food.desc));
+
+            List<string> strList = new List<string>();
+            food.Tags.ForEach((tag) => { strList.Add(tag.id); });
+            jFood.Add("tags", new JArray(strList));
             jFood.Add("ingredients", ingArray);
 
             return jFood.ToString(Formatting.None);
 
         }
     }
-
-
-    class FoodUploadObejct
-    {
-        public string name;
-        public string desc;
-        public string IsPrivate;
-        public int makeTime;
-    }
-    class FoodDocument
-    {
-        public string _id;
-        public bool subcribed;
-        public bool owning;
-        public string author;
-        public string name;
-        public string desc;
-        public string IsPrivate;
-        public int makeTime;
-    }
-
-    /*
-     * {
-     *      {
-     *          "_id":"5d0faff36881d40d9006815f",
-     *          "owner":"google-oauth2|115350606162190832995",
-     *          "name":"new renamed 0000",
-     *          "makeTime":null,"desc":"string",
-     *          "ingredients":
-     *              [
-     *              {"ingredientID":"string","unit":"string","value":0.5},
-     *              {"ingredientID":"string2","unit":"string2","value":1.5}
-     *              ]
-     *              }
-     *              }
-     */
 
 }
