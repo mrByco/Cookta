@@ -142,9 +142,10 @@ namespace Kukta
             }
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateLoginButton(Networking.aResult);
+            NavigateTo("home", null, null);
         }
     }
 }

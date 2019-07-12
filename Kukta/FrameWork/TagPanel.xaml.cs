@@ -73,7 +73,6 @@ namespace Kukta.FrameWork
                     tags.Add(m_Tags[i].original);
                 }
                 Tags = tags;
-                TagContainer.UpdateLayout();
                 TagAdder.Visibility = m_EditEnabled ? Visibility.Visible : Visibility.Collapsed;
             }
         }
