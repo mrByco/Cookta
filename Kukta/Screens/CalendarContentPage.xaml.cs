@@ -1,20 +1,14 @@
 ﻿using Kukta.Calendar;
-using Kukta.FoodFramework;
+using Kukta.FoodFrameworkV2;
 using Kukta.FrameWork;
 using Kukta.Menu;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
@@ -31,22 +25,34 @@ namespace Kukta.Screens
         // -1 is alvays the Mealtypes
         private Dictionary<int, List<UIElement>> ElementsByDayindex = new Dictionary<int, List<UIElement>>();
 
+        private CalendarDay[] days = new CalendarDay[7];
+
         public CalendarContentPage()
         {
             this.InitializeComponent();
             DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
         }
 
+        protected async void OnNavigatedTo(DateTime e)
+        {
+            DateTime startDay = e.StartOfWeek(DayOfWeek.Monday);
+            DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
+#pragma warning disable CS4014 
+            Task.Run( () => { DrawAllDays(startDay); });
+#pragma warning restore CS4014
+        }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            DateTime startDay = ((DateTime)e.Parameter).StartOfWeek(DayOfWeek.Monday);
-            DrawMeals(Enum.GetValues(typeof(EMealType)).Cast<EMealType>().ToList());
+            OnNavigatedTo((DateTime)e.Parameter);
+        }
+        private async Task DrawAllDays(DateTime startDay)
+        {
+            //Loading required
             for (int i = 0; i < 7; i++)
             {
-                DrawDay(Calendar.Calendar.Instance.GetDay(startDay.AddDays(i).CutToDay()));
+                DrawDay(await CalendarDay.GetDay(startDay.AddDays(i).CutToDay()));
             }
         }
-
 
         private void DrawMeals(List<EMealType> meals)
         {
@@ -86,12 +92,15 @@ namespace Kukta.Screens
 
         private async void DrawDay(CalendarDay day)
         {
+            int dayIndex = day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1;
+            if (dayIndex >= 0)
+            {
+                days[dayIndex - 1] = day;
+            }
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                int dayIndex = day.DateTime.DayIndexInWeek(DayOfWeek.Monday) + 1;
                 try
                 {
-                    day.OnDayChanged -= DrawDay;
                     List<UIElement> elements = ElementsByDayindex[dayIndex];
                     if (elements != null)
                         elements.ForEach(e => { ContentGrid.Children.Remove(e); });
@@ -99,7 +108,6 @@ namespace Kukta.Screens
                 catch
                 {
                 }
-                day.OnDayChanged += DrawDay;
                 if (ElementsByDayindex.ContainsKey(dayIndex))
                     ElementsByDayindex[dayIndex] = new List<UIElement>();
                 else
@@ -114,23 +122,6 @@ namespace Kukta.Screens
                 Grid.SetColumn(dayText, dayIndex);
 
 
-                StackPanel templateSelector = new StackPanel() { Orientation = Orientation.Horizontal};
-                ElementsByDayindex[dayIndex].Add(templateSelector);
-                ContentGrid.Children.Add(templateSelector);
-                Grid.SetColumn(templateSelector, dayIndex);
-                Grid.SetRow(templateSelector, 1);
-                WeekTemplateCombobox templateSelectorCombobox = new WeekTemplateCombobox(day);
-                templateSelector.VerticalAlignment = VerticalAlignment.Center;
-                templateSelector.Children.Add(templateSelectorCombobox);
-                Button newSeedButton = new Button()
-                {
-                    Content = "\xE72C",
-                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                    VerticalAlignment = VerticalAlignment.Stretch
-
-                };
-                newSeedButton.Click += (sender, args) => { day.NextSeed(); };
-                templateSelector.Children.Add(newSeedButton);
 
 
 
@@ -145,19 +136,32 @@ namespace Kukta.Screens
 
                 foreach (EMealType type in RowByMealType.Keys)
                 {
-                    StackPanel foodList = new StackPanel();
+                    StackPanel itemList = new StackPanel();
 
-                    foreach (Food food in day.GetFoodsOf(type))
+                    if (day.GetItemsOf(type).Count > 0)
                     {
-                        foodList.Children.Add(new FoodButton(food.Guid, null));
+                        for (int i = 0; i < day.GetItemsOf(type).Count; i++)
+                        {
+                            itemList.Children.Add(new CalendarButton(ref day.GetMealing(type), ref day, i, FlyoutMenu, DrawDay, itemList, false));
+                        }
                     }
-                    Grid.SetColumn(foodList, dayIndex);
-                    Grid.SetRow(foodList, RowByMealType[type]);
-                    ContentGrid.Children.Add(foodList);
-                    ElementsByDayindex[dayIndex].Add(foodList);
+                    else
+                    {
+                        itemList.Children.Add(new CalendarButton(ref day.GetMealing(type), ref day, null, FlyoutMenu, DrawDay, itemList, false));
+                    }
 
+                    Grid.SetColumn(itemList, dayIndex);
+                    Grid.SetRow(itemList, RowByMealType[type]);
+                    ContentGrid.Children.Add(itemList);
+                    ElementsByDayindex[dayIndex].Add(itemList);
                 }
             });
+        }
+
+        internal static void AddNewMealingItemToStack(StackPanel panel, ref Mealing mealing, ref CalendarDay day, MenuFlyout flyout, Action<CalendarDay> refreshDay)
+        {
+            CalendarButton button = new CalendarButton(ref mealing, ref day, null, flyout, refreshDay, panel, true);
+            panel.Children.Add(button);
         }
     }
 }

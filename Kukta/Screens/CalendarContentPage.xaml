@@ -28,5 +28,10 @@
                 </Grid>
             </ScrollViewer.Content>
         </ScrollViewer>
+        <Grid.ContextFlyout>
+            <MenuFlyout x:Name="FlyoutMenu">
+                <MenuFlyoutItem Name="AddItem" Text="Hozzáadás"/>
+            </MenuFlyout>
+        </Grid.ContextFlyout>
     </Grid>
 </Page>

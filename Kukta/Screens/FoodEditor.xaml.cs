@@ -1,10 +1,11 @@
-﻿using Kukta.FoodFramework;
-using Kukta.FrameWork;
+﻿using Kukta.FoodFrameworkV2;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -25,79 +26,70 @@ namespace Kukta.Screens
     /// </summary>
     public sealed partial class FoodEditor : Page
     {
-        private FoodFrame FoodContent;
-
+        //
         public FoodEditor()
         {
             this.InitializeComponent();
-            RefreshList();
-            FoodDatabase.Instance.OnFoodsChanged += new VoidDelegate(RefreshList);
-            FoodContentFrame.Navigate(typeof(FoodFrame), null);
-            FoodContent = FoodContentFrame.Content as FoodFrame;
         }
+        private Visibility ContentVisibility;
+        private Visibility LoadingVisibibity;
+
+        private ObservableCollection<Food> FilteredMyFoods = new ObservableCollection<Food>();
+        private ObservableCollection<Food> FilteredSubcribtedFoods = new ObservableCollection<Food>();
+
+        private List<Food> MyFoods = new List<Food>();
+        private List<Food> SubcribtedFoods = new List<Food>();
+
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefreshList();
+            FilterUpdateUI();
         }
 
-        internal async void RefreshList()
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                FoodList.Children.Clear();
-                List<Food> foods = FoodDatabase.Instance.Foods;
-
-                if (SearchTextBox.Text != "")
-                {
-                    foods = foods.FindAll((food) => food.Name.ToUpper().Contains(SearchTextBox.Text.ToUpper()));
-                }
-                foods.ForEach((food) => AddFood(food));
-            });
-        }
-
-        private void AddFood(Food food)
-        {
-            FoodList.Children.Add((UIElement)new FoodButton(food.Guid, OpenFoodOnContentViewer));
-        }
 
         private async void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
-            FoodNameText.Text = "";
-            await AddFoodDialog.ShowAsync();
+            MainPage.NavigateTo("fooddetail", null, null);
         }
 
-        private void ApplyFoodClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            FoodDatabase.Instance.AddFood(FoodNameText.Text);
+            await DownloadFoods();
         }
 
-        private void RefreshApplyButtonEnabled()
+        private async Task DownloadFoods()
         {
-            bool enabled = false;
-            if (FoodNameText.Text != "")
+            await SetLoading(true);
+            MyFoods = await Food.GetMyFoods();
+            SubcribtedFoods = await Food.GetSubFoods();
+            FilterUpdateUI();
+            await SetLoading(true);
+        }
+
+        private void FilterUpdateUI()
+        {
+            string filter = SearchTextBox.Text;
+            FilteredMyFoods = new ObservableCollection<Food>(MyFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
+            FilteredSubcribtedFoods = new ObservableCollection<Food>(SubcribtedFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
+            MyFoodsListView.ItemsSource = FilteredMyFoods;
+            SubFoodsListView.ItemsSource = FilteredSubcribtedFoods;
+        }
+
+        private async Task SetLoading(bool isLoading)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                enabled = true;
-            }
-            AddFoodDialog.IsPrimaryButtonEnabled = enabled;
+                ContentVisibility = isLoading ? Visibility.Collapsed : Visibility.Visible;
+                LoadingVisibibity = isLoading ? Visibility.Visible : Visibility.Collapsed;
+            });
+            return;
         }
 
-        private void AddFoodDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void FoodClick(object sender, ItemClickEventArgs e)
         {
-            AddFoodDialog.Hide();
-        }
-
-        private void FoodNameText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            RefreshApplyButtonEnabled();
-        }
-
-        private void OpenFoodOnContentViewer(Food food)
-        {
-            if (FoodContent != null)
-            {
-                FoodContent.OpenFood(food);
-            }
+            Food clickedFood = e.ClickedItem as Food;
+            MainPage.NavigateTo("fooddetail", null, clickedFood._id);
+            return;
         }
     }
 }

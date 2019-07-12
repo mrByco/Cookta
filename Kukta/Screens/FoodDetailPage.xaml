@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="Kukta.Screens.FoodDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.Screens"
+    xmlns:foods="using:Kukta.FoodFrameworkV2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:frame="using:Kukta.FrameWork"
+    mc:Ignorable="d"
+    RequestedTheme="Light"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="LightBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Name="ButtonBar"
+                    Background="Coral"
+                    HorizontalAlignment="Stretch"
+                    FlowDirection="RightToLeft"
+                    Grid.Row="1"
+                    Spacing="10">
+            <Button Name="SaveBTN" Content="Mentés" Click="SaveBTN_Click" Margin="5"/>
+            <Button Name="EditBTN" Content="Szerkesztés" Click="EditBTN_Click" Margin="5"/>
+            <Button Name="DeleteBTN" Content="Törlés" Click="DeleteBTN_Click" Margin="5"/>
+            <Button Name="SubscribeBTN" Content="Feliratkozás" Margin="5" Click="SubscribeBTN_Click"/>
+            <Button Name="UnsubscribeBTN" Content="Leiratkozás" Margin="5" Click="UnsubscribeBTN_Click"/>
+        </StackPanel>
+        <ScrollViewer
+            Name="Content"
+            Grid.Row="0"
+            Visibility="Collapsed"
+            VerticalContentAlignment="Stretch"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="24" Grid.Row="0" Grid.ColumnSpan="2"/>
+                    <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24" PlaceholderText="Recept neve" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Name="DescTextBlock" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="20"/>
+                        <TextBox Name="DescTextBox" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" AcceptsReturn="True" TextWrapping="Wrap" PlaceholderText="Recept leírása"/>
+                        <controls:ImageCropper x:Name="ImageCropper" Visibility="Collapsed" />
+                        <Image x:Name="Image" Visibility="Visible" HorizontalAlignment="Stretch"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20">
+                            <Button Name="UploadImageBTN" Content="Kép feltöltése/módosítása" Click="UploadImageBTN_Click" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Name="leftOrderStackPanel" Grid.Row="1" Grid.Column="1">
+                        <StackPanel  Name="IngredientsListPanel"/>
+                        <HyperlinkButton Content="Nem találom a hozzávalót!" Name="ReportNoIngredient" Click="ReportNoIngredientBTN_click"/>
+                        <TextBlock FontSize="24" Text="Egyéb beállítások" HorizontalAlignment="Center" Name="OtherSettingsTextBlock"/>
+                        <ToggleSwitch x:Name="IsPublicToggle" Header="A recept publikus és elérhető mindenki számára." OnContent="Elérhető" OffContent="Nem elérhető"/>
+                        <frame:TagPanel x:Name="Tags"  TagsChanged="TagPanel_TagsChanged"/>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer.Content>
+        </ScrollViewer>
+        <ProgressRing 
+            Visibility="Visible"
+            IsActive="True"
+            Name="ProgressRing"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            MaxHeight="250"
+            MaxWidth="250">
+        </ProgressRing>
+    </Grid>
+</Page>

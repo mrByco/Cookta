@@ -15,4 +15,27 @@ namespace Kukta.Menu
         Dinner,
         AfterDinner
     }
+    public static class MealType
+    {
+        public static string TypeToString(EMealType type)
+        {
+            switch (type)
+            {
+                case EMealType.AfterDinner:
+                    return "Uzsonna";
+                case EMealType.Breakfast:
+                    return "Reggeli";
+                case EMealType.Dinner:
+                    return "Vacsora";
+                case EMealType.Elevenses:
+                    return "Tízórai";
+                case EMealType.Lunch:
+                    return "Ebéd";
+                case EMealType.Snack:
+                    return "Nasi";
+            }
+            return "ismeretlen";
+        }
+    }
+
 }

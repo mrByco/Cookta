@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFramework;
+﻿using Kukta.Calendar;
 using Kukta.FrameWork;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,11 @@ namespace Kukta.Screens
     /// </summary>
     public sealed partial class FoodCategories : Page
     {
-        private FoodCategory m_Selected = null;
+        public FoodCategories()
+        {
+            this.InitializeComponent();
+        }
+        /*private FoodCategory m_Selected = null;
         private FoodCategory Selected
         {
             get { return m_Selected; }
@@ -100,13 +104,21 @@ namespace Kukta.Screens
         {
             if (Selected == null)
             {
-                App.RootPage.ShowWarning("Nincs kategória kijelölve", "");
+                //App.RootPage.ShowWarning("Nincs kategória kijelölve", "");
                 return;
             }
+            RefreshAddFoodDialog();
+            await AddFoodDialog.ShowAsync();
+        }
+        private void RefreshAddFoodDialog()
+        {
+            //TO-DO 
+            //Rename the categorie labels to food (in xaml in dialog)
+            //Implement the string filer
+            string filter = AddCategorieSearchBox.Text;
             AddFoodDialogList.Children.Clear();
             List<Food> foods = FoodDatabase.Instance.Foods;
             foods.ForEach((food) => AddFoodDialogList.Children.Add(new FoodButton(food.Guid, OnAddFoodDialogFoodClick)));
-            await AddFoodDialog.ShowAsync();
         }
 
         private void OnAddFoodDialogFoodClick(Food food)
@@ -162,5 +174,15 @@ namespace Kukta.Screens
             RefreshFoodList();
             RefreshCategorieList();
         }
+
+        private void AddCategorieSearchBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void AddCategorieDialogRefresh()
+        {
+            
+
+        }*/
     }
 }

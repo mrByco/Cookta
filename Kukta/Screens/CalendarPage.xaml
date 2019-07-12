@@ -51,8 +51,8 @@
                     Content="Sablán alkalmazása"
                     RelativePanel.AlignRightWithPanel="True"/>
             
-        </RelativePanel>
 
+        </RelativePanel>
 
         <ContentDialog Name="ApplyWeekTemplateToWeekDialog"
                        Title="Sablon alkalmazása"
