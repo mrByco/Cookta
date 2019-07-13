@@ -1,6 +1,7 @@
 ﻿using Kukta.ContentDialogs;
 using Kukta.FoodFrameworkV2;
 using Kukta.FrameWork;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -239,14 +240,10 @@ namespace Kukta.Screens
         }
         private async void SetSubStateForFood(bool sub)
         {
-            bool? subcribed = await Food.SetSubForfood(CurrentFood._id, sub);
-            if (subcribed == null)
-            {
-                Update(CurrentFood._id, false);
-                return;
-            }
-            CurrentFood.subcribed = (bool)subcribed;
-            await SetUIShowFood(false);
+            //int i = sub ? 1 : 0;
+            await CurrentFood.SetSubForfood(sub);
+            Update(CurrentFood._id, false);
+            return;
         }
 
         private async void ReportNoIngredientBTN_click(object sender, RoutedEventArgs e)

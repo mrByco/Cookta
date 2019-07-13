@@ -132,18 +132,6 @@ namespace Kukta.FoodFrameworkV2
             return foods;
 
         }
-        public static async Task<bool?> SetSubForfood(string foodID, bool state)
-        {
-            var query = new Dictionary<string, object>();
-            query.Add("_id", foodID);
-            var res = state ? await Networking.GetRequestWithForceAuth("sub", query) : await Networking.GetRequestWithForceAuth("unsub", query);
-            if (res.Content == "success")
-            {
-                return state;
-            }
-            return null;
-        }
-
         public static async Task<List<Food>> GetMyFoods()
         {
             var res = await Networking.GetRequestWithForceAuth("myfoods", new Dictionary<string, object>());
@@ -159,6 +147,19 @@ namespace Kukta.FoodFrameworkV2
             }
             return foods;
         }
+        public async Task SetSubForfood(bool state)
+        {
+            var query = new Dictionary<string, object>();
+            query.Add("_id", _id);
+            IRestResponse res;
+            if (state )
+                res = await Networking.GetRequestWithForceAuth("sub", query);
+            else
+                res = await Networking.GetRequestWithForceAuth("unsub", query);
+            return;
+
+        }
+
         public static async Task<List<Food>> GetSubFoods()
         {
             var res = await Networking.GetRequestWithForceAuth("subfoods", new Dictionary<string, object>());
@@ -214,48 +215,56 @@ namespace Kukta.FoodFrameworkV2
 
         private static Food ParseFoodFromServerJson(string json)
         {
-            JObject jFood = JObject.Parse(json);
-            Food food = new Food();
-
-            food._id = jFood.GetValue("_id").Value<string>();
-            food.owner = jFood.GetValue("owner").Value<string>();
-            food.makeTime = jFood.GetValue("makeTime").Value<int?>();
-            food.subcribed = jFood.GetValue("subscribed").Value<bool>();
-            food.liked = jFood.GetValue("liked").Value<bool>();
-            food.name = jFood.GetValue("name").Value<string>();
-            food.desc = jFood.GetValue("desc").Value<string>();
-            bool? nullablePrivate = jFood.GetValue("private")?.Value<bool?>();
-            food.isPrivate = nullablePrivate != null ? (bool)nullablePrivate : true;
-            food.imageURL = jFood.GetValue("image")?.Value<string>();
-            var tagArray = jFood.GetValue("tags")?.Value<JArray>();
-            if (tagArray != null)
+            try
             {
-                for (int i = 0; i < tagArray.Count; i++)
+                JObject jFood = JObject.Parse(json);
+                Food food = new Food();
+
+                food._id = jFood.GetValue("_id").Value<string>();
+                food.owner = jFood.GetValue("owner").Value<string>();
+                food.makeTime = jFood.GetValue("makeTime").Value<int?>();
+                food.subcribed = jFood.GetValue("subscribed").Value<bool>();
+                food.liked = jFood.GetValue("liked").Value<bool>();
+                food.name = jFood.GetValue("name").Value<string>();
+                food.desc = jFood.GetValue("desc").Value<string>();
+                bool? nullablePrivate = jFood.GetValue("private")?.Value<bool?>();
+                food.isPrivate = nullablePrivate != null ? (bool)nullablePrivate : true;
+                food.imageURL = jFood.GetValue("image")?.Value<string>();
+                var tagArray = jFood.GetValue("tags")?.Value<JArray>();
+                if (tagArray != null)
                 {
-                    string str = tagArray.ElementAt(i).ToObject<string>();
-                    food.Tags.Add(Tag.GetTagById(str));
+                    for (int i = 0; i < tagArray.Count; i++)
+                    {
+                        string str = tagArray.ElementAt(i).ToObject<string>();
+                        food.Tags.Add(Tag.GetTagById(str));
+                    }
                 }
-            }
 
-            food.imageUploaded = jFood.GetValue("imageUploaded")?.Value<long?>();
-            JArray jarray = jFood.GetValue("ingredients").Value<JArray>();
-            if (jarray != null)
-            {
-                food.ingredients = new List<Ingredient>();
-                for (int i = 0; i < jarray.Count; i++)
+                food.imageUploaded = jFood.GetValue("imageUploaded")?.Value<long?>();
+                JArray jarray = jFood.GetValue("ingredients").Value<JArray>();
+                if (jarray != null)
                 {
-                    string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
-                    string UnitName = jarray.ElementAt(i).Value<string>("unit");
-                    double Value = jarray.ElementAt(i).Value<double>("value");
-                    food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, UnitName));
+                    food.ingredients = new List<Ingredient>();
+                    for (int i = 0; i < jarray.Count; i++)
+                    {
+                        string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
+                        string UnitName = jarray.ElementAt(i).Value<string>("unit");
+                        double Value = jarray.ElementAt(i).Value<double>("value");
+                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, UnitName));
+                    }
                 }
-            }
-            else
-            {
-                food.ingredients = new List<Ingredient>();
-            }
+                else
+                {
+                    food.ingredients = new List<Ingredient>();
+                }
 
-            return food;
+                return food;
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
         public static string CreateFoodToServer(Food food)
         {
@@ -289,5 +298,4 @@ namespace Kukta.FoodFrameworkV2
 
         }
     }
-
 }

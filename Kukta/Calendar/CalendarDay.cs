@@ -94,7 +94,8 @@ namespace Kukta.Calendar
                         default:
                             throw new NotImplementedException();
                     };
-                    day.mealings[mealIndex].items.Add(item);
+                    if (item != null)
+                        day.mealings[mealIndex].items.Add(item);
                     continue;
                 }
             }
