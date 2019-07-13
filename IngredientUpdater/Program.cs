@@ -72,7 +72,7 @@ namespace IngredientUpdater
                     return true;
                 }
                 //Header names:
-                string[] Headers = line.Split(",");
+                string[] Headers = line.Split("\t");
                 foreach (string header in Headers)
                 {
                     bool isValidType = false;
@@ -94,7 +94,8 @@ namespace IngredientUpdater
                     LineIndex++;
                     if (line == null)
                         return true;
-                    string[] datas = line.Split(",");
+                    string[] datas = line.Split("\t");
+
                     BsonDocument doc = new BsonDocument();
                     for (int i = 0; i < datas.Length; i++)
                     {
