@@ -88,7 +88,12 @@ namespace Kukta.Calendar
                             item = await Food.Get(foodId) as IMealingItem;
                             break;
                         case "flag":
-                            throw new NotImplementedException();
+                            string flagId = jarray.ElementAt(i).Value<string>("id");
+                            int seed = jarray.ElementAt(i).Value<int>("seed");
+                            string foodString = jarray.ElementAt(i).Value<JObject>("currentFood")?.ToString();
+                            Food currentFood = Food.ParseFoodFromServerJson(foodString);
+                            item = new Flag(currentFood, flagId, seed);
+                            break;
                         case "list":
                             throw new NotImplementedException();
                         default:
@@ -113,9 +118,15 @@ namespace Kukta.Calendar
                 {
                     JObject jObject = new JObject();
                     string type = "";
-                    if (item is Food)
+                    int seed = 0;
+                    if (item is Food food)
                     {
                         type = "food";
+                    }
+                    else if (item is Flag flag)
+                    {
+                        type = "flag";
+                        seed = flag.Seed;
                     }
                     else
                     {
@@ -123,6 +134,7 @@ namespace Kukta.Calendar
                     }
                     jObject.Add("type", type);
                     jObject.Add("mealIndex", i);
+                    jObject.Add("seed", seed);
                     jObject.Add("id", item.GetId());
                     mealArray.Add(jObject);
                 }

@@ -76,8 +76,23 @@ namespace Kukta.FrameWork
             {
                 btn.Content = Item.GetMealFood().GetName();
             }
+            else if (Item is Flag)
+            {
+                btn.Content = Item.GetName();
+            }
 
             base.Children.Add(btn);
+        }
+        private void UpdateProgressRing()
+        {
+            base.Children.Clear();
+            var ring = new ProgressRing()
+            {
+                IsActive = true,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
+            base.Children.Add(ring);
         }
 
         private void BTN_Click(object sender, RoutedEventArgs e)
@@ -106,6 +121,13 @@ namespace Kukta.FrameWork
                 JumpToItem.Click += JumpToItemClick;
                 Flyout.Items.Add(JumpToItem);
             }
+            if (Item is Flag flag)
+            {
+                var UpdateItem = new MenuFlyoutItem();
+                UpdateItem.Text = "Frissítés";
+                UpdateItem.Click += RefreshFlagSeedClick;
+                Flyout.Items.Add(UpdateItem);
+            }
             Flyout.ShowAt(this);
         }
         internal void AddNewMealingItemClick(object sender, RoutedEventArgs e)
@@ -114,6 +136,20 @@ namespace Kukta.FrameWork
                 ChangeToItemSetter();
             else
                 CalendarContentPage.AddNewMealingItemToStack(Parent, ref Mealing, ref Day, Flyout, RefreshDay);
+        }
+        internal void RefreshFlagSeedClick(object sender, RoutedEventArgs e)
+        {
+            UpdateProgressRing();
+            Task.Run(async() =>
+            {
+                if (Item is Flag flag)
+                {
+                    Item.NewSeed();
+                    await(Item as Flag).Init();
+                    await CalendarDay.SaveDay(Day);
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => { UpdateButton(); });
+                }
+            });
         }
         private void ReplaceMealingItemClick(object sender, RoutedEventArgs e)
         {
@@ -133,6 +169,20 @@ namespace Kukta.FrameWork
 #pragma warning disable CS4014
                 CalendarDay.SaveDay(Day);
 #pragma warning restore CS4014
+            }
+        }
+        private void UpdateItemClick(object sender, RoutedEventArgs e)
+        {
+            if (Item is Flag flag)
+            {
+                flag.NewSeed();
+                UpdateProgressRing();
+                Task.Run(async () =>
+                {
+                    await CalendarDay.SaveDay(Day);
+                    await flag.Init();
+                    UpdateButton();
+                });
             }
         }
         private void JumpToItemClick(object sender, RoutedEventArgs e)
@@ -158,16 +208,18 @@ namespace Kukta.FrameWork
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(10, 0, 10, 0),
             };
-            suggBox.LostFocus += (sender, args) => 
+            suggBox.LostFocus += (sender, args) =>
             {
                 RefreshDay(Day);
             };
             Action setItems = async () =>
             {
                 List<IMealingItem> items = await Food.GetSubAndMyFoods();
+                items.AddRange(Flag.GetAvailableFlags());
                 suggBox.TextChanged += (box, args) =>
                 {
-                    box.ItemsSource = items.FindAll((item) => { return item.ToString().ToLower().Contains(box.Text.ToLower()); });
+                    var filteredItems = items.FindAll((item) => { return item.ToString().ToLower().Contains(box.Text.ToLower()); });
+                    box.ItemsSource = filteredItems;
                 };
                 suggBox.QuerySubmitted += async (box, args) =>
                 {
@@ -180,6 +232,13 @@ namespace Kukta.FrameWork
                     else
                     {
                         Item = choosenItem;
+                    }
+
+                    if (Item is Flag)
+                    {
+                        UpdateProgressRing();
+                        Item.NewSeed();
+                        await (Item as Flag).Init();
                     }
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     CalendarDay.SaveDay(Day);

@@ -9,7 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ScrollViewer
+        <ProgressRing IsActive="True" Name="LoadingProgressRing" Visibility="Collapsed" Width="80" Height="80"/>
+        <ScrollViewer Name="ContentScroll"
             HorizontalScrollBarVisibility="Visible"
             VerticalScrollBarVisibility="Auto">
             <ScrollViewer.Content>

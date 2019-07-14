@@ -240,7 +240,6 @@ namespace Kukta.Screens
         }
         private async void SetSubStateForFood(bool sub)
         {
-            //int i = sub ? 1 : 0;
             await CurrentFood.SetSubForfood(sub);
             Update(CurrentFood._id, false);
             return;

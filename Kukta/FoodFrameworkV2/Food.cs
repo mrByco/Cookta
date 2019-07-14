@@ -97,6 +97,7 @@ namespace Kukta.FoodFrameworkV2
             }
         }
 
+
         public static async Task<Food> InsterFood(Food food, StorageFile Image)
         {
             string FoodText = CreateFoodToServer(food);
@@ -213,7 +214,7 @@ namespace Kukta.FoodFrameworkV2
         }
 
 
-        private static Food ParseFoodFromServerJson(string json)
+        public static Food ParseFoodFromServerJson(string json)
         {
             try
             {

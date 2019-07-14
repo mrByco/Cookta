@@ -77,7 +77,7 @@ namespace Kukta.FoodFrameworkV2
         {
             foreach (Tag tag in Tags)
             {
-                if (tag.hu_hu == id)
+                if (tag.id == id)
                     return tag;
             }
             return null;

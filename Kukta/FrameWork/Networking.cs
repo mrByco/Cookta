@@ -188,6 +188,7 @@ namespace Kukta.FrameWork
                     || response.StatusCode == HttpStatusCode.ServiceUnavailable
                     || response.StatusCode == 0)
                 {
+                    App.Sendnotification("Hiba a szerverrel való kommunikációban.", "Hiba a kérés küldésekor: " + response.Request.Resource);
                     await new ServicesNotAvailable().ShowAsync();
                     return;
                 }

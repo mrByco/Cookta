@@ -47,11 +47,12 @@ namespace Kukta.Screens
         }
         private async Task DrawAllDays(DateTime startDay)
         {
-            //Loading required
+            await SetLoading(true);
             for (int i = 0; i < 7; i++)
             {
                 DrawDay(await CalendarDay.GetDay(startDay.AddDays(i).CutToDay()));
             }
+            await SetLoading(false);
         }
 
         private void DrawMeals(List<EMealType> meals)
@@ -155,6 +156,14 @@ namespace Kukta.Screens
                     ContentGrid.Children.Add(itemList);
                     ElementsByDayindex[dayIndex].Add(itemList);
                 }
+            });
+        }
+        private async Task SetLoading(bool Loading)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                LoadingProgressRing.Visibility = Loading ? Visibility.Visible : Visibility.Collapsed;
+                ContentScroll.Visibility = Loading ? Visibility.Collapsed : Visibility.Visible;
             });
         }
 
