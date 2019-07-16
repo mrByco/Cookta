@@ -27,7 +27,7 @@ namespace Kukta.FoodFrameworkV2
             }
         }
         public bool subcribed;
-        public bool liked;
+        public int dose = 4;
         public bool isPrivate;
         public string name;
         public string desc;
@@ -224,12 +224,11 @@ namespace Kukta.FoodFrameworkV2
                 food._id = jFood.GetValue("_id").Value<string>();
                 food.owner = jFood.GetValue("owner").Value<string>();
                 food.makeTime = jFood.GetValue("makeTime").Value<int?>();
+                food.dose = jFood.GetValue("dose")?.Value<int>()?? 4;
                 food.subcribed = jFood.GetValue("subscribed").Value<bool>();
-                food.liked = jFood.GetValue("liked").Value<bool>();
                 food.name = jFood.GetValue("name").Value<string>();
                 food.desc = jFood.GetValue("desc").Value<string>();
-                bool? nullablePrivate = jFood.GetValue("private")?.Value<bool?>();
-                food.isPrivate = nullablePrivate != null ? (bool)nullablePrivate : true;
+                food.isPrivate = jFood.GetValue("private")?.Value<bool>()?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
                 if (tagArray != null)
@@ -289,6 +288,7 @@ namespace Kukta.FoodFrameworkV2
             jFood.Add("private", JToken.FromObject(food.isPrivate));
             jFood.Add("makeTime", JToken.FromObject(food.makeTime));
             jFood.Add("desc", JToken.FromObject(food.desc));
+            jFood.Add("dose", JToken.FromObject(food.dose));
 
             List<string> strList = new List<string>();
             food.Tags.ForEach((tag) => { strList.Add(tag.id); });

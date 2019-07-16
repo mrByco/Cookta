@@ -34,7 +34,7 @@ namespace Kukta
         public async void Init()
         {
             bool debugServer = false;
-            App.RestClient = new RestClient(debugServer ? "http://192.168.1.74:1337/" : "https://kuktaservices.azurewebsites.net/");
+            App.RestClient = new RestClient(debugServer ? "http://localhost:1337/" : "https://kuktaservices.azurewebsites.net/");
 
             await SetLoading(true);
             await FoodFrameworkV2.Unit.Init();
