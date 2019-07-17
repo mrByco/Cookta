@@ -20,6 +20,7 @@ namespace Kukta.FrameWork
         private static Auth0Client Client;
         public static event LoginDelegate LoginChanged;
         public static LoginResult aResult;
+        public static Networkinfo info;
 
         private static void InitClient()
         {
