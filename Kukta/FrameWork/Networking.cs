@@ -1,5 +1,7 @@
 ﻿using Auth0.OidcClient;
 using IdentityModel.OidcClient;
+using Kukta.UI;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,7 @@ namespace Kukta.FrameWork
 
             var extraParameters = new Dictionary<string, string>();
             extraParameters.Add("audience", "https://kuktaservice.azurewebsites.net/");
+            extraParameters.Add("audience", "https://kuktaservicfde.azurewebsites.ndfsdet/");
             if (Client == null)
                 InitClient();
             var result = await Client.LoginAsync(extraParameters);
@@ -55,6 +58,21 @@ namespace Kukta.FrameWork
             }
             aResult = result;
             LoginChanged?.Invoke(aResult);
+
+            /*var infoResult = await GetRequestWithForceAuth("userdata", new Dictionary<string, object>());
+            if (infoResult.StatusCode == HttpStatusCode.OK)
+            {
+                var infoJObj = JObject.Parse(infoResult.Content);
+                var DisplayName = infoJObj.Value<string>("username");
+                var winid = infoJObj.Value<string>("winid");
+                var DisplayName = infoJObj.Value<string>("username");
+                var DisplayName = infoJObj.Value<string>("username");
+            }
+            else if (infoResult.StatusCode == HttpStatusCode.NotFound)
+            {
+                info = null;
+            }*/
+
             return result;
         }
 
@@ -185,7 +203,6 @@ namespace Kukta.FrameWork
                     || response.StatusCode == HttpStatusCode.Forbidden
                     || response.StatusCode == HttpStatusCode.RequestTimeout
                     || response.StatusCode == HttpStatusCode.InternalServerError
-                    || response.StatusCode == HttpStatusCode.NotFound
                     || response.StatusCode == HttpStatusCode.ServiceUnavailable
                     || response.StatusCode == 0)
                 {

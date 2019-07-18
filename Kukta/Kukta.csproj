@@ -154,6 +154,9 @@
     <Compile Include="FrameWork\Networkinfo.cs" />
     <Compile Include="FrameWork\Networking.cs" />
     <Compile Include="UI\LargeFoodButton.cs" />
+    <Compile Include="UI\LoginPanel.xaml.cs">
+      <DependentUpon>LoginPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProfilePanel.cs" />
     <Compile Include="UI\ServicesNotAvailable.xaml.cs">
       <DependentUpon>ServicesNotAvailable.xaml</DependentUpon>
@@ -270,6 +273,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="ContentDialogs\ReportNotFountIngredientDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\LoginPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

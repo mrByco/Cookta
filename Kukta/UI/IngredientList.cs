@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Kukta.FrameWork
+namespace Kukta.UI
 {
     public class IngredientList : StackPanel
     {

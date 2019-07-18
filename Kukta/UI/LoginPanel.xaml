@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="Kukta.UI.LoginPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel HorizontalAlignment="Center" Name="LoginPanelStack">
+        <Image Source="/Assets/kukta-logo-white.png" Height="90" />
+        <TextBlock Text="Jelentkezz be a teljes felhasználói élményért!" FontSize="16" Foreground="White" Margin="10, 20"/>
+        <Button Name="Login" Content="Bejelentkezés" HorizontalAlignment="Center" Foreground="White" FontSize="22" Background="DarkGoldenrod" Click="LoginBTNClick"/>
+        <HyperlinkButton Content="Folytatás bejelentkezés nélkül." FontSize="20" HorizontalAlignment="Center" Margin="10, 20" Click="NoLoginBTN_Click"/>
+    </StackPanel>
+</Page>

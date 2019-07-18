@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Kukta.FrameWork
+namespace Kukta.UI
 {
     class IMealingItemButton : Button
     {
