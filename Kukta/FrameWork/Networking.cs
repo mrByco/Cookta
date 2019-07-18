@@ -22,7 +22,7 @@ namespace Kukta.FrameWork
         private static Auth0Client Client;
         public static event LoginDelegate LoginChanged;
         public static LoginResult aResult;
-        public static Networkinfo info;
+        public static Networkinfo info = null;
 
         private static void InitClient()
         {
@@ -42,7 +42,6 @@ namespace Kukta.FrameWork
 
             var extraParameters = new Dictionary<string, string>();
             extraParameters.Add("audience", "https://kuktaservice.azurewebsites.net/");
-            extraParameters.Add("audience", "https://kuktaservicfde.azurewebsites.ndfsdet/");
             if (Client == null)
                 InitClient();
             var result = await Client.LoginAsync(extraParameters);

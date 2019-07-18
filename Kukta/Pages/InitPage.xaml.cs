@@ -102,10 +102,12 @@ namespace Kukta
         {
             ContentFrame.Navigate(typeof(LoginPanel), null);
             (ContentFrame.Content as LoginPanel).SetLoading += SetLoading;
+            (ContentFrame.Content as LoginPanel).parent = this;
         }
         public void SwitchToUserData()
         {
-
+            ContentFrame.Navigate(typeof(UserDataPanel), null);
+            (ContentFrame.Content as UserDataPanel).SetLoading += SetLoading;
         }
     }
-}
+    }

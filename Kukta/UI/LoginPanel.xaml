@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Center" Name="LoginPanelStack">
+    <StackPanel HorizontalAlignment="Center" Name="LoginPanelStack" VerticalAlignment="Center">
         <Image Source="/Assets/kukta-logo-white.png" Height="90" />
         <TextBlock Text="Jelentkezz be a teljes felhasználói élményért!" FontSize="16" Foreground="White" Margin="10, 20"/>
         <Button Name="Login" Content="Bejelentkezés" HorizontalAlignment="Center" Foreground="White" FontSize="22" Background="DarkGoldenrod" Click="LoginBTNClick"/>

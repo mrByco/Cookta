@@ -21,15 +21,14 @@ namespace Kukta.UI
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoginPanel : Page
+    public sealed partial class UserDataPanel : Page
     {
-        public LoginPanel()
+        public UserDataPanel()
         {
             this.InitializeComponent();
         }
 
         public Action<bool> SetLoading;
-        public InitPage parent;
 
         private void NoLoginBTN_Click(object sender, RoutedEventArgs e)
         {
@@ -44,9 +43,9 @@ namespace Kukta.UI
             {
                 try
                 {
+                    var parent = this.Parent as InitPage;
                     if (Networking.info == null)
                     {
-                        SetLoading?.Invoke(false);
                         parent.SwitchToUserData();
                     }
                     else
@@ -56,8 +55,8 @@ namespace Kukta.UI
                 }
                 catch
                 {
-                    App.SwapToRootPage();
                 }
+                App.SwapToRootPage();
                 return;
             }
             SetLoading?.Invoke(false);

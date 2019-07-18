@@ -154,6 +154,9 @@
     <Compile Include="FrameWork\Networkinfo.cs" />
     <Compile Include="FrameWork\Networking.cs" />
     <Compile Include="UI\LargeFoodButton.cs" />
+    <Compile Include="UI\UserDataPanel.xaml.cs">
+      <DependentUpon>UserDataPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\LoginPanel.xaml.cs">
       <DependentUpon>LoginPanel.xaml</DependentUpon>
     </Compile>
@@ -275,6 +278,10 @@
     <Page Include="ContentDialogs\ReportNotFountIngredientDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserDataPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\LoginPanel.xaml">
       <SubType>Designer</SubType>
