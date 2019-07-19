@@ -11,8 +11,9 @@
         <Image Source="/Assets/kukta-logo-white.png" Height="90" />
         <TextBlock Text="Hogyan szólíthaunk?" FontSize="30" Foreground="White" Margin="10, 20" FontWeight="SemiBold" HorizontalAlignment="Center"/>
         <TextBlock Text="Ezen a néven láthat majd a többi felhasználó, később bármikor megváltoztathatod." TextWrapping="WrapWholeWords" MaxWidth="450" FontSize="18" Foreground="White" Margin="10" HorizontalAlignment="Center"/>
-        <TextBox PlaceholderText="Felhasználónév" x:Name="UserNameTextBox" Margin="10"/>
-        <Button Name="Login" Content="Irány a Kukta!" HorizontalAlignment="Center" Foreground="White" FontSize="22" Background="DarkGoldenrod" Click="LoginBTNClick"/>
+        <TextBox PlaceholderText="Felhasználónév" x:Name="UserNameTextBox" Margin="10" TextChanged="UserNameTextBox_TextChanged"/>
+        <StackPanel Name="ErrorsStackList"/>
+        <Button Name="SubmitBTN" Content="Irány a Kukta!" HorizontalAlignment="Center" Foreground="White" FontSize="22" Background="DarkGoldenrod" Click="LoginBTNClick"/>
         <HyperlinkButton Content="Nem szeretnék ilyet megadni, maradjak anonim." FontSize="20" HorizontalAlignment="Center" Margin="10, 10, 10, 0" Click="NoLoginBTN_Click"/>
         <TextBlock Text="Ebben az estben egy véletlenszerű azonosítót lát majd a többi felhasználó a neved helyén." TextWrapping="WrapWholeWords" MaxWidth="450" FontSize="15" Foreground="White" Margin="0, 0, 0, 20" HorizontalAlignment="Center"/>
     </StackPanel>

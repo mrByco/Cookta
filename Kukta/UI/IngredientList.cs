@@ -187,8 +187,16 @@ namespace Kukta.UI
 
         private void autoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            IngredientType type = IngredientType.Search(1, args.QueryText).First();
-            ChooseIngredientType(type);
+            
+            IngredientType type = IngredientType.Search(1, args.QueryText).Find((ingType) => { return ingType.Name == args.QueryText; });
+            if (type != null)
+            {
+                ChooseIngredientType(type);
+            }
+            else
+            {
+                sender.Text = adderType.Name;
+            }
         }
 
         private void autoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)

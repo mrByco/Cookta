@@ -22,7 +22,18 @@ namespace Kukta.FrameWork
         private static Auth0Client Client;
         public static event LoginDelegate LoginChanged;
         public static LoginResult aResult;
-        public static Networkinfo info = null;
+        private static Networkinfo m_Info = null;
+        public static Networkinfo info
+        {
+            get
+            {
+                return m_Info;
+            }
+            set
+            {
+                m_Info = value;
+            }
+        }
 
         private static void InitClient()
         {
@@ -33,8 +44,8 @@ namespace Kukta.FrameWork
             };
             clientOptions.PostLogoutRedirectUri = clientOptions.PostLogoutRedirectUri;
             Client = new Auth0Client(clientOptions);
-            
-            
+
+
         }
 
         public async static Task<LoginResult> SignUpLogin()
@@ -56,30 +67,37 @@ namespace Kukta.FrameWork
                 Debug.WriteLine($"access_token: {result.AccessToken}");
             }
             aResult = result;
+            await GetUserInfo();
             LoginChanged?.Invoke(aResult);
 
-            /*var infoResult = await GetRequestWithForceAuth("userdata", new Dictionary<string, object>());
-            if (infoResult.StatusCode == HttpStatusCode.OK)
-            {
-                var infoJObj = JObject.Parse(infoResult.Content);
-                var DisplayName = infoJObj.Value<string>("username");
-                var winid = infoJObj.Value<string>("winid");
-                var DisplayName = infoJObj.Value<string>("username");
-                var DisplayName = infoJObj.Value<string>("username");
-            }
-            else if (infoResult.StatusCode == HttpStatusCode.NotFound)
-            {
-                info = null;
-            }*/
-
             return result;
+        }
+
+        private static async Task GetUserInfo()
+        {
+            var infoResult = await Networking.GetRequestWithForceAuth("userdata", new Dictionary<string, object>());
+            info = Networkinfo.FromJson(infoResult.Content);
+        }
+        public static async Task ChangeUserInfo(string username, string winid, string role, string email, string profilpic)
+        {
+            var infoJObj = new JObject();
+
+            if (username != null) infoJObj.Add("username", username);
+            if (winid != null) infoJObj.Add("winid", winid);
+            if (role != null) infoJObj.Add("role", role);
+            if (email != null) infoJObj.Add("email", email);
+            if (profilpic != null) infoJObj.Add("profilpic", profilpic);
+
+            var infoResult = await PostRequestWithForceAuth("userdata", infoJObj.ToString(Newtonsoft.Json.Formatting.None));
+            info = Networkinfo.FromJson(infoResult.Content);
+            return;
         }
 
 
         internal static async Task Logout()
         {
             var res = await Client.LogoutAsync(true);
-            
+
             aResult = null;
             LoginChanged.Invoke(aResult);
         }
@@ -96,7 +114,7 @@ namespace Kukta.FrameWork
                     }
                 }
             }
-            return "Unvailable.";
+            return null;
         }
 
         public static async Task<IRestResponse> PostRequestWithForceAuth(string path, string body)
@@ -154,7 +172,7 @@ namespace Kukta.FrameWork
                 request.AddParameter(name, query[name], ParameterType.QueryString);
             }
             //request.AddParameter("_id", _, ParameterType.QueryString);
-            
+
             var response = App.RestClient.Delete(request);
             await checkResponse(response);
             return response;
@@ -198,14 +216,13 @@ namespace Kukta.FrameWork
         {
             try
             {
-                if (response.StatusCode == HttpStatusCode.NotFound
-                    || response.StatusCode == HttpStatusCode.Forbidden
+                if (response.StatusCode == HttpStatusCode.Forbidden
                     || response.StatusCode == HttpStatusCode.RequestTimeout
                     || response.StatusCode == HttpStatusCode.InternalServerError
                     || response.StatusCode == HttpStatusCode.ServiceUnavailable
                     || response.StatusCode == 0)
                 {
-                    App.Sendnotification("Hiba a szerverrel való kommunikációban.", "Hiba a kérés küldésekor: " + response.Request.Resource);
+                    App.Sendnotification("Hiba a szerverrel való kommunikációban.", "Hiba a kérés küldésekor: " + response.Request.Resource + " Hibakód: " + response.StatusCode);
                     await new ServicesNotAvailable().ShowAsync();
                     return;
                 }

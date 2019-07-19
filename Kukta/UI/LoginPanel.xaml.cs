@@ -44,13 +44,14 @@ namespace Kukta.UI
             {
                 try
                 {
-                    if (Networking.info == null)
+                    if (Networking.info?.DisplayName == null || Networking.info?.DisplayName == "")
                     {
                         SetLoading?.Invoke(false);
                         parent.SwitchToUserData();
                     }
                     else
                     {
+                        await Networking.ChangeUserInfo(null, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
                         App.SwapToRootPage();
                     }
                 }

@@ -20,17 +20,17 @@ namespace Kukta.UI
             RefreshPanel();
         }
 
-        public async void RefreshPanel()
+        public void RefreshPanel()
         {
             LoginResult result = Networking.aResult;
             UpdateUI(result);
         }
 
-        private async void UpdateUI(LoginResult resultm)
+        private void UpdateUI(LoginResult resultm)
         {
             Children.Clear();
             //Draw layout
-            string userName = Networking.GetClaim("name");
+            string userName = Networking.info?.DisplayName?? Networking.GetClaim("name");
             TextBlock NameTextBlock = new TextBlock()
             {
                 Text = userName,
