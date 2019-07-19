@@ -13,21 +13,18 @@
     <Grid Background="DarkOrange">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Image Source="/Assets/login-background.png" Grid.ColumnSpan="3" Grid.RowSpan="3" Stretch="UniformToFill"/>
-        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Visibility="Collapsed" Name="LoginPanel">
-            <Image Source="/Assets/kukta-logo-white.png" Height="90" />
-            <TextBlock Text="Jelentkezz be a teljes felhasználói élményért!" FontSize="16" Foreground="White" Margin="10, 20"/>
-            <Button Name="Login" Content="Bejelentkezés" HorizontalAlignment="Center" Foreground="White" FontSize="22" Background="DarkGoldenrod" Click="LoginBTNClick"/>
-            <HyperlinkButton Content="Folytatás bejelentkezés nélkül." FontSize="20" HorizontalAlignment="Center" Margin="10, 20" Click="NoLoginBTN_Click"/>
-        </StackPanel>
+        <Frame Name="ContentFrame"  Grid.Row="1" Grid.Column="1">
+
+        </Frame>
         <ProgressRing Grid.Row="2" Grid.Column="1" IsActive="True" Visibility="Visible" Height="100" Width="100" Foreground="Red" Name="LoadRing"/>
     </Grid>
 </Page>

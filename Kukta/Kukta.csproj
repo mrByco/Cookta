@@ -146,19 +146,26 @@
     <Compile Include="FoodFrameworkV2\Unit.cs" />
     <Compile Include="Calendar\IMealingItem.cs" />
     <Compile Include="FrameWork\ASingleton.cs" />
-    <Compile Include="FrameWork\CalendarButton.cs" />
-    <Compile Include="FrameWork\CelandarDay.cs" />
+    <Compile Include="FrameWork\StringExtensions.cs" />
     <Compile Include="FrameWork\DateTimeExtensions.cs" />
-    <Compile Include="FrameWork\FoodButtonV2.cs" />
-    <Compile Include="FrameWork\IMealingItemButton.cs" />
-    <Compile Include="FrameWork\IngredientList.cs" />
-    <Compile Include="FrameWork\LargeFoodButton.cs" />
+    <Compile Include="UI\CalendarButton.cs" />
+    <Compile Include="UI\FoodButtonV2.cs" />
+    <Compile Include="UI\IMealingItemButton.cs" />
+    <Compile Include="UI\IngredientList.cs" />
+    <Compile Include="FrameWork\Networkinfo.cs" />
     <Compile Include="FrameWork\Networking.cs" />
-    <Compile Include="FrameWork\ProfilePanel.cs" />
-    <Compile Include="FrameWork\ServicesNotAvailable.xaml.cs">
+    <Compile Include="UI\LargeFoodButton.cs" />
+    <Compile Include="UI\UserDataPanel.xaml.cs">
+      <DependentUpon>UserDataPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\LoginPanel.xaml.cs">
+      <DependentUpon>LoginPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ProfilePanel.cs" />
+    <Compile Include="UI\ServicesNotAvailable.xaml.cs">
       <DependentUpon>ServicesNotAvailable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FrameWork\TagPanel.xaml.cs">
+    <Compile Include="UI\TagPanel.xaml.cs">
       <DependentUpon>TagPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\InitPage.xaml.cs">
@@ -273,11 +280,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FrameWork\ServicesNotAvailable.xaml">
+    <Page Include="UI\UserDataPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\LoginPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FrameWork\TagPanel.xaml">
+    <Page Include="UI\ServicesNotAvailable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TagPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

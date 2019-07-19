@@ -1,6 +1,6 @@
 ﻿using Kukta.ContentDialogs;
 using Kukta.FoodFrameworkV2;
-using Kukta.FrameWork;
+using Kukta.UI;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -30,6 +30,7 @@ namespace Kukta.Screens
     {
         public Food CurrentFood = null;
         private IngredientList IngList;
+        private int CurrentDose = 4;
         public FoodDetailPage()
         {
             this.InitializeComponent();
@@ -90,6 +91,9 @@ namespace Kukta.Screens
                 ReportNoIngredient.Visibility = Visibility.Visible;
                 OtherSettingsTextBlock.Visibility = Visibility.Visible;
                 Tags.EditEnabled = true;
+                DoseTextBox.Visibility = Visibility.Visible;
+                DoseTextBlock.Visibility = Visibility.Collapsed;
+
 
                 UploadImageBTN.Visibility = Visibility.Visible;
                 SaveBTN.Visibility = Visibility.Visible;
@@ -117,7 +121,12 @@ namespace Kukta.Screens
                 DescTextBox.Text = CurrentFood.desc;
                 DescTextBlock.Text = CurrentFood.desc;
                 IsPublicToggle.IsOn = !CurrentFood.isPrivate;
+                DoseTextBox.Text = CurrentFood?.dose.ToString() ?? 4.ToString();
+                DoseTextBlock.Text = CurrentFood?.dose.ToString() ?? 4.ToString();
 
+
+                DoseTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
+                DoseTextBlock.Visibility = editMode? Visibility.Collapsed : Visibility.Visible;
                 ReportNoIngredient.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 OtherSettingsTextBlock.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
@@ -184,6 +193,7 @@ namespace Kukta.Screens
                 _id = CurrentFood == null ? null : CurrentFood._id,
                 name = TitleTextBox.Text,
                 desc = DescTextBox.Text,
+                dose = CurrentDose,
                 ingredients = IngList.GetIngredients(),
                 isPrivate = !IsPublicToggle.IsOn,
                 Tags = Tags.Tags
@@ -253,6 +263,26 @@ namespace Kukta.Screens
         private void TagPanel_TagsChanged(TagPanel panel, List<Tag> tags)
         {
 
+        }
+
+        private void DoseTextBox_TextChanged(object sender, TextChangedEventArgs args)
+        {
+            TextBox textBox = sender as TextBox;
+            try
+            {
+                if (textBox.Text == "")
+                {
+                    CurrentDose = 4;
+                    textBox.PlaceholderText = 4.ToString();
+                    return;
+                }
+                int newValue = int.Parse(textBox.Text);
+                CurrentDose = newValue;
+            }
+            catch (FormatException e)
+            {
+                textBox.Text = CurrentFood.dose.ToString();
+            }
         }
     }
 }

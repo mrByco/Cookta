@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:frame="using:Kukta.FrameWork"
+    xmlns:frame="using:Kukta.UI"
     mc:Ignorable="d"
     RequestedTheme="Light"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -61,6 +61,12 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Name="leftOrderStackPanel" Grid.Row="1" Grid.Column="1">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="A hozzávalók: " Margin="0, 0, 5, 0" VerticalAlignment="Center"/>
+                            <TextBox PlaceholderText="4" Name="DoseTextBox" TextChanged="DoseTextBox_TextChanged" VerticalAlignment="Center"/>
+                            <TextBlock Name="DoseTextBlock" VerticalAlignment="Center"/>
+                            <TextBlock Text=" fő adagjára elenegendőek." VerticalAlignment="Center"/>
+                        </StackPanel>
                         <StackPanel  Name="IngredientsListPanel"/>
                         <HyperlinkButton Content="Nem találom a hozzávalót!" Name="ReportNoIngredient" Click="ReportNoIngredientBTN_click"/>
                         <TextBlock FontSize="24" Text="Egyéb beállítások" HorizontalAlignment="Center" Name="OtherSettingsTextBlock"/>

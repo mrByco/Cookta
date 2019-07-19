@@ -1,8 +1,8 @@
 ﻿<UserControl
-    x:Class="Kukta.FrameWork.TagPanel"
+    x:Class="Kukta.UI.TagPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Kukta.FrameWork"
+    xmlns:local="using:Kukta.UI"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:foods="using:Kukta.FoodFrameworkV2"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
