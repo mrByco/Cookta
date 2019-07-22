@@ -98,7 +98,7 @@ namespace Kukta.FoodFrameworkV2
         }
 
 
-        public static async Task<Food> InsterFood(Food food, StorageFile Image)
+        public static async Task<Food> InstertFood(Food food, StorageFile Image)
         {
             string FoodText = CreateFoodToServer(food);
 
@@ -248,9 +248,9 @@ namespace Kukta.FoodFrameworkV2
                     for (int i = 0; i < jarray.Count; i++)
                     {
                         string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
-                        string UnitName = jarray.ElementAt(i).Value<string>("unit");
+                        string UnitID = jarray.ElementAt(i).Value<string>("unit");
                         double Value = jarray.ElementAt(i).Value<double>("value");
-                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, UnitName));
+                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, IngredientType.GetByID(IngID))));
                     }
                 }
                 else
@@ -275,7 +275,7 @@ namespace Kukta.FoodFrameworkV2
             {
                 JObject jObject = new JObject();
                 jObject.Add("ingredientID", ing.Type.ID);
-                jObject.Add("unit", ing.UnitName);
+                jObject.Add("unit", ing.unit?.id);
                 jObject.Add("value", ing.Value);
                 ingArray.Add(jObject);
             }

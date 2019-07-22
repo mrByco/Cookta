@@ -53,7 +53,7 @@ namespace Kukta.UI
 
                         TextBlock tb = new TextBlock()
                         {
-                            Text = String.Format("- {0} {1} {2}.", ing.Value, ing.UnitName, ing.Type.Name),
+                            Text = String.Format("- {0} {1} {2}.", ing.Value, ing.unit?.Name?? "[Nem található]", ing.Type.Name),
                             VerticalAlignment = VerticalAlignment.Center,
                         };
                         Grid.SetColumn(tb, 0);
@@ -147,7 +147,7 @@ namespace Kukta.UI
 
         private void AddIngrdient(object sender, RoutedEventArgs e)
         {
-            Ingredients.Add(new Ingredient(adderType, (double)adderValue, adderUnit.Name));
+            Ingredients.Add(new Ingredient(adderType, (double)adderValue, adderUnit));
             adderType = null;
             adderUnit = null;
             adderValue = null;

@@ -12,15 +12,15 @@ namespace Kukta.FoodFrameworkV2
 {
     public class Ingredient
     {
-        public string UnitName;
+        public Unit unit;
         public double Value;
         public readonly IngredientType Type;
 
-        public Ingredient(IngredientType type, double value, string unitName)
+        public Ingredient(IngredientType type, double value, Unit unit)
         {
             this.Type = type;
             this.Value = value;
-            this.UnitName = unitName;
+            this.unit = unit;
         }
     }
     public class IngredientType
@@ -33,7 +33,7 @@ namespace Kukta.FoodFrameworkV2
         public readonly string Category;
         public readonly List<Unit> CustomUnits = new List<Unit>();
 
-        public IngredientType(bool massEnabled, bool volumeEnabled, bool countEnabled, string name, string id, string category, List<Unit> CustomUnits)
+        public IngredientType(bool massEnabled, bool volumeEnabled, bool countEnabled, string name, string id, string category, List<Unit> customUnits)
         {
             this.MassEnabled = massEnabled;
             this.VolumeEnabled = volumeEnabled;
@@ -41,7 +41,7 @@ namespace Kukta.FoodFrameworkV2
             this.Name = name;
             this.ID = id;
             this.Category = category;
-            this.CustomUnits = CustomUnits;
+            this.CustomUnits = customUnits;
         }
         public override string ToString()
         {
@@ -112,9 +112,9 @@ namespace Kukta.FoodFrameworkV2
                 }
             }
 
-            Unit baseUnit = Unit.GetUnit(baseUnitName);
-
             IngredientType IngType = new IngredientType(isMass, isVol, isCount, name, guid, category, CustomUnits);
+
+
             return IngType;
         }
 
