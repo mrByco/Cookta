@@ -1,5 +1,6 @@
 ﻿using Kukta.FrameWork;
 using Kukta.UI;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,9 @@ namespace Kukta.FoodFrameworkV2
         public readonly string Name;
         public readonly string ID;
         public readonly string Category;
+        public readonly List<Unit> CustomUnits = new List<Unit>();
 
-        public IngredientType(bool massEnabled, bool volumeEnabled, bool countEnabled, string name, string id, string category)
+        public IngredientType(bool massEnabled, bool volumeEnabled, bool countEnabled, string name, string id, string category, List<Unit> CustomUnits)
         {
             this.MassEnabled = massEnabled;
             this.VolumeEnabled = volumeEnabled;
@@ -39,6 +41,7 @@ namespace Kukta.FoodFrameworkV2
             this.Name = name;
             this.ID = id;
             this.Category = category;
+            this.CustomUnits = CustomUnits;
         }
         public override string ToString()
         {
@@ -82,6 +85,7 @@ namespace Kukta.FoodFrameworkV2
                         break;
                 }
             }
+            units.AddRange(CustomUnits);
             return units;
         }
 
@@ -95,9 +99,22 @@ namespace Kukta.FoodFrameworkV2
             string category = jIng.GetValue("category").Value<string>();
             string baseUnitName = jIng.GetValue("base-unit").Value<string>();
             string guid = jIng.GetValue("guid").Value<string>();
+            List<Unit> CustomUnits = new List<Unit>();
+
+            JArray jarray = jIng.SelectToken(@"$.options.cunits")?.Value<JArray>();
+
+            if (jarray != null)
+            {
+                for (int i = 0; i < jarray.Count; i++)
+                {
+                    string unitStr = jarray.ElementAt(i).ToString(Formatting.None);
+                    CustomUnits.Add(Unit.ParseUnit(unitStr));
+                }
+            }
+
             Unit baseUnit = Unit.GetUnit(baseUnitName);
 
-            IngredientType IngType = new IngredientType(isMass, isVol, isCount, name, guid, category);
+            IngredientType IngType = new IngredientType(isMass, isVol, isCount, name, guid, category, CustomUnits);
             return IngType;
         }
 
@@ -117,7 +134,7 @@ namespace Kukta.FoodFrameworkV2
         }
 
         private static List<IngredientType> types;
-
+        
     }
 
 }

@@ -114,6 +114,7 @@ namespace Kukta.UI
                             }
                             if (adderUnit != null && unitComboBox.SelectedValue != adderUnit)
                             {
+                                unitComboBox.ItemsSource = adderType.GetUnits();
                                 unitComboBox.SelectedValue = adderUnit;
                             }
                             else
