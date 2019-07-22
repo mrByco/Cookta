@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
@@ -15,6 +16,7 @@ namespace IngredientUpdater
         static void Main(string[] args)
         {
             const string def = "mongodb+srv://IngredientUpdater:lMUFLKHOKLQwHUx3@kukta1-nfeff.azure.mongodb.net/test?retryWrites=true&w=majority";
+
             Console.WriteLine("Write your Mongodb connection string:");
             string connectionString = Console.ReadLine();
 
@@ -79,9 +81,9 @@ namespace IngredientUpdater
                     string type = "";
                     while (!isValidType)
                     {
-                        Console.WriteLine("What is the type of '" + header + "' field? (string/int/bool/double)");
+                        Console.WriteLine("What is the type of '" + header + "' field? (string/int/bool/double/json)");
                         type = Console.ReadLine();
-                        isValidType = type == "string" || type == "int" || type == "bool" || type == "double";
+                        isValidType = type == "string" || type == "int" || type == "bool" || type == "double" || type == "json";
                     }
                     Types.Add(type);
                     HeaderTitles.Add(header);
@@ -118,6 +120,10 @@ namespace IngredientUpdater
                                     break;
                                 case "double":
                                     doc.Add(header, new BsonDouble(Double.Parse(datas[i], CultureInfo.InvariantCulture)));
+                                    break;
+                                case "json":
+                                    if (datas[i] != "")
+                                        doc.Add(header, BsonDocument.Parse(datas[i]));
                                     break;
                             }
                         }
