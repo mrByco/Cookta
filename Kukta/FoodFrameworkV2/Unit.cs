@@ -12,8 +12,9 @@ namespace Kukta.FoodFrameworkV2
     public class Unit
     {
         public readonly UnitType Type;
-        public readonly double ToBase;
+        public readonly double? ToBase;
         public readonly string Name;
+        public readonly string id;
         public readonly string ShortName;
 
         private static List<Unit> units = new List<Unit>();
@@ -23,12 +24,13 @@ namespace Kukta.FoodFrameworkV2
             return Name;
         }
 
-        public Unit(UnitType type, double toBase, string name, string shortName)
+        public Unit(UnitType type, double? toBase, string name, string shortName, string id)
         {
             this.Type = type;
             this.ToBase = toBase;
             this.Name = name;
             this.ShortName = shortName;
+            this.id = id;
         }
 
         public static async Task Init()
@@ -52,33 +54,54 @@ namespace Kukta.FoodFrameworkV2
             return units;
         }
 
-        private static Unit ParseUnit(string json)
+        public static Unit ParseUnit(string json)
         {
             JObject jUnit = JObject.Parse(json);
+            return ParseUnit(jUnit);
+        }
+        public static Unit ParseUnit(JObject jUnit)
+        {
             UnitType type = (UnitType)(jUnit.GetValue("type").Value<int>());
-            double toBase = jUnit.GetValue("tobase").Value<double>();
+            double? toBase = jUnit.GetValue("tobase").Value<double?>();
             string name = jUnit.GetValue("name").Value<string>();
-            string shortName = jUnit.GetValue("shortname").Value<string>();
+            string id = jUnit.GetValue("id").Value<string>();
+            string shortName = jUnit.GetValue("shortname")?.Value<string>();
 
-            Unit unit = new Unit(type, toBase, name, shortName);
+            Unit unit = new Unit(type, toBase, name, shortName, id);
             return unit;
         }
-        
+
         public static Ingredient ChangeUnitTo(Unit targetUnit, Ingredient ing)
         {
-            double ToBase = GetUnit(ing.UnitName).ToBase;
-            double BaseValue = ing.Value * ToBase;
-            return new Ingredient(ing.Type, BaseValue / targetUnit.ToBase, targetUnit.Name);
+            if (ing.unit.ToBase != null && targetUnit.ToBase != null)
+            {
+                double ToBase = (double)ing.unit.ToBase;
+                double BaseValue = (double)ing.Value * ToBase;
+                return new Ingredient(ing.Type, (double)(BaseValue / targetUnit.ToBase), targetUnit);
+            }
+            else
+            {
+                return null;
+            }
         }
         public static Ingredient ChangeUnitTo(string unitID, Ingredient ing)
         {
-            Unit unit = GetUnit(unitID);
+            Unit unit = GetUnit(unitID, ing.Type);
             return ChangeUnitTo(unit, ing);
         }
 
-        public static Unit GetUnit(string name)
+        public static Unit GetUnit(string id)
         {
-            return units.Find((unit) => { return unit.Name == name; });
+            return units.Find((unit) => { return unit.id == id; });
+        }
+        public static Unit GetUnit(string id, IngredientType ingType)
+        {
+            Unit unit = GetUnit(id);
+            if (unit == null)
+            {
+                unit = ingType.CustomUnits.Find((u2) => { return u2.id == id; });
+            }
+            return unit;
         }
     }
     public enum UnitType

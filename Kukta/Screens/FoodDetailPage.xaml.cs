@@ -186,9 +186,10 @@ namespace Kukta.Screens
                 await ImageCropper.SaveAsync(stream.AsRandomAccessStream(), Microsoft.Toolkit.Uwp.UI.Controls.BitmapFileFormat.Jpeg);
                 stream.Dispose();
             }
+            var ingredients = IngList.GetIngredients();
 
             //Replace with get current food from details
-            CurrentFood = await Food.InsterFood(new Food()
+            CurrentFood = await Food.InstertFood(new Food()
             {
                 _id = CurrentFood == null ? null : CurrentFood._id,
                 name = TitleTextBox.Text,
