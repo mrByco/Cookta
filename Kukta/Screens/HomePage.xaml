@@ -34,7 +34,7 @@
                 <DataTemplate x:DataType="Frame2:Food">
                     <StackPanel Margin="10" Background="LightCoral" VerticalAlignment="Stretch" Orientation="Vertical" HorizontalAlignment="Stretch">
                         <Image Source="{x:Bind getImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignTopWithPanel="True"/>
-                        <TextBlock Text="{x:Bind name}" Name="FoodNameText" FontSize="20" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="LightCyan"/>
+                        <TextBlock Text="{x:Bind name}" Name="FoodNameText" TextWrapping="Wrap" FontSize="18" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="LightCyan"/>
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>

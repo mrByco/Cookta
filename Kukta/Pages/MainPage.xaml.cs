@@ -46,6 +46,7 @@ namespace Kukta
     ("templates", typeof(WeekTemplatePage), false),
     ("categories", typeof(FoodCategories), false),
     ("foods", typeof(FoodEditor), false),
+    ("account", typeof(ProfilePage), false),
     ("fooddetail", typeof(FoodDetailPage), true),
 };
 
@@ -56,11 +57,6 @@ namespace Kukta
             Networking.LoginChanged += UpdateLoginButton;
             DoNav += new NavigateTo(NavView_Navigate);
         }
-
-
-
-
-
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
@@ -75,24 +71,8 @@ namespace Kukta
             }
             else if ((NavigationViewItem)args.SelectedItem != null)
             {
-                if (((NavigationViewItem)args.SelectedItem).Tag.ToString() == "account")
-                {
-                    //do login
-                    if (Networking.aResult != null)
-                    {
-                        SignInUpProfileDialog.Content = new ProfilePanel(SignInUpProfileDialog.Hide);
-                        SignInUpProfileDialog.ShowAsync();
-                    }
-                    else
-                    {
-                        Networking.SignUpLogin();
-                    }
-                }
-                else
-                {
-                    var navItemTag = ((NavigationViewItem)args.SelectedItem).Tag.ToString();
-                    NavView_Navigate(navItemTag, null, null);
-                }
+                var navItemTag = ((NavigationViewItem)args.SelectedItem).Tag.ToString();
+                NavView_Navigate(navItemTag, null, null);
             }
         }
 

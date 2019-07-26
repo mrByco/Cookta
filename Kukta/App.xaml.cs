@@ -74,6 +74,7 @@ namespace Kukta
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Windows.UI.Colors.Blue;
             titleBar.ButtonBackgroundColor = Windows.UI.Colors.Blue;
+            
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -109,10 +110,19 @@ namespace Kukta
 
         }
 
-        public static void SwapToInitPage()
+        public static void DoLogout()
+        {
+            SwapToInitPage("LOGOUT");
+        }
+        public static void DoUserRename()
+        {
+            SwapToInitPage("RENAME");
+        }
+
+        public static void SwapToInitPage(string param)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(InitPage), "LOGOUT");
+            rootFrame.Navigate(typeof(InitPage), param);
             InitPage = rootFrame.Content as InitPage;
         }
         public static void SwapToRootPage()
@@ -168,7 +178,14 @@ namespace Kukta
             var notification = ToastNotificationManager.CreateToastNotifier();
             notification.Show(toastNotification);
         }
+        public static string GetAppVersion()
+        {
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
 
+            return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+        }
     }
 
 

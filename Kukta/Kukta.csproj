@@ -148,6 +148,9 @@
     <Compile Include="FrameWork\ASingleton.cs" />
     <Compile Include="FrameWork\StringExtensions.cs" />
     <Compile Include="FrameWork\DateTimeExtensions.cs" />
+    <Compile Include="Screens\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\CalendarButton.cs" />
     <Compile Include="UI\FoodButtonV2.cs" />
     <Compile Include="UI\IMealingItemButton.cs" />
@@ -279,6 +282,10 @@
     <Page Include="ContentDialogs\ReportNotFountIngredientDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\ProfilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\UserDataPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
