@@ -44,9 +44,10 @@ namespace Kukta
     ("home", typeof(HomePage), false),
     ("calendar", typeof(CalendarPage), false),
     ("templates", typeof(WeekTemplatePage), false),
-    ("categories", typeof(FoodCategories), false),
+    ("lists", typeof(FoodCategories), false),
     ("foods", typeof(FoodEditor), false),
     ("account", typeof(ProfilePage), false),
+    ("ingredients", typeof(IngredientPage), false),
     ("fooddetail", typeof(FoodDetailPage), true),
 };
 

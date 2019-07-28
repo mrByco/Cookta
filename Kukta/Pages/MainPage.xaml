@@ -15,9 +15,9 @@
                     SelectionChanged="NavView_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
-            <NavigationViewItemSeparator/>
+                <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
-                    <NavigationViewItem.Icon>   
+                    <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
@@ -34,7 +34,7 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A5;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="categories" Content="Kategóriák">
+                <NavigationViewItem Tag="lists" Content="Listák">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF168;"/>
                     </NavigationViewItem.Icon>
@@ -42,6 +42,12 @@
                 <NavigationViewItem Tag="foods" Content="Ételek">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED56;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItemSeparator/>
+                <NavigationViewItem Tag="ingredients" Content="Hozzávalók">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE71D;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

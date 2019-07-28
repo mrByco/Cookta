@@ -28,11 +28,11 @@
                     </StackPanel>
                     <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="20">
                         <TextBlock Name="SubInfoTextBlock" VerticalAlignment="Center"/>
-                        <Button Name="BuySubBTN" Click="BuySubBTN_Click" Content="Előfizetés vásárlása - 599Ft" VerticalAlignment="Center"/>
+                        <Button Name="BuySubBTN" Click="BuySubBTN_Click" Content="Előfizetés beszerzése" IsEnabled="False" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Spacing="20">
-                        <TextBlock Text="Kukta pontok: 20" Foreground="DarkBlue" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <Button Name="ReceiveFreeSubBTN" Click="ReceiveFreeSubBTN_Click" Content="Kukta pontok beváltása :)"/>
+                        <TextBlock Text="Kukta pontok: --" Foreground="DarkBlue" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <Button Name="ReceiveFreeSubBTN" Click="ReceiveFreeSubBTN_Click" Content="Kukta pontok beváltása :)" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Spacing="20" Orientation="Horizontal">
                         <Button Name="LogoutBTN" Click="LogoutBTN_Click" Padding="30, 5" Content="Kijelentkezés"/>

@@ -45,7 +45,18 @@ namespace Kukta.Screens
             }
 
             NameTextBlock.Text = Networking.info.DisplayName?? "";
-            SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+            if (Networking.info.Role == "dev")
+            {
+                SubInfoTextBlock.Text = Role.GetRole(Networking.info.Role).DisplayName + " - korlátlan hozzáférés";
+            }
+            else if (Networking.info.Role == "gold-test")
+            {
+                SubInfoTextBlock.Text =  Role.GetRole(Networking.info.Role).DisplayName + " - korlátlan prémium időtartam.";
+            }
+            else
+            {
+                SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+            }
         }
 
         private void LogoutBTN_Click(object sender, RoutedEventArgs e)
