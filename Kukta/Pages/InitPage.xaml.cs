@@ -43,10 +43,6 @@ namespace Kukta
             await SetLoadingAsync(false);
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             try
@@ -55,6 +51,10 @@ namespace Kukta
                 if (command == "LOGOUT")
                 {
                     Logout();
+                }
+                else if (command == "RENAME")
+                {
+                    ChangeName();
                 }
                 else
                 {
@@ -77,11 +77,18 @@ namespace Kukta
             SwitchToLogin();
             await SetLoadingAsync(false);
         }
+        private async void ChangeName()
+        {
+            await SetLoadingAsync(true);
+            await Task.Delay(1000);
+            SwitchToUserData();
+            await SetLoadingAsync(false);
+        }
 
 
         private async Task SetLoadingAsync(bool IsLoading)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => 
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 ContentFrame.Visibility = IsLoading ? Visibility.Collapsed : Visibility.Visible;
                 LoadRing.Visibility = IsLoading ? Visibility.Visible : Visibility.Collapsed;
@@ -109,5 +116,12 @@ namespace Kukta
             ContentFrame.Navigate(typeof(UserDataPanel), null);
             (ContentFrame.Content as UserDataPanel).SetLoading += SetLoading;
         }
+        public string VersionName
+        {
+            get
+            {
+                return string.Format("v{0}b", App.GetAppVersion());
+            }
+        }
     }
-    }
+}

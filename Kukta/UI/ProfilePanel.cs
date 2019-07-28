@@ -47,7 +47,7 @@ namespace Kukta.UI
         private void Logout(object sender, RoutedEventArgs e)
         {
             ClosePopupp?.Invoke();
-            App.SwapToInitPage();
+            App.DoLogout();
         }
     }
 }
