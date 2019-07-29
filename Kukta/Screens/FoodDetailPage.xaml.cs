@@ -170,6 +170,21 @@ namespace Kukta.Screens
         {
             SaveCurrentFood();
         }
+        private void RefreshIsValid()
+        {
+            TitleErrorTextBlock.Visibility = Visibility.Collapsed;
+            DescErrorTextBlock.Visibility = Visibility.Collapsed;
+            SaveBTN.IsEnabled = false;
+
+            if (TitleTextBox.Text.Length > 39 || TitleTextBox.Text.Length < 6)
+            {
+                TitleErrorTextBlock.Text = "Maximum 39 karakter, minimum 6.";
+                TitleErrorTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
+            SaveBTN.IsEnabled = true;
+        }
         private async void SaveCurrentFood()
         {
             await SetLoading(true);
@@ -284,6 +299,11 @@ namespace Kukta.Screens
             {
                 textBox.Text = CurrentFood.dose.ToString();
             }
+        }
+
+        private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RefreshIsValid();
         }
     }
 }

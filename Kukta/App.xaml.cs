@@ -112,23 +112,23 @@ namespace Kukta
 
         public static void DoLogout()
         {
-            SwapToInitPage("LOGOUT");
+            SwitchToInitPage("LOGOUT");
         }
         public static void DoUserRename()
         {
-            SwapToInitPage("RENAME");
+            SwitchToInitPage("RENAME");
         }
 
-        public static void SwapToInitPage(string param)
+        public static void SwitchToInitPage(string param)
         {
             Frame rootFrame = Window.Current.Content as Frame;
             rootFrame.Navigate(typeof(InitPage), param);
             InitPage = rootFrame.Content as InitPage;
         }
-        public static void SwapToRootPage()
+        public static void SwitchToMainPage(List<string> permissions)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(MainPage), null);
+            rootFrame.Navigate(typeof(MainPage), permissions);
             RootPage = rootFrame.Content as MainPage;
         }
 

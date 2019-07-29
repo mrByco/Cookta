@@ -47,11 +47,19 @@ namespace Kukta.Screens
             NameTextBlock.Text = Networking.info.DisplayName?? "";
             if (Networking.info.Role == "dev")
             {
-                SubInfoTextBlock.Text = Role.GetRole(Networking.info.Role).DisplayName + " - korlátlan hozzáférés";
+                SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
+            }
+            else if (Networking.info.Role == "owner")
+            {
+                SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
+            }
+            else if (Networking.info.Role == "test")
+            {
+                SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
             }
             else if (Networking.info.Role == "gold-test")
             {
-                SubInfoTextBlock.Text =  Role.GetRole(Networking.info.Role).DisplayName + " - korlátlan prémium időtartam.";
+                SubInfoTextBlock.Text =  "Arany tesztelő - korlátlan prémium időtartam.";
             }
             else
             {

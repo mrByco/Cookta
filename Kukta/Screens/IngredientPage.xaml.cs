@@ -37,7 +37,7 @@ namespace Kukta.Screens
         {
             await SetLoading(true);
             await IngredientType.Init();
-            dataGrid.ItemsSource = IngredientType.Types;
+            dataGrid.ItemsSource = IngredientType.SortedTypes();
             await SetLoading(false);
 
         }
@@ -127,6 +127,14 @@ namespace Kukta.Screens
             units.AddRange(EditIngredientCustomUnitsDataGrid.ItemsSource as List<EditingUnit>);
             units.Add(new EditingUnit());
             EditIngredientCustomUnitsDataGrid.ItemsSource = units;
+        }
+
+        private void AddNewIngredient_Click(object sender, RoutedEventArgs e)
+        {
+            OpenIngredientToDialog(Guid.NewGuid().ToString());
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            EditIngredientContentDialog.ShowAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
     }
     public class EditingUnit

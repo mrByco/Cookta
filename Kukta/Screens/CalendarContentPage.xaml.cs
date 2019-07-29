@@ -60,8 +60,11 @@ namespace Kukta.Screens
         {
             try
             {
-                ElementsByDayindex[-1].ForEach((element) => ContentGrid.Children.Remove(element));
-                ElementsByDayindex.Remove(-1);
+                if (ElementsByDayindex.ContainsKey(-1))
+                {
+                    ElementsByDayindex[-1].ForEach((element) => ContentGrid.Children.Remove(element));
+                    ElementsByDayindex.Remove(-1);
+                }
             }
             catch
             {
@@ -101,14 +104,11 @@ namespace Kukta.Screens
             }
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                try
+                if (ElementsByDayindex.ContainsKey(dayIndex))
                 {
                     List<UIElement> elements = ElementsByDayindex[dayIndex];
                     if (elements != null)
                         elements.ForEach(e => { ContentGrid.Children.Remove(e); });
-                }
-                catch
-                {
                 }
                 if (ElementsByDayindex.ContainsKey(dayIndex))
                     ElementsByDayindex[dayIndex] = new List<UIElement>();

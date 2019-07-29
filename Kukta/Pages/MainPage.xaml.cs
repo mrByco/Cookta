@@ -36,7 +36,7 @@ namespace Kukta
     {
         public static MainPage instance;
         private static event NavigateTo DoNav;
-        
+
 
         // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
         private readonly List<(string Tag, Type Page, bool setNavNull)> _pages = new List<(string Tag, Type Page, bool setNavNull)>
@@ -61,7 +61,6 @@ namespace Kukta
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -75,6 +74,30 @@ namespace Kukta
                 var navItemTag = ((NavigationViewItem)args.SelectedItem).Tag.ToString();
                 NavView_Navigate(navItemTag, null, null);
             }
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            List<string> permissions = new List<string>();
+            try
+            {
+                permissions = e.Parameter as List<string>;
+                if (permissions == null)
+                    throw new Exception();
+            }
+            catch
+            {
+                if (Networking.aResult?.AccessToken != null)
+                {
+                    permissions = await Role.GetPermissions();
+                }
+            }
+
+            HomeItem.Visibility = Visibility.Visible;
+            AccountItem.Visibility = Visibility.Visible;
+            FoodsItem.Visibility = Visibility.Visible;
+            CalendarItem.Visibility = Visibility.Visible;
+            IngredientsItem.Visibility = permissions.Contains("manage-ingredients") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public async void ShowServiceError()

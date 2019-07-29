@@ -32,6 +32,7 @@ namespace Kukta.Screens
         
 
         private ObservableCollection<Food> m_foods = new ObservableCollection<Food>();
+        private List<Food> OriginalFoods = new List<Food>();
         public ObservableCollection<Food> Foods
         {
             get
@@ -42,7 +43,8 @@ namespace Kukta.Screens
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            m_foods = new ObservableCollection<Food>(await Food.GetLastFoods(1, 50));
+            OriginalFoods = await Food.GetLastFoods(1, 50);
+            m_foods = new ObservableCollection<Food>(OriginalFoods);
             DataPanel.ItemsSource = m_foods;
 
         }
@@ -61,6 +63,13 @@ namespace Kukta.Screens
         {
             string clickedID = (e.ClickedItem as Food)._id;
             MainPage.NavigateTo("fooddetail", null, clickedID);
+        }
+
+        private void Searchbox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+
+            m_foods = new ObservableCollection<Food>(OriginalFoods.FindAll((food) => { return food.name.ToLower().Contains(sender.Text.ToLower()); }));
+            DataPanel.ItemsSource = m_foods;
         }
     }
 }

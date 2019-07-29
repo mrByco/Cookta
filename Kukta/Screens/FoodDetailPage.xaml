@@ -48,12 +48,16 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="24" Grid.Row="0" Grid.ColumnSpan="2"/>
-                    <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24" PlaceholderText="Recept neve" Grid.Row="0" Grid.ColumnSpan="2"/>
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                        <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="24"/>
+                        <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24" PlaceholderText="Recept neve" TextChanged="TitleTextBox_TextChanged"/>
+                        <TextBlock Name="TitleErrorTextBlock" FontSize="15" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed" FontWeight="Bold" Foreground="Red"/>
+                    </StackPanel>
 
                     <StackPanel Grid.Row="1">
                         <TextBlock Name="DescTextBlock" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="20"/>
                         <TextBox Name="DescTextBox" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" AcceptsReturn="True" TextWrapping="Wrap" PlaceholderText="Recept leírása"/>
+                        <TextBlock Name="DescErrorTextBlock" FontSize="18" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed" FontWeight="Bold" Foreground="Red"/>
                         <controls:ImageCropper x:Name="ImageCropper" Visibility="Collapsed" />
                         <Image x:Name="Image" Visibility="Visible" HorizontalAlignment="Stretch"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20">
