@@ -174,6 +174,20 @@ namespace Kukta.FoodFrameworkV2
         }
 
         public static List<IngredientType> Types { get; private set; }
+        public static List<IngredientType> SortedTypes()
+        {
+            var categories = GetCurrentUsetIngredientCategories();
+            List<IngredientType> sorted = new List<IngredientType>();
+            foreach (string cat in categories)
+            {
+                foreach (IngredientType type in Types)
+                {
+                    if (type.Category == cat)
+                        sorted.Add(type);
+                }
+            }
+            return sorted;
+        }
         
     }
 

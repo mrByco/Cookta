@@ -22,18 +22,8 @@ namespace Kukta.FrameWork
         private static Auth0Client Client;
         public static event LoginDelegate LoginChanged;
         public static LoginResult aResult;
-        private static Networkinfo m_Info = null;
-        public static Networkinfo info
-        {
-            get
-            {
-                return m_Info;
-            }
-            set
-            {
-                m_Info = value;
-            }
-        }
+
+        public static Networkinfo info { get; set; } = null;
 
         private static void InitClient()
         {
@@ -185,9 +175,12 @@ namespace Kukta.FrameWork
                 await Networking.SignUpLogin();
             }
             request.AddHeader("Authorization", "Bearer " + Networking.aResult.AccessToken);
-            foreach (string name in query.Keys.ToArray())
+            if (query != null)
             {
-                request.AddParameter(name, query[name], ParameterType.QueryString);
+                foreach (string name in query.Keys.ToArray())
+                {
+                    request.AddParameter(name, query[name], ParameterType.QueryString);
+                }
             }
 
             var response = App.RestClient.Get(request);
@@ -226,6 +219,7 @@ namespace Kukta.FrameWork
                     await new ServicesNotAvailable().ShowAsync();
                     return;
                 }
+
             }
             catch
             {

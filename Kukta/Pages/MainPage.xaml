@@ -14,7 +14,7 @@
                         AlwaysShowHeader="False"
                     SelectionChanged="NavView_SelectionChanged">
             <NavigationView.MenuItems>
-                <NavigationViewItem Tag="home" Icon="Home" Content="Home"/>
+                <NavigationViewItem Tag="home" Icon="Home" Content="Home" Name="HomeItem"/>
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
                     <NavigationViewItem.Icon>
@@ -24,28 +24,28 @@
 
                 <NavigationViewItemHeader x:Name="MainPagesHeader"
                                            Content="Étrend"/>
-                <NavigationViewItem Tag="calendar" Content="Naptár">
+                <NavigationViewItem Tag="calendar" Content="Naptár" Name="CalendarItem" Visibility="Collapsed">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE787;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="templates" Content="Sablonok">
+                <NavigationViewItem Tag="templates" Content="Sablonok" Visibility="Collapsed">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A5;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="lists" Content="Listák">
+                <NavigationViewItem Tag="lists" Content="Listák" Visibility="Collapsed">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF168;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Tag="foods" Content="Ételek">
+                <NavigationViewItem Tag="foods" Content="Ételek" Name="FoodsItem">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED56;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItemSeparator/>
-                <NavigationViewItem Tag="ingredients" Content="Hozzávalók">
+                <NavigationViewItem Tag="ingredients" Content="Hozzávalók" Name="IngredientsItem">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE71D;"/>
                     </NavigationViewItem.Icon>

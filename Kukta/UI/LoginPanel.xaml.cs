@@ -33,7 +33,7 @@ namespace Kukta.UI
 
         private void NoLoginBTN_Click(object sender, RoutedEventArgs e)
         {
-            App.SwapToRootPage();
+            App.SwitchToMainPage(new List<string>());
         }
 
         private async void LoginBTNClick(object sender, RoutedEventArgs e)
@@ -52,12 +52,13 @@ namespace Kukta.UI
                     else
                     {
                         await Networking.ChangeUserInfo(null, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
-                        App.SwapToRootPage();
+                        var permissions = await Role.GetPermissions();
+                        App.SwitchToMainPage(permissions);
                     }
                 }
                 catch
                 {
-                    App.SwapToRootPage();
+                    App.SwitchToMainPage(null);
                 }
                 return;
             }

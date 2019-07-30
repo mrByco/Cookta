@@ -216,7 +216,7 @@ namespace Kukta.FoodFrameworkV2
 
         public static Food ParseFoodFromServerJson(string json)
         {
-            try
+            if (json != null && json != "")
             {
                 JObject jFood = JObject.Parse(json);
                 Food food = new Food();
@@ -224,11 +224,11 @@ namespace Kukta.FoodFrameworkV2
                 food._id = jFood.GetValue("_id").Value<string>();
                 food.owner = jFood.GetValue("owner").Value<string>();
                 food.makeTime = jFood.GetValue("makeTime").Value<int?>();
-                food.dose = jFood.GetValue("dose")?.Value<int>()?? 4;
+                food.dose = jFood.GetValue("dose")?.Value<int>() ?? 4;
                 food.subcribed = jFood.GetValue("subscribed").Value<bool>();
                 food.name = jFood.GetValue("name").Value<string>();
                 food.desc = jFood.GetValue("desc").Value<string>();
-                food.isPrivate = jFood.GetValue("private")?.Value<bool>()?? true;
+                food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
                 if (tagArray != null)
@@ -257,13 +257,10 @@ namespace Kukta.FoodFrameworkV2
                 {
                     food.ingredients = new List<Ingredient>();
                 }
-
                 return food;
             }
-            catch
-            {
+            else
                 return null;
-            }
             
         }
         public static string CreateFoodToServer(Food food)

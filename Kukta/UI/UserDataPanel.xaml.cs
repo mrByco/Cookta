@@ -47,7 +47,8 @@ namespace Kukta.UI
                 userValid = await CheckUsernameAvailable(username);
             }
             await Networking.ChangeUserInfo(username, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
-            App.SwapToRootPage();
+            var permissions = await Role.GetPermissions();
+            App.SwitchToMainPage(permissions);
             SetLoading?.Invoke(false);
         }
 
@@ -55,7 +56,8 @@ namespace Kukta.UI
         {
             SetLoading?.Invoke(true);
             await Networking.ChangeUserInfo(UserNameTextBox.Text, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
-            App.SwapToRootPage();
+            var permissions = await Role.GetPermissions();
+            App.SwitchToMainPage(permissions);
             SetLoading?.Invoke(false);
         }
 

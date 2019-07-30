@@ -26,16 +26,21 @@
                             RelativePanel.AlignRightWithPanel="True" 
                             Width="150" QueryIcon="Find"
                             Margin="0, 0, 30, 0"
+                            QuerySubmitted="Searchbox_QuerySubmitted"
                             RelativePanel.AlignVerticalCenterWithPanel="True"/>
         </RelativePanel>
 
         <GridView Name="DataPanel" ItemsSource="{x:Bind Foods}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="DataPanel_ItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="Frame2:Food">
-                    <StackPanel Margin="10" Background="LightCoral" VerticalAlignment="Stretch" Orientation="Vertical" HorizontalAlignment="Stretch">
-                        <Image Source="{x:Bind getImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignTopWithPanel="True"/>
-                        <TextBlock Text="{x:Bind name}" Name="FoodNameText" TextWrapping="Wrap" FontSize="18" Margin="20, 0, 20, 15" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="LightCyan"/>
-                    </StackPanel>
+                    <Grid Height="280" Margin="10" Background="LightCoral">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="{x:Bind getImage}" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignTopWithPanel="True" Grid.Row="0"/>
+                        <TextBlock Text="{x:Bind name}" Name="FoodNameText" TextWrapping="Wrap" FontSize="20" Padding="0" MaxLines="2" Margin="10, 0, 10, 10" HorizontalAlignment="Center" FontWeight="Bold" Foreground="LightCyan" Grid.Row="1"/>
+                    </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

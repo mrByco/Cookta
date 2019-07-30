@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,40 +9,41 @@ namespace Kukta.FrameWork
 {
     public class Role
     {
-        public readonly string Id;
-        public readonly string DisplayName;
-        public readonly List<string> Permissions;
-        public static Role GetRole(string id)
+        public static async Task<bool> HasPermission(string permission)
         {
-            Role role = roles.Find((r) => { return r.Id == id; });
-            return role ?? DefaultRole;
-        }
-        public Role(List<string> permissions, string id, string displayName)
-        {
-            Id = id;
-            Permissions = permissions;
-            DisplayName = displayName;
-        }
-        public bool HasPermission(string permission)
-        {
-            return this.Permissions.Contains(permission);
-        }
-        public static List<Role> roles = new List<Role>()
-        {
-            new Role(new List<string>(){ "manage-roles", "manage-ingredients", "manage-ingredient-reports", "manage-others-online-receipts", "subcribe-receipts", "use-calendar", "upload-public-receipts-immidiatelly"},
-                "owner", "Tulajdonos"),
-            new Role(new List<string>(){ "manage-ingredients", "manage-ingredient-reports", "manage-others-online-receipts", "subcribe-receipts", "use-calendar", "upload-public-receipts-immidiatelly"},
-                "dev", "Fejlesztő"),
-            new Role(new List<string>(){ "subcribe-receipts", "use-calendar", "upload-public-receipts-immidiatelly"},
-                "gold-test", "Arany tesztelő"),
-        };
-        public static Role DefaultRole
-        {
-            get
+            if (Networking.aResult?.AccessToken != null)
             {
-                return new Role(new List<string>() { "subcribe-receipts" },
-                    "", "Felhasználló");
+                var query = new Dictionary<string, object>();
+                query.Add("permission", permission);
+                var res = await Networking.GetRequestWithForceAuth("haspermission", query);
+                bool has;
+                if (Boolean.TryParse(res.Content, out has))
+                {
+                    return has;
+                }
+                else
+                {
+                    return false;
+                }
             }
+            else
+            {
+                return false;
+            }
+        }
+        public static async Task<List<string>> GetPermissions()
+        {
+            List<string> permissions = new List<string>();
+            var response = await Networking.GetRequestWithForceAuth("mypermissions", null);
+            if (response.Content != null && response.Content != "" && response.StatusCode != System.Net.HttpStatusCode.NotFound)
+            {
+                JArray jarray = JArray.Parse(response.Content);
+                for (int i = 0; i < jarray.Count; i++)
+                {
+                    permissions.Add(jarray.ElementAt(i).Value<string>());
+                }
+            }
+            return permissions;
         }
     }
 }
