@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kukta", "Kukta\Kukta.csproj", "{CF5515A0-4151-4233-8000-179445948F8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngredientUpdater", "IngredientUpdater\IngredientUpdater.csproj", "{281A4294-9632-47A5-BFB4-405BC8EA63E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngredientUpdater", "IngredientUpdater\IngredientUpdater.csproj", "{281A4294-9632-47A5-BFB4-405BC8EA63E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooktapi", "Cooktapi\Cooktapi.csproj", "{FD62B681-4008-42B2-A16E-B13F9F73F7DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,26 @@ Global
 		{281A4294-9632-47A5-BFB4-405BC8EA63E7}.Release|x64.Build.0 = Release|Any CPU
 		{281A4294-9632-47A5-BFB4-405BC8EA63E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{281A4294-9632-47A5-BFB4-405BC8EA63E7}.Release|x86.Build.0 = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|x64.Build.0 = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Debug|x86.Build.0 = Debug|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|ARM.Build.0 = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|ARM64.Build.0 = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|x64.Build.0 = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{FD62B681-4008-42B2-A16E-B13F9F73F7DE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
