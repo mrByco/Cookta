@@ -40,4 +40,4 @@ steps:
                   /p:UapAppxPackageBuildMode=StoreUpload 
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificateKeyFile="$(signingCert.Kukta_StoreKey.pfx)"'
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
