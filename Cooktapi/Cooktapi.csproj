@@ -1,13 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Networking\" />
     <Folder Include="Food\" />
     <Folder Include="Calendar\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Auth0.OidcClient.Core" Version="2.4.0" />
   </ItemGroup>
 
 </Project>
