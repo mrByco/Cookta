@@ -21,6 +21,7 @@ steps:
   displayName: 'Download CA certificate'
   inputs:
     secureFile: 'Kukta_StoreKey.pfx'
+    
 
 - task: NuGetToolInstaller@1
 
@@ -38,7 +39,5 @@ steps:
                   /p:AppxPackageDir="$(appxPackageDir)" 
                   /p:AppxBundle=Always 
                   /p:UapAppxPackageBuildMode=StoreUpload 
-                  /p:AppxPackageSigningEnabled=true
-                  /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificatePassword="123456789"
-                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+                  /p:AppxPackageSigningEnabled=false
+                  /p:PackageCertificateThumbprint=""'
