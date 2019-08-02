@@ -7,10 +7,10 @@ rantott_leves,rántott leves
 leves,leves
 tartalmas_leves,tartalmas leves
 zoldseges_leves,zöldséges leves
-apro_hus,apró hús
+apro_hus,apróhús
 fozelek,főzelék
 egytaletel,egytálétel
-hus_mentes,hús mentes
+hus_mentes,húsmentes
 frissen_sult,frissen sűlt
 egyben_sult_hus,egyben sült hús
 belsoseg,belsőség
@@ -28,7 +28,7 @@ csoben_sult,csőben sűlt
 gyumolcsos_hus,gyümölcsös hús
 palacsinta,palacsinta
 rizses,rizses
-vagdalt_hus,vagdalt hús
+vagdalt_hus,vagdalthús
 krumplis,krumplis
 turos,túrós
 csirke,csirke
@@ -36,9 +36,9 @@ pulyka,pulyka
 sertes,sertés
 marha,marha
 tartalmas_reggeli,tartalmas reggeli
-gabona_kis_etkezes,gabona kis étkezés
+gabona_kis_etkezes,gabona kisétkezés
 szendvicskrem,szendvicskrém
-kenyer_feltet,kenyér feltét
+kenyer_feltet,kenyérfeltét
 gyumolcsos_tejtermek,gyümölcsös tejtermék
 gyumolcsos_egytaletel,gyümölcsös egytálétel
 tepsis_hus,tepsis hús
@@ -46,7 +46,7 @@ kelt_teszta,kelt tészta
 edes_kelt_teszta,édes kelt tészta
 sos_kelt_teszta,sós kelt tészta
 edes_reggeli,édes reggeli
-tojas_etelek,tojás ételek
+tojas_etelek,tojásételek
 porkoltek,pörköltek
 husetelek,húsételek
 kremleves,krémleves
@@ -58,9 +58,17 @@ bundas_hus,bundás hús
 husos_salata,húsos saláta
 rakott_teszta,rakott tészta
 tejszines_teszta,tejszínes tészta
-zsiradekban_sult,zsiradékban sűlt
+zsiradekban_sult,zsiradékban sült
 desszert,desszert
 gyumolcsos,gyümölcs
 zoldseg,zöldség
 peksutemenyek,péksütemények
 toltott_zoldsegek,töltött zöldségek
+sutoben_sult,sütőben sült
+kaposztas,káposztás
+fozelekfeltet,főzelékfeltét
+frissensult,frissensült
+sertes,sertés
+csirke,csirke
+grillezeshez,grillezéshez
+bogracsos_etelek,bográcsos ételek
