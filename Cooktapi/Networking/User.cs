@@ -9,7 +9,7 @@ namespace Cooktapi.Networking
 {
     internal class User
     {
-        internal static string AccesToken { get; private set; }
+        internal static string AccessToken { get; private set; }
         internal static string DisplayName { get; private set; }
         internal static string Role { get; private set; }
         internal static string Email { get; private set; }
@@ -23,10 +23,13 @@ namespace Cooktapi.Networking
             ProfilPic = GetClaim("picture");
             Email = GetClaim("email");
 
+            
+
+            return;
         }
         internal static void Clear()
         {
-            AccesToken = null;
+            AccessToken = null;
             DisplayName = null;
             Role = null;
             Email = null;
