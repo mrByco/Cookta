@@ -40,5 +40,5 @@ steps:
                   /p:UapAppxPackageBuildMode=StoreUpload 
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificatePassword="LmX7Lcq10"
+                  /p:PackageCertificatePassword="123456789"
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
