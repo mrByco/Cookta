@@ -12,7 +12,8 @@
     <Grid>
         <NavigationView x:Name="NavView"
                         AlwaysShowHeader="False"
-                    SelectionChanged="NavView_SelectionChanged">
+                    SelectionChanged="NavView_SelectionChanged"
+                        IsSettingsVisible="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="home" Icon="Home" Content="Home" Name="HomeItem"/>
                 <NavigationViewItemSeparator/>
