@@ -1,5 +1,6 @@
-﻿using Kukta.Calendar;
-using Kukta.FrameWork;
+﻿using Cooktapi.Food;
+using Cooktapi.Measuring;
+using Cooktapi.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -8,11 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 
-namespace Kukta.FoodFrameworkV2
+namespace Kukta.Food
 {
     public class Food : IMealingItem
     {
@@ -23,7 +21,7 @@ namespace Kukta.FoodFrameworkV2
         {
             get
             {
-                return this.owner == Networking.GetClaim("sub");
+                return this.owner == User.Sub;
             }
         }
         public bool subcribed;
@@ -41,23 +39,36 @@ namespace Kukta.FoodFrameworkV2
         public void NewSeed() { return; }
         public string GetName() { return name; }
 
-        public BitmapImage getImage
+        public Uri getImage
         {
             get
             {
                 if (imageURL != null && imageURL != "")
                 {
-                    var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
-                    if (!GetCacheingEnabled(_id, imageUploaded))
-                        bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                    return bitmapImage;
+                    var bitmapUri = new Uri(imageURL.ToString(), UriKind.Absolute);
+                    return bitmapUri;
                 }
-                return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
-                    , UriKind.Absolute));
+                return new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
             }
         }
 
-        public override string ToString()
+        //public BitmapImage getImage
+        //{
+        //    get
+        //    {
+        //        if (imageURL != null && imageURL != "")
+        //        {
+        //            var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
+        //            if (!GetCacheingEnabled(_id, imageUploaded))
+        //                bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+        //            return bitmapImage;
+        //        }
+        //        return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
+        //            , UriKind.Absolute));
+        //    }
+        //}
+
+        public string ToString()
         {
             return name;
         }
@@ -98,7 +109,7 @@ namespace Kukta.FoodFrameworkV2
         }
 
 
-        public static async Task<Food> InstertFood(Food food, StorageFile Image)
+        public static async Task<Food> InstertFood(Food food, string ImagePath)
         {
             string FoodText = CreateFoodToServer(food);
 
@@ -106,12 +117,12 @@ namespace Kukta.FoodFrameworkV2
 
             food = ParseFoodFromServerJson(foodRes.Content);
 
-            if (foodRes.StatusCode == System.Net.HttpStatusCode.OK && Image != null)
+            if (foodRes.StatusCode == System.Net.HttpStatusCode.OK && ImagePath != null)
             {
                 var query = new Dictionary<string, object>();
                 query.Add("_id", food._id);
                 var res = await Networking.GetRequestSimple("food", query);
-                await Networking.JpegImageUploadWithAuth("foodimage", query, Image);
+                await Networking.JpegImageUploadWithAuth("foodimage", query, ImagePath);
             }
 
             return food;
@@ -258,7 +269,7 @@ namespace Kukta.FoodFrameworkV2
                         string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
                         string UnitID = jarray.ElementAt(i).Value<string>("unit");
                         double Value = jarray.ElementAt(i).Value<double>("value");
-                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, IngredientType.GetByID(IngID))));
+                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID))));
                     }
                 }
                 else

@@ -1,4 +1,6 @@
-﻿using Cooktapi.Networking;
+﻿using Cooktapi.Food;
+using Cooktapi.Measuring;
+using Cooktapi.Networking;
 using IdentityModel.OidcClient;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,11 @@ namespace Cooktapi
             SendNotification = sendNotification;
 
             Networking.Networking.Init(debugServer);
-
+        }
+        public static async Task Init()
+        {
+            await Unit.Init();
+            await IngredientType.Init();
         }
         public void InitUserViaToken(string token)
         {

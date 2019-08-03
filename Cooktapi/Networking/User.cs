@@ -16,6 +16,7 @@ namespace Cooktapi.Networking
         internal static string AccessToken { get; private set; }
         internal static string Role { get; private set; }
         internal static string Email { get; private set; }
+        internal static string Sub { get; private set; }
         private static LoginResult LoginResult { get; set; }
         internal static bool IsLoggedIn { get; private set; }
         internal static async Task<bool> Init(LoginResult result)
@@ -42,6 +43,7 @@ namespace Cooktapi.Networking
         {
             if (IsLoggedIn)
             {
+                Sub = GetClaim("sub");
                 ProfilPic = GetClaim("picture");
                 Email = GetClaim("email");
 

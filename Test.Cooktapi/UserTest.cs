@@ -16,10 +16,11 @@ namespace Test.Cooktapi
         public string Token;
         public Cookta Cookta;
         [TestInitialize]
-        public void InitTest()
+        public async Task InitTest()
         {
             Token = GetDebugToken();
             Cookta = new Cookta(null, null, null, false);
+            await Cookta.Init();
             User.SetupForTest(Token);
         }
         [TestMethod]
