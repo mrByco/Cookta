@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kukta.Food
+namespace Cooktapi.Calendar
 {
     public interface IMealingItem
     {
-        Food GetMealFood();
+        Food.Food GetMealFood();
         void NewSeed();
         string GetName();
         string GetId();

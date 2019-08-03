@@ -1,4 +1,5 @@
-﻿using Cooktapi.Food;
+﻿using Cooktapi.Calendar;
+using Cooktapi.Food;
 using Cooktapi.Measuring;
 using Cooktapi.Networking;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kukta.Food
+namespace Cooktapi.Food
 {
     public class Food : IMealingItem
     {
@@ -113,7 +114,7 @@ namespace Kukta.Food
         {
             string FoodText = CreateFoodToServer(food);
 
-            var foodRes = await Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
+            var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
 
             food = ParseFoodFromServerJson(foodRes.Content);
 
@@ -121,8 +122,8 @@ namespace Kukta.Food
             {
                 var query = new Dictionary<string, object>();
                 query.Add("_id", food._id);
-                var res = await Networking.GetRequestSimple("food", query);
-                await Networking.JpegImageUploadWithAuth("foodimage", query, ImagePath);
+                var res = await Networking.Networking.GetRequestSimple("food", query);
+                await Networking.Networking.JpegImageUploadWithAuth("foodimage", query, ImagePath);
             }
 
             return food;
@@ -130,7 +131,7 @@ namespace Kukta.Food
 
         public static async Task<List<Food>> GetLastFoods(int page, int itemsPerPage)
         {
-            var res = await Networking.GetRequestSimple("foods", new Dictionary<string, object>());
+            var res = await Networking.Networking.GetRequestSimple("foods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -146,7 +147,7 @@ namespace Kukta.Food
         }
         public static async Task<List<Food>> GetMyFoods()
         {
-            var res = await Networking.GetRequestWithForceAuth("myfoods", new Dictionary<string, object>());
+            var res = await Networking.Networking.GetRequestWithForceAuth("myfoods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -165,16 +166,16 @@ namespace Kukta.Food
             query.Add("_id", _id);
             IRestResponse res;
             if (state )
-                res = await Networking.GetRequestWithForceAuth("sub", query);
+                res = await Networking.Networking.GetRequestWithForceAuth("sub", query);
             else
-                res = await Networking.GetRequestWithForceAuth("unsub", query);
+                res = await Networking.Networking.GetRequestWithForceAuth("unsub", query);
             return;
 
         }
 
         public static async Task<List<Food>> GetSubFoods()
         {
-            var res = await Networking.GetRequestWithForceAuth("subfoods", new Dictionary<string, object>());
+            var res = await Networking.Networking.GetRequestWithForceAuth("subfoods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -200,7 +201,7 @@ namespace Kukta.Food
         {
             var query = new Dictionary<string, object>();
             query.Add("_id", _id);
-            var res = await Networking.GetRequestSimple("food", query);
+            var res = await Networking.Networking.GetRequestSimple("food", query);
             Food food = ParseFoodFromServerJson(res.Content);
             return food;
         }
@@ -213,7 +214,7 @@ namespace Kukta.Food
         {
             var query = new Dictionary<string, object>();
             query.Add("_id", id);
-            var res = await Networking.DeleteRequestWithForceAuth("food", query);
+            var res = await Networking.Networking.DeleteRequestWithForceAuth("food", query);
             if (res.IsSuccessful && res.Content == "success")
             {
                 return true;
