@@ -1,4 +1,5 @@
 using Cooktapi;
+using Cooktapi.Food;
 using Cooktapi.Networking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -68,7 +69,7 @@ namespace Test.Cooktapi
             IRestResponse response = client.Execute(request);
 
             JObject obj = JObject.Parse(response.Content);
-            return "Bearer " + obj.GetValue("access_token").Value<string>();
+            return obj.GetValue("access_token").Value<string>();
         }
     }
 }

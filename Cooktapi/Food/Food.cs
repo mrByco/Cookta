@@ -112,13 +112,10 @@ namespace Cooktapi.Food
 
         public static async Task<Food> InstertFood(Food food, string ImagePath)
         {
-            string FoodText = CreateFoodToServer(food);
 
-            var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
+            food = await InstertFood(food);
 
-            food = ParseFoodFromServerJson(foodRes.Content);
-
-            if (foodRes.StatusCode == System.Net.HttpStatusCode.OK && ImagePath != null)
+            if (food?._id != null && ImagePath != null)
             {
                 var query = new Dictionary<string, object>();
                 query.Add("_id", food._id);
@@ -126,6 +123,15 @@ namespace Cooktapi.Food
                 await Networking.Networking.JpegImageUploadWithAuth("foodimage", query, ImagePath);
             }
 
+            return food;
+        }
+        public static async Task<Food> InstertFood(Food food)
+        {
+            string FoodText = CreateFoodToServer(food);
+
+            var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
+
+            food = ParseFoodFromServerJson(foodRes.Content);
             return food;
         }
 
@@ -197,7 +203,7 @@ namespace Cooktapi.Food
             return items;
         }
 
-        internal static async Task<Food> Get(string _id)
+        public static async Task<Food> Get(string _id)
         {
             var query = new Dictionary<string, object>();
             query.Add("_id", _id);
@@ -210,7 +216,7 @@ namespace Cooktapi.Food
         /// </summary>
         /// <param name="id">The id of the food.</param>
         /// <returns>true if success</returns>
-        internal static async Task<bool> Delete(string id)
+        public static async Task<bool> Delete(string id)
         {
             var query = new Dictionary<string, object>();
             query.Add("_id", id);
