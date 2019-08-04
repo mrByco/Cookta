@@ -1,5 +1,7 @@
-﻿using Kukta.Calendar;
-using Kukta.FrameWork;
+﻿using Cooktapi.Calendar;
+using Cooktapi.Food;
+using Cooktapi.Measuring;
+using Cooktapi.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -8,11 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 
-namespace Kukta.FoodFrameworkV2
+namespace Cooktapi.Food
 {
     public class Food : IMealingItem
     {
@@ -23,7 +22,7 @@ namespace Kukta.FoodFrameworkV2
         {
             get
             {
-                return this.owner == Networking.GetClaim("sub");
+                return this.owner == User.Sub;
             }
         }
         public bool subcribed;
@@ -41,23 +40,36 @@ namespace Kukta.FoodFrameworkV2
         public void NewSeed() { return; }
         public string GetName() { return name; }
 
-        public BitmapImage getImage
+        public Uri getImage
         {
             get
             {
                 if (imageURL != null && imageURL != "")
                 {
-                    var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
-                    if (!GetCacheingEnabled(_id, imageUploaded))
-                        bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                    return bitmapImage;
+                    var bitmapUri = new Uri(imageURL.ToString(), UriKind.Absolute);
+                    return bitmapUri;
                 }
-                return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
-                    , UriKind.Absolute));
+                return new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
             }
         }
 
-        public override string ToString()
+        //public BitmapImage getImage
+        //{
+        //    get
+        //    {
+        //        if (imageURL != null && imageURL != "")
+        //        {
+        //            var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
+        //            if (!GetCacheingEnabled(_id, imageUploaded))
+        //                bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+        //            return bitmapImage;
+        //        }
+        //        return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
+        //            , UriKind.Absolute));
+        //    }
+        //}
+
+        public string ToString()
         {
             return name;
         }
@@ -98,28 +110,34 @@ namespace Kukta.FoodFrameworkV2
         }
 
 
-        public static async Task<Food> InstertFood(Food food, StorageFile Image)
+        public static async Task<Food> InstertFood(Food food, string ImagePath)
         {
-            string FoodText = CreateFoodToServer(food);
 
-            var foodRes = await Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
+            food = await InstertFood(food);
 
-            food = ParseFoodFromServerJson(foodRes.Content);
-
-            if (foodRes.StatusCode == System.Net.HttpStatusCode.OK && Image != null)
+            if (food?._id != null && ImagePath != null)
             {
                 var query = new Dictionary<string, object>();
                 query.Add("_id", food._id);
-                var res = await Networking.GetRequestSimple("food", query);
-                await Networking.JpegImageUploadWithAuth("foodimage", query, Image);
+                var res = await Networking.Networking.GetRequestSimple("food", query);
+                await Networking.Networking.JpegImageUploadWithAuth("foodimage", query, ImagePath);
             }
 
+            return food;
+        }
+        public static async Task<Food> InstertFood(Food food)
+        {
+            string FoodText = CreateFoodToServer(food);
+
+            var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
+
+            food = ParseFoodFromServerJson(foodRes.Content);
             return food;
         }
 
         public static async Task<List<Food>> GetLastFoods(int page, int itemsPerPage)
         {
-            var res = await Networking.GetRequestSimple("foods", new Dictionary<string, object>());
+            var res = await Networking.Networking.GetRequestSimple("foods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -135,7 +153,7 @@ namespace Kukta.FoodFrameworkV2
         }
         public static async Task<List<Food>> GetMyFoods()
         {
-            var res = await Networking.GetRequestWithForceAuth("myfoods", new Dictionary<string, object>());
+            var res = await Networking.Networking.GetRequestWithForceAuth("myfoods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -154,16 +172,16 @@ namespace Kukta.FoodFrameworkV2
             query.Add("_id", _id);
             IRestResponse res;
             if (state )
-                res = await Networking.GetRequestWithForceAuth("sub", query);
+                res = await Networking.Networking.GetRequestWithForceAuth("sub", query);
             else
-                res = await Networking.GetRequestWithForceAuth("unsub", query);
+                res = await Networking.Networking.GetRequestWithForceAuth("unsub", query);
             return;
 
         }
 
         public static async Task<List<Food>> GetSubFoods()
         {
-            var res = await Networking.GetRequestWithForceAuth("subfoods", new Dictionary<string, object>());
+            var res = await Networking.Networking.GetRequestWithForceAuth("subfoods", new Dictionary<string, object>());
             JToken token = JToken.Parse(res.Content);
             JArray tokenList = token.Value<JArray>("foods");
 
@@ -185,11 +203,11 @@ namespace Kukta.FoodFrameworkV2
             return items;
         }
 
-        internal static async Task<Food> Get(string _id)
+        public static async Task<Food> Get(string _id)
         {
             var query = new Dictionary<string, object>();
             query.Add("_id", _id);
-            var res = await Networking.GetRequestSimple("food", query);
+            var res = await Networking.Networking.GetRequestSimple("food", query);
             Food food = ParseFoodFromServerJson(res.Content);
             return food;
         }
@@ -198,11 +216,11 @@ namespace Kukta.FoodFrameworkV2
         /// </summary>
         /// <param name="id">The id of the food.</param>
         /// <returns>true if success</returns>
-        internal static async Task<bool> Delete(string id)
+        public static async Task<bool> Delete(string id)
         {
             var query = new Dictionary<string, object>();
             query.Add("_id", id);
-            var res = await Networking.DeleteRequestWithForceAuth("food", query);
+            var res = await Networking.Networking.DeleteRequestWithForceAuth("food", query);
             if (res.IsSuccessful && res.Content == "success")
             {
                 return true;
@@ -258,7 +276,7 @@ namespace Kukta.FoodFrameworkV2
                         string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
                         string UnitID = jarray.ElementAt(i).Value<string>("unit");
                         double Value = jarray.ElementAt(i).Value<double>("value");
-                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, IngredientType.GetByID(IngID))));
+                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID))));
                     }
                 }
                 else
