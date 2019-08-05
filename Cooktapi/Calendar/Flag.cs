@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kukta.FoodFrameworkV2;
-using Kukta.FrameWork;
-using Kukta.UI;
+using Cooktapi.Food;
 using Newtonsoft.Json.Linq;
 
-namespace Kukta.Calendar
+namespace Cooktapi.Calendar
 {
-    class Flag : IMealingItem
+    public class Flag : IMealingItem
     {
         private string IdOfTag;
-        private Food CurrentFood;
+        private Food.Food CurrentFood;
         public int Seed { get; private set; }
 
         public Flag(string idOfTag)
@@ -22,7 +20,7 @@ namespace Kukta.Calendar
             CurrentFood = null;
             Seed = new Random().Next(9999999);
         }
-        public Flag(Food currentFood, string idOfTag, int seed)
+        public Flag(Food.Food currentFood, string idOfTag, int seed)
         {
             IdOfTag = idOfTag;
             CurrentFood = currentFood;
@@ -33,8 +31,8 @@ namespace Kukta.Calendar
             var query = new Dictionary<string, object>();
             query.Add("seed", Seed);
             query.Add("tag", IdOfTag);
-            var response = await Networking.GetRequestWithForceAuth("getfoodoftag", query);
-            CurrentFood = Food.ParseFoodFromServerJson(response.Content);
+            var response = await Networking.Networking.GetRequestWithForceAuth("getfoodoftag", query);
+            CurrentFood = Food.Food.ParseFoodFromServerJson(response.Content);
             return;
         }
         public static List<IMealingItem> GetAvailableFlags()
@@ -52,7 +50,7 @@ namespace Kukta.Calendar
             return IdOfTag;
         }
 
-        public Food GetMealFood()
+        public Food.Food GetMealFood()
         {
             return CurrentFood;
         }

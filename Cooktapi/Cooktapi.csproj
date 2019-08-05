@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <Content Include="Assets\tags.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

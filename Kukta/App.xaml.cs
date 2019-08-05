@@ -1,6 +1,8 @@
 ﻿
-using Kukta.Calendar;
-using Kukta.Menu;
+using Auth0.OidcClient;
+using Cooktapi;
+using Cooktapi.Calendar;
+using IdentityModel.OidcClient;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -37,24 +39,36 @@ namespace Kukta
     /// </summary>
     sealed partial class App : Application
     {
-        public const string BaseFoodRoot = "Assets/Foods";
-        public const string CustomFoodRoot = "CustomFoods";
-        public const string CustomCategoryRoot = "CustomCategories";
-        public const string TemplateRoot = "WeekTemplates";
-        public const string CalendarRoot = "Calendar";
 
 
         public static App instance;
 
         internal static InitPage InitPage;
         internal static MainPage RootPage;
-
-        internal static RestClient RestClient;
+        internal static Cookta Cookta;
+        private static Auth0Client m_Client;
+        internal static Auth0Client Client
+        {
+            get
+            {
+                if (m_Client == null)
+                {
+                    Auth0ClientOptions clientOptions = new Auth0ClientOptions()
+                    {
+                        Domain = "kukta.eu.auth0.com",
+                        ClientId = "Dqp8IjQxj6Afkkgkvfk1BnYwYg65MtXC"
+                    };
+                    clientOptions.PostLogoutRedirectUri = clientOptions.PostLogoutRedirectUri;
+                    m_Client = new Auth0Client(clientOptions);
+                }
+                return m_Client;
+            }
+        }
 
 
         public App()
         {
-            
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
@@ -74,7 +88,7 @@ namespace Kukta
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Windows.UI.Colors.Blue;
             titleBar.ButtonBackgroundColor = Windows.UI.Colors.Blue;
-            
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -186,29 +200,54 @@ namespace Kukta
 
             return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
+
+        internal async static Task<LoginResult> SignUpLogin()
+        {
+
+            var extraParameters = new Dictionary<string, string>();
+            extraParameters.Add("audience", "https://kuktaservice.azurewebsites.net/");
+            var result = await Client.LoginAsync(extraParameters);
+
+            if (result.IsError)
+            {
+                Debug.WriteLine($"An error occurred during login: {result.Error}");
+            }
+            else
+            {
+                Debug.WriteLine($"id_token: {result.IdentityToken}");
+                Debug.WriteLine($"access_token: {result.AccessToken}");
+            }
+            return result;
+        }
+        //logout
+        internal static async Task Logout()
+        {
+            await Client.LogoutAsync(true);
+        }
     }
 
 
 
-        /*//Cloud thinks..
-        private static string Tenant = "kukta.onmicrosoft.com";
-        private static string ClientId = "4b7e5d88-ba84-426c-bba5-7492a7f76762";
-        public static string PolicySignUpSignIn = "B2C_1_create_user";
-        public static string PolicyEditProfile = "nothink";
-        public static string PolicyResetPassword = "nothink";
 
-        public static string[] ApiScopes = {
-            "https://kukta.onmicrosoft.com/kuktapi/user_impersonation"//,
-           // "https://kukta.onmicrosoft.com/kuktawebapi/write",
-           // "https://kukta.onmicrosoft.com/kuktawebapi/read",
-           // "https://kukta.onmicrosoft.com/kuktawebapi/user_impersonation",
-        };//"https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read" };
-        public static string ApiEndpoint = "";//"https://fabrikamb2chello.azurewebsites.net/hello";
+    /*//Cloud thinks..
+    private static string Tenant = "kukta.onmicrosoft.com";
+    private static string ClientId = "4b7e5d88-ba84-426c-bba5-7492a7f76762";
+    public static string PolicySignUpSignIn = "B2C_1_create_user";
+    public static string PolicyEditProfile = "nothink";
+    public static string PolicyResetPassword = "nothink";
 
-        private static string BaseAuthority = "https://login.microsoftonline.com/tfp/{tenant}/{policy}/oauth2/v2.0/authorize";
-        public static string Authority = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicySignUpSignIn);
-        public static string AuthorityEditProfile = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyEditProfile);
-        public static string AuthorityResetPassword = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyResetPassword);
+    public static string[] ApiScopes = {
+        "https://kukta.onmicrosoft.com/kuktapi/user_impersonation"//,
+       // "https://kukta.onmicrosoft.com/kuktawebapi/write",
+       // "https://kukta.onmicrosoft.com/kuktawebapi/read",
+       // "https://kukta.onmicrosoft.com/kuktawebapi/user_impersonation",
+    };//"https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read" };
+    public static string ApiEndpoint = "";//"https://fabrikamb2chello.azurewebsites.net/hello";
 
-        public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority, new TokenCache());*/
+    private static string BaseAuthority = "https://login.microsoftonline.com/tfp/{tenant}/{policy}/oauth2/v2.0/authorize";
+    public static string Authority = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicySignUpSignIn);
+    public static string AuthorityEditProfile = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyEditProfile);
+    public static string AuthorityResetPassword = BaseAuthority.Replace("{tenant}", Tenant).Replace("{policy}", PolicyResetPassword);
+
+    public static PublicClientApplication PublicClientApp { get; } = new PublicClientApplication(ClientId, Authority, new TokenCache());*/
 }

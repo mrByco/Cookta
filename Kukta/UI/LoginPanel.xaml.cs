@@ -1,4 +1,4 @@
-﻿using Kukta.FrameWork;
+﻿using Cooktapi.Networking;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,28 +39,39 @@ namespace Kukta.UI
         private async void LoginBTNClick(object sender, RoutedEventArgs e)
         {
             SetLoading?.Invoke(true);
-            var res = await Networking.SignUpLogin();
-            if (!res.IsError)
+            await User.LoginUser();
+            //if (!res.IsError)
+            //{
+            //    try
+            //    {
+            //        if (Networking.info?.DisplayName == null || Networking.info?.DisplayName == "")
+            //        {
+            //            SetLoading?.Invoke(false);
+            //            parent.SwitchToUserData();
+            //        }
+            //        else
+            //        {
+            //            await Networking.ChangeUserInfo(null, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
+            //            var permissions = await Role.GetPermissions();
+            //            App.SwitchToMainPage(permissions);
+            //        }
+            //    }
+            //    catch
+            //    {
+            //        App.SwitchToMainPage(null);
+            //    }
+            //    return;
+            //}
+            if (User.IsLoggedIn)
             {
-                try
+                if (User.DisplayName == null || User.DisplayName == "")
                 {
-                    if (Networking.info?.DisplayName == null || Networking.info?.DisplayName == "")
-                    {
-                        SetLoading?.Invoke(false);
-                        parent.SwitchToUserData();
-                    }
-                    else
-                    {
-                        await Networking.ChangeUserInfo(null, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
-                        var permissions = await Role.GetPermissions();
-                        App.SwitchToMainPage(permissions);
-                    }
+                    parent.SwitchToUserData();
                 }
-                catch
+                else
                 {
-                    App.SwitchToMainPage(null);
+                    App.SwitchToMainPage(User.Permissions);
                 }
-                return;
             }
             SetLoading?.Invoke(false);
         }

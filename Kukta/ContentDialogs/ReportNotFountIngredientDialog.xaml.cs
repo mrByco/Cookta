@@ -1,4 +1,4 @@
-﻿using Kukta.FrameWork;
+﻿using Cooktapi.Reporting;
 using Kukta.UI;
 using System;
 using System.Collections.Generic;
@@ -31,15 +31,7 @@ namespace Kukta.ContentDialogs
             var query = new Dictionary<string, object>();
             query.Add("message", MessageTextBox.Text);
             query.Add("ing", IngredientNameTextBox.Text);
-            var res = await Networking.GetRequestSimple("ingredientreport", query);
-            if (res.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                App.Sendnotification("Hiba", "Ismeretlen hiba lépett fel a jelentés küldésekor, ha a hiba nem oldódik meg vedd fel velünk a kapcsolatot.");
-            }
-            else
-            {
-                App.Sendnotification("Köszönjük a visszajelzés", "A Kért hozzávaló hamarosan bekerül az adatbázisba!");
-            }
+            await Reporter.Report(query);
         }
 
         private void ContentDialog_CancelButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

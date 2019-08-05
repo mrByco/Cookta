@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFrameworkV2;
+﻿using Cooktapi.Food;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -82,7 +82,7 @@ namespace Kukta.UI
 
         private void Tag_Click(object sender, RoutedEventArgs e)
         {
-            this.TagClick?.Invoke(this, FoodFrameworkV2.Tag.GetTagByText((sender as Button).Tag as string));
+            this.TagClick?.Invoke(this, Cooktapi.Food.Tag.GetTagByText((sender as Button).Tag as string));
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -107,7 +107,7 @@ namespace Kukta.UI
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var filteredTags = FoodFrameworkV2.Tag.Tags.FindAll((tag) => { return tag.ToString().ToLower().Contains(sender.Text.ToLower()); });
+                var filteredTags = Cooktapi.Food.Tag.Tags.FindAll((tag) => { return tag.ToString().ToLower().Contains(sender.Text.ToLower()); });
                 TagAdder.ItemsSource = filteredTags;
             }
             else if (args.Reason == AutoSuggestionBoxTextChangeReason.SuggestionChosen)

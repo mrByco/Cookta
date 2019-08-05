@@ -1,7 +1,4 @@
-﻿using Kukta.FoodFrameworkV2;
-using Kukta.UI;
-using Kukta.Menu;
-using Kukta.SaveLoad.File;
+﻿using Cooktapi.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -9,29 +6,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kukta.FrameWork;
 
-namespace Kukta.Calendar
+namespace Cooktapi.Calendar
 {
     public class CalendarDay
     {
         public DateTime DateTime;
-        public readonly Mealing[] mealings = new Mealing[6];
+        public readonly Mealing[] Mealings = new Mealing[6];
         public CalendarDay(DateTime dateTime) : this()
         {
             DateTime = dateTime.CutToDay();
         }
         public CalendarDay()
         {
-            for (int i = 0; i < mealings.Length; i++)
+            for (int i = 0; i < Mealings.Length; i++)
             {
-                mealings[i] = new Mealing(this);
+                Mealings[i] = new Mealing(this);
             }
         }
         public ref List<IMealingItem> GetItemsOf(EMealType type)
         {
             int index = (int)type;
-            var mealing = mealings[index];
+            var mealing = Mealings[index];
             return ref mealing.items;
         }
         public string GetDayString()
@@ -40,21 +36,21 @@ namespace Kukta.Calendar
         }
         public ref Mealing GetMealing(EMealType type)
         {
-            return ref mealings[(int)type];
+            return ref Mealings[(int)type];
         }
 
 
-        internal static async Task<CalendarDay> GetDay(DateTime dateTime)
+        public static async Task<CalendarDay> GetDay(DateTime dateTime)
         {
             var query = new Dictionary<string, object>();
             query.Add("date", dateTime.ToString("yyyy-MM-dd"));
-            var response = await Networking.GetRequestWithForceAuth("day", query);
+            var response = await Networking.Networking.GetRequestWithForceAuth("day", query);
             return response.Content == "" ? new CalendarDay(dateTime) : await ParseDayFromServerJson(response.Content);
         }
-        internal static async Task SaveDay(CalendarDay day)
+        public static async Task SaveDay(CalendarDay day)
         {
             string body = CreateDayToServer(day);
-            var res = await Networking.PostRequestWithForceAuth("day", body);
+            var res = await Networking.Networking.PostRequestWithForceAuth("day", body);
             return;
         }
 
@@ -86,13 +82,13 @@ namespace Kukta.Calendar
                     {
                         case "food":
                             string foodId = jarray.ElementAt(i).Value<string>("id");
-                            item = await Food.Get(foodId) as IMealingItem;
+                            item = await Food.Food.Get(foodId) as IMealingItem;
                             break;
                         case "flag":
                             string flagId = jarray.ElementAt(i).Value<string>("id");
                             int seed = jarray.ElementAt(i).Value<int>("seed");
                             string foodString = jarray.ElementAt(i).Value<JObject>("currentFood")?.ToString();
-                            Food currentFood = Food.ParseFoodFromServerJson(foodString);
+                            Food.Food currentFood = Food.Food.ParseFoodFromServerJson(foodString);
                             item = new Flag(currentFood, flagId, seed);
                             break;
                         case "list":
@@ -101,26 +97,26 @@ namespace Kukta.Calendar
                             throw new NotImplementedException();
                     };
                     if (item != null)
-                        day.mealings[mealIndex].items.Add(item);
+                        day.Mealings[mealIndex].items.Add(item);
                     continue;
                 }
             }
             return day;
         }
-        public static string CreateDayToServer(CalendarDay day)
+        private static string CreateDayToServer(CalendarDay day)
         {
             JObject jDay = new JObject();
 
             JArray mealArray = new JArray();
-            for (int i = 0; i < day.mealings.Length; i++)
+            for (int i = 0; i < day.Mealings.Length; i++)
             {
-                Mealing meal = day.mealings[i];
+                Mealing meal = day.Mealings[i];
                 foreach (IMealingItem item in meal.items)
                 {
                     JObject jObject = new JObject();
                     string type = "";
                     int seed = 0;
-                    if (item is Food food)
+                    if (item is Food.Food food)
                     {
                         type = "food";
                     }

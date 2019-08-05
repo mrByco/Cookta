@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kukta.FoodFrameworkV2;
 
-namespace Kukta.Calendar
+namespace Cooktapi.Calendar
 {
     public class IMealingPH : IMealingItem
     {
@@ -13,7 +12,7 @@ namespace Kukta.Calendar
             return null;
         }
 
-        public Food GetMealFood()
+        public Food.Food GetMealFood()
         {
             return null;
         }
