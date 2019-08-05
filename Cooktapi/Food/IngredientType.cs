@@ -84,7 +84,7 @@ namespace Cooktapi.Food
             return units;
         }
 
-        internal static async Task Save(IngredientType ingredientType)
+        public static async Task Save(IngredientType ingredientType)
         {
             string body = ingredientType.CreateIngredientToServer();
             var res = await Networking.Networking.PostRequestWithForceAuth("ingredient", body);

@@ -17,8 +17,6 @@ namespace Cooktapi.Networking
         {
             Client = new RestClient(debugServer ? "http://localhost:1337/" : "https://kuktaservices.azurewebsites.net/");
         }
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -38,7 +36,7 @@ namespace Cooktapi.Networking
             request.AddJsonBody(body);
 
             var response = Client.Post(request);
-            await checkResponse(response);
+            checkResponse(response);
             return response;
         }
         public static async Task<IRestResponse> JpegImageUploadWithAuth(string resource, Dictionary<string, object> query, string filePath)
@@ -61,9 +59,10 @@ namespace Cooktapi.Networking
             }
 
             var response = Client.Post(request);
-            await checkResponse(response);
+            checkResponse(response);
             return response;
         }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task<IRestResponse> DeleteRequestWithForceAuth(string path, Dictionary<string, object> query)
         {
             var request = new RestRequest(path, Method.DELETE);
@@ -78,7 +77,7 @@ namespace Cooktapi.Networking
             }
 
             var response = Client.Delete(request);
-            await checkResponse(response);
+            checkResponse(response);
             return response;
         }
         public static async Task<IRestResponse> GetRequestWithForceAuth(string path, Dictionary<string, object> query)
@@ -95,7 +94,7 @@ namespace Cooktapi.Networking
             }
 
             var response = Client.Get(request);
-            await checkResponse(response);
+            checkResponse(response);
             return response;
         }
         public static async Task<IRestResponse> GetRequestSimple(string path, Dictionary<string, object> query)
@@ -111,24 +110,22 @@ namespace Cooktapi.Networking
                 request.AddParameter(name, query[name], ParameterType.QueryString);
             }
             var response = Client.Get(request);
-            await checkResponse(response);
+            checkResponse(response);
 
             return response;
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         private static async Task<string> GetAccessToken()
         {
             if (User.AccessToken == null)
             {
-                LoginResult result = await Cookta.DoLogin();
-                User.Clear();
-                await User.Init(result);
+                await User.LoginUser();
 
             }
             return User.AccessToken;
 
         }
-
-        private static async Task checkResponse(IRestResponse response)
+        private static void checkResponse(IRestResponse response)
         {
             try
             {

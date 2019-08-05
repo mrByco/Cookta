@@ -64,7 +64,7 @@ namespace Cooktapi.Food
             return list;
         }
 
-        internal static Tag GetTagByText(string text)
+        public static Tag GetTagByText(string text)
         {
             foreach (Tag tag in Tags)
             {
@@ -73,7 +73,7 @@ namespace Cooktapi.Food
             }
             return null;
         }
-        internal static Tag GetTagById(string id)
+        public static Tag GetTagById(string id)
         {
             foreach (Tag tag in Tags)
             {

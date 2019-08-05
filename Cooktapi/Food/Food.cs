@@ -31,7 +31,7 @@ namespace Cooktapi.Food
         public string name;
         public string desc;
         public string imageURL;
-        private long? imageUploaded;
+        public long? imageUploaded { get; private set; }
         public List<Tag> Tags = new List<Tag>();
         public List<Ingredient> ingredients = new List<Ingredient>();
 
@@ -39,7 +39,6 @@ namespace Cooktapi.Food
         public string GetId() { return _id; }
         public void NewSeed() { return; }
         public string GetName() { return name; }
-
         public Uri getImage
         {
             get
@@ -52,28 +51,10 @@ namespace Cooktapi.Food
                 return new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
             }
         }
-
-        //public BitmapImage getImage
-        //{
-        //    get
-        //    {
-        //        if (imageURL != null && imageURL != "")
-        //        {
-        //            var bitmapImage = new BitmapImage(new Uri(imageURL.ToString(), UriKind.RelativeOrAbsolute));
-        //            if (!GetCacheingEnabled(_id, imageUploaded))
-        //                bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-        //            return bitmapImage;
-        //        }
-        //        return new BitmapImage(new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png"
-        //            , UriKind.Absolute));
-        //    }
-        //}
-
         public string ToString()
         {
             return name;
         }
-
         public string GetIngredientArray
         {
             get
@@ -88,9 +69,11 @@ namespace Cooktapi.Food
                 return list;
             }
         }
-
         private static Dictionary<string, long?> KnownImages = new Dictionary<string, long?>();
-        private static bool GetCacheingEnabled(string id, long? CurrentImageVersion)
+        /// <summary>
+        /// Returns a bool that represents the image known in the cache if its updated since the last call returns false
+        /// </summary>
+        public static bool GetCacheingEnabled(string id, long? CurrentImageVersion)
         {
             long? lastImage;
             if (KnownImages.TryGetValue(id, out lastImage))
@@ -108,8 +91,6 @@ namespace Cooktapi.Food
                 return false;
             }
         }
-
-
         public static async Task<Food> InstertFood(Food food, string ImagePath)
         {
 
@@ -134,7 +115,6 @@ namespace Cooktapi.Food
             food = ParseFoodFromServerJson(foodRes.Content);
             return food;
         }
-
         public static async Task<List<Food>> GetLastFoods(int page, int itemsPerPage)
         {
             var res = await Networking.Networking.GetRequestSimple("foods", new Dictionary<string, object>());
@@ -178,7 +158,6 @@ namespace Cooktapi.Food
             return;
 
         }
-
         public static async Task<List<Food>> GetSubFoods()
         {
             var res = await Networking.Networking.GetRequestWithForceAuth("subfoods", new Dictionary<string, object>());
@@ -202,7 +181,6 @@ namespace Cooktapi.Food
             foods.ForEach((food) => { items.Add(food as IMealingItem); });
             return items;
         }
-
         public static async Task<Food> Get(string _id)
         {
             var query = new Dictionary<string, object>();
@@ -230,8 +208,6 @@ namespace Cooktapi.Food
                 return false;
             }
         }
-
-
         public static Food ParseFoodFromServerJson(string json)
         {
             if (json != null && json != "")

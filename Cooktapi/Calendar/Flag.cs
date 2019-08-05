@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Cooktapi.Calendar
 {
-    class Flag : IMealingItem
+    public class Flag : IMealingItem
     {
         private string IdOfTag;
         private Food.Food CurrentFood;

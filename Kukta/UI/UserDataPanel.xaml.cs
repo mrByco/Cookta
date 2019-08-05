@@ -1,4 +1,4 @@
-﻿using Kukta.FrameWork;
+﻿using Cooktapi.Networking;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,36 +39,24 @@ namespace Kukta.UI
         private async void NoLoginBTN_Click(object sender, RoutedEventArgs e)
         {
             SetLoading?.Invoke(true);
-            bool userValid = false;
-            string username = "notinitialized";
-            while (!userValid)
-            {
-                username = "user" + new Random().Next(99999999);
-                userValid = await CheckUsernameAvailable(username);
-            }
-            await Networking.ChangeUserInfo(username, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
-            var permissions = await Role.GetPermissions();
-            App.SwitchToMainPage(permissions);
+            await User.SetRandomUserName();
+            App.SwitchToMainPage(User.Permissions);
             SetLoading?.Invoke(false);
         }
 
         private async void LoginBTNClick(object sender, RoutedEventArgs e)
         {
             SetLoading?.Invoke(true);
-            await Networking.ChangeUserInfo(UserNameTextBox.Text, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
-            var permissions = await Role.GetPermissions();
-            App.SwitchToMainPage(permissions);
+            await User.ChangeUserName(UserNameTextBox.Text);
+            App.SwitchToMainPage(User.Permissions);
             SetLoading?.Invoke(false);
         }
 
         private void UserNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var validation = (sender as TextBox).Text.IsValidUsername();
-#pragma warning disable CS4014
-            UpdateUsernameAvailable(validation, (sender as TextBox).Text);
-#pragma warning restore CS4014 
+            UpdateUsernameAvailable((sender as TextBox).Text);
         }
-        private async Task UpdateUsernameAvailable(UsernameValidResult validationRes, string username)
+        private async Task UpdateUsernameAvailable(string username)
         {
             ErrorsStackList.Children.Clear();
             SubmitBTN.IsEnabled = false;
@@ -79,17 +67,6 @@ namespace Kukta.UI
                 VerticalAlignment = VerticalAlignment.Center,
             });
 
-
-            if (!validationRes.IsValid())
-            {
-                ErrorsStackList.Children.Clear();
-                SubmitBTN.IsEnabled = false;
-                if (!validationRes.CharacterCount)
-                {
-                    ErrorsStackList.Children.Add(GetErrorTextBlock("- A felhasználónév minimum 6 karakter, maximum 30."));
-                }
-                return;
-            }
             ValidationTaskCancellationTokenSource?.Cancel();
             ValidationTaskCancellationTokenSource = new CancellationTokenSource();
             ValidationTaskCancellationToken = ValidationTaskCancellationTokenSource.Token;
@@ -99,13 +76,17 @@ namespace Kukta.UI
                 ValidationTaskCancellationToken.ThrowIfCancellationRequested();
                 await Task.Delay(1500);
                 ValidationTaskCancellationToken.ThrowIfCancellationRequested();
-                var availability = await CheckUsernameAvailable(username);
+                var errors = await User.ValidateUsername(username);
+
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
                     ErrorsStackList.Children.Clear();
-                    if (!availability)
+                    if (errors.Count > 0)
                     {
-                        ErrorsStackList.Children.Add(GetErrorTextBlock("- Ez a név foglalt."));
+                        foreach (string error in errors)
+                        {
+                            ErrorsStackList.Children.Add(GetErrorTextBlock("- " + error));
+                        }
                         SubmitBTN.IsEnabled = false;
                     }
                     else
@@ -128,21 +109,6 @@ namespace Kukta.UI
                 Text = text,
             };
             return textBlock;
-        }
-        public async Task<bool> CheckUsernameAvailable(string username)
-        {
-            var query = new Dictionary<string, object>();
-            query.Add("username", username);
-            var res = await Networking.GetRequestSimple("username", query);
-            try
-            {
-                bool ava = bool.Parse(res.Content);
-                return ava;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }
