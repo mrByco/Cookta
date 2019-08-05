@@ -1,5 +1,5 @@
-﻿using Kukta.ContentDialogs;
-using Kukta.FoodFrameworkV2;
+﻿using Cooktapi.Food;
+using Kukta.ContentDialogs;
 using Kukta.UI;
 using RestSharp;
 using System;
@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -44,7 +45,7 @@ namespace Kukta.Screens
             }
             set
             {
-                m_CurrentTags = FoodFrameworkV2.Tag.GetTagsByTexts(value, "hu-hu");
+                m_CurrentTags = Cooktapi.Food.Tag.GetTagsByTexts(value, "hu-hu");
             }
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -135,8 +136,12 @@ namespace Kukta.Screens
 
 
                 ImageCropper.Visibility = Visibility.Collapsed;
+
                 this.Image.Visibility = Visibility.Visible;
-                this.Image.Source = CurrentFood.getImage;
+                this.Image.Source = new BitmapImage(CurrentFood.getImage)
+                {
+                    CreateOptions = Food.GetCacheingEnabled(CurrentFood._id, CurrentFood.imageUploaded) ? BitmapCreateOptions.None : BitmapCreateOptions.IgnoreImageCache
+                };
 
                 UploadImageBTN.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 SaveBTN.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
@@ -213,7 +218,7 @@ namespace Kukta.Screens
                 ingredients = IngList.GetIngredients(),
                 isPrivate = !IsPublicToggle.IsOn,
                 Tags = Tags.Tags
-            }, storageFile);
+            }, storageFile.Path);
 
             await SetLoading(false);
             Update(CurrentFood._id, false);

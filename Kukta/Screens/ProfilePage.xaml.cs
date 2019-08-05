@@ -1,4 +1,4 @@
-﻿using Kukta.FrameWork;
+﻿using Cooktapi.Networking;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,36 +30,35 @@ namespace Kukta.Screens
         }
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Networking.aResult == null)
-                await Networking.SignUpLogin();
+            if (User.IsLoggedIn)
+                await User.LoginUser();
             UpdateData();
         }
         private void UpdateData()
         {
-            if (Networking.info?.ProfilPic != null)
-            Picture.ProfilePicture = new BitmapImage(new Uri(Networking.info.ProfilPic
-                , UriKind.Absolute));
-            else if (Networking.info?.DisplayName != "")
+            if (User.IsLoggedIn && User.ProfilPic != null)
+                Picture.ProfilePicture = new BitmapImage(new Uri(User.ProfilPic, UriKind.Absolute));
+            else if (User.DisplayName != "")
             {
-                Picture.DisplayName = Networking.info.DisplayName;
+                Picture.DisplayName = User.DisplayName;
             }
 
-            NameTextBlock.Text = Networking.info.DisplayName?? "";
-            if (Networking.info.Role == "dev")
+            NameTextBlock.Text = User.DisplayName ?? "";
+            if (User.Role == "dev")
             {
                 SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
             }
-            else if (Networking.info.Role == "owner")
+            else if (User.Role == "owner")
             {
                 SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
             }
-            else if (Networking.info.Role == "test")
+            else if (User.Role == "test")
             {
                 SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
             }
-            else if (Networking.info.Role == "gold-test")
+            else if (User.Role == "gold-test")
             {
-                SubInfoTextBlock.Text =  "Arany tesztelő - korlátlan prémium időtartam.";
+                SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
             }
             else
             {

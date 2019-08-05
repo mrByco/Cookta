@@ -1,4 +1,5 @@
-﻿using Kukta.FoodFrameworkV2;
+﻿using Cooktapi.Food;
+using Kukta.UWPLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,9 +32,9 @@ namespace Kukta.Screens
 
         
 
-        private ObservableCollection<Food> m_foods = new ObservableCollection<Food>();
+        private ObservableCollection<UFood> m_foods = new ObservableCollection<UFood>();
         private List<Food> OriginalFoods = new List<Food>();
-        public ObservableCollection<Food> Foods
+        public ObservableCollection<UFood> Foods
         {
             get
             {
@@ -44,7 +45,7 @@ namespace Kukta.Screens
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             OriginalFoods = await Food.GetLastFoods(1, 50);
-            m_foods = new ObservableCollection<Food>(OriginalFoods);
+            m_foods = new ObservableCollection<UFood>(UFood.FromList(OriginalFoods));
             DataPanel.ItemsSource = m_foods;
 
         }
@@ -61,14 +62,14 @@ namespace Kukta.Screens
 
         private void DataPanel_ItemClick(object sender, ItemClickEventArgs e)
         {
-            string clickedID = (e.ClickedItem as Food)._id;
+            string clickedID = (e.ClickedItem as UFood)._id;
             MainPage.NavigateTo("fooddetail", null, clickedID);
         }
 
         private void Searchbox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
 
-            m_foods = new ObservableCollection<Food>(OriginalFoods.FindAll((food) => { return food.name.ToLower().Contains(sender.Text.ToLower()); }));
+            m_foods = new ObservableCollection<UFood>(UFood.FromList(OriginalFoods.FindAll((food) => { return food.name.ToLower().Contains(sender.Text.ToLower()); })));
             DataPanel.ItemsSource = m_foods;
         }
     }

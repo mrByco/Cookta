@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Kukta.FrameWork;
+using Cooktapi.Networking;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -55,7 +55,7 @@ namespace Kukta
         {
             this.InitializeComponent();
             instance = this;
-            Networking.LoginChanged += UpdateLoginButton;
+            User.SubscribeFor(UpdateLoginButton);
             DoNav += new NavigateTo(NavView_Navigate);
         }
 
@@ -87,9 +87,9 @@ namespace Kukta
             }
             catch
             {
-                if (Networking.aResult?.AccessToken != null)
+                if (User.IsLoggedIn)
                 {
-                    permissions = await Role.GetPermissions();
+                    permissions = User.Permissions;
                 }
             }
 
@@ -105,9 +105,9 @@ namespace Kukta
             await NoServicesDialog.ShowAsync();
         }
 
-        private void UpdateLoginButton(LoginResult result)
+        private void UpdateLoginButton()
         {
-            AccountItem.Content = result == null ? "Bejelentkezés" : Networking.GetClaim("name");
+            AccountItem.Content = User.GetClaim("name")?? "Bejelentkezés";
         }
 
         public static void NavigateTo(string navItemTag, NavigationTransitionInfo info, object param)
@@ -149,7 +149,7 @@ namespace Kukta
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateLoginButton(Networking.aResult);
+            UpdateLoginButton();
             NavigateTo("home", null, null);
         }
     }

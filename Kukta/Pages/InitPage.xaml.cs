@@ -1,6 +1,6 @@
-﻿using Kukta.Calendar;
+﻿using Cooktapi;
+using Cooktapi.Networking;
 using Kukta.UI;
-using Kukta.Menu;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Kukta.FrameWork;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -34,12 +33,12 @@ namespace Kukta
         }
         public async void Init()
         {
-            bool debugServer = false;
-            App.RestClient = new RestClient(debugServer ? "http://localhost:1337/" : "https://kuktaservices.azurewebsites.net/");
+            App.Cookta = new Cooktapi.Cookta(App.SignUpLogin, App.Logout, App.Sendnotification, false);
 
             await SetLoadingAsync(true);
-            await FoodFrameworkV2.Unit.Init();
-            await FoodFrameworkV2.IngredientType.Init();
+
+            await Cookta.Init();
+
             await SetLoadingAsync(false);
         }
 
@@ -73,7 +72,7 @@ namespace Kukta
         private async void Logout()
         {
             await SetLoadingAsync(true);
-            await Networking.Logout();
+            await User.LoginUser();
             SwitchToLogin();
             await SetLoadingAsync(false);
         }

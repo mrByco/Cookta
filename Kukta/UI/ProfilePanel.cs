@@ -1,5 +1,5 @@
-﻿using IdentityModel.OidcClient;
-using Kukta.FrameWork;
+﻿using Cooktapi.Networking;
+using IdentityModel.OidcClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,15 +22,14 @@ namespace Kukta.UI
 
         public void RefreshPanel()
         {
-            LoginResult result = Networking.aResult;
-            UpdateUI(result);
+            UpdateUI();
         }
 
-        private void UpdateUI(LoginResult resultm)
+        private void UpdateUI()
         {
             Children.Clear();
             //Draw layout
-            string userName = Networking.info?.DisplayName?? Networking.GetClaim("name");
+            string userName = User.DisplayName;
             TextBlock NameTextBlock = new TextBlock()
             {
                 Text = userName,

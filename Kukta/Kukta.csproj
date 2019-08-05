@@ -133,23 +133,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Calendar\CalendarDay.cs" />
-    <Compile Include="Calendar\Flag.cs" />
-    <Compile Include="Calendar\IMealingPH.cs" />
-    <Compile Include="Calendar\Mealing.cs" />
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FoodFrameworkV2\Food.cs" />
-    <Compile Include="FoodFrameworkV2\Ingredient.cs" />
-    <Compile Include="FoodFrameworkV2\Tag.cs" />
-    <Compile Include="FoodFrameworkV2\Unit.cs" />
-    <Compile Include="Calendar\IMealingItem.cs" />
-    <Compile Include="FrameWork\ASingleton.cs" />
-    <Compile Include="FrameWork\Role.cs" />
-    <Compile Include="FrameWork\StringExtensions.cs" />
-    <Compile Include="FrameWork\DateTimeExtensions.cs" />
-    <Compile Include="Kukta.cs" />
     <Compile Include="Screens\IngredientPage.xaml.cs">
       <DependentUpon>IngredientPage.xaml</DependentUpon>
     </Compile>
@@ -160,8 +146,6 @@
     <Compile Include="UI\FoodButtonV2.cs" />
     <Compile Include="UI\IMealingItemButton.cs" />
     <Compile Include="UI\IngredientList.cs" />
-    <Compile Include="FrameWork\Networkinfo.cs" />
-    <Compile Include="FrameWork\Networking.cs" />
     <Compile Include="UI\LargeFoodButton.cs" />
     <Compile Include="UI\UserDataPanel.xaml.cs">
       <DependentUpon>UserDataPanel.xaml</DependentUpon>
@@ -182,18 +166,10 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Menu\EMealType.cs" />
     <Compile Include="Pages\RootPage.xaml.cs">
       <DependentUpon>RootPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveLoad\File\FileManager.cs" />
-    <Compile Include="SaveLoad\File\IFileTask.cs" />
-    <Compile Include="SaveLoad\File\IStorageable.cs" />
-    <Compile Include="SaveLoad\File\Tasks\DeleteSerializableFile.cs" />
-    <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromAssetsFolder.cs" />
-    <Compile Include="SaveLoad\File\Tasks\LoadAllSerializableFromFolder.cs" />
-    <Compile Include="SaveLoad\File\Tasks\SaveSerializable.cs" />
     <Compile Include="Screens\CalendarContentPage.xaml.cs">
       <DependentUpon>CalendarContentPage.xaml</DependentUpon>
     </Compile>
@@ -215,12 +191,13 @@
     <Compile Include="Screens\WeekTemplatePage.xaml.cs">
       <DependentUpon>WeekTemplatePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UWPLayer\UFood.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Assets\tags\tags.csv">
+    <Content Include="Assets\tags.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Kukta_StoreKey.pfx" />
@@ -376,10 +353,15 @@
       <Version>12.0.2</Version>
     </PackageReference>
     <PackageReference Include="RestSharp">
-      <Version>106.6.9</Version>
+      <Version>106.6.10</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Cooktapi\Cooktapi.csproj">
+      <Project>{fd62b681-4008-42b2-a16e-b13f9f73f7de}</Project>
+      <Name>Cooktapi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

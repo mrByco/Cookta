@@ -1,4 +1,4 @@
-﻿using Kukta.FoodFrameworkV2;
+﻿using Kukta.UWPLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Kukta.UI
 {
@@ -21,7 +22,7 @@ namespace Kukta.UI
         private Grid root;
         private StackPanel ver;
 
-        public LargeFoodButton(Action<string> onClick, Food food)
+        public LargeFoodButton(Action<string> onClick, UFood food)
         {
             root = new Grid()
             {
@@ -43,7 +44,10 @@ namespace Kukta.UI
                 Margin = new Thickness(5),
             };
             image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.Source =  food.getImage;
+
+            image.Source = food.GetBitmapImage;
+
+
             root.Children.Add(image);
             Grid.SetColumn(image, 0);
 

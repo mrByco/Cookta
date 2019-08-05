@@ -1,7 +1,6 @@
-﻿using Kukta.Calendar;
-using Kukta.FoodFrameworkV2;
+﻿using Cooktapi.Calendar;
+using Cooktapi.Extensions;
 using Kukta.UI;
-using Kukta.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Kukta.FrameWork;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
