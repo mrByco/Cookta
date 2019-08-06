@@ -136,6 +136,7 @@
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\SubcribedToVisibility.cs" />
     <Compile Include="Screens\IngredientPage.xaml.cs">
       <DependentUpon>IngredientPage.xaml</DependentUpon>
     </Compile>
@@ -197,6 +198,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\Subcribed.png" />
     <Content Include="Assets\tags.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
