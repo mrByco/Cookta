@@ -25,7 +25,7 @@ namespace Cooktapi.Food
                 return this.owner == User.Sub;
             }
         }
-        public bool subcribed;
+        public bool subcribed { get; set; }
         public int dose = 4;
         public bool isPrivate;
         public string name;
@@ -51,7 +51,8 @@ namespace Cooktapi.Food
                 return new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
             }
         }
-        public string ToString()
+
+        public override string ToString()
         {
             return name;
         }
