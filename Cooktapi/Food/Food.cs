@@ -35,7 +35,6 @@ namespace Cooktapi.Food
         public long? imageUploaded { get; private set; }
         public List<Tag> Tags = new List<Tag>();
         public List<Ingredient> ingredients = new List<Ingredient>();
-
         public Food GetMealFood() { return this; }
         public string GetId() { return _id; }
         public void NewSeed() { return; }
@@ -52,7 +51,6 @@ namespace Cooktapi.Food
                 return new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
             }
         }
-
         public override string ToString()
         {
             return name;
