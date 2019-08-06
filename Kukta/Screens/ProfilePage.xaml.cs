@@ -30,7 +30,7 @@ namespace Kukta.Screens
         }
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (User.IsLoggedIn)
+            if (!User.IsLoggedIn)
                 await User.LoginUser();
             UpdateData();
         }
