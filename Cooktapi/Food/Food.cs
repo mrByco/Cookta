@@ -31,6 +31,7 @@ namespace Cooktapi.Food
         public string name;
         public string desc;
         public string imageURL;
+        public DateTime LastModified { get; private set; }
         public long? imageUploaded { get; private set; }
         public List<Tag> Tags = new List<Tag>();
         public List<Ingredient> ingredients = new List<Ingredient>();
@@ -233,6 +234,8 @@ namespace Cooktapi.Food
                 food.desc = jFood.GetValue("desc").Value<string>();
                 food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
+                TimeSpan timeSpan = TimeSpan.FromMilliseconds(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
+                food.LastModified = (new DateTime(1970, 01, 01) + (DateTime.Now - DateTime.UtcNow) + timeSpan);
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
                 if (tagArray != null)
                 {
