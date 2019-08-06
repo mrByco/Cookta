@@ -94,6 +94,9 @@ namespace Kukta.Screens
                 Tags.EditEnabled = true;
                 DoseTextBox.Visibility = Visibility.Visible;
                 DoseTextBlock.Visibility = Visibility.Collapsed;
+                UploaderPicture.Visibility = Visibility.Collapsed;
+                UploaderName.Visibility = Visibility.Collapsed;
+                LastModified.Visibility = Visibility.Collapsed;
 
 
                 UploadImageBTN.Visibility = Visibility.Visible;
@@ -124,6 +127,11 @@ namespace Kukta.Screens
                 IsPublicToggle.IsOn = !CurrentFood.isPrivate;
                 DoseTextBox.Text = CurrentFood?.dose.ToString() ?? 4.ToString();
                 DoseTextBlock.Text = CurrentFood?.dose.ToString() ?? 4.ToString();
+                UploaderName.Visibility = Visibility.Visible;
+                LastModified.Visibility = Visibility.Visible;
+                UploaderPicture.Visibility = Visibility.Visible;
+                UploaderName.Content = "[Feltöltő]";//CurrentFood.owner;
+                LastModified.Text = CurrentFood.LastModified.ToString("yyyy-MM-dd hh:mm");
 
 
                 DoseTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;

@@ -48,11 +48,26 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
-                        <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="24"/>
-                        <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="24" PlaceholderText="Recept neve" TextChanged="TitleTextBox_TextChanged"/>
-                        <TextBlock Name="TitleErrorTextBlock" FontSize="15" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed" FontWeight="Bold" Foreground="Red"/>
-                    </StackPanel>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="20" Spacing="2">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <PersonPicture Height="25" Name="UploaderPicture"/>
+                                <HyperlinkButton Content="Matyi0918" Name="UploaderName"/>
+                            </StackPanel>
+                            <TextBlock FontStyle="Italic" Name="LastModified"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Name="TitleTextBlock" FontSize="24" HorizontalAlignment="Center" Margin="10"/>
+                            <TextBox Name="TitleTextBox" FontSize="24" HorizontalAlignment="Center" Margin="10" PlaceholderText="Recept neve" TextChanged="TitleTextBox_TextChanged"/>
+                            <TextBlock Name="TitleErrorTextBlock" FontSize="15" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed" FontWeight="Bold" Foreground="Red"/>
+                        </StackPanel>
+                    </Grid>
 
                     <StackPanel Grid.Row="1">
                         <TextBlock Name="DescTextBlock" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="20"/>
