@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Cooktapi.Calendar
 {
-    public class Flag : IMealingItem
+    public class Flag : AMealingItem, IMealingItem
     {
         private string IdOfTag;
         private Food.Food CurrentFood;
@@ -57,7 +57,7 @@ namespace Cooktapi.Calendar
 
         public string GetName()
         {
-            return Tag.GetTagById(IdOfTag).hu_hu + ": " +  (CurrentFood?.name?? "HIÁNYZIK");
+            return string.Format("tag: {0}", Tag.GetTagById(IdOfTag).hu_hu);
         }
         public override string ToString()
         {
@@ -68,5 +68,6 @@ namespace Cooktapi.Calendar
         {
             Seed = new Random().Next(9999999);
         }
+
     }
 }

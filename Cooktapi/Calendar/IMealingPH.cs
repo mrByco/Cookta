@@ -7,6 +7,11 @@ namespace Cooktapi.Calendar
 {
     public class IMealingPH : IMealingItem
     {
+        public float Dose()
+        {
+            throw new NotImplementedException();
+        }
+
         public string GetId()
         {
             return null;
@@ -22,9 +27,24 @@ namespace Cooktapi.Calendar
             return null;
         }
 
+        public bool IsFixed()
+        {
+            throw new NotImplementedException();
+        }
+
         public void NewSeed()
         {
             return;
+        }
+
+        public void SetDose(float newDose)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetIsFixed(bool isFixed)
+        {
+            throw new NotImplementedException();
         }
     }
 }

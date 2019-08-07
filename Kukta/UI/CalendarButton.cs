@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Text;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace Kukta.UI
 {
@@ -67,20 +70,40 @@ namespace Kukta.UI
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(10, 2, 10, 2),
             };
+            if (Item?.IsFixed() ?? false)
+            {
+                btn.Background = new SolidColorBrush(Colors.LightGreen);
+            }
             btn.Click += BTN_Click;
+            StackPanel btnPanel = new StackPanel();
+            btn.Content = btnPanel;
+            TextBlock line1 = new TextBlock() { FontStyle = FontStyle.Italic, FontWeight = FontWeights.ExtraLight };
+            btnPanel.Children.Add(line1);
+            TextBlock line2 = new TextBlock() { FontSize = 15 };
+            btnPanel.Children.Add(line2);
+
 
             if (Item is null)
             {
-                btn.Content = "-";
+                line2.Text = "-";
             }
-            else if (Item is Food food)
+            else
             {
-                btn.Content = Item.GetMealFood().GetName();
+                string ItemType = "";
+                if (Item is Flag flag)
+                {
+                    ItemType = flag.GetName();
+                }
+                else if (Item is Food food)
+                {
+                    ItemType = "direkt étel.";
+                }
+                line1.Text = string.Format("{0} adag, {1}", Item.Dose(), ItemType);
+                line2.Text = Item.GetMealFood()?.GetName() ?? "Nem található";
             }
-            else if (Item is Flag)
-            {
-                btn.Content = Item.GetName();
-            }
+
+            line1.Visibility = line1.Text != "" ? Visibility.Visible : Visibility.Collapsed;
+            line2.Visibility = line2.Text != "" ? Visibility.Visible : Visibility.Collapsed;
 
             base.Children.Add(btn);
         }
@@ -101,33 +124,46 @@ namespace Kukta.UI
             Flyout.Items.Clear();
             if (Item != null)
             {
-                var ReplaceItem = new MenuFlyoutItem();
-                ReplaceItem.Text = "Csere";
-                ReplaceItem.Click += ReplaceMealingItemClick;
-                Flyout.Items.Add(ReplaceItem);
-
                 var DeleteItem = new MenuFlyoutItem();
                 DeleteItem.Text = "Törlés";
-                DeleteItem.Click += RemoveMealingItemClick;
+                if (Item.IsFixed())
+                    DeleteItem.Click += (s, a) => { ShowSureDeleteFlyout(); };
+                else
+                    DeleteItem.Click += RemoveMealingItemClick;
                 Flyout.Items.Add(DeleteItem);
+
+                if (!Item.IsFixed())
+                {
+                    var OptionsItem = new MenuFlyoutItem();
+                    OptionsItem.Text = "Opciók";
+                    OptionsItem.Click += MealingOptionsItemClick;
+                    Flyout.Items.Add(OptionsItem);
+
+                    var ReplaceItem = new MenuFlyoutItem();
+                    ReplaceItem.Text = "Csere";
+                    ReplaceItem.Click += ReplaceMealingItemClick;
+                    Flyout.Items.Add(ReplaceItem);
+
+                    if (Item is Flag flag)
+                    {
+                        var UpdateItem = new MenuFlyoutItem();
+                        UpdateItem.Text = "Frissítés";
+                        UpdateItem.Click += RefreshFlagSeedClick;
+                        Flyout.Items.Add(UpdateItem);
+                    }
+                }
             }
+            ///Belerakni az Opciók menüt methódus megírva
             var AddItem = new MenuFlyoutItem();
             AddItem.Text = "Hozzáadás";
             AddItem.Click += AddNewMealingItemClick;
             Flyout.Items.Add(AddItem);
-            if (Item is Food food)
+            if (Item is IMealingItem item && item.GetMealFood() != null)
             {
                 var JumpToItem = new MenuFlyoutItem();
                 JumpToItem.Text = "Ugrás";
                 JumpToItem.Click += JumpToItemClick;
                 Flyout.Items.Add(JumpToItem);
-            }
-            if (Item is Flag flag)
-            {
-                var UpdateItem = new MenuFlyoutItem();
-                UpdateItem.Text = "Frissítés";
-                UpdateItem.Click += RefreshFlagSeedClick;
-                Flyout.Items.Add(UpdateItem);
             }
             Flyout.ShowAt(this);
         }
@@ -141,16 +177,23 @@ namespace Kukta.UI
         internal void RefreshFlagSeedClick(object sender, RoutedEventArgs e)
         {
             UpdateProgressRing();
-            Task.Run(async() =>
+            Task.Run(async () =>
             {
                 if (Item is Flag flag)
                 {
                     Item.NewSeed();
-                    await(Item as Flag).Init();
+                    await (Item as Flag).Init();
                     await CalendarDay.SaveDay(Day);
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => { UpdateButton(); });
                 }
             });
+        }
+        private void MealingOptionsItemClick(object sender, RoutedEventArgs e)
+        {
+            if (Item == null)
+                return;
+            else
+                ShowMealingOptions();
         }
         private void ReplaceMealingItemClick(object sender, RoutedEventArgs e)
         {
@@ -172,25 +215,11 @@ namespace Kukta.UI
 #pragma warning restore CS4014
             }
         }
-        private void UpdateItemClick(object sender, RoutedEventArgs e)
-        {
-            if (Item is Flag flag)
-            {
-                flag.NewSeed();
-                UpdateProgressRing();
-                Task.Run(async () =>
-                {
-                    await CalendarDay.SaveDay(Day);
-                    await flag.Init();
-                    UpdateButton();
-                });
-            }
-        }
         private void JumpToItemClick(object sender, RoutedEventArgs e)
         {
-            if (Item is Food food)
+            if (Item is IMealingItem item)
             {
-                MainPage.NavigateTo("fooddetail", null, food._id);
+                MainPage.NavigateTo("fooddetail", null, item.GetMealFood()._id);
             }
         }
         private void ChangeToItemSetter()
@@ -200,6 +229,100 @@ namespace Kukta.UI
             AutoSuggestBox setter = GetItemSetter();
             base.Children.Add(setter);
             setter.Focus(FocusState.Pointer);
+        }
+        private void ShowMealingOptions()
+        {
+            Flyout flyout = new Flyout();
+
+            StackPanel flyoutStack = new StackPanel() { Orientation = Orientation.Vertical, Spacing = 10, Margin = new Thickness(10) };
+            flyout.Content = flyoutStack;
+
+            StackPanel doseStack = new StackPanel() { Orientation = Orientation.Horizontal };
+            flyoutStack.Children.Add(doseStack);
+
+            TextBox textBox = new TextBox() { PlaceholderText = "4", AcceptsReturn = false, Text = Item.Dose().ToString(), };
+            textBox.TextChanged += DoseTextBox_TextChanged;
+            doseStack.Children.Add(textBox);
+            TextBlock doseTextBlock = new TextBlock() { Text = "adag.", VerticalAlignment = VerticalAlignment.Center };
+            doseStack.Children.Add(doseTextBlock);
+
+            Button fixButton = new Button() { Content = "Véglegesítés", Background = new SolidColorBrush(Colors.LightGreen) };
+            fixButton.Click += (sender, args) =>
+            {
+                flyout.Hide();
+                Item.SetIsFixed(true);
+                Task.Run(async () => { await SaveDay(); });
+            };
+            flyoutStack.Children.Add(fixButton);
+
+            Button saveButton = new Button() { Content = "Mentés" };
+            saveButton.Click += (sender, args) =>
+            {
+                flyout.Hide();
+                Task.Run(async () => { await SaveDay(); });
+            };
+            flyoutStack.Children.Add(saveButton);
+
+
+            flyout.ShowAt(this);
+        }
+        private void ShowSureDeleteFlyout()
+        {
+            Flyout flyout = new Flyout();
+
+            StackPanel flyoutStack = new StackPanel() { Orientation = Orientation.Vertical, Spacing = 10, Margin = new Thickness(10) };
+            flyout.Content = flyoutStack;
+
+            TextBlock title = new TextBlock() { Text = "Biztos törlöd?", FontSize = 20, HorizontalAlignment = HorizontalAlignment.Left };
+            flyoutStack.Children.Add(title);
+
+            TextBlock desc = new TextBlock() { Text = "Lehetséges hogy a recepthez már megtörtént a bevásárlás. Ebben az esetben alapkészleten felüli fölösleg keletkezhet.", FontSize = 14, HorizontalAlignment = HorizontalAlignment.Left, TextWrapping = TextWrapping.WrapWholeWords, MaxWidth = 300 };
+            flyoutStack.Children.Add(desc);
+
+            StackPanel buttonsStack = new StackPanel() { Orientation = Orientation.Horizontal, Spacing = 10 };
+            flyoutStack.Children.Add(buttonsStack);
+
+            Button AcceptBTN = new Button() { Content = "Törlés" };
+            buttonsStack.Children.Add(AcceptBTN);
+            AcceptBTN.Click += RemoveMealingItemClick;
+            AcceptBTN.Click += (sender, args) => { flyout.Hide(); };
+
+            Button CancelBTN = new Button() { Content = "Mégse" };
+            buttonsStack.Children.Add(CancelBTN);
+            CancelBTN.Click += (sender, args) => { flyout.Hide(); };
+
+            flyout.ShowAt(this);
+        }
+        private async Task SaveDay()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => { UpdateProgressRing(); });
+            if (Item is IMealingItem item)
+            {
+                if (item is Flag flag)
+                    await (Item as Flag).Init();
+                await CalendarDay.SaveDay(Day);
+                Day = await CalendarDay.GetDay(Day.DateTime);
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => { UpdateButton(); });
+            }
+        }
+        private void DoseTextBox_TextChanged(object sender, TextChangedEventArgs args)
+        {
+            TextBox textBox = sender as TextBox;
+            try
+            {
+                if (textBox.Text == "")
+                {
+                    Item.SetDose(4);
+                    textBox.PlaceholderText = 4.ToString();
+                    return;
+                }
+                int newValue = int.Parse(textBox.Text);
+                Item.SetDose(newValue);
+            }
+            catch (FormatException e)
+            {
+                textBox.Text = Item.Dose().ToString();
+            }
         }
         private AutoSuggestBox GetItemSetter()
         {
@@ -235,6 +358,7 @@ namespace Kukta.UI
                         Item = choosenItem;
                     }
 
+                    Item.SetDose(4);
                     if (Item is Flag)
                     {
                         UpdateProgressRing();
