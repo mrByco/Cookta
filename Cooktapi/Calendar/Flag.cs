@@ -57,7 +57,7 @@ namespace Cooktapi.Calendar
 
         public string GetName()
         {
-            return Tag.GetTagById(IdOfTag).hu_hu + ": " +  (CurrentFood?.name?? "HIÁNYZIK");
+            return string.Format("tag: {0}", Tag.GetTagById(IdOfTag).hu_hu);
         }
         public override string ToString()
         {

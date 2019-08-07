@@ -134,6 +134,8 @@ namespace Cooktapi.Calendar
                     jObject.Add("type", type);
                     jObject.Add("mealIndex", i);
                     jObject.Add("seed", seed);
+                    jObject.Add("members", item.Dose());
+                    jObject.Add("fixed", item.IsFixed());
                     jObject.Add("id", item.GetId());
                     mealArray.Add(jObject);
                 }
