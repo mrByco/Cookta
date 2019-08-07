@@ -226,7 +226,7 @@ namespace Kukta.Screens
                 ingredients = IngList.GetIngredients(),
                 isPrivate = !IsPublicToggle.IsOn,
                 Tags = Tags.Tags
-            }, storageFile.Path);
+            }, storageFile?.Path ?? "");
 
             await SetLoading(false);
             Update(CurrentFood._id, false);
