@@ -86,7 +86,7 @@ namespace Cooktapi.Calendar
                             break;
                         case "flag":
                             string flagId = jarray.ElementAt(i).Value<string>("id");
-                            int seed = jarray.ElementAt(i).Value<int>("seed");
+                            int seed = jarray.ElementAt(i).Value<int?>("seed") ?? 0;
                             string foodString = jarray.ElementAt(i).Value<JObject>("currentFood")?.ToString();
                             Food.Food currentFood = Food.Food.ParseFoodFromServerJson(foodString);
                             item = new Flag(currentFood, flagId, seed);
@@ -96,6 +96,8 @@ namespace Cooktapi.Calendar
                         default:
                             throw new NotImplementedException();
                     };
+                    item.SetDose(jarray.ElementAt(i).Value<float?>("members") ?? 4f);
+                    item.SetIsFixed(jarray.ElementAt(i).Value<bool?>("fixed") ?? false);
                     if (item != null)
                         day.Mealings[mealIndex].items.Add(item);
                     continue;

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Cooktapi.Food
 {
-    public class Food : IMealingItem
+    public class Food : AMealingItem, IMealingItem
     {
         public string _id;
         public string owner;

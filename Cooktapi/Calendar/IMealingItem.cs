@@ -13,5 +13,9 @@ namespace Cooktapi.Calendar
         string GetName();
         string GetId();
         string ToString();
+        float Dose();
+        void SetDose(float newDose);
+        bool IsFixed();
+        void SetIsFixed(bool isFixed);
     }
 }
