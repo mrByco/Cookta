@@ -48,7 +48,14 @@ namespace Cooktapi.Shopping
                 var alreadyIng = newList.Find((i) => { return i.Type.ID == ing.Type.ID; });
                 if (alreadyIng != null)
                 {
-                    alreadyIng += ing;
+                    try
+                    {
+                        newList[newList.FindIndex((i) => { return i.Type.ID == ing.Type.ID; })] = ing + alreadyIng;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        newList.Add(ing);
+                    }
                 }
                 else
                 {

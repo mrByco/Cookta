@@ -51,6 +51,10 @@ namespace Cooktapi.Food
 
             return new Ingredient(newB.Type, newB.Value + newC.Value, newB.Unit);
         }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}", Value, Unit.Name, Type.Name);
+        }
     }
 
 }

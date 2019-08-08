@@ -51,7 +51,7 @@ namespace Kukta.UI
 
                         TextBlock tb = new TextBlock()
                         {
-                            Text = String.Format("- {0} {1} {2}.", ing.Value, ing.unit?.Name?? "[Nem található]", ing.Type.Name),
+                            Text = String.Format("- {0} {1} {2}.", ing.Value, ing.Unit?.Name?? "[Nem található]", ing.Type.Name),
                             VerticalAlignment = VerticalAlignment.Center,
                         };
                         Grid.SetColumn(tb, 0);
