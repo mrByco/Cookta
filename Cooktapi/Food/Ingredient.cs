@@ -22,6 +22,17 @@ namespace Cooktapi.Food
             this.Value = value;
             this.unit = unit;
         }
+        public Ingredient This
+        {
+            get
+            {
+                return this;
+            }
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}", Value, unit.Name, Type.Name);
+        }
     }
 
 }

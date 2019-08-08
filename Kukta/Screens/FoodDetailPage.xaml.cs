@@ -30,7 +30,7 @@ namespace Kukta.Screens
     public sealed partial class FoodDetailPage : Page
     {
         public Food CurrentFood = null;
-        private IngredientList IngList;
+        //private IngredientList IngList;
         private int CurrentDose = 4;
         public FoodDetailPage()
         {
@@ -73,9 +73,6 @@ namespace Kukta.Screens
             {
                 await SetUIShowFood(editMode);
             }
-            IngredientsListPanel.Children.Clear();
-            this.IngList = new IngredientList(editMode, CurrentFood?.ingredients != null ? CurrentFood.ingredients : new List<Ingredient>());
-            IngredientsListPanel.Children.Add(this.IngList);
             await SetLoading(false);
         }
         private async Task SetUINewFood()
@@ -97,6 +94,8 @@ namespace Kukta.Screens
                 UploaderPicture.Visibility = Visibility.Collapsed;
                 UploaderName.Visibility = Visibility.Collapsed;
                 LastModified.Visibility = Visibility.Collapsed;
+                IngredientList.EditMode = true;
+                IngredientList.SetItems(new List<Ingredient>());
 
 
                 UploadImageBTN.Visibility = Visibility.Visible;
@@ -132,10 +131,12 @@ namespace Kukta.Screens
                 UploaderPicture.Visibility = Visibility.Visible;
                 UploaderName.Content = "[Feltöltő]";//CurrentFood.owner;
                 LastModified.Text = CurrentFood.LastModified.ToString("yyyy-MM-dd hh:mm");
+                IngredientList.EditMode = editMode;
+                IngredientList.SetItems(CurrentFood.ingredients);
 
 
                 DoseTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
-                DoseTextBlock.Visibility = editMode? Visibility.Collapsed : Visibility.Visible;
+                DoseTextBlock.Visibility = editMode ? Visibility.Collapsed : Visibility.Visible;
                 ReportNoIngredient.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 OtherSettingsTextBlock.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
@@ -214,7 +215,7 @@ namespace Kukta.Screens
                 await ImageCropper.SaveAsync(stream.AsRandomAccessStream(), Microsoft.Toolkit.Uwp.UI.Controls.BitmapFileFormat.Jpeg);
                 stream.Dispose();
             }
-            var ingredients = IngList.GetIngredients();
+            var ingredients = IngredientList.GetIngredients();
 
             //Replace with get current food from details
             CurrentFood = await Food.InstertFood(new Food()
@@ -223,7 +224,7 @@ namespace Kukta.Screens
                 name = TitleTextBox.Text,
                 desc = DescTextBox.Text,
                 dose = CurrentDose,
-                ingredients = IngList.GetIngredients(),
+                ingredients = IngredientList.GetIngredients(),
                 isPrivate = !IsPublicToggle.IsOn,
                 Tags = Tags.Tags
             }, storageFile?.Path ?? "");
@@ -260,7 +261,7 @@ namespace Kukta.Screens
                 // Application now has read/write access to the picked file
                 this.Image.Visibility = Visibility.Collapsed;
                 ImageCropper.Visibility = Visibility.Visible;
-                ImageCropper.AspectRatio = 4/3;
+                ImageCropper.AspectRatio = 4 / 3;
                 await ImageCropper.LoadImageFromFile(file);
             }
             else
