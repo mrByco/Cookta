@@ -1,0 +1,47 @@
+﻿<UserControl
+    x:Class="Kukta.UI.IngrtedientListControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:food="using:Cooktapi.Food"
+    xmlns:converters="using:Kukta.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <converters:BoolToVisibility x:Key="BoolToVisibility"/>
+    </UserControl.Resources>
+
+    <StackPanel Margin="10">
+        <TextBlock Text="Hozzávalók: " FontSize="22" Margin="10" />
+        <ListView ItemsSource="{x:Bind Ingredients}" Padding="0" CanDragItems="{x:Bind EditMode, Mode=OneWay}" AllowDrop="{x:Bind EditMode, Mode=OneWay}" CanReorderItems="{x:Bind EditMode, Mode=OneWay}" IsItemClickEnabled="{x:Bind EditMode, Mode=OneWay}" SelectionMode="None" ItemClick="ListView_ItemClick">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="food:Ingredient">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="-"/>
+                        <TextBlock Text="{x:Bind This.ToString()}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Margin="0"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+        <Grid Visibility="{x:Bind EditMode, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <AutoSuggestBox Grid.Column="0" ItemsSource="{x:Bind m_AvailableTypes}" x:Name="IngredientSuggestionBox" TextChanged="autoSuggestBox_TextChanged" QuerySubmitted="autoSuggestBox_QuerySubmitted" PlaceholderText="Név"/>
+            <TextBox Grid.Column="1" PlaceholderText="Mennyiség" TextChanged="valueTextBox_TextChanged" x:Name="ValueTextBox"/>
+            <ComboBox Grid.Column="2" ItemsSource="{x:Bind m_AvailableUnits}" PlaceholderText="Mértékegység" SelectionChanged="unitComboBox_SelectionChanged" x:Name="UnitSelector"/>
+            <Button Grid.Column="3" x:Name="AddButton" Click="AddIngrdient" Content="Hozzáadás"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

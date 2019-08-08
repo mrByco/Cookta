@@ -136,6 +136,7 @@
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\SubcribedToVisibility.cs" />
     <Compile Include="Screens\IngredientPage.xaml.cs">
       <DependentUpon>IngredientPage.xaml</DependentUpon>
@@ -146,7 +147,9 @@
     <Compile Include="UI\CalendarButton.cs" />
     <Compile Include="UI\FoodButtonV2.cs" />
     <Compile Include="UI\IMealingItemButton.cs" />
-    <Compile Include="UI\IngredientList.cs" />
+    <Compile Include="UI\IngrtedientListControl.xaml.cs">
+      <DependentUpon>IngrtedientListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\LargeFoodButton.cs" />
     <Compile Include="UI\UserDataPanel.xaml.cs">
       <DependentUpon>UserDataPanel.xaml</DependentUpon>
@@ -274,6 +277,10 @@
     <Page Include="Screens\ProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\IngrtedientListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserDataPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
