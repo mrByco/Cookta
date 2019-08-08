@@ -38,7 +38,12 @@ namespace Kukta.Screens
         {
             await SetLoading(true);
             await IngredientType.Init();
-            dataGrid.ItemsSource = IngredientType.SortedTypes();
+            var sorted = IngredientType.SortedTypes();
+            dataGrid.ItemsSource = sorted.FindAll((item) =>
+            {
+                return item.Name.ToLower().Contains(NameFilterTextBox.Text.ToLower())
+                && item.Category.ToLower().Contains(CategoryFilterTextBox.Text.ToLower());
+            });
             await SetLoading(false);
 
         }
@@ -136,6 +141,11 @@ namespace Kukta.Screens
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             EditIngredientContentDialog.ShowAsync();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
+        private void RefreshFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
         }
     }
     public class EditingUnit
