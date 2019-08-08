@@ -276,7 +276,7 @@ namespace Cooktapi.Food
             {
                 JObject jObject = new JObject();
                 jObject.Add("ingredientID", ing.Type.ID);
-                jObject.Add("unit", ing.unit?.id);
+                jObject.Add("unit", ing.Unit?.id);
                 jObject.Add("value", ing.Value);
                 ingArray.Add(jObject);
             }

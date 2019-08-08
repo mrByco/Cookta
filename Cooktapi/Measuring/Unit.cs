@@ -47,6 +47,13 @@ namespace Cooktapi.Measuring
             }
             return;
         }
+        public bool IsGeneric
+        {
+            get
+            {
+                return Unit.GetUnits().Contains(this);
+            }
+        }
 
         public static List<Unit> GetUnits()
         {
@@ -70,26 +77,26 @@ namespace Cooktapi.Measuring
             return unit;
         }
 
-        //public static Ingredient ChangeUnitTo(Unit targetUnit, Ingredient ing)
-        //{
-        //    if (ing.unit.ToBase != 0 && targetUnit.ToBase != 0)
-        //    {
-        //        double ToBase = (double)ing.unit.ToBase;
-        //        double BaseValue = (double)ing.Value * ToBase;
-        //        return new Ingredient(ing.Type, (double)(BaseValue / targetUnit.ToBase), targetUnit);
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        ////}
-        //public static Ingredient ChangeUnitTo(string unitID, Ingredient ing)
-        //{
-        //    Unit unit = GetUnit(unitID, ing.Type);
-        //    return ChangeUnitTo(unit, ing);
-        //}
+        public static Ingredient ChangeUnitTo(Unit targetUnit, Ingredient ing)
+        {
+            if (ing.Unit.ToBase != 0 && targetUnit.ToBase != 0)
+            {
+                double ToBase = (double)ing.Unit.ToBase;
+                double BaseValue = (double)ing.Value * ToBase;
+                return new Ingredient(ing.Type, (double)(BaseValue / targetUnit.ToBase), targetUnit);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static Ingredient ChangeUnitTo(string unitID, Ingredient ing)
+            {
+                Unit unit = GetUnit(unitID, ing.Type);
+                return ChangeUnitTo(unit, ing);
+            }
 
-        public static Unit GetUnit(string id)
+            public static Unit GetUnit(string id)
         {
             return units.Find((unit) => { return unit.id == id; });
         }
@@ -112,6 +119,20 @@ namespace Cooktapi.Measuring
                     enums.Add(type);
                 }
                 return enums;
+            }
+        }
+        public static Unit GetBaseOf(UnitType type)
+        {
+            switch (type)
+            {
+                case UnitType.Count:
+                    throw new Exception();
+                case UnitType.Mass:
+                    return GetUnit("g") ?? new Unit(UnitType.Mass, 1, "gramm", "g", "g");
+                case UnitType.Volume:
+                    return GetUnit("l") ?? new Unit(UnitType.Volume, 1, "liter", "l", "l");
+                default:
+                    throw new Exception();
             }
         }
     }
