@@ -25,12 +25,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ProgressRing Name="loadingRing" IsActive="True" Grid.ColumnSpan="3" Height="80" Width="80"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Szűrők: "/>
-            <TextBlock Text="Kategőria"/>
-            <TextBox PlaceholderText="Kategória" Name="CategoryFilterTextBox"/>
-            <TextBlock Text="Név: "/>
-            <TextBox PlaceholderText="Név" Name="NameFilterTextBox"/>
+        <StackPanel Orientation="Horizontal" Margin="20" Spacing="10">
+            <TextBlock Text="Szűrők: " FontSize="24" VerticalAlignment="Center" Margin="0, 0, 30, 0"/>
+            <TextBlock Text="Kategőria:" FontSize="16" VerticalAlignment="Center"/>
+            <TextBox PlaceholderText="Kategória" Name="CategoryFilterTextBox" Margin="0, 0, 10, 0"/>
+            <TextBlock Text="Név: " FontSize="16" VerticalAlignment="Center"/>
+            <TextBox PlaceholderText="Név" Name="NameFilterTextBox" Margin="0, 0, 10, 0"/>
             <Button x:Name="RefreshFilterButton" Content="Szűrés" Click="RefreshFilterButton_Click"/>
         </StackPanel>
         <controls:DataGrid
