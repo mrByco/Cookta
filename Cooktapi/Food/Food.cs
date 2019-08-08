@@ -96,7 +96,7 @@ namespace Cooktapi.Food
 
             food = await InstertFood(food);
 
-            if (food?._id != null && ImagePath != null)
+            if (food?._id != null && ImagePath != null && ImagePath != "")
             {
                 var query = new Dictionary<string, object>();
                 query.Add("_id", food._id);
