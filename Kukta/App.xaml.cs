@@ -3,6 +3,9 @@ using Auth0.OidcClient;
 using Cooktapi;
 using Cooktapi.Calendar;
 using IdentityModel.OidcClient;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -83,7 +86,7 @@ namespace Kukta
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
-
+            AppCenter.Start("0a8b4e1b-90db-4bd5-a66d-a25d8e690353", new Type[2] { typeof(Crashes), typeof(Analytics)} );
 
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Windows.UI.Colors.Blue;
