@@ -151,6 +151,7 @@
       <DependentUpon>IngrtedientListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\LargeFoodButton.cs" />
+    <Compile Include="UI\UITools.cs" />
     <Compile Include="UI\UserDataPanel.xaml.cs">
       <DependentUpon>UserDataPanel.xaml</DependentUpon>
     </Compile>

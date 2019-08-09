@@ -90,6 +90,13 @@ namespace Cooktapi.Food
             var res = await Networking.Networking.PostRequestWithForceAuth("ingredient", body);
             return;
         }
+        public static async Task Delete(IngredientType ingredientType)
+        {
+            var query = new Dictionary<string, object>();
+            query.Add("guid", ingredientType.ID);
+            await Networking.Networking.DeleteRequestWithForceAuth("ingredient", query);
+            return;
+        }
 
         private static IngredientType ParseIngredientType(string json)
         {
