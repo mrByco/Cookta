@@ -1,5 +1,6 @@
 ﻿using Cooktapi.Food;
 using Cooktapi.Measuring;
+using Kukta.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,6 +52,19 @@ namespace Kukta.Screens
         private async void EditIngredient_Click(object sender, RoutedEventArgs e)
         {
             await EditIngredient((sender as Button).Tag as string);
+        }
+        private void DeleteIngredient_Click(object sender, RoutedEventArgs e)
+        {
+            IngredientType type = IngredientType.GetByID((sender as Button).Tag as string);
+            Flyout flyout = UITools.GetSureFlyout(
+                async (obj, args) => { await IngredientType.Delete(type); RefreshData(); },
+                "Törlés",
+                null,
+                "Mégse",
+                string.Format("Biztos törlöd ezt: {0}?", type),
+                "A hozzávaló törlésével több receptet is károsíthatsz."
+                );
+            flyout.ShowAt(sender as FrameworkElement);
         }
         private async Task EditIngredient(string ID)
         {
@@ -147,6 +161,7 @@ namespace Kukta.Screens
         {
             RefreshData();
         }
+
     }
     public class EditingUnit
     {
