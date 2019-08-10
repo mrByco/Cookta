@@ -14,14 +14,7 @@
         <ScrollViewer>
             <StackPanel>
                 <Button Content="+ Új tag" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <TreeView x:Name="TreeViewer" ItemsSource="{x:Bind ViewItems}" DragItemsCompleted="TreeViewer_DragItemsCompleted">
-                    <TreeView.ItemTemplate>
-                        <DataTemplate x:DataType="tag:Tag">
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Name}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </TreeView.ItemTemplate>
+                <TreeView x:Name="TreeViewer" DragItemsCompleted="TreeViewer_DragItemsCompleted">
                 </TreeView>
             </StackPanel>
         </ScrollViewer>

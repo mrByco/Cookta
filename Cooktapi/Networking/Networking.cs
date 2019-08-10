@@ -134,7 +134,6 @@ namespace Cooktapi.Networking
                 {
                     Cookta.SendNotification("Hiba a szerverrel való kommunikációban.", "Hiba a kérés küldésekor: " + response.Request.Resource + " Hibakód: " + response.StatusCode);
                     //await new ServicesNotAvailable().ShowAsync();
-                    throw new Exception();
                 }
 
             }

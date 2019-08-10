@@ -11,7 +11,7 @@ namespace Cooktapi.Food
 {
     public class Tag
     {
-        public string ParentID { get; private set; }
+        public string ParentID { get; set; }
         public string ID { get; private set; }
         public string Name { get; private set; }
 
@@ -90,6 +90,12 @@ namespace Cooktapi.Food
             }
             return tags;
         }
+        public async Task ChangeTag(string newName, string newParentID)
+        {
+            Name = newName;
+            ParentID = newParentID;
+            await this.Save();
+        }
         public static Tag ParseTag(string json)
         {
             JObject jUnit = JObject.Parse(json);
@@ -114,7 +120,8 @@ namespace Cooktapi.Food
         {
             JObject jObject = new JObject();
             jObject.Add("guid", JToken.FromObject(tag.ID));
-            jObject.Add("parent", JToken.FromObject(tag.ParentID));
+            if (tag.ParentID != null)
+                jObject.Add("parent", JToken.FromObject(tag.ParentID));
             jObject.Add("name", JToken.FromObject(tag.Name));
             return jObject.ToString(Formatting.None);
         }

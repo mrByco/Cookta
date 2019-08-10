@@ -22,25 +22,42 @@ namespace Kukta.Screens
             this.InitializeComponent();
         }
 
-        private readonly ObservableCollection<Tag> m_ViewItems = new ObservableCollection<Tag>();
-        private ObservableCollection<Tag> ViewItems { get { return m_ViewItems; } }
         public async Task RefreshItems()
         {
 
             //SetLoading
             await Cooktapi.Food.Tag.DownloadTags();
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { ViewItems.Clear(); });
-            var tags = Cooktapi.Food.Tag.Tags;
-            var tagsAdded = new List<Tag>();
-            //first layer
-            foreach (Cooktapi.Food.Tag tag in tags)
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { TreeViewer.RootNodes.Clear(); });
+            var tags = new List<Cooktapi.Food.Tag>(Cooktapi.Food.Tag.Tags);
+            //add root
+            var rootTags = tags.FindAll((t) => { return t.ParentID == null; });
+            foreach (Cooktapi.Food.Tag tag in rootTags)
             {
-                if (tag.ParentID == null)
-                {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { ViewItems.Add(tag); });
-                    tagsAdded.Add(tag);
-                }
+                tags.Remove(tag);
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { TreeViewer.RootNodes.Add(new TreeViewNode() { Content = tag }); });//
             }
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                IList<TreeViewNode> unfinishedParents = new List<TreeViewNode>(TreeViewer.RootNodes);
+                //other tags
+                while (unfinishedParents.Count > 0)
+                {
+                    List<Tag> willRemoving = new List<Tag>();
+                    foreach (Tag tag in tags)
+                    {
+                        if (tag.ParentID == (unfinishedParents[0].Content as Tag).ID)
+                        {
+                            willRemoving.Add(tag);
+                            unfinishedParents[0].Children.Add(new TreeViewNode() { Content = tag });
+                        }
+                    }
+                    foreach (Tag tag in willRemoving)
+                    {
+                        tags.Remove(tag);
+                    }
+                    unfinishedParents.Remove(unfinishedParents[0]);
+                }
+            });
         }
 
         private void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -48,19 +65,30 @@ namespace Kukta.Screens
             Task.Run(async () => { await RefreshItems(); });
         }
 
-        private void TreeViewer_DragItemsCompleted(TreeView sender, TreeViewDragItemsCompletedEventArgs args)
+        private async void TreeViewer_DragItemsCompleted(TreeView sender, TreeViewDragItemsCompletedEventArgs args)
         {
-            List<Tag> changed = new List<Tag>();
-            foreach (object item in args.Items)
-            {
-                changed.Add(item as Tag);
-            }
+            TreeViewNode changed = args.Items[0] as TreeViewNode;
+            TreeViewNode newParent = changed.Parent;
+            Tag tag = changed.Content as Tag;
+            await tag.ChangeTag(tag.Name, (newParent?.Content as Tag)?.ID);
+            //changed.ParentID = GetParentFromView(changed);
+
         }
-        //Gets the parent of the current tag, returns null if not exist or is root
-        private string GetParentFromView(Tag tag)
-        {
-            List<TreeViewNode> CurrentParents = TreeViewer.RootNodes;
-            foreach (TreeViewNode parent in CurrentParents)
-        }
+        //private string GetParentFromView(Tag tag)
+        //{
+        //    List<TreeViewNode> AllNodes = new List<TreeViewNode>();
+        //    List<TreeViewNode> CurrentParents = new List<TreeViewNode>(TreeViewer.RootNodes);
+        //    while (CurrentParents.Count > 0)
+        //    {
+        //        foreach (TreeViewNode node in CurrentParents[0].Children)
+        //        {
+        //            CurrentParents.Add(node);
+        //        }
+        //        AllNodes.Add(CurrentParents[0]);
+        //        CurrentParents.Remove(CurrentParents[0]);
+        //    }
+        //    string parentID = (AllNodes.Find((n) => { return (n.Parent?.Content as Tag).ID == tag.ID; }).Content as Tag).ID;
+        //    return parentID;
+        //}
     }
 }
