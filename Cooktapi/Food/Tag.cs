@@ -98,7 +98,7 @@ namespace Cooktapi.Food
         public static Tag ParseUnit(JObject jUnit)
         {
             string id = jUnit.GetValue("guid").Value<string>();
-            string parentId = jUnit.GetValue("parent").Value<string>();
+            string parentId = jUnit.GetValue("parent")?.Value<string>();
             string name = jUnit.GetValue("name")?.Value<string>();
 
             Tag tag = new Tag(parentId, id, name);
