@@ -40,7 +40,7 @@ namespace Cooktapi.Calendar
             List<IMealingItem> flags = new List<IMealingItem>();
             Tag.Tags.ForEach((tag) =>
             {
-                flags.Add(new Flag(tag.id) );
+                flags.Add(new Flag(tag.ID) );
             });
             return flags;
         }
@@ -57,11 +57,11 @@ namespace Cooktapi.Calendar
 
         public string GetName()
         {
-            return string.Format("tag: {0}", Tag.GetTagById(IdOfTag).hu_hu);
+            return string.Format("tag: {0}", Tag.GetTagById(IdOfTag).Name);
         }
         public override string ToString()
         {
-            return "Tag: " + (CurrentFood?.name ?? Tag.GetTagById(IdOfTag).hu_hu);
+            return "Tag: " + (CurrentFood?.name ?? Tag.GetTagById(IdOfTag).Name);
         }
 
         public void NewSeed()

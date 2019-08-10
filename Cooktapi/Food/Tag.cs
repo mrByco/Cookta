@@ -1,4 +1,6 @@
 ﻿using FileHelpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,50 +9,38 @@ using System.Threading.Tasks;
 
 namespace Cooktapi.Food
 {
-    [DelimitedRecord(",")]
     public class Tag
     {
-        public string id;
+        public string ParentID { get; private set; }
+        public string ID { get; private set; }
+        public string Name { get; private set; }
 
-        public string hu_hu;
-
-        [FieldHidden]
-        private static List<Tag> m_Tags;
-        public static List<Tag> Tags
+        public Tag(string parent, string id, string name)
         {
-            get
-            {
-                if (m_Tags is null)
-                {
-                    m_Tags = new List<Tag>();
-                    var engine = new FileHelperEngine<Tag>();
-                    var tags = engine.ReadFile("Assets/tags.csv");
-                    foreach (Tag tag in tags)
-                    {
-                        m_Tags.Add(tag);
-                    }
-                }
-                return m_Tags;
-            }
+            ParentID = parent;
+            ID = id;
+            Name = name;
         }
-        [FieldHidden]
+
+        private static List<Tag> m_Tags;
+        public static List<Tag> Tags { get { return m_Tags; } }
         public string AsString
         {
             get
             {
-                return hu_hu;
+                return Name;
             }
         }
         public override string ToString()
         {
-            return hu_hu;
+            return Name;
         }
         public static List<Tag> GetTagsByTexts(List<string> Texts, string lang)
         {
             List<Tag> list = new List<Tag>();
-            foreach(string text in Texts)
+            foreach (string text in Texts)
             {
-                list.Add(Tags.Find((tag) => { return tag.hu_hu == text; }));
+                list.Add(Tags.Find((tag) => { return tag.Name == text; }));
             }
             return list;
         }
@@ -59,7 +49,7 @@ namespace Cooktapi.Food
             List<string> list = new List<string>();
             foreach (Tag tag in Tags)
             {
-                list.Add(tag.hu_hu);
+                list.Add(tag.Name);
             }
             return list;
         }
@@ -68,7 +58,7 @@ namespace Cooktapi.Food
         {
             foreach (Tag tag in Tags)
             {
-                if (tag.hu_hu == text)
+                if (tag.Name == text)
                     return tag;
             }
             return null;
@@ -77,10 +67,56 @@ namespace Cooktapi.Food
         {
             foreach (Tag tag in Tags)
             {
-                if (tag.id == id)
+                if (tag.ID == id)
                     return tag;
             }
             return null;
+        }
+        public static async Task DownloadTags()
+        {
+            var response = await Networking.Networking.GetRequestSimple("tags", new Dictionary<string, object>());
+            if (response.Content != "" && response.Content != null)
+                m_Tags = ParseTags(response.Content);
+            else
+                m_Tags = new List<Tag>();
+        }
+        private static List<Tag> ParseTags(string str)
+        {
+            JArray jarray = JArray.Parse(str);
+            List<Tag> tags = new List<Tag>();
+            for (int i = 0; i < jarray.Count; i++)
+            {
+                tags.Add(ParseTag(jarray.ElementAt(i).ToString(Formatting.None)));
+            }
+            return tags;
+        }
+        public static Tag ParseTag(string json)
+        {
+            JObject jUnit = JObject.Parse(json);
+            return ParseUnit(jUnit);
+        }
+        public static Tag ParseUnit(JObject jUnit)
+        {
+            string id = jUnit.GetValue("guid").Value<string>();
+            string parentId = jUnit.GetValue("parent").Value<string>();
+            string name = jUnit.GetValue("name")?.Value<string>();
+
+            Tag tag = new Tag(parentId, id, name);
+
+            return tag;
+        }
+        private async Task Save()
+        {
+            string body = SerializeToServer(this);
+            var res = await Networking.Networking.PostRequestWithForceAuth("tag", body);
+        }
+        private static string SerializeToServer(Tag tag)
+        {
+            JObject jObject = new JObject();
+            jObject.Add("guid", JToken.FromObject(tag.ID));
+            jObject.Add("parent", JToken.FromObject(tag.ParentID));
+            jObject.Add("name", JToken.FromObject(tag.Name));
+            return jObject.ToString(Formatting.None);
         }
     }
 }
