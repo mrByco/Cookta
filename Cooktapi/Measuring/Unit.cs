@@ -126,7 +126,7 @@ namespace Cooktapi.Measuring
             switch (type)
             {
                 case UnitType.Count:
-                    throw new Exception();
+                    return GetUnit("db") ?? new Unit(UnitType.Count, 1, "db", "db", "db");
                 case UnitType.Mass:
                     return GetUnit("g") ?? new Unit(UnitType.Mass, 1, "gramm", "g", "g");
                 case UnitType.Volume:

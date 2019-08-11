@@ -15,54 +15,30 @@ namespace Cooktapi.Shopping
             DateTime nowDay = DateTime.Now.CutToDay();
             var reqList = new List<Ingredient>();
 
-            for (int i = 0;  i < forDays; i++)
+            for (int i = 0; i < forDays; i++)
             {
                 DateTime current = nowDay.AddDays(i);
                 var day = await CalendarDay.GetDay(current);
                 foreach (Mealing mealing in day.Mealings)
                 {
-                    foreach (IMealingItem  item in mealing.items)
+                    foreach (IMealingItem item in mealing.items)
                     {
                         reqList.AddRange(item.GetMealFood().ingredients);
                     }
                 }
             }
             //Add the base list
-            reqList = MergeList(reqList);
+            reqList = Ingredient.MergeList(reqList);
             return reqList;
         }
 
-        public static async  Task<List<Ingredient>> GetFinalShoppingList(int forDays)
+        public static async Task<List<Ingredient>> GetFinalShoppingList(int forDays)
         {
             var reqList = await GetReqList(forDays);
             //from current stock
             //var needList = SubtractList(needList, new List<Ingredient>());
             var needList = reqList;
             return needList;
-        }
-        private static List<Ingredient> MergeList(List<Ingredient> list)
-        {
-            var newList = new List<Ingredient>();
-            foreach (Ingredient ing in list)
-            {
-                var alreadyIng = newList.Find((i) => { return i.Type.ID == ing.Type.ID; });
-                if (alreadyIng != null)
-                {
-                    try
-                    {
-                        newList[newList.FindIndex((i) => { return i.Type.ID == ing.Type.ID; })] = ing + alreadyIng;
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        newList.Add(ing);
-                    }
-                }
-                else
-                {
-                    newList.Add(ing);
-                }
-            }
-            return newList;
         }
 
 
