@@ -148,15 +148,15 @@ namespace Kukta.UI
 
         private void autoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-
-            IngredientType type = IngredientType.Search(1, args.QueryText).Find((ingType) => { return ingType.Name == args.QueryText; });
+            var types = IngredientType.Search(8, args.QueryText);
+            IngredientType type = types.Find((ingType) => { return ingType.Name == args.QueryText; });
             if (type != null)
             {
                 ChooseIngredientType(type);
             }
             else
             {
-                sender.Text = adderType.Name;
+                sender.Text = "";
             }
         }
         private void AddIngrdient(object sender, RoutedEventArgs e)
@@ -185,9 +185,9 @@ namespace Kukta.UI
         {
             var result = IngredientType.Search(8, sender.Text);
             sender.ItemsSource = result;
-            if (result.Find((i) => { return IsAccessKeyScope.ToString() == sender.Text; }) != null)
+            if (result.Find((i) => { return i.Name.ToLower() == sender.Text.ToLower(); }) != null)
             {
-                adderType = result.Find((i) => { return IsAccessKeyScope.ToString() == sender.Text; });
+                ChooseIngredientType(result.Find((i) => { return i.Name.ToLower() == sender.Text.ToLower(); }));
             }
         }
 
@@ -220,27 +220,6 @@ namespace Kukta.UI
             CancelBTN.Click += (s, args) => { flyout.Hide(); };
 
             flyout.ShowAt(sender as FrameworkElement);
-        }
-    }
-    class EditBool : INotifyPropertyChanged
-    {
-        private bool m_edit;
-        public bool EditMode
-        {
-            get
-            {
-                return m_edit;
-            }
-            set
-            {
-                OnPropertyChanged("EditMode");
-                m_edit = value;
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
