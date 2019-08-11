@@ -11,18 +11,22 @@
     Loaded="Page_Loaded">
 
     <Grid>
-        <SplitView PanePlacement="Right" IsPaneOpen="False" x:Name="SplitView">
+        <SplitView PanePlacement="Right" IsPaneOpen="{x:Bind IsDetailPaneOpen, Mode=OneWay}" x:Name="SplitView" DisplayMode="CompactInline" CompactPaneLength="0">
             <SplitView.Pane>
                 <!--Részletek szerkesztés-->
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Tag szerkesztése" FontFamily="Arial Black" />
+                <StackPanel Orientation="Vertical" Margin="10" Spacing="10">
+                    <TextBlock Text="Tag szerkesztése" FontFamily="Arial Black" FontSize="24" Foreground="DarkGray" FontWeight="Black"/>
+                    <TextBlock Text="Tag neve:"/>
+                    <TextBox Text="{x:Bind SelectedTag.Name, Mode=TwoWay}" PlaceholderText="Pl.: Húsos"/>
+                    <Button Content="Mentés" HorizontalAlignment="Stretch" Click="SaveCurrentTagBTN_Click"/>
+                    <Button Content="Törlés" HorizontalAlignment="Stretch" Background="LightCoral" Click="DeleteTagBTN_Click"/>
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
                 <ScrollViewer>
                     <StackPanel>
-                        <Button Content="+ Új tag" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <TreeView x:Name="TreeViewer" DragItemsCompleted="TreeViewer_DragItemsCompleted" SelectionMode="None">
+                        <Button Content="+ Új tag" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="NewBTN_Click"/>
+                        <TreeView x:Name="TreeViewer" DragItemsCompleted="TreeViewer_DragItemsCompleted" SelectionMode="Single" ItemInvoked="TreeViewer_ItemInvoked">
                         </TreeView>
                     </StackPanel>
                 </ScrollViewer>

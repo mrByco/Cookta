@@ -22,12 +22,15 @@ namespace Kukta.Screens
         {
             this.InitializeComponent();
         }
-
+        private Tag tag = null;
         public Tag SelectedTag
         {
-            get
+            get { return tag; }
+            set
             {
-                return TreeViewer.SelectedNodes[0]?.Content as Tag;
+                tag = value;
+                OnPropertyChanged("SelectedTag");
+                OnPropertyChanged("IsDetailPaneOpen");
             }
         }
         public bool IsDetailPaneOpen
@@ -56,6 +59,7 @@ namespace Kukta.Screens
             foreach (Cooktapi.Food.Tag tag in rootTags)
             {
                 tags.Remove(tag);
+
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { TreeViewer.RootNodes.Add(new TreeViewNode() { Content = tag }); });//
             }
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -93,24 +97,44 @@ namespace Kukta.Screens
             TreeViewNode newParent = changed.Parent;
             Tag tag = changed.Content as Tag;
             await tag.ChangeTag(tag.Name, (newParent?.Content as Tag)?.ID);
-            //changed.ParentID = GetParentFromView(changed);
-
         }
-        //private string GetParentFromView(Tag tag)
-        //{
-        //    List<TreeViewNode> AllNodes = new List<TreeViewNode>();
-        //    List<TreeViewNode> CurrentParents = new List<TreeViewNode>(TreeViewer.RootNodes);
-        //    while (CurrentParents.Count > 0)
-        //    {
-        //        foreach (TreeViewNode node in CurrentParents[0].Children)
-        //        {
-        //            CurrentParents.Add(node);
-        //        }
-        //        AllNodes.Add(CurrentParents[0]);
-        //        CurrentParents.Remove(CurrentParents[0]);
-        //    }
-        //    string parentID = (AllNodes.Find((n) => { return (n.Parent?.Content as Tag).ID == tag.ID; }).Content as Tag).ID;
-        //    return parentID;
-        //}
+
+        private void TreeViewer_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
+        {
+            SelectedTag = (args.InvokedItem as TreeViewNode)?.Content as Tag;
+        }
+        private void SaveCurrentTagBTN_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Task.Run(async () =>
+            {
+                await SelectedTag.Save();
+                await RefreshItems();
+            });
+        }
+
+        private void DeleteTagBTN_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Task.Run(async () =>
+            {
+                await SelectedTag.Delete();
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { SelectedTag = null; });
+                await RefreshItems();
+            });
+        }
+
+        private void NewBTN_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Task.Run(async () =>
+            {
+                string guid = Guid.NewGuid().ToString();
+                while (Cooktapi.Food.Tag.Tags.Find((t) => { return t.ID == guid; }) != null)
+                {
+                    guid = Guid.NewGuid().ToString();
+                }
+                Tag tag = await new Tag(null, Guid.NewGuid().ToString(), "Új tag").Save();
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { SelectedTag = tag; });
+                await RefreshItems();
+            });
+        }
     }
 }

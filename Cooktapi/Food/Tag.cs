@@ -13,7 +13,7 @@ namespace Cooktapi.Food
     {
         public string ParentID { get; set; }
         public string ID { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         public Tag(string parent, string id, string name)
         {
@@ -111,10 +111,17 @@ namespace Cooktapi.Food
 
             return tag;
         }
-        private async Task Save()
+        public async Task<Tag> Save()
         {
             string body = SerializeToServer(this);
             var res = await Networking.Networking.PostRequestWithForceAuth("tag", body);
+            return this;
+        }
+        public async Task Delete()
+        {
+            var query = new Dictionary<string, object>();
+            query.Add("guid", this.ID);
+            var res = await Networking.Networking.DeleteRequestWithForceAuth("tag", query);
         }
         private static string SerializeToServer(Tag tag)
         {
