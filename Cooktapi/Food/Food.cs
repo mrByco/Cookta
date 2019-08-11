@@ -292,7 +292,7 @@ namespace Cooktapi.Food
             jFood.Add("dose", JToken.FromObject(food.dose));
 
             List<string> strList = new List<string>();
-            food.Tags.ForEach((tag) => { strList.Add(tag.id); });
+            food.Tags.ForEach((tag) => { strList.Add(tag.ID); });
             jFood.Add("tags", new JArray(strList));
             jFood.Add("ingredients", ingArray);
 

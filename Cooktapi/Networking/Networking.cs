@@ -130,11 +130,10 @@ namespace Cooktapi.Networking
             try
             {
                 if (response.StatusCode == HttpStatusCode.RequestTimeout
-                    || response.StatusCode == 0)
+                    || response.StatusCode == 0 || response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     Cookta.SendNotification("Hiba a szerverrel való kommunikációban.", "Hiba a kérés küldésekor: " + response.Request.Resource + " Hibakód: " + response.StatusCode);
                     //await new ServicesNotAvailable().ShowAsync();
-                    return;
                 }
 
             }

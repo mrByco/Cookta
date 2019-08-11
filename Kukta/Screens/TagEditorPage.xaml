@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="Kukta.Screens.TagEditorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.Screens"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tag="using:Cooktapi.Food"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
+
+    <Grid>
+        <SplitView PanePlacement="Right" IsPaneOpen="{x:Bind IsDetailPaneOpen, Mode=OneWay}" x:Name="SplitView" DisplayMode="CompactInline" CompactPaneLength="0">
+            <SplitView.Pane>
+                <!--Részletek szerkesztés-->
+                <StackPanel Orientation="Vertical" Margin="10" Spacing="10">
+                    <TextBlock Text="Tag szerkesztése" FontFamily="Arial Black" FontSize="24" Foreground="DarkGray" FontWeight="Black"/>
+                    <TextBlock Text="Tag neve:"/>
+                    <TextBox Text="{x:Bind SelectedTag.Name, Mode=TwoWay}" PlaceholderText="Pl.: Húsos"/>
+                    <Button Content="Mentés" HorizontalAlignment="Stretch" Click="SaveCurrentTagBTN_Click"/>
+                    <Button Content="Törlés" HorizontalAlignment="Stretch" Background="LightCoral" Click="DeleteTagBTN_Click"/>
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <ScrollViewer>
+                    <StackPanel>
+                        <Button Content="+ Új tag" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="NewBTN_Click"/>
+                        <TreeView x:Name="TreeViewer" DragItemsCompleted="TreeViewer_DragItemsCompleted" SelectionMode="Single" ItemInvoked="TreeViewer_ItemInvoked">
+                        </TreeView>
+                    </StackPanel>
+                </ScrollViewer>
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</Page>

@@ -1,6 +1,5 @@
 ﻿using Cooktapi.Calendar;
 using Cooktapi.Food;
-using Cooktapi.Calendar;
 using Kukta.Screens;
 using System;
 using System.Collections.Generic;
@@ -268,28 +267,13 @@ namespace Kukta.UI
         }
         private void ShowSureDeleteFlyout()
         {
-            Flyout flyout = new Flyout();
-
-            StackPanel flyoutStack = new StackPanel() { Orientation = Orientation.Vertical, Spacing = 10, Margin = new Thickness(10) };
-            flyout.Content = flyoutStack;
-
-            TextBlock title = new TextBlock() { Text = "Biztos törlöd?", FontSize = 20, HorizontalAlignment = HorizontalAlignment.Left };
-            flyoutStack.Children.Add(title);
-
-            TextBlock desc = new TextBlock() { Text = "Lehetséges hogy a recepthez már megtörtént a bevásárlás. Ebben az esetben alapkészleten felüli fölösleg keletkezhet.", FontSize = 14, HorizontalAlignment = HorizontalAlignment.Left, TextWrapping = TextWrapping.WrapWholeWords, MaxWidth = 300 };
-            flyoutStack.Children.Add(desc);
-
-            StackPanel buttonsStack = new StackPanel() { Orientation = Orientation.Horizontal, Spacing = 10 };
-            flyoutStack.Children.Add(buttonsStack);
-
-            Button AcceptBTN = new Button() { Content = "Törlés" };
-            buttonsStack.Children.Add(AcceptBTN);
-            AcceptBTN.Click += RemoveMealingItemClick;
-            AcceptBTN.Click += (sender, args) => { flyout.Hide(); };
-
-            Button CancelBTN = new Button() { Content = "Mégse" };
-            buttonsStack.Children.Add(CancelBTN);
-            CancelBTN.Click += (sender, args) => { flyout.Hide(); };
+            Flyout flyout = UITools.GetSureFlyout(
+                RemoveMealingItemClick, 
+                "Törlés", 
+                null, 
+                "Mégse", 
+                "Biztos törlöd?", 
+                "Lehetséges hogy a recepthez már megtörtént a bevásárlás. Ebben az esetben alapkészleten felüli fölösleg keletkezhet.");
 
             flyout.ShowAt(this);
         }

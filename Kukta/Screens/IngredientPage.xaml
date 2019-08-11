@@ -16,6 +16,7 @@
             <DataTemplate x:Key="RowDetailsTemplate">
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Szerkesztés" Tag="{Binding ID}" Click="EditIngredient_Click" Margin="50, 10, 10, 20"/>
+                    <Button Content="Törlés" Tag="{Binding ID}" Click="DeleteIngredient_Click" Margin="10, 10, 10, 20"/>
                 </StackPanel>
             </DataTemplate>
         </Grid.Resources>
@@ -70,7 +71,7 @@
         <Button Content="Hozzáadás" HorizontalAlignment="Stretch" Grid.Row="2" Margin="10" Click="AddNewIngredient_Click"/>
         <ContentDialog x:Name="EditIngredientContentDialog" IsPrimaryButtonEnabled="True" PrimaryButtonText="Mégse">
             <ScrollViewer>
-                <Grid Height="720">
+                <Grid>
                     <ProgressRing Name="DialogLoading" IsActive="True"/>
                     <Grid Name="DialogData">
                         <Grid.ColumnDefinitions>
