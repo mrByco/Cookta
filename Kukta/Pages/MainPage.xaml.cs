@@ -99,7 +99,7 @@ namespace Kukta
             FoodsItem.Visibility = Visibility.Visible;
             CalendarItem.Visibility = Visibility.Visible;
             IngredientsItem.Visibility = permissions.Contains("manage-ingredients") ? Visibility.Visible : Visibility.Collapsed;
-            IngredientsItem.Visibility = permissions.Contains("manage-tags") ? Visibility.Visible : Visibility.Collapsed;
+            TagEditorItem.Visibility = permissions.Contains("manage-tags") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public async void ShowServiceError()
