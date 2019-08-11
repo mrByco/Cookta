@@ -47,6 +47,7 @@ namespace Kukta
     ("lists", typeof(FoodCategories), false),
     ("foods", typeof(FoodEditor), false),
     ("account", typeof(ProfilePage), false),
+    ("tageditor", typeof(TagEditorPage), false),
     ("ingredients", typeof(IngredientPage), false),
     ("fooddetail", typeof(FoodDetailPage), true),
 };
@@ -98,6 +99,7 @@ namespace Kukta
             FoodsItem.Visibility = Visibility.Visible;
             CalendarItem.Visibility = Visibility.Visible;
             IngredientsItem.Visibility = permissions.Contains("manage-ingredients") ? Visibility.Visible : Visibility.Collapsed;
+            IngredientsItem.Visibility = permissions.Contains("manage-tags") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public async void ShowServiceError()

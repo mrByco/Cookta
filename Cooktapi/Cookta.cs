@@ -27,6 +27,7 @@ namespace Cooktapi
         public static async Task Init()
         {
             await Unit.Init();
+            await Tag.DownloadTags();
             await IngredientType.Init();
         }
         public void InitUserViaToken(string token)
