@@ -11,12 +11,22 @@
     Loaded="Page_Loaded">
 
     <Grid>
-        <ScrollViewer>
-            <StackPanel>
-                <Button Content="+ Új tag" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <TreeView x:Name="TreeViewer" DragItemsCompleted="TreeViewer_DragItemsCompleted">
-                </TreeView>
-            </StackPanel>
-        </ScrollViewer>
+        <SplitView PanePlacement="Right" IsPaneOpen="False" x:Name="SplitView">
+            <SplitView.Pane>
+                <!--Részletek szerkesztés-->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Tag szerkesztése" FontFamily="Arial Black" />
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <ScrollViewer>
+                    <StackPanel>
+                        <Button Content="+ Új tag" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TreeView x:Name="TreeViewer" DragItemsCompleted="TreeViewer_DragItemsCompleted" SelectionMode="None">
+                        </TreeView>
+                    </StackPanel>
+                </ScrollViewer>
+            </SplitView.Content>
+        </SplitView>
     </Grid>
 </Page>

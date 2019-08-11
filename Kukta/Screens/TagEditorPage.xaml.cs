@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -15,11 +16,32 @@ namespace Kukta.Screens
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TagEditorPage : Page
+    public sealed partial class TagEditorPage : Page, INotifyPropertyChanged
     {
         public TagEditorPage()
         {
             this.InitializeComponent();
+        }
+
+        public Tag SelectedTag
+        {
+            get
+            {
+                return TreeViewer.SelectedNodes[0]?.Content as Tag;
+            }
+        }
+        public bool IsDetailPaneOpen
+        {
+            get
+            {
+                return SelectedTag != null;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public async Task RefreshItems()
