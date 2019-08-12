@@ -16,11 +16,28 @@
                 <DataTemplate x:DataType="food:Ingredient" >
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{x:Bind ToString()}"/>
+                        <TextBlock Grid.Column="0" Text="{x:Bind ToString()}" HorizontalAlignment="Center"/>
+                        <ListView Grid.Column="2"
+                                  IsItemClickEnabled="False"
+                                  SelectionMode="None"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                  ScrollViewer.HorizontalScrollMode="Enabled"
+                                  ScrollViewer.VerticalScrollMode="Disabled"
+                                  ItemsSource="{x:Bind InheritedFrom}">
+                            <DataTemplate x:DataType="food:Food">
+                                <TextBlock Text="{x:Bind name}" FontWeight="Bold"/>
+                            </DataTemplate>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

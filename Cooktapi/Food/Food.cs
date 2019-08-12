@@ -254,7 +254,7 @@ namespace Cooktapi.Food
                         string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
                         string UnitID = jarray.ElementAt(i).Value<string>("unit");
                         double Value = jarray.ElementAt(i).Value<double>("value");
-                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID))));
+                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID)), new List<Food>() { food }));
                     }
                 }
                 else

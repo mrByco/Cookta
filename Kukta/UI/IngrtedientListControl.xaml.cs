@@ -63,6 +63,7 @@ namespace Kukta.UI
             }
         }
 
+
         private readonly ObservableCollection<Ingredient> m_Ingredients = new ObservableCollection<Ingredient>();
         private ObservableCollection<Ingredient> Ingredients { get { return m_Ingredients; } }
 
@@ -161,7 +162,7 @@ namespace Kukta.UI
         }
         private void AddIngrdient(object sender, RoutedEventArgs e)
         {
-            Ingredients.Add(new Ingredient(adderType, (double)adderValue, adderUnit));
+            Ingredients.Add(new Ingredient(adderType, (double)adderValue, adderUnit, new List<Food>()));
             adderType = null;
             IngredientSuggestionBox.Text = "";
             adderUnit = null;

@@ -15,12 +15,14 @@ namespace Cooktapi.Food
         public Unit Unit;
         public double Value;
         public readonly IngredientType Type;
+        public List<Food> InheritedFrom = new List<Food>();
 
-        public Ingredient(IngredientType type, double value, Unit unit)
+        public Ingredient(IngredientType type, double value, Unit unit, List<Food> inheritedFrom)
         {
             this.Type = type;
             this.Value = value;
             this.Unit = unit;
+            this.InheritedFrom = inheritedFrom;
         }
         public void ChangeUnitToBase()
         {
@@ -40,7 +42,7 @@ namespace Cooktapi.Food
             if (c.Type.ID != b.Type.ID)
                 throw new InvalidOperationException();
             else if (c.Unit.id == b.Unit.id)
-                return new Ingredient(b.Type, b.Value + c.Value, b.Unit);
+                return new Ingredient(b.Type, b.Value + c.Value, b.Unit, b.InheritedFrom.Union(c.InheritedFrom).ToList());
             else if (c.Unit.ToBase == 0 || c.Unit.ToBase == 0)
                 throw new InvalidOperationException();
             var newB = b.MemberwiseClone() as Ingredient;
@@ -49,7 +51,7 @@ namespace Cooktapi.Food
             newC.ChangeUnitToBase();
 
 
-            return new Ingredient(newB.Type, newB.Value + newC.Value, newB.Unit);
+            return new Ingredient(newB.Type, newB.Value + newC.Value, newB.Unit, b.InheritedFrom.Union(c.InheritedFrom).ToList());
         }
         public static List<Ingredient> MergeList(List<Ingredient> list)
         {

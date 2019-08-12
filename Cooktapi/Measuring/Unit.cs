@@ -83,7 +83,7 @@ namespace Cooktapi.Measuring
             {
                 double ToBase = (double)ing.Unit.ToBase;
                 double BaseValue = (double)ing.Value * ToBase;
-                return new Ingredient(ing.Type, (double)(BaseValue / targetUnit.ToBase), targetUnit);
+                return new Ingredient(ing.Type, (double)(BaseValue / targetUnit.ToBase), targetUnit, ing.InheritedFrom);
             }
             else
             {
