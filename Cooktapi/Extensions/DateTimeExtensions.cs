@@ -44,5 +44,10 @@ namespace Cooktapi.Extensions
             return i;
 
         }
+        public static DateTime FromTotalMilis(Int64 milis)
+        {
+            TimeSpan timeSpan = TimeSpan.FromMilliseconds(milis);
+            return (new DateTime(1970, 01, 01) + (DateTime.Now - DateTime.UtcNow) + timeSpan);
+        }
     }
 }

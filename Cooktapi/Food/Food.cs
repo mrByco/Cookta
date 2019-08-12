@@ -1,4 +1,5 @@
 ﻿using Cooktapi.Calendar;
+using Cooktapi.Extensions;
 using Cooktapi.Food;
 using Cooktapi.Measuring;
 using Cooktapi.Networking;
@@ -232,8 +233,7 @@ namespace Cooktapi.Food
                 food.desc = jFood.GetValue("desc").Value<string>();
                 food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
-                TimeSpan timeSpan = TimeSpan.FromMilliseconds(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
-                food.LastModified = (new DateTime(1970, 01, 01) + (DateTime.Now - DateTime.UtcNow) + timeSpan);
+                food.LastModified = DateTimeExtensions.FromTotalMilis(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
                 if (tagArray != null)
                 {
