@@ -43,7 +43,7 @@ namespace Cooktapi.Stocker
 
             double value = jStockItem.Value<double>("value");
             IngredientType ingType = IngredientType.GetByID(jStockItem.Value<string>("typeid"));
-            Unit unit = Unit.GetUnit(jStockItem.Value<string>("unit"), ingType);
+            Unit unit = Unit.GetUnit(jStockItem.Value<string>("unitId"), ingType);
             string _id = jStockItem.Value<string>("_id");
 
             DateTime lastUpdated = DateTimeExtensions.FromTotalMilis(jStockItem.Value<long>("lastupdate"));
@@ -58,7 +58,7 @@ namespace Cooktapi.Stocker
             JObject jStockItem = new JObject();
             jStockItem.Add("value", JToken.FromObject(item.Value));
             jStockItem.Add("typeid", JToken.FromObject(item.IngredientType.ID));
-            jStockItem.Add("unit", JToken.FromObject(item.Unit));
+            jStockItem.Add("unitId", JToken.FromObject(item.Unit));
             return jStockItem.ToString(Formatting.None);
         }
         public async Task<double> SetValue(double value)

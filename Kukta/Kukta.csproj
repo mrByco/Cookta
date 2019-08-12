@@ -147,6 +147,9 @@
     <Compile Include="Screens\ShoppingListPage.xaml.cs">
       <DependentUpon>ShoppingListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\StockerPage.xaml.cs">
+      <DependentUpon>StockerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\TagEditorPage.xaml.cs">
       <DependentUpon>TagEditorPage.xaml</DependentUpon>
     </Compile>
@@ -288,6 +291,10 @@
     <Page Include="Screens\ShoppingListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Screens\StockerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\TagEditorPage.xaml">
       <SubType>Designer</SubType>
