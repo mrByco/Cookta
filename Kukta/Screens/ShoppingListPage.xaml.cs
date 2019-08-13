@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -41,17 +42,20 @@ namespace Kukta.Screens
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            RefreshUnShopped();
+            Task.Run(() => { RefreshUnShopped(); });
         }
 
         private async void RefreshUnShopped()
         {
-            ItemPresenter.Clear();
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { ItemPresenter.Clear(); });
             var items = await ShoppingList.GetFinalShoppingList(7);
-            foreach (Ingredient ing in items)
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                m_Items.Add(ing);
-            }
+                foreach (Ingredient ing in items)
+                {
+                    m_Items.Add(ing);
+                }
+            });
         }
     }
 }

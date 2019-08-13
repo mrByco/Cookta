@@ -47,6 +47,7 @@ namespace Kukta
     ("lists", typeof(FoodCategories), false),
     ("foods", typeof(FoodEditor), false),
     ("shoppinglist", typeof(ShoppingListPage), false),
+    ("stocker", typeof(StockerPage), false),
     ("account", typeof(ProfilePage), false),
     ("tageditor", typeof(TagEditorPage), false),
     ("ingredients", typeof(IngredientPage), false),

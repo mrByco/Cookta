@@ -39,6 +39,22 @@ namespace Cooktapi.Networking
             checkResponse(response);
             return response;
         }
+        public static async Task<IRestResponse> PutRequestWithForceAuth(string path, string body)
+        {
+            var request = new RestRequest(path, Method.PUT);
+            if (User.AccessToken == null)
+            {
+                await Cookta.DoLogin();
+            }
+            request.AddHeader("Authorization", "Bearer " + User.AccessToken);
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Content-Type", "application/json");
+            request.AddJsonBody(body);
+
+            var response = Client.Put(request);
+            checkResponse(response);
+            return response;
+        }
         public static async Task<IRestResponse> JpegImageUploadWithAuth(string resource, Dictionary<string, object> query, string filePath)
         {
             var request = new RestRequest(resource, Method.POST);

@@ -36,8 +36,8 @@ namespace Cooktapi.Shopping
         {
             var reqList = await GetReqList(forDays);
             //from current stock
-            //var needList = SubtractList(needList, new List<Ingredient>());
-            var needList = reqList;
+            var currentStock = await Stocker.Stock.GetCurrentStock();
+            var needList = Ingredient.SubstractList(reqList, Stocker.Stock.ToIngredientList(currentStock));
             return needList;
         }
 
