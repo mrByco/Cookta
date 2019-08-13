@@ -31,17 +31,7 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <Grid Visibility="{x:Bind EditMode, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <AutoSuggestBox Grid.Column="0" ItemsSource="{x:Bind m_AvailableTypes}" x:Name="IngredientSuggestionBox" TextChanged="autoSuggestBox_TextChanged" QuerySubmitted="autoSuggestBox_QuerySubmitted" PlaceholderText="Név"/>
-            <TextBox Grid.Column="1" PlaceholderText="Mennyiség" TextChanged="valueTextBox_TextChanged" x:Name="ValueTextBox"/>
-            <ComboBox Grid.Column="2" ItemsSource="{x:Bind m_AvailableUnits}" PlaceholderText="Mértékegység" SelectionChanged="unitComboBox_SelectionChanged" x:Name="UnitSelector"/>
-            <Button Grid.Column="3" x:Name="AddButton" Click="AddIngrdient" Content="Hozzáadás"/>
-        </Grid>
+        <local:IngredientAdderControl Visibility="{x:Bind EditMode, Mode=OneWay, Converter={StaticResource BoolToVisibility}}"
+                                      OnIngredeintAdded="IngredientAdderControl_OnIngredeintAdded"/>
     </StackPanel>
 </UserControl>

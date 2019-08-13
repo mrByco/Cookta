@@ -15,21 +15,22 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="10   ">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="400"/>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Név" Grid.Column="0"/>
-            <TextBlock Text="Aktuális mennyiség" Grid.Column="1"/>
-            <TextBlock Text="Mértékegység" Grid.Column="2"/>
-            <Button Click="AddStockItem_Click" Content="Hozzáadás">
-            </Button>
+            <TextBlock Text="Név" Grid.Column="0" FontWeight="Medium"/>
+            <TextBlock Text="Aktuális mennyiség" Grid.Column="1" FontWeight="Medium"/>
+            <TextBlock Text="Mértékegység" Grid.Column="2" FontWeight="Medium"/>
+            <!--<Button Click="AddStockItem_Click" Content="Hozzáadás">
+            </Button>-->
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{x:Bind StockItems}" SelectionMode="None" Tapped="ListView_Tapped" ItemClick="StockListView_ItemClick" IsItemClickEnabled="True">
+        <ListView Grid.Row="1" ItemsSource="{x:Bind StockItems}" VerticalAlignment="Top" SelectionMode="None" Tapped="ListView_Tapped" ItemClick="StockListView_ItemClick" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="stock:StockItem">
                     <Grid>
@@ -38,13 +39,14 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{x:Bind IngredientType.Name}" Grid.Column="0"/>
-                        <TextBlock Text="{x:Bind Value}" Grid.Column="1"/>
-                        <TextBlock Text="{x:Bind Unit.Name}" Grid.Column="2"/>
+                        <TextBlock Grid.Row="1" Text="{x:Bind IngredientType.Name}" Grid.Column="0"/>
+                        <TextBlock Grid.Row="1" Text="{x:Bind Value}" Grid.Column="1"/>
+                        <TextBlock Grid.Row="1" Text="{x:Bind Unit.Name}" Grid.Column="2"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <KuktaUI:IngredientAdderControl OnIngredeintAdded="IngredientAdderControl_OnIngredeintAdded" Grid.Row="2"/>
     </Grid>
 </Page>
 

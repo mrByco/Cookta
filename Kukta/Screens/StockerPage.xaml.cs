@@ -1,4 +1,5 @@
 ﻿using Cooktapi.Stocker;
+using Kukta.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -53,7 +54,8 @@ namespace Kukta.Screens
         }
         private void ListView_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ShowItemOptions(selectedItem, (UIElement) e.OriginalSource, e.GetPosition((UIElement)e.OriginalSource));
+            if (selectedItem != null)
+                ShowItemOptions(selectedItem, (UIElement)e.OriginalSource, e.GetPosition((UIElement)e.OriginalSource));
         }
 
         private void ShowItemOptions(StockItem stockItem, UIElement sender, Point point)
@@ -65,7 +67,7 @@ namespace Kukta.Screens
                 Text = "Érték változtatás",
             };
             flyout.Items.Add(ChangeValueItem);
-            ChangeValueItem.Click += (a, b) => { SetValueItem_Click(stockItem); };
+            ChangeValueItem.Click += (a, b) => { SetValueItem_Click(stockItem, a as FrameworkElement); };
             ChangeValueItem.Click += (a, b) => { flyout.Hide(); };
 
 
@@ -74,37 +76,63 @@ namespace Kukta.Screens
                 Text = "Törlés",
             };
             flyout.Items.Add(DeleteItem);
-            DeleteItem.Click +=  (a, b) => { DeleteItem_Click(stockItem); };
+            DeleteItem.Click += (a, b) => { DeleteItem_Click(stockItem); };
             DeleteItem.Click += (a, b) => { flyout.Hide(); };
 
             flyout.ShowAt(sender as UIElement, point);
 
         }
-        private void SetValueItem_Click(StockItem item)
+        private void SetValueItem_Click(StockItem item, FrameworkElement element)
         {
-            Flyout flyout = new Flyout();
-            StackPanel stack = new StackPanel() { Orientation = Orientation.Horizontal };
-            flyout.Content = stack;
+            ContentDialog dialog = new ContentDialog();
+            Grid grid = new Grid();
 
-            TextBlock text = new TextBlock() { Text = "Új érték: ", };
-            stack.Children.Add(text);
+            grid.RowDefinitions.Clear();
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
+
+            grid.ColumnDefinitions.Clear();
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+
+            dialog.Content = grid;
 
 
-            TextBox valueTextBox = new TextBox() { PlaceholderText = "pl.: 5", Text = item.Value.ToString(), };
+            TextBlock titleText = new TextBlock() { Text = string.Format("Leltározás: {0}", item.IngredientType.Name), VerticalAlignment = VerticalAlignment.Center };
+            Grid.SetColumnSpan(titleText, 3);
+            grid.Children.Add(titleText);
+
+            TextBlock text = new TextBlock() { Text = "Új érték: ", VerticalAlignment = VerticalAlignment.Center};
+            Grid.SetRow(text, 1);
+            Grid.SetColumn(text, 0);
+            grid.Children.Add(text);
+
+
+            TextBox valueTextBox = new TextBox() { PlaceholderText = "pl.: 5", Text = item.Value.ToString(), VerticalAlignment = VerticalAlignment.Center};
+            Grid.SetRow(valueTextBox, 1);
+            Grid.SetColumn(valueTextBox, 1);
+            valueTextBox.Height = 40;
             valueTextBox.TextChanged += OnValueText_Changed;
-            stack.Children.Add(valueTextBox);
+            grid.Children.Add(valueTextBox);
 
             Button SaveBTN = new Button()
             {
                 Content = "Beállítás",
+                VerticalAlignment = VerticalAlignment.Center,
             };
-            SaveBTN.Click += async (a, b) => 
+            Grid.SetRow(valueTextBox, 1);
+            Grid.SetColumn(valueTextBox, 2);
+            SaveBTN.Click += async (a, b) =>
             {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { flyout.Hide(); });
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { dialog.Hide(); });
                 await item.SetValue(newValue);
                 ReloadItems();
             };
 
+            grid.Children.Add(SaveBTN);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            dialog.ShowAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         private void OnValueText_Changed(object sender, TextChangedEventArgs e)
@@ -138,10 +166,10 @@ namespace Kukta.Screens
             ReloadItems();
         }
 
-        private void AddStockItem_Click(object sender, RoutedEventArgs e)
+        private async void IngredientAdderControl_OnIngredeintAdded(Cooktapi.Food.Ingredient added)
         {
-            //IngredientAdderFlyout
-            Flyout flyout;
+            await Stock.AddItemToStock(added.Type, added.Unit, added.Value);
+            ReloadItems();
         }
     }
 }

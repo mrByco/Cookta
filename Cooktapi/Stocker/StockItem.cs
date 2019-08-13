@@ -58,7 +58,8 @@ namespace Cooktapi.Stocker
             JObject jStockItem = new JObject();
             jStockItem.Add("value", JToken.FromObject(item.Value));
             jStockItem.Add("typeid", JToken.FromObject(item.IngredientType.ID));
-            jStockItem.Add("unitId", JToken.FromObject(item.Unit));
+            jStockItem.Add("unitId", JToken.FromObject(item.Unit.id));
+            jStockItem.Add("type", JToken.FromObject("ing"));
             return jStockItem.ToString(Formatting.None);
         }
         public async Task<double> SetValue(double value)

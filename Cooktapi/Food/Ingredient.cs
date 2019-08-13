@@ -24,6 +24,20 @@ namespace Cooktapi.Food
             this.Unit = unit;
             this.InheritedFrom = inheritedFrom;
         }
+        public string InheritedsString
+        {
+            get
+            {
+                string str = "";
+                foreach (Food food in InheritedFrom)
+                {
+                    if (str.Length > 0)
+                        str = str + ", ";
+                    str = str + food.name;
+                }
+                return str;
+            }
+        }
         public void ChangeUnitToBase()
         {
             ChangeUnitToBase(Unit.GetBaseOf(Unit.Type));
