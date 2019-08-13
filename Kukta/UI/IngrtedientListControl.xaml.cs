@@ -49,28 +49,9 @@ namespace Kukta.UI
             }
         }
 
-        private IngredientType adderType;
-        private double? adderValue;
-        private Unit adderUnit
-        {
-            get
-            {
-                return UnitSelector.SelectedItem as Unit;
-            }
-            set
-            {
-                UnitSelector.SelectedItem = value;
-            }
-        }
 
         private readonly ObservableCollection<Ingredient> m_Ingredients = new ObservableCollection<Ingredient>();
         private ObservableCollection<Ingredient> Ingredients { get { return m_Ingredients; } }
-
-        private readonly ObservableCollection<Unit> m_AvailableUnits = new ObservableCollection<Unit>();
-        private ObservableCollection<Unit> Units { get { return m_AvailableUnits; } }
-
-        private readonly ObservableCollection<IngredientType> m_AvailableTypes = new ObservableCollection<IngredientType>();
-        private ObservableCollection<IngredientType> AvailableTypes { get { return m_AvailableTypes; } }
 
         public async void SetItems(List<Ingredient> ingredients)
         {
@@ -83,113 +64,11 @@ namespace Kukta.UI
                 }
             });
         }
-        public async void SetAvailableTypes(List<IngredientType> types)
-        {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                m_AvailableTypes.Clear();
-                foreach (IngredientType type in types)
-                {
-                    m_AvailableTypes.Add(type);
-                }
-            });
-        }
-        public async void SetAvailableUnits(List<Unit> units)
-        {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                m_AvailableUnits.Clear();
-                foreach (Unit unit in units)
-                {
-                    m_AvailableUnits.Add(unit);
-                }
-            });
-        }
         public List<Ingredient> GetIngredients()
         {
             return m_Ingredients.ToList();
         }
 
-        private void valueTextBox_TextChanged(object sender, TextChangedEventArgs args)
-        {
-            TextBox textBox = sender as TextBox;
-            try
-            {
-                if (textBox.Text == "")
-                {
-                    adderValue = null;
-                    return;
-                }
-                string s = textBox.Text.Replace('.', ',');
-                if (s.StartsWith(','))
-                    s = "0" + s;
-                if (s.EndsWith(','))
-                {
-                    s = s + "0";
-                }
-                double newValue = Double.Parse(s);
-                adderValue = newValue;
-            }
-            catch (FormatException e)
-            {
-                textBox.Text = adderValue.ToString();
-            }
-            UpdateAdderButtonEnabled();
-        }
-        private void UpdateAdderButtonEnabled()
-        {
-            AddButton.IsEnabled = adderType != null && adderValue != null && adderUnit != null;
-        }
-
-        private void unitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdateAdderButtonEnabled();
-        }
-
-        private void autoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            var types = IngredientType.Search(8, args.QueryText);
-            IngredientType type = types.Find((ingType) => { return ingType.Name == args.QueryText; });
-            if (type != null)
-            {
-                ChooseIngredientType(type);
-            }
-            else
-            {
-                sender.Text = "";
-            }
-        }
-        private void AddIngrdient(object sender, RoutedEventArgs e)
-        {
-            Ingredients.Add(new Ingredient(adderType, (double)adderValue, adderUnit));
-            adderType = null;
-            IngredientSuggestionBox.Text = "";
-            adderUnit = null;
-            adderValue = null;
-            ValueTextBox.Text = "";
-        }
-
-
-        private void ChooseIngredientType(IngredientType IngType)
-        {
-            adderType = IngType;
-            SetAvailableUnits(IngType.GetUnits());
-            if (!m_AvailableUnits.Contains(adderUnit))
-            {
-                adderUnit = null;
-            }
-            UpdateAdderButtonEnabled();
-        }
-
-        private void autoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            var result = IngredientType.Search(8, sender.Text);
-            sender.ItemsSource = result;
-            if (result.Find((i) => { return i.Name.ToLower() == sender.Text.ToLower(); }) != null)
-            {
-                ChooseIngredientType(result.Find((i) => { return i.Name.ToLower() == sender.Text.ToLower(); }));
-            }
-        }
 
         private void removeBTNClick(Ingredient ing)
         {
@@ -220,6 +99,11 @@ namespace Kukta.UI
             CancelBTN.Click += (s, args) => { flyout.Hide(); };
 
             flyout.ShowAt(sender as FrameworkElement);
+        }
+
+        private void IngredientAdderControl_OnIngredeintAdded(Ingredient added)
+        {
+            Ingredients.Add(added);
         }
     }
 }

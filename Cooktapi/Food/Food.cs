@@ -1,4 +1,5 @@
 ﻿using Cooktapi.Calendar;
+using Cooktapi.Extensions;
 using Cooktapi.Food;
 using Cooktapi.Measuring;
 using Cooktapi.Networking;
@@ -232,8 +233,7 @@ namespace Cooktapi.Food
                 food.desc = jFood.GetValue("desc").Value<string>();
                 food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
-                TimeSpan timeSpan = TimeSpan.FromMilliseconds(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
-                food.LastModified = (new DateTime(1970, 01, 01) + (DateTime.Now - DateTime.UtcNow) + timeSpan);
+                food.LastModified = DateTimeExtensions.FromTotalMilis(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
                 if (tagArray != null)
                 {
@@ -254,7 +254,7 @@ namespace Cooktapi.Food
                         string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
                         string UnitID = jarray.ElementAt(i).Value<string>("unit");
                         double Value = jarray.ElementAt(i).Value<double>("value");
-                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID))));
+                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID)), new List<Food>() { food }));
                     }
                 }
                 else
@@ -276,7 +276,7 @@ namespace Cooktapi.Food
             {
                 JObject jObject = new JObject();
                 jObject.Add("ingredientID", ing.Type.ID);
-                jObject.Add("unit", ing.unit?.id);
+                jObject.Add("unit", ing.Unit?.id);
                 jObject.Add("value", ing.Value);
                 ingArray.Add(jObject);
             }

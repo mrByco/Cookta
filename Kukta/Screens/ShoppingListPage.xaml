@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="Kukta.Screens.ShoppingListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.Screens"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:food="using:Cooktapi.Food"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
+
+    <Grid>
+        <ListView x:Name="ShoppingListView" ItemsSource="{x:Bind ItemPresenter}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="food:Ingredient" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" MinWidth="250"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{x:Bind ToString()}" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="2" Text="{x:Bind InheritedsString}" HorizontalAlignment="Left"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

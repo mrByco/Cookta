@@ -45,6 +45,16 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED56;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Tag="shoppinglist" Content="Bevásárló lista" Name="ShoppingListItem">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE762;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="stocker" Content="Készlet" Name="StockerItem">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74C;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="ingredients" Content="Hozzávalók" Name="IngredientsItem">
                     <NavigationViewItem.Icon>
