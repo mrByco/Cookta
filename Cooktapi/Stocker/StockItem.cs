@@ -28,6 +28,10 @@ namespace Cooktapi.Stocker
             this.LastUpdated = lastUpdated;
             this._id = _id;
         }
+        public Ingredient ToIngredient()
+        {
+            return new Ingredient(IngredientType, Value, Unit, new List<Food.Food>());
+        }
 
         public static StockItem ParseFromServerJson(string json)
         {

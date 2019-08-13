@@ -22,6 +22,15 @@ namespace Cooktapi.Stocker
             }
             return stockItems;
         }
+        public static List<Ingredient> ToIngredientList(List<StockItem> stockItems)
+        {
+            var IngList = new List<Ingredient>();
+            foreach (StockItem stockItem in stockItems)
+            {
+                IngList.Add(stockItem.ToIngredient());
+            }
+            return IngList;
+        }
         public async static Task AddItemToStock(IngredientType type, Unit unit, double value)
         {
             var item = new StockItem(value, unit, type, DateTime.Now, DateTime.Now, null);

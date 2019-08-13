@@ -67,6 +67,22 @@ namespace Cooktapi.Food
 
             return new Ingredient(newB.Type, newB.Value + newC.Value, newB.Unit, b.InheritedFrom.Union(c.InheritedFrom).ToList());
         }
+        public static Ingredient operator -(Ingredient b, Ingredient c)
+        {
+            if (c.Type.ID != b.Type.ID)
+                throw new InvalidOperationException();
+            else if (c.Unit.id == b.Unit.id)
+                return new Ingredient(b.Type, b.Value - c.Value, b.Unit, b.InheritedFrom);
+            else if (c.Unit.ToBase == 0 || c.Unit.ToBase == 0)
+                throw new InvalidOperationException();
+            var newB = b.MemberwiseClone() as Ingredient;
+            var newC = c.MemberwiseClone() as Ingredient;
+            newB.ChangeUnitToBase();
+            newC.ChangeUnitToBase();
+
+
+            return new Ingredient(newB.Type, newB.Value - newC.Value, newB.Unit, b.InheritedFrom);
+        }
         public static List<Ingredient> MergeList(List<Ingredient> list)
         {
             var newList = new List<Ingredient>();
@@ -114,6 +130,43 @@ namespace Cooktapi.Food
 
             }
             return newList;
+        }
+        public static List<Ingredient> SubstractList(List<Ingredient> f, List<Ingredient> w)
+        {
+            List<Ingredient> from = MergeList(f);
+            List<Ingredient> what = MergeList(w);
+            foreach (Ingredient sub in what)
+            {
+                List<Ingredient> SameTypes = from.FindAll((i) => { return i.Type.ID == sub.Type.ID; });
+                Ingredient SameUnit = SameTypes.Find((i) => { return i.Unit.id == sub.Unit.id; });
+                if (SameUnit != null)
+                {
+                    if (SameUnit.Value >= sub.Value)
+                    {
+                        from[from.IndexOf(SameUnit)].Value = SameUnit.Value - sub.Value;
+                        continue;
+                    }
+                    else
+                    {
+                        from[from.IndexOf(SameUnit)].Value = 0;
+                        sub.Value = sub.Value - SameUnit.Value;
+                    }
+                }
+                else if (sub.Unit.ToBase != 0)
+                {
+                    List<Ingredient> BaseableAndNotZero = SameTypes.FindAll((i) => { return i.Unit.ToBase != 0 && i.Value > 0; });
+                    while (sub.Value > 0 && BaseableAndNotZero.Count > 0)
+                    {
+                        Ingredient oldBase = BaseableAndNotZero[0].MemberwiseClone() as Ingredient;
+                        BaseableAndNotZero[0] = BaseableAndNotZero[0] - sub;
+                        Ingredient newSubValue = sub - (oldBase - BaseableAndNotZero[0]);
+                        
+                        sub.Unit = newSubValue.Unit;
+                        sub.Value = newSubValue.Value;
+                    }
+                }
+            }
+            return from;
         }
         public Ingredient This
         {
