@@ -29,6 +29,14 @@ namespace Cooktapi.Shopping
             }
             //Add the base list
             reqList = Ingredient.MergeList(reqList);
+            for (int i = 0; i < 0; i++)
+            {
+                if (reqList[i].Unit.ToBase != 0 && reqList[i].Unit.ToBase != 1)
+                {
+                    reqList[i].ChangeUnitToBase();
+                }
+            }
+            //change reqlist into
             return reqList;
         }
 

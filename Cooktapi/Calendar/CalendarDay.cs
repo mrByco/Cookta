@@ -96,6 +96,8 @@ namespace Cooktapi.Calendar
                         default:
                             throw new NotImplementedException();
                     };
+                    if (item == null)
+                        continue;
                     item.SetDose(jarray.ElementAt(i).Value<float?>("members") ?? 4f);
                     item.SetIsFixed(jarray.ElementAt(i).Value<bool?>("fixed") ?? false);
                     if (item != null)

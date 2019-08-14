@@ -66,17 +66,17 @@ namespace Cooktapi.Stocker
             jStockItem.Add("type", JToken.FromObject("ing"));
             return jStockItem.ToString(Formatting.None);
         }
-        public async Task<double> SetValue(double value)
+        public async Task<double> SetValue(double value, Unit unit)
         {
             //"typeid": "ingredientId, or productId4",
             //"delta": -1
-
+            this.Unit = unit;
             this.Value = value;
             string body = CreateServerJson(this);
             var res = await Networking.Networking.PostRequestWithForceAuth("stock", body);
             return value;
         }
-        public async Task AddToStock()
+        public async Task SetInStock()
         {
             string body = CreateServerJson(this);
             var res = await Networking.Networking.PostRequestWithForceAuth("stock", body);

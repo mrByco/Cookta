@@ -19,9 +19,12 @@
                             <ColumnDefinition Width="auto" MinWidth="250"/>
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{x:Bind ToString()}" HorizontalAlignment="Left"/>
                         <TextBlock Grid.Column="2" Text="{x:Bind InheritedsString}" HorizontalAlignment="Left"/>
+                        <Button x:Name="Done" Content="Kész" Click="Done_Click" Tag="{x:Bind This}" Grid.Column="4"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

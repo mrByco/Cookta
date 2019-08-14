@@ -34,8 +34,12 @@ namespace Cooktapi.Stocker
         public async static Task AddItemToStock(IngredientType type, Unit unit, double value)
         {
             var item = new StockItem(value, unit, type, DateTime.Now, DateTime.Now, null);
-            await item.AddToStock();
-        } 
-        
+
+            var sameTypeUnit = (await GetCurrentStock()).Find((i) => { return i.IngredientType.ID == type.ID && i.Unit.id == unit.id; });
+            if (sameTypeUnit != null)
+                await sameTypeUnit.AddValue(value);
+            else
+                await item.SetInStock();
+        }
     }
 }
