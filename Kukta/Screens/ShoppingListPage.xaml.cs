@@ -1,5 +1,6 @@
 ﻿using Cooktapi.Food;
 using Cooktapi.Shopping;
+using Cooktapi.Stocker;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -56,6 +57,13 @@ namespace Kukta.Screens
                     m_Items.Add(ing);
                 }
             });
+        }
+
+        private void Done_Click(object sender, RoutedEventArgs e)
+        {
+            Ingredient ing = (sender as Button).Tag as Ingredient;
+            m_Items.Remove(ing);
+            Task.Run(async () => { await Stock.AddItemToStock(ing.Type, ing.Unit, ing.Value); });
         }
     }
 }

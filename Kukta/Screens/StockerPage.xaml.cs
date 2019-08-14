@@ -1,4 +1,5 @@
-﻿using Cooktapi.Stocker;
+﻿using Cooktapi.Measuring;
+using Cooktapi.Stocker;
 using Kukta.UI;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace Kukta.Screens
         }
         public readonly ObservableCollection<StockItem> StockItems = new ObservableCollection<StockItem>();
         private double newValue = 0;
+        private Unit newUnit;
         private StockItem selectedItem;
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -94,6 +96,8 @@ namespace Kukta.Screens
             grid.ColumnDefinitions.Clear();
             grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 
             dialog.Content = grid;
 
@@ -102,30 +106,37 @@ namespace Kukta.Screens
             Grid.SetColumnSpan(titleText, 3);
             grid.Children.Add(titleText);
 
-            TextBlock text = new TextBlock() { Text = "Új érték: ", VerticalAlignment = VerticalAlignment.Center};
+            TextBlock text = new TextBlock() { Text = "Új érték: ", VerticalAlignment = VerticalAlignment.Center, FontSize = 16};
             Grid.SetRow(text, 1);
             Grid.SetColumn(text, 0);
             grid.Children.Add(text);
 
-
-            TextBox valueTextBox = new TextBox() { PlaceholderText = "pl.: 5", Text = item.Value.ToString(), VerticalAlignment = VerticalAlignment.Center};
+            newValue = item.Value;
+            TextBox valueTextBox = new TextBox() {PlaceholderText = "pl.: 5", Text = newValue.ToString(), VerticalAlignment = VerticalAlignment.Center};
             Grid.SetRow(valueTextBox, 1);
             Grid.SetColumn(valueTextBox, 1);
-            valueTextBox.Height = 40;
             valueTextBox.TextChanged += OnValueText_Changed;
             grid.Children.Add(valueTextBox);
+
+            newUnit = item.Unit;
+            ComboBox unitCombobox = new ComboBox() { ItemsSource = item.ToIngredient().Type.GetUnits(), SelectedItem = newUnit};
+            unitCombobox.SelectionChanged += UnitCombobox_Changed;
+            Grid.SetRow(unitCombobox, 1);
+            Grid.SetColumn(unitCombobox, 2);
+            grid.Children.Add(unitCombobox);
 
             Button SaveBTN = new Button()
             {
                 Content = "Beállítás",
                 VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(5),
             };
-            Grid.SetRow(valueTextBox, 1);
-            Grid.SetColumn(valueTextBox, 2);
+            Grid.SetRow(SaveBTN, 1);
+            Grid.SetColumn(SaveBTN, 3);
             SaveBTN.Click += async (a, b) =>
             {
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { dialog.Hide(); });
-                await item.SetValue(newValue);
+                await item.SetValue(newValue, newUnit);
                 ReloadItems();
             };
 
@@ -133,6 +144,11 @@ namespace Kukta.Screens
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             dialog.ShowAsync();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
+        private void UnitCombobox_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            newUnit = e.AddedItems[0] as Unit;
         }
 
         private void OnValueText_Changed(object sender, TextChangedEventArgs e)
