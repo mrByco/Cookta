@@ -26,11 +26,11 @@ namespace Cooktapi.Networking
         public static async Task<IRestResponse> PostRequestWithForceAuth(string path, string body)
         {
             var request = new RestRequest(path, Method.POST);
-            if (User.AccessToken == null)
+            if (OwnUser.CurrentUser.AccessToken == null)
             {
                 await Cookta.DoLogin();
             }
-            request.AddHeader("Authorization", "Bearer " + User.AccessToken);
+            request.AddHeader("Authorization", "Bearer " + OwnUser.CurrentUser.AccessToken);
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Content-Type", "application/json");
             request.AddJsonBody(body);
@@ -42,11 +42,11 @@ namespace Cooktapi.Networking
         public static async Task<IRestResponse> PutRequestWithForceAuth(string path, string body)
         {
             var request = new RestRequest(path, Method.PUT);
-            if (User.AccessToken == null)
+            if (OwnUser.CurrentUser.AccessToken == null)
             {
                 await Cookta.DoLogin();
             }
-            request.AddHeader("Authorization", "Bearer " + User.AccessToken);
+            request.AddHeader("Authorization", "Bearer " + OwnUser.CurrentUser.AccessToken);
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Content-Type", "application/json");
             request.AddJsonBody(body);
@@ -82,11 +82,11 @@ namespace Cooktapi.Networking
         public static async Task<IRestResponse> DeleteRequestWithForceAuth(string path, Dictionary<string, object> query)
         {
             var request = new RestRequest(path, Method.DELETE);
-            if (User.AccessToken == null)
+            if (OwnUser.CurrentUser.AccessToken == null)
             {
                 return null;
             }
-            request.AddHeader("Authorization", "Bearer " + User.AccessToken);
+            request.AddHeader("Authorization", "Bearer " + OwnUser.CurrentUser.AccessToken);
             foreach (string name in query.Keys.ToArray())
             {
                 request.AddParameter(name, query[name], ParameterType.QueryString);
@@ -116,9 +116,9 @@ namespace Cooktapi.Networking
         public static async Task<IRestResponse> GetRequestSimple(string path, Dictionary<string, object> query)
         {
             var request = new RestRequest(path, Method.GET);
-            if (User.AccessToken != null)
+            if (OwnUser.CurrentUser?.AccessToken != null)
             {
-                request.AddHeader("Authorization", "Bearer " + User.AccessToken);
+                request.AddHeader("Authorization", "Bearer " + OwnUser.CurrentUser.AccessToken);
             }
             request.RequestFormat = DataFormat.Json;
             foreach (string name in query.Keys.ToArray())
@@ -133,12 +133,12 @@ namespace Cooktapi.Networking
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         private static async Task<string> GetAccessToken()
         {
-            if (User.AccessToken == null)
+            if (OwnUser.CurrentUser?.AccessToken == null)
             {
-                await User.LoginUser();
+                await OwnUser.LoginUser();
 
             }
-            return User.AccessToken;
+            return OwnUser.CurrentUser.AccessToken;
 
         }
         private static void checkResponse(IRestResponse response)

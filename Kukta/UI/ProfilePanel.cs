@@ -29,7 +29,7 @@ namespace Kukta.UI
         {
             Children.Clear();
             //Draw layout
-            string userName = User.DisplayName;
+            string userName = OwnUser.CurrentUser.DisplayName;
             TextBlock NameTextBlock = new TextBlock()
             {
                 Text = userName,

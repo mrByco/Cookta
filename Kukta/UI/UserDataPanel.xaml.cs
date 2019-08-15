@@ -39,16 +39,16 @@ namespace Kukta.UI
         private async void NoLoginBTN_Click(object sender, RoutedEventArgs e)
         {
             SetLoading?.Invoke(true);
-            await User.SetRandomUserName();
-            App.SwitchToMainPage(User.Permissions);
+            await OwnUser.SetRandomUserName();
+            App.SwitchToMainPage(OwnUser.CurrentUser.Permissions);
             SetLoading?.Invoke(false);
         }
 
         private async void LoginBTNClick(object sender, RoutedEventArgs e)
         {
             SetLoading?.Invoke(true);
-            await User.ChangeUserName(UserNameTextBox.Text);
-            App.SwitchToMainPage(User.Permissions);
+            await OwnUser.ChangeUserName(UserNameTextBox.Text);
+            App.SwitchToMainPage(OwnUser.CurrentUser.Permissions);
             SetLoading?.Invoke(false);
         }
 
@@ -76,7 +76,7 @@ namespace Kukta.UI
                 ValidationTaskCancellationToken.ThrowIfCancellationRequested();
                 await Task.Delay(1500);
                 ValidationTaskCancellationToken.ThrowIfCancellationRequested();
-                var errors = await User.ValidateUsername(username);
+                var errors = await OwnUser.ValidateUsername(username);
 
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {

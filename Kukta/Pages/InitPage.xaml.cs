@@ -73,7 +73,7 @@ namespace Kukta
         private async void Logout()
         {
             await SetLoadingAsync(true);
-            await User.LogoutUser();
+            await OwnUser.LogoutUser();
             SwitchToLogin();
             await SetLoadingAsync(false);
         }

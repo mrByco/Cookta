@@ -39,7 +39,7 @@ namespace Kukta.UI
         private async void LoginBTNClick(object sender, RoutedEventArgs e)
         {
             SetLoading?.Invoke(true);
-            await User.LoginUser();
+            await OwnUser.LoginUser();
             //if (!res.IsError)
             //{
             //    try
@@ -62,15 +62,15 @@ namespace Kukta.UI
             //    }
             //    return;
             //}
-            if (User.IsLoggedIn)
+            if (OwnUser.CurrentUser.IsLoggedIn)
             {
-                if (User.DisplayName == null || User.DisplayName == "")
+                if (OwnUser.CurrentUser.DisplayName == null || OwnUser.CurrentUser.DisplayName == "")
                 {
                     parent.SwitchToUserData();
                 }
                 else
                 {
-                    App.SwitchToMainPage(User.Permissions);
+                    App.SwitchToMainPage(OwnUser.CurrentUser.Permissions);
                 }
             }
             SetLoading?.Invoke(false);

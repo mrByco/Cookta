@@ -23,7 +23,7 @@ namespace Cooktapi.Food
         {
             get
             {
-                return this.owner == User.Sub;
+                return this.owner == OwnUser.CurrentUser.Sub;
             }
         }
         public bool subcribed { get; set; }

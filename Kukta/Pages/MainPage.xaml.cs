@@ -58,7 +58,7 @@ namespace Kukta
         {
             this.InitializeComponent();
             instance = this;
-            User.SubscribeFor(UpdateLoginButton);
+            OwnUser.SubscribeFor(UpdateLoginButton);
             DoNav += new NavigateTo(NavView_Navigate);
         }
 
@@ -91,9 +91,9 @@ namespace Kukta
             }
             catch
             {
-                if (User.IsLoggedIn)
+                if (OwnUser.CurrentUser.IsLoggedIn)
                 {
-                    permissions = User.Permissions;
+                    permissions = OwnUser.CurrentUser.Permissions;
                 }
             }
 
@@ -112,7 +112,7 @@ namespace Kukta
 
         private void UpdateLoginButton()
         {
-            AccountItem.Content = User.GetClaim("name")?? "Bejelentkezés";
+            AccountItem.Content = OwnUser.GetClaim("name")?? "Bejelentkezés";
         }
 
         public static void NavigateTo(string navItemTag, NavigationTransitionInfo info, object param)

@@ -30,33 +30,33 @@ namespace Kukta.Screens
         }
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!User.IsLoggedIn)
-                await User.LoginUser();
+            if (!OwnUser.CurrentUser.IsLoggedIn)
+                await OwnUser.LoginUser();
             UpdateData();
         }
         private void UpdateData()
         {
-            if (User.IsLoggedIn && User.ProfilPic != null)
-                Picture.ProfilePicture = new BitmapImage(new Uri(User.ProfilPic, UriKind.Absolute));
-            else if (User.DisplayName != "")
+            if (OwnUser.CurrentUser.IsLoggedIn && OwnUser.CurrentUser.ProfilPic != null)
+                Picture.ProfilePicture = new BitmapImage(new Uri(OwnUser.CurrentUser.ProfilPic, UriKind.Absolute));
+            else if (OwnUser.CurrentUser.DisplayName != "")
             {
-                Picture.DisplayName = User.DisplayName;
+                Picture.DisplayName = OwnUser.CurrentUser.DisplayName;
             }
 
-            NameTextBlock.Text = User.DisplayName ?? "";
-            if (User.Role == "dev")
+            NameTextBlock.Text = OwnUser.CurrentUser.DisplayName ?? "";
+            if (OwnUser.CurrentUser.Role == "dev")
             {
                 SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
             }
-            else if (User.Role == "owner")
+            else if (OwnUser.CurrentUser.Role == "owner")
             {
                 SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
             }
-            else if (User.Role == "test")
+            else if (OwnUser.CurrentUser.Role == "test")
             {
                 SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
             }
-            else if (User.Role == "gold-test")
+            else if (OwnUser.CurrentUser.Role == "gold-test")
             {
                 SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
             }

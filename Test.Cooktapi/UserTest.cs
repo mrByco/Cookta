@@ -22,7 +22,7 @@ namespace Test.Cooktapi
             Token = GetDebugToken();
             Cookta = new Cookta(null, null, null, false);
             await Cookta.Init();
-            User.SetupForTest(Token);
+            OwnUser.SetupForTest(Token);
         }
         [TestMethod]
         public void CheckTokenNotNull_FailIfTokenNull()
@@ -33,32 +33,32 @@ namespace Test.Cooktapi
         [TestMethod]
         public void SetupUser_FailIfUserDataFailedAfterInitAsync()
         {
-            Assert.IsNotNull(User.DisplayName);
+            Assert.IsNotNull(OwnUser.DisplayName);
         }
         [TestMethod]
         public async Task Test_UserNameValidation_CharacterCount()
         {
-            var errors = await User.ValidateUsername("AB");
-            errors.AddRange(await User.ValidateUsername("OpTim4l" + new Random().Next(999)));
-            errors.AddRange (await User.ValidateUsername("Fifteen character long username"));
+            var errors = await OwnUser.ValidateUsername("AB");
+            errors.AddRange(await OwnUser.ValidateUsername("OpTim4l" + new Random().Next(999)));
+            errors.AddRange (await OwnUser.ValidateUsername("Fifteen character long username"));
             Assert.IsTrue(errors.Count == 2, "Error count is: " + errors.Count);
         }
         [TestMethod]
         public async Task Test_UserNameValidation_Availability()
         {
-            var errors = await User.ValidateUsername(User.DisplayName);
+            var errors = await OwnUser.ValidateUsername(OwnUser.DisplayName);
             Assert.IsTrue(errors.Count == 1);
         }
         [TestMethod]
         public async Task Test_ChangeTheUserName_FailIfUsernameNotChanged()
         {
-            string oldName = User.DisplayName;
-            await User.ChangeUserName("N" + oldName);
-            Assert.AreNotEqual(oldName, User.DisplayName);
+            string oldName = OwnUser.DisplayName;
+            await OwnUser.ChangeUserName("N" + oldName);
+            Assert.AreNotEqual(oldName, OwnUser.DisplayName);
 
             //Restore the old name
-            await User.ChangeUserName(oldName);
-            Assert.AreEqual(oldName, User.DisplayName);
+            await OwnUser.ChangeUserName(oldName);
+            Assert.AreEqual(oldName, OwnUser.DisplayName);
         }
         private string GetDebugToken()
         {
