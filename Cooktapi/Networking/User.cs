@@ -56,6 +56,9 @@ namespace Cooktapi.Networking
                 return false;
             }
         }
+        /// <summary>
+        /// Uploads the local changes and redownload the complete user profile
+        /// </summary>
         internal static async Task RefreshUserData()
         {
             IsLoggedIn = LoginResult != null && !LoginResult.IsError;
@@ -184,7 +187,7 @@ namespace Cooktapi.Networking
         {
             //Validate
             var errors = await ValidateUsername(username);
-            if (errors.Count == 0)
+            if (errors.Count != 0)
                 return errors;
             //Update username
             DisplayName = username;
