@@ -81,6 +81,7 @@ namespace Kukta
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            App.ChangeTitleBarColor(Windows.UI.Colors.LightGray);
             List<string> permissions = new List<string>();
             try
             {
