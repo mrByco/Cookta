@@ -88,9 +88,8 @@ namespace Kukta
 
             AppCenter.Start("0a8b4e1b-90db-4bd5-a66d-a25d8e690353", new Type[2] { typeof(Crashes), typeof(Analytics)} );
 
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = Windows.UI.Colors.Blue;
-            titleBar.ButtonBackgroundColor = Windows.UI.Colors.Blue;
+            ApplicationView appView = ApplicationView.GetForCurrentView();
+            appView.Title = GetAppVersion();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -135,7 +134,12 @@ namespace Kukta
         {
             SwitchToInitPage("RENAME");
         }
-
+        public static void ChangeTitleBarColor(Windows.UI.Color color)
+        {
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.BackgroundColor = color;
+            titleBar.ButtonBackgroundColor = color;
+        }
         public static void SwitchToInitPage(string param)
         {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -201,7 +205,7 @@ namespace Kukta
             PackageId packageId = package.Id;
             PackageVersion version = packageId.Version;
 
-            return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+            return string.Format("v{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
 
         internal async static Task<LoginResult> SignUpLogin()

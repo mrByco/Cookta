@@ -44,6 +44,7 @@ namespace Kukta
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            App.ChangeTitleBarColor(Windows.UI.Colors.Brown);
             try
             {
                 string command = e.Parameter as string;
