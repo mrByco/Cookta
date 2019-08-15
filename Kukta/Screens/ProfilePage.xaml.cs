@@ -28,13 +28,19 @@ namespace Kukta.Screens
         {
             this.InitializeComponent();
         }
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e">the parameter is a string, the id of the opening user</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!OwnUser.CurrentUser.IsLoggedIn)
-                await OwnUser.LoginUser();
-            UpdateData();
+            string id = e.Parameter as string;
+            if (id == OwnUser.CurrentUser.Sub)
+            {
+                UpdateData(OwnUser.CurrentUser);
+            }
         }
-        private void UpdateData()
+        private void UpdateData(User user)
         {
             if (OwnUser.CurrentUser.IsLoggedIn && OwnUser.CurrentUser.ProfilPic != null)
                 Picture.ProfilePicture = new BitmapImage(new Uri(OwnUser.CurrentUser.ProfilPic, UriKind.Absolute));
@@ -44,25 +50,28 @@ namespace Kukta.Screens
             }
 
             NameTextBlock.Text = OwnUser.CurrentUser.DisplayName ?? "";
-            if (OwnUser.CurrentUser.Role == "dev")
+            if (user is OwnUser ownUser)
             {
-                SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
-            }
-            else if (OwnUser.CurrentUser.Role == "owner")
-            {
-                SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
-            }
-            else if (OwnUser.CurrentUser.Role == "test")
-            {
-                SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
-            }
-            else if (OwnUser.CurrentUser.Role == "gold-test")
-            {
-                SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
-            }
-            else
-            {
-                SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+                if (ownUser.Role == "dev")
+                {
+                    SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
+                }
+                else if (ownUser.Role == "owner")
+                {
+                    SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
+                }
+                else if (ownUser.Role == "test")
+                {
+                    SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
+                }
+                else if (ownUser.Role == "gold-test")
+                {
+                    SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
+                }
+                else
+                {
+                    SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+                }
             }
         }
 

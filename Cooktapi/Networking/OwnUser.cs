@@ -104,8 +104,6 @@ namespace Cooktapi.Networking
         internal static void Clear()
         {
             m_CurrentUser = null;
-
-            CurrentUser.IsLoggedIn = false;
         }
         private static void ApplyJson(string str)
         {
