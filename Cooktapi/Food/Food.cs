@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Cooktapi.Food
 {
-    public class Food : AMealingItem, IMealingItem
+    public class Food : AMealingItem, IMealingItem, IIngredientSource
     {
         public string _id;
         public string owner;
@@ -251,10 +251,7 @@ namespace Cooktapi.Food
                     food.ingredients = new List<Ingredient>();
                     for (int i = 0; i < jarray.Count; i++)
                     {
-                        string IngID = jarray.ElementAt(i).Value<string>("ingredientID");
-                        string UnitID = jarray.ElementAt(i).Value<string>("unit");
-                        double Value = jarray.ElementAt(i).Value<double>("value");
-                        food.ingredients.Add(new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID)), new List<Food>() { food }));
+                        food.ingredients.Add(Ingredient.ParseIngredient(jarray.ElementAt(i), food));
                     }
                 }
                 else
@@ -274,11 +271,7 @@ namespace Cooktapi.Food
             JArray ingArray = new JArray();
             foreach (Ingredient ing in food.ingredients)
             {
-                JObject jObject = new JObject();
-                jObject.Add("ingredientID", ing.Type.ID);
-                jObject.Add("unit", ing.Unit?.id);
-                jObject.Add("value", ing.Value);
-                ingArray.Add(jObject);
+                ingArray.Add(Ingredient.CreateIngredientToServer(ing));
             }
 
             if (food._id != null)
