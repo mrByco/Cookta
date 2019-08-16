@@ -32,11 +32,11 @@ namespace Cooktapi
         }
         public void InitUserViaToken(string token)
         {
-            User.SetupForTest(token);
+            OwnUser.SetupForTest(token);
         }
         public void ResetCurrentUser()
         {
-            User.Clear();
+            OwnUser.Clear();
             return;
         }
 

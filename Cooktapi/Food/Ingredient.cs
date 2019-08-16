@@ -15,9 +15,9 @@ namespace Cooktapi.Food
         public Unit Unit;
         public double Value;
         public readonly IngredientType Type;
-        public List<Food> InheritedFrom = new List<Food>();
+        public List<IIngredientSource> InheritedFrom = new List<IIngredientSource>();
 
-        public Ingredient(IngredientType type, double value, Unit unit, List<Food> inheritedFrom)
+        public Ingredient(IngredientType type, double value, Unit unit, List<IIngredientSource> inheritedFrom)
         {
             this.Type = type;
             this.Value = value;
@@ -29,11 +29,11 @@ namespace Cooktapi.Food
             get
             {
                 string str = "";
-                foreach (Food food in InheritedFrom)
+                foreach (IIngredientSource source in InheritedFrom)
                 {
                     if (str.Length > 0)
                         str = str + ", ";
-                    str = str + food.name;
+                    str = str + source.GetName();
                 }
                 return str;
             }
@@ -82,6 +82,19 @@ namespace Cooktapi.Food
 
 
             return new Ingredient(newB.Type, newB.Value - newC.Value, newB.Unit, b.InheritedFrom);
+        }
+        public static List<Ingredient> FilterOnZero(List<Ingredient> ingredients)
+        {
+            var nozero = new List<Ingredient>();
+            foreach (Ingredient ing in ingredients)
+            {
+                if (ing.Value > 0)
+                {
+                    nozero.Add(ing);
+                }
+            }
+
+            return nozero;
         }
         public static List<Ingredient> MergeList(List<Ingredient> list)
         {
@@ -174,6 +187,44 @@ namespace Cooktapi.Food
             {
                 return this;
             }
+        }
+        internal static Ingredient ParseIngredient(JToken token, IIngredientSource source)
+        {
+
+            string IngID = token.Value<string>("ingredientID");
+            string UnitID = token.Value<string>("unit");
+            double Value = token.Value<double>("value");
+            return new Ingredient(IngredientType.GetByID(IngID), Value, Unit.GetUnit(UnitID, Cooktapi.Food.IngredientType.GetByID(IngID)), new List<IIngredientSource>() { source });
+        }
+        internal static JObject CreateIngredientToServer(Ingredient ing)
+        { 
+            JObject jObject = new JObject();
+            jObject.Add("ingredientID", ing.Type.ID);
+            jObject.Add("unit", ing.Unit?.id);
+            jObject.Add("value", ing.Value);
+            return jObject;
+        }
+        internal static List<Ingredient> ParseIngredientList(string str)
+        {
+            List<Ingredient> Ingredients = new List<Ingredient>();
+            if (str == "")
+            {
+                return new List<Ingredient>();
+            }
+            JArray jarray;
+            try
+            {
+                jarray = JArray.Parse(str);
+            }
+            catch (JsonReaderException)
+            {
+                return new List<Ingredient>();
+            }
+            for (int i = 0; i < jarray.Count; i++)
+            {
+                Ingredients.Add(Ingredient.ParseIngredient(jarray.ElementAt(i), new CustomIngredientSource("Alaplista")));
+            }
+            return Ingredients;
         }
         public override string ToString() => string.Format("{0} {1} {2}", Value, Unit.Name, Type.Name);
     }

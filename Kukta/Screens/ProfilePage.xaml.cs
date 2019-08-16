@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,42 +29,68 @@ namespace Kukta.Screens
         {
             this.InitializeComponent();
         }
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e">the parameter is a string, the id of the opening user</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!User.IsLoggedIn)
-                await User.LoginUser();
-            UpdateData();
-        }
-        private void UpdateData()
-        {
-            if (User.IsLoggedIn && User.ProfilPic != null)
-                Picture.ProfilePicture = new BitmapImage(new Uri(User.ProfilPic, UriKind.Absolute));
-            else if (User.DisplayName != "")
+            string id = e.Parameter as string;
+            if (id == OwnUser.CurrentUser.Sub)
             {
-                Picture.DisplayName = User.DisplayName;
-            }
-
-            NameTextBlock.Text = User.DisplayName ?? "";
-            if (User.Role == "dev")
-            {
-                SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
-            }
-            else if (User.Role == "owner")
-            {
-                SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
-            }
-            else if (User.Role == "test")
-            {
-                SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
-            }
-            else if (User.Role == "gold-test")
-            {
-                SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
+                UpdateData(OwnUser.CurrentUser);
             }
             else
             {
-                SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+                Task.Run(() => { LoadUser(id); });
             }
+        }
+        private async void LoadUser(string id)
+        {
+            var user = await User.GetUser(id);
+            UpdateData(user);
+        }
+        private async void UpdateData(User user)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                if (user.ProfilPic != null)
+                    Picture.ProfilePicture = new BitmapImage(new Uri(user.ProfilPic, UriKind.Absolute));
+                else if (user.DisplayName != "")
+                {
+                    Picture.DisplayName = user.DisplayName;
+                }
+
+                NameTextBlock.Text = user.DisplayName ?? "";
+                if (user is OwnUser ownUser)
+                {
+                    if (ownUser.Role == "dev")
+                    {
+                        SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
+                    }
+                    else if (ownUser.Role == "owner")
+                    {
+                        SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
+                    }
+                    else if (ownUser.Role == "test")
+                    {
+                        SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
+                    }
+                    else if (ownUser.Role == "gold-test")
+                    {
+                        SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
+                    }
+                    else
+                    {
+                        SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+                    }
+                }
+                else
+                {
+                    LogoutBTN.Visibility = Visibility.Collapsed;
+                    ChangeUserNameBTN.Visibility = Visibility.Collapsed;
+                }
+            });
         }
 
         private void LogoutBTN_Click(object sender, RoutedEventArgs e)

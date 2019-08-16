@@ -44,6 +44,7 @@ namespace Kukta.Screens
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             Task.Run(() => { RefreshUnShopped(); });
+
         }
 
         private async void RefreshUnShopped()

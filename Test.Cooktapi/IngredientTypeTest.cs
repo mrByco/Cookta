@@ -22,7 +22,7 @@ namespace Test.Cooktapi
             Token = GetDebugToken();
             Cookta = new Cookta(null, null, null, false);
             await Cookta.Init();
-            User.SetupForTest(Token);
+            OwnUser.SetupForTest(Token);
         }
         [TestMethod]
         public void TestIngredientTypesDownloaded_ErrorIfTypesCountLessThen5()

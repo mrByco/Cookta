@@ -30,7 +30,7 @@ namespace Cooktapi.Stocker
         }
         public Ingredient ToIngredient()
         {
-            return new Ingredient(IngredientType, Value, Unit, new List<Food.Food>());
+            return new Ingredient(IngredientType, Value, Unit, new List<IIngredientSource>());
         }
 
         public static StockItem ParseFromServerJson(string json)

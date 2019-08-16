@@ -39,26 +39,27 @@ namespace Kukta
 
 
         // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
-        private readonly List<(string Tag, Type Page, bool setNavNull)> _pages = new List<(string Tag, Type Page, bool setNavNull)>
+        private readonly List<(string Tag, Type Page, bool setNavNull, string param)> _pages = new List<(string Tag, Type Page, bool setNavNull, string param)>
 {
-    ("home", typeof(HomePage), false),
-    ("calendar", typeof(CalendarPage), false),
-    ("templates", typeof(WeekTemplatePage), false),
-    ("lists", typeof(FoodCategories), false),
-    ("foods", typeof(FoodEditor), false),
-    ("shoppinglist", typeof(ShoppingListPage), false),
-    ("stocker", typeof(StockerPage), false),
-    ("account", typeof(ProfilePage), false),
-    ("tageditor", typeof(TagEditorPage), false),
-    ("ingredients", typeof(IngredientPage), false),
-    ("fooddetail", typeof(FoodDetailPage), true),
+    ("home", typeof(HomePage), false, null),
+    ("calendar", typeof(CalendarPage), false, null),
+    ("templates", typeof(WeekTemplatePage), false, null),
+    ("lists", typeof(FoodCategories), false, null),
+    ("foods", typeof(FoodEditor), false, null),
+    ("shoppinglist", typeof(ShoppingListPage), false, null),
+    ("baselist", typeof(BaselistPage), false, null),
+    ("stocker", typeof(StockerPage), false, null),
+    ("account", typeof(ProfilePage), false, OwnUser.CurrentUser?.Sub),
+    ("tageditor", typeof(TagEditorPage), false, null),
+    ("ingredients", typeof(IngredientPage), false, null),
+    ("fooddetail", typeof(FoodDetailPage), true, null),
 };
 
         public MainPage()
         {
             this.InitializeComponent();
             instance = this;
-            User.SubscribeFor(UpdateLoginButton);
+            OwnUser.SubscribeFor(UpdateLoginButton);
             DoNav += new NavigateTo(NavView_Navigate);
         }
 
@@ -91,9 +92,9 @@ namespace Kukta
             }
             catch
             {
-                if (User.IsLoggedIn)
+                if (OwnUser.CurrentUser.IsLoggedIn)
                 {
-                    permissions = User.Permissions;
+                    permissions = OwnUser.CurrentUser.Permissions;
                 }
             }
 
@@ -112,7 +113,7 @@ namespace Kukta
 
         private void UpdateLoginButton()
         {
-            AccountItem.Content = User.GetClaim("name")?? "Bejelentkezés";
+            AccountItem.Content = OwnUser.GetClaim("name")?? "Bejelentkezés";
         }
 
         public static void NavigateTo(string navItemTag, NavigationTransitionInfo info, object param)
@@ -132,6 +133,7 @@ namespace Kukta
             {
                 var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
                 _page = item.Page;
+                parameter = parameter ?? item.param;
                 if (item.setNavNull)
                 {
                     NavView.SelectedItem = null;
