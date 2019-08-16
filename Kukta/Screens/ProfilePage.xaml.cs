@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -39,40 +40,57 @@ namespace Kukta.Screens
             {
                 UpdateData(OwnUser.CurrentUser);
             }
-        }
-        private void UpdateData(User user)
-        {
-            if (OwnUser.CurrentUser.IsLoggedIn && OwnUser.CurrentUser.ProfilPic != null)
-                Picture.ProfilePicture = new BitmapImage(new Uri(OwnUser.CurrentUser.ProfilPic, UriKind.Absolute));
-            else if (OwnUser.CurrentUser.DisplayName != "")
+            else
             {
-                Picture.DisplayName = OwnUser.CurrentUser.DisplayName;
+                Task.Run(() => { LoadUser(id); });
             }
-
-            NameTextBlock.Text = OwnUser.CurrentUser.DisplayName ?? "";
-            if (user is OwnUser ownUser)
+        }
+        private async void LoadUser(string id)
+        {
+            var user = await User.GetUser(id);
+            UpdateData(user);
+        }
+        private async void UpdateData(User user)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                if (ownUser.Role == "dev")
+                if (user.ProfilPic != null)
+                    Picture.ProfilePicture = new BitmapImage(new Uri(user.ProfilPic, UriKind.Absolute));
+                else if (user.DisplayName != "")
                 {
-                    SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
+                    Picture.DisplayName = user.DisplayName;
                 }
-                else if (ownUser.Role == "owner")
+
+                NameTextBlock.Text = user.DisplayName ?? "";
+                if (user is OwnUser ownUser)
                 {
-                    SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
-                }
-                else if (ownUser.Role == "test")
-                {
-                    SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
-                }
-                else if (ownUser.Role == "gold-test")
-                {
-                    SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
+                    if (ownUser.Role == "dev")
+                    {
+                        SubInfoTextBlock.Text = "Fejlesztő - korlátlan hozzáférés";
+                    }
+                    else if (ownUser.Role == "owner")
+                    {
+                        SubInfoTextBlock.Text = "Tulajdonos - korlátlan hozzáférés";
+                    }
+                    else if (ownUser.Role == "test")
+                    {
+                        SubInfoTextBlock.Text = "Tesztelő - korlátlan hozzáférés";
+                    }
+                    else if (ownUser.Role == "gold-test")
+                    {
+                        SubInfoTextBlock.Text = "Arany tesztelő - korlátlan prémium időtartam.";
+                    }
+                    else
+                    {
+                        SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+                    }
                 }
                 else
                 {
-                    SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
+                    LogoutBTN.Visibility = Visibility.Collapsed;
+                    ChangeUserNameBTN.Visibility = Visibility.Collapsed;
                 }
-            }
+            });
         }
 
         private void LogoutBTN_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using Cooktapi.Food;
+using Cooktapi.Networking;
 using Kukta.ContentDialogs;
 using Kukta.UI;
 using RestSharp;
@@ -30,6 +31,7 @@ namespace Kukta.Screens
     public sealed partial class FoodDetailPage : Page
     {
         public Food CurrentFood = null;
+        public User CurrentUser;
         //private IngredientList IngList;
         private int CurrentDose = 4;
         public FoodDetailPage()
@@ -64,6 +66,9 @@ namespace Kukta.Screens
             {
                 CurrentFood = await Food.Get(id);
             }
+
+            CurrentUser = await User.GetUser(CurrentFood.owner);
+
             if (CurrentFood == null)
             {
                 editMode = true;
@@ -129,7 +134,8 @@ namespace Kukta.Screens
                 UploaderName.Visibility = Visibility.Visible;
                 LastModified.Visibility = Visibility.Visible;
                 UploaderPicture.Visibility = Visibility.Visible;
-                UploaderName.Content = "[Feltöltő]";//CurrentFood.owner;
+                UploaderPicture.ProfilePicture = new BitmapImage(new Uri(CurrentUser.ProfilPic, UriKind.Absolute));
+                UploaderName.Content = CurrentUser.DisplayName;
                 LastModified.Text = CurrentFood.LastModified.ToString("yyyy-MM-dd hh:mm");
                 IngredientList.EditMode = editMode;
                 IngredientList.SetItems(CurrentFood.ingredients);
@@ -246,6 +252,7 @@ namespace Kukta.Screens
             MainPage.NavigateTo("foods", null, null);
         }
 
+
         private async void UploadImageBTN_Click(object sender, RoutedEventArgs e)
         {
             var picker = new Windows.Storage.Pickers.FileOpenPicker();
@@ -318,6 +325,11 @@ namespace Kukta.Screens
         private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshIsValid();
+        }
+
+        private void UploaderName_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage.NavigateTo("account", null, CurrentUser?.Sub);
         }
     }
 }

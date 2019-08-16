@@ -58,7 +58,7 @@
                         <StackPanel Grid.Column="0" Margin="20" Spacing="2">
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <PersonPicture Height="25" Name="UploaderPicture"/>
-                                <HyperlinkButton Content="[Feltöltö]" Name="UploaderName"/>
+                                <HyperlinkButton Content="[Feltöltö]" Name="UploaderName" Click="UploaderName_Click"/>
                             </StackPanel>
                             <TextBlock FontStyle="Italic" Name="LastModified"/>
                         </StackPanel>
