@@ -23,6 +23,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Kukta.UI
 {
+    public delegate void IngredientAddedEvent(Ingredient added);
+    public delegate void IngredientRemovedEvent(Ingredient removed);
     public sealed partial class IngrtedientListControl : UserControl, INotifyPropertyChanged
     {
         public IngrtedientListControl()
@@ -30,6 +32,8 @@ namespace Kukta.UI
             this.InitializeComponent();
 
         }
+        public event IngredientAddedEvent OnIngredientAdded;
+        public event IngredientRemovedEvent OnIngredientRemoved;
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
@@ -46,6 +50,19 @@ namespace Kukta.UI
             {
                 m_EditMode = value;
                 OnPropertyChanged("EditMode");
+            }
+        }
+        private string m_Title = "TitleText";
+        public string Title
+        {
+            get
+            {
+                return m_Title;
+            }
+            set
+            {
+                m_Title = value;
+                OnPropertyChanged("Title");
             }
         }
 
@@ -73,6 +90,7 @@ namespace Kukta.UI
         private void removeBTNClick(Ingredient ing)
         {
             Ingredients.Remove(ing);
+            OnIngredientRemoved?.Invoke(ing);
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -104,6 +122,7 @@ namespace Kukta.UI
         private void IngredientAdderControl_OnIngredeintAdded(Ingredient added)
         {
             Ingredients.Add(added);
+            OnIngredientAdded?.Invoke(added);
         }
     }
 }

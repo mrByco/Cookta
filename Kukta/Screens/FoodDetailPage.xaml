@@ -87,7 +87,7 @@
                             <TextBlock Name="DoseTextBlock" VerticalAlignment="Center"/>
                             <TextBlock Text=" adagra vannak megadva." VerticalAlignment="Center"/>
                         </StackPanel>
-                        <frame:IngrtedientListControl x:Name="IngredientList"/>
+                        <frame:IngrtedientListControl x:Name="IngredientList" Title="Hozzávalók: "/>
                         <HyperlinkButton Content="Nem találom a hozzávalót!" Name="ReportNoIngredient" Click="ReportNoIngredientBTN_click"/>
                         <TextBlock FontSize="24" Text="Egyéb beállítások" HorizontalAlignment="Center" Name="OtherSettingsTextBlock"/>
                         <ToggleSwitch x:Name="IsPublicToggle" Header="A recept publikus és elérhető mindenki számára." OnContent="Elérhető" OffContent="Nem elérhető"/>

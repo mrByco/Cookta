@@ -132,7 +132,7 @@ namespace Kukta.UI
         }
         private void AddBTN_Click(object sender, RoutedEventArgs e)
         {
-            OnIngredeintAdded?.Invoke(new Ingredient(adderType, (double)adderValue, adderUnit, new List<Food>()));
+            OnIngredeintAdded?.Invoke(new Ingredient(adderType, (double)adderValue, adderUnit, new List<IIngredientSource>()));
             adderType = null;
             IngredientSuggestionTextBox.Text = "";
             adderUnit = null;

@@ -67,7 +67,7 @@ namespace Kukta.Screens
                 CurrentFood = await Food.Get(id);
             }
 
-            CurrentUser = await User.GetUser(CurrentFood.owner);
+            CurrentUser = await User.GetUser(CurrentFood?.owner?? OwnUser.CurrentUser.Sub);
 
             if (CurrentFood == null)
             {

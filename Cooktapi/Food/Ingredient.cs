@@ -29,11 +29,11 @@ namespace Cooktapi.Food
             get
             {
                 string str = "";
-                foreach (Food food in InheritedFrom)
+                foreach (IIngredientSource source in InheritedFrom)
                 {
                     if (str.Length > 0)
                         str = str + ", ";
-                    str = str + food.name;
+                    str = str + source.GetName();
                 }
                 return str;
             }
@@ -82,6 +82,19 @@ namespace Cooktapi.Food
 
 
             return new Ingredient(newB.Type, newB.Value - newC.Value, newB.Unit, b.InheritedFrom);
+        }
+        public static List<Ingredient> FilterOnZero(List<Ingredient> ingredients)
+        {
+            var nozero = new List<Ingredient>();
+            foreach (Ingredient ing in ingredients)
+            {
+                if (ing.Value > 0)
+                {
+                    nozero.Add(ing);
+                }
+            }
+
+            return nozero;
         }
         public static List<Ingredient> MergeList(List<Ingredient> list)
         {

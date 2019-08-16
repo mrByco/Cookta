@@ -116,15 +116,6 @@ namespace Kukta.UI
                 sender.Text = "";
             }
         }
-        private void AddBTN_Click(object sender, RoutedEventArgs e)
-        {
-            OnIngredeintAdded?.Invoke(new Ingredient(adderType, (double)adderValue, adderUnit, new List<Food>()));
-            adderType = null;
-            IngredientSuggestionBox.Text = "";
-            adderUnit = null;
-            adderValue = null;
-            ValueTextBox.Text = "";
-        }
 
 
         private void ChooseIngredientType(IngredientType IngType)
@@ -150,7 +141,12 @@ namespace Kukta.UI
 
         private void AddIngrdient(object sender, RoutedEventArgs e)
         {
-            OnIngredeintAdded?.Invoke(new Ingredient(adderType, (double)adderValue, adderUnit, new List<Food>()));
+            OnIngredeintAdded?.Invoke(new Ingredient(adderType, (double)adderValue, adderUnit, new List<IIngredientSource>()));
+            adderType = null;
+            IngredientSuggestionBox.Text = "";
+            adderUnit = null;
+            adderValue = null;
+            ValueTextBox.Text = "";
         }
     }
 }

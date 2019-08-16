@@ -27,7 +27,6 @@ namespace Cooktapi.Shopping
                     }
                 }
             }
-            //Add the base list
             reqList = Ingredient.MergeList(reqList);
             for (int i = 0; i < 0; i++)
             {
@@ -36,24 +35,24 @@ namespace Cooktapi.Shopping
                     reqList[i].ChangeUnitToBase();
                 }
             }
-            //change reqlist into
+            var baseList = await Baselist.GetBaseList();
+            reqList = Ingredient.SubstractList(reqList, baseList);
+            reqList = reqList.FindAll((i) => { return i.Value > 0; });
+            reqList.AddRange(baseList);
+            reqList = Ingredient.MergeList(reqList);
             return reqList;
         }
 
         public static async Task<List<Ingredient>> GetFinalShoppingList(int forDays)
         {
             var reqList = await GetReqList(forDays);
-            //from current stock
+
             var currentStock = await Stocker.Stock.GetCurrentStock();
             var needList = Ingredient.SubstractList(reqList, Stocker.Stock.ToIngredientList(currentStock));
-            return needList;
+            var final = needList.FindAll((i) => { return i.Value > 0; });
+            return final;
         }
 
-
-        private static List<Ingredient> SubtractList(List<Ingredient> list)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }

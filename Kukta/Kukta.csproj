@@ -138,6 +138,9 @@
     </Compile>
     <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\SubcribedToVisibility.cs" />
+    <Compile Include="Screens\BaselistPage.xaml.cs">
+      <DependentUpon>BaselistPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\IngredientPage.xaml.cs">
       <DependentUpon>IngredientPage.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="ContentDialogs\ReportNotFountIngredientDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\BaselistPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

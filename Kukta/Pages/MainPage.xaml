@@ -45,6 +45,11 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xED56;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Tag="baselist" Content="Alaplista" Name="BaselistItem">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE70F;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem> 
                 <NavigationViewItem Tag="shoppinglist" Content="Bevásárló lista" Name="ShoppingListItem">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE762;"/>
