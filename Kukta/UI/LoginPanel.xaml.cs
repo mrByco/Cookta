@@ -62,7 +62,7 @@ namespace Kukta.UI
             //    }
             //    return;
             //}
-            if (OwnUser.CurrentUser.IsLoggedIn)
+            if (OwnUser.CurrentUser?.IsLoggedIn ?? false)
             {
                 if (OwnUser.CurrentUser.DisplayName == null || OwnUser.CurrentUser.DisplayName == "")
                 {

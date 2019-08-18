@@ -30,24 +30,18 @@ namespace Kukta.Screens
             this.InitializeComponent();
         }
 
-        
 
-        private ObservableCollection<UFood> m_foods = new ObservableCollection<UFood>();
+
+        public IncrementalFoodSource Foods;
         private List<Food> OriginalFoods = new List<Food>();
-        public ObservableCollection<UFood> Foods
-        {
-            get
-            {
-                return m_foods;
-            }
-        }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            OriginalFoods = await Food.GetLastFoods(1, 50);
-            m_foods = new ObservableCollection<UFood>(UFood.FromList(OriginalFoods));
-            DataPanel.ItemsSource = m_foods;
+            //OriginalFoods = await Food.Search(EFoodSearchType.All, 0, 100, new Dictionary<string, object>()) ;
 
+            Foods = new IncrementalFoodSource(EFoodSearchType.All, new Dictionary<string, object>(), Dispatcher);
+            await Foods.LoadMoreItemsAsync(1);
+            DataPanel.ItemsSource = Foods;
         }
 
         private void HomeBTN_Click(object sender, RoutedEventArgs e)
@@ -62,15 +56,13 @@ namespace Kukta.Screens
 
         private void DataPanel_ItemClick(object sender, ItemClickEventArgs e)
         {
-            string clickedID = (e.ClickedItem as UFood)._id;
+            string clickedID = (e.ClickedItem as Food)._id;
             MainPage.NavigateTo("fooddetail", null, clickedID);
         }
 
         private void Searchbox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-
-            m_foods = new ObservableCollection<UFood>(UFood.FromList(OriginalFoods.FindAll((food) => { return food.name.ToLower().Contains(sender.Text.ToLower()); })));
-            DataPanel.ItemsSource = m_foods;
+            throw new NotImplementedException();
         }
     }
 }

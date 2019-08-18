@@ -137,6 +137,7 @@
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BoolToVisibility.cs" />
+    <Compile Include="Converters\FoodToBitmapImage.cs" />
     <Compile Include="Converters\SubcribedToVisibility.cs" />
     <Compile Include="Screens\BaselistPage.xaml.cs">
       <DependentUpon>BaselistPage.xaml</DependentUpon>
@@ -156,8 +157,12 @@
     <Compile Include="Screens\TagEditorPage.xaml.cs">
       <DependentUpon>TagEditorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\TestIncrementalLoading.cs" />
     <Compile Include="UI\CalendarButton.cs" />
     <Compile Include="UI\FoodButtonV2.cs" />
+    <Compile Include="UI\FoodPanel.xaml.cs">
+      <DependentUpon>FoodPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\IMealingItemButton.cs" />
     <Compile Include="UI\IngredientAdderControl.xaml.cs">
       <DependentUpon>IngredientAdderControl.xaml</DependentUpon>
@@ -212,7 +217,7 @@
     <Compile Include="Screens\WeekTemplatePage.xaml.cs">
       <DependentUpon>WeekTemplatePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UWPLayer\UFood.cs" />
+    <Compile Include="UWPLayer\IncrementalFoodSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -308,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\TagEditorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\FoodPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

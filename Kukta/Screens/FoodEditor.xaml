@@ -5,11 +5,17 @@
     xmlns:local="using:Kukta.Screens"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:layer="using:Kukta.UWPLayer"
+    xmlns:food="using:Cooktapi.Food"
+    xmlns:converters="using:Kukta.Converters"
     RequestedTheme="Light"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded">
+    <Page.Resources>
+        <converters:SubcribedToVisibility x:Key="SubcribedToVisibility"/>
+        <converters:FoodToBitmapImage x:Key="FoodToImage"/>
+    </Page.Resources>
+    
 
     <Grid>
         <Grid.RowDefinitions>
@@ -34,9 +40,9 @@
 
             <ListView Name="MyFoodsListView" ItemsSource="{x:Bind FilteredMyFoods}" Visibility="{x:Bind ContentVisibility}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="FoodClick">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="layer:UFood">
+                    <DataTemplate x:DataType="food:Food">
                         <RelativePanel Margin="10">
-                            <Image Source="{x:Bind GetBitmapImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
+                            <Image Source="{x:Bind This, Converter={StaticResource FoodToImage}}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
                             <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
                                 <TextBlock Height="28" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
                                 <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
@@ -53,9 +59,9 @@
 
             <ListView Name="SubFoodsListView" ItemsSource="{x:Bind FilteredSubcribtedFoods}" Visibility="{x:Bind ContentVisibility}" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemClick="FoodClick" HorizontalContentAlignment="Right">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="layer:UFood">
+                    <DataTemplate x:DataType="food:Food">
                         <RelativePanel Margin="10" HorizontalAlignment="Stretch">
-                            <Image Source="{x:Bind GetBitmapImage}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
+                            <Image Source="{x:Bind This, Converter={StaticResource FoodToImage}}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
                             <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
                                 <TextBlock Height="25" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
                                 <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
