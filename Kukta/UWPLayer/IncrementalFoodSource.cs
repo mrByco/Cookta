@@ -29,24 +29,22 @@ namespace Kukta.UWPLayer
         {
             return AsyncInfo.Run(async cancelToken =>
             {
-                //_ = Task.Run(async () =>
-                //  {
-                //      var newfoods = await Food.Search(Type, m_LastLoadedIndex, m_LastLoadedIndex + count, m_Args);
-
-                //      _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                //        {
-                //        });
-                //      HasMoreItems = newfoods.Count() >= count;
-                //  });
-                var newfoods = await Food.Search(Type, m_LastLoadedIndex, m_LastLoadedIndex + count, m_Args);
-                m_LastLoadedIndex += count;
-
-                foreach (Food food in newfoods)
+                HasMoreItems = false;
+                _ = Task.Run(async () =>
                 {
-                    Add(food);
-                }
-                HasMoreItems = newfoods.Count() >= count;
-                return new LoadMoreItemsResult { Count = (uint)newfoods.Count() };
+                    var newfoods = await Food.Search(Type, m_LastLoadedIndex, m_LastLoadedIndex + count, m_Args);
+
+                    _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            foreach (Food food in newfoods)
+                            {
+                                Add(food);
+                            }
+                        });
+                    m_LastLoadedIndex += (uint)newfoods.Count();
+                    HasMoreItems = newfoods.Count() >= count;
+                  });
+                return new LoadMoreItemsResult { Count = count };
             });
         }
 

@@ -37,10 +37,8 @@ namespace Kukta.Screens
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //OriginalFoods = await Food.Search(EFoodSearchType.All, 0, 100, new Dictionary<string, object>()) ;
-
             Foods = new IncrementalFoodSource(EFoodSearchType.All, new Dictionary<string, object>(), Dispatcher);
-            await Foods.LoadMoreItemsAsync(1);
+            Foods.LoadMoreItemsAsync(1);
             DataPanel.ItemsSource = Foods;
         }
 
