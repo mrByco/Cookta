@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Kukta.Screens"
     xmlns:food="using:Cooktapi.Food"
+    xmlns:CooktaUI="using:Kukta.UI"
     xmlns:converters="using:Kukta.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -34,39 +35,11 @@
                             QuerySubmitted="Searchbox_QuerySubmitted"
                             RelativePanel.AlignVerticalCenterWithPanel="True"/>
         </RelativePanel>
-
-        <GridView Name="DataPanel" ItemsSource="{x:Bind Foods}"
-                  Grid.Row="1" SelectionMode="None" 
-                  IncrementalLoadingTrigger="Edge"
-                  IncrementalLoadingThreshold="1"
-                  DataFetchSize="1"
-                  IsItemClickEnabled="True" ItemClick="DataPanel_ItemClick">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="food:Food">
-                    <Grid Height="280" Margin="10" Background="LightCoral">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <Image Source="{x:Bind This, Converter={StaticResource FoodToImage}}" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignTopWithPanel="True" Grid.Row="0"/>
-                        <TextBlock Text="{x:Bind name}" Name="FoodNameText" TextWrapping="Wrap" FontSize="20" Padding="0" MaxLines="2" Margin="10, 0, 10, 10" HorizontalAlignment="Center" FontWeight="Bold" Foreground="LightCyan" Grid.Row="1"/>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="15*"/>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="9*"/>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="1" Grid.Row="1" Source="/Assets/Subcribed.png" Visibility="{x:Bind subcribed, Converter={StaticResource SubcribedToVisibility}}"/>
-                        </Grid>
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+        <CooktaUI:FoodPanel x:Name="FoodPanel"
+                            ItemsSource="{x:Bind Foods}"
+                            PanelMode="Compact"
+                            Grid.Row="1"
+                            PreloadCount="5" VerticalAlignment="Center" />
 
         <RelativePanel Name="Header"/>
     </Grid>

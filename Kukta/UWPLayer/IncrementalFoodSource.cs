@@ -24,6 +24,7 @@ namespace Kukta.UWPLayer
             m_Args = args;
             m_LastLoadedIndex = 0;
             Dispatcher = dispatcher;
+            HasMoreItems = true;
         }
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {

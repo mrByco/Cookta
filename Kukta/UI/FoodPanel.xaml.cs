@@ -1,4 +1,5 @@
 ﻿using Cooktapi.Food;
+using Kukta.UWPLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,27 +28,56 @@ namespace Kukta.UI
         {
             this.InitializeComponent();
         }
-        public readonly ObservableCollection<Food> m_Items = new ObservableCollection<Food>();
+        //Display settings
+        private EFoodPanelMode m_PanelMode;
+        public EFoodPanelMode PanelMode
+        {
+            get { return m_PanelMode; }
+            set {  m_PanelMode = value; OnPropertyChanged("PanelMode"); }
+        }
+        private Orientation m_Orientation;
+        public Orientation FeedOrientation
+        {
+            get { return m_Orientation; }
+            set { m_Orientation = value; OnPropertyChanged("Orientation"); }
+        }
+        private IncrementalFoodSource m_Source;
+        public IncrementalFoodSource ItemsSource
+        {
+            get { return m_Source; }
+            set {  m_Source = value; OnPropertyChanged("ItemsSource"); PreloadCount = PreloadCount; }
+        }
+        private int m_PreloadCount;
+        public int PreloadCount
+        {
+            get
+            {
+                return m_PreloadCount;
+            }
+            set
+            {
+                m_PreloadCount = value;
+                if (ItemsSource != null && ItemsSource.Count < m_PreloadCount && ItemsSource.HasMoreItems) _ = ItemsSource.LoadMoreItemsAsync((uint)(m_PreloadCount - ItemsSource.Count)); 
+            }
+        }
+
+
+        public void OnItemClick()
+        {
+
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public void SetItems()
-        {
-
-        }
     }
-    internal enum EFoodPanelMode
+    public enum EFoodPanelMode
     {
         Compact,
         List,
-    }
-    internal enum EFoodPanelSideDirection
-    {
-        Vertical,
-        Horizontal,
+        VerticalCompactScroll,
+        TagStack,
     }
 }

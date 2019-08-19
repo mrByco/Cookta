@@ -5,11 +5,79 @@
     xmlns:local="using:Kukta.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:food="using:Cooktapi.Food"
+    xmlns:converters="using:Kukta.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <converters:FoodPanelModeToVisibility x:Key="FoodPanelModeToVisibility"/>
+        <converters:FoodToBitmapImage x:Key="FoodToImage"/>
+        <converters:SubcribedToVisibility x:Key="SubcribedToVisibility"/>
+        
+        <DataTemplate x:DataType="food:Food" x:Key="CompactFoodTemplate">
+            <Grid Height="280" Margin="10" Background="LightCoral">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Image Source="{Binding This, Converter={StaticResource FoodToImage}}" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignTopWithPanel="True" Grid.Row="0"/>
+                <TextBlock Text="{Binding name}" Name="FoodNameText" TextWrapping="Wrap" FontSize="20" Padding="0" MaxLines="2" Margin="10, 0, 10, 10" HorizontalAlignment="Center" FontWeight="Bold" Foreground="LightCyan" Grid.Row="1"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="1" Grid.Row="1" Source="/Assets/Subcribed.png" Visibility="{Binding subcribed, Converter={StaticResource SubcribedToVisibility}}"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:DataType="food:Food" x:Key="ExpandedListViewTemplate">
+            <RelativePanel Margin="10">
+                <Image Source="{Binding This, Converter={StaticResource FoodToImage}}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
+                <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
+                    <TextBlock Height="28" Text="{Binding name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
+                    <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
+                    <TextBlock Height="22" Text="{Binding GetIngredientArray}" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                </StackPanel>
+            </RelativePanel>
+        </DataTemplate>
+    </UserControl.Resources>
 
     <Grid>
-
+        <GridView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=0}"
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}"/>
+        <ListView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=1}" 
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" 
+                  ItemTemplate="{StaticResource ExpandedListViewTemplate}"/>
+        <GridView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=2}"
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}"
+                  ScrollViewer.HorizontalScrollMode="Enabled" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  VerticalAlignment="Center">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+        <Grid Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=3}">
+            <GridView ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}" SelectionMode="None" IsItemClickEnabled="False"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+            </GridView>
+            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent"/>
+        </Grid >
     </Grid>
 </UserControl>
