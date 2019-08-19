@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,8 +22,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Kukta.UI
 {
+    public delegate void ItemClickDelegate(Food food);
+    public delegate void PanelClickDelegate();
     public sealed partial class FoodPanel : UserControl, INotifyPropertyChanged
     {
+        public event ItemClickDelegate OnItemClick;
+        public event PanelClickDelegate OnPanelClick;
 
         public FoodPanel()
         {
@@ -33,20 +38,33 @@ namespace Kukta.UI
         public EFoodPanelMode PanelMode
         {
             get { return m_PanelMode; }
-            set {  m_PanelMode = value; OnPropertyChanged("PanelMode"); }
+            set { m_PanelMode = value; OnPropertyChanged("PanelMode"); }
         }
-        private Orientation m_Orientation;
-        public Orientation FeedOrientation
+        private string m_Title = "";
+        public string TitleText
         {
-            get { return m_Orientation; }
-            set { m_Orientation = value; OnPropertyChanged("Orientation"); }
+            get { return m_Title; }
+            set { m_Title = value; OnPropertyChanged("TitleText"); }
+        }
+        private SolidColorBrush m_TitleBackgroundColor = new SolidColorBrush(Colors.LightYellow);
+        public SolidColorBrush TitleBackgroundColor
+        {
+            get { return m_TitleBackgroundColor; }
+            set { m_TitleBackgroundColor = value; OnPropertyChanged("TitleBackgroundColor"); }
+        }
+        private SolidColorBrush m_TitleForegroundcolor = new SolidColorBrush(Colors.LightYellow);
+        public SolidColorBrush TitleForegroundColor
+        {
+            get { return m_TitleForegroundcolor; }
+            set { m_TitleForegroundcolor = value; OnPropertyChanged("TitleForegroundColor"); }
         }
         private IncrementalFoodSource m_Source;
         public IncrementalFoodSource ItemsSource
         {
             get { return m_Source; }
-            set {  m_Source = value; OnPropertyChanged("ItemsSource"); PreloadCount = PreloadCount; }
+            set { m_Source = value; OnPropertyChanged("ItemsSource"); PreloadCount = PreloadCount; }
         }
+
         private int m_PreloadCount;
         public int PreloadCount
         {
@@ -57,14 +75,8 @@ namespace Kukta.UI
             set
             {
                 m_PreloadCount = value;
-                if (ItemsSource != null && ItemsSource.Count < m_PreloadCount && ItemsSource.HasMoreItems) _ = ItemsSource.LoadMoreItemsAsync((uint)(m_PreloadCount - ItemsSource.Count)); 
+                if (ItemsSource != null && ItemsSource.Count < m_PreloadCount && ItemsSource.HasMoreItems) _ = ItemsSource.LoadMoreItemsAsync((uint)(m_PreloadCount - ItemsSource.Count));
             }
-        }
-
-
-        public void OnItemClick()
-        {
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -72,12 +84,28 @@ namespace Kukta.UI
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void Panel_Click(object sender, RoutedEventArgs e)
+        {
+            OnPanelClick?.Invoke();
+        }
+
+        private void ItemClick(object sender, ItemClickEventArgs e)
+        {
+            try
+            {
+                Food food = e.ClickedItem as Food;
+                OnItemClick?.Invoke(food);
+            }
+            catch (InvalidCastException) { return; }
+
+        }
     }
     public enum EFoodPanelMode
     {
         Compact,
         List,
-        VerticalCompactScroll,
+        HorizontalCompactScroll,
         TagStack,
     }
 }

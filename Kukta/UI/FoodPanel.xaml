@@ -14,7 +14,8 @@
         <converters:FoodPanelModeToVisibility x:Key="FoodPanelModeToVisibility"/>
         <converters:FoodToBitmapImage x:Key="FoodToImage"/>
         <converters:SubcribedToVisibility x:Key="SubcribedToVisibility"/>
-        
+        <converters:VisibleIfStringnotEmpty x:Key="VisibleIfStringValid"/>
+
         <DataTemplate x:DataType="food:Food" x:Key="CompactFoodTemplate">
             <Grid Height="280" Margin="10" Background="LightCoral">
                 <Grid.RowDefinitions>
@@ -48,36 +49,100 @@
                 </StackPanel>
             </RelativePanel>
         </DataTemplate>
+        
     </UserControl.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <GridView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=0}"
-                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}"/>
-        <ListView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=1}" 
-                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" 
-                  ItemTemplate="{StaticResource ExpandedListViewTemplate}"/>
-        <GridView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=2}"
-                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}"
-                  ScrollViewer.HorizontalScrollMode="Enabled" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                  VerticalAlignment="Center">
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
+                  Grid.Row="1"
+                  IncrementalLoadingTrigger="Edge"
+                  IncrementalLoadingThreshold="1"
+                  DataFetchSize="1"
+                  IsItemClickEnabled="True"
+                  ItemClick="ItemClick"
+                  SelectionMode="None"
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}">
+            <!--HEADER-->
+            <GridView.Header>
+                <Grid Background="{x:Bind TitleBackgroundColor, Mode=OneWay}"
+                      Visibility="{x:Bind TitleText, Mode=OneWay, Converter={StaticResource VisibleIfStringValid}}">
+                    <TextBlock FontSize="30" FontWeight="ExtraBold" Foreground="{x:Bind TitleForegroundColor, Mode=OneWay}" Margin="15, 0" 
+                    Text="{x:Bind TitleText, Mode=OneWay}" />
+                </Grid>
+            </GridView.Header>
         </GridView>
-        <Grid Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=3}">
+
+        <ListView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=1}" 
+                  Grid.Row="1"
+                  IncrementalLoadingTrigger="Edge"
+                  IncrementalLoadingThreshold="1"
+                  IsItemClickEnabled="True"
+                  DataFetchSize="1"
+                  SelectionMode="None"
+                  ItemClick="ItemClick"
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" 
+                  ItemTemplate="{StaticResource ExpandedListViewTemplate}">
+            <!--HEADER-->
+            <ListView.Header>
+                <Grid Background="{x:Bind TitleBackgroundColor, Mode=OneWay}"
+                      Visibility="{x:Bind TitleText, Mode=OneWay, Converter={StaticResource VisibleIfStringValid}}">
+                    <TextBlock FontSize="30" FontWeight="ExtraBold" Foreground="{x:Bind TitleForegroundColor, Mode=OneWay}" Margin="15, 0" 
+                    Text="{x:Bind TitleText, Mode=OneWay}" />
+                </Grid>
+            </ListView.Header>
+        </ListView>
+        <Grid Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=3}"
+              Grid.Row="1">
             <GridView ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}" SelectionMode="None" IsItemClickEnabled="False"
                       VerticalAlignment="Stretch"
-                      HorizontalAlignment="Stretch">
+                      HorizontalAlignment="Stretch"
+                      ItemClick="ItemClick">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
+                <!--HEADER-->
+                <GridView.Header>
+                    <Grid Background="{x:Bind TitleBackgroundColor, Mode=OneWay}"
+                      Visibility="{x:Bind TitleText, Mode=OneWay, Converter={StaticResource VisibleIfStringValid}}">
+                        <TextBlock FontSize="30" FontWeight="ExtraBold" Foreground="{x:Bind TitleForegroundColor, Mode=OneWay}" Margin="15, 0" 
+                                   Text="{x:Bind TitleText, Mode=OneWay}">
+                        </TextBlock>
+                    </Grid>
+                </GridView.Header>
             </GridView>
-            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent"/>
         </Grid >
-    </Grid>
+
+        <Button Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=3}"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" Grid.RowSpan="2" Click="Panel_Click"/>
+        
+        <GridView Visibility="{x:Bind PanelMode, Mode=OneWay, Converter={StaticResource FoodPanelModeToVisibility}, ConverterParameter=2}"
+                  Height="300"
+                  Grid.Row="1"
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" ItemTemplate="{StaticResource CompactFoodTemplate}"
+                  ScrollViewer.HorizontalScrollMode="Enabled" 
+                  ItemClick="ItemClick"
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  VerticalAlignment="Center">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <!--HEADER-->
+            <GridView.Header>
+                <Grid Background="{x:Bind TitleBackgroundColor, Mode=OneWay}"
+                      Visibility="{x:Bind TitleText, Mode=OneWay, Converter={StaticResource VisibleIfStringValid}}">
+                    <TextBlock FontSize="30" FontWeight="ExtraBold" Foreground="{x:Bind TitleForegroundColor, Mode=OneWay}" Margin="15, 0" 
+                    Text="{x:Bind TitleText, Mode=OneWay}" />
+                </Grid>
+            </GridView.Header>
+
+        </GridView>
+        </Grid>
 </UserControl>

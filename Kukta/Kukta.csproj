@@ -136,6 +136,7 @@
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\VisibleIfStringnotEmpty.cs" />
     <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\FoodPanelModeToVisibility.cs" />
     <Compile Include="Converters\FoodToBitmapImage.cs" />

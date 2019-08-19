@@ -37,8 +37,11 @@
         </RelativePanel>
         <CooktaUI:FoodPanel x:Name="FoodPanel"
                             ItemsSource="{x:Bind Foods}"
-                            PanelMode="Compact"
+                            PanelMode="TagStack"
                             Grid.Row="1"
+                            TitleText="Csirkés"
+                            TitleBackgroundColor="LightCoral"
+                            TitleForegroundColor="GhostWhite"
                             PreloadCount="5" VerticalAlignment="Center" />
 
         <RelativePanel Name="Header"/>
