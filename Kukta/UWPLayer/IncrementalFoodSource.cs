@@ -17,14 +17,32 @@ namespace Kukta.UWPLayer
         private Dictionary<string, object> m_Args;
         private uint m_LastLoadedIndex;
         private CoreDispatcher Dispatcher;
+        private int m_MaxItems;
+        public uint MaxItems
+        {
+            get
+            {
+                return (uint)m_MaxItems;
+            }
+            set
+            {
+                m_MaxItems = (int)value;
+                HasMoreItems = Items.Count < MaxItems;
+                while (Items.Count > MaxItems)
+                {
+                    Items.Remove(Items[Items.Count - 1]);
+                }
+            }
+        }
         public EFoodSearchType Type { get; private set; }
-        public IncrementalFoodSource(EFoodSearchType type, Dictionary<string, object> args, CoreDispatcher dispatcher)
+        public IncrementalFoodSource(EFoodSearchType type, Dictionary<string, object> args, CoreDispatcher dispatcher, int maxItems)
         {
             Type = type;
             m_Args = args;
             m_LastLoadedIndex = 0;
             Dispatcher = dispatcher;
             HasMoreItems = true;
+            MaxItems = (uint)maxItems;
         }
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
@@ -39,12 +57,13 @@ namespace Kukta.UWPLayer
                         {
                             foreach (Food food in newfoods)
                             {
-                                Add(food);
+                                if (Items.Count < MaxItems)
+                                    Add(food);
                             }
                         });
                     m_LastLoadedIndex += (uint)newfoods.Count();
-                    HasMoreItems = newfoods.Count() >= count;
-                  });
+                    HasMoreItems = newfoods.Count() >= count && Items.Count < MaxItems;
+                });
                 return new LoadMoreItemsResult { Count = count };
             });
         }
