@@ -33,12 +33,11 @@ namespace Kukta.Screens
 
 
         public IncrementalFoodSource Foods;
-        private List<Food> OriginalFoods = new List<Food>();
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Foods = new IncrementalFoodSource(EFoodSearchType.All, new Dictionary<string, object>(), Dispatcher);
-            FoodPanel.ItemsSource = Foods;
+            //Foods = new IncrementalFoodSource(EFoodSearchType.All, new Dictionary<string, object>(), Dispatcher, 0);
+            //FoodPanel.ItemsSource = Foods;
         }
 
         private void HomeBTN_Click(object sender, RoutedEventArgs e)
@@ -59,7 +58,13 @@ namespace Kukta.Screens
 
         private void Searchbox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            throw new NotImplementedException();
+            string query = args.QueryText;
+            MainPage.NavigateTo("search", null, new SearchParam(query, new List<Tag>()));
+        }
+
+        private void FoodPanel_OnItemClick(Food food)
+        {
+            MainPage.NavigateTo("fooddetail", null, food._id);
         }
     }
 }

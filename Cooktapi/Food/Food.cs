@@ -304,6 +304,8 @@ namespace Cooktapi.Food
                     else
                         args.Add("type", "search");
                     break;
+                case EFoodSearchType.Custom:
+                    break;
                 default:
                     return new List<Food>();
             }
@@ -325,5 +327,6 @@ namespace Cooktapi.Food
     {
         FullText,
         All,
+        Custom,
     }
 }

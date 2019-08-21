@@ -22,10 +22,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <RelativePanel Name="HeaderPanel" Grid.Row="0" Background="AliceBlue">
+        <RelativePanel Name="HeaderPanel" Grid.Row="0" Background="LightCoral">
             <StackPanel Orientation="Horizontal" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
-                <Button Name="HomeBTN" Click="HomeBTN_Click" Content="Kezdőlap" Background="Transparent" VerticalAlignment="Stretch" FontSize="22" Foreground="Gray" FontWeight="ExtraLight"/>
-                <Button Name="NewFoodsBTN" Click="NewFoodsBTN_Click" Content="Új feltöltések" Background="Transparent" VerticalAlignment="Stretch" FontSize="22" Foreground="Gray" FontWeight="ExtraLight"/>
+                <Button Name="HomeBTN" Click="HomeBTN_Click" Content="Kezdőlap" Background="Transparent" VerticalAlignment="Stretch" FontSize="22" Foreground="White" FontWeight="Bold"/>
+                <Button Visibility="Collapsed" Name="NewFoodsBTN" Click="NewFoodsBTN_Click" Content="Új feltöltések" Background="Transparent" VerticalAlignment="Stretch" FontSize="22" Foreground="White" FontWeight="Bold"/>
             </StackPanel>
             <AutoSuggestBox Name="Searchbox" 
                             PlaceholderText="Keresés" 
@@ -35,15 +35,13 @@
                             QuerySubmitted="Searchbox_QuerySubmitted"
                             RelativePanel.AlignVerticalCenterWithPanel="True"/>
         </RelativePanel>
-        <CooktaUI:FoodPanel x:Name="FoodPanel"
-                            ItemsSource="{x:Bind Foods}"
-                            PanelMode="TagStack"
-                            Grid.Row="1"
-                            TitleText="Csirkés"
-                            TitleBackgroundColor="LightCoral"
-                            TitleForegroundColor="GhostWhite"
-                            PreloadCount="5" VerticalAlignment="Center" />
-
-        <RelativePanel Name="Header"/>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <CooktaUI:FixedSourceFoodPanel TagString="teszta" PanelMode="Compact" RowCount="2" Type="All" 
+                                               Margin="0, 10" TitleBackgroundColor="Gray" TitleText="Tészták"/>
+                <CooktaUI:FixedSourceFoodPanel TagString="" PanelMode="Compact" RowCount="3" Type="All" 
+                                               Margin="0, 10" TitleBackgroundColor="Green" TitleText="Utolsó feltöltések"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

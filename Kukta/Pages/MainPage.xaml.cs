@@ -48,6 +48,7 @@ namespace Kukta
     ("foods", typeof(FoodEditor), false, null),
     ("shoppinglist", typeof(ShoppingListPage), false, null),
     ("baselist", typeof(BaselistPage), false, null),
+    ("search", typeof(SearchPage), true, null),
     ("stocker", typeof(StockerPage), false, null),
     ("account", typeof(ProfilePage), false, OwnUser.CurrentUser?.Sub),
     ("tageditor", typeof(TagEditorPage), false, null),

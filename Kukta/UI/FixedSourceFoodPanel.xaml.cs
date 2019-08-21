@@ -2,7 +2,6 @@
 using Kukta.UWPLayer;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -22,20 +21,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Kukta.UI
 {
-    public delegate void ItemClickDelegate(Food food);
-    public delegate void PanelClickDelegate();
-    public sealed partial class FoodPanel : UserControl, INotifyPropertyChanged
+    public sealed partial class FixedSourceFoodPanel : UserControl, INotifyPropertyChanged
     {
-        public event ItemClickDelegate OnItemClick;
-        public event PanelClickDelegate OnPanelClick;
-
-        public FoodPanel()
+        public FixedSourceFoodPanel()
         {
             this.InitializeComponent();
-            this.SizeChanged += (sender,args) => {
-                if (ItemsSource != null && ((uint)(MaxRows * (args.PreviousSize.Width / 250)) != ((uint)( MaxRows * ItemsPerRow))))
-                    ItemsSource.MaxItems = (uint)(MaxRows * ItemsPerRow);
-            };
         }
         //Display settings
         private EFoodPanelMode m_PanelMode;
@@ -62,75 +52,87 @@ namespace Kukta.UI
             get { return m_TitleForegroundcolor; }
             set { m_TitleForegroundcolor = value; OnPropertyChanged("TitleForegroundColor"); }
         }
-        private IncrementalFoodSource m_Source;
-        public IncrementalFoodSource ItemsSource
-        {
-            get { return m_Source; }
-            set { m_Source = value; OnPropertyChanged("ItemsSource"); PreloadCount = PreloadCount; if (ItemsSource != null) ItemsSource.MaxItems = (uint)(ItemsPerRow * MaxRows); }
-        }
-        public int ItemsPerRow
-        {
-            get
-            {
-                return (int)(this.ActualWidth / 250);
-            }
-        }
-        private int m_MaxRows = 0;
-        public int MaxRows
-        {
-            get
-            {
-                return m_MaxRows;
-            }
-            set
-            {
-                m_MaxRows = value;
-                if (ItemsSource != null)
-                    ItemsSource.MaxItems = (uint)(value * ItemsPerRow);
-            }
-        }
-
-        private int m_PreloadCount;
-        public int PreloadCount
-        {
-            get
-            {
-                return m_PreloadCount;
-            }
-            set
-            {
-                m_PreloadCount = value;
-                if (ItemsSource != null && ItemsSource.Count < m_PreloadCount && ItemsSource.HasMoreItems) _ = ItemsSource.LoadMoreItemsAsync((uint)(m_PreloadCount - ItemsSource.Count));
-            }
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private void Panel_Click(object sender, RoutedEventArgs e)
+        private IncrementalFoodSource m_Source;
+        private IncrementalFoodSource ItemsSource
         {
-            OnPanelClick?.Invoke();
+            get { return m_Source; }
+            set { m_Source = value; OnPropertyChanged("ItemsSource"); }
         }
+        private int m_RowCount;
 
-        private void ItemClick(object sender, ItemClickEventArgs e)
+        //Source settings
+
+        public int RowCount
         {
-            try
+            get
             {
-                Food food = e.ClickedItem as Food;
-                OnItemClick?.Invoke(food);
+                return m_RowCount;
             }
-            catch (InvalidCastException) { return; }
-
+            set
+            {
+                m_RowCount = value;
+                OnPropertyChanged("RowCount");
+            }
         }
-    }
-    public enum EFoodPanelMode
-    {
-        Compact,
-        List,
-        HorizontalCompactScroll,
-        TagStack,
+        private string m_SearchText;
+        public string SearchText
+        {
+            get
+            {
+                return m_SearchText;
+            }
+            set
+            {
+                m_SearchText = value;
+                BuildNewSource();
+            }
+        }
+        private string m_TagString;
+        public string TagString
+        {
+            get
+            {
+                return m_TagString;
+            }
+            set
+            {
+                m_TagString = value;
+                BuildNewSource();
+            }
+        }
+        private EFoodSearchType m_Type;
+        public EFoodSearchType Type
+        {
+            get
+            {
+                return m_Type;
+            }
+            set
+            {
+                m_Type = value;
+                BuildNewSource();
+            }
+        }
+        private void BuildNewSource()
+        {
+            var query = new Dictionary<string, object>();
+            if (SearchText != null && SearchText != "")
+                query.Add("text", SearchText);
+            if (TagString != null && TagString != "")
+                query.Add("filter", TagString);
+            ItemsSource = new IncrementalFoodSource(m_Type, query, Dispatcher, FoodPanel.ItemsPerRow * RowCount);
+            ItemsSource.LoadMoreItemsAsync(1);
+        }
+
+        private void FoodPanel_OnItemClick(Food food)
+        {
+            MainPage.NavigateTo("fooddetail", null, food._id);
+        }
     }
 }

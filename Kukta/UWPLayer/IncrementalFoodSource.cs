@@ -27,11 +27,6 @@ namespace Kukta.UWPLayer
             set
             {
                 m_MaxItems = (int)value;
-                HasMoreItems = Items.Count < MaxItems;
-                while (Items.Count > MaxItems)
-                {
-                    Items.Remove(Items[Items.Count - 1]);
-                }
             }
         }
         public EFoodSearchType Type { get; private set; }
@@ -46,23 +41,29 @@ namespace Kukta.UWPLayer
         }
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
+            //if (m_LastLoadedIndex + count > MaxItems && MaxItems != 0)
+            //{
+            //    return AsyncInfo.Run(async cancelToken => { return new LoadMoreItemsResult { Count = count }; });
+            //}
+            HasMoreItems = false;
+            uint old_maxLoaded = m_LastLoadedIndex;
+            m_LastLoadedIndex += count;
             return AsyncInfo.Run(async cancelToken =>
             {
                 HasMoreItems = false;
                 _ = Task.Run(async () =>
                 {
-                    var newfoods = await Food.Search(Type, m_LastLoadedIndex, m_LastLoadedIndex + count, m_Args);
+                    var newfoods = await Food.Search(Type, old_maxLoaded, old_maxLoaded + count, m_Args);
 
                     _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                         {
                             foreach (Food food in newfoods)
                             {
-                                if (Items.Count < MaxItems)
+                                if (Items.Count < MaxItems || MaxItems == 0)
                                     Add(food);
                             }
                         });
-                    m_LastLoadedIndex += (uint)newfoods.Count();
-                    HasMoreItems = newfoods.Count() >= count && Items.Count < MaxItems;
+                    HasMoreItems = newfoods.Count() >= count && (Items.Count < MaxItems || MaxItems == 0);
                 });
                 return new LoadMoreItemsResult { Count = count };
             });

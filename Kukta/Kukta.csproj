@@ -141,6 +141,7 @@
     <Compile Include="Converters\FoodPanelModeToVisibility.cs" />
     <Compile Include="Converters\FoodToBitmapImage.cs" />
     <Compile Include="Converters\SubcribedToVisibility.cs" />
+    <Compile Include="Converters\VisibleIfUserIsCurrentUser.cs" />
     <Compile Include="Screens\BaselistPage.xaml.cs">
       <DependentUpon>BaselistPage.xaml</DependentUpon>
     </Compile>
@@ -149,6 +150,9 @@
     </Compile>
     <Compile Include="Screens\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\ShoppingListPage.xaml.cs">
       <DependentUpon>ShoppingListPage.xaml</DependentUpon>
@@ -161,6 +165,9 @@
     </Compile>
     <Compile Include="Screens\TestIncrementalLoading.cs" />
     <Compile Include="UI\CalendarButton.cs" />
+    <Compile Include="UI\FixedSourceFoodPanel.xaml.cs">
+      <DependentUpon>FixedSourceFoodPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\FoodButtonV2.cs" />
     <Compile Include="UI\FoodPanel.xaml.cs">
       <DependentUpon>FoodPanel.xaml</DependentUpon>
@@ -306,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Screens\SearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Screens\ShoppingListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -319,6 +330,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\FixedSourceFoodPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
