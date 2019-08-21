@@ -35,8 +35,8 @@ namespace Kukta.Screens
         private Visibility ContentVisibility;
         private Visibility LoadingVisibibity;
 
-        private ObservableCollection<UFood> FilteredMyFoods = new ObservableCollection<UFood>();
-        private ObservableCollection<UFood> FilteredSubcribtedFoods = new ObservableCollection<UFood>();
+        private ObservableCollection<Food> FilteredMyFoods = new ObservableCollection<Food>();
+        private ObservableCollection<Food> FilteredSubcribtedFoods = new ObservableCollection<Food>();
 
         private List<Food> MyFoods = new List<Food>();
         private List<Food> SubcribtedFoods = new List<Food>();
@@ -70,8 +70,8 @@ namespace Kukta.Screens
         private void FilterUpdateUI()
         {
             string filter = SearchTextBox.Text;
-            FilteredMyFoods = new ObservableCollection<UFood>(UFood.FromList(MyFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); })));
-            FilteredSubcribtedFoods = new ObservableCollection<UFood>(UFood.FromList(SubcribtedFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); })));
+            FilteredMyFoods = new ObservableCollection<Food>(MyFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
+            FilteredSubcribtedFoods = new ObservableCollection<Food>(SubcribtedFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
             MyFoodsListView.ItemsSource = FilteredMyFoods;
             SubFoodsListView.ItemsSource = FilteredSubcribtedFoods;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cooktapi.Networking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,11 @@ using Windows.UI.Xaml.Data;
 
 namespace Kukta.Converters
 {
-    public class BoolToVisibility : IValueConverter
+    public class VisibleIfUserIsCurrentUser : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ( parameter != null && (bool)parameter)
-            {
-                return !(bool)value ? Visibility.Visible : Visibility.Collapsed;
-            }
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+            return (value as User != null && (value as User)?.Sub == OwnUser.CurrentUser?.Sub) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

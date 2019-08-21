@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Cooktapi.Food;
+using Kukta.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +10,13 @@ using Windows.UI.Xaml.Data;
 
 namespace Kukta.Converters
 {
-    public class BoolToVisibility : IValueConverter
+    public class FoodPanelModeToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ( parameter != null && (bool)parameter)
-            {
-                return !(bool)value ? Visibility.Visible : Visibility.Collapsed;
-            }
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+            EFoodPanelMode mode = (EFoodPanelMode)value;
+            EFoodPanelMode ObjectType = (EFoodPanelMode) int.Parse(parameter.ToString());
+            return mode == ObjectType ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

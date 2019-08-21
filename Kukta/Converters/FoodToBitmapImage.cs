@@ -1,22 +1,25 @@
-﻿using System;
+﻿using Cooktapi.Food;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Kukta.Converters
 {
-    public class BoolToVisibility : IValueConverter
+    public class FoodToBitmapImage : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ( parameter != null && (bool)parameter)
+            Food food = value as Food;
+            bool cacheEnabled = Food.GetCacheingEnabled(food._id, food.imageUploaded);
+
+            return new BitmapImage(food.getImage)
             {
-                return !(bool)value ? Visibility.Visible : Visibility.Collapsed;
-            }
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+                CreateOptions = cacheEnabled ? BitmapCreateOptions.None : BitmapCreateOptions.IgnoreImageCache,
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

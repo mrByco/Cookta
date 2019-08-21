@@ -1,4 +1,6 @@
-﻿using Kukta.UWPLayer;
+﻿using Cooktapi.Food;
+using Kukta.Converters;
+using Kukta.UWPLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +24,7 @@ namespace Kukta.UI
         private Grid root;
         private StackPanel ver;
 
-        public LargeFoodButton(Action<string> onClick, UFood food)
+        public LargeFoodButton(Action<string> onClick, Food food)
         {
             root = new Grid()
             {
@@ -44,8 +46,8 @@ namespace Kukta.UI
                 Margin = new Thickness(5),
             };
             image.HorizontalAlignment = HorizontalAlignment.Left;
-
-            image.Source = food.GetBitmapImage;
+            var converter = new FoodToBitmapImage();
+            image.Source = converter.Convert(food, typeof(BitmapImage), null, "") as BitmapImage;
 
 
             root.Children.Add(image);
