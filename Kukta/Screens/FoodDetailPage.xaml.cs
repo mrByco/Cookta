@@ -67,7 +67,7 @@ namespace Kukta.Screens
                 CurrentFood = await Food.Get(id);
             }
 
-            CurrentUser = await User.GetUser(CurrentFood?.owner?? OwnUser.CurrentUser.Sub);
+            CurrentUser = await User.GetUser(CurrentFood?.owner ?? OwnUser.CurrentUser.Sub);
 
             if (CurrentFood == null)
             {
@@ -134,7 +134,8 @@ namespace Kukta.Screens
                 UploaderName.Visibility = Visibility.Visible;
                 LastModified.Visibility = Visibility.Visible;
                 UploaderPicture.Visibility = Visibility.Visible;
-                UploaderPicture.ProfilePicture = new BitmapImage(new Uri(CurrentUser.ProfilPic, UriKind.Absolute));
+                if (CurrentUser.ProfilPic != null)
+                    UploaderPicture.ProfilePicture = new BitmapImage(new Uri(CurrentUser.ProfilPic ?? "", UriKind.Absolute));
                 UploaderName.Content = CurrentUser.DisplayName;
                 LastModified.Text = CurrentFood.LastModified.ToString("yyyy-MM-dd hh:mm");
                 IngredientList.EditMode = editMode;

@@ -1,6 +1,7 @@
 ﻿using Cooktapi.Networking;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,11 +24,25 @@ namespace Kukta.Screens
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ProfilePage : Page
+    public sealed partial class ProfilePage : Page, INotifyPropertyChanged
     {
         public ProfilePage()
         {
             this.InitializeComponent();
+        }
+
+        private User m_LoadedUser;
+        public User LoadedUser
+        {
+            get
+            {
+                return m_LoadedUser;
+            }
+            set
+            {
+                m_LoadedUser = value;
+                OnPropertyChanged("LoadedUser");
+            }
         }
         /// <summary>
         /// 
@@ -50,19 +65,24 @@ namespace Kukta.Screens
             var user = await User.GetUser(id);
             UpdateData(user);
         }
-        private async void UpdateData(User user)
+        private async void UpdateData(User newUser)
         {
+            LoadedUser = newUser;
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                if (user.ProfilPic != null)
-                    Picture.ProfilePicture = new BitmapImage(new Uri(user.ProfilPic, UriKind.Absolute));
-                else if (user.DisplayName != "")
+                if (LoadedUser.ProfilPic != null)
+                    Picture.ProfilePicture = new BitmapImage(new Uri(LoadedUser.ProfilPic, UriKind.Absolute));
+                else if (LoadedUser.DisplayName != "")
                 {
-                    Picture.DisplayName = user.DisplayName;
+                    Picture.DisplayName = LoadedUser.DisplayName;
                 }
+                var sourceQuery = new Dictionary<string, object>();
+                sourceQuery.Add("type", "userfoods");
+                sourceQuery.Add("user", LoadedUser.Sub);
+                UsersFoods.ItemsSource = new UWPLayer.IncrementalFoodSource(Cooktapi.Food.EFoodSearchType.Custom, sourceQuery, Dispatcher, 0);
+                UsersFoods.TitleText = string.Format("{0} receptjei: ", LoadedUser.DisplayName);
 
-                NameTextBlock.Text = user.DisplayName ?? "";
-                if (user is OwnUser ownUser)
+                if (LoadedUser is OwnUser ownUser)
                 {
                     if (ownUser.Role == "dev")
                     {
@@ -85,11 +105,15 @@ namespace Kukta.Screens
                         SubInfoTextBlock.Text = "Nincs érvényes előfizetésed";
                     }
                 }
-                else
-                {
-                    LogoutBTN.Visibility = Visibility.Collapsed;
-                    ChangeUserNameBTN.Visibility = Visibility.Collapsed;
-                }
+            });
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             });
         }
 
@@ -100,7 +124,7 @@ namespace Kukta.Screens
 
         private void ReceiveFreeSubBTN_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private void BuySubBTN_Click(object sender, RoutedEventArgs e)
@@ -111,6 +135,16 @@ namespace Kukta.Screens
         private void ChangeUserNameBTN_Click(object sender, RoutedEventArgs e)
         {
             App.DoUserRename();
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage.NavigateTo("fooddetail", null, null);
+        }
+
+        private void UsersFoods_OnItemClick(Cooktapi.Food.Food food)
+        {
+            MainPage.NavigateTo("fooddetail", null, food._id);
         }
     }
 }

@@ -190,7 +190,6 @@ namespace Cooktapi.Food
         }
         internal static Ingredient ParseIngredient(JToken token, IIngredientSource source)
         {
-
             string IngID = token.Value<string>("ingredientID");
             string UnitID = token.Value<string>("unit");
             double Value = token.Value<double>("value");

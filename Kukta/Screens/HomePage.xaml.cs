@@ -30,24 +30,14 @@ namespace Kukta.Screens
             this.InitializeComponent();
         }
 
-        
 
-        private ObservableCollection<UFood> m_foods = new ObservableCollection<UFood>();
-        private List<Food> OriginalFoods = new List<Food>();
-        public ObservableCollection<UFood> Foods
-        {
-            get
-            {
-                return m_foods;
-            }
-        }
+
+        public IncrementalFoodSource Foods;
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            OriginalFoods = await Food.GetLastFoods(1, 50);
-            m_foods = new ObservableCollection<UFood>(UFood.FromList(OriginalFoods));
-            DataPanel.ItemsSource = m_foods;
-
+            //Foods = new IncrementalFoodSource(EFoodSearchType.All, new Dictionary<string, object>(), Dispatcher, 0);
+            //FoodPanel.ItemsSource = Foods;
         }
 
         private void HomeBTN_Click(object sender, RoutedEventArgs e)
@@ -62,15 +52,19 @@ namespace Kukta.Screens
 
         private void DataPanel_ItemClick(object sender, ItemClickEventArgs e)
         {
-            string clickedID = (e.ClickedItem as UFood)._id;
+            string clickedID = (e.ClickedItem as Food)._id;
             MainPage.NavigateTo("fooddetail", null, clickedID);
         }
 
         private void Searchbox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            string query = args.QueryText;
+            MainPage.NavigateTo("search", null, new SearchParam(query, new List<Tag>()));
+        }
 
-            m_foods = new ObservableCollection<UFood>(UFood.FromList(OriginalFoods.FindAll((food) => { return food.name.ToLower().Contains(sender.Text.ToLower()); })));
-            DataPanel.ItemsSource = m_foods;
+        private void FoodPanel_OnItemClick(Food food)
+        {
+            MainPage.NavigateTo("fooddetail", null, food._id);
         }
     }
 }

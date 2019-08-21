@@ -23,12 +23,12 @@ namespace Cooktapi.Food
         {
             get
             {
-                return this.owner == OwnUser.CurrentUser.Sub;
+                return this.owner == OwnUser.CurrentUser?.Sub;
             }
         }
         public bool subcribed { get; set; }
         public int dose = 4;
-        public bool isPrivate;
+        public bool isPrivate { get; set; }
         public string name;
         public string desc;
         public string imageURL;
@@ -37,6 +37,7 @@ namespace Cooktapi.Food
         public List<Tag> Tags = new List<Tag>();
         public List<Ingredient> ingredients = new List<Ingredient>();
         public Food GetMealFood() { return this; }
+        public Food This => this;
         public string GetId() { return _id; }
         public void NewSeed() { return; }
         public string GetName() { return name; }
@@ -116,22 +117,6 @@ namespace Cooktapi.Food
             food = ParseFoodFromServerJson(foodRes.Content);
             return food;
         }
-        public static async Task<List<Food>> GetLastFoods(int page, int itemsPerPage)
-        {
-            var res = await Networking.Networking.GetRequestSimple("foods", new Dictionary<string, object>());
-            JToken token = JToken.Parse(res.Content);
-            JArray tokenList = token.Value<JArray>("foods");
-
-            List<Food> foods = new List<Food>();
-            for (int i = 0; i < tokenList.Count; i++)
-            {
-                JToken foodToken = tokenList.ElementAt<JToken>(i);
-                Food food = ParseFoodFromServerJson(foodToken.ToString(Formatting.None));
-                foods.Add(food);
-            }
-            return foods;
-
-        }
         public static async Task<List<Food>> GetMyFoods()
         {
             var res = await Networking.Networking.GetRequestWithForceAuth("myfoods", new Dictionary<string, object>());
@@ -152,7 +137,7 @@ namespace Cooktapi.Food
             var query = new Dictionary<string, object>();
             query.Add("_id", _id);
             IRestResponse res;
-            if (state )
+            if (state)
                 res = await Networking.Networking.GetRequestWithForceAuth("sub", query);
             else
                 res = await Networking.Networking.GetRequestWithForceAuth("unsub", query);
@@ -262,7 +247,7 @@ namespace Cooktapi.Food
             }
             else
                 return null;
-            
+
         }
         public static string CreateFoodToServer(Food food)
         {
@@ -292,5 +277,56 @@ namespace Cooktapi.Food
             return jFood.ToString(Formatting.None);
 
         }
+        public static async Task<IEnumerable<Food>> Search(EFoodSearchType type, uint from, uint to, Dictionary<string, object> args)
+        {
+            if (args.ContainsKey("from"))
+                args["from"] = from;
+            else
+                args.Add("from", from);
+
+            if (args.ContainsKey("to"))
+                args["to"] = to;
+            else
+                args.Add("to", to);
+
+            switch (type)
+            {
+                case EFoodSearchType.All:
+                    if (args.ContainsKey("type"))
+                        args["type"] = "all";
+                    else
+                        args.Add("type", "all");
+                    break;
+
+                case EFoodSearchType.FullText:
+                    if (args.ContainsKey("type"))
+                        args["type"] = "search";
+                    else
+                        args.Add("type", "search");
+                    break;
+                case EFoodSearchType.Custom:
+                    break;
+                default:
+                    return new List<Food>();
+            }
+            var res = await Networking.Networking.GetRequestSimple("search", args);
+            JArray tokenList = JArray.Parse(res.Content);
+
+            List<Food> foods = new List<Food>();
+            for (int i = 0; i < tokenList.Count; i++)
+            {
+                JToken foodToken = tokenList.ElementAt<JToken>(i);
+                Food food = ParseFoodFromServerJson(foodToken.ToString(Formatting.None));
+                foods.Add(food);
+            }
+            return foods;
+
+        }
+    }
+    public enum EFoodSearchType
+    {
+        FullText,
+        All,
+        Custom,
     }
 }
