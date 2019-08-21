@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>Kukta_StoreKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>44DBE685520D995A2FE04769D0CBDAC8EF660D4A</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
