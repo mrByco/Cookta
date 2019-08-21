@@ -23,12 +23,12 @@ namespace Cooktapi.Food
         {
             get
             {
-                return this.owner == OwnUser.CurrentUser.Sub;
+                return this.owner == OwnUser.CurrentUser?.Sub;
             }
         }
         public bool subcribed { get; set; }
         public int dose = 4;
-        public bool isPrivate;
+        public bool isPrivate { get; set; }
         public string name;
         public string desc;
         public string imageURL;

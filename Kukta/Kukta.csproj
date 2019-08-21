@@ -136,6 +136,7 @@
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\FoodToFoodState.cs" />
     <Compile Include="Converters\VisibleIfStringnotEmpty.cs" />
     <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\FoodPanelModeToVisibility.cs" />
@@ -232,6 +233,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\foodstate\Foodstatus_green.png" />
+    <Content Include="Assets\foodstate\Foodstatus_orange.png" />
+    <Content Include="Assets\foodstate\Foodstatus_red.png" />
     <Content Include="Assets\Subcribed.png" />
     <Content Include="Assets\tags.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
