@@ -24,7 +24,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Image Source="{Binding This, Converter={StaticResource FoodToImage}}" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignTopWithPanel="True" Grid.Row="0"/>
+                <Image Source="{Binding This, Converter={StaticResource FoodToImage}}" Margin="20, 20, 20, 10" Name="FoodImage" Grid.Row="0"/>
                 <TextBlock Text="{x:Bind name}" Name="FoodNameText" TextWrapping="Wrap" FontSize="20" Padding="0" MaxLines="2" Margin="10, 0, 10, 10" HorizontalAlignment="Center" FontWeight="Bold" Foreground="LightCyan" Grid.Row="1"/>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -48,14 +48,34 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:DataType="food:Food" x:Key="ExpandedListViewTemplate">
-            <RelativePanel Margin="10">
-                <Image Source="{Binding This, Converter={StaticResource FoodToImage}}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
-                <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
-                    <TextBlock Height="28" Text="{Binding name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
-                    <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
-                    <TextBlock Height="22" Text="{Binding GetIngredientArray}" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" MinWidth="200"/>
+                    <ColumnDefinition Width="7*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Image Source="{Binding This, Converter={StaticResource FoodToImage}}" 
+                       MinHeight="100" MaxHeight="300" Margin="20, 20, 20, 10" Name="FoodImage"
+                       Grid.Column="0" Grid.RowSpan="3"/>
+                <StackPanel Orientation="Vertical">
                 </StackPanel>
-            </RelativePanel>
+                <TextBlock Height="28" Text="{Binding name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"
+                           Grid.Column="1"/>
+                <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"
+                           Grid.Column="1" Grid.Row="2"/>
+                <TextBlock Height="22" Text="{Binding GetIngredientArray}" FontWeight="Bold" FontSize="16"
+                           Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom"/>
+                <Image Visibility="{Binding owning, Converter={StaticResource BoolToVisibility}}"
+                       Source="{Binding This, Converter={StaticResource FoodToStateImage}}"
+                       VerticalAlignment="Bottom" Grid.Row="2"/>
+                <Image Height="40" Width="40" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="30, 20"
+                       Source="/Assets/Subcribed.png" Visibility="{Binding subcribed, Converter={StaticResource SubcribedToVisibility}}"/>
+            </Grid>
         </DataTemplate>
         
     </UserControl.Resources>
