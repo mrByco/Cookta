@@ -33,13 +33,16 @@ namespace Kukta
         }
         public async void Init()
         {
-            App.Cookta = new Cooktapi.Cookta(App.SignUpLogin, App.Logout, App.Sendnotification, false);
+            _ = Task.Run(async() =>
+            {
+                App.Cookta = new Cooktapi.Cookta(App.SignUpLogin, App.Logout, App.Sendnotification, true);
 
-            await SetLoadingAsync(true);
+                await SetLoadingAsync(true);
 
-            await Cookta.Init();
+                await Cookta.Init();
 
-            await SetLoadingAsync(false);
+                await SetLoadingAsync(false);
+            });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

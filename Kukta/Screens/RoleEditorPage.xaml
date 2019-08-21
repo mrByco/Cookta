@@ -1,0 +1,60 @@
+﻿<Page
+    x:Class="Kukta.Screens.RoleEditorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.Screens"
+    xmlns:networking="using:Cooktapi.Networking"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Kukta.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
+    <Page.Resources>
+        <converters:StringListToString x:Key="StringListToString"/>
+    </Page.Resources>
+
+    <ScrollViewer HorizontalScrollMode="Auto">
+        <Grid Background="LightGoldenrodYellow">
+            <ListView ItemClick="OpenItemForEdit" ItemsSource="{x:Bind Roles, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True">
+                <ListView.Header>
+                    <StackPanel>
+                        <Button Content="Új hozzáadása" Click="AddNewItem_Click"/>
+                    </StackPanel>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="networking:Role">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="200" Width="*"/>
+                                <ColumnDefinition MinWidth="200" Width="*"/>
+                                <ColumnDefinition MinWidth="200" Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{x:Bind displayName}"/>
+                            <TextBlock Grid.Column="1" Text="{x:Bind roleID}"/>
+                            <TextBlock Grid.Column="2" Text="{x:Bind permissions, Converter={StaticResource StringListToString}, Mode=OneWay}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ContentDialog x:Name="RoleEditContentDialog">
+                <ScrollViewer Height="500">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Role szerkesztése" Margin="10"/>
+                        <TextBox Grid.Row="1" x:Name="RoleDisplayName" Margin="10" Text="{x:Bind EditingRoleName, Mode=TwoWay}" PlaceholderText="Név"/>
+                        <TextBox Grid.Row="2" x:Name="RoleIDTextBox" Margin="10" Text="{x:Bind EditingRoleID, Mode=TwoWay}" PlaceholderText="ID"/>
+                        <TextBox Grid.Row="3" x:Name="PermissionsTextBox" Margin="10" Text="{x:Bind EditingRolePermissionsString, Mode=TwoWay}" MinHeight="100" PlaceholderText="Jogok" AcceptsReturn="True"/>
+                        <Button Grid.Row="4" Content="Mentés" Click="SaveItemClick" Margin="10"/>
+                    </Grid>
+                </ScrollViewer>
+            </ContentDialog>
+        </Grid>
+    </ScrollViewer>
+</Page>
