@@ -80,7 +80,12 @@
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE70F;"/>
                     </NavigationViewItem.Icon>
-                </NavigationViewItem> 
+                </NavigationViewItem>
+                <NavigationViewItem Tag="usermanager" Content="Felhasználók" Name="UserManagerItem">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE716;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
 

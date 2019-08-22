@@ -137,6 +137,7 @@
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\FoodToFoodState.cs" />
+    <Compile Include="Converters\IsNotNull.cs" />
     <Compile Include="Converters\StringListToString.cs" />
     <Compile Include="Converters\VisibleIfStringnotEmpty.cs" />
     <Compile Include="Converters\BoolToVisibility.cs" />
@@ -149,6 +150,9 @@
     </Compile>
     <Compile Include="Screens\IngredientPage.xaml.cs">
       <DependentUpon>IngredientPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UserManagerPage.xaml.cs">
+      <DependentUpon>UserManagerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\KeyManagerPage.xaml.cs">
       <DependentUpon>KeyManagerPage.xaml</DependentUpon>
@@ -319,6 +323,10 @@
     <Page Include="Screens\IngredientPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\UserManagerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\KeyManagerPage.xaml">
       <SubType>Designer</SubType>

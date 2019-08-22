@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="Kukta.Screens.UserManagerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.Screens"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:networking="using:Cooktapi.Networking"
+    xmlns:converters="using:Kukta.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
+    <Page.Resources>
+        <converters:IsNotNull x:Key="IsNotNull"/>
+    </Page.Resources>
+
+    <Grid Background="LightGreen">
+        <ListView ItemsSource="{x:Bind Users, Mode=OneWay}" x:Name="UsersListView" SelectionChanged="UsersListView_SelectionChanged">
+            <ListView.Header>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Rang átírása" Click="EditUserRole_Click" IsEnabled="{x:Bind CurrentUser, Converter={StaticResource IsNotNull}, Mode=OneWay}"/>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="350"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Név" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="1" Text="Email" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="2" Text="Sub" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="3" Text="Role" HorizontalAlignment="Left"/>
+                    </Grid>
+                </StackPanel>
+            </ListView.Header>
+            <ListView.ItemTemplate >
+                <DataTemplate x:DataType="networking:ExpandedUser">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="350"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{x:Bind username}" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="1" Text="{x:Bind email}" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="2" Text="{x:Bind sub}" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="3" Text="{x:Bind role}" HorizontalAlignment="Left"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+        <ContentDialog x:Name="SetUserRoleDialog">
+            <StackPanel Orientation="Horizontal" Margin="10" Spacing="10">
+                <TextBlock Text="Új role: " Margin="10" VerticalAlignment="Center"/>
+                <ComboBox PlaceholderText="Role" VerticalAlignment="Center" ItemsSource="{x:Bind AvailableRoles, Mode=OneWay}" SelectedItem="{Binding SelectedRole, Mode=OneWay}" SelectionChanged="ComboBox_SelectionChanged"/>
+                <Button Content="Átírás" Click="ChangeRole_ClickAsync" VerticalAlignment="Center"/>
+            </StackPanel>
+        </ContentDialog>
+    </Grid>
+</Page>

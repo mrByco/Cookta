@@ -21,6 +21,11 @@ namespace Cooktapi.Networking
             permissions = new List<string>();
         }
 
+        public override string ToString()
+        {
+            return displayName;
+        }
+
         public async static Task<List<Role>> GetRoles()
         {
             var roles = new List<Role>();

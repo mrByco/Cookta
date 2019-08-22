@@ -54,6 +54,7 @@ namespace Kukta
     ("tageditor", typeof(TagEditorPage), false, null),
     ("roleeditor", typeof(RoleEditorPage), false, null),
     ("keymanager", typeof(KeyManagerPage), false, null),
+    ("usermanager", typeof(UserManagerPage), false, null),
     ("ingredients", typeof(IngredientPage), false, null),
     ("fooddetail", typeof(FoodDetailPage), true, null),
 };
@@ -109,6 +110,7 @@ namespace Kukta
             TagEditorItem.Visibility = permissions.Contains("manage-tags") ? Visibility.Visible : Visibility.Collapsed;
             RoleEditorItem.Visibility = permissions.Contains("manage-roles") ? Visibility.Visible : Visibility.Collapsed;
             KeyManagerItem.Visibility = permissions.Contains("manage-keys") ? Visibility.Visible : Visibility.Collapsed;
+            UserManagerItem.Visibility = permissions.Contains("manage-users") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public async void ShowServiceError()
