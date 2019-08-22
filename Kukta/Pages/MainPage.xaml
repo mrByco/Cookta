@@ -76,6 +76,11 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE814;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Tag="keymanager" Content="Kulcsok menedzselése" Name="KeyManagerItem">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE70F;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem> 
             </NavigationView.MenuItems>
 
 
