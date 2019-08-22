@@ -36,8 +36,6 @@ namespace Kukta.Screens
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //Foods = new IncrementalFoodSource(EFoodSearchType.All, new Dictionary<string, object>(), Dispatcher, 0);
-            //FoodPanel.ItemsSource = Foods;
         }
 
         private void HomeBTN_Click(object sender, RoutedEventArgs e)
