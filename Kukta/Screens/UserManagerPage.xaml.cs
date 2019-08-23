@@ -92,7 +92,7 @@ namespace Kukta.Screens
 
         private async Task ReloadData()
         {
-            Users = new ObservableCollection<ExpandedUser>(await ExpandedUser.GetUsers());
+                Users = new ObservableCollection<ExpandedUser>(await ExpandedUser.GetUsers());
             AvailableRoles = new ObservableCollection<Role>(await Role.GetRoles());
         }
 
@@ -104,7 +104,7 @@ namespace Kukta.Screens
         private async void ChangeRole_ClickAsync(object sender, RoutedEventArgs e)
         {
             SetUserRoleDialog.Hide();
-            await ExpandedUser.SetUserRole(CurrentUser.sub, SelectedRole);
+            await ExpandedUser.ChangeUserRole(CurrentUser.sub, SelectedRole);
             ReloadData();
         }
 

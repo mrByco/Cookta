@@ -26,7 +26,7 @@ namespace Cooktapi.Networking
             return displayName;
         }
 
-        public async static Task<List<Role>> GetRoles()
+        public static async Task<List<Role>> GetRoles()
         {
             var roles = new List<Role>();
             var res = await Networking.GetRequestWithForceAuth("roles", new Dictionary<string, object>());
@@ -45,7 +45,7 @@ namespace Cooktapi.Networking
                 return new List<Role>();
             }
         }
-        public async static Task UpdateRole(Role role)
+        public static async Task UpdateRole(Role role)
         {
             var body = JObject.FromObject(role).ToString(Formatting.None);
             var res = await Networking.PostRequestWithForceAuth("role", body);
