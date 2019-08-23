@@ -96,7 +96,10 @@ namespace Kukta.Screens
             TreeViewNode changed = args.Items[0] as TreeViewNode;
             TreeViewNode newParent = changed.Parent;
             Tag tag = changed.Content as Tag;
-            await tag.ChangeTag(tag.Name, (newParent?.Content as Tag)?.ID);
+
+            tag.ParentID = (newParent?.Content as Tag)?.ID;
+            await tag.Save();
+
         }
 
         private void TreeViewer_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
