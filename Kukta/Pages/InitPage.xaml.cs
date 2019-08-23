@@ -35,7 +35,7 @@ namespace Kukta
         {
             _ = Task.Run(async() =>
             {
-                App.Cookta = new Cooktapi.Cookta(App.SignUpLogin, App.Logout, App.Sendnotification, true);
+                App.Cookta = new Cooktapi.Cookta(App.SignUpLogin, App.Logout, App.Sendnotification, false);
 
                 await SetLoadingAsync(true);
 

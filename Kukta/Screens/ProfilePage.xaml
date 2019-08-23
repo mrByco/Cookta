@@ -48,11 +48,13 @@
             <Button Name="LogoutBTN" Click="LogoutBTN_Click" Padding="30, 5" Content="Kijelentkezés"/>
             <Button Name="ChangeUserNameBTN" Click="ChangeUserNameBTN_Click" Padding="30, 5" Content="Felhasználó név változtatás"/>
         </StackPanel>
-
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" FlowDirection="RightToLeft" Margin="50, 0"
+        <!--HyperlinkStack-->
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" FlowDirection="RightToLeft" Margin="50, 0" Orientation="Horizontal" Spacing="30"
                     Visibility="{x:Bind LoadedUser, Converter={StaticResource VisibleOnCurrentUser}, Mode=OneWay}">
-            <HyperlinkButton Content="Új recept feltöltése" Foreground="Blue" Click="HyperlinkButton_Click"/>
+            <HyperlinkButton Content="Új recept feltöltése" Foreground="Blue" Click="UploadNewFoodButton"/>
+            <HyperlinkButton Content="Hiba bejelentése" Foreground="Blue" Click="SendReport_Click"/>
         </StackPanel>
         <ui:FoodPanel PanelMode="Compact" x:Name="UsersFoods" Grid.Row="4" Grid.ColumnSpan="2" TitleText="valaki receptjei" TitleBackgroundColor="LightCoral" OnItemClick="UsersFoods_OnItemClick"/>
+        
     </Grid>
 </Page>

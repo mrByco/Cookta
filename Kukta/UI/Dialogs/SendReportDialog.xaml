@@ -1,0 +1,33 @@
+﻿<ContentDialog
+    x:Class="Kukta.UI.Dialogs.SendReportDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.UI.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Hiba bejelentése"
+    PrimaryButtonText="Mégse"
+    SecondaryButtonText="Beküldés"
+    PrimaryButtonClick="ContentDialog_SecondaryButtonClick"
+    SecondaryButtonClick="ContentDialog_PrimaryButtonClick">
+
+    <Grid Width="500">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Hiba megnevezése: " Margin="5"/>
+        <TextBlock Text="Hiby leírása: " Grid.Row="1" Margin="5"/>
+        <TextBlock Text="Egyéb megjegyzés: " Grid.Row="2" Margin="5"/>
+
+        <TextBox Text="{x:Bind Subject, Mode=TwoWay}" Grid.Column="1" Margin="5" PlaceholderText="Rövid megnevezés"/>
+        <TextBox Text="{x:Bind Desc, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="5" MinHeight="150" PlaceholderText="Hosszabb leírás" AcceptsReturn="True"/>
+        <TextBox Text="{x:Bind Message, Mode=TwoWay}" Grid.Column="1" Grid.Row="2" Margin="5" PlaceholderText="Egyéb megjegyzés"/>
+    </Grid>
+</ContentDialog>
