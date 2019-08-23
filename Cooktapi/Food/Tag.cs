@@ -90,12 +90,6 @@ namespace Cooktapi.Food
             }
             return tags;
         }
-        public async Task ChangeTag(string newName, string newParentID)
-        {
-            Name = newName;
-            ParentID = newParentID;
-            await this.Save();
-        }
         public static Tag ParseTag(string json)
         {
             JObject jUnit = JObject.Parse(json);

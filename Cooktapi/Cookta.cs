@@ -106,7 +106,9 @@ namespace Cooktapi
         {
             var serverOptions = new List<ServerOption>();
             serverOptions.Add(new ServerOption() { ip = "https://kuktaservices.azurewebsites.net/", name = "Éles cookta szerver" });
+#if DEBUG
             serverOptions.Add(new ServerOption() { ip = "http://localhost:1337/", name = "Debug (nem ajánlott)" });
+#endif
             return serverOptions;
         }
     }
