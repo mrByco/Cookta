@@ -70,7 +70,7 @@ namespace Cooktapi.Networking
                 return new List<ExpandedUser>();
             }
         }
-        public async static Task SetUserRole(string sub, Role role)
+        public static async Task ChangeUserRole(string sub, Role role)
         {
             var body = new JObject();
             body.Add("user", sub);
@@ -86,7 +86,6 @@ namespace Cooktapi.Networking
             }
             return;
         }
-
     }
     public class UserLog
     {
