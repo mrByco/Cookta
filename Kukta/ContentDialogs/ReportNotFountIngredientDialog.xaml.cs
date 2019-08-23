@@ -31,7 +31,7 @@ namespace Kukta.ContentDialogs
             var query = new Dictionary<string, object>();
             query.Add("message", MessageTextBox.Text);
             query.Add("ing", IngredientNameTextBox.Text);
-            await Reporter.Report(query);
+            await Reporter.IngredientReport(query);
         }
 
         private void ContentDialog_CancelButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

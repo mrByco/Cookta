@@ -1,4 +1,5 @@
 ﻿using Cooktapi.Networking;
+using Kukta.UI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -137,7 +138,7 @@ namespace Kukta.Screens
             App.DoUserRename();
         }
 
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void UploadNewFoodButton(object sender, RoutedEventArgs e)
         {
             MainPage.NavigateTo("fooddetail", null, null);
         }
@@ -145,6 +146,11 @@ namespace Kukta.Screens
         private void UsersFoods_OnItemClick(Cooktapi.Food.Food food)
         {
             MainPage.NavigateTo("fooddetail", null, food._id);
+        }
+
+        private void SendReport_Click(object sender, RoutedEventArgs e)
+        {
+            _ = new SendReportDialog().ShowAsync();
         }
     }
 }

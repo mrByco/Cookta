@@ -13,9 +13,9 @@ namespace Cooktapi.Networking
     {
 
         private static RestClient Client { get; set; }
-        internal static void Init(bool debugServer)
+        internal static void Init(ServerOption server)
         {
-            Client = new RestClient(debugServer ? "http://localhost:1337/" : "https://kuktaservices.azurewebsites.net/");
+            Client = new RestClient(server.ip);
         }
         /// <summary>
         /// 

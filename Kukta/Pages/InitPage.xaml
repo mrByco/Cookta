@@ -5,6 +5,8 @@
     xmlns:local="using:Kukta"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cookta="using:Cooktapi"
+    xmlns:app="using:Kukta"
     RequestedTheme="Light"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -24,7 +26,23 @@
         <Frame Name="ContentFrame"  Grid.Row="1" Grid.Column="1">
 
         </Frame>
-        <TextBlock Text="{x:Bind VersionName}" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="2" Margin="10"/>
+        <Grid Margin="10" Grid.Row="2" VerticalAlignment="Bottom" MaxWidth="400" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" MinWidth="150"/>
+                <ColumnDefinition Width="*" MinWidth="130"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Row="1" x:Name="ServerSelector" ItemsSource="{x:Bind cookta:ServerOption.GetOptions()}" SelectionChanged="ServerSelector_SelectionChanged" HorizontalAlignment="Stretch"/>
+            
+            <HyperlinkButton Grid.Column="1" Grid.Row="1" x:Name="ReconnectButton" Content="Újracsatlakozás" Click="ReconnectButton_Click" HorizontalAlignment="Stretch"/>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind VersionName}" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10"/>
+        </Grid>
+        <TextBlock x:Name="ServerStateText" Text="{x:Bind app:App.Cookta.LoadingState, Mode=OneWay}" Grid.Column="1" Grid.Row="2" 
+                   VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                   Foreground="Gray" FontWeight="Bold" FontSize="14" Margin="20" TextWrapping="WrapWholeWords"/>
         <ProgressRing Grid.Row="2" Grid.Column="1" IsActive="True" Visibility="Visible" Height="100" Width="100" Foreground="Red" Name="LoadRing"/>
     </Grid>
 </Page>
