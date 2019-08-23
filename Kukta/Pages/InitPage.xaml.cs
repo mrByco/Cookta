@@ -4,6 +4,7 @@ using Kukta.UI;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,21 +26,47 @@ namespace Kukta
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class InitPage : Page
+    public sealed partial class InitPage : Page, INotifyPropertyChanged
+
     {
         public InitPage()
         {
+            CurrentServer = ServerOption.GetOptions()[0];
             this.InitializeComponent();
+            ServerSelector.SelectedIndex = 0;
         }
-        public async void Init()
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnProperyChanged(string propertyName)
         {
-            _ = Task.Run(async() =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private ServerOption m_CurrentServer;
+        public ServerOption CurrentServer
+        {
+            get
             {
-                App.Cookta = new Cooktapi.Cookta(App.SignUpLogin, App.Logout, App.Sendnotification, false);
-
+                return m_CurrentServer;
+            }
+            set
+            {
+                m_CurrentServer = value;
+                OnProperyChanged("CurrentServer");
+            }
+        }
+        public async void ConnectToServer()
+        {
+            _ = Task.Run(async () =>
+            {
                 await SetLoadingAsync(true);
-
-                await Cookta.Init();
+                try
+                {
+                    await App.Cookta.Init(CurrentServer,
+                        (action) =>
+                        {
+                            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => { action.Invoke(); });
+                        });
+                }
+                catch { }
 
                 await SetLoadingAsync(false);
             });
@@ -62,14 +89,14 @@ namespace Kukta
                 else
                 {
                     SwitchToLogin();
-                    Init();
+                    ConnectToServer();
                 }
                 return;
             }
             catch
             {
                 SwitchToLogin();
-                Init();
+                ConnectToServer();
             }
         }
 
@@ -123,8 +150,18 @@ namespace Kukta
         {
             get
             {
-                return string.Format("v{0}b", App.GetAppVersion());
+                return string.Format("{0}", App.GetAppVersion());
             }
+        }
+
+        private void ReconnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectToServer();
+        }
+
+        private void ServerSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CurrentServer = ServerSelector.SelectedItem as ServerOption;
         }
     }
 }
