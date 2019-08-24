@@ -56,6 +56,20 @@ namespace Cooktapi.Food
                 OnPropertyChanged("CommentOptionsVisible");
             }
         }
+        private bool m_DoseOk;
+        public bool DoseOk
+        {
+            get
+            {
+                return m_DoseOk;
+            }
+            set
+            {
+                m_DoseOk = value;
+                OnPropertyChanged("DoseOk");
+                OnPropertyChanged("CommentOptionsVisible");
+            }
+        }
         private bool m_TagsOk;
         public bool TagsOk
         {
@@ -84,7 +98,7 @@ namespace Cooktapi.Food
                 OnPropertyChanged("CommentOptionsVisible");
             }
         }
-        public bool IsOk { get { return TitleOk && DescOk && IngredientsOk && TagsOk && ImageOk; } }
+        public bool IsOk { get { return TitleOk && DescOk && IngredientsOk && TagsOk && ImageOk && DoseOk; } }
         private string m_Comment;
         public string Comment
         {

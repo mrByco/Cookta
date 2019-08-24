@@ -95,7 +95,7 @@ namespace Kukta.Screens
         private async void SendButton_Click(object sender, RoutedEventArgs e)
         {
             var food = await Food.Get(CurrentFoodId);
-            await Food.UploadCertForFood(food, GetCurrentReportState());
+            await Food.UploadCertForFood(food, GetCurrentReportState(), ECertificationType.Admin);
         }
 
         private void ReportSource_Changed(object sender, RoutedEventArgs e)
@@ -110,9 +110,10 @@ namespace Kukta.Screens
             report.TitleOk = TitleOkCheckBox.IsChecked ?? false;
             report.DescOk = DescOkCheckBox.IsChecked ?? false;
             report.IngredientsOk = IngOkCheckBox.IsChecked ?? false;
-            report.DescOk = DoseOkCheckBox.IsChecked ?? false;
+            report.DescOk = DescOkCheckBox.IsChecked ?? false;
             report.ImageOk = ImageOkCheckBox.IsChecked ?? false;
             report.TagsOk = TagsOkCheckBox.IsChecked ?? false;
+            report.DoseOk = DoseOkCheckBox.IsChecked ?? false;
             return report;
         }
     }

@@ -112,7 +112,7 @@ namespace Cooktapi.Food
         }
         public static async Task<Food> InstertFood(Food food)
         {
-            string FoodText = CreateFoodToServer(food);
+            string FoodText = CreateFoodToServer(food).ToString(Formatting.None);
 
             var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
 
@@ -260,12 +260,24 @@ namespace Cooktapi.Food
                 return null;
 
         }
-        public static async Task UploadCertForFood(Food food, FoodCertificationReport report)
+        public static async Task UploadCertForFood(Food food, FoodCertificationReport report, ECertificationType certType)
         {
-            var certification = new { asd = "asd", ggg = 5 };
-            var str = certification.ToString();
+            string cert;
+            if (certType == ECertificationType.Admin)
+                cert = "admin";
+            else if (certType == ECertificationType.User3)
+                cert = "user3";
+            else
+                return;
+            var certification = new JObject();
+            certification.Add("type", cert);
+            certification.Add("food", CreateFoodToServer(food));
+            certification.Add("certificationReport", JToken.FromObject(report));
+            string body = certification.ToString();
+            var res = await Networking.Networking.PostRequestWithForceAuth("certification", body);
+            return;
         }
-        public static string CreateFoodToServer(Food food)
+        public static JObject CreateFoodToServer(Food food)
         {
             JObject jFood = new JObject();
 
@@ -290,7 +302,7 @@ namespace Cooktapi.Food
             jFood.Add("tags", new JArray(strList));
             jFood.Add("ingredients", ingArray);
 
-            return jFood.ToString(Formatting.None);
+            return jFood;
 
         }
         public static async Task<IEnumerable<Food>> Search(EFoodSearchType type, uint from, uint to, Dictionary<string, object> args)
