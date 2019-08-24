@@ -221,7 +221,7 @@ namespace Cooktapi.Food
                 food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
 
-                var isPublic = jFood.GetValue("public")?.Value<bool>()?? false;
+                var isPublic = jFood.GetValue("published")?.Value<bool>()?? false;
                 if (food.isPrivate)
                     food.FoodPublicState = EFoodPublicState.PRIVATE;
                 else if (!isPublic)
@@ -259,6 +259,11 @@ namespace Cooktapi.Food
             else
                 return null;
 
+        }
+        public static async Task UploadCertForFood(Food food, FoodCertificationReport report)
+        {
+            var certification = new { asd = "asd", ggg = 5 };
+            var str = certification.ToString();
         }
         public static string CreateFoodToServer(Food food)
         {
@@ -333,6 +338,11 @@ namespace Cooktapi.Food
             return foods;
 
         }
+    }
+    public enum ECertificationType
+    {
+        User3,
+        Admin
     }
     public enum EFoodPublicState
     {

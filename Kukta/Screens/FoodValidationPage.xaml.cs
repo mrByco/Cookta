@@ -92,9 +92,10 @@ namespace Kukta.Screens
             App.Sendnotification("Betöltés sikertelen", "");
         }
 
-        private void SendButton_Click(object sender, RoutedEventArgs e)
+        private async void SendButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var food = await Food.Get(CurrentFoodId);
+            await Food.UploadCertForFood(food, GetCurrentReportState());
         }
 
         private void ReportSource_Changed(object sender, RoutedEventArgs e)
