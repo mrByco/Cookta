@@ -41,6 +41,8 @@ namespace Cooktapi.Food
         public string GetId() { return _id; }
         public void NewSeed() { return; }
         public string GetName() { return name; }
+        public EFoodPublicState FoodPublicState { get; set; }
+
         public Uri getImage
         {
             get
@@ -218,6 +220,15 @@ namespace Cooktapi.Food
                 food.desc = jFood.GetValue("desc").Value<string>();
                 food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
+
+                var isPublic = jFood.GetValue("public")?.Value<bool>()?? false;
+                if (food.isPrivate)
+                    food.FoodPublicState = EFoodPublicState.PRIVATE;
+                else if (!isPublic)
+                    food.FoodPublicState = EFoodPublicState.PENDING;
+                else
+                    food.FoodPublicState = EFoodPublicState.PUBLIC;
+
                 food.LastModified = DateTimeExtensions.FromTotalMilis(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
                 if (tagArray != null)
@@ -322,6 +333,12 @@ namespace Cooktapi.Food
             return foods;
 
         }
+    }
+    public enum EFoodPublicState
+    {
+        PRIVATE,
+        PUBLIC,
+        PENDING
     }
     public enum EFoodSearchType
     {

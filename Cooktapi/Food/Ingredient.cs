@@ -225,7 +225,7 @@ namespace Cooktapi.Food
             }
             return Ingredients;
         }
-        public override string ToString() => string.Format("{0} {1} {2}", Value, Unit.Name, Type.Name);
+        public override string ToString() => string.Format("{0} {1} {2}", Value, Unit?.Name ?? "[Egység nem található]", Type.Name);
     }
 
 }

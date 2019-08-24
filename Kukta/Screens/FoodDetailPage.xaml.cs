@@ -53,9 +53,9 @@ namespace Kukta.Screens
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Update(e.Parameter as string, false);
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { _ = Load(e.Parameter as string, false); });
         }
-        private async void Update(string id, bool editMode)
+        public async Task Load(string id, bool editMode)
         {
             await SetLoading(true);
             if (id == null)
@@ -70,7 +70,7 @@ namespace Kukta.Screens
             CurrentUser = await User.GetUser(CurrentFood?.owner ?? OwnUser.CurrentUser.Sub);
 
             if (CurrentFood == null)
-            {
+            { 
                 editMode = true;
                 await SetUINewFood();
             }
@@ -237,12 +237,12 @@ namespace Kukta.Screens
             }, storageFile?.Path ?? "");
 
             await SetLoading(false);
-            Update(CurrentFood._id, false);
+            _ = Load(CurrentFood._id, false);
         }
 
         private async void EditBTN_Click(object sender, RoutedEventArgs e)
         {
-            Update(CurrentFood._id, true);
+            _ = Load(CurrentFood._id, true);
         }
 
         private async void DeleteBTN_Click(object sender, RoutedEventArgs e)
@@ -289,7 +289,7 @@ namespace Kukta.Screens
         private async void SetSubStateForFood(bool sub)
         {
             await CurrentFood.SetSubForfood(sub);
-            Update(CurrentFood._id, false);
+            _ = Load(CurrentFood._id, false);
             return;
         }
 

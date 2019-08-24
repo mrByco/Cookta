@@ -71,8 +71,9 @@
                 <TextBlock Height="22" Text="{Binding GetIngredientArray}" FontWeight="Bold" FontSize="16"
                            Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom"/>
                 <Image Visibility="{Binding owning, Converter={StaticResource BoolToVisibility}}"
+                       Height="40" Width="40"
                        Source="{Binding This, Converter={StaticResource FoodToStateImage}}"
-                       VerticalAlignment="Bottom" Grid.Row="2"/>
+                       VerticalAlignment="Top" Grid.Row="0" HorizontalAlignment="Right" Margin="30, 20"/>
                 <Image Height="40" Width="40" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="30, 20"
                        Source="/Assets/Subcribed.png" Visibility="{Binding subcribed, Converter={StaticResource SubcribedToVisibility}}"/>
             </Grid>

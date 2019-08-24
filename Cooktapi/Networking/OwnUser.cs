@@ -123,7 +123,7 @@ namespace Cooktapi.Networking
         }
         public static string GetClaim(string type)
         {
-            if (CurrentUser.LoginResult != null && !CurrentUser.LoginResult.IsError)
+            if (! (CurrentUser?.LoginResult?.IsError ?? true))
             {
                 foreach (Claim cl in CurrentUser.LoginResult?.User?.Claims)
                 {

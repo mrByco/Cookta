@@ -53,6 +53,8 @@ namespace Kukta
     ("account", typeof(ProfilePage), false, OwnUser.CurrentUser?.Sub),
     ("tageditor", typeof(TagEditorPage), false, null),
     ("roleeditor", typeof(RoleEditorPage), false, null),
+    ("pendings", typeof(FoodValidationListPage), false, null),
+    ("validate", typeof(FoodValidationPage), true, null),
     ("keymanager", typeof(KeyManagerPage), false, null),
     ("usermanager", typeof(UserManagerPage), false, null),
     ("ingredients", typeof(IngredientPage), false, null),

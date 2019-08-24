@@ -12,7 +12,8 @@ namespace Kukta.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ( parameter != null && (bool)parameter)
+            bool bo;
+            if (bool.TryParse((parameter as string)?? "false", out bo) && bo)
             {
                 return !(bool)value ? Visibility.Visible : Visibility.Collapsed;
             }
