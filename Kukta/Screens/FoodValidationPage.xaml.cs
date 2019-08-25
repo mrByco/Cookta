@@ -1,4 +1,5 @@
 ﻿using Cooktapi.Food;
+using Cooktapi.Food.Certificate;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -96,6 +97,7 @@ namespace Kukta.Screens
         {
             var food = await Food.Get(CurrentFoodId);
             await Food.UploadCertForFood(food, GetCurrentReportState(), ECertificationType.Admin);
+            MainPage.NavigateTo("pendings", null, null);
         }
 
         private void ReportSource_Changed(object sender, RoutedEventArgs e)
@@ -114,6 +116,7 @@ namespace Kukta.Screens
             report.ImageOk = ImageOkCheckBox.IsChecked ?? false;
             report.TagsOk = TagsOkCheckBox.IsChecked ?? false;
             report.DoseOk = DoseOkCheckBox.IsChecked ?? false;
+            report.Comment = CommentTextBox.Text;
             return report;
         }
     }

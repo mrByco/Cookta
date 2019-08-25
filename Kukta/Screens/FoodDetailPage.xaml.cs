@@ -50,6 +50,18 @@ namespace Kukta.Screens
                 m_CurrentTags = Cooktapi.Food.Tag.GetTagsByTexts(value, "hu-hu");
             }
         }
+        private bool m_EditMode;
+        public bool EditMode
+        {
+            get
+            {
+                return m_EditMode;
+            }
+            set
+            {
+                m_EditMode = value;
+            }
+        }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -84,6 +96,7 @@ namespace Kukta.Screens
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
+                EditMode = true;
                 TitleTextBlock.Visibility = Visibility.Collapsed;
                 DescTextBlock.Visibility = Visibility.Collapsed;
                 TitleTextBox.Visibility = Visibility.Visible;
@@ -101,6 +114,8 @@ namespace Kukta.Screens
                 LastModified.Visibility = Visibility.Collapsed;
                 IngredientList.EditMode = true;
                 IngredientList.SetItems(new List<Ingredient>());
+                LastReport.Visibility =Visibility.Collapsed;
+                LastReport.Report = null;
 
 
                 UploadImageBTN.Visibility = Visibility.Visible;
@@ -115,6 +130,7 @@ namespace Kukta.Screens
         }
         private async Task SetUIShowFood(bool editMode)
         {
+            EditMode = editMode;
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
 
@@ -149,6 +165,8 @@ namespace Kukta.Screens
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 Tags.EditEnabled = editMode;
                 Tags.Tags = CurrentFood.Tags;
+                LastReport.Visibility = CurrentFood.report == null ? Visibility.Collapsed : Visibility.Visible;
+                LastReport.Report = CurrentFood.report;
 
 
                 ImageCropper.Visibility = Visibility.Collapsed;
@@ -331,6 +349,22 @@ namespace Kukta.Screens
         private void UploaderName_Click(object sender, RoutedEventArgs e)
         {
             MainPage.NavigateTo("account", null, CurrentUser?.Sub);
+        }
+
+        private void MoreDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentSplitView.IsPaneOpen = true;
+        }
+
+        private void CloseOptions_Click(object sender, RoutedEventArgs e)
+        {
+            ContentSplitView.IsPaneOpen = false;
+        }
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (EditMode)
+                new S
+            base.OnNavigatingFrom(e);
         }
     }
 }

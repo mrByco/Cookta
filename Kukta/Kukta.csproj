@@ -136,6 +136,8 @@
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\CertReportBoolToColor.cs" />
+    <Compile Include="Converters\CertReportBoolToText.cs" />
     <Compile Include="Converters\FoodToFoodState.cs" />
     <Compile Include="Converters\IsNotNull.cs" />
     <Compile Include="Converters\StringListToString.cs" />
@@ -182,6 +184,9 @@
       <DependentUpon>TagEditorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\CalendarButton.cs" />
+    <Compile Include="UI\CertificationResultPanel.xaml.cs">
+      <DependentUpon>CertificationResultPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\SendReportDialog.xaml.cs">
       <DependentUpon>SendReportDialog.xaml</DependentUpon>
     </Compile>
@@ -373,6 +378,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\CertificationResultPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -64,7 +64,7 @@
                        Grid.Column="0" Grid.RowSpan="3"/>
                 <StackPanel Orientation="Vertical">
                 </StackPanel>
-                <TextBlock Height="28" Text="{Binding name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"
+                <TextBlock Height="28" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"
                            Grid.Column="1"/>
                 <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"
                            Grid.Column="1" Grid.Row="2"/>

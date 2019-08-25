@@ -1,6 +1,6 @@
 ﻿using Cooktapi.Calendar;
 using Cooktapi.Extensions;
-using Cooktapi.Food;
+using Cooktapi.Food.Certificate;
 using Cooktapi.Measuring;
 using Cooktapi.Networking;
 using Newtonsoft.Json;
@@ -32,6 +32,7 @@ namespace Cooktapi.Food
         public string name;
         public string desc;
         public string imageURL;
+        public IFoodCertificationResult report;
         public DateTime LastModified { get; private set; }
         public long? imageUploaded { get; private set; }
         public List<Tag> Tags = new List<Tag>();
@@ -221,7 +222,7 @@ namespace Cooktapi.Food
                 food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
 
-                var isPublic = jFood.GetValue("published")?.Value<bool>()?? false;
+                var isPublic = jFood.GetValue("published")?.Value<bool>() ?? false;
                 if (food.isPrivate)
                     food.FoodPublicState = EFoodPublicState.PRIVATE;
                 else if (!isPublic)
@@ -253,6 +254,15 @@ namespace Cooktapi.Food
                 else
                 {
                     food.ingredients = new List<Ingredient>();
+                }
+
+                //certification report
+                if (jFood.GetValue("lastCertificate") != null)
+                {
+                    if (jFood.GetValue("lastCertificate").Value<string>("type") == "admin")
+                        food.report = jFood.SelectToken("$.lastCertificate.certificationReport").ToObject<FoodCertificationReport>();
+                    else
+                        food.report = new PendingCertifiacte();
                 }
                 return food;
             }

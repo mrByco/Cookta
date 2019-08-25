@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace Cooktapi.Food
+namespace Cooktapi.Food.Certificate
 {
-    public class FoodCertificationReport : INotifyPropertyChanged
+    public class FoodCertificationReport : INotifyPropertyChanged, IFoodCertificationResult
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string name)
@@ -13,7 +15,19 @@ namespace Cooktapi.Food
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        public string GetResultText()
+        {
+            return IsOk ? "Sikeres" : "Sikertelen";
+        }
+
+        public bool? GetResult()
+        {
+            return IsOk;
+        }
+
+
         private bool m_TitleOk;
+        [JsonProperty("titleOk")]
         public bool TitleOk
         {
             get
@@ -29,6 +43,7 @@ namespace Cooktapi.Food
         }
 
         private bool m_DescOk;
+        [JsonProperty("descOk")]
         public bool DescOk
         {
             get
@@ -43,6 +58,7 @@ namespace Cooktapi.Food
             }
         }
         private bool m_IngredientsOk;
+        [JsonProperty("ingOk")]
         public bool IngredientsOk
         {
             get
@@ -57,6 +73,7 @@ namespace Cooktapi.Food
             }
         }
         private bool m_DoseOk;
+        [JsonProperty("doseOk")]
         public bool DoseOk
         {
             get
@@ -71,6 +88,7 @@ namespace Cooktapi.Food
             }
         }
         private bool m_TagsOk;
+        [JsonProperty("tagOk")]
         public bool TagsOk
         {
             get
@@ -85,6 +103,7 @@ namespace Cooktapi.Food
             }
         }
         private bool m_ImageOk;
+        [JsonProperty("imgOk")]
         public bool ImageOk
         {
             get
@@ -98,8 +117,10 @@ namespace Cooktapi.Food
                 OnPropertyChanged("CommentOptionsVisible");
             }
         }
+        [JsonIgnore]
         public bool IsOk { get { return TitleOk && DescOk && IngredientsOk && TagsOk && ImageOk && DoseOk; } }
         private string m_Comment;
+        [JsonProperty("comment")]
         public string Comment
         {
             get
@@ -112,5 +133,6 @@ namespace Cooktapi.Food
                 OnPropertyChanged("Comment");
             }
         }
+
     }
 }
