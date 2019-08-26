@@ -1,0 +1,65 @@
+﻿<Page
+    x:Class="Kukta.Screens.FoodValidationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Kukta.Screens"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Kukta.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <converters:BoolToVisibility x:Key="BoolToVisibility"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibility}, ConverterParameter=true}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="130"/>
+            </Grid.RowDefinitions>
+            <local:FoodDetailPage Grid.Row="0" x:Name="FoodPage" VerticalAlignment="Top"/>
+            <RelativePanel Grid.Row="1" Margin="10" >
+                <VariableSizedWrapGrid x:Name="Checkboxes" RelativePanel.AlignLeftWithPanel="True">
+                    <CheckBox Content="Cím" ToolTipService.ToolTip="A Címben nincsennek elírások, a cím tartalma megfelelő" 
+                              x:Name="TitleOkCheckBox" Click="ReportSource_Changed"/>
+                    <CheckBox Content="Leírás" ToolTipService.ToolTip="A leírásban nincsennek elírások, a leírás tartalma megfelelő"
+                              x:Name="DescOkCheckBox" Click="ReportSource_Changed"/>
+                    <CheckBox Content="Hozzávalók" ToolTipService.ToolTip="A hozzávalóknál nem adott meg irracionális mennyiségű hozzávalót. Pl.: 80kg csirkecomb"
+                              x:Name="IngOkCheckBox" Click="ReportSource_Changed"/>
+                    <CheckBox Content="Adagok" ToolTipService.ToolTip="Az egy főre jutó adagok NAGYJÁBÓL helyesnek tűnnek."
+                              x:Name="DoseOkCheckBox" Click="ReportSource_Changed"/>
+                    <CheckBox Content="Kép" ToolTipService.ToolTip="A tartalma releváns, a kép nem felismerhetetlenűl rossz minősségű"
+                              x:Name="ImageOkCheckBox" Click="ReportSource_Changed"/>
+                    <CheckBox Content="Cimkék" ToolTipService.ToolTip="Nincs hozzáadva irreleváncs cimke"
+                              x:Name="TagsOkCheckBox" Click="ReportSource_Changed"/>
+
+                </VariableSizedWrapGrid>
+                <TextBlock x:Name="CommentTitle" Text="Javaslatok javításra:" RelativePanel.RightOf="Checkboxes" 
+                           ToolTipService.ToolTip="Minden hibásnak jelölt pontra javaslatot kell adnod!"/>
+                <TextBox x:Name="CommentTextBox" AcceptsReturn="True"
+                         Margin="10, 0, 10, 0"
+                         RelativePanel.RightOf="CommentTitle"
+                         RelativePanel.LeftOf="SendButton"
+                         RelativePanel.AlignTopWithPanel="True"
+                         RelativePanel.AlignBottomWithPanel="True"
+                         MinHeight="50" />
+                <HyperlinkButton Content="Súgó"
+                        x:Name="HelpBTN"
+                        HorizontalAlignment="Stretch"
+                        RelativePanel.AlignTopWithPanel="True"
+                        RelativePanel.Above="SendButton"
+                        RelativePanel.AlignLeftWith="SendButton"
+                        RelativePanel.AlignRightWithPanel="True"/>
+                <Button Content="Értékelés&#x0a;beküldése"
+                        x:Name="SendButton"
+                        HorizontalAlignment="Stretch"
+                        RelativePanel.AlignBottomWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        Click="SendButton_Click"/>
+            </RelativePanel>
+        </Grid>
+        <ProgressRing IsActive="True"
+                      Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibility}}"/>
+    </Grid>
+</Page>

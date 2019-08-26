@@ -14,14 +14,16 @@ namespace Kukta.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             Food food = value as Food;
-            if (food.isPrivate)
+            switch (food.FoodPublicState)
             {
-                return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_red.png"));
+                case EFoodPublicState.PRIVATE:
+                    return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_red.png"));
+                case EFoodPublicState.PENDING:
+                    return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_orange.png"));
+                case EFoodPublicState.PUBLIC:
+                    return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_green.png"));
             }
-            else
-            {
-                return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_green.png"));
-            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

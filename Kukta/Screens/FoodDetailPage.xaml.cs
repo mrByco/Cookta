@@ -50,12 +50,24 @@ namespace Kukta.Screens
                 m_CurrentTags = Cooktapi.Food.Tag.GetTagsByTexts(value, "hu-hu");
             }
         }
+        private bool m_EditMode;
+        public bool EditMode
+        {
+            get
+            {
+                return m_EditMode;
+            }
+            set
+            {
+                m_EditMode = value;
+            }
+        }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Update(e.Parameter as string, false);
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { _ = Load(e.Parameter as string, false); });
         }
-        private async void Update(string id, bool editMode)
+        public async Task Load(string id, bool editMode)
         {
             await SetLoading(true);
             if (id == null)
@@ -70,7 +82,7 @@ namespace Kukta.Screens
             CurrentUser = await User.GetUser(CurrentFood?.owner ?? OwnUser.CurrentUser.Sub);
 
             if (CurrentFood == null)
-            {
+            { 
                 editMode = true;
                 await SetUINewFood();
             }
@@ -84,6 +96,7 @@ namespace Kukta.Screens
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
+                EditMode = true;
                 TitleTextBlock.Visibility = Visibility.Collapsed;
                 DescTextBlock.Visibility = Visibility.Collapsed;
                 TitleTextBox.Visibility = Visibility.Visible;
@@ -101,6 +114,9 @@ namespace Kukta.Screens
                 LastModified.Visibility = Visibility.Collapsed;
                 IngredientList.EditMode = true;
                 IngredientList.SetItems(new List<Ingredient>());
+                LastReport.Visibility =Visibility.Collapsed;
+                LastReport.Report = null;
+                MoreOptionsButton.Visibility =  Visibility.Visible;
 
 
                 UploadImageBTN.Visibility = Visibility.Visible;
@@ -115,6 +131,7 @@ namespace Kukta.Screens
         }
         private async Task SetUIShowFood(bool editMode)
         {
+            EditMode = editMode;
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
 
@@ -140,6 +157,7 @@ namespace Kukta.Screens
                 LastModified.Text = CurrentFood.LastModified.ToString("yyyy-MM-dd hh:mm");
                 IngredientList.EditMode = editMode;
                 IngredientList.SetItems(CurrentFood.ingredients);
+                MoreOptionsButton.Visibility = CurrentFood.owning ? Visibility.Visible : Visibility.Collapsed;
 
 
                 DoseTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
@@ -149,6 +167,9 @@ namespace Kukta.Screens
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 Tags.EditEnabled = editMode;
                 Tags.Tags = CurrentFood.Tags;
+                LastReport.Visibility = CurrentFood.report == null ? Visibility.Collapsed : Visibility.Visible;
+                LastReport.Report = CurrentFood.report;
+                
 
 
                 ImageCropper.Visibility = Visibility.Collapsed;
@@ -206,7 +227,7 @@ namespace Kukta.Screens
 
             SaveBTN.IsEnabled = true;
         }
-        private async void SaveCurrentFood()
+        private async Task SaveCurrentFood()
         {
             await SetLoading(true);
 
@@ -237,12 +258,12 @@ namespace Kukta.Screens
             }, storageFile?.Path ?? "");
 
             await SetLoading(false);
-            Update(CurrentFood._id, false);
+            _ = Load(CurrentFood._id, false);
         }
 
         private async void EditBTN_Click(object sender, RoutedEventArgs e)
         {
-            Update(CurrentFood._id, true);
+            _ = Load(CurrentFood._id, true);
         }
 
         private async void DeleteBTN_Click(object sender, RoutedEventArgs e)
@@ -289,7 +310,7 @@ namespace Kukta.Screens
         private async void SetSubStateForFood(bool sub)
         {
             await CurrentFood.SetSubForfood(sub);
-            Update(CurrentFood._id, false);
+            _ = Load(CurrentFood._id, false);
             return;
         }
 
@@ -331,6 +352,33 @@ namespace Kukta.Screens
         private void UploaderName_Click(object sender, RoutedEventArgs e)
         {
             MainPage.NavigateTo("account", null, CurrentUser?.Sub);
+        }
+
+        private void MoreDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentSplitView.IsPaneOpen = true;
+        }
+
+        private void CloseOptions_Click(object sender, RoutedEventArgs e)
+        {
+            ContentSplitView.IsPaneOpen = false;
+        }
+        public async Task BeforeNavigatingFrom()
+        {
+            if (EditMode)
+            {
+                var dialog = new ContentDialog();
+                dialog.Title = "Mentés?";
+                dialog.Content = "Biztosan továbblépsz mentés nélkül?";
+                dialog.PrimaryButtonText = "Továbblépés";
+                dialog.SecondaryButtonText = "Mentés és továbblépés";
+                dialog.SecondaryButtonClick += async (sender, args) => { await SaveCurrentFood(); };
+                await dialog.ShowAsync();
+            }
+        }
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
         }
     }
 }

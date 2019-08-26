@@ -136,6 +136,8 @@
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\CertReportBoolToColor.cs" />
+    <Compile Include="Converters\CertReportBoolToText.cs" />
     <Compile Include="Converters\FoodToFoodState.cs" />
     <Compile Include="Converters\IsNotNull.cs" />
     <Compile Include="Converters\StringListToString.cs" />
@@ -147,6 +149,12 @@
     <Compile Include="Converters\VisibleIfUserIsCurrentUser.cs" />
     <Compile Include="Screens\BaselistPage.xaml.cs">
       <DependentUpon>BaselistPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\FoodValidationListPage.xaml.cs">
+      <DependentUpon>FoodValidationListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\FoodValidationPage.xaml.cs">
+      <DependentUpon>FoodValidationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\IngredientPage.xaml.cs">
       <DependentUpon>IngredientPage.xaml</DependentUpon>
@@ -176,8 +184,14 @@
       <DependentUpon>TagEditorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\CalendarButton.cs" />
+    <Compile Include="UI\CertificationResultPanel.xaml.cs">
+      <DependentUpon>CertificationResultPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\SendReportDialog.xaml.cs">
       <DependentUpon>SendReportDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\SureDialog.xaml.cs">
+      <DependentUpon>SureDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\FixedSourceFoodPanel.xaml.cs">
       <DependentUpon>FixedSourceFoodPanel.xaml</DependentUpon>
@@ -322,6 +336,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Screens\FoodValidationListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\FoodValidationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Screens\IngredientPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -362,7 +384,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\CertificationResultPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Dialogs\SendReportDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Dialogs\SureDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

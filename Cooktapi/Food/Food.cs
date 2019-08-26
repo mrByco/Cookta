@@ -1,6 +1,6 @@
 ﻿using Cooktapi.Calendar;
 using Cooktapi.Extensions;
-using Cooktapi.Food;
+using Cooktapi.Food.Certificate;
 using Cooktapi.Measuring;
 using Cooktapi.Networking;
 using Newtonsoft.Json;
@@ -32,6 +32,7 @@ namespace Cooktapi.Food
         public string name;
         public string desc;
         public string imageURL;
+        public IFoodCertificationResult report;
         public DateTime LastModified { get; private set; }
         public long? imageUploaded { get; private set; }
         public List<Tag> Tags = new List<Tag>();
@@ -41,6 +42,8 @@ namespace Cooktapi.Food
         public string GetId() { return _id; }
         public void NewSeed() { return; }
         public string GetName() { return name; }
+        public EFoodPublicState FoodPublicState { get; set; }
+
         public Uri getImage
         {
             get
@@ -110,7 +113,7 @@ namespace Cooktapi.Food
         }
         public static async Task<Food> InstertFood(Food food)
         {
-            string FoodText = CreateFoodToServer(food);
+            string FoodText = CreateFoodToServer(food).ToString(Formatting.None);
 
             var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
 
@@ -218,6 +221,15 @@ namespace Cooktapi.Food
                 food.desc = jFood.GetValue("desc").Value<string>();
                 food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.imageURL = jFood.GetValue("image")?.Value<string>();
+
+                var isPublic = jFood.GetValue("published")?.Value<bool>() ?? false;
+                if (food.isPrivate)
+                    food.FoodPublicState = EFoodPublicState.PRIVATE;
+                else if (!isPublic)
+                    food.FoodPublicState = EFoodPublicState.PENDING;
+                else
+                    food.FoodPublicState = EFoodPublicState.PUBLIC;
+
                 food.LastModified = DateTimeExtensions.FromTotalMilis(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
                 if (tagArray != null)
@@ -243,13 +255,39 @@ namespace Cooktapi.Food
                 {
                     food.ingredients = new List<Ingredient>();
                 }
+
+                //certification report
+                if (jFood.GetValue("lastCertificate") != null)
+                {
+                    if (jFood.GetValue("lastCertificate").Value<string>("type") == "admin")
+                        food.report = jFood.SelectToken("$.lastCertificate.certificationReport").ToObject<FoodCertificationReport>();
+                    else
+                        food.report = new PendingCertifiacte();
+                }
                 return food;
             }
             else
                 return null;
 
         }
-        public static string CreateFoodToServer(Food food)
+        public static async Task UploadCertForFood(Food food, FoodCertificationReport report, ECertificationType certType)
+        {
+            string cert;
+            if (certType == ECertificationType.Admin)
+                cert = "admin";
+            else if (certType == ECertificationType.User3)
+                cert = "user3";
+            else
+                return;
+            var certification = new JObject();
+            certification.Add("type", cert);
+            certification.Add("food", CreateFoodToServer(food));
+            certification.Add("certificationReport", JToken.FromObject(report));
+            string body = certification.ToString();
+            var res = await Networking.Networking.PostRequestWithForceAuth("certification", body);
+            return;
+        }
+        public static JObject CreateFoodToServer(Food food)
         {
             JObject jFood = new JObject();
 
@@ -274,7 +312,7 @@ namespace Cooktapi.Food
             jFood.Add("tags", new JArray(strList));
             jFood.Add("ingredients", ingArray);
 
-            return jFood.ToString(Formatting.None);
+            return jFood;
 
         }
         public static async Task<IEnumerable<Food>> Search(EFoodSearchType type, uint from, uint to, Dictionary<string, object> args)
@@ -322,6 +360,17 @@ namespace Cooktapi.Food
             return foods;
 
         }
+    }
+    public enum ECertificationType
+    {
+        User3,
+        Admin
+    }
+    public enum EFoodPublicState
+    {
+        PRIVATE,
+        PUBLIC,
+        PENDING
     }
     public enum EFoodSearchType
     {
