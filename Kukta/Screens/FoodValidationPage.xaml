@@ -43,7 +43,7 @@
                          RelativePanel.LeftOf="SendButton"
                          RelativePanel.AlignTopWithPanel="True"
                          RelativePanel.AlignBottomWithPanel="True"
-                         MinHeight="50" Text="sadasda"/>
+                         MinHeight="50" />
                 <HyperlinkButton Content="Súgó"
                         x:Name="HelpBTN"
                         HorizontalAlignment="Stretch"

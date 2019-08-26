@@ -190,6 +190,9 @@
     <Compile Include="UI\Dialogs\SendReportDialog.xaml.cs">
       <DependentUpon>SendReportDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\SureDialog.xaml.cs">
+      <DependentUpon>SureDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\FixedSourceFoodPanel.xaml.cs">
       <DependentUpon>FixedSourceFoodPanel.xaml</DependentUpon>
     </Compile>
@@ -386,6 +389,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Dialogs\SendReportDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Dialogs\SureDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

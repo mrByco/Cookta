@@ -131,7 +131,7 @@ namespace Kukta
         }
 
 
-        private void NavView_Navigate(string navItemTag, object parameter, NavigationTransitionInfo transitionInfo)
+        private async void NavView_Navigate(string navItemTag, object parameter, NavigationTransitionInfo transitionInfo)
         {
             Type _page = null;
             if (navItemTag == "settings")
@@ -156,6 +156,8 @@ namespace Kukta
             // Only navigate if the selected page isn't currently loaded.
             if (!(_page is null) && !Type.Equals(preNavPageType, _page))
             {
+                if (ContentFrame.Content is FoodDetailPage detailPage)
+                    await detailPage.BeforeNavigatingFrom();
                 if (transitionInfo == null)
                     ContentFrame.Navigate(_page, parameter, transitionInfo);
                 else

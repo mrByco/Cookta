@@ -116,6 +116,7 @@ namespace Kukta.Screens
                 IngredientList.SetItems(new List<Ingredient>());
                 LastReport.Visibility =Visibility.Collapsed;
                 LastReport.Report = null;
+                MoreOptionsButton.Visibility =  Visibility.Visible;
 
 
                 UploadImageBTN.Visibility = Visibility.Visible;
@@ -156,6 +157,7 @@ namespace Kukta.Screens
                 LastModified.Text = CurrentFood.LastModified.ToString("yyyy-MM-dd hh:mm");
                 IngredientList.EditMode = editMode;
                 IngredientList.SetItems(CurrentFood.ingredients);
+                MoreOptionsButton.Visibility = CurrentFood.owning ? Visibility.Visible : Visibility.Collapsed;
 
 
                 DoseTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
@@ -167,6 +169,7 @@ namespace Kukta.Screens
                 Tags.Tags = CurrentFood.Tags;
                 LastReport.Visibility = CurrentFood.report == null ? Visibility.Collapsed : Visibility.Visible;
                 LastReport.Report = CurrentFood.report;
+                
 
 
                 ImageCropper.Visibility = Visibility.Collapsed;
@@ -224,7 +227,7 @@ namespace Kukta.Screens
 
             SaveBTN.IsEnabled = true;
         }
-        private async void SaveCurrentFood()
+        private async Task SaveCurrentFood()
         {
             await SetLoading(true);
 
@@ -360,10 +363,21 @@ namespace Kukta.Screens
         {
             ContentSplitView.IsPaneOpen = false;
         }
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        public async Task BeforeNavigatingFrom()
         {
             if (EditMode)
-                new S
+            {
+                var dialog = new ContentDialog();
+                dialog.Title = "Mentés?";
+                dialog.Content = "Biztosan továbblépsz mentés nélkül?";
+                dialog.PrimaryButtonText = "Továbblépés";
+                dialog.SecondaryButtonText = "Mentés és továbblépés";
+                dialog.SecondaryButtonClick += async (sender, args) => { await SaveCurrentFood(); };
+                await dialog.ShowAsync();
+            }
+        }
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
             base.OnNavigatingFrom(e);
         }
     }
