@@ -152,5 +152,10 @@ namespace Kukta.Screens
         {
             _ = new SendReportDialog().ShowAsync();
         }
+
+        private async void OpenNotificationsDialog_Click(object sender, RoutedEventArgs e)
+        {
+            new NotificationsDialog().ShowAsync();
+        }
     }
 }

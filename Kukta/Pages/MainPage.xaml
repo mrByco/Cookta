@@ -5,6 +5,7 @@
     xmlns:local="using:Kukta"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:networking="using:Cooktapi.Networking"
     RequestedTheme="Light"
     mc:Ignorable="d"
     Loaded="Page_Loaded">
@@ -19,7 +20,7 @@
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind networking:NotificationManager.Instance.HasNewNotification, Converter={StaticResource BoolToHasNotificationIcon}, Mode=OneWay}"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 

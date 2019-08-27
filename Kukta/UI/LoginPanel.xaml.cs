@@ -40,28 +40,6 @@ namespace Kukta.UI
         {
             SetLoading?.Invoke(true);
             await OwnUser.LoginUser();
-            //if (!res.IsError)
-            //{
-            //    try
-            //    {
-            //        if (Networking.info?.DisplayName == null || Networking.info?.DisplayName == "")
-            //        {
-            //            SetLoading?.Invoke(false);
-            //            parent.SwitchToUserData();
-            //        }
-            //        else
-            //        {
-            //            await Networking.ChangeUserInfo(null, null, null, Networking.GetClaim("email"), Networking.GetClaim("picture"));
-            //            var permissions = await Role.GetPermissions();
-            //            App.SwitchToMainPage(permissions);
-            //        }
-            //    }
-            //    catch
-            //    {
-            //        App.SwitchToMainPage(null);
-            //    }
-            //    return;
-            //}
             if (OwnUser.CurrentUser?.IsLoggedIn ?? false)
             {
                 if (OwnUser.CurrentUser.DisplayName == null || OwnUser.CurrentUser.DisplayName == "")
