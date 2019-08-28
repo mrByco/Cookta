@@ -19,6 +19,7 @@ namespace Cooktapi.Networking
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+
         private bool m_HasNewNotification;
         public bool HasNewNotification
         {
@@ -30,11 +31,11 @@ namespace Cooktapi.Networking
             }
         }
 
-        public static NotificationManager Instance;
+
+        public static NotificationManager Instance { get; set; }
         public async static Task Init()
         {
             if (Instance == null) Instance = new NotificationManager();
-            await UpdateHasNewNotification();
         }
         public async static Task UpdateHasNewNotification()
         {

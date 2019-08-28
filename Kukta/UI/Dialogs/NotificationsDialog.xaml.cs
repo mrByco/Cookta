@@ -61,5 +61,10 @@ namespace Kukta.UI.Dialogs
         {
             Source.AllowArhived = (bool)(ShowArhivesCheckBox.IsChecked ?? false);
         }
+
+        private void CommandTextBlock_BeforeExecuteCommand()
+        {
+            Hide();
+        }
     }
 }

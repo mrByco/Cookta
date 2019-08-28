@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:networking="using:Cooktapi.Networking"
+    xmlns:ui="using:Kukta.UI"
     mc:Ignorable="d"
     Title="Értesítések"
     Loaded="ContentDialog_Loaded"
@@ -17,11 +18,11 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind D_Added.ToLongTimeString()}" Margin="10" 
+                    <TextBlock Text="{x:Bind D_Added.ToLongTimeString()}" Margin="5" 
                                FontStyle="Italic" Foreground="{x:Bind IsArhived, Converter={StaticResource ArhivedToNotificationBrush}, Mode=OneWay}"/>
-                    <TextBlock Text="{x:Bind Title}" Grid.Column="1" Margin="10"
+                    <ui:CommandTextBlock Text="{x:Bind Title}" Grid.Column="1" Margin="5" BeforeExecuteCommand="CommandTextBlock_BeforeExecuteCommand"
                                FontWeight="SemiBold" Foreground="{x:Bind IsArhived, Converter={StaticResource ArhivedToNotificationBrush}, Mode=OneWay}"/>
                     <TextBlock Text="{x:Bind Message}" />
                     <Button Grid.Column="2" Background="Transparent" Click="ArhiveButton_Click" Tag="{x:Bind ID}" 

@@ -189,6 +189,9 @@
     <Compile Include="UI\CertificationResultPanel.xaml.cs">
       <DependentUpon>CertificationResultPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\CommandTextBlock.xaml.cs">
+      <DependentUpon>CommandTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\NotificationsDialog.xaml.cs">
       <DependentUpon>NotificationsDialog.xaml</DependentUpon>
     </Compile>
@@ -269,10 +272,9 @@
     <Content Include="Assets\foodstate\Foodstatus_green.png" />
     <Content Include="Assets\foodstate\Foodstatus_orange.png" />
     <Content Include="Assets\foodstate\Foodstatus_red.png" />
+    <Content Include="Assets\Navigation\ProfilePageItem\man-notification.png" />
+    <Content Include="Assets\Navigation\ProfilePageItem\man-ok.png" />
     <Content Include="Assets\Subcribed.png" />
-    <Content Include="Assets\tags.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Kukta_StoreKey.pfx" />
     <None Include="Kukta_TemporaryKey.pfx" />
   </ItemGroup>
@@ -391,6 +393,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\CertificationResultPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\CommandTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,7 +20,7 @@
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind networking:NotificationManager.Instance.HasNewNotification, Converter={StaticResource BoolToHasNotificationIcon}, Mode=OneWay}"/>
+                        <BitmapIcon UriSource="{x:Bind networking:NotificationManager.Instance.HasNewNotification, Converter={StaticResource BoolToHasNotificationIcon}, Mode=OneWay}"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
