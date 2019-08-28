@@ -53,6 +53,7 @@
                     Visibility="{x:Bind LoadedUser, Converter={StaticResource VisibleOnCurrentUser}, Mode=OneWay}">
             <HyperlinkButton Content="Új recept feltöltése" Foreground="Blue" Click="UploadNewFoodButton"/>
             <HyperlinkButton Content="Hiba bejelentése" Foreground="Blue" Click="SendReport_Click"/>
+            <HyperlinkButton Content="Értesítések (8)" Click="OpenNotificationsDialog_Click"/>
         </StackPanel>
         <ui:FoodPanel PanelMode="Compact" x:Name="UsersFoods" Grid.Row="4" Grid.ColumnSpan="2" TitleText="valaki receptjei" TitleBackgroundColor="LightCoral" OnItemClick="UsersFoods_OnItemClick"/>
         

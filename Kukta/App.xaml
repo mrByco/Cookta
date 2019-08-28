@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Kukta"
     xmlns:food="using:Cooktapi.Food"
+    xmlns:converters="using:Kukta.Converters"
     xmlns:ui="using:Kukta.UI"
     RequestedTheme="Light">
     <Application.Resources>
@@ -15,6 +16,8 @@
         <SolidColorBrush x:Key="Gray5" Color="#777777"/>
         <SolidColorBrush x:Key="Gray6" Color="#888888"/>
         <SolidColorBrush x:Key="Gray7" Color="#191919"/>
+        <converters:BoolToHasNotificationIcon x:Key="BoolToHasNotificationIcon"/>
+        <converters:ArhivedToNotificationBrush x:Key="ArhivedToNotificationBrush"/>
 
     </Application.Resources>
 

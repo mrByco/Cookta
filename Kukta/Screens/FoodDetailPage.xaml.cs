@@ -69,6 +69,7 @@ namespace Kukta.Screens
         }
         public async Task Load(string id, bool editMode)
         {
+            
             await SetLoading(true);
             if (id == null)
             {

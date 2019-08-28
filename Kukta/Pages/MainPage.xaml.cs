@@ -127,6 +127,14 @@ namespace Kukta
 
         public static void NavigateTo(string navItemTag, NavigationTransitionInfo info, object param)
         {
+            var openedpopups = VisualTreeHelper.GetOpenPopups(Window.Current);
+            foreach (var popup in openedpopups)
+            {
+                if (popup.Child is ContentDialog dialog)
+                {
+                    dialog.Hide();
+                }
+            }
             DoNav.Invoke(navItemTag, param, info);
         }
 

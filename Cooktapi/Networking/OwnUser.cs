@@ -50,6 +50,7 @@ namespace Cooktapi.Networking
                 try
                 {
                     await RefreshCurrentUserData();
+                    await NotificationManager.Init();
                     return true;
                 }
                 catch

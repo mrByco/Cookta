@@ -46,6 +46,7 @@ namespace Kukta
 
         public static App instance;
 
+        
         internal static InitPage InitPage;
         internal static MainPage RootPage;
         internal static Cookta Cookta;
@@ -71,7 +72,6 @@ namespace Kukta
 
         public App()
         {
-
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

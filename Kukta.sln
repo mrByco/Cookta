@@ -7,9 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kukta", "Kukta\Kukta.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngredientUpdater", "IngredientUpdater\IngredientUpdater.csproj", "{281A4294-9632-47A5-BFB4-405BC8EA63E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooktapi", "Cooktapi\Cooktapi.csproj", "{FD62B681-4008-42B2-A16E-B13F9F73F7DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooktapi", "Cooktapi\Cooktapi.csproj", "{FD62B681-4008-42B2-A16E-B13F9F73F7DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Cooktapi", "Test.Cooktapi\Test.Cooktapi.csproj", "{BA1A223D-CB4B-4E95-A018-DF920CCD9391}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Cooktapi", "Test.Cooktapi\Test.Cooktapi.csproj", "{BA1A223D-CB4B-4E95-A018-DF920CCD9391}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Kukta", "Tests.Kukta\Tests.Kukta.csproj", "{4DE30F7E-6F37-4275-A690-A64518E104A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,26 @@ Global
 		{BA1A223D-CB4B-4E95-A018-DF920CCD9391}.Release|x64.Build.0 = Release|Any CPU
 		{BA1A223D-CB4B-4E95-A018-DF920CCD9391}.Release|x86.ActiveCfg = Release|Any CPU
 		{BA1A223D-CB4B-4E95-A018-DF920CCD9391}.Release|x86.Build.0 = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|x64.Build.0 = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|ARM.Build.0 = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|ARM64.Build.0 = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|x64.ActiveCfg = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|x64.Build.0 = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{4DE30F7E-6F37-4275-A690-A64518E104A8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

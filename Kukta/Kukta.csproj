@@ -136,6 +136,8 @@
     <Compile Include="ContentDialogs\ReportNotFountIngredientDialog.xaml.cs">
       <DependentUpon>ReportNotFountIngredientDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ArhivedToNotificationBrush.cs" />
+    <Compile Include="Converters\BoolToHasNotificationIcon.cs" />
     <Compile Include="Converters\CertReportBoolToColor.cs" />
     <Compile Include="Converters\CertReportBoolToText.cs" />
     <Compile Include="Converters\FoodToFoodState.cs" />
@@ -186,6 +188,12 @@
     <Compile Include="UI\CalendarButton.cs" />
     <Compile Include="UI\CertificationResultPanel.xaml.cs">
       <DependentUpon>CertificationResultPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CommandTextBlock.xaml.cs">
+      <DependentUpon>CommandTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\NotificationsDialog.xaml.cs">
+      <DependentUpon>NotificationsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\SendReportDialog.xaml.cs">
       <DependentUpon>SendReportDialog.xaml</DependentUpon>
@@ -255,6 +263,7 @@
       <DependentUpon>WeekTemplatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UWPLayer\IncrementalFoodSource.cs" />
+    <Compile Include="UWPLayer\IncrementalNotificationSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -263,10 +272,9 @@
     <Content Include="Assets\foodstate\Foodstatus_green.png" />
     <Content Include="Assets\foodstate\Foodstatus_orange.png" />
     <Content Include="Assets\foodstate\Foodstatus_red.png" />
+    <Content Include="Assets\Navigation\ProfilePageItem\man-notification.png" />
+    <Content Include="Assets\Navigation\ProfilePageItem\man-ok.png" />
     <Content Include="Assets\Subcribed.png" />
-    <Content Include="Assets\tags.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Kukta_StoreKey.pfx" />
     <None Include="Kukta_TemporaryKey.pfx" />
   </ItemGroup>
@@ -385,6 +393,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\CertificationResultPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\CommandTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Dialogs\NotificationsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

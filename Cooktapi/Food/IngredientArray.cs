@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Cooktapi.Food
 {
-    class IngredientArray
+    public class IngredientArray
     {
+
     }
 }
