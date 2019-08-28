@@ -20,7 +20,7 @@
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem Tag="account" Content="Fiók" Name="AccountItem">
                     <NavigationViewItem.Icon>
-                        <BitmapIcon UriSource="{x:Bind networking:NotificationManager.Instance.HasNewNotification, Converter={StaticResource BoolToHasNotificationIcon}, Mode=OneWay}"/>
+                        <BitmapIcon x:Name="BitmapIcon" UriSource="{x:Bind networking:NotificationManager.Instance.HasNewNotification, Converter={StaticResource BoolToHasNotificationIcon}, Mode=OneWay}"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 

@@ -153,8 +153,9 @@ namespace Kukta.Screens
             _ = new SendReportDialog().ShowAsync();
         }
 
-        private async void OpenNotificationsDialog_Click(object sender, RoutedEventArgs e)
+        private void OpenNotificationsDialog_Click(object sender, RoutedEventArgs e)
         {
+            NotificationManager.Instance.HasNewNotification = NotificationManager.Instance.HasNewNotification;
             new NotificationsDialog().ShowAsync();
         }
     }

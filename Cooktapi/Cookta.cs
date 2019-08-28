@@ -19,6 +19,7 @@ namespace Cooktapi
         internal static LogoutDelegate DoLogout { get; private set; }
         internal static SendNotificationDelegete SendNotification { get; private set; }
         public static event PropertyChangedEventHandler StaticPropertyChanged;
+        public static RunOnUIThreadAsyncDelegate RunOnUIThread;
 
         private string m_LoadingState = "Nincs csatlakozva";
         public string LoadingState
@@ -60,8 +61,10 @@ namespace Cooktapi
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async Task Init(ServerOption server, RunOnUIThreadAsyncDelegate RunOnUIThread)
+        public async Task Init(ServerOption server, RunOnUIThreadAsyncDelegate runOnUIThread)
         {
+
+            RunOnUIThread = runOnUIThread;
             RunOnUIThread(() => { Connected = false; });
             Networking.Networking.Init(server);
             try

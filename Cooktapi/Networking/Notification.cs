@@ -27,7 +27,8 @@ namespace Cooktapi.Networking
             set
             {
                 m_HasNewNotification = value;
-                OnPropertyChanged("HasNewNotification");
+
+                Cookta.RunOnUIThread(() => { OnPropertyChanged("HasNewNotification"); });
             }
         }
 
@@ -36,6 +37,7 @@ namespace Cooktapi.Networking
         public async static Task Init()
         {
             if (Instance == null) Instance = new NotificationManager();
+            await UpdateHasNewNotification();
         }
         public async static Task UpdateHasNewNotification()
         {
