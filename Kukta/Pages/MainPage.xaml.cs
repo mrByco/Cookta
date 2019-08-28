@@ -23,12 +23,14 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Cooktapi.Networking;
+using System.ComponentModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace Kukta
 {
     public delegate void NavigateTo(string tag, object param, NavigationTransitionInfo info);
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -36,6 +38,8 @@ namespace Kukta
     {
         public static MainPage instance;
         private static event NavigateTo DoNav;
+
+
 
 
         // List of ValueTuple holding the Navigation Tag and the relative Navigation Page
@@ -68,6 +72,7 @@ namespace Kukta
             OwnUser.SubscribeFor(UpdateLoginButton);
             DoNav += new NavigateTo(NavView_Navigate);
         }
+
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
@@ -122,7 +127,7 @@ namespace Kukta
 
         private void UpdateLoginButton()
         {
-            AccountItem.Content = OwnUser.GetClaim("name")?? "Bejelentkezés";
+            AccountItem.Content = OwnUser.GetClaim("name") ?? "Bejelentkezés";
         }
 
         public static void NavigateTo(string navItemTag, NavigationTransitionInfo info, object param)
