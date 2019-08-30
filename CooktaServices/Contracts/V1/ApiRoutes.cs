@@ -15,6 +15,8 @@ namespace CooktaServices.Contracts.V1
         public static class Foods
         {
             public const string GetAll = Base + "/foods";
+            public const string Create = Base + "/foods";
+            public const string Get = Base + "/foods/{foodId}";
         }
     }
 }
