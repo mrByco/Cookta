@@ -149,6 +149,7 @@
     <Compile Include="Converters\FoodToBitmapImage.cs" />
     <Compile Include="Converters\SubcribedToVisibility.cs" />
     <Compile Include="Converters\VisibleIfUserIsCurrentUser.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Screens\BaselistPage.xaml.cs">
       <DependentUpon>BaselistPage.xaml</DependentUpon>
     </Compile>

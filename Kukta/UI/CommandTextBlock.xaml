@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <TextBlock x:Name="TextBlock">
+    <TextBlock x:Name="TextBlock" TextWrapping="{x:Bind TextWrapping}">
         
     </TextBlock>
 </UserControl>
