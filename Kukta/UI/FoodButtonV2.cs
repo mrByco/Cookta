@@ -18,8 +18,8 @@ namespace Kukta.UI
         public FoodButtonV2(Food food, Action<Food> onClick) : base()
         {
             this.food = food;
-            this._id = food._id;
-            base.Content = food.name;
+            this._id = food.Id;
+            base.Content = food.Name;
             base.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
             base.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
             OnClick = onClick;

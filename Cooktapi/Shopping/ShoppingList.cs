@@ -23,7 +23,7 @@ namespace Cooktapi.Shopping
                 {
                     foreach (IMealingItem item in mealing.items)
                     {
-                        reqList.AddRange(item.GetMealFood().ingredients);
+                        reqList.AddRange(item.GetMealFood().Ingredients);
                     }
                 }
             }

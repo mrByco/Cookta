@@ -70,8 +70,8 @@ namespace Kukta.Screens
         private void FilterUpdateUI()
         {
             string filter = SearchTextBox.Text;
-            FilteredMyFoods = new ObservableCollection<Food>(MyFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
-            FilteredSubcribtedFoods = new ObservableCollection<Food>(SubcribtedFoods.FindAll((food) => { return food.name.ToLower().Contains(filter.ToLower()); }));
+            FilteredMyFoods = new ObservableCollection<Food>(MyFoods.FindAll((food) => { return food.Name.ToLower().Contains(filter.ToLower()); }));
+            FilteredSubcribtedFoods = new ObservableCollection<Food>(SubcribtedFoods.FindAll((food) => { return food.Name.ToLower().Contains(filter.ToLower()); }));
             MyFoodsListView.ItemsSource = FilteredMyFoods;
             SubFoodsListView.ItemsSource = FilteredSubcribtedFoods;
         }
@@ -89,7 +89,7 @@ namespace Kukta.Screens
         private void FoodClick(object sender, ItemClickEventArgs e)
         {
             Food clickedFood = e.ClickedItem as Food;
-            MainPage.NavigateTo("fooddetail", null, clickedFood._id);
+            MainPage.NavigateTo("fooddetail", null, clickedFood.Id);
             return;
         }
     }

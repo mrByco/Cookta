@@ -65,7 +65,7 @@ namespace Kukta.Screens
 
         private void FoodPanel_OnItemClick(Food food)
         {
-            MainPage.NavigateTo("fooddetail", null, food._id);
+            MainPage.NavigateTo("fooddetail", null, food.Id);
         }
     }
     public class SearchParam

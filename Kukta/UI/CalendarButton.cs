@@ -218,7 +218,7 @@ namespace Kukta.UI
         {
             if (Item is IMealingItem item)
             {
-                MainPage.NavigateTo("fooddetail", null, item.GetMealFood()._id);
+                MainPage.NavigateTo("fooddetail", null, item.GetMealFood().Id);
             }
         }
         private void ChangeToItemSetter()

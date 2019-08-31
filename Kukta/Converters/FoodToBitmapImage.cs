@@ -14,9 +14,9 @@ namespace Kukta.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             Food food = value as Food;
-            bool cacheEnabled = Food.GetCacheingEnabled(food._id, food.imageUploaded);
+            bool cacheEnabled = Food.GetCacheingEnabled(food.Id, food.ImageUploaded);
 
-            return new BitmapImage(food.getImage)
+            return new BitmapImage(food.GetImage)
             {
                 CreateOptions = cacheEnabled ? BitmapCreateOptions.None : BitmapCreateOptions.IgnoreImageCache,
             };

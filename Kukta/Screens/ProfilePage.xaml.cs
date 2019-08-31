@@ -145,7 +145,7 @@ namespace Kukta.Screens
 
         private void UsersFoods_OnItemClick(Cooktapi.Food.Food food)
         {
-            MainPage.NavigateTo("fooddetail", null, food._id);
+            MainPage.NavigateTo("fooddetail", null, food.Id);
         }
 
         private void SendReport_Click(object sender, RoutedEventArgs e)

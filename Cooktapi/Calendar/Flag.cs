@@ -61,7 +61,7 @@ namespace Cooktapi.Calendar
         }
         public override string ToString()
         {
-            return "Tag: " + (CurrentFood?.name ?? Tag.GetTagById(IdOfTag).Name);
+            return "Tag: " + (CurrentFood?.Name ?? Tag.GetTagById(IdOfTag).Name);
         }
 
         public void NewSeed()

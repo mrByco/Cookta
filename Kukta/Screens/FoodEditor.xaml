@@ -44,8 +44,8 @@
                         <RelativePanel Margin="10">
                             <Image Source="{x:Bind This, Converter={StaticResource FoodToImage}}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
                             <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
-                                <TextBlock Height="28" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
-                                <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
+                                <TextBlock Height="28" Text="{x:Bind Name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
+                                <TextBlock Text="{x:Bind Desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
                                 <TextBlock Height="22" Text="{x:Bind GetIngredientArray}" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                             </StackPanel>
                         </RelativePanel>
@@ -63,8 +63,8 @@
                         <RelativePanel Margin="10" HorizontalAlignment="Stretch">
                             <Image Source="{x:Bind This, Converter={StaticResource FoodToImage}}" Height="200" Margin="20, 20, 20, 10" Name="FoodImage" RelativePanel.AlignBottomWithPanel="True"/>
                             <StackPanel Orientation="Vertical" RelativePanel.RightOf="FoodImage" RelativePanel.AlignRightWithPanel="True">
-                                <TextBlock Height="25" Text="{x:Bind name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
-                                <TextBlock Text="{x:Bind desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
+                                <TextBlock Height="25" Text="{x:Bind Name}" Name="FoodNameText" FontSize="21" Margin="20, 5, 20, 10" HorizontalAlignment="Center" FontWeight="Bold" IsColorFontEnabled="True" Foreground="Black"/>
+                                <TextBlock Text="{x:Bind Desc}" TextWrapping="Wrap" Height="150" FontSize="16"/>
                                 <TextBlock Height="25" Text="{x:Bind GetIngredientArray}" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                             </StackPanel>
                         </RelativePanel>
