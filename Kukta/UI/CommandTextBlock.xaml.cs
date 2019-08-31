@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -13,12 +15,13 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Kukta.Annotations;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Kukta.UI
 {
-    public sealed partial class CommandTextBlock : UserControl
+    public sealed partial class CommandTextBlock : UserControl, INotifyPropertyChanged
     {
         public CommandTextBlock()
         {
@@ -28,6 +31,8 @@ namespace Kukta.UI
         public event VoidDelegate BeforeExecuteCommand;
 
         private string m_Text;
+        private TextWrapping m_TextWrapping;
+
         public string Text
         {
             get => m_Text;
@@ -37,6 +42,17 @@ namespace Kukta.UI
                 var inlines = ParseText(value);
                 TextBlock.Inlines.Clear();
                 inlines.ForEach(inline => { TextBlock.Inlines.Add(inline); });
+            }
+        }
+
+        public TextWrapping TextWrapping
+        {
+            get => m_TextWrapping;
+            set
+            {
+                if (value == m_TextWrapping) return;
+                m_TextWrapping = value;
+                OnPropertyChanged();
             }
         }
         //Examlple text: Some text before command <OPENFOOD,Csirke,af5d4d521d> some text after the command
@@ -99,6 +115,14 @@ namespace Kukta.UI
                     throw new Exception("Invalid command: " + command);
             }
             return inline;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
