@@ -13,17 +13,18 @@ namespace Kukta.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            Food food = value as Food;
+            if (!(value is Food food)) return null;
             switch (food.FoodPublicState)
             {
-                case EFoodPublicState.PRIVATE:
+                case EFoodPublicState.Private:
                     return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_red.png"));
-                case EFoodPublicState.PENDING:
+                case EFoodPublicState.Pending:
                     return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_orange.png"));
-                case EFoodPublicState.PUBLIC:
+                case EFoodPublicState.Public:
                     return new BitmapImage(new Uri("ms-appx:///Assets/foodstate/Foodstatus_green.png"));
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cooktapi.Food;
 
 namespace Cooktapi.Calendar
 {
     public class IMealingPH : IMealingItem
     {
+        public List<Ingredient> GetIngsForMealingDose()
+        {
+            throw new NotImplementedException();
+        }
+
         public float Dose()
         {
             throw new NotImplementedException();

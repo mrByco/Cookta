@@ -14,16 +14,32 @@ namespace Cooktapi.Food
         public string ParentID { get; set; }
         public string ID { get; private set; }
         public string Name { get; set; }
+        public bool IsChildOnly { get; set; }
 
-        public Tag(string parent, string id, string name)
+        public Tag(string parent, string id, string name, bool isCildOnly)
         {
             ParentID = parent;
             ID = id;
             Name = name;
+            IsChildOnly = isCildOnly;
         }
 
         private static List<Tag> m_Tags;
-        public static List<Tag> Tags { get { return m_Tags; } }
+        public static List<Tag> Tags => m_Tags;
+
+        public static List<Tag> ChildOnlyTags
+        {
+            get
+            {
+                var childOnlyTags = new List<Tag>();
+                Tags.ForEach(tag =>
+                {
+                    if (tag.IsChildOnly) childOnlyTags.Add(tag);
+                });
+                return childOnlyTags;
+            }
+        }
+
         public string AsString
         {
             get
@@ -93,15 +109,16 @@ namespace Cooktapi.Food
         public static Tag ParseTag(string json)
         {
             JObject jUnit = JObject.Parse(json);
-            return ParseUnit(jUnit);
+            return ParseTag(jUnit);
         }
-        public static Tag ParseUnit(JObject jUnit)
+        public static Tag ParseTag(JObject jTag)
         {
-            string id = jUnit.GetValue("guid").Value<string>();
-            string parentId = jUnit.GetValue("parent")?.Value<string>();
-            string name = jUnit.GetValue("name")?.Value<string>();
+            string id = jTag.GetValue("guid").Value<string>();
+            string parentId = jTag.GetValue("parent")?.Value<string>();
+            string name = jTag.GetValue("name")?.Value<string>();
+            bool isChildOnly = jTag.Value<bool?>("ischildonly") ?? false;
 
-            Tag tag = new Tag(parentId, id, name);
+            Tag tag = new Tag(parentId, id, name, isChildOnly);
 
             return tag;
         }

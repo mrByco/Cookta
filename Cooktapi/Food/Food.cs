@@ -8,13 +8,14 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Cooktapi.Food
 {
-    public class Food : AMealingItem, IMealingItem, IIngredientSource
+    public class Food : AMealingItem, IIngredientSource
     {
         public string Id;
         public string Owner;
@@ -27,7 +28,7 @@ namespace Cooktapi.Food
             }
         }
         public bool Subcribed { get; set; }
-        public int Dose = 4;
+        public new int Dose = 4;
         public bool IsPrivate { get; set; }
         public string Name;
         public string Desc;
@@ -35,20 +36,22 @@ namespace Cooktapi.Food
         public IFoodCertificationResult Report;
         public DateTime LastModified { get; private set; }
         public long? ImageUploaded { get; private set; }
-        public List<Tag> Tags = new List<Tag>();
+        public ObservableCollection<Tag> Tags = new ObservableCollection<Tag>();
+        public ObservableCollection<Tag> AutoTags = new ObservableCollection<Tag>();
         public List<Ingredient> Ingredients = new List<Ingredient>();
-        public Food GetMealFood() { return this; }
+        public override Food GetMealFood() { return this; }
         public Food This => this;
-        public string GetId() { return Id; }
-        public void NewSeed() { return; }
-        public string GetName() { return Name; }
+        public override string GetId() { return Id; }
+
+        public override void NewSeed() { return; }
+        public override string GetName() { return Name; }
         public EFoodPublicState FoodPublicState { get; set; }
 
         public Uri GetImage
         {
             get
             {
-                if (ImageUrl != null && ImageUrl != "")
+                if (!string.IsNullOrEmpty(ImageUrl))
                 {
                     var bitmapUri = new Uri(ImageUrl.ToString(), UriKind.Absolute);
                     return bitmapUri;
@@ -60,6 +63,8 @@ namespace Cooktapi.Food
         {
             return Name;
         }
+
+
         public string GetIngredientArray
         {
             get
@@ -74,7 +79,23 @@ namespace Cooktapi.Food
                 return list;
             }
         }
-        private static Dictionary<string, long?> _knownImages = new Dictionary<string, long?>();
+
+        public List<Ingredient> GetIngredientsForDose(float dose)
+        {
+            var multipled = new List<Ingredient>();
+            Ingredients.ForEach(ing =>
+            {
+                var newIng = new Ingredient(ing.Type, (ing.Value / this.Dose) * dose, ing.Unit, ing.InheritedFrom);
+                if (newIng.Unit.Type == UnitType.Count)
+                {
+                    newIng.Value = (int)Math.Ceiling(newIng.Value);
+                }
+
+                multipled.Add(newIng);
+            });
+            return multipled;
+        }
+        private static readonly Dictionary<string, long?> _knownImages = new Dictionary<string, long?>();
         /// <summary>
         /// Returns a bool that represents the image known in the cache if its updated since the last call returns false
         /// </summary>
@@ -172,10 +193,9 @@ namespace Cooktapi.Food
         }
         public static async Task<Food> Get(string id)
         {
-            var query = new Dictionary<string, object>();
-            query.Add("_id", id);
+            var query = new Dictionary<string, object> { { "_id", id } };
             var res = await Networking.Networking.GetRequestSimple("food", query);
-            Food food = ParseFoodFromServerJson(res.Content);
+            var food = ParseFoodFromServerJson(res.Content);
             return food;
         }
         /// <summary>
@@ -199,7 +219,7 @@ namespace Cooktapi.Food
         }
         public static Food ParseFoodFromServerJson(string json)
         {
-            if (json != null && json != "")
+            if (!string.IsNullOrEmpty(json))
             {
                 JObject jFood = null;
                 try
@@ -224,11 +244,11 @@ namespace Cooktapi.Food
 
                 var isPublic = jFood.GetValue("published")?.Value<bool>() ?? false;
                 if (food.IsPrivate)
-                    food.FoodPublicState = EFoodPublicState.PRIVATE;
+                    food.FoodPublicState = EFoodPublicState.Private;
                 else if (!isPublic)
-                    food.FoodPublicState = EFoodPublicState.PENDING;
+                    food.FoodPublicState = EFoodPublicState.Pending;
                 else
-                    food.FoodPublicState = EFoodPublicState.PUBLIC;
+                    food.FoodPublicState = EFoodPublicState.Public;
 
                 food.LastModified = DateTimeExtensions.FromTotalMilis(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
@@ -238,6 +258,15 @@ namespace Cooktapi.Food
                     {
                         string str = tagArray.ElementAt(i).ToObject<string>();
                         food.Tags.Add(Tag.GetTagById(str));
+                    }
+                }
+                var generatedTagArray = jFood.SelectToken("$.generated.tags")?.Value<JArray>();
+                if (generatedTagArray != null)
+                {
+                    for (int i = 0; i < generatedTagArray.Count; i++)
+                    {
+                        var tag = Tag.ParseTag(generatedTagArray.ElementAt(i).ToString());
+                        food.AutoTags.Add(tag);
                     }
                 }
 
@@ -283,7 +312,7 @@ namespace Cooktapi.Food
             certification.Add("type", cert);
             certification.Add("food", CreateFoodToServer(food));
             certification.Add("certificationReport", JToken.FromObject(report));
-            string body = certification.ToString();
+            var body = certification.ToString();
             var res = await Networking.Networking.PostRequestWithForceAuth("certification", body);
             return;
         }
@@ -308,7 +337,10 @@ namespace Cooktapi.Food
             jFood.Add("dose", JToken.FromObject(food.Dose));
 
             List<string> strList = new List<string>();
-            food.Tags.ForEach((tag) => { strList.Add(tag.ID); });
+            foreach (Tag tag in food.Tags)
+            {
+                strList.Add(tag.ID);
+            }
             jFood.Add("tags", new JArray(strList));
             jFood.Add("ingredients", ingArray);
 
@@ -360,6 +392,7 @@ namespace Cooktapi.Food
             return foods;
 
         }
+
     }
     public enum ECertificationType
     {
@@ -368,9 +401,9 @@ namespace Cooktapi.Food
     }
     public enum EFoodPublicState
     {
-        PRIVATE,
-        PUBLIC,
-        PENDING
+        Private,
+        Public,
+        Pending
     }
     public enum EFoodSearchType
     {

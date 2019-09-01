@@ -5,6 +5,7 @@ using Kukta.UI;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -167,7 +168,8 @@ namespace Kukta.Screens
                 OtherSettingsTextBlock.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 Tags.EditEnabled = editMode;
-                Tags.Tags = CurrentFood.Tags;
+                Tags.Tags = CurrentFood.Tags.ToList();
+                AutoTags.Tags = CurrentFood.AutoTags.ToList();
                 LastReport.Visibility = CurrentFood.Report == null ? Visibility.Collapsed : Visibility.Visible;
                 LastReport.Report = CurrentFood.Report;
                 
@@ -255,7 +257,7 @@ namespace Kukta.Screens
                 Dose = CurrentDose,
                 Ingredients = IngredientList.GetIngredients(),
                 IsPrivate = !IsPublicToggle.IsOn,
-                Tags = Tags.Tags
+                Tags = new ObservableCollection<Tag>(Tags.Tags),
             }, storageFile?.Path ?? "");
 
             await SetLoading(false);
