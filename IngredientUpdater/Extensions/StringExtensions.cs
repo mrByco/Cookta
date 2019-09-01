@@ -5,7 +5,7 @@ namespace IngredientUpdater.Extensions
 {
     public static class StringExtensions
     {
-        private static T ParseParameter<T>(this string paramText)
+        public static T ParseParameter<T>(this string paramText)
         {
             try
             {
