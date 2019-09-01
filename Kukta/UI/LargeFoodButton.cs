@@ -37,7 +37,7 @@ namespace Kukta.UI
             root.ColumnDefinitions.Add(c0);
             root.ColumnDefinitions.Add(c1);
 
-            foodID = food._id;
+            foodID = food.Id;
             this.OnClick = onClick;
 
             image = new Image()
@@ -60,14 +60,14 @@ namespace Kukta.UI
 
             title = new TextBlock()
             {
-                Text = food.name,
+                Text = food.Name,
                 HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch,
                 HorizontalTextAlignment = Windows.UI.Xaml.TextAlignment.Center,
                 FontSize = 24,
             };
             desc = new TextBlock()
             {
-                Text = food.desc,
+                Text = food.Desc,
                 FontSize = 18,
             };
             ver.Children.Add(title);

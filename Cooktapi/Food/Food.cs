@@ -8,49 +8,52 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Cooktapi.Food
 {
-    public class Food : AMealingItem, IMealingItem, IIngredientSource
+    public class Food : AMealingItem, IIngredientSource
     {
-        public string _id;
-        public string owner;
-        public int? makeTime = 0;
-        public bool owning
+        public string Id;
+        public string Owner;
+        public int? MakeTime = 0;
+        public bool Owning
         {
             get
             {
-                return this.owner == OwnUser.CurrentUser?.Sub;
+                return this.Owner == OwnUser.CurrentUser?.Sub;
             }
         }
-        public bool subcribed { get; set; }
-        public int dose = 4;
-        public bool isPrivate { get; set; }
-        public string name;
-        public string desc;
-        public string imageURL;
-        public IFoodCertificationResult report;
+        public bool Subcribed { get; set; }
+        public new int Dose = 4;
+        public bool IsPrivate { get; set; }
+        public string Name;
+        public string Desc;
+        public string ImageUrl;
+        public IFoodCertificationResult Report;
         public DateTime LastModified { get; private set; }
-        public long? imageUploaded { get; private set; }
-        public List<Tag> Tags = new List<Tag>();
-        public List<Ingredient> ingredients = new List<Ingredient>();
-        public Food GetMealFood() { return this; }
+        public long? ImageUploaded { get; private set; }
+        public ObservableCollection<Tag> Tags = new ObservableCollection<Tag>();
+        public ObservableCollection<Tag> AutoTags = new ObservableCollection<Tag>();
+        public List<Ingredient> Ingredients = new List<Ingredient>();
+        public override Food GetMealFood() { return this; }
         public Food This => this;
-        public string GetId() { return _id; }
-        public void NewSeed() { return; }
-        public string GetName() { return name; }
+        public override string GetId() { return Id; }
+
+        public override void NewSeed() { return; }
+        public override string GetName() { return Name; }
         public EFoodPublicState FoodPublicState { get; set; }
 
-        public Uri getImage
+        public Uri GetImage
         {
             get
             {
-                if (imageURL != null && imageURL != "")
+                if (!string.IsNullOrEmpty(ImageUrl))
                 {
-                    var bitmapUri = new Uri(imageURL.ToString(), UriKind.Absolute);
+                    var bitmapUri = new Uri(ImageUrl.ToString(), UriKind.Absolute);
                     return bitmapUri;
                 }
                 return new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
@@ -58,14 +61,16 @@ namespace Cooktapi.Food
         }
         public override string ToString()
         {
-            return name;
+            return Name;
         }
+
+
         public string GetIngredientArray
         {
             get
             {
                 string list = "";
-                foreach (Ingredient ing in ingredients)
+                foreach (Ingredient ing in Ingredients)
                 {
                     if (list.Length > 0)
                         list = list + ", ";
@@ -74,48 +79,64 @@ namespace Cooktapi.Food
                 return list;
             }
         }
-        private static Dictionary<string, long?> KnownImages = new Dictionary<string, long?>();
+
+        public List<Ingredient> GetIngredientsForDose(float dose)
+        {
+            var multipled = new List<Ingredient>();
+            Ingredients.ForEach(ing =>
+            {
+                var newIng = new Ingredient(ing.Type, (ing.Value / this.Dose) * dose, ing.Unit, ing.InheritedFrom);
+                if (newIng.Unit.Type == UnitType.Count)
+                {
+                    newIng.Value = (int)Math.Ceiling(newIng.Value);
+                }
+
+                multipled.Add(newIng);
+            });
+            return multipled;
+        }
+        private static readonly Dictionary<string, long?> _knownImages = new Dictionary<string, long?>();
         /// <summary>
         /// Returns a bool that represents the image known in the cache if its updated since the last call returns false
         /// </summary>
-        public static bool GetCacheingEnabled(string id, long? CurrentImageVersion)
+        public static bool GetCacheingEnabled(string id, long? currentImageVersion)
         {
             long? lastImage;
-            if (KnownImages.TryGetValue(id, out lastImage))
+            if (_knownImages.TryGetValue(id, out lastImage))
             {
-                if (lastImage == CurrentImageVersion)
+                if (lastImage == currentImageVersion)
                 {
                     return true;
                 }
-                KnownImages[id] = CurrentImageVersion;
+                _knownImages[id] = currentImageVersion;
                 return false;
             }
             else
             {
-                KnownImages.Add(id, CurrentImageVersion);
+                _knownImages.Add(id, currentImageVersion);
                 return false;
             }
         }
-        public static async Task<Food> InstertFood(Food food, string ImagePath)
+        public static async Task<Food> InstertFood(Food food, string imagePath)
         {
 
             food = await InstertFood(food);
 
-            if (food?._id != null && ImagePath != null && ImagePath != "")
+            if (food?.Id != null && imagePath != null && imagePath != "")
             {
                 var query = new Dictionary<string, object>();
-                query.Add("_id", food._id);
+                query.Add("_id", food.Id);
                 var res = await Networking.Networking.GetRequestSimple("food", query);
-                await Networking.Networking.JpegImageUploadWithAuth("foodimage", query, ImagePath);
+                await Networking.Networking.JpegImageUploadWithAuth("foodimage", query, imagePath);
             }
 
             return food;
         }
         public static async Task<Food> InstertFood(Food food)
         {
-            string FoodText = CreateFoodToServer(food).ToString(Formatting.None);
+            string foodText = CreateFoodToServer(food).ToString(Formatting.None);
 
-            var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + FoodText + "}");
+            var foodRes = await Networking.Networking.PostRequestWithForceAuth("food", @"{""food"": " + foodText + "}");
 
             food = ParseFoodFromServerJson(foodRes.Content);
             return food;
@@ -138,7 +159,7 @@ namespace Cooktapi.Food
         public async Task SetSubForfood(bool state)
         {
             var query = new Dictionary<string, object>();
-            query.Add("_id", _id);
+            query.Add("_id", Id);
             IRestResponse res;
             if (state)
                 res = await Networking.Networking.GetRequestWithForceAuth("sub", query);
@@ -170,12 +191,11 @@ namespace Cooktapi.Food
             foods.ForEach((food) => { items.Add(food as IMealingItem); });
             return items;
         }
-        public static async Task<Food> Get(string _id)
+        public static async Task<Food> Get(string id)
         {
-            var query = new Dictionary<string, object>();
-            query.Add("_id", _id);
+            var query = new Dictionary<string, object> { { "_id", id } };
             var res = await Networking.Networking.GetRequestSimple("food", query);
-            Food food = ParseFoodFromServerJson(res.Content);
+            var food = ParseFoodFromServerJson(res.Content);
             return food;
         }
         /// <summary>
@@ -199,7 +219,7 @@ namespace Cooktapi.Food
         }
         public static Food ParseFoodFromServerJson(string json)
         {
-            if (json != null && json != "")
+            if (!string.IsNullOrEmpty(json))
             {
                 JObject jFood = null;
                 try
@@ -212,23 +232,23 @@ namespace Cooktapi.Food
                 }
                 Food food = new Food();
 
-                food._id = jFood.GetValue("_id").Value<string>();
-                food.owner = jFood.GetValue("owner").Value<string>();
-                food.makeTime = jFood.GetValue("makeTime").Value<int?>();
-                food.dose = jFood.GetValue("dose")?.Value<int>() ?? 4;
-                food.subcribed = jFood.GetValue("subscribed").Value<bool>();
-                food.name = jFood.GetValue("name").Value<string>();
-                food.desc = jFood.GetValue("desc").Value<string>();
-                food.isPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
-                food.imageURL = jFood.GetValue("image")?.Value<string>();
+                food.Id = jFood.GetValue("_id").Value<string>();
+                food.Owner = jFood.GetValue("owner").Value<string>();
+                food.MakeTime = jFood.GetValue("makeTime").Value<int?>();
+                food.Dose = jFood.GetValue("dose")?.Value<int>() ?? 4;
+                food.Subcribed = jFood.GetValue("subscribed").Value<bool>();
+                food.Name = jFood.GetValue("name").Value<string>();
+                food.Desc = jFood.GetValue("desc").Value<string>();
+                food.IsPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
+                food.ImageUrl = jFood.GetValue("image")?.Value<string>();
 
                 var isPublic = jFood.GetValue("published")?.Value<bool>() ?? false;
-                if (food.isPrivate)
-                    food.FoodPublicState = EFoodPublicState.PRIVATE;
+                if (food.IsPrivate)
+                    food.FoodPublicState = EFoodPublicState.Private;
                 else if (!isPublic)
-                    food.FoodPublicState = EFoodPublicState.PENDING;
+                    food.FoodPublicState = EFoodPublicState.Pending;
                 else
-                    food.FoodPublicState = EFoodPublicState.PUBLIC;
+                    food.FoodPublicState = EFoodPublicState.Public;
 
                 food.LastModified = DateTimeExtensions.FromTotalMilis(jFood.GetValue("lastModified")?.Value<long>() ?? 0);
                 var tagArray = jFood.GetValue("tags")?.Value<JArray>();
@@ -240,29 +260,38 @@ namespace Cooktapi.Food
                         food.Tags.Add(Tag.GetTagById(str));
                     }
                 }
+                var generatedTagArray = jFood.SelectToken("$.generated.tags")?.Value<JArray>();
+                if (generatedTagArray != null)
+                {
+                    for (int i = 0; i < generatedTagArray.Count; i++)
+                    {
+                        var tag = Tag.ParseTag(generatedTagArray.ElementAt(i).ToString());
+                        food.AutoTags.Add(tag);
+                    }
+                }
 
-                food.imageUploaded = jFood.GetValue("imageUploaded")?.Value<long?>();
+                food.ImageUploaded = jFood.GetValue("imageUploaded")?.Value<long?>();
                 JArray jarray = jFood.GetValue("ingredients").Value<JArray>();
                 if (jarray != null)
                 {
-                    food.ingredients = new List<Ingredient>();
+                    food.Ingredients = new List<Ingredient>();
                     for (int i = 0; i < jarray.Count; i++)
                     {
-                        food.ingredients.Add(Ingredient.ParseIngredient(jarray.ElementAt(i), food));
+                        food.Ingredients.Add(Ingredient.ParseIngredient(jarray.ElementAt(i), food));
                     }
                 }
                 else
                 {
-                    food.ingredients = new List<Ingredient>();
+                    food.Ingredients = new List<Ingredient>();
                 }
 
                 //certification report
                 if (jFood.GetValue("lastCertificate") != null)
                 {
                     if (jFood.GetValue("lastCertificate").Value<string>("type") == "admin")
-                        food.report = jFood.SelectToken("$.lastCertificate.certificationReport").ToObject<FoodCertificationReport>();
+                        food.Report = jFood.SelectToken("$.lastCertificate.certificationReport").ToObject<FoodCertificationReport>();
                     else
-                        food.report = new PendingCertifiacte();
+                        food.Report = new PendingCertifiacte();
                 }
                 return food;
             }
@@ -283,7 +312,7 @@ namespace Cooktapi.Food
             certification.Add("type", cert);
             certification.Add("food", CreateFoodToServer(food));
             certification.Add("certificationReport", JToken.FromObject(report));
-            string body = certification.ToString();
+            var body = certification.ToString();
             var res = await Networking.Networking.PostRequestWithForceAuth("certification", body);
             return;
         }
@@ -292,23 +321,26 @@ namespace Cooktapi.Food
             JObject jFood = new JObject();
 
             JArray ingArray = new JArray();
-            foreach (Ingredient ing in food.ingredients)
+            foreach (Ingredient ing in food.Ingredients)
             {
                 ingArray.Add(Ingredient.CreateIngredientToServer(ing));
             }
 
-            if (food._id != null)
+            if (food.Id != null)
             {
-                jFood.Add("_id", JToken.FromObject(food._id));
+                jFood.Add("_id", JToken.FromObject(food.Id));
             }
-            jFood.Add("name", JToken.FromObject(food.name));
-            jFood.Add("private", JToken.FromObject(food.isPrivate));
-            jFood.Add("makeTime", JToken.FromObject(food.makeTime));
-            jFood.Add("desc", JToken.FromObject(food.desc));
-            jFood.Add("dose", JToken.FromObject(food.dose));
+            jFood.Add("name", JToken.FromObject(food.Name));
+            jFood.Add("private", JToken.FromObject(food.IsPrivate));
+            jFood.Add("makeTime", JToken.FromObject(food.MakeTime));
+            jFood.Add("desc", JToken.FromObject(food.Desc));
+            jFood.Add("dose", JToken.FromObject(food.Dose));
 
             List<string> strList = new List<string>();
-            food.Tags.ForEach((tag) => { strList.Add(tag.ID); });
+            foreach (Tag tag in food.Tags)
+            {
+                strList.Add(tag.ID);
+            }
             jFood.Add("tags", new JArray(strList));
             jFood.Add("ingredients", ingArray);
 
@@ -360,6 +392,7 @@ namespace Cooktapi.Food
             return foods;
 
         }
+
     }
     public enum ECertificationType
     {
@@ -368,9 +401,9 @@ namespace Cooktapi.Food
     }
     public enum EFoodPublicState
     {
-        PRIVATE,
-        PUBLIC,
-        PENDING
+        Private,
+        Public,
+        Pending
     }
     public enum EFoodSearchType
     {

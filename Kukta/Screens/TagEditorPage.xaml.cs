@@ -130,11 +130,11 @@ namespace Kukta.Screens
             Task.Run(async () =>
             {
                 string guid = Guid.NewGuid().ToString();
-                while (Cooktapi.Food.Tag.Tags.Find((t) => { return t.ID == guid; }) != null)
+                while (Cooktapi.Food.Tag.ChildOnlyTags.Find((t) => t.ID == guid) != null)
                 {
                     guid = Guid.NewGuid().ToString();
                 }
-                Tag tag = await new Tag(null, Guid.NewGuid().ToString(), "Új tag").Save();
+                Tag tag = await new Tag(null, Guid.NewGuid().ToString(), "Új tag", true).Save();
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => { SelectedTag = tag; });
                 await RefreshItems();
             });

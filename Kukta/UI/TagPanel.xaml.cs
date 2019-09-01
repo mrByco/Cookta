@@ -35,7 +35,7 @@ namespace Kukta.UI
                 List<Tag> tags = new List<Tag>();
                 foreach (VisibleTag tag in m_Tags.ToList())
                 {
-                    tags.Add(tag.original);
+                    tags.Add(tag.Original);
                 }
                 return tags;
             }
@@ -70,7 +70,7 @@ namespace Kukta.UI
                 for (int i = 0; i < m_Tags.Count; i++)
                 {
                     m_Tags[i].IsInEditMode = value;
-                    tags.Add(m_Tags[i].original);
+                    tags.Add(m_Tags[i].Original);
                 }
                 Tags = tags;
                 TagAdder.Visibility = m_EditEnabled ? Visibility.Visible : Visibility.Collapsed;
@@ -82,12 +82,12 @@ namespace Kukta.UI
 
         private void Tag_Click(object sender, RoutedEventArgs e)
         {
-            this.TagClick?.Invoke(this, Cooktapi.Food.Tag.GetTagByText((sender as Button).Tag as string));
+            this.TagClick?.Invoke(this, Cooktapi.Food.Tag.GetTagByText(((Button) sender).Tag as string));
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            VisibleTag tag = m_Tags.ToList().Find((vTag) => {return (sender as Button).Tag as string == vTag.AsString; });
+            VisibleTag tag = m_Tags.ToList().Find((vTag) => ((Button) sender).Tag as string == vTag.AsString);
             m_Tags.Remove(tag);
             RaiseTagsChanged();
         }
@@ -107,7 +107,7 @@ namespace Kukta.UI
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var filteredTags = Cooktapi.Food.Tag.Tags.FindAll((tag) => { return tag.ToString().ToLower().Contains(sender.Text.ToLower()); });
+                var filteredTags = Cooktapi.Food.Tag.ChildOnlyTags.FindAll((tag) => tag.ToString().ToLower().Contains(sender.Text.ToLower()));
                 TagAdder.ItemsSource = filteredTags;
             }
             else if (args.Reason == AutoSuggestionBoxTextChangeReason.SuggestionChosen)
@@ -128,20 +128,20 @@ namespace Kukta.UI
 
     public class VisibleTag
     {
-        public readonly Tag original;
+        public readonly Tag Original;
         public VisibleTag(Tag original)
         {
-            this.original = original;
+            this.Original = original;
         }
         public override string ToString()
         {
-            return original.ToString();
+            return Original.ToString();
         }
         public string AsString
         {
             get
             {
-                return original.AsString;
+                return Original.AsString;
             }
         }
         public Visibility EditVisibility

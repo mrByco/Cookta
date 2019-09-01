@@ -5,6 +5,7 @@ using Kukta.UI;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -80,7 +81,7 @@ namespace Kukta.Screens
                 CurrentFood = await Food.Get(id);
             }
 
-            CurrentUser = await User.GetUser(CurrentFood?.owner ?? OwnUser.CurrentUser.Sub);
+            CurrentUser = await User.GetUser(CurrentFood?.Owner ?? OwnUser.CurrentUser.Sub);
 
             if (CurrentFood == null)
             { 
@@ -142,13 +143,13 @@ namespace Kukta.Screens
                 TitleTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 DescTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
 
-                TitleTextBox.Text = CurrentFood.name;
-                TitleTextBlock.Text = CurrentFood.name;
-                DescTextBox.Text = CurrentFood.desc;
-                DescTextBlock.Text = CurrentFood.desc;
-                IsPublicToggle.IsOn = !CurrentFood.isPrivate;
-                DoseTextBox.Text = CurrentFood?.dose.ToString() ?? 4.ToString();
-                DoseTextBlock.Text = CurrentFood?.dose.ToString() ?? 4.ToString();
+                TitleTextBox.Text = CurrentFood.Name;
+                TitleTextBlock.Text = CurrentFood.Name;
+                DescTextBox.Text = CurrentFood.Desc;
+                DescTextBlock.Text = CurrentFood.Desc;
+                IsPublicToggle.IsOn = !CurrentFood.IsPrivate;
+                DoseTextBox.Text = CurrentFood?.Dose.ToString() ?? 4.ToString();
+                DoseTextBlock.Text = CurrentFood?.Dose.ToString() ?? 4.ToString();
                 UploaderName.Visibility = Visibility.Visible;
                 LastModified.Visibility = Visibility.Visible;
                 UploaderPicture.Visibility = Visibility.Visible;
@@ -157,8 +158,8 @@ namespace Kukta.Screens
                 UploaderName.Content = CurrentUser.DisplayName;
                 LastModified.Text = CurrentFood.LastModified.ToString("yyyy-MM-dd hh:mm");
                 IngredientList.EditMode = editMode;
-                IngredientList.SetItems(CurrentFood.ingredients);
-                MoreOptionsButton.Visibility = CurrentFood.owning ? Visibility.Visible : Visibility.Collapsed;
+                IngredientList.SetItems(CurrentFood.Ingredients);
+                MoreOptionsButton.Visibility = CurrentFood.Owning ? Visibility.Visible : Visibility.Collapsed;
 
 
                 DoseTextBox.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
@@ -167,26 +168,27 @@ namespace Kukta.Screens
                 OtherSettingsTextBlock.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 IsPublicToggle.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 Tags.EditEnabled = editMode;
-                Tags.Tags = CurrentFood.Tags;
-                LastReport.Visibility = CurrentFood.report == null ? Visibility.Collapsed : Visibility.Visible;
-                LastReport.Report = CurrentFood.report;
+                Tags.Tags = CurrentFood.Tags.ToList();
+                AutoTags.Tags = CurrentFood.AutoTags.ToList();
+                LastReport.Visibility = CurrentFood.Report == null ? Visibility.Collapsed : Visibility.Visible;
+                LastReport.Report = CurrentFood.Report;
                 
 
 
                 ImageCropper.Visibility = Visibility.Collapsed;
 
                 this.Image.Visibility = Visibility.Visible;
-                this.Image.Source = new BitmapImage(CurrentFood.getImage)
+                this.Image.Source = new BitmapImage(CurrentFood.GetImage)
                 {
-                    CreateOptions = Food.GetCacheingEnabled(CurrentFood._id, CurrentFood.imageUploaded) ? BitmapCreateOptions.None : BitmapCreateOptions.IgnoreImageCache
+                    CreateOptions = Food.GetCacheingEnabled(CurrentFood.Id, CurrentFood.ImageUploaded) ? BitmapCreateOptions.None : BitmapCreateOptions.IgnoreImageCache
                 };
 
                 UploadImageBTN.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
                 SaveBTN.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
-                EditBTN.Visibility = CurrentFood.owning && !editMode ? Visibility.Visible : Visibility.Collapsed;
-                DeleteBTN.Visibility = CurrentFood.owning ? Visibility.Visible : Visibility.Collapsed;
-                SubscribeBTN.Visibility = !CurrentFood.subcribed ? Visibility.Visible : Visibility.Collapsed;
-                UnsubscribeBTN.Visibility = CurrentFood.subcribed ? Visibility.Visible : Visibility.Collapsed;
+                EditBTN.Visibility = CurrentFood.Owning && !editMode ? Visibility.Visible : Visibility.Collapsed;
+                DeleteBTN.Visibility = CurrentFood.Owning ? Visibility.Visible : Visibility.Collapsed;
+                SubscribeBTN.Visibility = !CurrentFood.Subcribed ? Visibility.Visible : Visibility.Collapsed;
+                UnsubscribeBTN.Visibility = CurrentFood.Subcribed ? Visibility.Visible : Visibility.Collapsed;
             });
         }
 
@@ -249,28 +251,28 @@ namespace Kukta.Screens
             //Replace with get current food from details
             CurrentFood = await Food.InstertFood(new Food()
             {
-                _id = CurrentFood == null ? null : CurrentFood._id,
-                name = TitleTextBox.Text,
-                desc = DescTextBox.Text,
-                dose = CurrentDose,
-                ingredients = IngredientList.GetIngredients(),
-                isPrivate = !IsPublicToggle.IsOn,
-                Tags = Tags.Tags
+                Id = CurrentFood == null ? null : CurrentFood.Id,
+                Name = TitleTextBox.Text,
+                Desc = DescTextBox.Text,
+                Dose = CurrentDose,
+                Ingredients = IngredientList.GetIngredients(),
+                IsPrivate = !IsPublicToggle.IsOn,
+                Tags = new ObservableCollection<Tag>(Tags.Tags),
             }, storageFile?.Path ?? "");
 
             await SetLoading(false);
-            _ = Load(CurrentFood._id, false);
+            _ = Load(CurrentFood.Id, false);
         }
 
         private async void EditBTN_Click(object sender, RoutedEventArgs e)
         {
-            _ = Load(CurrentFood._id, true);
+            _ = Load(CurrentFood.Id, true);
         }
 
         private async void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
             await SetLoading(true);
-            await Food.Delete(CurrentFood._id);
+            await Food.Delete(CurrentFood.Id);
             await SetLoading(false);
             MainPage.NavigateTo("foods", null, null);
         }
@@ -311,7 +313,7 @@ namespace Kukta.Screens
         private async void SetSubStateForFood(bool sub)
         {
             await CurrentFood.SetSubForfood(sub);
-            _ = Load(CurrentFood._id, false);
+            _ = Load(CurrentFood.Id, false);
             return;
         }
 
@@ -341,7 +343,7 @@ namespace Kukta.Screens
             }
             catch (FormatException e)
             {
-                textBox.Text = CurrentFood.dose.ToString();
+                textBox.Text = CurrentFood.Dose.ToString();
             }
         }
 

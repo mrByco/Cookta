@@ -50,7 +50,7 @@ namespace Kukta.Screens
 
         private void DataPanel_ItemClick(object sender, ItemClickEventArgs e)
         {
-            string clickedID = (e.ClickedItem as Food)._id;
+            string clickedID = (e.ClickedItem as Food).Id;
             MainPage.NavigateTo("fooddetail", null, clickedID);
         }
 
@@ -62,7 +62,7 @@ namespace Kukta.Screens
 
         private void FoodPanel_OnItemClick(Food food)
         {
-            MainPage.NavigateTo("fooddetail", null, food._id);
+            MainPage.NavigateTo("fooddetail", null, food.Id);
         }
     }
 }

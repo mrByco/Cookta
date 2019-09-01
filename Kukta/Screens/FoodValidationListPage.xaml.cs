@@ -58,7 +58,7 @@ namespace Kukta.Screens
 
         private void FoodPanel_OnItemClick(Cooktapi.Food.Food food)
         {
-            MainPage.NavigateTo("validate", null, food._id);
+            MainPage.NavigateTo("validate", null, food.Id);
         }
     }
 }

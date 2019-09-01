@@ -117,7 +117,20 @@
                                 <HyperlinkButton Content="Nem találom a hozzávalót!" Name="ReportNoIngredient" Click="ReportNoIngredientBTN_click"/>
                                 <TextBlock FontSize="24" Text="Egyéb beállítások" HorizontalAlignment="Center" Name="OtherSettingsTextBlock"/>
                                 <ToggleSwitch x:Name="IsPublicToggle" Header="A recept publikus és elérhető mindenki számára." OnContent="Elérhető" OffContent="Nem elérhető"/>
-                                <ui:TagPanel x:Name="Tags"  TagsChanged="TagPanel_TagsChanged"/>
+                                <Grid Grid.RowSpan="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Cimkék" Grid.Column="0"/>
+                                    <TextBlock Text="Autómaikus cimkék" Grid.Column="1"/>
+                                    <ui:TagPanel x:Name="Tags" Grid.Column="0" Grid.Row="1" TagsChanged="TagPanel_TagsChanged"/>
+                                    <ui:TagPanel x:Name="AutoTags" Grid.Column="1" Grid.Row="1" EditEnabled="False"/>
+                                </Grid>
                             </StackPanel>
                         </Grid>
                     </ScrollViewer.Content>

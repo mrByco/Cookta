@@ -8,31 +8,29 @@ using Newtonsoft.Json.Linq;
 
 namespace Cooktapi.Calendar
 {
-    public class Flag : AMealingItem, IMealingItem
+    public class Flag : AMealingItem
     {
-        private string IdOfTag;
-        private Food.Food CurrentFood;
+        private readonly string m_IdOfTag;
+        private Food.Food m_CurrentFood;
         public int Seed { get; private set; }
 
         public Flag(string idOfTag)
         {
-            IdOfTag = idOfTag;
-            CurrentFood = null;
+            m_IdOfTag = idOfTag;
+            m_CurrentFood = null;
             Seed = new Random().Next(9999999);
         }
         public Flag(Food.Food currentFood, string idOfTag, int seed)
         {
-            IdOfTag = idOfTag;
-            CurrentFood = currentFood;
+            m_IdOfTag = idOfTag;
+            m_CurrentFood = currentFood;
             Seed = seed;
         }
         public async Task Init()
         {
-            var query = new Dictionary<string, object>();
-            query.Add("seed", Seed);
-            query.Add("tag", IdOfTag);
+            var query = new Dictionary<string, object> {{"seed", Seed}, {"tag", m_IdOfTag}};
             var response = await Networking.Networking.GetRequestWithForceAuth("getfoodoftag", query);
-            CurrentFood = Food.Food.ParseFoodFromServerJson(response.Content);
+            m_CurrentFood = Food.Food.ParseFoodFromServerJson(response.Content);
             return;
         }
         public static List<IMealingItem> GetAvailableFlags()
@@ -45,29 +43,33 @@ namespace Cooktapi.Calendar
             return flags;
         }
 
-        public string GetId()
+        public override string GetId()
         {
-            return IdOfTag;
+            return m_IdOfTag;
         }
 
-        public Food.Food GetMealFood()
+        public override Food.Food GetMealFood()
         {
-            return CurrentFood;
+            return m_CurrentFood;
         }
 
-        public string GetName()
+        public override string GetName()
         {
-            return string.Format("tag: {0}", Tag.GetTagById(IdOfTag).Name);
+            return $"tag: {Tag.GetTagById(m_IdOfTag).Name}";
         }
         public override string ToString()
         {
-            return "Tag: " + (CurrentFood?.name ?? Tag.GetTagById(IdOfTag).Name);
+            return "Tag: " + (m_CurrentFood?.Name ?? Tag.GetTagById(m_IdOfTag).Name);
         }
 
-        public void NewSeed()
+        public List<Ingredient> GetIngsForMealingDose()
+        {
+            return GetMealFood().GetIngredientsForDose(Dose());
+        }
+
+        public override void NewSeed()
         {
             Seed = new Random().Next(9999999);
         }
-
     }
 }
