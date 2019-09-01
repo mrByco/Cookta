@@ -1,4 +1,5 @@
 ﻿using CooktaServices.Data;
+using CooktaServices.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,8 @@ namespace CooktaServices
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<DataContext>();
 
+
+            services.AddSingleton<IFoodService, FoodService>();
         }
     }
 }

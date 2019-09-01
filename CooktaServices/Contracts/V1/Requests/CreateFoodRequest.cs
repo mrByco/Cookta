@@ -1,7 +1,9 @@
-﻿namespace CooktaServices.Contracts.V1.Requests
+﻿using System;
+
+namespace CooktaServices.Contracts.V1.Requests
 {
     public class CreateFoodRequest
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }
