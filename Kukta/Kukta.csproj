@@ -265,6 +265,8 @@
     </Compile>
     <Compile Include="UWPLayer\IncrementalFoodSource.cs" />
     <Compile Include="UWPLayer\IncrementalNotificationSource.cs" />
+    <Compile Include="UWPLayer\NavigationHistory.cs" />
+    <Compile Include="UWPLayer\NavigationHistoryItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
