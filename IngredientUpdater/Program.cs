@@ -58,7 +58,6 @@ namespace IngredientUpdater
                 string root = Directory.GetCurrentDirectory();
                 var dir = Directory.CreateDirectory(root + @"\Backup\" + DateTime.Now.ToString("yyyy-MM-dd_hh-mm"));
                 File.WriteAllLines( dir.FullName + @"\" + collectionName + ".json", list);
-                //save list to file
             }
 
             //collection.DeleteMany(Builders<BsonDocument>.Filter.Empty);
@@ -67,10 +66,10 @@ namespace IngredientUpdater
 
 
 
-
             Console.WriteLine("Documents inserted!");
 
-
         }
+
+        
     }
 }
