@@ -24,6 +24,8 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Cooktapi.Networking;
 using System.ComponentModel;
+using Kukta.UWPLayer;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -64,15 +66,16 @@ namespace Kukta
     ("ingredients", typeof(IngredientPage), false, null),
     ("fooddetail", typeof(FoodDetailPage), true, null),
 };
-
         public MainPage()
         {
+            m_NavigationHistory = new NavigationHistory();
             this.InitializeComponent();
             instance = this;
             OwnUser.SubscribeFor(UpdateLoginButton);
             DoNav += new NavigateTo(NavView_Navigate);
         }
 
+        private NavigationHistory m_NavigationHistory;
 
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
@@ -171,10 +174,8 @@ namespace Kukta
             {
                 if (ContentFrame.Content is FoodDetailPage detailPage)
                     await detailPage.BeforeNavigatingFrom();
-                if (transitionInfo == null)
-                    ContentFrame.Navigate(_page, parameter, transitionInfo);
-                else
-                    ContentFrame.Navigate(_page, parameter, transitionInfo);
+                ContentFrame.Navigate(_page, parameter, transitionInfo);
+                m_NavigationHistory.Add(new NavigationHistoryItem(_page, transitionInfo, parameter));
             }
         }
 
@@ -183,5 +184,14 @@ namespace Kukta
             UpdateLoginButton();
             NavigateTo("home", null, null);
         }
+
+        private void NavigateBack(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            var backInfo = m_NavigationHistory.Back();
+            if (backInfo != null)
+                ContentFrame.Navigate(backInfo.Page, backInfo.Parameter, backInfo.NavigationTransitionInfo);
+        }
+
+
     }
 }

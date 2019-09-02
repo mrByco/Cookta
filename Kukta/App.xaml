@@ -16,8 +16,10 @@
         <SolidColorBrush x:Key="Gray5" Color="#777777"/>
         <SolidColorBrush x:Key="Gray6" Color="#888888"/>
         <SolidColorBrush x:Key="Gray7" Color="#191919"/>
+        <converters:BoolToVisibility x:Key="BoolToVisibility"/>
         <converters:BoolToHasNotificationIcon x:Key="BoolToHasNotificationIcon"/>
         <converters:ArhivedToNotificationBrush x:Key="ArhivedToNotificationBrush"/>
+        <converters:IsNotNull x:Key="IsNotNull"/>
 
     </Application.Resources>
 

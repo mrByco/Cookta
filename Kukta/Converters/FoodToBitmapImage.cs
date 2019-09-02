@@ -13,7 +13,9 @@ namespace Kukta.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            Food food = value as Food;
+            if (!(value is Food food)) throw  new Exception("Food cannot be null");
+            if (food.GetImage == null) return new BitmapImage(Food.DefaultFoodImageUri);
+
             bool cacheEnabled = Food.GetCacheingEnabled(food.Id, food.ImageUploaded);
 
             return new BitmapImage(food.GetImage)

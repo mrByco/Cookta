@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cooktapi.Food;
 
 namespace Cooktapi.Calendar
 {
@@ -42,8 +43,7 @@ namespace Cooktapi.Calendar
 
         public static async Task<CalendarDay> GetDay(DateTime dateTime)
         {
-            var query = new Dictionary<string, object>();
-            query.Add("date", dateTime.ToString("yyyy-MM-dd"));
+            var query = new Dictionary<string, object> {{"date", dateTime.ToString("yyyy-MM-dd")}};
             var response = await Networking.Networking.GetRequestWithForceAuth("day", query);
             return response.Content == "" ? new CalendarDay(dateTime) : await ParseDayFromServerJson(response.Content);
         }
@@ -77,7 +77,7 @@ namespace Cooktapi.Calendar
                 {
                     int mealIndex = jarray.ElementAt(i).Value<int>("mealIndex");
                     string typeString = jarray.ElementAt(i).Value<string>("type");
-                    IMealingItem item;
+                    IMealingItem item = null;
                     switch (typeString)
                     {
                         case "food":
@@ -85,11 +85,12 @@ namespace Cooktapi.Calendar
                             item = await Food.Food.Get(foodId) as IMealingItem;
                             break;
                         case "flag":
-                            string flagId = jarray.ElementAt(i).Value<string>("id");
+                            string tagId = jarray.ElementAt(i).Value<string>("id");
+                            if (Tag.GetTagById(tagId) == null) break;
                             int seed = jarray.ElementAt(i).Value<int?>("seed") ?? 0;
                             string foodString = jarray.ElementAt(i).Value<JObject>("currentFood")?.ToString();
                             Food.Food currentFood = Food.Food.ParseFoodFromServerJson(foodString);
-                            item = new Flag(currentFood, flagId, seed);
+                            item = new Flag(currentFood, tagId, seed);
                             break;
                         case "list":
                             throw new NotImplementedException();
@@ -98,11 +99,10 @@ namespace Cooktapi.Calendar
                     };
                     if (item == null)
                         continue;
+
                     item.SetDose(jarray.ElementAt(i).Value<float?>("members") ?? 4f);
                     item.SetIsFixed(jarray.ElementAt(i).Value<bool?>("fixed") ?? false);
-                    if (item != null)
-                        day.Mealings[mealIndex].items.Add(item);
-                    continue;
+                    day.Mealings[mealIndex].items.Add(item);
                 }
             }
             return day;
@@ -112,7 +112,7 @@ namespace Cooktapi.Calendar
             JObject jDay = new JObject();
 
             JArray mealArray = new JArray();
-            for (int i = 0; i < day.Mealings.Length; i++)
+            for (var i = 0; i < day.Mealings.Length; i++)
             {
                 Mealing meal = day.Mealings[i];
                 foreach (IMealingItem item in meal.items)
