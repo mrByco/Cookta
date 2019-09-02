@@ -209,6 +209,9 @@
     <Compile Include="UI\FoodPanel.xaml.cs">
       <DependentUpon>FoodPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ImageSelector.xaml.cs">
+      <DependentUpon>ImageSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\IMealingItemButton.cs" />
     <Compile Include="UI\IngredientAdderControl.xaml.cs">
       <DependentUpon>IngredientAdderControl.xaml</DependentUpon>
@@ -420,6 +423,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\FoodPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ImageSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

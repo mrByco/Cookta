@@ -17,6 +17,7 @@ namespace Cooktapi.Food
 {
     public class Food : AMealingItem, IIngredientSource
     {
+        public static readonly Uri DefaultFoodImageUri = new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
         public string Id;
         public string Owner;
         public int? MakeTime = 0;
@@ -56,7 +57,8 @@ namespace Cooktapi.Food
                     var bitmapUri = new Uri(ImageUrl.ToString(), UriKind.Absolute);
                     return bitmapUri;
                 }
-                return new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
+
+                return null;
             }
         }
         public override string ToString()
@@ -205,8 +207,7 @@ namespace Cooktapi.Food
         /// <returns>true if success</returns>
         public static async Task<bool> Delete(string id)
         {
-            var query = new Dictionary<string, object>();
-            query.Add("_id", id);
+            var query = new Dictionary<string, object> {{"_id", id}};
             var res = await Networking.Networking.DeleteRequestWithForceAuth("food", query);
             if (res.IsSuccessful && res.Content == "success")
             {
@@ -216,6 +217,12 @@ namespace Cooktapi.Food
             {
                 return false;
             }
+        }
+
+        public static async Task DeleteImage(string id)
+        {
+            var query = new Dictionary<string, object> { { "_id", id } };
+            var res = await Networking.Networking.DeleteRequestWithForceAuth("foodimage", query);
         }
         public static Food ParseFoodFromServerJson(string json)
         {

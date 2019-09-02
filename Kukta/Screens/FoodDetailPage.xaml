@@ -100,11 +100,8 @@
                                 <TextBlock Name="DescTextBlock" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="20"/>
                                 <TextBox Name="DescTextBox" FontSize="18" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" AcceptsReturn="True" TextWrapping="Wrap" PlaceholderText="Recept leírása"/>
                                 <TextBlock Name="DescErrorTextBlock" FontSize="18" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed" FontWeight="Bold" Foreground="Red"/>
-                                <controls:ImageCropper x:Name="ImageCropper" Visibility="Collapsed" />
-                                <Image x:Name="Image" Visibility="Visible" HorizontalAlignment="Stretch"/>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20">
-                                    <Button Name="UploadImageBTN" Content="Kép feltöltése/módosítása" Click="UploadImageBTN_Click" HorizontalAlignment="Left"/>
-                                </StackPanel>
+                                <ui:ImageSelector x:Name="ImageSelector" Margin="10" ImageDeleted="ImageSelector_OnImageDeleted"/>
+                                <Image x:Name="Image" Visibility="Visible" HorizontalAlignment="Stretch" Margin="10"/>
                             </StackPanel>
                             <StackPanel Name="leftOrderStackPanel" Grid.Row="1" Grid.Column="1">
                                 <StackPanel Orientation="Horizontal">
