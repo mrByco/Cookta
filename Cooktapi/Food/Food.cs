@@ -37,6 +37,7 @@ namespace Cooktapi.Food
         public IFoodCertificationResult Report;
         public DateTime LastModified { get; private set; }
         public long? ImageUploaded { get; private set; }
+        public int Subcriptions { get; private set; }   
         public ObservableCollection<Tag> Tags = new ObservableCollection<Tag>();
         public ObservableCollection<Tag> AutoTags = new ObservableCollection<Tag>();
         public List<Ingredient> Ingredients = new List<Ingredient>();
@@ -237,7 +238,8 @@ namespace Cooktapi.Food
                 {
                     return null;
                 }
-                Food food = new Food();
+                //Use generic initializter becourse easyer to debug
+                var food = new Food();
 
                 food.Id = jFood.GetValue("_id").Value<string>();
                 food.Owner = jFood.GetValue("owner").Value<string>();
@@ -248,6 +250,7 @@ namespace Cooktapi.Food
                 food.Desc = jFood.GetValue("desc").Value<string>();
                 food.IsPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.ImageUrl = jFood.GetValue("image")?.Value<string>();
+                food.Subcriptions = jFood.GetValue("subscriptions")?.Value<int>() ?? 0;
 
                 var isPublic = jFood.GetValue("published")?.Value<bool>() ?? false;
                 if (food.IsPrivate)

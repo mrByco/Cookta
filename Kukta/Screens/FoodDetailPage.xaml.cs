@@ -6,8 +6,10 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -21,6 +23,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Kukta.Annotations;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,12 +32,25 @@ namespace Kukta.Screens
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class FoodDetailPage : Page
+    public sealed partial class FoodDetailPage : Page, INotifyPropertyChanged
     {
         private List<Tag> m_CurrentTags;
         private int m_CurrentDose = 4;
-        public Food CurrentFood = null;
+        private Food m_CurrentFood;
+
+        public Food CurrentFood     
+        {
+            get => m_CurrentFood;
+            set
+            {
+                if (Equals(value, m_CurrentFood)) return;
+                m_CurrentFood = value;
+                OnPropertyChanged();
+            }
+        }
+
         public User CurrentUser;
+
         public FoodDetailPage()
         {
             this.InitializeComponent();
@@ -338,6 +354,14 @@ namespace Kukta.Screens
             {
                 _ = Food.DeleteImage(CurrentFood.Id);
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));  
         }
     }
 }
