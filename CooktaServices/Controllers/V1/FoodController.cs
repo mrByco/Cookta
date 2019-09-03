@@ -16,7 +16,7 @@ namespace CooktaServices.Controllers.V1
     public class FoodController : ControllerBase
     {
 
-        private IFoodService m_FoodService;
+        private readonly IFoodService m_FoodService;
 
         public FoodController(IFoodService foodService)
         {
@@ -51,6 +51,18 @@ namespace CooktaServices.Controllers.V1
 
             return NotFound();
         }
+        
+        [HttpDelete(ApiRoutes.Foods.Delete)]
+        public IActionResult UpdateFood([FromRoute]Guid foodId)
+        {
+            var deleted = m_FoodService.DeleteFood(foodId);
+
+            if (deleted)
+                return NoContent();
+
+            return NotFound();
+        }
+
         [HttpGet(ApiRoutes.Foods.GetAll)]
         public IActionResult GetAll()
         {

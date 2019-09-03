@@ -10,5 +10,7 @@ namespace CooktaServices.Services
         Food GetFoodById(Guid foodId);
 
         bool UpdateFood(Food foodToUpdate);
+
+        bool DeleteFood(Guid foodToDelete);
     }
 }

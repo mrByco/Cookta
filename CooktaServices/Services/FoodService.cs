@@ -45,5 +45,16 @@ namespace CooktaServices.Services
             m_Foods[index] = foodToUpdate;
             return true;
         }
+
+        public bool DeleteFood(Guid foodId)
+        {
+            var food = GetFoodById(foodId);
+
+            if (food == null)
+                return false;
+
+            m_Foods.Remove(food);
+            return true;
+        }
     }
 }
