@@ -20,7 +20,10 @@ namespace CooktaServices.Data
         public DbSet<IngredientType> IngredientTypes{ get; set; }
         public DbSet<Unit> Units { get; set; }
 
-
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
 
     }
 }
