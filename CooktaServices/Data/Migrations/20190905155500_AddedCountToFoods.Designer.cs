@@ -4,14 +4,16 @@ using CooktaServices.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CooktaServices.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190905155500_AddedCountToFoods")]
+    partial class AddedCountToFoods
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,78 +21,18 @@ namespace CooktaServices.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CooktaServices.Domain.Receipts.Food", b =>
+            modelBuilder.Entity("CooktaServices.Domain.Food", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Count");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.ToTable("Foods");
-                });
-
-            modelBuilder.Entity("CooktaServices.Domain.Receipts.Ingredient", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("FoodId");
-
-                    b.Property<Guid?>("TypeId");
-
-                    b.Property<Guid?>("UnitId");
-
-                    b.Property<float>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodId");
-
-                    b.HasIndex("TypeId");
-
-                    b.HasIndex("UnitId");
-
-                    b.ToTable("Ingredients");
-                });
-
-            modelBuilder.Entity("CooktaServices.Domain.Receipts.IngredientType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("CountEnabled");
-
-                    b.Property<bool>("MassEnabled");
-
-                    b.Property<string>("Name");
-
-                    b.Property<bool>("VolumeEnabled");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IngredientTypes");
-                });
-
-            modelBuilder.Entity("CooktaServices.Domain.Receipts.Unit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("IngredientTypeId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<double>("ToBase");
-
-                    b.Property<int>("Type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IngredientTypeId");
-
-                    b.ToTable("Units");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -256,29 +198,6 @@ namespace CooktaServices.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("CooktaServices.Domain.Receipts.Ingredient", b =>
-                {
-                    b.HasOne("CooktaServices.Domain.Receipts.Food", "Food")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CooktaServices.Domain.Receipts.IngredientType", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId");
-
-                    b.HasOne("CooktaServices.Domain.Receipts.Unit", "Unit")
-                        .WithMany()
-                        .HasForeignKey("UnitId");
-                });
-
-            modelBuilder.Entity("CooktaServices.Domain.Receipts.Unit", b =>
-                {
-                    b.HasOne("CooktaServices.Domain.Receipts.IngredientType")
-                        .WithMany("CustomUnit")
-                        .HasForeignKey("IngredientTypeId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

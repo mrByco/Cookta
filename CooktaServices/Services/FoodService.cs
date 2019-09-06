@@ -1,60 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using CooktaServices.Contracts.V1.Requests;
+using CooktaServices.Data;
 using CooktaServices.Domain;
+using CooktaServices.Domain.Receipts;
+using Microsoft.EntityFrameworkCore;
 
 namespace CooktaServices.Services
 {
     public class FoodService : IFoodService
     {
-        private readonly List<Food> m_Foods;
+        private readonly DataContext m_DataContext;
 
-        public FoodService()
+        public FoodService(DataContext dataContext)
         {
-            m_Foods = new List<Food>();
-
-            for (var i = 0; i < 5; i++)
-            {
-                m_Foods.Add(new Food
-                {
-                    Id = Guid.NewGuid(),
-                    Name = $"Food name {i}",
-                });
-            }
+            m_DataContext = dataContext;
         }
 
-        public List<Food> GetFoods()
+        public async Task<List<Food>> GetFoods()
         {
-            return m_Foods;
+            return await m_DataContext.Foods.ToListAsync();
         }
 
-        public Food GetFoodById(Guid foodId)
+        public async Task<Food> GetFoodByIdAsync(Guid foodId)
         {
-            return m_Foods.SingleOrDefault(x => x.Id == foodId);
+            return await m_DataContext.Foods.SingleOrDefaultAsync(x => x.Id == foodId);
         }
 
-        public bool UpdateFood(Food foodToUpdate)
+        public async Task<bool> CreateFoodAsync(Food food)
         {
-            var exists = GetFoodById(foodToUpdate.Id) != null;
+            food.Id = Guid.NewGuid();
+            await m_DataContext.Foods.AddAsync(food);
+            var created = await m_DataContext.SaveChangesAsync();
 
-            if (!exists)
-                return false;
-
-            var index = m_Foods.FindIndex(x => x.Id == foodToUpdate.Id);
-
-            m_Foods[index] = foodToUpdate;
-            return true;
+            return created > 0;
         }
 
-        public bool DeleteFood(Guid foodId)
+        public async Task<bool> UpdateFoodAsync(Food foodToUpdate)
         {
-            var food = GetFoodById(foodId);
+            m_DataContext.Foods.Update(foodToUpdate);
+            var updated = await m_DataContext.SaveChangesAsync();
 
-            if (food == null)
-                return false;
+            return updated > 0;
+        }
 
-            m_Foods.Remove(food);
-            return true;
+        public async Task<bool> DeleteFoodAsync(Guid foodId)
+        {
+            var food = await GetFoodByIdAsync(foodId);
+
+            m_DataContext.Foods.Remove(food);
+            var deleted = await m_DataContext.SaveChangesAsync();
+            return deleted > 0;
         }
     }
 }

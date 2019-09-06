@@ -4,14 +4,16 @@ using CooktaServices.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CooktaServices.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190905165426_FoodTablesAdded")]
+    partial class FoodTablesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace CooktaServices.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("FoodId");
+                    b.Property<Guid?>("FoodId");
 
                     b.Property<Guid?>("TypeId");
 
@@ -60,13 +62,7 @@ namespace CooktaServices.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("CountEnabled");
-
-                    b.Property<bool>("MassEnabled");
-
                     b.Property<string>("Name");
-
-                    b.Property<bool>("VolumeEnabled");
 
                     b.HasKey("Id");
 
@@ -78,17 +74,9 @@ namespace CooktaServices.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("IngredientTypeId");
-
                     b.Property<string>("Name");
 
-                    b.Property<double>("ToBase");
-
-                    b.Property<int>("Type");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("IngredientTypeId");
 
                     b.ToTable("Units");
                 });
@@ -260,10 +248,9 @@ namespace CooktaServices.Data.Migrations
 
             modelBuilder.Entity("CooktaServices.Domain.Receipts.Ingredient", b =>
                 {
-                    b.HasOne("CooktaServices.Domain.Receipts.Food", "Food")
+                    b.HasOne("CooktaServices.Domain.Receipts.Food")
                         .WithMany("Ingredients")
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FoodId");
 
                     b.HasOne("CooktaServices.Domain.Receipts.IngredientType", "Type")
                         .WithMany()
@@ -272,13 +259,6 @@ namespace CooktaServices.Data.Migrations
                     b.HasOne("CooktaServices.Domain.Receipts.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId");
-                });
-
-            modelBuilder.Entity("CooktaServices.Domain.Receipts.Unit", b =>
-                {
-                    b.HasOne("CooktaServices.Domain.Receipts.IngredientType")
-                        .WithMany("CustomUnit")
-                        .HasForeignKey("IngredientTypeId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

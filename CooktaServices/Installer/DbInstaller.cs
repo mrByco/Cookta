@@ -18,7 +18,7 @@ namespace CooktaServices
                 .AddEntityFrameworkStores<DataContext>();
 
 
-            services.AddSingleton<IFoodService, FoodService>();
+            services.AddScoped<IFoodService, FoodService>();
         }
     }
 }

@@ -6,6 +6,7 @@ using CooktaServices.Contracts.V1;
 using CooktaServices.Contracts.V1.Requests;
 using CooktaServices.Contracts.V1.Responses;
 using CooktaServices.Domain;
+using CooktaServices.Domain.Receipts;
 using CooktaServices.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace CooktaServices.Controllers.V1
         [HttpGet(ApiRoutes.Foods.Get)]
         public IActionResult Get([FromRoute]Guid foodId)
         {
-            var food = m_FoodService.GetFoodById(foodId);
+            var food = m_FoodService.GetFoodByIdAsync(foodId);
 
             if (food == null)
                 return NotFound();
@@ -36,7 +37,7 @@ namespace CooktaServices.Controllers.V1
 
 
         [HttpPut(ApiRoutes.Foods.Update)]
-        public IActionResult UpdateFood([FromRoute]Guid foodId, [FromBody] UpdateFoodRequest request)
+        public async Task<IActionResult> UpdateFood([FromRoute]Guid foodId, [FromBody] UpdateFoodRequest request)
         {
             var food = new Food()
             {
@@ -44,7 +45,7 @@ namespace CooktaServices.Controllers.V1
                 Name = request.Name
             };
 
-            var updated = m_FoodService.UpdateFood(food);
+            var updated = await m_FoodService.UpdateFoodAsync(food);
 
             if (updated)
                 return Ok(food);
@@ -53,9 +54,9 @@ namespace CooktaServices.Controllers.V1
         }
         
         [HttpDelete(ApiRoutes.Foods.Delete)]
-        public IActionResult UpdateFood([FromRoute]Guid foodId)
+        public async Task<IActionResult> UpdateFood([FromRoute]Guid foodId)
         {
-            var deleted = m_FoodService.DeleteFood(foodId);
+            var deleted = await m_FoodService.DeleteFoodAsync(foodId);
 
             if (deleted)
                 return NoContent();
@@ -64,20 +65,18 @@ namespace CooktaServices.Controllers.V1
         }
 
         [HttpGet(ApiRoutes.Foods.GetAll)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(m_FoodService.GetFoods());
+            var foods = await m_FoodService.GetFoods();
+            return Ok(foods);
         }
 
         [HttpPost(ApiRoutes.Foods.Create)]
-        public IActionResult Create([FromBody] CreateFoodRequest foodRequest)
+        public async Task<IActionResult> Create([FromBody] CreateFoodRequest foodRequest)
         {
-            var food = new Food() {Id = foodRequest.Id};
+            var food = new Food() {Name = foodRequest.Name};
 
-            if (food.Id != Guid.Empty)
-                food.Id = Guid.NewGuid();
-
-            m_FoodService.GetFoods().Add(food);
+            await m_FoodService.CreateFoodAsync(food);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUri = baseUrl + "/" + ApiRoutes.Foods.Get.Replace("{foodId}", food.Id.ToString());
