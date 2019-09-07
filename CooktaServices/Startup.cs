@@ -70,5 +70,6 @@ namespace CooktaServices
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
     }
 }

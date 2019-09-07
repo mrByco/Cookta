@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CooktaServices.Controllers.V1
 {
+    [Authorize]
     [ApiController]
     public class FoodController : ControllerBase
     {
@@ -24,23 +25,18 @@ namespace CooktaServices.Controllers.V1
         {
             m_FoodService = foodService;
         }
-//        [HttpGet(ApiRoutes.Foods.Get)]
-//        public IActionResult Get([FromRoute]Guid foodId) 
-//        {
-//            var food = m_FoodService.GetFoodByIdAsync(foodId);
-//            if (food == null)
-//                return NotFound();
-//
-//            return Ok(food);
-//        }
-
 
         [HttpGet(ApiRoutes.Foods.Get)]
-        [Authorize]
-        public IActionResult Get()
+        public IActionResult Get([FromRoute] Guid foodId)
         {
-            return Ok();
-        }
+            var food = m_FoodService.GetFoodByIdAsync(foodId);
+            if (food == null)
+                return NotFound();
+
+            return Ok(food);
+        } 
+
+
 
 
         [HttpPut(ApiRoutes.Foods.Update)]
