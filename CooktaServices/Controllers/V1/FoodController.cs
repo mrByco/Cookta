@@ -8,6 +8,7 @@ using CooktaServices.Contracts.V1.Responses;
 using CooktaServices.Domain;
 using CooktaServices.Domain.Receipts;
 using CooktaServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,16 +24,22 @@ namespace CooktaServices.Controllers.V1
         {
             m_FoodService = foodService;
         }
+//        [HttpGet(ApiRoutes.Foods.Get)]
+//        public IActionResult Get([FromRoute]Guid foodId) 
+//        {
+//            var food = m_FoodService.GetFoodByIdAsync(foodId);
+//            if (food == null)
+//                return NotFound();
+//
+//            return Ok(food);
+//        }
+
 
         [HttpGet(ApiRoutes.Foods.Get)]
-        public IActionResult Get([FromRoute]Guid foodId)
+        [Authorize]
+        public IActionResult Get()
         {
-            var food = m_FoodService.GetFoodByIdAsync(foodId);
-
-            if (food == null)
-                return NotFound();
-
-            return Ok(food);
+            return Ok();
         }
 
 

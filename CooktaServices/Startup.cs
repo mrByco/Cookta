@@ -44,6 +44,7 @@ namespace CooktaServices
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             var swaggerOptions = new SwaggerOptions();
             Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
 
@@ -59,6 +60,8 @@ namespace CooktaServices
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
