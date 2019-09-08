@@ -19,6 +19,7 @@ namespace CooktaServices
 
 
             services.AddScoped<IFoodService, FoodService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

@@ -17,7 +17,10 @@ namespace CooktaServices.Installer
                 {
                 options.Authority = "https://kukta.eu.auth0.com/";
                 options.Audience = "https://cooktaservices.azurewebsites.net";
-            });
+                options.SaveToken = true;
+                
+                });
         }
+        
     }
 }

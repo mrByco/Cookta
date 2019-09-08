@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CooktaServices.Domain;
+using CooktaServices.Domain.Account;
 using CooktaServices.Domain.Receipts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ namespace CooktaServices.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<IngredientType> IngredientTypes{ get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<Domain.Account.User> Identities { get; set; }
+        public DbSet<Family> Families { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

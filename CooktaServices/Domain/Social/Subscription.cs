@@ -11,7 +11,7 @@ namespace CooktaServices.Domain.Social
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }
 
-        public User User { get; set; }
+        public Account.User User { get; set; }
         [ForeignKey("FoodId")]
         public Guid FoodId { get; set; }
         public Food Food { get; set; }

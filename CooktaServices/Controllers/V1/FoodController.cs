@@ -8,6 +8,7 @@ using CooktaServices.Contracts.V1.Responses;
 using CooktaServices.Domain;
 using CooktaServices.Domain.Receipts;
 using CooktaServices.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +71,10 @@ namespace CooktaServices.Controllers.V1
         [HttpGet(ApiRoutes.Foods.GetAll)]
         public async Task<IActionResult> GetAll()
         {
+            var loggedId = User.Identity.IsAuthenticated;
+            var claims = HttpContext.User.Claims;
+            var idToken = await HttpContext.GetTokenAsync("id_token");
+            
             var foods = await m_FoodService.GetFoods();
             return Ok(foods);
         }
@@ -77,6 +82,7 @@ namespace CooktaServices.Controllers.V1
         [HttpPost(ApiRoutes.Foods.Create)]
         public async Task<IActionResult> Create([FromBody] CreateFoodRequest foodRequest)
         {
+            
             var food = new Food() {Name = foodRequest.Name};
 
             await m_FoodService.CreateFoodAsync(food);

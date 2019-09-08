@@ -213,6 +213,7 @@ namespace Kukta
 
             var extraParameters = new Dictionary<string, string>();
             extraParameters.Add("audience", "https://kuktaservice.azurewebsites.net/");
+            extraParameters.Add("scope", "openid profile email");
             var result = await Client.LoginAsync(extraParameters);
 
             if (result.IsError)

@@ -20,5 +20,13 @@ namespace CooktaServices.Contracts.V1
             public const string Update = Base + "/foods/{foodId}";
             public const string Delete = Base + "/foods/{foodId}";
         }
+
+        public static class Users
+        {
+            public const string Get = Base + "/users/{userId}";
+            public const string GetMe = Base + "/users";
+            public const string Update = Base + "/users/{userId}";
+            public const string CreateUser = Base + "users";
+        }
     }
 }
