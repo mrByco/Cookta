@@ -20,7 +20,7 @@ namespace CooktaServices.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<IngredientType> IngredientTypes{ get; set; }
         public DbSet<Unit> Units { get; set; }
-        public DbSet<Domain.Account.User> Identities { get; set; }
+        public new DbSet<Domain.Account.User> Users { get; set; }
         public DbSet<Family> Families { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -26,7 +26,7 @@ namespace CooktaServices.Contracts.V1
             public const string Get = Base + "/users/{userId}";
             public const string GetMe = Base + "/users";
             public const string Update = Base + "/users/{userId}";
-            public const string CreateUser = Base + "users";
+            public const string CreateMe = Base + "/users";
         }
     }
 }

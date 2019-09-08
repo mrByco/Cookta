@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CooktaServices.Contracts.V1;
 using CooktaServices.Contracts.V1.Requests;
@@ -12,6 +14,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
+using RestSharp.Serialization.Json;
 
 namespace CooktaServices.Controllers.V1
 {
@@ -71,9 +75,6 @@ namespace CooktaServices.Controllers.V1
         [HttpGet(ApiRoutes.Foods.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            var loggedId = User.Identity.IsAuthenticated;
-            var claims = HttpContext.User.Claims;
-            var idToken = await HttpContext.GetTokenAsync("id_token");
             
             var foods = await m_FoodService.GetFoods();
             return Ok(foods);

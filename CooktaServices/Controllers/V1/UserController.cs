@@ -4,11 +4,14 @@ using CooktaServices.Contracts.V1;
 using CooktaServices.Contracts.V1.Requests;
 using CooktaServices.Contracts.V1.Responses;
 using CooktaServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace CooktaServices.Controllers.V1
 {
+    [Authorize]
     public class UserController : ControllerBase
     {
 
@@ -19,6 +22,7 @@ namespace CooktaServices.Controllers.V1
             m_UserService = userService;
         }
 
+        [AllowAnonymous]
         [HttpGet(ApiRoutes.Users.Get)]
         public async Task<IActionResult> Get([FromRoute] Guid userId)
         {
@@ -35,10 +39,16 @@ namespace CooktaServices.Controllers.V1
             return Ok(new OwnUserResponse(user));
         }
 
-        [HttpPost(ApiRoutes.Users.CreateUser)]
-        public async Task<IAsyncResult> UpdateUser([FromBody] CreateMeRequest request)
+        [HttpPost(ApiRoutes.Users.CreateMe)]
+        public async Task<IActionResult> UpdateUser([FromBody] CreateMeRequest request)
         {
-            throw  new  NotImplementedException();
+            var user = await m_UserService.CreateAsync(HttpContext, request.DisplayName);
+            if (user == null) return NoContent();
+            
+            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+            var locationUri = baseUrl + "/" + ApiRoutes.Users.GetMe;
+            
+            return Created(locationUri, new OwnUserResponse(user));
         }
         
         

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace CooktaServices.Domain.Account
 {
     public class FamilyMember
     {
+        [Key]
+        public Guid Id { get; set; }
         [ForeignKey("FamilyId")]
         public Family Family { get; set; }
         public Guid FamilyId { get; set; }
