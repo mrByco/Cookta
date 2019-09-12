@@ -13,6 +13,7 @@ namespace CooktaServices.Domain.Account
         [Key]
         public Guid Id { get; set; }
         public List<FamilyMember> MemberUserIds { get; set; }
+        public Guid OwnerId { get; set; }
         public DateTime Created { get; set; }
         public string Name { get; set; }
     }

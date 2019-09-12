@@ -12,11 +12,20 @@ namespace CooktaServices.Domain.Account
     {
         [Key]
         public Guid Id { get; set; }
+
+        public FamilyMembershipType Type { get; set; }
         [ForeignKey("FamilyId")]
         public Family Family { get; set; }
         public Guid FamilyId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
         public Guid UserId { get; set; }
+    }
+
+    public enum FamilyMembershipType
+    {
+        Child = 0,
+        Member = 1,
+        Owner = 5
     }
 }
