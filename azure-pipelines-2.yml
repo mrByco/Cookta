@@ -19,5 +19,7 @@ steps:
     cd Cookta-online
     npm install -g @angular/cli
     npm install
+    npm install firebase -g
     ng build --prod
+    firebase deploy --token 1/yZ3Yrn_Zt2ZhH9AmPtlXciYt-1x00VOzF3iIHLb4X6I
   displayName: 'npm install and build'
