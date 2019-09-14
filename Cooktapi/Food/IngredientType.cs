@@ -100,27 +100,34 @@ namespace Cooktapi.Food
 
         private static IngredientType ParseIngredientType(string json)
         {
-            JObject jIng = JObject.Parse(json);
-            bool isMass = jIng.GetValue("mass-enabled").Value<bool>();
-            bool isVol = jIng.GetValue("volume-enabled").Value<bool>();
-            bool isCount = jIng.GetValue("count-enabled").Value<bool>();
-            string name = jIng.GetValue("name").Value<string>();
-            string category = jIng.GetValue("category").Value<string>();
-            string guid = jIng.GetValue("guid").Value<string>();
-            List<Unit> CustomUnits = new List<Unit>();
-
-            JArray jarray = jIng.SelectToken(@"$.options.cunits")?.Value<JArray>();
-
-            if (jarray != null)
+            try
             {
-                for (int i = 0; i < jarray.Count; i++)
+                JObject jIng = JObject.Parse(json);
+                bool isMass = jIng.GetValue("mass-enabled").Value<bool>();
+                bool isVol = jIng.GetValue("volume-enabled").Value<bool>();
+                bool isCount = jIng.GetValue("count-enabled").Value<bool>();
+                string name = jIng.GetValue("name").Value<string>();
+                string category = jIng.GetValue("category").Value<string>();
+                string guid = jIng.GetValue("guid").Value<string>();
+                List<Unit> CustomUnits = new List<Unit>();
+
+                JArray jarray = jIng.SelectToken(@"$.options.cunits")?.Value<JArray>();
+
+                if (jarray != null)
                 {
-                    string unitStr = jarray.ElementAt(i).ToString(Formatting.None);
-                    CustomUnits.Add(Unit.ParseUnit(unitStr));
+                    for (int i = 0; i < jarray.Count; i++)
+                    {
+                        string unitStr = jarray.ElementAt(i).ToString(Formatting.None);
+                        CustomUnits.Add(Unit.ParseUnit(unitStr));
+                    }
                 }
+                IngredientType IngType = new IngredientType(isMass, isVol, isCount, name, guid, category, CustomUnits);
+                return IngType;
             }
-            IngredientType IngType = new IngredientType(isMass, isVol, isCount, name, guid, category, CustomUnits);
-            return IngType;
+            catch 
+            {
+                return null;
+            }
         }
         public string CreateIngredientToServer()
         {
