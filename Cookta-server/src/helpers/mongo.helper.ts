@@ -22,7 +22,7 @@ export class MongoHelper{
             return null;
         }
         else{
-            return (await this.Client.db("CoffeeDB").collection(name));
+            return (await this.Client.db("Kuktadb").collection(name));
         }
     }
     public static checkIdIsValid(Id: string): boolean {
