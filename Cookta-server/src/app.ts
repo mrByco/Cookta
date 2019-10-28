@@ -12,6 +12,10 @@ app.use(bodyParser.json());
 app.use(requestLoggerMiddleware);
 RegisterRoutes(app);
 
+app.get('/', (req, res) => {
+    res.send('Hello friend! :)');
+})
+
 
 if (process.env.NODE_ENV == "debug "){
     try{
