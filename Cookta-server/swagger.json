@@ -3,7 +3,109 @@
 	"consumes": [
 		"application/json"
 	],
-	"definitions": {},
+	"definitions": {
+		"iIngredient": {
+			"properties": {
+				"ingredientID": {
+					"type": "string"
+				},
+				"unit": {
+					"type": "string"
+				},
+				"value": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"ingredientID",
+				"unit",
+				"value"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"Food": {
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"desc": {
+					"type": "string"
+				},
+				"isPrivate": {
+					"type": "boolean"
+				},
+				"published": {
+					"type": "boolean"
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/iIngredient"
+					},
+					"type": "array"
+				},
+				"imageUploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"uploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double"
+				},
+				"tags": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"lastModified": {
+					"type": "number",
+					"format": "double"
+				},
+				"generated": {
+					"additionalProperties": true,
+					"type": "object"
+				},
+				"subscriptions": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"foodId": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"owner",
+				"name",
+				"desc",
+				"isPrivate",
+				"published",
+				"ingredients",
+				"imageUploaded",
+				"uploaded",
+				"dose",
+				"tags",
+				"lastModified",
+				"generated",
+				"subscriptions"
+			],
+			"type": "object",
+			"additionalProperties": false
+		}
+	},
 	"info": {
 		"title": "cookta-server",
 		"version": "1.0.0",
@@ -11,7 +113,32 @@
 			"name": "ISC"
 		}
 	},
-	"paths": {},
+	"paths": {
+		"/food": {
+			"get": {
+				"operationId": "GetFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Food"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
 	"produces": [
 		"application/json"
 	],

@@ -2,12 +2,46 @@
 /* eslint-disable */
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { FoodController } from './controllers/food.controller';
 import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "iIngredient": {
+        "dataType": "refObject",
+        "properties": {
+            "ingredientID": { "dataType": "string", "required": true },
+            "unit": { "dataType": "string", "required": true },
+            "value": { "dataType": "double", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Food": {
+        "dataType": "refObject",
+        "properties": {
+            "owner": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "desc": { "dataType": "string", "required": true },
+            "isPrivate": { "dataType": "boolean", "required": true },
+            "published": { "dataType": "boolean", "required": true },
+            "ingredients": { "dataType": "array", "array": { "ref": "iIngredient" }, "required": true },
+            "imageUploaded": { "dataType": "double", "required": true },
+            "uploaded": { "dataType": "double", "required": true },
+            "dose": { "dataType": "double", "required": true },
+            "tags": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
+            "lastModified": { "dataType": "double", "required": true },
+            "generated": { "dataType": "any", "required": true },
+            "subscriptions": { "dataType": "double", "required": true },
+            "id": { "dataType": "string" },
+            "foodId": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const validationService = new ValidationService(models);
 
@@ -18,6 +52,27 @@ export function RegisterRoutes(app: express.Express) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+    app.get('/food',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new FoodController();
+
+
+            const promise = controller.GetFoods.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 

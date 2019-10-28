@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser";
 import * as swaggerUi from 'swagger-ui-express';
 import {RegisterRoutes} from "./routes";
 import {requestLoggerMiddleware} from "./request.logger.middleware";
+import './controllers/food.controller';
 
 const app = express();
 app.use(cors());

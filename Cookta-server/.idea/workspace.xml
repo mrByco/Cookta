@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
+    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Foods get all route">
+      <change afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/interfaces/iingredient.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/food.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/mongo.helper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/mongo.helper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -81,8 +83,16 @@
       <workItem from="1572269351150" duration="88000" />
       <workItem from="1572269446217" duration="578000" />
       <workItem from="1572270379360" duration="1025000" />
-      <workItem from="1572273883178" duration="904000" />
+      <workItem from="1572273883178" duration="4312000" />
     </task>
+    <task id="LOCAL-00001" summary="Added mongo connection string">
+      <created>1572274977423</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1572274977423</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,5 +113,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Added mongo connection string" />
+    <MESSAGE value="Foods get all route" />
+    <option name="LAST_COMMIT_MESSAGE" value="Foods get all route" />
   </component>
 </project>
