@@ -1,0 +1,21 @@
+{
+  "swagger": {
+    "outputDirectory": ".",
+    "entryFile": "./src/app.ts",
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "noImplicitAdditionalProperties": "silently-remove-extras"
+  },
+  "routes": {
+    "authenticationModule": "./src/authentication.ts",
+    "basePath": "/",
+    "entryFile": "./src/app.ts",
+    "routesDir": "./src"
+
+  }
+}
