@@ -341,6 +341,31 @@
 			],
 			"type": "object",
 			"additionalProperties": false
+		},
+		"BaselistItem": {
+			"properties": {
+				"ingredientID": {
+					"type": "string"
+				},
+				"unit": {
+					"type": "string"
+				},
+				"value": {
+					"type": "number",
+					"format": "double"
+				},
+				"sub": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"ingredientID",
+				"unit",
+				"value",
+				"sub"
+			],
+			"type": "object",
+			"additionalProperties": false
 		}
 	},
 	"info": {
@@ -624,6 +649,71 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/Baselist/{owner}": {
+			"get": {
+				"operationId": "GetAllByOwner",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/BaselistItem"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Baselist"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "owner",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"post": {
+				"operationId": "SetListItem",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/BaselistItem"
+						}
+					}
+				},
+				"tags": [
+					"Baselist"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "owner",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/iIngredient"
+						}
+					}
+				]
 			}
 		}
 	},

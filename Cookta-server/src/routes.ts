@@ -8,6 +8,8 @@ import { FoodController } from './controllers/food.controller';
 import { IngredientTypeController } from './controllers/ingredient-type.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UnitController } from './controllers/unit.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { BaselistController } from './controllers/baselist.controller';
 import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
@@ -117,6 +119,17 @@ const models: TsoaRoute.Models = {
             "shortname": { "dataType": "string", "required": true },
             "tobase": { "dataType": "double", "required": true },
             "id": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BaselistItem": {
+        "dataType": "refObject",
+        "properties": {
+            "ingredientID": { "dataType": "string", "required": true },
+            "unit": { "dataType": "string", "required": true },
+            "value": { "dataType": "double", "required": true },
+            "sub": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
@@ -325,6 +338,51 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.GetAll.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/Baselist/:owner',
+        function(request: any, response: any, next: any) {
+            const args = {
+                owner: { "in": "path", "name": "owner", "required": true, "dataType": "string" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new BaselistController();
+
+
+            const promise = controller.GetAllByOwner.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/Baselist/:owner',
+        function(request: any, response: any, next: any) {
+            const args = {
+                owner: { "in": "path", "name": "owner", "required": true, "dataType": "string" },
+                data: { "in": "body", "name": "data", "required": true, "ref": "iIngredient" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new BaselistController();
+
+
+            const promise = controller.SetListItem.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
