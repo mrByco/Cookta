@@ -312,6 +312,35 @@
 			],
 			"type": "object",
 			"additionalProperties": false
+		},
+		"Unit": {
+			"properties": {
+				"type": {
+					"$ref": "#/definitions/EUnitType"
+				},
+				"name": {
+					"type": "string"
+				},
+				"shortname": {
+					"type": "string"
+				},
+				"tobase": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"type",
+				"name",
+				"shortname",
+				"tobase",
+				"id"
+			],
+			"type": "object",
+			"additionalProperties": false
 		}
 	},
 	"info": {
@@ -571,6 +600,30 @@
 						"type": "string"
 					}
 				]
+			}
+		},
+		"/unit": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Unit"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Unit"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},

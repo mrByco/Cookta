@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Foods get all route">
-      <change afterPath="$PROJECT_DIR$/src/controllers/ingredient-type.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/interfaces/iunit.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/ingredient-type.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/requests/set.ingredient-type.request.ts" afterDir="false" />
+    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Unit resource">
+      <change afterPath="$PROJECT_DIR$/src/controllers/unit.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/enums/unit-type.enum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/unit.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/iunit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/iunit.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
@@ -91,7 +88,7 @@
       <workItem from="1572273883178" duration="4951000" />
       <workItem from="1572339285248" duration="6166000" />
       <workItem from="1572346882868" duration="943000" />
-      <workItem from="1572426715645" duration="4846000" />
+      <workItem from="1572426715645" duration="6274000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -107,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572278350958</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Ingredient resource">
+      <created>1572432217466</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1572432217466</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +134,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Added mongo connection string" />
     <MESSAGE value="Foods get all route" />
-    <option name="LAST_COMMIT_MESSAGE" value="Foods get all route" />
+    <MESSAGE value="Ingredient resource" />
+    <MESSAGE value="Unit resource" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unit resource" />
   </component>
 </project>

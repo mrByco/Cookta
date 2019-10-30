@@ -6,6 +6,8 @@ import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } 
 import { FoodController } from './controllers/food.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { IngredientTypeController } from './controllers/ingredient-type.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { UnitController } from './controllers/unit.controller';
 import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
@@ -103,6 +105,18 @@ const models: TsoaRoute.Models = {
             "massEnabled": { "dataType": "boolean", "required": true },
             "inshopping": { "dataType": "string", "required": true },
             "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "iUnit" }, "required": true } }, "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Unit": {
+        "dataType": "refObject",
+        "properties": {
+            "type": { "ref": "EUnitType", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "shortname": { "dataType": "string", "required": true },
+            "tobase": { "dataType": "double", "required": true },
+            "id": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
@@ -290,6 +304,27 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.DeleteIngredient.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/unit',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UnitController();
+
+
+            const promise = controller.GetAll.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -6,6 +6,7 @@ import {RegisterRoutes} from "./routes";
 import {requestLoggerMiddleware} from "./request.logger.middleware";
 import './controllers/food.controller';
 import './controllers/ingredient-type.controller';
+import './controllers/unit.controller';
 
 const app = express();
 app.use(cors());
