@@ -167,6 +167,151 @@
 			],
 			"type": "object",
 			"additionalProperties": false
+		},
+		"EUnitType": {
+			"enum": [
+				0,
+				1,
+				2
+			],
+			"type": "integer"
+		},
+		"iUnit": {
+			"properties": {
+				"type": {
+					"$ref": "#/definitions/EUnitType"
+				},
+				"name": {
+					"type": "string"
+				},
+				"shortname": {
+					"type": "string"
+				},
+				"tobase": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"type",
+				"name",
+				"shortname",
+				"tobase",
+				"id"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IngredientType": {
+			"properties": {
+				"category": {
+					"type": "string",
+					"default": "Default",
+					"x-nullable": true
+				},
+				"name": {
+					"type": "string",
+					"default": "UnitName",
+					"x-nullable": true
+				},
+				"baseUnit": {
+					"type": "string"
+				},
+				"volumeEnabled": {
+					"type": "boolean"
+				},
+				"countEnabled": {
+					"type": "boolean"
+				},
+				"massEnabled": {
+					"type": "boolean"
+				},
+				"inshopping": {
+					"type": "string"
+				},
+				"guid": {
+					"type": "string"
+				},
+				"options": {
+					"properties": {
+						"cunits": {
+							"items": {
+								"$ref": "#/definitions/iUnit"
+							},
+							"type": "array"
+						}
+					},
+					"required": [
+						"cunits"
+					],
+					"type": "object"
+				}
+			},
+			"required": [
+				"baseUnit",
+				"volumeEnabled",
+				"countEnabled",
+				"massEnabled",
+				"inshopping",
+				"guid",
+				"options"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ISetIngredientTypeRequest": {
+			"properties": {
+				"category": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"baseUnit": {
+					"type": "string"
+				},
+				"volumeEnabled": {
+					"type": "boolean"
+				},
+				"countEnabled": {
+					"type": "boolean"
+				},
+				"massEnabled": {
+					"type": "boolean"
+				},
+				"inshopping": {
+					"type": "string"
+				},
+				"options": {
+					"properties": {
+						"cunits": {
+							"items": {
+								"$ref": "#/definitions/iUnit"
+							},
+							"type": "array"
+						}
+					},
+					"required": [
+						"cunits"
+					],
+					"type": "object"
+				}
+			},
+			"required": [
+				"category",
+				"name",
+				"baseUnit",
+				"volumeEnabled",
+				"countEnabled",
+				"massEnabled",
+				"inshopping",
+				"options"
+			],
+			"type": "object",
+			"additionalProperties": false
 		}
 	},
 	"info": {
@@ -324,6 +469,104 @@
 					{
 						"in": "path",
 						"name": "owner",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/ingredientType": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IngredientType"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "SetIngredient",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"all": {
+									"items": {
+										"$ref": "#/definitions/IngredientType"
+									},
+									"type": "array"
+								},
+								"created": {
+									"$ref": "#/definitions/IngredientType"
+								}
+							},
+							"required": [
+								"created",
+								"all"
+							],
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "request",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ISetIngredientTypeRequest"
+						}
+					}
+				]
+			}
+		},
+		"/ingredientType/{guid}": {
+			"delete": {
+				"operationId": "DeleteIngredient",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IngredientType"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "guid",
 						"required": true,
 						"type": "string"
 					}

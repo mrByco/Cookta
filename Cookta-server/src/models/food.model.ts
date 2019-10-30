@@ -29,6 +29,7 @@ export class Food implements OwnFoodResponse {
             console.info("foodId Added for: " + food.id);
         };
         if (foodId === undefined){
+            // noinspection JSIgnoredPromiseFromCall
             addId(this);
         }
     }
@@ -53,7 +54,7 @@ export class Food implements OwnFoodResponse {
         let collection = await MongoHelper.getCollection(Food.CollectionName);
         if (existing){
             existing.uploaded = Date.now();
-            let doc = {...existing.ToDocument(), ...request}
+            let doc = {...existing.ToDocument(), ...request};
             await collection.replaceOne({foodId: request.foodId}, doc);
             return await this.GetFood(request.foodId);
         }else{
@@ -76,7 +77,7 @@ export class Food implements OwnFoodResponse {
                 {},
                 undefined,
                 undefined,
-                new ObjectID().toHexString())
+                new ObjectID().toHexString());
             await collection.insertOne(food.ToDocument());
             return food;
         }

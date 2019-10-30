@@ -5,6 +5,7 @@ import * as swaggerUi from 'swagger-ui-express';
 import {RegisterRoutes} from "./routes";
 import {requestLoggerMiddleware} from "./request.logger.middleware";
 import './controllers/food.controller';
+import './controllers/ingredient-type.controller';
 
 const app = express();
 app.use(cors());
@@ -15,7 +16,7 @@ RegisterRoutes(app);
 
 app.get('/', (req, res) => {
     res.send('Hello friend! :)');
-})
+});
 
 
 if (process.env.NODE_ENV == "debug "){

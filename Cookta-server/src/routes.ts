@@ -4,6 +4,8 @@
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { FoodController } from './controllers/food.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { IngredientTypeController } from './controllers/ingredient-type.controller';
 import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
@@ -53,6 +55,54 @@ const models: TsoaRoute.Models = {
             "dose": { "dataType": "double", "required": true },
             "tags": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "foodId": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "EUnitType": {
+        "dataType": "refEnum",
+        "enums": [0, 1, 2],
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "iUnit": {
+        "dataType": "refObject",
+        "properties": {
+            "type": { "ref": "EUnitType", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "shortname": { "dataType": "string", "required": true },
+            "tobase": { "dataType": "double", "required": true },
+            "id": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IngredientType": {
+        "dataType": "refObject",
+        "properties": {
+            "category": { "dataType": "string", "default": "Default" },
+            "name": { "dataType": "string", "default": "UnitName" },
+            "baseUnit": { "dataType": "string", "required": true },
+            "volumeEnabled": { "dataType": "boolean", "required": true },
+            "countEnabled": { "dataType": "boolean", "required": true },
+            "massEnabled": { "dataType": "boolean", "required": true },
+            "inshopping": { "dataType": "string", "required": true },
+            "guid": { "dataType": "string", "required": true },
+            "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "iUnit" }, "required": true } }, "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ISetIngredientTypeRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "category": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "baseUnit": { "dataType": "string", "required": true },
+            "volumeEnabled": { "dataType": "boolean", "required": true },
+            "countEnabled": { "dataType": "boolean", "required": true },
+            "massEnabled": { "dataType": "boolean", "required": true },
+            "inshopping": { "dataType": "string", "required": true },
+            "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "iUnit" }, "required": true } }, "required": true },
         },
         "additionalProperties": false,
     },
@@ -175,6 +225,71 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.DeleteFood.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/ingredientType',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new IngredientTypeController();
+
+
+            const promise = controller.GetAll.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/ingredientType',
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "body", "name": "request", "required": true, "ref": "ISetIngredientTypeRequest" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new IngredientTypeController();
+
+
+            const promise = controller.SetIngredient.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.delete('/ingredientType/:guid',
+        function(request: any, response: any, next: any) {
+            const args = {
+                guid: { "in": "path", "name": "guid", "required": true, "dataType": "string" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new IngredientTypeController();
+
+
+            const promise = controller.DeleteIngredient.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
