@@ -20,7 +20,6 @@ namespace Cooktapi.Food
         public static readonly Uri DefaultFoodImageUri = new Uri("https://kuktaimages.blob.core.windows.net/application/Square44x44Logo.altform-unplated_targetsize-256.png", UriKind.Absolute);
         public string Id;
         public string Owner;
-        public int? MakeTime = 0;
         public bool Owning
         {
             get
@@ -243,14 +242,13 @@ namespace Cooktapi.Food
 
                 food.Id = jFood.GetValue("_id").Value<string>();
                 food.Owner = jFood.GetValue("owner").Value<string>();
-                food.MakeTime = jFood.GetValue("makeTime").Value<int?>();
                 food.Dose = jFood.GetValue("dose")?.Value<int>() ?? 4;
                 food.Subcribed = jFood.GetValue("subscribed").Value<bool>();
                 food.Name = jFood.GetValue("name").Value<string>();
                 food.Desc = jFood.GetValue("desc").Value<string>();
                 food.IsPrivate = jFood.GetValue("private")?.Value<bool>() ?? true;
                 food.ImageUrl = jFood.GetValue("image")?.Value<string>();
-                food.Subcriptions = jFood.GetValue("subscriptions")?.Value<int>() ?? 0;
+                food.Subcriptions = jFood.GetValue("subscriptions")?.Value<int?>() ?? 0;
 
                 var isPublic = jFood.GetValue("published")?.Value<bool>() ?? false;
                 if (food.IsPrivate)
@@ -342,7 +340,6 @@ namespace Cooktapi.Food
             }
             jFood.Add("name", JToken.FromObject(food.Name));
             jFood.Add("private", JToken.FromObject(food.IsPrivate));
-            jFood.Add("makeTime", JToken.FromObject(food.MakeTime));
             jFood.Add("desc", JToken.FromObject(food.Desc));
             jFood.Add("dose", JToken.FromObject(food.Dose));
 

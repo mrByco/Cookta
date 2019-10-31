@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Baselist resource">
-      <change afterPath="$PROJECT_DIR$/src/controllers/tag.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/tag.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/requests/set.tag.request.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +81,7 @@
       <workItem from="1572339285248" duration="6166000" />
       <workItem from="1572346882868" duration="943000" />
       <workItem from="1572426715645" duration="11653000" />
-      <workItem from="1572522080888" duration="11852000" />
+      <workItem from="1572522080888" duration="13134000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
