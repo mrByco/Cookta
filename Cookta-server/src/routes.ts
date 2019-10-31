@@ -10,6 +10,8 @@ import { IngredientTypeController } from './controllers/ingredient-type.controll
 import { UnitController } from './controllers/unit.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { BaselistController } from './controllers/baselist.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { TagController } from './controllers/tag.controller';
 import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
@@ -130,6 +132,27 @@ const models: TsoaRoute.Models = {
             "unit": { "dataType": "string", "required": true },
             "value": { "dataType": "double", "required": true },
             "sub": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Tag": {
+        "dataType": "refObject",
+        "properties": {
+            "guid": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "parentId": { "dataType": "string", "required": true },
+            "ischildonly": { "dataType": "boolean", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SetTagRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "guid": { "dataType": "string" },
+            "name": { "dataType": "string", "required": true },
+            "parent": { "dataType": "string" },
         },
         "additionalProperties": false,
     },
@@ -383,6 +406,71 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.SetListItem.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/tag',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new TagController();
+
+
+            const promise = controller.GetAll.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/tag',
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "body", "name": "request", "required": true, "ref": "SetTagRequest" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new TagController();
+
+
+            const promise = controller.SetTag.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.delete('/tag/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new TagController();
+
+
+            const promise = controller.Delete.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

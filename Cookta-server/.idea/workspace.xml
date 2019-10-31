@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Baselist resource">
-      <change afterPath="$PROJECT_DIR$/src/controllers/baselist.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/baselist-item.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/requests/set.stock-item.request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/tag.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/tag.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/requests/set.tag.request.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
@@ -87,7 +88,8 @@
       <workItem from="1572273883178" duration="4951000" />
       <workItem from="1572339285248" duration="6166000" />
       <workItem from="1572346882868" duration="943000" />
-      <workItem from="1572426715645" duration="11304000" />
+      <workItem from="1572426715645" duration="11653000" />
+      <workItem from="1572522080888" duration="11852000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -117,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572433429421</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Baselist resource">
+      <created>1572456280728</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1572456280728</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -151,7 +160,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/models/baselist-item.model.ts</url>
           <line>30</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

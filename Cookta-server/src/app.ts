@@ -8,6 +8,7 @@ import './controllers/food.controller';
 import './controllers/ingredient-type.controller';
 import './controllers/unit.controller';
 import './controllers/baselist.controller';
+import './controllers/tag.controller';
 
 const app = express();
 app.use(cors());

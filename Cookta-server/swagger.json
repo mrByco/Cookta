@@ -366,6 +366,50 @@
 			],
 			"type": "object",
 			"additionalProperties": false
+		},
+		"Tag": {
+			"properties": {
+				"guid": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"parentId": {
+					"type": "string"
+				},
+				"ischildonly": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"guid",
+				"name",
+				"parentId",
+				"ischildonly"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"SetTagRequest": {
+			"properties": {
+				"guid": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"name": {
+					"type": "string"
+				},
+				"parent": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"name"
+			],
+			"type": "object",
+			"additionalProperties": false
 		}
 	},
 	"info": {
@@ -712,6 +756,92 @@
 						"schema": {
 							"$ref": "#/definitions/iIngredient"
 						}
+					}
+				]
+			}
+		},
+		"/tag": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Tag"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Tag"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "SetTag",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Tag"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Tag"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "request",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/SetTagRequest"
+						}
+					}
+				]
+			}
+		},
+		"/tag/{id}": {
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Tag"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Tag"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
 					}
 				]
 			}
