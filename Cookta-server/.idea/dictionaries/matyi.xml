@@ -6,9 +6,12 @@
       <w>cunits</w>
       <w>inshopping</w>
       <w>ischildonly</w>
+      <w>lastupdate</w>
       <w>shortname</w>
       <w>tobase</w>
+      <w>typeid</w>
       <w>upsert</w>
+      <w>validitydate</w>
     </words>
   </dictionary>
 </component>

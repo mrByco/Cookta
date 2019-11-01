@@ -9,6 +9,7 @@ import './controllers/ingredient-type.controller';
 import './controllers/unit.controller';
 import './controllers/baselist.controller';
 import './controllers/tag.controller';
+import './controllers/stock.controller';
 
 const app = express();
 app.use(cors());

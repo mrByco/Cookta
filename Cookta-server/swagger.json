@@ -410,6 +410,78 @@
 			],
 			"type": "object",
 			"additionalProperties": false
+		},
+		"IStockItem": {
+			"properties": {
+				"_id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"typeid": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"value": {
+					"type": "number",
+					"format": "double"
+				},
+				"unitId": {
+					"type": "string"
+				},
+				"sub": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"validitydate": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				},
+				"lastupdate": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"typeid",
+				"type",
+				"value",
+				"unitId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ISetStockItemRequest": {
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"typeId": {
+					"type": "string"
+				},
+				"value": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				},
+				"unitId": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"owner",
+				"typeId"
+			],
+			"type": "object",
+			"additionalProperties": false
 		}
 	},
 	"info": {
@@ -840,6 +912,74 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/stock/{owner}": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IStockItem"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "owner",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"post": {
+				"operationId": "SetItem",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IStockItem"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "setRequest",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ISetStockItemRequest"
+						}
+					},
+					{
+						"in": "path",
+						"name": "owner",
 						"required": true,
 						"type": "string"
 					}

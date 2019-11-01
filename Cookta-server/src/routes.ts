@@ -12,6 +12,8 @@ import { UnitController } from './controllers/unit.controller';
 import { BaselistController } from './controllers/baselist.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TagController } from './controllers/tag.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { StockController } from './controllers/stock.controller';
 import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
@@ -153,6 +155,33 @@ const models: TsoaRoute.Models = {
             "guid": { "dataType": "string" },
             "name": { "dataType": "string", "required": true },
             "parent": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IStockItem": {
+        "dataType": "refObject",
+        "properties": {
+            "_id": { "dataType": "string" },
+            "typeid": { "dataType": "string", "required": true },
+            "type": { "dataType": "string", "required": true },
+            "value": { "dataType": "double", "required": true },
+            "unitId": { "dataType": "string", "required": true },
+            "sub": { "dataType": "string" },
+            "validitydate": { "dataType": "double" },
+            "lastupdate": { "dataType": "double" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ISetStockItemRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "owner": { "dataType": "string", "required": true },
+            "type": { "dataType": "string" },
+            "typeId": { "dataType": "string", "required": true },
+            "value": { "dataType": "double" },
+            "unitId": { "dataType": "string" },
         },
         "additionalProperties": false,
     },
@@ -471,6 +500,51 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.Delete.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/stock/:owner',
+        function(request: any, response: any, next: any) {
+            const args = {
+                owner: { "in": "path", "name": "owner", "required": true, "dataType": "string" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new StockController();
+
+
+            const promise = controller.GetAll.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/stock/:owner',
+        function(request: any, response: any, next: any) {
+            const args = {
+                setRequest: { "in": "body", "name": "setRequest", "required": true, "ref": "ISetStockItemRequest" },
+                owner: { "in": "path", "name": "owner", "required": true, "dataType": "string" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new StockController();
+
+
+            const promise = controller.SetItem.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
