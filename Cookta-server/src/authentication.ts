@@ -4,10 +4,10 @@ import * as jwt from 'jsonwebtoken';
 const jwksClient = require('jwks-rsa');
 
 const client = jwksClient({
-    strictSsl: true, // Default value
-    jwksUri: 'https://ujholdkv.eu.auth0.com/.well-known/jwks.json',
-    requestHeaders: {}, // Optional
-    requestAgentOptions: {} // Optional
+    strictSsl: true,
+    jwksUri: 'https://kukta.eu.auth0.com/.well-known/jwks.json',
+    requestHeaders: {},
+    requestAgentOptions: {}
 });
 
 
@@ -34,6 +34,9 @@ export async function expressAuthentication(request: express.Request, securityNa
                     let publicKey = key.publicKey;
                     try{
                         jwt.verify(accessToken, publicKey, verifyOptions);
+                        //TODO identify the user
+                        //TODO Check custom permissions
+                        //TODO Return the user object
                         for (let scope of scopes){
                             if (!decoded.payload.permissions.includes(scope)){
                                 reject(new Error("Not all the permissions covered."));
@@ -45,7 +48,7 @@ export async function expressAuthentication(request: express.Request, securityNa
                     }
                 }
                 const signingKey = key.publicKey || key.rsaPublicKey;
-                return resolve({name: "ame"});
+                return resolve({name: "Pass"});
             });
         })
     }else{
