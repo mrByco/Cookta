@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
+import {User} from "./models/user.model";
 
 const jwksClient = require('jwks-rsa');
 
@@ -11,8 +12,13 @@ const client = jwksClient({
 });
 
 
-export async function expressAuthentication(request: express.Request, securityName: string, scopes?: string[]): Promise<any> {
-    let accessToken = request.headers["authorization"].toString();
+export async function expressAuthentication(request: express.Request, securityName: string, permissions?: string[]): Promise<any> {
+    let authHeader = request.headers["authorization"];
+    if (!authHeader){
+        console.log(`Unauthorized call from: ${request.ip})`);
+        return new Promise( (resolve, reject) => {reject(new Error("No authorization header!"))});
+    }
+    let accessToken = authHeader.toString();
     console.log("Bearer auth");
     if (accessToken.startsWith("Bearer "))
     {
@@ -22,11 +28,11 @@ export async function expressAuthentication(request: express.Request, securityNa
         const decodedHeader = decoded.header;
         const kid = decodedHeader['kid'];
 
-        return new Promise((resolve, reject) => {
-            client.getSigningKey(kid, (err, key) => {
+        return new Promise( (resolve, reject) => {
+            client.getSigningKey(kid, async (err, key) => {
                 let verifyOptions = {
                     algorithms: ["RS256"]
-                }
+                };
 
                 if (err){
                     return reject(new Error("Cant get public key"));
@@ -34,17 +40,23 @@ export async function expressAuthentication(request: express.Request, securityNa
                     let publicKey = key.publicKey;
                     try{
                         jwt.verify(accessToken, publicKey, verifyOptions);
-                        //TODO identify the user
-                        //TODO Check custom permissions
-                        //TODO Return the user object
-                        for (let scope of scopes){
-                            if (!decoded.payload.permissions.includes(scope)){
-                                reject(new Error("Not all the permissions covered."));
-                            }
-                        }
-                        return resolve(decoded.payload);
                     }catch{
                         return reject(new Error("Invalid signature"));
+                    }
+                    finally {
+                        try{
+                            let user = await User.FetchUser(accessToken);
+                            if (!user)
+                                reject(new Error("Cant get or create user."));
+                            for (let permission of permissions){
+                                if (!user.HasPermission(permission)){
+                                    reject(new Error("Not all the permissions covered."));
+                                }
+                            }
+                            resolve(user);
+                        }catch{
+                            reject(new Error('Cant check permissions!'))
+                        }
                     }
                 }
                 const signingKey = key.publicKey || key.rsaPublicKey;

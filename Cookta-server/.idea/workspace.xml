@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Baselist resource">
-      <change afterPath="$PROJECT_DIR$/src/models/user.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/user.service.ts" afterDir="false" />
+    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Authentication completed">
+      <change afterPath="$PROJECT_DIR$/src/models/role.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/authentication.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/iunit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/iunit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/user.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/user.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IngredientUpdater/IngredientUpdater.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../IngredientUpdater/IngredientUpdater.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IngredientUpdater/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../IngredientUpdater/Program.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +43,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="preferences.general" />
     <property name="ts.external.directory.path" value="D:\Development\Repos\Cookta\Cookta-server\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
@@ -85,7 +96,12 @@
       <workItem from="1572346882868" duration="943000" />
       <workItem from="1572426715645" duration="11653000" />
       <workItem from="1572522080888" duration="13134000" />
-      <workItem from="1572588993705" duration="5612000" />
+      <workItem from="1572588993705" duration="5870000" />
+      <workItem from="1572596733655" duration="204000" />
+      <workItem from="1572597440123" duration="77000" />
+      <workItem from="1572613914576" duration="4821000" />
+      <workItem from="1572624472320" duration="7154000" />
+      <workItem from="1572683385717" duration="9056000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -122,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572456280728</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Authentication planning">
+      <created>1572596447042</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1572596447042</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,7 +171,9 @@
     <MESSAGE value="Ingredient resource" />
     <MESSAGE value="Unit resource" />
     <MESSAGE value="Baselist resource" />
-    <option name="LAST_COMMIT_MESSAGE" value="Baselist resource" />
+    <MESSAGE value="Authentication planning" />
+    <MESSAGE value="Authentication completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Authentication completed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -160,5 +185,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="js.build_tools.npm">
+        <watch expression="this.name" />
+        <watch expression="Role.roles" language="TypeScript" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

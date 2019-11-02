@@ -1,6 +1,7 @@
 import * as http from "http";
 import {app} from "./app";
 import {MongoHelper} from "./helpers/mongo.helper";
+import {Role} from "./models/role.model";
 
 const PORT = process.env.PORT || 8080;
 
@@ -12,12 +13,13 @@ server.on("listening", async () => {
 });
 
 try{
-    console.info("Connecting to Mongo...")
-    MongoHelper.connect(MongoConnectionString).then(() => {
-        console.info("Connected to Mongo!");
+    console.info("Connecting to Mongo...");
+    MongoHelper.connect(MongoConnectionString).then(async () => {
+        console.info("Initialize roles");
+        await Role.init();
         console.info("Starting server...");
         server.listen(PORT);
-    })
+    });
 }catch (err){
     console.error(err);
 }

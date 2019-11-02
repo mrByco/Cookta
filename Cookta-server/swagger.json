@@ -512,7 +512,13 @@
 				"tags": [
 					"Food"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": [
+							"test-permission"
+						]
+					}
+				],
 				"parameters": []
 			}
 		},

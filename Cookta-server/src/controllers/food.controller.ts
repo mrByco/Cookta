@@ -1,10 +1,11 @@
-import {Body, Controller, Delete, Get, Post, Route, Tags} from "tsoa";
+import {Body, Controller, Delete, Get, Post, Route, Security, Tags} from "tsoa";
 import {Food} from "../models/food.model";
 import {IUpdateFoodRequest} from "../requests/create.food.request";
 
 @Tags("Food")
 @Route("/food")
 export class FoodController extends Controller {
+    @Security("Bearer", ['test-permission'])
     @Get()
     public async GetFoods() : Promise<Food[]> {
         try{
@@ -53,4 +54,5 @@ export class FoodController extends Controller {
             this.setStatus(500);
         }
     }
+
 }

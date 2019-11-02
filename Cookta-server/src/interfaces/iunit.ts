@@ -5,5 +5,6 @@ export interface iUnit {
     name: string,
     shortname: string,
     tobase: number,
-    id: string,
+    id: string
+
 }
