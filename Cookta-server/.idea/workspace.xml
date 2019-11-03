@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Authentication completed">
-      <change afterPath="$PROJECT_DIR$/src/models/role.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
+    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/authentication.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interfaces/iunit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/iunit.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/user.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/user.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../IngredientUpdater/IngredientUpdater.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../IngredientUpdater/IngredientUpdater.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../IngredientUpdater/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../IngredientUpdater/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Kukta/Kukta.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Kukta/Kukta.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Kukta/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/../Kukta/Package.appxmanifest" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -101,7 +89,8 @@
       <workItem from="1572597440123" duration="77000" />
       <workItem from="1572613914576" duration="4821000" />
       <workItem from="1572624472320" duration="7154000" />
-      <workItem from="1572683385717" duration="9056000" />
+      <workItem from="1572683385717" duration="9306000" />
+      <workItem from="1572714284616" duration="25000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -145,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572596447042</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Authentication completed">
+      <created>1572693482431</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1572693482431</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
