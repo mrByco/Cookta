@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
+    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Authentication completed">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/start_backup.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database-command-tool/command-executor.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database-command-tool/commands/backup.command.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database-command-tool/commands/command.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database-command-tool/commands/help.command.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database-command-tool/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/database-command-tool/readline.helper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Kukta/Kukta.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Kukta/Kukta.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Kukta/Package.appxmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/../Kukta/Package.appxmanifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/mongo.helper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/mongo.helper.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,6 +20,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Byc0 &lt;matyi0918@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1SpjJt2nREAR6F584cWVd7se5WE" />
@@ -53,17 +65,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.start-backup">
     <configuration default="true" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="start" />
+        <script value="start-backup" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="npm.start" />
+      <item itemvalue="npm.start-backup" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -91,6 +107,7 @@
       <workItem from="1572624472320" duration="7154000" />
       <workItem from="1572683385717" duration="9306000" />
       <workItem from="1572714284616" duration="25000" />
+      <workItem from="1572769220820" duration="13293000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>

@@ -1,5 +1,5 @@
 import * as mongodb from "mongodb";
-import {MongoClient} from "mongodb";
+import {Collection, MongoClient} from "mongodb";
 
 export class MongoHelper{
     static Client: MongoClient;
@@ -17,16 +17,30 @@ export class MongoHelper{
             })
         })
     }
-    public static async getCollection(name: string){
+
+    public static async getCollection(name: string, db: string = "Kuktadb") {
+        if (!this.Client.isConnected()) {
+            return null;
+        } else {
+            let collections = await this.Client.db(db).collections();
+            return collections.find(x => x.collectionName == name);
+        }
+    }
+
+    public static async getCollections(db: string): Promise<Collection[]> {
         if (!this.Client.isConnected()) {
             return null;
         }
         else{
-            return (await this.Client.db("Kuktadb").collection(name));
+            return (await this.Client.db(db).collections());
         }
     }
-    public static checkIdIsValid(Id: string): boolean {
-        let checkForValidId = new RegExp("^[0-9a-fA-F]{24}$");
-        return checkForValidId.test(Id);
+
+    public static async CreateCollection(db: string, collectionName: string) {
+        if (!this.Client.isConnected()) {
+            return null;
+        } else {
+            return (await this.Client.db(db).createCollection(collectionName));
+        }
     }
 }
