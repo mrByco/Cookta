@@ -1,0 +1,21 @@
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Arial Black";
+}
+
+.outer {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.inner_fixed {
+  height: auto;
+  background-color: grey;
+  margin: auto;
+}
+
+.inner_remaining {
+  flex-grow : 1;
+}
