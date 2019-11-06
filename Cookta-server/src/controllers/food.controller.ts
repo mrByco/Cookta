@@ -1,15 +1,17 @@
-import {Body, Controller, Delete, Get, Post, Route, Security, Tags} from "tsoa";
+import {Body, Controller, Delete, Get, Post, Request, Route, Security, Tags} from "tsoa";
 import {Food} from "../models/food.model";
 import {IUpdateFoodRequest} from "../requests/create.food.request";
+import {User} from "../models/user.model";
 
 @Tags("Food")
 @Route("/food")
 export class FoodController extends Controller {
     @Security("Bearer", ['test-permission'])
     @Get()
-    public async GetFoods() : Promise<Food[]> {
+    public async GetFoods(@Request() request: any) : Promise<Food[]> {
         try{
-            return await Food.GetAllFoods();
+            let user = request.user as User;
+            return await Food.GetAllOwnFoods(user);
         }
         catch{
             this.setStatus(500);
