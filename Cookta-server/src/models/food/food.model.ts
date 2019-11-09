@@ -1,9 +1,9 @@
-import {MongoHelper} from "../helpers/mongo.helper";
-import { ObjectID } from "mongodb";
-import {iIngredient} from "../interfaces/iingredient";
-import {OwnFoodResponse} from "../interfaces/own.food.response";
-import {IUpdateFoodRequest} from "../requests/create.food.request";
-import {User} from "./user.model";
+import {MongoHelper} from "../../helpers/mongo.helper";
+import {ObjectID} from "mongodb";
+import {iIngredient} from "../../interfaces/iingredient";
+import {OwnFoodResponse} from "../../interfaces/own.food.response";
+import {IUpdateFoodRequest} from "../../requests/create.food.request";
+import {User} from "../user.model";
 
 export class Food implements OwnFoodResponse {
     private static readonly CollectionName = "Foods";

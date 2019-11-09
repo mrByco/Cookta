@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/models/food/food-foreign.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/food/food-personal.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food.model.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +42,9 @@
     <property name="ts.external.directory.path" value="D:\Development\Repos\Cookta\Cookta-server\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\models\food" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Repos\Cookta\Cookta-server" />
       <recent name="C:\Repos\Cookta\Cookta-server\src" />
@@ -105,6 +108,7 @@
       <workItem from="1572769220820" duration="13421000" />
       <workItem from="1572806002859" duration="90000" />
       <workItem from="1573069715449" duration="2282000" />
+      <workItem from="1573286540132" duration="863000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>

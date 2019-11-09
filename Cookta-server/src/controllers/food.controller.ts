@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, Post, Request, Route, Security, Tags} from "tsoa";
-import {Food} from "../models/food.model";
+import {Food} from "../models/food/food.model";
 import {IUpdateFoodRequest} from "../requests/create.food.request";
 import {User} from "../models/user.model";
 
