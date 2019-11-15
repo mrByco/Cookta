@@ -1,13 +1,7 @@
-import {User} from "./user.model";
-import {MongoHelper} from "../helpers/mongo.helper";
-import {Food} from "./food/food.model";
+import {User} from "../user.model";
+import {MongoHelper} from "../../helpers/mongo.helper";
+import {Food} from "../food/food.model";
 
-interface IMealing {
-    type: string,
-    mealIndex: number,
-    id: string,
-    foodId: string,
-}
 
 export class Day {
     private static readonly CollectionName = 'Days';

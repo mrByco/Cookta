@@ -8,23 +8,24 @@ import {PersonalFood} from "../models/food/food-personal";
 @Tags("Food")
 @Route("/food")
 export class FoodController extends Controller {
-    @Security("Bearer", ['test-permission'])
+    @Security("Bearer", ['noauth'])
     @Get()
     public async GetFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
         try{
             let user = request.user as User;
-            return await Food.ToSendableAll(await Food.GetAllOwnFoods(user), user);
+            return user ? await Food.ToSendableAll(await Food.GetAllOwnFoods(user), user) : await Food.GetAllFoods();
         }
         catch{
             this.setStatus(500);
         }
     }
 
-    @Security("Bearer", [])
+    @Security("Bearer", ['noauth'])
     @Get('/{id}')
     public async GetFoodById(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
         try{
             let user = request.user as User;
+            //TODO Get food depend on user availability
             let food = await Food.GetFood(id);
             if (!food)
                 this.setStatus(404);

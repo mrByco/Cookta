@@ -11,13 +11,18 @@ const client = jwksClient({
     requestAgentOptions: {}
 });
 
-
+//Anonim callable route: "noauth"
 export async function expressAuthentication(request: express.Request, securityName: string, permissions?: string[]): Promise<any> {
     let authHeader = request.headers["authorization"];
     if (!authHeader){
         console.log(`Unauthorized call from: ${request.ip})`);
         return new Promise( (resolve, reject) => {reject(new Error("No authorization header!"))});
     }
+
+    if (permissions[0] == "noauth" && !authHeader) {
+        return null;
+    }
+
     let accessToken = authHeader.toString();
     console.log("Bearer auth");
     if (accessToken.startsWith("Bearer "))
