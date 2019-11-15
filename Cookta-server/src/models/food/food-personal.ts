@@ -1,6 +1,7 @@
 import {Food} from "./food.model";
 import {iIngredient} from "../../interfaces/iingredient";
 import {ObjectID} from "bson";
+import {Tag} from "../tag.model";
 
 export class PersonalFood {
 
@@ -13,14 +14,13 @@ export class PersonalFood {
     public imageUploaded: number;
     public uploaded: number;
     public dose: number = 4;
-    public tags: string[] = [];
     public lastModified: number;
-    public generated: any = {};
     public subscriptions: number;
     public id: string = new ObjectID().toHexString();
     public foodId: string;
 
-    constructor(food: Food) {
+
+    constructor(food: Food, public tags: Tag[], public autoTags: Tag[]) {
         // noinspection
         this.owner = food.owner;
         this.name = food.name;
@@ -31,11 +31,23 @@ export class PersonalFood {
         this.imageUploaded = food.imageUploaded;
         this.uploaded = food.uploaded;
         this.dose = food.dose;
-        this.tags = food.tags;
         this.lastModified = food.lastModified;
-        this.generated = food.generated;
         this.subscriptions = food.subscriptions;
         this.id = food.id;
         this.foodId = food.foodId;
+    }
+
+    public static async Create(food: Food) {
+        let autoTags: Tag[] = [];
+        let tags: Tag[] = [];
+
+        for (let tag of food.generated.tags) {
+            autoTags.push(await Tag.GetTagById(tag.guid));
+        }
+        for (let tag of food.tags) {
+            tags.push(await Tag.GetTagById(tag));
+        }
+
+        return new PersonalFood(food, tags, autoTags);
     }
 }

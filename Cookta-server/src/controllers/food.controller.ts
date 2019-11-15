@@ -2,56 +2,73 @@ import {Body, Controller, Delete, Get, Post, Request, Route, Security, Tags} fro
 import {Food} from "../models/food/food.model";
 import {IUpdateFoodRequest} from "../requests/create.food.request";
 import {User} from "../models/user.model";
+import {ForeignFood} from "../models/food/food-foreign";
+import {PersonalFood} from "../models/food/food-personal";
 
 @Tags("Food")
 @Route("/food")
 export class FoodController extends Controller {
     @Security("Bearer", ['test-permission'])
     @Get()
-    public async GetFoods(@Request() request: any) : Promise<Food[]> {
+    public async GetFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
         try{
             let user = request.user as User;
-            return await Food.GetAllOwnFoods(user);
+            return await Food.ToSendableAll(await Food.GetAllOwnFoods(user), user);
         }
         catch{
             this.setStatus(500);
         }
     }
+
+    @Security("Bearer", [])
     @Get('/{id}')
-    public async GetFoodById(id: string): Promise<Food> {
+    public async GetFoodById(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
         try{
+            let user = request.user as User;
             let food = await Food.GetFood(id);
             if (!food)
                 this.setStatus(404);
             else
-                return food;
-        }
-        catch{
+                return await food.ToSendable(user);
+        } catch{
             this.setStatus(500);
         }
     }
+
+    @Security("Bearer", [])
     @Get('/{from}/{count}')
-    public async GetPublicFoodsIncremental(from: number, count: number): Promise<Food[]> {
+    public async GetPublicFoodsIncremental(@Request() request: any, from: number, count: number): Promise<ForeignFood[] | PersonalFood[]> {
         try{
-            return await Food.GetIncremental(from, count, {published: true})
-        }
-        catch{
+            let user = request.user as User;
+            return await Food.ToSendableAll(await Food.GetIncremental(from, count, {published: true}), user);
+        } catch{
             this.setStatus(500);
         }
     }
-    @Post("/{owner}")
-    public async AddOrUpdateFood(@Body() request: IUpdateFoodRequest, owner: string) : Promise<Food> {
+
+    @Security("Bearer", [])
+    @Post("/")
+    public async AddOrUpdateFood(@Body() updateFoodRequest: IUpdateFoodRequest, @Request() request: any): Promise<ForeignFood | PersonalFood> {
         try{
-            return await Food.UpdateFood(request, owner);
+            let user = request.user as User;
+            return await (await Food.UpdateFood(updateFoodRequest, user.sub)).ToSendable(user);
         }
         catch{
             this.setStatus(500)
         }
     }
+
+    @Security("Bearer", [])
     @Delete('/{id}')
-    public async DeleteFood(id: string): Promise<Food> {
+    public async DeleteFood(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
         try{
-            return await Food.Delete(id);
+            let user = request.user as User;
+            if ((await Food.GetFood(id)).owner == user.sub) {
+                return await (await Food.Delete(id)).ToSendable(user);
+            } else {
+                this.setStatus(401);
+                return;
+            }
         }catch{
             this.setStatus(500);
         }

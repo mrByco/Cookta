@@ -1,11 +1,12 @@
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {ObjectID} from "mongodb";
 import {iIngredient} from "../../interfaces/iingredient";
-import {OwnFoodResponse} from "../../interfaces/own.food.response";
 import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
+import {PersonalFood} from "./food-personal";
+import {ForeignFood} from "./food-foreign";
 
-export class Food implements OwnFoodResponse {
+export class Food {
     private static readonly CollectionName = "Foods";
     constructor(
         public owner: string,
@@ -117,6 +118,26 @@ export class Food implements OwnFoodResponse {
             foods.push(Food.FromDocument(doc));
         }
         return foods;
+    }
+
+    public static async ToSendableAll(foods: Food[], sendFor: User) {
+        let send = [];
+        for (let food of foods) {
+            if (sendFor.sub == food.owner) {
+                send.push(await PersonalFood.Create(food));
+            } else {
+                send.push(await ForeignFood.Create(food));
+            }
+        }
+        return send;
+    }
+
+    public async ToSendable(sendFor: User) {
+        if (sendFor.sub == this.owner) {
+            return await PersonalFood.Create(this);
+        } else {
+            return await ForeignFood.Create(this);
+        }
     }
     private static FromDocument(doc: any): Food {
         return new Food(
