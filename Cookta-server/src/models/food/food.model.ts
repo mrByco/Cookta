@@ -184,4 +184,10 @@ export class Food {
         await collection.replaceOne({_id: id}, document);
         return;
     }
+
+    public static async GetFoodsOfTag(user: User, tagId: string): Promise<Food[]> {
+        //TODO Placeholder (get all available foods)
+        let foods = await this.GetAllOwnFoods(user);
+        return foods.filter(value => value.tags.includes(tagId));
+    }
 }

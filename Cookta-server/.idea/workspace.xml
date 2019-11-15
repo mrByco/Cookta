@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ME.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/day.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interfaces/own.food.response.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/food/food-foreign.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food-foreign.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/food/food-personal.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food-personal.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ME.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/day.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/food/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food.model.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -113,6 +110,7 @@
       <workItem from="1573069715449" duration="2282000" />
       <workItem from="1573286540132" duration="956000" />
       <workItem from="1573535673531" duration="3026000" />
+      <workItem from="1573802154207" duration="3202000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -177,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573287477563</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Food sending models (foreign and personal dep on the person)">
+      <created>1573802207937</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1573802207937</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,7 +213,8 @@
     <MESSAGE value="Authentication completed" />
     <MESSAGE value="database command tool" />
     <MESSAGE value="Food sending model placeholders" />
-    <option name="LAST_COMMIT_MESSAGE" value="Food sending model placeholders" />
+    <MESSAGE value="Food sending models (foreign and personal dep on the person)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Food sending models (foreign and personal dep on the person)" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
