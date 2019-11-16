@@ -1,4 +1,4 @@
-import { ObjectID } from "mongodb";
+import {ObjectID} from "mongodb";
 import {MongoHelper} from "../helpers/mongo.helper";
 import {Role} from "./role.model";
 import * as jwt from 'jsonwebtoken';
@@ -126,6 +126,18 @@ export class User {
             await collection.deleteOne({_id: user._id});
         }
         await collection.replaceOne({_id: newUser._id}, newUser.ToDocument(), {upsert: true});
+    }
+
+
+    public async SetUserName(username: string) {
+        this.username = username;
+        await this.Save();
+        return;
+    }
+
+    private async Save() {
+        let collection = await MongoHelper.getCollection(User.CollectionName);
+        await collection.replaceOne({_id: this._id}, this.ToDocument(), {upsert: true});
     }
 
     private GetRole(): Role{
