@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/Days/IMealing.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/authentication.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/day.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/day.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/day.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Days/day.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/food/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food.model.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +110,9 @@
       <workItem from="1573286540132" duration="956000" />
       <workItem from="1573535673531" duration="3026000" />
       <workItem from="1573802154207" duration="3202000" />
-      <workItem from="1573823263297" duration="1407000" />
+      <workItem from="1573823263297" duration="1463000" />
+      <workItem from="1573888285539" duration="48000" />
+      <workItem from="1573888405156" duration="616000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -188,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573802207937</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Day resource finished">
+      <created>1573824732661</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1573824732661</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +223,8 @@
     <MESSAGE value="database command tool" />
     <MESSAGE value="Food sending model placeholders" />
     <MESSAGE value="Food sending models (foreign and personal dep on the person)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Food sending models (foreign and personal dep on the person)" />
+    <MESSAGE value="Day resource finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="Day resource finished" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

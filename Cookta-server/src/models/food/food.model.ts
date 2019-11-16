@@ -54,27 +54,34 @@ export class Food {
         }
         return foods;
     }
-    public static async GetFood(foodId: string): Promise<Food>{
+
+    public static async GetFood(foodId: string, user: User): Promise<Food> {
         let foods = await this.GetAllFoods();
-        return foods.find(f => f.foodId == foodId);
+        let food = foods.find(f => f.foodId == foodId);
+        if (user.sub == foodId || food.isPrivate == false) {
+            return foods.find(f => f.foodId == foodId);
+        } else {
+            return null;
+        }
     }
-    public static async UpdateFood(request: IUpdateFoodRequest, owner?: string): Promise<Food>{
+
+    public static async UpdateFood(request: IUpdateFoodRequest, modifier: User): Promise<Food> {
         let existing: Food;
         if (request.foodId)
-            existing = await this.GetFood(request.foodId);
+            existing = await this.GetFood(request.foodId, modifier);
         let collection = await MongoHelper.getCollection(Food.CollectionName);
         if (existing){
             existing.uploaded = Date.now();
             let doc = {...existing.ToDocument(), ...request};
             await collection.replaceOne({foodId: request.foodId}, doc);
-            return await this.GetFood(request.foodId);
+            return await this.GetFood(request.foodId, modifier);
         }else{
-            if (!owner)
+            if (modifier)
                 return null;
             if (!request.foodId)
                 request.foodId = new ObjectID().toHexString();
             let food = new Food(
-                owner,
+                modifier.sub,
                 request.name,
                 request.desc,
                 request.isPrivate,
@@ -93,8 +100,9 @@ export class Food {
             return food;
         }
     }
-    public static async Delete(id: string) {
-        let food = await this.GetFood(id);
+
+    public static async Delete(id: string, deleter: User) {
+        let food = await this.GetFood(id, deleter);
         if(!food){
             return null;
         }
