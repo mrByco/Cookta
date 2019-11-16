@@ -17,9 +17,10 @@ export class UserController extends Controller {
 
     @Security('User')
     @Put('/{name}')
-    public async User(@Request() request): Promise<User> {
+    public async SetUserName(@Request() request, name: string): Promise<User> {
         try {
             let user = request.user as User;
+            await user.SetUserName(name);
             return user;
         } catch {
             this.setStatus(500);
