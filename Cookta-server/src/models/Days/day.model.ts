@@ -1,6 +1,7 @@
 import {User} from "../user.model";
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {Food} from "../food/food.model";
+import {IMealing} from "./IMealing.interface";
 
 
 export class Day {

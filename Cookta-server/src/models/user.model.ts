@@ -128,7 +128,6 @@ export class User {
         await collection.replaceOne({_id: newUser._id}, newUser.ToDocument(), {upsert: true});
     }
 
-
     public async SetUserName(username: string) {
         this.username = username;
         await this.Save();
@@ -137,7 +136,20 @@ export class User {
 
     private async Save() {
         let collection = await MongoHelper.getCollection(User.CollectionName);
-        await collection.replaceOne({_id: this._id}, this.ToDocument(), {upsert: true});
+        let document = {
+            _id: "5d443d40a53b9142100be6ad",
+            sub: "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients",
+            subs: [
+            "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients"
+        ],
+            username: "jrr",
+            role: "member",
+            email: "example&something.com",
+            logs: [],
+            families: "",
+            profilpic: ""
+        };
+        await collection.replaceOne({_id: this._id}, document);
     }
 
     private GetRole(): Role{

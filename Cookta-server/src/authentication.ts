@@ -11,12 +11,18 @@ const client = jwksClient({
     requestAgentOptions: {}
 });
 
+const debugTokenAdminByc0 = 'admin';
+
+
 //Anonim callable route: "noauth"
 export async function expressAuthentication(request: express.Request, securityName: string, permissions?: string[]): Promise<any> {
     let authHeader = request.headers["authorization"];
     if (!authHeader){
         console.log(`Unauthorized call from: ${request.ip})`);
         return new Promise( (resolve, reject) => {reject(new Error("No authorization header!"))});
+    }
+    if (process.env.NODE_ENV == "debug " && authHeader == "admin"){
+        return new User("5d443d40a53b9142100be6ad", "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients", ['XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients'], 'Matyi1809454', "member", 'example&something.com', [], '', '')
     }
 
     if (permissions[0] == "noauth" && !authHeader) {

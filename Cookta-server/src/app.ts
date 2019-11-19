@@ -10,6 +10,8 @@ import './controllers/unit.controller';
 import './controllers/baselist.controller';
 import './controllers/tag.controller';
 import './controllers/stock.controller';
+import './controllers/user.controller';
+import './controllers/day.controller';
 
 const app = express();
 app.use(cors());

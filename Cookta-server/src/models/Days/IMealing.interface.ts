@@ -1,4 +1,4 @@
-interface IMealing {
+export interface IMealing {
     type: string,
     mealIndex: number,
     id: string,

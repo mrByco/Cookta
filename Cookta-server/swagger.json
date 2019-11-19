@@ -25,109 +25,109 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-      "Tag": {
-        "properties": {
-          "guid": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "parentId": {
-            "type": "string"
-          },
-          "ischildonly": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "guid",
-          "name",
-          "parentId",
-          "ischildonly"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "ForeignFood": {
-        "properties": {
-          "owner": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string",
-            "default": "",
-            "x-nullable": true
-          },
-          "desc": {
-            "type": "string",
-            "default": "",
-            "x-nullable": true
-          },
-          "published": {
-            "type": "boolean",
-            "default": false,
-            "x-nullable": true
-          },
-          "ingredients": {
-            "items": {
-              "$ref": "#/definitions/iIngredient"
-            },
-            "type": "array",
-            "default": [],
-            "x-nullable": true
-          },
-          "uploaded": {
-            "type": "number",
-            "format": "double"
-          },
-          "dose": {
-            "type": "number",
-            "format": "double",
-            "default": 4,
-            "x-nullable": true
-          },
-          "lastModified": {
-            "type": "number",
-            "format": "double"
-          },
-          "subscriptions": {
-            "type": "number",
-            "format": "double"
-          },
-          "id": {
-            "type": "string",
-            "x-nullable": true
-          },
-          "foodId": {
-            "type": "string"
-          },
-          "tags": {
-            "items": {
-              "$ref": "#/definitions/Tag"
-            },
-            "type": "array"
-          },
-          "autoTags": {
-            "items": {
-              "$ref": "#/definitions/Tag"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "owner",
-          "uploaded",
-          "lastModified",
-          "subscriptions",
-          "foodId",
-          "tags",
-          "autoTags"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "PersonalFood": {
+		"Tag": {
+			"properties": {
+				"guid": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"parentId": {
+					"type": "string"
+				},
+				"ischildonly": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"guid",
+				"name",
+				"parentId",
+				"ischildonly"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ForeignFood": {
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string",
+					"default": "",
+					"x-nullable": true
+				},
+				"desc": {
+					"type": "string",
+					"default": "",
+					"x-nullable": true
+				},
+				"published": {
+					"type": "boolean",
+					"default": false,
+					"x-nullable": true
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/iIngredient"
+					},
+					"type": "array",
+					"default": [],
+					"x-nullable": true
+				},
+				"uploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double",
+					"default": 4,
+					"x-nullable": true
+				},
+				"lastModified": {
+					"type": "number",
+					"format": "double"
+				},
+				"subscriptions": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"foodId": {
+					"type": "string"
+				},
+				"tags": {
+					"items": {
+						"$ref": "#/definitions/Tag"
+					},
+					"type": "array"
+				},
+				"autoTags": {
+					"items": {
+						"$ref": "#/definitions/Tag"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"owner",
+				"uploaded",
+				"lastModified",
+				"subscriptions",
+				"foodId",
+				"tags",
+				"autoTags"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"PersonalFood": {
 			"properties": {
 				"owner": {
 					"type": "string"
@@ -185,21 +185,21 @@
 				"id": {
 					"type": "string",
 					"x-nullable": true
-                },
-              "foodId": {
-                "type": "string"
-              },
-              "tags": {
-                "items": {
-                  "$ref": "#/definitions/Tag"
-                },
-                "type": "array"
-              },
-              "autoTags": {
-                "items": {
-                  "$ref": "#/definitions/Tag"
-                },
-                "type": "array"
+				},
+				"foodId": {
+					"type": "string"
+				},
+				"tags": {
+					"items": {
+						"$ref": "#/definitions/Tag"
+					},
+					"type": "array"
+				},
+				"autoTags": {
+					"items": {
+						"$ref": "#/definitions/Tag"
+					},
+					"type": "array"
 				}
 			},
 			"required": [
@@ -208,9 +208,9 @@
 				"uploaded",
 				"lastModified",
 				"subscriptions",
-              "foodId",
-              "tags",
-              "autoTags"
+				"foodId",
+				"tags",
+				"autoTags"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -552,6 +552,121 @@
 			],
 			"type": "object",
 			"additionalProperties": false
+		},
+		"User": {
+			"properties": {
+				"_id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"sub": {
+					"type": "string"
+				},
+				"subs": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array",
+					"default": [
+						null
+					],
+					"x-nullable": true
+				},
+				"username": {
+					"type": "string"
+				},
+				"role": {
+					"type": "string",
+					"default": "default",
+					"x-nullable": true
+				},
+				"email": {
+					"type": "string"
+				},
+				"logs": {
+					"items": {
+						"properties": {
+							"time": {
+								"type": "number",
+								"format": "double"
+							},
+							"text": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"text",
+							"time"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"families": {
+					"type": "string"
+				},
+				"profilpic": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"sub",
+				"username",
+				"email",
+				"logs",
+				"families",
+				"profilpic"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IMealing": {
+			"properties": {
+				"type": {
+					"type": "string"
+				},
+				"mealIndex": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string"
+				},
+				"foodId": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"type",
+				"mealIndex",
+				"id",
+				"foodId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"Day": {
+			"properties": {
+				"date": {
+					"type": "string"
+				},
+				"sub": {
+					"type": "string"
+				},
+				"mealings": {
+					"items": {
+						"$ref": "#/definitions/IMealing"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"date",
+				"sub",
+				"mealings"
+			],
+			"type": "object",
+			"additionalProperties": false
 		}
 	},
 	"info": {
@@ -572,7 +687,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-                          "type": "object"
+							"type": "object"
 						}
 					}
 				},
@@ -582,43 +697,43 @@
 				"security": [
 					{
 						"Bearer": [
-							"test-permission"
+							"noauth"
 						]
 					}
 				],
 				"parameters": []
-            },
-          "post": {
-            "operationId": "AddOrUpdateFood",
-            "produces": [
-              "application/json"
-            ],
-            "responses": {
-              "200": {
-                "description": "Ok",
-                "schema": {
-                  "type": "object"
-                }
-              }
-            },
-            "tags": [
-              "Food"
-            ],
-            "security": [
-              {
-                "Bearer": []
-              }
-            ],
-            "parameters": [
-              {
-                "in": "body",
-                "name": "updateFoodRequest",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/IUpdateFoodRequest"
-                }
-              }
-            ]
+			},
+			"post": {
+				"operationId": "AddOrUpdateFood",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "updateFoodRequest",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IUpdateFoodRequest"
+						}
+					}
+				]
 			}
 		},
 		"/food/{id}": {
@@ -631,18 +746,20 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-                          "type": "object"
+							"type": "object"
 						}
 					}
 				},
 				"tags": [
 					"Food"
 				],
-              "security": [
-                {
-                  "Bearer": []
-                }
-              ],
+				"security": [
+					{
+						"Bearer": [
+							"noauth"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -661,18 +778,18 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-                          "type": "object"
+							"type": "object"
 						}
 					}
 				},
 				"tags": [
 					"Food"
 				],
-              "security": [
-                {
-                  "Bearer": []
-                }
-              ],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -693,18 +810,18 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-                          "type": "object"
+							"type": "object"
 						}
 					}
 				},
 				"tags": [
 					"Food"
 				],
-              "security": [
-                {
-                  "Bearer": []
-                }
-              ],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1058,6 +1175,174 @@
 					{
 						"in": "path",
 						"name": "owner",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/user": {
+			"get": {
+				"operationId": "User",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/user/{name}": {
+			"put": {
+				"operationId": "SetUserName",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/day/{date}": {
+			"get": {
+				"operationId": "GetDay",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "SetDay",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "mealings",
+						"required": true,
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IMealing"
+							},
+							"type": "array"
+						}
+					}
+				]
+			}
+		},
+		"/day/{date}/{mealingIdentity}": {
+			"get": {
+				"operationId": "RefreshDay",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "path",
+						"name": "mealingIdentity",
 						"required": true,
 						"type": "string"
 					}

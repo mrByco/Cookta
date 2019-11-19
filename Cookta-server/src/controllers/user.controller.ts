@@ -15,7 +15,7 @@ export class UserController extends Controller {
         }
     }
 
-    @Security('User')
+    @Security('Bearer')
     @Put('/{name}')
     public async SetUserName(@Request() request, name: string): Promise<User> {
         try {

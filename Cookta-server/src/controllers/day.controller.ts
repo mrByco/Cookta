@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
 import {User} from "../models/user.model";
 import {Day} from "../models/Days/day.model";
+import {IMealing} from "../models/Days/IMealing.interface";
 
 @Route("/day")
 @Tags("Days")
