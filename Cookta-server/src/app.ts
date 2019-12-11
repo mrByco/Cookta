@@ -12,6 +12,7 @@ import './controllers/tag.controller';
 import './controllers/stock.controller';
 import './controllers/user.controller';
 import './controllers/day.controller';
+import './controllers/subscription.controller';
 
 const app = express();
 app.use(cors());

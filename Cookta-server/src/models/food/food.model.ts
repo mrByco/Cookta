@@ -59,13 +59,17 @@ export class Food {
 
     public static async GetFood(foodId: string, user: User): Promise<Food> {
 
-        let subscription = await Subscription.GetSubscription(user._id, foodId);
-        let food;
-        if (subscription){
-            food = this.getFood(foodId, subscription.foodVersionId);
-        }else{
-            food = this.getFood(foodId);
-        }
+        // let subscription = await Subscription.GetSubscription(user.sub, foodId);
+        // let food;
+        // if (subscription){
+        //     food = await this.getFood(foodId, subscription.foodVersionId);
+        // }else{
+        //     food = await this.getFood(foodId);
+        // }
+
+        let food = await this.getFood(foodId);
+
+        if (food == null) return null;
 
 
         if (user.sub == foodId || food.isPrivate == false) {
@@ -75,11 +79,13 @@ export class Food {
         }
     }
 
+
+    //TODO Not return normal response always null??
     private static async getFood(foodId: string, versionId?: string){
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let doc = versionId ?
-            await collection.findOne({_id: new ObjectID(versionId)}) :
-            await collection.findOne({foodId: foodId});
+            await collection.findOne({foodId: foodId}) :
+            await collection.findOne({_id: new ObjectID(versionId)});
         return doc ? this.FromDocument(doc) : null;
     }
 
