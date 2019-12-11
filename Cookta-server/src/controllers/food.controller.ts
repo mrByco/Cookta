@@ -15,8 +15,9 @@ export class FoodController extends Controller {
             let user = request.user as User;
             return user ? await Food.ToSendableAll(await Food.GetAllOwnFoods(user), user) : await Food.GetAllFoods();
         }
-        catch{
+        catch (error){
             this.setStatus(500);
+            console.error("An error caught: " + error.message);
         }
     }
 
