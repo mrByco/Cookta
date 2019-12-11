@@ -5,6 +5,8 @@ import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {PersonalFood} from "./food-personal";
 import {ForeignFood} from "./food-foreign";
+import {Subscription} from "../subscription.model";
+import {version} from "punycode";
 
 export class Food {
     private static readonly CollectionName = "Foods";
@@ -56,14 +58,31 @@ export class Food {
     }
 
     public static async GetFood(foodId: string, user: User): Promise<Food> {
-        let foods = await this.GetAllFoods();
-        let food = foods.find(f => f.foodId == foodId);
+
+        let subscription = await Subscription.GetSubscription(user._id, foodId);
+        let food;
+        if (subscription){
+            food = this.getFood(foodId, subscription.foodVersionId);
+        }else{
+            food = this.getFood(foodId);
+        }
+
+
         if (user.sub == foodId || food.isPrivate == false) {
-            return foods.find(f => f.foodId == foodId);
+            return food;
         } else {
             return null;
         }
     }
+
+    private static async getFood(foodId: string, versionId?: string){
+        let collection = await MongoHelper.getCollection(this.CollectionName);
+        let doc = versionId ?
+            await collection.findOne({_id: new ObjectID(versionId)}) :
+            await collection.findOne({foodId: foodId});
+        return doc ? this.FromDocument(doc) : null;
+    }
+
 
     public static async UpdateFood(request: IUpdateFoodRequest, modifier: User): Promise<Food> {
         let existing: Food;
@@ -198,4 +217,5 @@ export class Food {
         let foods = await this.GetAllOwnFoods(user);
         return foods.filter(value => value.tags.includes(tagId));
     }
+
 }

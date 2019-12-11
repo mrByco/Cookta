@@ -41,11 +41,15 @@ export class PersonalFood {
         let autoTags: Tag[] = [];
         let tags: Tag[] = [];
 
-        for (let tag of food.generated.tags) {
-            autoTags.push(await Tag.GetTagById(tag.guid));
+        if (food.generated.tags){
+            for (let tag of food.generated.tags) {
+                autoTags.push(await Tag.GetTagById(tag.guid));
+            }
         }
-        for (let tag of food.tags) {
-            tags.push(await Tag.GetTagById(tag));
+        if (food.tags) {
+            for (let tag of food.tags) {
+                tags.push(await Tag.GetTagById(tag));
+            }
         }
 
         return new PersonalFood(food, tags, autoTags);
