@@ -12,25 +12,29 @@ export class Subscription {
 
     constructor (
         public userSub: string,
-        public foodId: string,
         public foodVersionId: string,
+        public foodId: string,
     ) {}
 
 
     public static async GetSubsFoodsOfUser(user: User): Promise<Food[]> {
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let subDocs = await collection.find({sub: user.sub}).toArray();
-        let subFoods: Food[] = [];
+        let subs: Subscription[] = [];
         for (let doc of subDocs){
-            subFoods.push(await Food.GetFood(doc['foodID'], user));
+            subs.push(await this.FromDocument(doc));
         }
-        return subFoods;
+        let foods: Food[] = [];
+        for (let sub of subs){
+            foods.push(await Food.GetFood(sub.foodId, sub.foodVersionId));
+        }
+        return foods;
     }
 
     public static async GetSubscription(userSub: string, foodId: string){
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let subDoc = await collection.findOne({sub: userSub, foodId: foodId});
-        return subDoc ? this.FromDocument(subDoc) : null;
+        return subDoc ? await this.FromDocument(subDoc) : null;
     }
 
     public static async SetUserSubState(user: User, foodId: string, state: boolean): Promise<Subscription>{
@@ -43,7 +47,7 @@ export class Subscription {
             //if already has subscription
             let doc = await collection.findOne({sub: user, foodId: foodId});
             if (!doc){
-                let food = await Food.GetFood(foodId, user);
+                let food = await Food.GetFoodForUser(foodId, user);
                 let newSubscription = new Subscription(user._id, food.foodId, food.id);
                 await collection.insertOne(newSubscription.ToDocument());
                 return newSubscription;
@@ -51,18 +55,22 @@ export class Subscription {
         }
     }
 
-    public static FromDocument(doc: any): Subscription{
-        return new Subscription(
+    public static async FromDocument(doc: any): Promise<Subscription>{
+        let sub =  new Subscription(
             doc['sub'],
-            doc['foodID'],
-            doc['foodVersionId'] ? doc['foodVersionId'] : doc['foodId']
+            doc['foodID'], //used by legacy server (food version)
+            doc[''] ? doc['foodVersionId'] : null //food type id
         )
+        if (sub.foodId == null){
+            sub.foodId = (await Food.GetFood(null, sub.foodVersionId)).foodId;
+        }
+        return sub;
     }
     public ToDocument(): any{
         return {
             sub: this.userSub,
-            foodID: this.foodId,
-            foodVersionId: this.foodVersionId,
+            foodID: this.foodId, //used by legacy server (food version id)
+            foodVersionId: this.foodVersionId, //food type id
         }
     }
 }

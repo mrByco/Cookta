@@ -22,7 +22,7 @@ export class  SubscriptionController extends Controller {
             this.setStatus(200);
             return;
         }else{
-            let food = Food.GetFood(body.foodId, user);
+            let food = Food.GetFoodForUser(body.foodId, user);
             if (food != null){
                 Subscription.SetUserSubState(user, body.foodId, body.state);
             }

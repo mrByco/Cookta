@@ -26,7 +26,7 @@ export class FoodController extends Controller {
     public async GetFoodById(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
         try{
             let user = request.user as User;
-            let food = await Food.GetFood(id, user);
+            let food = await Food.GetFoodForUser(id, user);
             if (!food)
                 this.setStatus(404);
             else
@@ -64,7 +64,7 @@ export class FoodController extends Controller {
     public async DeleteFood(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
         try{
             let user = request.user as User;
-            if ((await Food.GetFood(id, user)).owner == user.sub) {
+            if ((await Food.GetFoodForUser(id, user)).owner == user.sub) {
                 return await (await Food.Delete(id, user)).ToSendable(user);
             } else {
                 this.setStatus(401);

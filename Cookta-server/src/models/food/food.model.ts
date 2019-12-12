@@ -57,7 +57,7 @@ export class Food {
         return foods;
     }
 
-    public static async GetFood(foodId: string, user: User): Promise<Food> {
+    public static async GetFoodForUser(foodId: string, user: User): Promise<Food> {
 
         // let subscription = await Subscription.GetSubscription(user.sub, foodId);
         // let food;
@@ -67,9 +67,10 @@ export class Food {
         //     food = await this.getFood(foodId);
         // }
 
-        let food = await this.getFood(foodId);
+        let food = await this.GetFood(foodId);
 
-        if (food == null) return null;
+        if (food == null)
+
 
 
         if (user.sub == foodId || food.isPrivate == false) {
@@ -80,12 +81,11 @@ export class Food {
     }
 
 
-    //TODO Not return normal response always null??
-    private static async getFood(foodId: string, versionId?: string){
+    public static async GetFood(foodId: string, versionId?: string){
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let doc = versionId ?
-            await collection.findOne({foodId: foodId}) :
-            await collection.findOne({_id: new ObjectID(versionId)});
+            await collection.findOne({_id: new ObjectID(versionId)}):
+            await collection.findOne({foodId: foodId});//5d42ecf37175860034c36b1c
         return doc ? this.FromDocument(doc) : null;
     }
 
@@ -93,13 +93,13 @@ export class Food {
     public static async UpdateFood(request: IUpdateFoodRequest, modifier: User): Promise<Food> {
         let existing: Food;
         if (request.foodId)
-            existing = await this.GetFood(request.foodId, modifier);
+            existing = await this.GetFoodForUser(request.foodId, modifier);
         let collection = await MongoHelper.getCollection(Food.CollectionName);
         if (existing){
             existing.uploaded = Date.now();
             let doc = {...existing.ToDocument(), ...request};
             await collection.replaceOne({foodId: request.foodId}, doc);
-            return await this.GetFood(request.foodId, modifier);
+            return await this.GetFoodForUser(request.foodId, modifier);
         }else{
             if (modifier)
                 return null;
@@ -127,7 +127,7 @@ export class Food {
     }
 
     public static async Delete(id: string, deleter: User) {
-        let food = await this.GetFood(id, deleter);
+        let food = await this.GetFoodForUser(id, deleter);
         if(!food){
             return null;
         }
