@@ -5,7 +5,7 @@ import {MongoHelper} from "../helpers/mongo.helper";
 
 export class Subscription {
 
-    private static readonly CollectionName = 'Subcription';
+    public static readonly CollectionName = 'Subcription';
 
 
 
@@ -14,6 +14,7 @@ export class Subscription {
         public userSub: string,
         public foodVersionId: string,
         public foodId: string,
+        public _id: string
     ) {}
 
 
@@ -40,15 +41,15 @@ export class Subscription {
     public static async SetUserSubState(user: User, foodId: string, state: boolean): Promise<Subscription>{
         let collection = await MongoHelper.getCollection(this.CollectionName);
         if (!state){
-            await collection.deleteMany({sub: user._id, foodId: foodId});
+            await collection.deleteMany({sub: user.sub, foodID: foodId});
             return null;
         }
         if (state){
             //if already has subscription
-            let doc = await collection.findOne({sub: user, foodId: foodId});
+            let doc = await collection.findOne({sub: user.sub, foodID: foodId});
             if (!doc){
                 let food = await Food.GetFoodForUser(foodId, user);
-                let newSubscription = new Subscription(user._id, food.foodId, food.id);
+                let newSubscription = new Subscription(user.sub, food.foodId, food.id, new ObjectID().toHexString());
                 await collection.insertOne(newSubscription.ToDocument());
                 return newSubscription;
             }
@@ -59,18 +60,25 @@ export class Subscription {
         let sub =  new Subscription(
             doc['sub'],
             doc['foodID'], //used by legacy server (food version)
-            doc[''] ? doc['foodVersionId'] : null //food type id
+            doc[''] ? doc['foodTypeId'] : null, //food type id
+            doc['_id']
         )
-        if (sub.foodId == null){
-            sub.foodId = (await Food.GetFood(null, sub.foodVersionId)).foodId;
+        try{
+            if (sub.foodId == null){
+                sub.foodId = (await Food.GetFood(null, sub.foodVersionId)).foodId;
+            }
+        }
+        catch{
+            return null;
         }
         return sub;
     }
     public ToDocument(): any{
         return {
             sub: this.userSub,
-            foodID: this.foodId, //used by legacy server (food version id)
-            foodVersionId: this.foodVersionId, //food type id
+            foodID: this.foodVersionId, //used by legacy server (food version id)
+            foodTypeId: this.foodId, //food type id
+            _id: new ObjectID(this._id)
         }
     }
 }
