@@ -50,9 +50,9 @@ export class FoodController extends Controller {
     @Security("Bearer", [])
     @Post("/")
     public async AddOrUpdateFood(@Body() updateFoodRequest: IUpdateFoodRequest, @Request() request: any): Promise<ForeignFood | PersonalFood> {
+        let user = request.user as User;
+        return await (await Food.UpdateFood(updateFoodRequest, user)).ToSendable(user);
         try{
-            let user = request.user as User;
-            return await (await Food.UpdateFood(updateFoodRequest, user)).ToSendable(user);
         }
         catch{
             this.setStatus(500)

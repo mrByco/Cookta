@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/database-command-tool/commands/cleanSubs.command.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/subscription.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/subscription.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database-command-tool/command-executor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/database-command-tool/command-executor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/food/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/subscription.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/subscription.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +67,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.start-backup">
+  <component name="RunManager" selected="npm.start">
     <configuration default="true" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -367,9 +365,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/models/subscription.model.ts</url>
-          <line>43</line>
+          <line>27</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="16" />
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

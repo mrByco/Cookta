@@ -23,7 +23,11 @@ export class Subscription {
         let subDocs = await collection.find({sub: user.sub}).toArray();
         let subs: Subscription[] = [];
         for (let doc of subDocs){
-            subs.push(await this.FromDocument(doc));
+            let subscription = await this.FromDocument(doc);
+            if (subscription == null){
+                console.log("ERROROROROR");
+            }
+            subs.push(subscription);
         }
         let foods: Food[] = [];
         for (let sub of subs){
@@ -41,7 +45,7 @@ export class Subscription {
     public static async SetUserSubState(user: User, foodId: string, state: boolean): Promise<Subscription>{
         let collection = await MongoHelper.getCollection(this.CollectionName);
         if (!state){
-            await collection.deleteMany({sub: user.sub, foodID: foodId});
+            let deletedResult = await collection.deleteMany({sub: user.sub, foodTypeId: foodId});
             return null;
         }
         if (state){
@@ -49,7 +53,7 @@ export class Subscription {
             let doc = await collection.findOne({sub: user.sub, foodID: foodId});
             if (!doc){
                 let food = await Food.GetFoodForUser(foodId, user);
-                let newSubscription = new Subscription(user.sub, food.foodId, food.id, new ObjectID().toHexString());
+                let newSubscription = new Subscription(user.sub, food.id, food.foodId, new ObjectID().toHexString());
                 await collection.insertOne(newSubscription.ToDocument());
                 return newSubscription;
             }

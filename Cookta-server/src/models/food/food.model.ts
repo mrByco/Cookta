@@ -70,10 +70,11 @@ export class Food {
         let food = await this.GetFood(foodId);
 
         if (food == null)
+            return null;
 
 
 
-        if (user.sub == foodId || food.isPrivate == false) {
+        if (user.sub == food.owner || food.isPrivate == false) {
             return food;
         } else {
             return null;
@@ -101,8 +102,6 @@ export class Food {
             await collection.replaceOne({foodId: request.foodId}, doc);
             return await this.GetFoodForUser(request.foodId, modifier);
         }else{
-            if (modifier)
-                return null;
             if (!request.foodId)
                 request.foodId = new ObjectID().toHexString();
             let food = new Food(
@@ -187,7 +186,7 @@ export class Food {
             doc['lastModified'],
             doc['generated'],
             doc['subscriptions'],
-            doc['_id'],
+            (doc['_id'] as ObjectID).toHexString(),
             doc['foodId']
         )
     }
@@ -206,7 +205,7 @@ export class Food {
             lastModified: this.lastModified,
             generated: this.generated,
             subscriptions: this.subscriptions,
-            _id: this.id,
+            _id: new ObjectID(this.id),
             foodId: this.foodId
         }
     }
