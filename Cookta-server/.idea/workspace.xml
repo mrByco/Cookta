@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/helpers/blob.helper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/helpers/blobs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/matyi.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/food/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsoa.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsoa.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +125,7 @@
       <workItem from="1576000129022" duration="9936000" />
       <workItem from="1576067606213" duration="3751000" />
       <workItem from="1576154868262" duration="2557000" />
-      <workItem from="1576310809273" duration="12489000" />
+      <workItem from="1576310809273" duration="14817000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -369,14 +362,15 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/authentication.ts</url>
-          <line>67</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/models/subscription.model.ts</url>
           <line>27</line>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/controllers/food.controller.ts</url>
+          <line>93</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

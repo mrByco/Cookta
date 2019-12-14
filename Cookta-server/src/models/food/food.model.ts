@@ -78,7 +78,7 @@ export class Food {
     }
 
 
-    public static async GetFood(foodId: string, versionId?: string){
+    public static async GetFood(foodId?: string, versionId?: string){
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let doc = versionId ?
             await collection.findOne({_id: new ObjectID(versionId)}):
@@ -185,6 +185,18 @@ export class Food {
 
         return food;
     }
+    public static async DeleteImage(foodVersionId: string, user: User): Promise<boolean> {
+        let food = await Food.GetFood(undefined, foodVersionId);
+        if (food == null){
+            throw Error('Food not found!');
+        }
+        if (food.owner != user.sub){
+            return false;
+        }
+        food.imageUploaded = null;
+        await food.Save()
+        return true;
+    }
 
 
     private static FromDocument(doc: any): Food {
@@ -229,7 +241,7 @@ export class Food {
         let document = this.ToDocument();
         let id = this.id;
         let collection = await MongoHelper.getCollection(Food.CollectionName);
-        await collection.replaceOne({_id: id}, document);
+        await collection.replaceOne({_id: new ObjectID(id)}, document);
         return;
     }
 

@@ -964,6 +964,33 @@
 				"consumes": [
 					"multipart/from-data"
 				]
+			},
+			"delete": {
+				"operationId": "DeleteImage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "foodVersionId",
+						"required": true,
+						"type": "string"
+					}
+				]
 			}
 		},
 		"/ingredientType": {

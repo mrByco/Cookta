@@ -61,12 +61,12 @@ export class FoodController extends Controller {
     }
 
     @Security("Bearer", [])
-    @Delete('/{id}')
-    public async DeleteFood(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
+    @Delete('/{foodId}')
+    public async DeleteFood(@Request() request: any, foodId: string): Promise<ForeignFood | PersonalFood> {
         try{
             let user = request.user as User;
-            if ((await Food.GetFoodForUser(id, user)).owner == user.sub) {
-                return await (await Food.Delete(id, user)).ToSendable(user);
+            if ((await Food.GetFoodForUser(foodId, user)).owner == user.sub) {
+                return await (await Food.Delete(foodId, user)).ToSendable(user);
             } else {
                 this.setStatus(401);
                 return;
@@ -86,6 +86,15 @@ export class FoodController extends Controller {
         }
         let user = request.user as User;
         await Food.UploadImage(foodVersionId, request.files['image'].tempFilePath, user);
+    }
+
+    @Security('Bearer', [])
+    @Delete('/image/{foodVersionId}')
+    public async DeleteImage(@Request() request: any, foodVersionId: string){
+        let user = request.user as User;
+        let success = await Food.DeleteImage(foodVersionId, user);
+        success ? this.setStatus(200) : this.setStatus(403);
+        return;
     }
 
 
