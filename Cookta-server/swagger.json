@@ -1326,6 +1326,38 @@
 				]
 			}
 		},
+		"/user/permission/{permission}": {
+			"get": {
+				"operationId": "HasPermission",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "permission",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
 		"/day/{date}": {
 			"get": {
 				"operationId": "GetDay",

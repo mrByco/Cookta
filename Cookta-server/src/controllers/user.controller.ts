@@ -26,4 +26,20 @@ export class UserController extends Controller {
             this.setStatus(500);
         }
     }
+    @Security('Bearer')
+    @Get('/permission/{permission}')
+    public async HasPermission(@Request() request, permission: string): Promise<boolean>{
+        try {
+            if (permission == undefined){
+                this.setStatus(400);
+                return;
+            }
+            let user = request.user as User;
+            return user.HasPermission(permission);
+        } catch {
+            this.setStatus(500);
+        }
+    }
+
+
 }
