@@ -1,4 +1,5 @@
 import {Body, Controller, Delete, Get, Post, Request, Route, Security, Tags} from "tsoa";
+import * as multer from 'multer';
 import {Food} from "../models/food/food.model";
 import {IUpdateFoodRequest} from "../requests/create.food.request";
 import {User} from "../models/user.model";
@@ -74,5 +75,18 @@ export class FoodController extends Controller {
             this.setStatus(500);
         }
     }
+
+
+    @Security('Bearer', [])
+    @Post('/image/{foodVersionId}')
+    public async UploadImage(@Request() request: any, foodVersionId: string){
+        if (!request.files['image']) {
+            this.setStatus(400);
+            return;
+        }
+        let user = request.user as User;
+        await Food.UploadImage(foodVersionId, request.files['image'].tempFilePath, user);
+    }
+
 
 }

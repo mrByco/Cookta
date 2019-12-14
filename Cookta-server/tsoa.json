@@ -9,6 +9,50 @@
         "in": "header"
       }
     },
+
+    "specMerging": "recursive",
+    "spec": {
+      "paths": {
+        "/food/image/{foodVersionId}": {
+          "post": {
+            "consumes": [
+              "multipart/from-data"
+            ],
+            "operationId": "UploadImage",
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "204": {
+                "description": "No content"
+              }
+            },
+            "tags": [
+              "Food"
+            ],
+            "security": [
+              {
+                "Bearer": []
+              }
+            ],
+            "parameters": [
+              {
+                "in": "path",
+                "name": "foodVersionId",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "in": "formData",
+                "name": "image",
+                "required": true,
+                "type": "file"
+              }
+            ]
+          }
+        }
+      }
+    },
     "noImplicitAdditionalProperties": "silently-remove-extras"
   },
   "routes": {

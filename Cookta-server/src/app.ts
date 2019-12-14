@@ -14,11 +14,19 @@ import './controllers/user.controller';
 import './controllers/day.controller';
 import './controllers/subscription.controller';
 
+const fileUpload = require('express-fileupload');
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use(requestLoggerMiddleware);
+app.use(fileUpload(
+    {
+        useTempFiles : true,
+        tempFileDir : '/tmp/',
+        preserveExtension: true,
+    }));
 RegisterRoutes(app);
 
 app.get('/', (req, res) => {

@@ -928,6 +928,44 @@
 				]
 			}
 		},
+		"/food/image/{foodVersionId}": {
+			"post": {
+				"operationId": "UploadImage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "foodVersionId",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "formData",
+						"name": "image",
+						"required": true,
+						"type": "file"
+					}
+				],
+				"consumes": [
+					"multipart/from-data"
+				]
+			}
+		},
 		"/ingredientType": {
 			"get": {
 				"operationId": "GetAll",

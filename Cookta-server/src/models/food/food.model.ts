@@ -5,11 +5,14 @@ import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {PersonalFood} from "./food-personal";
 import {ForeignFood} from "./food-foreign";
-import {Subscription} from "../subscription.model";
-import {version} from "punycode";
+
+const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
+const ContainerName = 'foodimages';
+
 
 export class Food {
     private static readonly CollectionName = "Foods";
+    private static readonly BlobContainerName = "foodimages";
     constructor(
         public owner: string,
         public name: string = "",
@@ -59,13 +62,6 @@ export class Food {
 
     public static async GetFoodForUser(foodId: string, user: User): Promise<Food> {
 
-        // let subscription = await Subscription.GetSubscription(user.sub, foodId);
-        // let food;
-        // if (subscription){
-        //     food = await this.getFood(foodId, subscription.foodVersionId);
-        // }else{
-        //     food = await this.getFood(foodId);
-        // }
 
         let food = await this.GetFood(foodId);
 
@@ -171,6 +167,26 @@ export class Food {
             return await ForeignFood.Create(this);
         }
     }
+
+    public static async UploadImage(foodVersionName: string, path: string, user: User){
+        let food = await Food.GetFood(undefined, foodVersionName);
+        if (food == null)
+            throw new Error("Food not found");
+        if (food.owner != user.sub)
+            throw new Error("No permission to modify the food.");
+
+        let response = await listContainers();
+        response = await uploadLocalJPEGImage(Food.BlobContainerName, path, foodVersionName);
+        console.log(response.message);
+        let collection = await MongoHelper.getCollection(this.CollectionName);
+
+        food.imageUploaded = Date.now();
+        await food.Save();
+
+        return food;
+    }
+
+
     private static FromDocument(doc: any): Food {
         return new Food(
             doc['owner'],
