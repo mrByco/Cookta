@@ -1,6 +1,9 @@
 <div class="container-fluid" style="padding: 0">
   <app-navigation-bar></app-navigation-bar>
 </div>
+<div class="container-fluid" style="padding: 0; background-color: blue;" *ngIf="LoadingState != 1">
+  <h5 style="color: white; text-align: center">Alapanyagok letöltése...</h5>
+</div>
 <div class="container-fluid">
   <app-food-list></app-food-list>
 </div>

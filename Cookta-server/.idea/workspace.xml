@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/app-loading-state.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/ingredient.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/models/grocery/ingredient-type.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/root-component/root-component.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/root-component/root-component.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/root-component/root-component.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/root-component/root-component.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,7 +48,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
-    <property name="ts.external.directory.path" value="D:\Development\Repos\Cookta\Cookta-server\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Repos\Cookta\Cookta-server\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -52,18 +60,6 @@
       <recent name="C:\Repos\Cookta\Cookta-server\src\models\Days" />
       <recent name="D:\Development\Repos\Cookta\Cookta-server\src\models\food" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="npm.start">
     <configuration default="true" type="js.build_tools.npm">
@@ -80,6 +76,18 @@
       <item itemvalue="npm.start" />
       <item itemvalue="npm.start-backup" />
     </list>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -123,6 +131,7 @@
       <workItem from="1576154868262" duration="2557000" />
       <workItem from="1576310809273" duration="15482000" />
       <workItem from="1576844600706" duration="322000" />
+      <workItem from="1577116034892" duration="667000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -272,22 +281,22 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state width="401" height="466" key="DebuggerActiveHint/0.0.1366.738@0.0.1366.738" timestamp="1576071227765" />
-    <state width="1344" height="155" key="GridCell.Tab.0.bottom" timestamp="1576157322359">
+    <state width="1344" height="155" key="GridCell.Tab.0.bottom" timestamp="1577116054692">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1344" height="155" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1576157322359" />
-    <state width="1344" height="155" key="GridCell.Tab.0.center" timestamp="1576157322359">
+    <state width="1344" height="155" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1577116054692" />
+    <state width="1344" height="155" key="GridCell.Tab.0.center" timestamp="1577116054692">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1344" height="155" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1576157322359" />
-    <state width="1344" height="155" key="GridCell.Tab.0.left" timestamp="1576157322359">
+    <state width="1344" height="155" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1577116054692" />
+    <state width="1344" height="155" key="GridCell.Tab.0.left" timestamp="1577116054691">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1344" height="155" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1576157322359" />
-    <state width="1344" height="155" key="GridCell.Tab.0.right" timestamp="1576157322359">
+    <state width="1344" height="155" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1577116054691" />
+    <state width="1344" height="155" key="GridCell.Tab.0.right" timestamp="1577116054692">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1344" height="155" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1576157322359" />
+    <state width="1344" height="155" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1577116054692" />
     <state width="1344" height="155" key="GridCell.Tab.1.bottom" timestamp="1576157260693">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

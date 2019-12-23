@@ -7,7 +7,7 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { FoodItemComponent } from './food/food-item/food-item.component';
 import { FoodDetailComponent } from './food/food-detail/food-detail.component';
 import { FoodListComponent } from './food/food-list/food-list.component';
-import {MDBBootstrapModule} from "angular-bootstrap-md";
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [

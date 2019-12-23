@@ -856,36 +856,6 @@
 						"type": "string"
 					}
 				]
-			},
-			"delete": {
-				"operationId": "DeleteFood",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"type": "string"
-					}
-				]
 			}
 		},
 		"/food/{from}/{count}": {
@@ -924,6 +894,38 @@
 						"required": true,
 						"format": "double",
 						"type": "number"
+					}
+				]
+			}
+		},
+		"/food/{foodId}": {
+			"delete": {
+				"operationId": "DeleteFood",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "foodId",
+						"required": true,
+						"type": "string"
 					}
 				]
 			}
