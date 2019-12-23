@@ -11,10 +11,10 @@ import {PersonalFood} from "../models/food/food-personal";
 export class FoodController extends Controller {
     @Security("Bearer", ['noauth'])
     @Get()
-    public async GetFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
+    public async GetPublicFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
         try{
             let user = request.user as User;
-            return user ? await Food.ToSendableAll(await Food.GetAllOwnFoods(user), user) : await Food.GetAllFoods();
+            return user ? await Food.ToSendableAll(await Food.GetAllOwnFoods(user), user) : await Food.GetAllPublicFoods();
         }
         catch (error){
             this.setStatus(500);
@@ -25,13 +25,13 @@ export class FoodController extends Controller {
     @Security("Bearer", ['noauth'])
     @Get('/{id}')
     public async GetFoodById(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
+        let user = request.user as User;
+        let food = await Food.GetFoodForUser(id, user);
+        if (!food)
+            this.setStatus(404);
+        else
+            return await food.ToSendable(user);
         try{
-            let user = request.user as User;
-            let food = await Food.GetFoodForUser(id, user);
-            if (!food)
-                this.setStatus(404);
-            else
-                return await food.ToSendable(user);
         } catch{
             this.setStatus(500);
         }

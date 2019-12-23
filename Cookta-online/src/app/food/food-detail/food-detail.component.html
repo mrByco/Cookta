@@ -1,1 +1,45 @@
-<p>food-detail works!</p>
+<div class="container-fluid no-padding" style="padding: 0px;">
+  <div class="row">
+    <div class="col">
+      <div style="height: 100%; width: 100%; margin: 5px; background-color: #9B1B30">
+        <h3 style="color: white; padding-top: 50%; padding-left: 50%;">ADS</h3>
+      </div>
+    </div>
+    <div class="col-6" style="padding: 20px">
+      <img [src]="Food ? Food.ImageUrl : ''" style="width: 70%">
+
+      <ul class="list-group list-group-horizontal" style="background-color: transparent; margin-left: fill; width: 100%">
+        <li class="list-group-item-2">
+          <button class="btn btn-primary">Feliratkozás</button>
+        </li>
+        <li class="list-group-item-2">
+          <button class="btn btn-primary">Feltöltő</button>
+        </li>
+      </ul>
+
+      <hr>
+
+      <div class="row">
+
+      </div>
+
+      <h1 class="recipe-title">{{Food ? Food.name : "FOODNAME"}}</h1>
+
+
+      <p class="recipe-desc">{{Food ? Food.desc : "FOODDESC"}}</p>
+    </div>
+    <div class="col-4" style="padding-top: 5%">
+      <h2 class="ingredients-title">Hozzávalók</h2>
+
+      <p class="ingredients-desc" *ngFor="let ingredient of Food ? Food.ingredients : []"> - 1kg liszt</p>
+
+      <div style="height: 40px"></div>
+
+      <div style="height: 800px; width: 300px; margin: auto;background-color: #9B1B30">
+        <h3 style="color: white; padding-top: 50%; padding-left: 50%;">ADS</h3>
+      </div>
+
+    </div>
+  </div>
+</div>
+

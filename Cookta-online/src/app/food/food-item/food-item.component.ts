@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Food} from "../../../models/grocery/food.model";
+import {Food} from "../../shared/models/grocery/food.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-food-item',
@@ -10,9 +11,13 @@ export class FoodItemComponent implements OnInit {
 
   @Input() Food: Food;
 
-  constructor() { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
   }
 
+  async OnCardClick() {
+    await this.router.navigate(['/foods', this.Food.foodId])
+  }
 }

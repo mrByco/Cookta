@@ -1,20 +1,22 @@
+<div class="highlight" style="width: 300px;">
   <!-- Card -->
-  <div class="card" style="width: 300px; margin: 10px">
-    <a href="#">
+  <div class="card">
+    <a (click)="OnCardClick()">
 
-    <!-- Card image -->
-    <img class="card-img-top" [src]="Food.ImageUrl"  alt="Card image cap">
+      <!-- Card image -->
+      <img class="card-img-top" [src]="Food.ImageUrl"  alt="Card image cap">
 
-    <!-- Card content -->
-    <div class="card-body">
+      <!-- Card content -->
+      <div class="card-body">
 
-      <!-- Title -->
-      <h4 class="card-title"><a>{{Food.name}}</a></h4>
-      <!-- Text -->
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <!-- Title -->
+        <h4 class="card-title"><a>{{Food.name}}</a></h4>
+        <!-- Text -->
+        <!--      <p class="card-text"></p>-->
 
-    </div>
+      </div>
     </a>
 
   </div>
   <!-- Card -->
+</div>

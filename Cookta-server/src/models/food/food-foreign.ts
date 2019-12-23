@@ -10,6 +10,7 @@ export class ForeignFood {
     public desc: string = "";
     public published: boolean = false; //TODO Replace by checking new certificate system DEP: new certificate system + blockchain food store
     public ingredients: iIngredient[] = [];
+    public imageUploaded: number;
     public uploaded: number;
     public dose: number = 4;
     public lastModified: number;
@@ -24,6 +25,7 @@ export class ForeignFood {
         this.desc = food.desc;
         this.published = food.published;
         this.ingredients = food.ingredients;
+        this.imageUploaded = food.imageUploaded;
         this.uploaded = food.uploaded;
         this.dose = food.dose;
         this.lastModified = food.lastModified;

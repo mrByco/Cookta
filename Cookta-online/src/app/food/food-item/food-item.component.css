@@ -4,6 +4,14 @@ h3 {
   font-family: "Arial Black";
 }
 
+.highlight {
+  padding: 10px;
+  transition: padding 0.3s;
+}
+.highlight:hover {
+  padding: 0px;
+}
+
 .outer {
   display: flex;
   flex-flow: column;

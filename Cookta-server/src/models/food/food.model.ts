@@ -41,14 +41,17 @@ export class Food {
         }
     }
 
-    public static async GetAllFoods(): Promise<Food[]> {
+    public static async GetAllFoods(filter: any): Promise<Food[]> {
         let collection = await MongoHelper.getCollection(Food.CollectionName);
-        let documents = await collection.find({}).toArray();
+        let documents = await collection.find(filter).toArray();
         let foods: Food[] = [];
         for (let doc of documents){
             foods.push(this.FromDocument(doc));
         }
         return foods;
+    }
+    public static async GetAllPublicFoods(): Promise<Food[]>{
+        return await Food.GetAllFoods({published: true, private: false});
     }
     public static async GetAllOwnFoods(user: User): Promise<Food[]> {
         let collection = await MongoHelper.getCollection(Food.CollectionName);
@@ -69,8 +72,7 @@ export class Food {
             return null;
 
 
-
-        if (user.sub == food.owner || food.isPrivate == false) {
+        if (user != undefined && user.sub == food.owner || food.isPrivate == false) {
             return food;
         } else {
             return null;
@@ -161,7 +163,7 @@ export class Food {
     }
 
     public async ToSendable(sendFor: User) {
-        if (sendFor.sub == this.owner) {
+        if (sendFor != null && sendFor.sub == this.owner) {
             return await PersonalFood.Create(this);
         } else {
             return await ForeignFood.Create(this);
@@ -214,7 +216,7 @@ export class Food {
             doc['lastModified'],
             doc['generated'],
             doc['subscriptions'],
-            (doc['_id'] as ObjectID).toHexString(),
+            typeof (doc['_id']) != 'string' ? (doc['_id'] as ObjectID).toHexString() : doc['_id'], //need to handle either ObjectID and string
             doc['foodId']
         )
     }

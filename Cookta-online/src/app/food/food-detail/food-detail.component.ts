@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {Food} from "../../shared/models/grocery/food.model";
+import {FoodService} from "../../shared/services/food.service";
 
 @Component({
   selector: 'app-food-detail',
@@ -7,10 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FoodDetailComponent implements OnInit {
 
-  constructor() { }
+  public Food: Food;
+  constructor(
+    private route: ActivatedRoute,
+    private foodService: FoodService) { }
 
-  ngOnInit() {
 
+  async ngOnInit() {
+    let Id = this.route.snapshot.params['id'];
+    this.Food = await this.foodService.GetFood(Id);
+    console.log(Food.name);
   }
-
 }
