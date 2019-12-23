@@ -1,3 +1,5 @@
+import {Unit} from "../unit.interface";
+
 export interface IngredientType {
   category: string,
   name: string,
@@ -6,5 +8,8 @@ export interface IngredientType {
   CuntEnabled: boolean,
   massEnabled: boolean,
   inshopping: string,
-  "guid": string
+  guid: string,
+  options: {
+    cunits: Unit[],
+  }
 }

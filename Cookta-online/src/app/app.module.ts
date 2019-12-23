@@ -8,6 +8,20 @@ import { FoodItemComponent } from './food/food-item/food-item.component';
 import { FoodDetailComponent } from './food/food-detail/food-detail.component';
 import { FoodListComponent } from './food/food-list/food-list.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {HttpClientModule} from "@angular/common/http";
+import {IdentityService} from "./shared/services/identity.service";
+import {FoodService} from "./shared/services/food.service";
+import {ServerService} from "./shared/models/grocery/server.service";
+import {RouterModule, Routes} from "@angular/router";
+import {IngredientService} from "./shared/services/ingredient.service";
+import { FoodIngredientComponent } from './food/food-ingredient/food-ingredient.component';
+import {UnitService} from "./shared/services/unit.service";
+
+const appRoutes: Routes = [
+  { path: '', component: FoodListComponent },
+  { path: 'foods', component: FoodListComponent },
+  { path: 'foods/:id', component: FoodDetailComponent }
+  ];
 
 @NgModule({
   declarations: [
@@ -16,14 +30,17 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
     NavigationBarComponent,
     FoodItemComponent,
     FoodDetailComponent,
-    FoodListComponent
+    FoodListComponent,
+    FoodIngredientComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     MDBBootstrapModule.forRoot(),
+    RouterModule.forRoot(appRoutes),
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

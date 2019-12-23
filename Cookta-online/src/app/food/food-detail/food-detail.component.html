@@ -31,7 +31,7 @@
     <div class="col-4" style="padding-top: 5%">
       <h2 class="ingredients-title">Hozzávalók</h2>
 
-      <p class="ingredients-desc" *ngFor="let ingredient of Food ? Food.ingredients : []"> - 1kg liszt</p>
+      <app-food-ingredient class="ingredients-desc" *ngFor="let ingredient of Food ? Food.ingredients : []" [ingredient]="ingredient"></app-food-ingredient>
 
       <div style="height: 40px"></div>
 

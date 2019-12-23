@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoadingState} from '../shared/app-loading-state';
+import {IngredientService} from "../shared/services/ingredient.service";
 
 
 @Component({
@@ -9,10 +10,22 @@ import {LoadingState} from '../shared/app-loading-state';
 })
 export class RootComponentComponent implements OnInit {
 
-  private LoadingState: LoadingState
+  get LoadingState(): LoadingState {
+    return this.loadingState;
+  }
+  private loadingState: LoadingState = 0;
 
-  constructor() { }
+  constructor(private IngredientService: IngredientService)
+  {
+    console.log("Loading ings");
+    this.loadingState = LoadingState.Ingredients;
+    this.IngredientService.IngredientTypes.then(types => {
+      this.loadingState = LoadingState.Ready;
+      console.log("Done");
+    });
+  }
 
   ngOnInit() {
+
   }
 }

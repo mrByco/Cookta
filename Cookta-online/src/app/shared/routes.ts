@@ -8,5 +8,13 @@ export class Routes {
     PostFoodImage: "/food/image/{foodVersionId}",
     DeleteFoodImage: "/food/image/{foodVersionId}"
   }
+  public static readonly IngredientType = {
+    GetAll: "/ingredientType",
+
+  }
+  public static readonly Unit = {
+    GetAll: "/unit",
+
+  }
 
 }
