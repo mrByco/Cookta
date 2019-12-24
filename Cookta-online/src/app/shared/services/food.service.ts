@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {IdentityService} from "./identity.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ServerService} from "../models/grocery/server.service";
 import {Routes} from "../routes";
 import {Food} from "../models/grocery/food.model";
@@ -14,19 +14,19 @@ export class FoodService {
     private http: HttpClient) {
 
   }
-  public async GetFoods(): Promise<Food[]>{
-    let response = await this.http.get(this.serverService.GetBase() + Routes.Food.GetFood);
+  public GetFoods(): Promise<Food[]>{
 
     return new Promise((resolve, reject) => {
+      let response = this.http.get(this.serverService.GetBase() + Routes.Food.GetFood);
       let foods: Food[] = [];
       response.subscribe(data => {
         for (const d of (data as any)){
           foods.push(Food.FromJson(d));
         }
+        resolve(foods);
       }, error => {
-        foods = [];
+        resolve([]);
       });
-      resolve(foods);
     })
   }
   public async GetFood(id: string): Promise<Food> {

@@ -8,7 +8,7 @@ import { FoodItemComponent } from './food/food-item/food-item.component';
 import { FoodDetailComponent } from './food/food-detail/food-detail.component';
 import { FoodListComponent } from './food/food-list/food-list.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {IdentityService} from "./shared/services/identity.service";
 import {FoodService} from "./shared/services/food.service";
 import {ServerService} from "./shared/models/grocery/server.service";
@@ -16,6 +16,8 @@ import {RouterModule, Routes} from "@angular/router";
 import {IngredientService} from "./shared/services/ingredient.service";
 import { FoodIngredientComponent } from './food/food-ingredient/food-ingredient.component';
 import {UnitService} from "./shared/services/unit.service";
+import {AuthService} from "./shared/services/auth.service";
+import {InterceptorService} from "./shared/services/interceptor.service";
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -40,7 +42,10 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService,
+    {provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

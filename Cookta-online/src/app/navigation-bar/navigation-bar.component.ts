@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {IdentityService} from "../shared/services/identity.service";
 
 @Component({
   selector: 'app-navigation-bar',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private identityService: IdentityService) { }
 
   ngOnInit() {
   }
