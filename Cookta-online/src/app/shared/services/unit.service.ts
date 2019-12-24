@@ -1,6 +1,6 @@
 import {IngredientType} from '../models/grocery/ingredient-type.interface';
 import {Routes} from "../routes";
-import {ServerService} from "../models/grocery/server.service";
+import {ServerService} from "./server.service";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Unit} from "../models/unit.interface";

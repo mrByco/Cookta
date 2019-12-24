@@ -24,9 +24,6 @@ export async function expressAuthentication(request: express.Request, securityNa
     if (permissions[0] == "noauth" && !authHeader) {
         return null;
     }
-    if (permissions[0] == "noauth"){
-        permissions.shift();
-    }
 
     if (!authHeader){
         console.log(`Unauthorized call from: ${request.ip})`);
@@ -64,6 +61,8 @@ export async function expressAuthentication(request: express.Request, securityNa
                             if (!user)
                                 reject(new Error("Cant get or create user."));
                             for (let permission of permissions){
+                                if (permission == "noauth")
+                                    continue;
                                 if (!user.HasPermission(permission)){
                                     reject(new Error("Not all the permissions covered."));
                                 }

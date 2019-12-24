@@ -11,7 +11,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {IdentityService} from "./shared/services/identity.service";
 import {FoodService} from "./shared/services/food.service";
-import {ServerService} from "./shared/models/grocery/server.service";
+import {ServerService} from "./shared/services/server.service";
 import {RouterModule, Routes} from "@angular/router";
 import {IngredientService} from "./shared/services/ingredient.service";
 import { FoodIngredientComponent } from './food/food-ingredient/food-ingredient.component';
