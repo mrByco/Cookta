@@ -16,8 +16,8 @@ export class FoodService {
   }
   public GetFoods(): Promise<Food[]>{
 
-    return new Promise((resolve, reject) => {
-      let response = this.http.get(this.serverService.GetBase() + Routes.Food.GetPublicFoods);
+    return new Promise(async (resolve, reject) => {
+      let response = await this.serverService.GetRequest( Routes.Food.GetPublicFoods);
       let foods: Food[] = [];
       response.subscribe(data => {
         for (const d of (data as any)){
@@ -31,8 +31,8 @@ export class FoodService {
   }
 
   public GetCollection(): Promise<Food[]> {
-    return new Promise((resolve, reject) => {
-      let response = this.http.get(this.serverService.GetBase() + Routes.Food.GetCollectionFoods);
+    return new Promise(async (resolve, reject) => {
+      let response = await this.serverService.GetRequest( Routes.Food.GetCollectionFoods);
       let foods: Food[] = [];
       response.subscribe(data => {
         for (const d of (data as any)){
@@ -45,7 +45,7 @@ export class FoodService {
     })
   }
   public async GetFood(id: string): Promise<Food> {
-    let response = await this.http.get(this.serverService.GetBase() + Routes.Food.GetFoodId.replace('{id}', id));
+    let response = await this.serverService.GetRequest(Routes.Food.GetFoodId.replace('{id}', id));
     return new Promise((resolve) => {
       response.subscribe(data => {
         resolve(Food.FromJson(data));

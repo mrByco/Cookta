@@ -53,10 +53,7 @@ const appRoutes: Routes = [
     }),
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService,
-    {provide: HTTP_INTERCEPTORS,
-    useClass: InterceptorService,
-    multi: true}],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

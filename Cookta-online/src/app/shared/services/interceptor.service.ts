@@ -18,6 +18,7 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+
     if (this.auth.loggedIn){
       return this.auth.getTokenSilently$().pipe(
         mergeMap(token => {
