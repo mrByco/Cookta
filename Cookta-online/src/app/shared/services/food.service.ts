@@ -17,7 +17,22 @@ export class FoodService {
   public GetFoods(): Promise<Food[]>{
 
     return new Promise((resolve, reject) => {
-      let response = this.http.get(this.serverService.GetBase() + Routes.Food.GetFood);
+      let response = this.http.get(this.serverService.GetBase() + Routes.Food.GetPublicFoods);
+      let foods: Food[] = [];
+      response.subscribe(data => {
+        for (const d of (data as any)){
+          foods.push(Food.FromJson(d));
+        }
+        resolve(foods);
+      }, error => {
+        resolve([]);
+      });
+    })
+  }
+
+  public GetCollection(): Promise<Food[]> {
+    return new Promise((resolve, reject) => {
+      let response = this.http.get(this.serverService.GetBase() + Routes.Food.GetCollectionFoods);
       let foods: Food[] = [];
       response.subscribe(data => {
         for (const d of (data as any)){
@@ -39,5 +54,4 @@ export class FoodService {
       });
     });
   }
-
 }

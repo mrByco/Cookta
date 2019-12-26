@@ -1,7 +1,8 @@
 export class Routes {
   public static readonly Food = {
-    GetFood: "/food",
+    GetPublicFoods: "/food",
     PostFood: "/food",
+    GetCollectionFoods: "/food/collection",
     GetFoodId: "/food/{id}",
     DeleteFoodId: "/food/{id}",
     GetFoodFrom: "/food/{from}/{count}",
