@@ -18,6 +18,7 @@ import { FoodIngredientComponent } from './food/food-ingredient/food-ingredient.
 import {UnitService} from "./shared/services/unit.service";
 import {AuthService} from "./shared/services/auth.service";
 import {InterceptorService} from "./shared/services/interceptor.service";
+import {AdsenseModule} from "ng2-adsense";
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -40,6 +41,10 @@ const appRoutes: Routes = [
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
     RouterModule.forRoot(appRoutes),
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-8068476996237937',
+      adSlot: 1393101782,
+    }),
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService,

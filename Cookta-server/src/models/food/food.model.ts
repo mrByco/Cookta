@@ -150,14 +150,10 @@ export class Food {
         return foods;
     }
 
-    public static async ToSendableAll(foods: Food[], sendFor: User) {
+    public static async ToSendableAll(foods: Food[], sendFor?: User) {
         let send = [];
         for (let food of foods) {
-            if (sendFor.sub == food.owner) {
-                send.push(await PersonalFood.Create(food));
-            } else {
-                send.push(await ForeignFood.Create(food));
-            }
+            send.push(await food.ToSendable(sendFor));
         }
         return send;
     }

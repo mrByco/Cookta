@@ -14,13 +14,15 @@ export class FoodController extends Controller {
     public async GetPublicFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
         try{
             let user = request.user as User;
-            return user ? await Food.ToSendableAll(await Food.GetAllOwnFoods(user), user) : await Food.GetAllPublicFoods();
+            return (await Food.ToSendableAll(await Food.GetAllPublicFoods(), user));
         }
         catch (error){
             this.setStatus(500);
             console.error("An error caught: " + error.message);
         }
     }
+
+    
 
     @Security("Bearer", ['noauth'])
     @Get('/{id}')
