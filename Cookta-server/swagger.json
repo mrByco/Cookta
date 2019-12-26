@@ -829,6 +829,31 @@
 				]
 			}
 		},
+		"/food/collection": {
+			"get": {
+				"operationId": "GetCollectionFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
 		"/food/{id}": {
 			"get": {
 				"operationId": "GetFoodById",

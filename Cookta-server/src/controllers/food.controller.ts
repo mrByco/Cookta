@@ -5,6 +5,7 @@ import {IUpdateFoodRequest} from "../requests/create.food.request";
 import {User} from "../models/user.model";
 import {ForeignFood} from "../models/food/food-foreign";
 import {PersonalFood} from "../models/food/food-personal";
+import {Subscription} from "../models/subscription.model";
 
 @Tags("Food")
 @Route("/food")
@@ -22,7 +23,20 @@ export class FoodController extends Controller {
         }
     }
 
-    
+    @Security("Bearer", [])
+    @Get("/collection")
+    public async GetCollectionFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
+        try{
+            let user = request.user as User;
+            let foods = await Subscription.GetSubsFoodsOfUser(user);
+            foods = foods.concat(await Food.GetAllOwnFoods(user));
+            return (await Food.ToSendableAll(foods, user));
+        }
+        catch (error){
+            this.setStatus(500);
+            console.error("An error caught: " + error.message);
+        }
+    }
 
     @Security("Bearer", ['noauth'])
     @Get('/{id}')
