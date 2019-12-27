@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {EventEmitter, Injectable} from "@angular/core";
 import {ServerService} from "./server.service";
 import {AuthService} from "./auth.service";
 
@@ -16,6 +16,12 @@ export class IdentityService {
   }
   public async Logout(){
     this.authService.logout();
+  }
+
+  public OnLoginRequired = new EventEmitter();
+
+  public PleaseLogin() {
+    this.OnLoginRequired.emit();
   }
 
 

@@ -20,6 +20,7 @@ import {AuthService} from "./shared/services/auth.service";
 import {InterceptorService} from "./shared/services/interceptor.service";
 import {AdsenseModule} from "ng2-adsense";
 import { FoodCollectionListComponent } from './food/food-collection-list/food-collection-list.component';
+import { LoginModalComponent } from './identity/login-modal/login-modal.component';
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     FoodDetailComponent,
     FoodListComponent,
     FoodIngredientComponent,
-    FoodCollectionListComponent
+    FoodCollectionListComponent,
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,
