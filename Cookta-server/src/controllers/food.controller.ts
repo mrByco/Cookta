@@ -112,6 +112,4 @@ export class FoodController extends Controller {
         success ? this.setStatus(200) : this.setStatus(403);
         return;
     }
-
-
 }

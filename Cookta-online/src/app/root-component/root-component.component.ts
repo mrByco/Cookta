@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LoadingState} from '../shared/app-loading-state';
 import {IngredientService} from "../shared/services/ingredient.service";
+import {TagService} from "../shared/services/tag.service";
 
 
 @Component({
@@ -15,13 +16,17 @@ export class RootComponentComponent implements OnInit {
   }
   private loadingState: LoadingState = 0;
 
-  constructor(private IngredientService: IngredientService)
+  constructor(private IngredientService: IngredientService,
+              private TagService: TagService)
   {
     console.log("Loading ings");
     this.loadingState = LoadingState.Ingredients;
     this.IngredientService.IngredientTypes.then(types => {
-      this.loadingState = LoadingState.Ready;
-      console.log("Done");
+    }).then(() => {
+      this.TagService.Tags.then(() => {
+        this.loadingState = LoadingState.Ready;
+        console.log("Done");
+      })
     });
   }
 

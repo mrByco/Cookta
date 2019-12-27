@@ -16,6 +16,10 @@ export class Routes {
   public static readonly Unit = {
     GetAll: "/unit",
 
+  };
+  public static readonly Tag = {
+    GetAll: "/tag",
+
   }
 
 }

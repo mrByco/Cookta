@@ -7,7 +7,7 @@ import {IdentityService} from "../../shared/services/identity.service";
 @Component({
   selector: 'app-food-detail',
   templateUrl: './food-detail.component.html',
-  styleUrls: ['./food-detail.component.css']
+  styleUrls: ['./food-detail.component.scss']
 })
 export class FoodDetailComponent implements OnInit {
 

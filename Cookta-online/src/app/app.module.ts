@@ -21,6 +21,8 @@ import {InterceptorService} from "./shared/services/interceptor.service";
 import {AdsenseModule} from "ng2-adsense";
 import { FoodCollectionListComponent } from './food/food-collection-list/food-collection-list.component';
 import { LoginModalComponent } from './identity/login-modal/login-modal.component';
+import {TagService} from "./shared/services/tag.service";
+import { FoodTagComponent } from './food/food-tag/food-tag.component';
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -42,7 +44,8 @@ const appRoutes: Routes = [
     FoodListComponent,
     FoodIngredientComponent,
     FoodCollectionListComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    FoodTagComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,7 @@ const appRoutes: Routes = [
     }),
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
