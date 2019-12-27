@@ -9,9 +9,19 @@ import {IdentityService} from "../shared/services/identity.service";
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor(private identityService: IdentityService) { }
+  public PictureUrl: string = "";
+
+  constructor(private identityService: IdentityService) {
+    this.identityService.OnUserChanged.subscribe((user) => {
+    if (!user)
+      return;
+    this.PictureUrl = user['picture'];
+    console.log(user);
+  });
+  }
 
   ngOnInit() {
+
   }
 
 }

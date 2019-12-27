@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from 'rxjs';
+import {from, of, Observable, BehaviorSubject, combineLatest, throwError, Observer} from 'rxjs';
 import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+
+  public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
+
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
@@ -44,6 +47,8 @@ export class AuthService {
     this.localAuthSetup();
     // Handle redirect from Auth0 login
     this.handleAuthCallback();
+
+    this.getUser$().subscribe(user => this.OnUserChanged.emit(user));
   }
 
   // When calling, options can be passed if desired
@@ -114,6 +119,7 @@ export class AuthService {
       // Response will be an array of user and login status
       authComplete$.subscribe(([user, loggedIn]) => {
         // Redirect to target route after callback processing
+        this.OnUserChanged.emit(user);
         this.router.navigate([targetRoute]);
       });
     }

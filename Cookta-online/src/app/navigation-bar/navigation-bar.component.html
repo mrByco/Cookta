@@ -1,60 +1,64 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark red darken-2" [containerInside]="false">
 
-<!--Navbar -->
-<nav class="mb-1 navbar navbar-expand-lg navbar-dark primary-color lighten-1" style="background-color: #0c00c2">
-  <a class="navbar-brand" routerLink="/foods">Cookta</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
-          aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+  <!-- Navbar brand -->
+  <mdb-navbar-brand><a class="navbar-brand" routerLink="/foods">Cookta</a></mdb-navbar-brand>
+
+  <!-- Collapsible content -->
+  <links>
+
+    <!-- Links -->
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/foods">Böngészés
-          <span class="sr-only">(current)</span>
-        </a>
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods">Böngészés<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/foods/collection">Gyüjtemény</a>
+        <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods/collection">Gyűjtemény</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Naptár</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-555" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">Dropdown
-        </a>
-        <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-555">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-auto nav-flex-icons">
-      <li class="nav-item" *ngIf="!identityService.LoggedIn">
-        <button class="btn btn-primary" (click)="identityService.Login()">Login</button>
-      </li>
-      <li class="nav-item" *ngIf="identityService.LoggedIn">
-        <button class="btn btn-danger" (click)="identityService.Logout()">Logout</button>
-      </li>
-      <li class="nav-item" *ngIf="identityService.LoggedIn">
-        <a class="nav-link waves-effect waves-light">X Notification
-        </a>
+        <a class="nav-link waves-light" mdbWavesEffect>Naptár</a>
       </li>
 
-      <li class="nav-item avatar dropdown" *ngIf="identityService.LoggedIn">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0" style="height: 30px"
-               alt="avatar image">
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
-             aria-labelledby="navbarDropdownMenuLink-55">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+      <!-- Dropdown -->
+      <li class="nav-item dropdown" dropdown>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+          Basic dropdown<span class="caret"></span></a>
+        <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Action</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Another action</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Something else here</a>
+          <div class="divider dropdown-divider"></div>
+          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Separated link</a>
+        </div>
+      </li>
+
+    </ul>
+    <!-- Links -->
+
+
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item" *ngIf="!identityService.LoggedIn">
+        <a class="nav-link waves-light" mdbWavesEffect (click)="identityService.Login()">Bejelentkezés</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto nav-flex-icons" *ngIf="identityService.LoggedIn">
+      <li class="nav-item">
+        <a class="nav-link">1 Értesítés</a>
+      </li>
+      <li class="nav-item avatar dropdown" dropdown>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+          <img [src]="PictureUrl"  alt="" class="img-fluid rounded-circle z-depth-0" style="height: 35px"></a>
+        <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Fiókom</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect (click)="identityService.Logout()">Kijelentkezés</a>
         </div>
       </li>
     </ul>
-  </div>
-</nav>
+  </links>
+  <!-- Collapsible content -->
+
+</mdb-navbar>
+
+
+
+
