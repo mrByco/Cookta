@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IIngredient} from "../../shared/models/grocery/ingredient.interface";
-import {IngredientService} from "../../shared/services/ingredient.service";
-import {IngredientType} from "../../shared/models/grocery/ingredient-type.interface";
-import {Unit} from "../../shared/models/unit.interface";
-import {UnitService} from "../../shared/services/unit.service";
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
+import {IngredientService} from "../../../shared/services/ingredient.service";
+import {IngredientType} from "../../../shared/models/grocery/ingredient-type.model";
+import {Unit} from "../../../shared/models/unit.interface";
+import {UnitService} from "../../../shared/services/unit.service";
 
 class DisplayIngredient {
   constructor(
@@ -38,17 +38,23 @@ class DisplayIngredient {
 export class FoodIngredientComponent implements OnInit {
 
   @Input('ingredient') private ingredient: IIngredient;
+  @Input('edit') private edit: boolean = false;
+  @Input('OnDeleted') private OnDeleted: (ingredient: IIngredient) => void;
 
   private displayIngredient: DisplayIngredient;
 
   constructor(
     private ingredientService: IngredientService,
     private unitService: UnitService) {
-
   }
 
   ngOnInit() {
     this.displayIngredient = new DisplayIngredient(this.ingredient, this.ingredientService, this.unitService);
   }
 
+  CallOnDeletedSafe() {
+    if (this.OnDeleted) {
+      this.OnDeleted(this.ingredient)
+    };
+  }
 }

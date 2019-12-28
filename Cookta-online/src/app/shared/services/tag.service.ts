@@ -1,4 +1,4 @@
-import {IngredientType} from '../models/grocery/ingredient-type.interface';
+import {IngredientType} from '../models/grocery/ingredient-type.model';
 import {Food} from "../models/grocery/food.model";
 import {Routes} from "../routes";
 import {ServerService} from "./server.service";

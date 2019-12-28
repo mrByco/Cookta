@@ -2,20 +2,57 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/tag.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/ingredient-adder/ingredient-adder.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/ingredient-adder/ingredient-adder.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/ingredient-adder/ingredient-adder.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/ingredient-adder/ingredient-adder.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-edit/food-edit.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-edit/food-edit.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-edit/food-edit.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-edit/food-edit.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/grocery/ingredient-type.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/auto-complete/auto-complete.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/auto-complete/auto-complete.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/auto-complete/auto-complete.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/auto-complete/auto-complete.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/displayable.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/form-state.enum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/assets/ingredient-add-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/assets/ingredient-remove-icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/app.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/app.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/root-component/root-component.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/root-component/root-component.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-collection-list/food-collection-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-collection-list/food-collection-list.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-collection-list/food-collection-list.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-collection-list/food-collection-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-detail/food-detail.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-detail/food-detail.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-detail/food-detail.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-detail/food-detail.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-detail/food-detail.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-ingredient/food-ingredient.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-ingredient/food-ingredient.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-ingredient/food-ingredient.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-ingredient/food-ingredient.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-ingredient/food-ingredient.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-ingredient/food-ingredient.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-ingredient/food-ingredient.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-ingredient/food-ingredient.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-item/food-item.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-item/food-item.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-item/food-item.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-item/food-item.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-list/food-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-list/food-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-list/food-list.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-list/food-list.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-list/food-list.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-list/food-list.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-list/food-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-list/food-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-tag/food-tag.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-tag/food-tag.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-tag/food-tag.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-tag/food-tag.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-assemblies/food-tag/food-tag.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/grocery/ingredient-type.interface.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/food.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/food.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/ingredient.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/ingredient.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/tag.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/tag.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/unit.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/unit.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ingredient-type.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ingredient-type.model.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -143,6 +180,7 @@
       <workItem from="1577367738248" duration="1551000" />
       <workItem from="1577372447746" duration="627000" />
       <workItem from="1577474488546" duration="743000" />
+      <workItem from="1577541017520" duration="1655000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>

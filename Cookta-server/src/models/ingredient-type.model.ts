@@ -20,7 +20,7 @@ export class IngredientType {
 
     public static async GetAllTypes(): Promise<IngredientType[]> {
         let collection = await MongoHelper.getCollection(this.CollectionName);
-        let documents = await collection.find({}).toArray();
+        let documents = await collection.find({arhived: {$not: true}}).toArray();
         let types: IngredientType[] = [];
         for (let doc of documents){
             types.push(this.FromDocument(doc));

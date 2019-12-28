@@ -1,4 +1,4 @@
-import {IngredientType} from '../models/grocery/ingredient-type.interface';
+import {IngredientType} from '../models/grocery/ingredient-type.model';
 import {Routes} from "../routes";
 import {ServerService} from "./server.service";
 import {Injectable} from "@angular/core";
@@ -46,4 +46,25 @@ export class UnitService {
 
   }
 
+  public async GetAvailableUnitsFor(CurrentType: IngredientType): Promise<Unit[]> {
+    let units = await this.Units;
+
+    units = units.filter((unit) => {
+      switch (unit.type) {
+        case 0:
+          return CurrentType.volumeEnabled;
+        case 1:
+          return CurrentType.CountEnabled;
+        case 2:
+          return CurrentType.massEnabled;
+      }
+    });
+
+    try{
+      units = units.concat(CurrentType.options.cunits);
+    }
+    finally {
+      return units;
+    }
+  }
 }

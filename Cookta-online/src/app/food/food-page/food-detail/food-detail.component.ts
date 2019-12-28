@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {Food} from "../../shared/models/grocery/food.model";
-import {FoodService} from "../../shared/services/food.service";
-import {IdentityService} from "../../shared/services/identity.service";
+import {Food} from "../../../shared/models/grocery/food.model";
+import {FoodService} from "../../../shared/services/food.service";
+import {IdentityService} from "../../../shared/services/identity.service";
 
 @Component({
   selector: 'app-food-detail',
@@ -11,7 +11,7 @@ import {IdentityService} from "../../shared/services/identity.service";
 })
 export class FoodDetailComponent implements OnInit {
 
-  public Food: Food;
+  public Food: Food = FoodService.Placeholder;
   constructor(
     private route: ActivatedRoute,
     private foodService: FoodService,

@@ -12,3 +12,11 @@
 .no-padding {
   padding: 0px;
 }
+
+.fillHeight {
+  height: 100%;
+}
+.fillWidth {
+  width: 100%;
+}
+

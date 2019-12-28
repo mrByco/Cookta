@@ -1,0 +1,10 @@
+<div class="md-form btn-group" dropdown #dropdown style="margin-bottom: 0; margin-top: 0">
+  <input mdbInput #input (focusin)="OnFocus()" (focusout)="UnFocus()" (input)="TextInput()" type="text" id="form2" class="form-control form-control" style="color: white" [(ngModel)]="CurrentText" >
+  <label for="form2"style="color: white">Hozzávaló</label>
+
+  <div class="dropdown-menu dropdown-primary" style="margin-top: 15px">
+    <a *ngFor="let item of this.Suggestions" class="dropdown-item" [text]="item.displayName()" (click)="SelectItem(item)" ></a>
+  </div>
+
+</div>
+

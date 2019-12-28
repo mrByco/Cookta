@@ -1,0 +1,80 @@
+<div class="container-fluid no-padding" style="padding: 0px;">
+  <div class="row">
+    <div class="col-2">
+      <ng-adsense >
+      </ng-adsense>
+    </div>
+    <div class="col-6" style="padding: 50px">
+      <div class="row">
+        <div class="col">
+          <img [src]="SourceFood ? SourceFood.ImageUrl : ''" class="fillCol">
+        </div>
+        <div>
+          <ul class="list-group list-group-vertical" style="background-color: transparent; margin-left: fill; width: 100%">
+            <li class="list-group-item-2">
+              <button mdbBtn type="button" color="mdb-color" class="fillCol" (click)="Subscribe()">Képcsere</button>
+            </li>
+            <li class="list-group-item-2">
+              <button mdbBtn type="button" color="mdb-color" class="fillCol">Kép törlése</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+
+      </div>
+
+      <div class="md-form form-lg">
+        <input mdbInput type="text" id="form1" class="form-control form-control-lg" [(ngModel)]="CurrentFood.name" style="color: white; font-size: 30px">
+        <label for="form1" style="color: white">Recept neve</label>
+      </div>
+
+
+      <div class="md-form">
+        <textarea type="text" id="form7" class="md-textarea md-textarea-auto form-control text-justify" [(ngModel)]="CurrentFood.desc" mdbInput style="color: white; font-size: 20px"></textarea>
+        <label for="form7" style="color: white">Leírás</label>
+      </div>
+
+    </div>
+    <div class="col-4" style="padding-top: 5%">
+      <h2 class="ingredients-title">Hozzávalók</h2>
+
+      <app-food-ingredient class="ingredients-desc" *ngFor="let ingredient of SourceFood ? SourceFood.ingredients : []"
+                           [ingredient]="ingredient"
+                           [edit]="true"
+      ></app-food-ingredient>
+
+      <hr style="height: 20px">
+
+      <app-ingredient-adder style="margin: 0; padding: 0"></app-ingredient-adder>
+
+      <div style="height: 40px"></div>
+
+      <div>
+        <h3>Tagek</h3>
+        <div class="masonry-with-columns-2">
+          <app-food-tag *ngFor="let tag of SourceFood.tags.concat(SourceFood.autoTags)" [TagId]="tag.guid"></app-food-tag>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="height: 100px"></div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small red darken-3 fixed-bottom">
+
+  <div class="row">
+    <div class="col"></div>
+    <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect style="margin: 0px 15px;">Törlés</button>
+    <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect style="margin: 0px 15px;">Elvetés</button>
+    <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect style="margin: 0px 15px;">Mentés</button>
+  </div>
+
+</footer>
+

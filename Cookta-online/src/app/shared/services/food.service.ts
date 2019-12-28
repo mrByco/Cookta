@@ -7,6 +7,7 @@ import {Food} from "../models/grocery/food.model";
 
 @Injectable()
 export class FoodService {
+  public static Placeholder: Food = new Food("", '', '', true, false, [], 0, 0, 0, 0, 0, null, null, [], []);
 
   constructor(
     private serverService: ServerService,

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Food} from "../../shared/models/grocery/food.model";
+import {Food} from "../../../shared/models/grocery/food.model";
 import {Router} from "@angular/router";
-import {IdentityService} from "../../shared/services/identity.service";
+import {IdentityService} from "../../../shared/services/identity.service";
 
 @Component({
   selector: 'app-food-item',
