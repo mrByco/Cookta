@@ -8,6 +8,7 @@ export class IdentityService {
   constructor(private serverService: ServerService,
               private authService: AuthService) {
     authService.OnUserChanged.subscribe(user => this.OnUserChanged.emit(user));
+    authService.OnUserChanged.subscribe(user => this.LastKnownUserInfo = user);
   }
 
   public get LoggedIn(): boolean {
@@ -22,6 +23,8 @@ export class IdentityService {
 
   public OnLoginRequired = new EventEmitter();
 
+  public LastKnownUserInfo: any;
+
   public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
 
   public PleaseLogin() {
@@ -35,7 +38,6 @@ export class IdentityService {
         await this.Login();
       }
       let user = await this.authService.getUser$().toPromise();
-      console.log(user);
       return "";
     })
   }

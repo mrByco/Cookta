@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Food} from "../../../shared/models/grocery/food.model";
 import {FoodService} from "../../../shared/services/food.service";
 import {IdentityService} from "../../../shared/services/identity.service";
@@ -15,7 +15,8 @@ export class FoodDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private foodService: FoodService,
-    private identityService: IdentityService) { }
+    private identityService: IdentityService,
+    private router: Router) { }
 
 
   async ngOnInit() {
@@ -30,5 +31,9 @@ export class FoodDetailComponent implements OnInit {
       return;
     }
     //Subscribe
+  }
+
+  GoEdit() {
+    this.router.navigate(["foods", this.Food.foodId, "edit"]);
   }
 }

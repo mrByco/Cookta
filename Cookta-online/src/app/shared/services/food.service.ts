@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ServerService} from "./server.service";
 import {Routes} from "../routes";
 import {Food} from "../models/grocery/food.model";
+import {IFoodUpdateRequest} from "../contracts/food-update-request.interface";
 
 @Injectable()
 export class FoodService {
@@ -47,6 +48,27 @@ export class FoodService {
   }
   public async GetFood(id: string): Promise<Food> {
     let response = await this.serverService.GetRequest(Routes.Food.GetFoodId.replace('{id}', id));
+    return new Promise((resolve) => {
+      response.subscribe(data => {
+        resolve(Food.FromJson(data));
+      }, error => {
+        return null;
+      });
+    });
+  }
+
+  public async UpdateFood(food: Food): Promise<Food> {
+    let body: IFoodUpdateRequest = {
+      desc: food.desc,
+      foodId: food.foodId,
+      ingredients: food.ingredients,
+      isPrivate: food.isPrivate,
+      dose: food.dose,
+      name: food.name,
+      published: food.published,
+      tags: food.tags.map(value => value.guid),
+    }
+    let response = await this.serverService.PostRequest(Routes.Food.PostFood, body);
     return new Promise((resolve) => {
       response.subscribe(data => {
         resolve(Food.FromJson(data));

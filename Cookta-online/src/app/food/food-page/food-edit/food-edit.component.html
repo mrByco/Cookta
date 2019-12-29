@@ -73,9 +73,9 @@
 
   <div class="row">
     <div class="col"></div>
-    <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect style="margin: 0 15px;">Törlés</button>
-    <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect style="margin: 0 15px;">Elvetés</button>
-    <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect style="margin: 0px 15px;">Mentés</button>
+    <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect (click)="DeleteFood()" style="margin: 0 15px;">Törlés</button>
+    <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect (click)="CancelEdit()" style="margin: 0 15px;">Elvetés</button>
+    <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect (click)="SaveFood()" style="margin: 0px 15px;">Mentés</button>
   </div>
 
 </footer>

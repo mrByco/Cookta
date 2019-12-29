@@ -4,7 +4,7 @@ import {Tag} from "./tag.model";
 export class Food {
 
   public get ImageUrl(): string{
-    if (!this.imageUploaded) { return null; }
+    if (!this.imageUploaded) { return 'https://kuktaimages.blob.core.windows.net/application/dish.png'; }
     return `https://kuktaimages.blob.core.windows.net/foodimages/${this.id}.jpg`;
   }
 

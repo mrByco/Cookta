@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FoodService} from "../../../shared/services/food.service";
 import {IdentityService} from "../../../shared/services/identity.service";
 import {Food} from "../../../shared/models/grocery/food.model";
@@ -22,12 +22,17 @@ export class FoodEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private foodService: FoodService,
-    private identityService: IdentityService) { }
+    private identityService: IdentityService,
+    private router: Router) { }
 
 
   async ngOnInit() {
     let Id = this.route.snapshot.params['id'];
-    this.SourceFood = await this.foodService.GetFood(Id);
+    if (Id == "new"){
+      this.SourceFood = new Food(undefined, "", "", true, false, [], undefined, undefined, undefined, undefined, undefined, undefined, undefined, [], []);
+    }else{
+      this.SourceFood = await this.foodService.GetFood(Id);
+    }
     this.CurrentFood = new Food(
       this.SourceFood.owner,
       this.SourceFood.name,
@@ -69,6 +74,18 @@ export class FoodEditComponent implements OnInit {
   }
   AddTag(tag: Tag) {
     this.CurrentFood.tags.push(tag);
+  }
+
+
+  public async SaveFood() {
+    let food = await this.foodService.UpdateFood(this.CurrentFood);
+    await this.router.navigate(['/foods', food.foodId]);
+  }
+  public CancelEdit() {
+
+  }
+  public DeleteFood() {
+
   }
 
 }
