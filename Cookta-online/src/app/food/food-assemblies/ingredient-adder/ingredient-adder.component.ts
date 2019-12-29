@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IngredientService} from "../../../shared/services/ingredient.service";
 import {UnitService} from "../../../shared/services/unit.service";
 import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
@@ -14,7 +14,8 @@ import {IDisplayable} from "../../../utilities/displayable";
 })
 export class IngredientAdderComponent implements OnInit {
 
-  @Input('IngredientAdded') AddIngredient: (IIngredient) => void;
+  @Output('OnIngredientAdded') IngredientAdded: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
+
 
   @ViewChild("TypeSelector", {static: true}) TypeSelector: AutoCompleteComponent;
 
@@ -67,7 +68,7 @@ export class IngredientAdderComponent implements OnInit {
   ngOnInit() {
   }
 
-  OnTypeSelected(item: IDisplayable) {
+  private OnTypeSelected(item: IDisplayable) {
     // if (!this.TypeSelector){
     //   return;
     // }
@@ -75,7 +76,15 @@ export class IngredientAdderComponent implements OnInit {
     this.RefreshAvailableUnits();
   }
 
-  OnUnitSelected(unit: Unit) {
+  private OnUnitSelected(unit: Unit) {
     this.CurrentUnit = unit;
+  }
+
+  private AddIngredient() {
+    this.IngredientAdded.emit({ingredientID: this.CurrentType.guid, value: this.CurrentValue, unit: this.m_CurrentUnit.id});
+    this.CurrentUnit = null;
+    this.CurrentValue = null;
+    this.CurrentType = null;
+    this.TypeSelector.CurrentText = "";
   }
 }

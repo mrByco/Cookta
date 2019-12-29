@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ITag} from "../../../shared/models/grocery/tag.interface";
+import {Tag} from "../../../shared/models/grocery/tag.model";
 import {TagService} from "../../../shared/services/tag.service";
 
 @Component({
@@ -11,7 +11,7 @@ export class FoodTagComponent implements OnInit {
 
   @Input() public TagId: string;
 
-  public Tag: ITag = {isChildOnly: null, guid: null, name: "Betöltés alatt", parentId: null};
+  public Tag: Tag = new Tag(null, "Betöltés alatt", null, null);
 
   constructor(public tagService: TagService) { }
 

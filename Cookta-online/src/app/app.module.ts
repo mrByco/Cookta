@@ -27,6 +27,7 @@ import { FoodEditComponent } from './food/food-page/food-edit/food-edit.componen
 import {FormsModule} from "@angular/forms";
 import { IngredientAdderComponent } from './food/food-assemblies/ingredient-adder/ingredient-adder.component';
 import { AutoCompleteComponent } from './utilities/auto-complete/auto-complete.component';
+import { TagAdderComponent } from './food/food-assemblies/tag-adder/tag-adder.component';
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
     FoodTagComponent,
     FoodEditComponent,
     IngredientAdderComponent,
-    AutoCompleteComponent
+    AutoCompleteComponent,
+    TagAdderComponent
   ],
   imports: [
     BrowserModule,

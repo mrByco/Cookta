@@ -1,5 +1,5 @@
 import { IIngredient } from './ingredient.interface';
-import {ITag} from "./tag.interface";
+import {Tag} from "./tag.model";
 
 export class Food {
 
@@ -22,8 +22,8 @@ export class Food {
     public subscriptions: number,
     public id: string,
     public foodId: string,
-    public tags: ITag[],
-    public autoTags: ITag[],
+    public tags: Tag[],
+    public autoTags: Tag[],
   ) {}
 
 

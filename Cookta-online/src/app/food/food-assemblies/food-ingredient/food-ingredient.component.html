@@ -4,6 +4,6 @@
     <p class="ingredients-desc"> - {{displayIngredient.ValueName}} {{displayIngredient.UnitName}} {{displayIngredient.TypeName}}</p>
   </div>
   <div *ngIf="this.edit">
-    <a (click)="CallOnDeletedSafe()"><img src="assets/ingredient-remove-icon.png" class="mini-round-icon" alt=""></a>
+    <a (click)="DeleteThis()"><img src="assets/ingredient-remove-icon.png" class="mini-round-icon" alt=""></a>
   </div>
 </div>

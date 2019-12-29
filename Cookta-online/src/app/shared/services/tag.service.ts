@@ -5,12 +5,12 @@ import {ServerService} from "./server.service";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {delay} from "rxjs/operators";
-import {ITag} from "../models/grocery/tag.interface";
+import {Tag} from "../models/grocery/tag.model";
 
 @Injectable()
 export class TagService {
 
-  public Tags: Promise<ITag[]>;
+  public Tags: Promise<Tag[]>;
 
   constructor(
     private serverService: ServerService,
@@ -19,16 +19,16 @@ export class TagService {
     this.Tags = this.LoadTags();
   }
 
-  public async LoadTags(): Promise<ITag[]>{
+  public async LoadTags(): Promise<Tag[]>{
 
     return new Promise(async resolve => {
 
       let response = await this.http.get(this.serverService.GetBase() + Routes.Tag.GetAll);
 
-      let tags: ITag[] = [];
+      let tags: Tag[] = [];
       response.subscribe(data => {
         for (const d of (data as any)){
-          tags.push(d);
+          tags.push(Tag.FromJson(d));
         }
         resolve(tags);
       }, error => {
@@ -37,7 +37,7 @@ export class TagService {
     });
   }
 
-  public async GetTag(id: string): Promise<ITag>{
+  public async GetTag(id: string): Promise<Tag>{
     let tags = await this.Tags;
 
     return tags.find(tag => tag.guid == id);

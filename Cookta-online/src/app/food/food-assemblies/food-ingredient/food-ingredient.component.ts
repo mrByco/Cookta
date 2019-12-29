@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
 import {IngredientService} from "../../../shared/services/ingredient.service";
 import {IngredientType} from "../../../shared/models/grocery/ingredient-type.model";
@@ -39,7 +39,7 @@ export class FoodIngredientComponent implements OnInit {
 
   @Input('ingredient') private ingredient: IIngredient;
   @Input('edit') private edit: boolean = false;
-  @Input('OnDeleted') private OnDeleted: (ingredient: IIngredient) => void;
+  @Output('OnDeleted')  OnDeleted: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
 
   private displayIngredient: DisplayIngredient;
 
@@ -52,9 +52,7 @@ export class FoodIngredientComponent implements OnInit {
     this.displayIngredient = new DisplayIngredient(this.ingredient, this.ingredientService, this.unitService);
   }
 
-  CallOnDeletedSafe() {
-    if (this.OnDeleted) {
-      this.OnDeleted(this.ingredient)
-    };
+  DeleteThis() {
+     this.OnDeleted.emit(this.ingredient);
   }
 }

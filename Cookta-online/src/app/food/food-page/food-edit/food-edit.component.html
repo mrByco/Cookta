@@ -45,11 +45,12 @@
       <app-food-ingredient class="ingredients-desc" *ngFor="let ingredient of SourceFood ? SourceFood.ingredients : []"
                            [ingredient]="ingredient"
                            [edit]="true"
+                           (OnDeleted)="DeleteIngredient($event)"
       ></app-food-ingredient>
 
       <hr style="height: 20px">
 
-      <app-ingredient-adder style="margin: 0; padding: 0"></app-ingredient-adder>
+      <app-ingredient-adder style="margin: 0; padding: 0" (OnIngredientAdded)="AddIngredient($event)"></app-ingredient-adder>
 
       <div style="height: 40px"></div>
 
@@ -58,6 +59,7 @@
         <div class="masonry-with-columns-2">
           <app-food-tag *ngFor="let tag of SourceFood.tags.concat(SourceFood.autoTags)" [TagId]="tag.guid"></app-food-tag>
         </div>
+        <app-tag-adder></app-tag-adder>
       </div>
 
     </div>
@@ -71,8 +73,8 @@
 
   <div class="row">
     <div class="col"></div>
-    <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect style="margin: 0px 15px;">Törlés</button>
-    <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect style="margin: 0px 15px;">Elvetés</button>
+    <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect style="margin: 0 15px;">Törlés</button>
+    <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect style="margin: 0 15px;">Elvetés</button>
     <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect style="margin: 0px 15px;">Mentés</button>
   </div>
 

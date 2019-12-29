@@ -1,6 +1,6 @@
 <div class="row dropdown open norounding" style="margin-left: -15px" >
   <div class="col-4 norounding">
-    <app-auto-complete #TypeSelector [SuggestionPool]="ingredientService.IngredientTypes" (OnItemChosen)="OnTypeSelected($event)"></app-auto-complete>
+    <app-auto-complete #TypeSelector [SuggestionPool]="ingredientService.IngredientTypes" PlaceholderText="Hozzávaló" (OnItemChosen)="OnTypeSelected($event)"></app-auto-complete>
   </div>
   <div class="col-3 fillHeight">
     <div class="md-form norounding" >
@@ -19,14 +19,8 @@
         <a class="dropdown-item" *ngFor="let unit of AvailableUnits" (click)="OnUnitSelected(unit)">{{unit.name}}</a>
       </div>
     </div>
-
-
-<!--    <select #select class="browser-default custom-select" (select)="OnUnitSelected()" style="margin: 0">-->
-<!--      <option selected *ngIf="CurrentUnit == null">Mérték</option>-->
-<!--      <option *ngFor="let unit of AvailableUnits">{{unit.name}}</option>-->
-<!--    </select>-->
   </div>
   <div class="col-2 fillHeight norounding">
-    <a><img src="assets/ingredient-add-icon.png" class="mini-round-icon" [ngClass]="{'mini-round-icon-disabled': !Done}"></a>
+    <a><img src="assets/ingredient-add-icon.png" class="mini-round-icon" (click)="AddIngredient()" [ngClass]="{'mini-round-icon-disabled': !Done}"></a>
   </div>
 </div>

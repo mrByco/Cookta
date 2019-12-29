@@ -4,6 +4,7 @@ import {FoodService} from "../../../shared/services/food.service";
 import {IdentityService} from "../../../shared/services/identity.service";
 import {Food} from "../../../shared/models/grocery/food.model";
 import {IngredientAdderComponent} from "../../food-assemblies/ingredient-adder/ingredient-adder.component";
+import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
 
 @Component({
   selector: 'app-food-edit',
@@ -54,4 +55,11 @@ export class FoodEditComponent implements OnInit {
   }
 
 
+  AddIngredient(ingredient: IIngredient) {
+    this.CurrentFood.ingredients.push(ingredient);
+  }
+
+  DeleteIngredient(ingredient: IIngredient) {
+    this.CurrentFood.ingredients.splice(this.CurrentFood.ingredients.findIndex(i => i == ingredient), 1);
+  }
 }
