@@ -1,0 +1,14 @@
+
+
+.vertical-list {
+  display: block;
+  list-style-type: none;
+  padding-inline-start: 0px;
+
+}
+
+.element {
+  display: compact;
+  float: left;
+  vertical-align: center;
+}

@@ -4,6 +4,8 @@ import {EFormState} from "../form-state.enum";
 import {BsDropdownDirective, MdbInputDirective} from "angular-bootstrap-md";
 import {delay} from "rxjs/operators";
 
+let numInstances = 0;
+
 @Component({
   selector: 'app-auto-complete',
   templateUrl: './auto-complete.component.html',
@@ -11,7 +13,13 @@ import {delay} from "rxjs/operators";
 })
 export class AutoCompleteComponent implements OnInit {
 
-  @Output('OnItemChosen') public ItemChoosen: EventEmitter<IDisplayable> = new EventEmitter<IDisplayable>();
+
+  public FormIdentity: string;
+
+
+  @Output('OnItemChosen') public ItemChosen: EventEmitter<IDisplayable> = new EventEmitter<IDisplayable>();
+  @Output('OnSelectedChanged') public SelectedChanged: EventEmitter<IDisplayable> = new EventEmitter<IDisplayable>();
+
 
   @Input() SuggestionPool: IDisplayable[] | Promise<IDisplayable[]> = [];
   @Input() MaxItemsToShow: number = 10;
@@ -22,14 +30,23 @@ export class AutoCompleteComponent implements OnInit {
 
   CurrentText: string;
 
-  public SelectedItem: IDisplayable;
+  public get SelectedItem(){
+    return this.m_SelectedItem;
+  }
+  public set SelectedItem(value: IDisplayable){
+    if (value != this.m_SelectedItem){
+      this.SelectedChanged.emit(value);
+    }
+    this.m_SelectedItem = value;
+  }
+  private m_SelectedItem: IDisplayable;
 
   public state: EFormState;
   public Suggestions: IDisplayable[];
 
   constructor()
   {
-
+    this.FormIdentity = "AutoCompleteComponent" + numInstances++;
   }
 
   ngOnInit() {
@@ -53,13 +70,14 @@ export class AutoCompleteComponent implements OnInit {
     this.Suggestions = filtered.slice(0, this.MaxItemsToShow);
     this.SelectedItem = filtered.find(item => item.displayName() == this.CurrentText);
     if (this.SelectedItem != null){
-      this.ItemChoosen.emit(this.SelectedItem);
+      this.ItemChosen.emit(this.SelectedItem);
     }
   }
 
   public SelectItem(item: IDisplayable){
     this.CurrentText = item.displayName();
-    this.ItemChoosen.emit(item);
+    this.SelectedItem = item;
+    this.ItemChosen.emit(item);
   }
 
 }

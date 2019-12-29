@@ -17,7 +17,7 @@ export class Tag implements IDisplayable {
       d['guid'],
       d['name'],
       d['parentId'],
-      d['isChildOnly']
+      d['ischildonly']
     );
     tag.displayName = () => {return tag.name};
     return tag;

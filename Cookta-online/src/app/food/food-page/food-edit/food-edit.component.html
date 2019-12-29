@@ -57,9 +57,9 @@
       <div>
         <h3>Tagek</h3>
         <div class="masonry-with-columns-2">
-          <app-food-tag *ngFor="let tag of SourceFood.tags.concat(SourceFood.autoTags)" [TagId]="tag.guid"></app-food-tag>
+          <app-food-tag *ngFor="let tag of SourceFood.tags" EditMode="true" (OnTagRemoveClick)="DeleteTag($event)" [TagId]="tag.guid"></app-food-tag>
         </div>
-        <app-tag-adder></app-tag-adder>
+        <app-tag-adder (OnTagAdded)="AddTag($event)"></app-tag-adder>
       </div>
 
     </div>

@@ -20,6 +20,7 @@
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/tag.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/tag.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/auto-complete/auto-complete.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/utilities/auto-complete/auto-complete.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/tag.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/tag.model.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -148,7 +149,7 @@
       <workItem from="1577372447746" duration="627000" />
       <workItem from="1577474488546" duration="743000" />
       <workItem from="1577541017520" duration="1657000" />
-      <workItem from="1577602577157" duration="1247000" />
+      <workItem from="1577602577157" duration="2448000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>

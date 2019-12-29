@@ -92,7 +92,7 @@ export class Tag {
         );
     }
 
-    //It have to operate with the m_cached variable because the cached getter can call it;
+    //It has to operate with the m_cached variable because the cached getter can call it;
     private static async RefreshChildStatus(){
         let childIds: string[] = [];
         this.m_cache.forEach(t => childIds.push(t.guid));
