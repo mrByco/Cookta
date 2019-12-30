@@ -40,7 +40,7 @@ export class FoodService {
         for (const d of (data as any)){
           foods.push(Food.FromJson(d));
         }
-        resolve(foods);
+        resolve(foods.reverse());
       }, error => {
         resolve([]);
       });
@@ -53,6 +53,16 @@ export class FoodService {
         resolve(Food.FromJson(data));
       }, error => {
         return null;
+      });
+    });
+  }
+  public async DeleteFood(id: string): Promise<void> {
+    let response = await this.serverService.DeleteRequest(Routes.Food.DeleteFoodId.replace('{id}', id))
+    return new Promise((resolve) => {
+      response.subscribe(data => {
+        resolve();
+      }, error => {
+        resolve();
       });
     });
   }

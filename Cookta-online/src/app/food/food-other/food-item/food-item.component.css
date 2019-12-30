@@ -27,3 +27,17 @@ h3 {
 .inner_remaining {
   flex-grow : 1;
 }
+
+.more-options-icon {
+  height: 30px;
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  transition: height 0.2s, right 0.2s, top 0.2s;
+}
+.more-options-icon:hover {
+  height: 36px;
+  right: 7px;
+  top: 7px;
+}
+

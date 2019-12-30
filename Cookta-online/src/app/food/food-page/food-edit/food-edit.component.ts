@@ -84,8 +84,9 @@ export class FoodEditComponent implements OnInit {
   public CancelEdit() {
 
   }
-  public DeleteFood() {
-
+  public async DeleteFood() {
+    await this.foodService.DeleteFood(this.CurrentFood.foodId);
+    await this.router.navigate(['/foods', this.CurrentFood.foodId]);
   }
 
 }

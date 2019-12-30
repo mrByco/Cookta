@@ -36,4 +36,18 @@ export class ServerService {
       return this.http.post(this.GetBase() + route, body, options)
     }
   }
+
+  public async DeleteRequest(route: string): Promise<any> {
+    let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
+    if (!loggedIn){
+      return this.http.delete(this.GetBase() + route);
+    }else{
+      let token = await this.authService.getTokenSilently$().toPromise();
+      let options = {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`})
+      };
+      return this.http.delete(this.GetBase() + route, options)
+    }
+  }
 }
