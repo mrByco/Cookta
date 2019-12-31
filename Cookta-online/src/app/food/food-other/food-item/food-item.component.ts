@@ -12,7 +12,10 @@ export class FoodItemComponent implements OnInit {
 
   @Input() Food: Food;
 
-  constructor(private router: Router) {
+
+
+  constructor(private router: Router,
+              private identityService: IdentityService) {
   }
 
   ngOnInit() {

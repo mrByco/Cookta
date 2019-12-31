@@ -8,24 +8,24 @@
 
     <!-- Links -->
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods">Böngészés<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods/collection">Gyűjtemény</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <a class="nav-link waves-light" mdbWavesEffect>Naptár</a>
       </li>
 
       <!-- Dropdown -->
-      <li class="nav-item dropdown" dropdown>
+      <li class="nav-item dropdown" dropdown routerLinkActive="active">
         <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-          Basic dropdown<span class="caret"></span></a>
+          Admin felületek<span class="caret"></span></a>
         <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Action</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Another action</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Something else here</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/ingredient-editor">Hozzávaló szerkesztő</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Tag szerkesztő</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Étel érvényesítő</a>
           <div class="divider dropdown-divider"></div>
           <a class="dropdown-item waves-light" mdbWavesEffect href="#">Separated link</a>
         </div>

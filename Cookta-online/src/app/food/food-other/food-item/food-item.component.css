@@ -11,6 +11,13 @@ h3 {
 .highlight:hover {
   padding: 0px;
 }
+.highlightBackground {
+  background-color: inherit;
+  transition: background-color 0.3s;
+}
+.highlightBackground:hover {
+  background-color: #9B1B30;
+}
 
 .outer {
   display: flex;
@@ -28,16 +35,21 @@ h3 {
   flex-grow : 1;
 }
 
-.more-options-icon {
-  height: 30px;
+.more-options-icon-frame {
   right: 10px;
   top: 10px;
   position: absolute;
   transition: height 0.2s, right 0.2s, top 0.2s;
 }
-.more-options-icon:hover {
-  height: 36px;
+.more-options-icon-frame img{
+  height: 30px;
+  transition: height 0.2s, right 0.2s, top 0.2s;
+}
+.more-options-icon-frame:hover {
   right: 7px;
   top: 7px;
+}
+.more-options-icon-frame img:hover{
+  height: 36px;
 }
 

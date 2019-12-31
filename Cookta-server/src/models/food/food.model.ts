@@ -64,13 +64,10 @@ export class Food {
     }
 
     public static async GetFoodForUser(foodId: string, user: User): Promise<Food> {
-
-
         let food = await this.GetFood(foodId);
 
         if (food == null)
             return null;
-
 
         if (user != undefined && user.sub == food.owner || food.isPrivate == false) {
             return food;
@@ -79,7 +76,6 @@ export class Food {
         }
     }
 
-
     public static async GetFood(foodId?: string, versionId?: string){
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let doc = versionId ?
@@ -87,7 +83,6 @@ export class Food {
             await collection.findOne({foodId: foodId});//5d42ecf37175860034c36b1c
         return doc ? this.FromDocument(doc) : null;
     }
-
 
     public static async UpdateFood(request: IUpdateFoodRequest, modifier: User): Promise<Food> {
         let existing: Food;

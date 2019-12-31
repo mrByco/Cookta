@@ -28,10 +28,12 @@ import {FormsModule} from "@angular/forms";
 import { IngredientAdderComponent } from './food/food-assemblies/ingredient-adder/ingredient-adder.component';
 import { AutoCompleteComponent } from './utilities/auto-complete/auto-complete.component';
 import { TagAdderComponent } from './food/food-assemblies/tag-adder/tag-adder.component';
+import { IngredientEditorComponent } from './admin-components/ingredient-editor/ingredient-editor.component';
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
   { path: 'foods', component: FoodListComponent },
+  { path: 'ingredient-editor', component: IngredientEditorComponent },
   { path: 'foods/collection', component: FoodCollectionListComponent},
   { path: 'foods/:id', component: FoodDetailComponent },
   { path: 'foods/:id/edit', component: FoodEditComponent }
@@ -53,7 +55,8 @@ const appRoutes: Routes = [
     FoodEditComponent,
     IngredientAdderComponent,
     AutoCompleteComponent,
-    TagAdderComponent
+    TagAdderComponent,
+    IngredientEditorComponent
   ],
   imports: [
     BrowserModule,
