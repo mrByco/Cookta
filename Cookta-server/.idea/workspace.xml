@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-item/food-item.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-detail/food-detail.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-page/food-detail/food-detail.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/navigation-bar/navigation-bar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/navigation-bar/navigation-bar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/food/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food.model.ts" afterDir="false" />
-    </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,18 +50,6 @@
       <recent name="D:\Development\Repos\Cookta\Cookta-server\src\models\food" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="npm.start">
     <configuration default="true" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -86,6 +65,18 @@
       <item itemvalue="npm.start" />
       <item itemvalue="npm.start-backup" />
     </list>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -142,6 +133,7 @@
       <workItem from="1577707755864" duration="1360000" />
       <workItem from="1577735310698" duration="1350000" />
       <workItem from="1577767475158" duration="493000" />
+      <workItem from="1578073714841" duration="187000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>

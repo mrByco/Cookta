@@ -8,7 +8,7 @@ import { FoodItemComponent } from './food/food-other/food-item/food-item.compone
 import { FoodDetailComponent } from './food/food-page/food-detail/food-detail.component';
 import { FoodListComponent } from './food/food-other/food-list/food-list.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {IdentityService} from "./shared/services/identity.service";
 import {FoodService} from "./shared/services/food.service";
 import {ServerService} from "./shared/services/server.service";
@@ -17,7 +17,6 @@ import {IngredientService} from "./shared/services/ingredient.service";
 import { FoodIngredientComponent } from './food/food-assemblies/food-ingredient/food-ingredient.component';
 import {UnitService} from "./shared/services/unit.service";
 import {AuthService} from "./shared/services/auth.service";
-import {InterceptorService} from "./shared/services/interceptor.service";
 import {AdsenseModule} from "ng2-adsense";
 import { FoodCollectionListComponent } from './food/food-other/food-collection-list/food-collection-list.component';
 import { LoginModalComponent } from './identity/login-modal/login-modal.component';
@@ -29,6 +28,12 @@ import { IngredientAdderComponent } from './food/food-assemblies/ingredient-adde
 import { AutoCompleteComponent } from './utilities/auto-complete/auto-complete.component';
 import { TagAdderComponent } from './food/food-assemblies/tag-adder/tag-adder.component';
 import { IngredientEditorComponent } from './admin-components/ingredient-editor/ingredient-editor.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import { IngredientItemPopupComponent } from './admin-components/ingredient-editor/ingredient-item-popup/ingredient-item-popup.component';
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -56,7 +61,8 @@ const appRoutes: Routes = [
     IngredientAdderComponent,
     AutoCompleteComponent,
     TagAdderComponent,
-    IngredientEditorComponent
+    IngredientEditorComponent,
+    IngredientItemPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +74,11 @@ const appRoutes: Routes = [
       adSlot: 1393101782,
     }),
     FormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService],

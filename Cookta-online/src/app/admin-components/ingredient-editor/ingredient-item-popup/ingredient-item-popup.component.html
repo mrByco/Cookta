@@ -1,0 +1,28 @@
+<div mdbModal #basicModal class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true"
+[config]="{ignoreBackdropClick: true}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" >{{currentType.guid}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="md-form">
+          <input mdbInput type="text" [(ngModel)]="currentType.name" id="name" class="form-control">
+          <label for="name" class="">Név</label>
+        </div>
+        <div class="md-form">
+          <input mdbInput type="text" [ngModel]="currentType.category" id="category" class="form-control">
+          <label for="category" class="">Kategória</label>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
+        <button type="button" mdbBtn color="green" class="relative waves-light"  mdbWavesEffect>Mentés</button>
+      </div>
+    </div>
+  </div>
+</div>
