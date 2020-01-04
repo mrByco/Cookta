@@ -6,22 +6,58 @@
         <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
           <span aria-hidden="true">×</span>
         </button>
-        <h4 class="modal-title w-100" >{{currentType.guid}}</h4>
+        <h4 class="modal-title w-100" >{{CurrentGuid ? CurrentGuid : "Új, még nincs azonosító"}}</h4>
       </div>
       <div class="modal-body">
-        <div class="md-form">
-          <input mdbInput type="text" [(ngModel)]="currentType.name" id="name" class="form-control">
+        <div class="md-form" [ngClass]="{'is-invalid-fail-mdbInput': !IsValidIngredientName(CurrentName)}">
+          <input mdbInput type="text" [(ngModel)]="CurrentName" id="name" class="form-control">
           <label for="name" class="">Név</label>
         </div>
-        <div class="md-form">
-          <input mdbInput type="text" [ngModel]="currentType.category" id="category" class="form-control">
+
+        <div class="md-form" [ngClass]="{'is-invalid-fail-mdbInput': !IsValidIngredientCategory(CurrentCategory)}">
+          <input mdbInput type="text" [(ngModel)]="CurrentCategory" id="category" class="form-control">
           <label for="category" class="">Kategória</label>
+        </div>
+
+        <p class="start-paragraph">Alap mértékegység</p>
+        <select class="browser-default custom-select">
+          <option value="1">Térfogat (l)</option>
+          <option value="2">Szám (darab)</option>
+          <option value="3">Súly (g)</option>
+        </select>
+
+
+        <p class="start-paragraph">Egyéni mértékegységek</p>
+<!--        HEADER-->
+        <div class="container">
+          <div class="row">
+            <div class="col-4">Név</div>
+            <div class="col-4">Hány (g/db/l)</div>
+            <div class="col-4">
+              <button type="button" mdbBtn size="sm" color="green" (click)="PushNewUnit()">Új</button></div>
+          </div>
+        </div>
+<!--        TABLE-->
+        <div class="container">
+          <div class="row" *ngFor="let unit of CurrentCustomUnits">
+            <div class="col-5">
+              <input mdbInput type="text" [(ngModel)]="unit.name" id="unitName" class="form-control"
+                     [ngClass]="{'is-invalid-fail': !IsValidUnitName(unit.name)}">
+            </div>
+            <div class="col-3">
+              <input mdbInput type="number" [(ngModel)]="unit.tobase" id="toBase" class="form-control"
+                     [ngClass]="{'is-invalid-fail': !IsValidToBase(unit.tobase)}">
+            </div>
+            <div class="col-4">
+              <button type="button" mdbBtn size="sm" color="red" (click)="DeleteCustomUnit(unit)">Törlés</button>
+            </div>
+          </div>
         </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
-        <button type="button" mdbBtn color="green" class="relative waves-light"  mdbWavesEffect>Mentés</button>
+        <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
+        <button type="button" mdbBtn color="green" class="relative waves-light" [disabled]="!SaveEnabled" (click)="SaveCurrent()" mdbWavesEffect>Mentés</button>
       </div>
     </div>
   </div>

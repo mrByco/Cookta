@@ -369,6 +369,10 @@
 				"name": {
 					"type": "string"
 				},
+				"guid": {
+					"type": "string",
+					"x-nullable": true
+				},
 				"baseUnit": {
 					"type": "string"
 				},
@@ -1079,7 +1083,13 @@
 				"tags": [
 					"IngredientType"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": [
+							"edit-ingredients"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "body",
@@ -1112,7 +1122,13 @@
 				"tags": [
 					"IngredientType"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": [
+							"edit-delete"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",

@@ -1,0 +1,17 @@
+.start-paragraph {
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+
+  font-size: 14px;
+}
+
+.is-invalid-fail {
+  border-color: #f2001a;
+
+}
+
+
+.is-invalid-fail-mdbInput input {
+  border-bottom-color: #ff2400;
+  border-bottom-width: 2px;
+}

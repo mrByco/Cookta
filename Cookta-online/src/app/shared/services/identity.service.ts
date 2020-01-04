@@ -2,6 +2,7 @@ import {EventEmitter, Injectable} from "@angular/core";
 import {ServerService} from "./server.service";
 import {AuthService} from "./auth.service";
 import {augmentIndexHtml} from "@angular-devkit/build-angular/src/angular-cli-files/utilities/index-file/augment-index-html";
+import {Routes} from "../routes";
 
 @Injectable()
 export class IdentityService {
@@ -29,6 +30,17 @@ export class IdentityService {
 
   public PleaseLogin() {
     this.OnLoginRequired.emit();
+  }
+
+  public async HasPermission(permission: string): Promise<boolean> {
+    let response = await this.serverService.GetRequest(Routes.User.HasPermission.replace('{permission}', permission));
+    return new Promise<boolean>(async (resolve) => {
+      response.subscribe(data => {
+        resolve(JSON.parse(data));
+      }, error => {
+        resolve(false);
+      })
+    });
   }
 
 

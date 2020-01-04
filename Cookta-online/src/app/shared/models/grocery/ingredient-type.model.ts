@@ -1,6 +1,6 @@
 import {Unit} from "../unit.interface";
 import {IDisplayable} from "../../../utilities/displayable";
-import {IngredientAdderComponent} from "../../../food/food-assemblies/ingredient-adder/ingredient-adder.component";
+import {EUnitType} from "./unit-type.enum";
 
 export class IngredientType implements IDisplayable {
 
@@ -9,9 +9,7 @@ export class IngredientType implements IDisplayable {
     public category: string,
     public name: string,
     public baseUnit: string,
-    public volumeEnabled: boolean,
-    public CountEnabled: boolean,
-    public massEnabled: boolean,
+    public baseUnitType: EUnitType,
     public inshopping: string,
     public guid: string,
     public options: {
@@ -30,9 +28,7 @@ export class IngredientType implements IDisplayable {
       data['category'],
       data['name'],
       data['baseUnit'],
-      data['volumeEnabled'],
-      data['countEnabled'],
-      data['massEnabled'],
+      this.boolUnitTypeToEnum(data['volumeEnabled'], data['countEnabled'], data['massEnabled']),
       data['inshopping'],
       data['guid'],
       data['options']
@@ -41,6 +37,40 @@ export class IngredientType implements IDisplayable {
     return ingredientType;
   }
   public ToJson() {
-    return new Error("Not implemented")
+    console.log(this);
+    return {
+      category: this.category,
+      name: this.name,
+      baseUnit: this.baseUnit,
+      volumeEnabled: IngredientType.enumUnitTypeToBool(this.baseUnitType).volumeEnabled,
+      countEnabled: IngredientType.enumUnitTypeToBool(this.baseUnitType).countEnabled,
+      massEnabled: IngredientType.enumUnitTypeToBool(this.baseUnitType).massEnabled,
+      inshopping: this.inshopping,
+      guid: this.guid,
+      options: this.options
+    };
+  }
+  public static boolUnitTypeToEnum(volumeEnabled: boolean, countEnabled: boolean, massEnabled): EUnitType {
+    if (volumeEnabled)
+      return EUnitType.volume;
+    if (countEnabled)
+      return EUnitType.count;
+    if (massEnabled)
+      return EUnitType.mass;
+  }
+  public static enumUnitTypeToBool(type: EUnitType): {volumeEnabled: boolean, countEnabled: boolean, massEnabled} {
+    let base = {volumeEnabled: false, countEnabled: false, massEnabled: false};
+    switch (type) {
+      case EUnitType.count:
+        base.countEnabled = true;
+        break;
+      case EUnitType.mass:
+        base.massEnabled = true;
+        break;
+      case EUnitType.volume:
+        base.volumeEnabled = true;
+        break;
+    }
+    return base;
   }
 }

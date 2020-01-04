@@ -8,7 +8,7 @@ export class ServerService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   public GetBase(): string {
-    return "https://cooktaservices.azurewebsites.net";
+    return false ? "http://localhost:8080" : "https://cooktaservices.azurewebsites.net";
   }
   public async GetRequest(route: string): Promise<any> {
     let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();

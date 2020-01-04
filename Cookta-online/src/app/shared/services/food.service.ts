@@ -48,6 +48,7 @@ export class FoodService {
   }
   public async GetFood(id: string): Promise<Food> {
     let response = await this.serverService.GetRequest(Routes.Food.GetFoodId.replace('{id}', id));
+
     return new Promise((resolve) => {
       response.subscribe(data => {
         resolve(Food.FromJson(data));

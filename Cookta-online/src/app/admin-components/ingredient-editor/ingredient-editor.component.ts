@@ -6,13 +6,14 @@ import {MatSort} from "@angular/material/sort";
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {Guid} from "guid-typescript";
 import {IngredientItemPopupComponent} from "./ingredient-item-popup/ingredient-item-popup.component";
+import {EUnitType} from "../../shared/models/grocery/unit-type.enum";
 
 @Component({
   selector: 'app-ingredient-editor',
   templateUrl: './ingredient-editor.component.html',
   styleUrls: ['./ingredient-editor.component.css']
 })
-export class IngredientEditorComponent implements OnInit, AfterViewInit {
+export class IngredientEditorComponent implements OnInit {
 
   elements: MatTableDataSource<IngredientType> = new MatTableDataSource<IngredientType>();
 
@@ -24,8 +25,15 @@ export class IngredientEditorComponent implements OnInit, AfterViewInit {
   @ViewChild("table", {static: true}) table: MatTable<IngredientType>;
   @ViewChild(IngredientItemPopupComponent, {static: true}) popup: IngredientItemPopupComponent;
 
-  private Filter: string = "";
-  private CurrentIngredient: IngredientType = new IngredientType("", "", "", false, false, true,  "", Guid.create().toString(), {cunits: []});
+  private set Filter(value: string){
+    let filterValue = value;
+    this.elements.filter = filterValue.trim().toLowerCase();
+
+    if (this.elements.paginator) {
+      this.elements.paginator.firstPage();
+    }
+  }
+  private CurrentIngredient: IngredientType = new IngredientType("", "", "", EUnitType.volume, "", Guid.create().toString(), {cunits: []});
 
   constructor(private ingredientService: IngredientService) { }
 
@@ -34,27 +42,21 @@ export class IngredientEditorComponent implements OnInit, AfterViewInit {
     this.elements = new MatTableDataSource(ingredients);
     this.table.dataSource = this.elements;
 
+    this.ingredientService.OnIngredientsChanged.subscribe((i) => {
+      this.elements.data = i;
+    });
+
 
     this.elements.paginator = this.paginator;
     this.elements.sort = this.sort;
   }
-
-  ngAfterViewInit() {
-
-  }
-
-  applyFilter() {
-    let filterValue = this.Filter;
-    this.elements.filter = filterValue.trim().toLowerCase();
-
-
-    if (this.elements.paginator) {
-      this.elements.paginator.firstPage();
-    }
+  private NewIngredientType() {
+    this.OpenModalWith(new IngredientType("", "", "", EUnitType.volume, "", undefined, {cunits: []}))
   }
 
   OpenModalWith(row: IngredientType) {
     this.CurrentIngredient = row;
     this.popup.Open();
   }
+
 }

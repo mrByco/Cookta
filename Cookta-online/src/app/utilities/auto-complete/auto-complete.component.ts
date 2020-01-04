@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {IDisplayable} from "../displayable";
 import {EFormState} from "../form-state.enum";
 import {BsDropdownDirective, MdbInputDirective} from "angular-bootstrap-md";
-import {delay} from "rxjs/operators";
 
 let numInstances = 0;
 
@@ -21,9 +20,10 @@ export class AutoCompleteComponent implements OnInit {
   @Output('OnSelectedChanged') public SelectedChanged: EventEmitter<IDisplayable> = new EventEmitter<IDisplayable>();
 
 
-  @Input() SuggestionPool: IDisplayable[] | Promise<IDisplayable[]> = [];
+  @Input() SuggestionPool: IDisplayable[] | Promise<IDisplayable[]> | string[] = [];
   @Input() MaxItemsToShow: number = 10;
   @Input() PlaceholderText: string = "";
+  @Input() MustMatchToPool: boolean = true;
 
   @ViewChild('input', {static: true}) InputTextElement: MdbInputDirective;
   @ViewChild('dropdown', {static: true}) DropDown: BsDropdownDirective;
@@ -66,7 +66,12 @@ export class AutoCompleteComponent implements OnInit {
 
   async TextInput() {
 
-    let filtered = (await this.SuggestionPool).filter((sugg) => sugg.displayName().toLowerCase().includes(this.CurrentText.toLowerCase()));
+    let filtered = [];
+    if (this.isArrayOfStrings(this.SuggestionPool)){
+      filtered = (this.SuggestionPool as string[]).filter((sugg) => sugg.toLowerCase().includes(this.CurrentText.toLowerCase()));
+    }else{
+      filtered = (await (this.SuggestionPool as Promise<IDisplayable[]>)).filter((sugg) => sugg.displayName().toLowerCase().includes(this.CurrentText.toLowerCase()));
+    }
     this.Suggestions = filtered.slice(0, this.MaxItemsToShow);
     this.SelectedItem = filtered.find(item => item.displayName() == this.CurrentText);
     if (this.SelectedItem != null){
@@ -78,6 +83,10 @@ export class AutoCompleteComponent implements OnInit {
     this.CurrentText = item.displayName();
     this.SelectedItem = item;
     this.ItemChosen.emit(item);
+  }
+
+  private isArrayOfStrings(value: any): boolean {
+    return Array.isArray(value) && value.every(item => typeof item === "string");
   }
 
 }

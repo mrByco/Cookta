@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Post, Route, Tags} from "tsoa";
+import {Body, Controller, Delete, Get, Post, Route, Security, Tags} from "tsoa";
 import {IngredientType} from "../models/ingredient-type.model";
 import {ISetIngredientTypeRequest} from "../requests/set.ingredient-type.request";
 
@@ -13,17 +13,19 @@ export class IngredientTypeController extends Controller {
             this.setStatus(500);
         }
     }
+    @Security('Bearer', ['edit-ingredients'])
     @Post()
     public async SetIngredient(@Body() request: ISetIngredientTypeRequest): Promise<{all: IngredientType[], created: IngredientType}> {
+        let result = {all: undefined, created: undefined};
+        result.created = await IngredientType.SetIngredientType(request);
+        result.all = await this.GetAll();
+        return result;
         try{
-            let result = {all: undefined, created: undefined};
-            result.created = await IngredientType.SetIngredientType(request);
-            result.all = await this.GetAll();
-            return result;
         }catch{
             this.setStatus(500);
         }
     }
+    @Security('Bearer', ['delete-ingredients'])
     @Delete('/{guid}')
     public async DeleteIngredient(guid: string): Promise<IngredientType[]> {
         try{

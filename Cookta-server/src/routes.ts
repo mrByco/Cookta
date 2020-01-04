@@ -143,6 +143,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "category": { "dataType": "string", "required": true },
             "name": { "dataType": "string", "required": true },
+            "guid": { "dataType": "string" },
             "baseUnit": { "dataType": "string", "required": true },
             "volumeEnabled": { "dataType": "boolean", "required": true },
             "countEnabled": { "dataType": "boolean", "required": true },
@@ -495,6 +496,7 @@ export function RegisterRoutes(app: express.Express) {
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.post('/ingredientType',
+        authenticateMiddleware([{ "Bearer": ["edit-ingredients"] }]),
         function(request: any, response: any, next: any) {
             const args = {
                 request: { "in": "body", "name": "request", "required": true, "ref": "ISetIngredientTypeRequest" },
@@ -517,6 +519,7 @@ export function RegisterRoutes(app: express.Express) {
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.delete('/ingredientType/:guid',
+        authenticateMiddleware([{ "Bearer": ["edit-delete"] }]),
         function(request: any, response: any, next: any) {
             const args = {
                 guid: { "in": "path", "name": "guid", "required": true, "dataType": "string" },

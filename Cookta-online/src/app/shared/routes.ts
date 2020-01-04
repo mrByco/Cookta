@@ -8,18 +8,22 @@ export class Routes {
     GetFoodFrom: "/food/{from}/{count}",
     PostFoodImage: "/food/image/{foodVersionId}",
     DeleteFoodImage: "/food/image/{foodVersionId}"
-  }
+  };
   public static readonly IngredientType = {
     GetAll: "/ingredientType",
+    SaveIngredient: "/ingredientType"
+  };
 
-  }
   public static readonly Unit = {
     GetAll: "/unit",
-
   };
+
   public static readonly Tag = {
     GetAll: "/tag",
+  };
 
+
+  public static readonly User = {
+    HasPermission: "/user/permission/{permission}",
   }
-
 }

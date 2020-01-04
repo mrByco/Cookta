@@ -20,7 +20,7 @@ export class IngredientType {
 
     public static async GetAllTypes(): Promise<IngredientType[]> {
         let collection = await MongoHelper.getCollection(this.CollectionName);
-        let documents = await collection.find({arhived: {$not: true}}).toArray();
+        let documents = await collection.find({arhived: {$ne: true}}).toArray();
         let types: IngredientType[] = [];
         for (let doc of documents){
             types.push(this.FromDocument(doc));
@@ -30,7 +30,7 @@ export class IngredientType {
     public static async SetIngredientType(request: ISetIngredientTypeRequest): Promise<IngredientType>{
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let allExisting = await this.GetAllTypes();
-        let guid: Guid = undefined;
+        let guid: Guid = request.guid ? Guid.parse(request.guid) : undefined;
         while (!guid){
             guid = Guid.create();
             if (allExisting.find(e => e.guid == guid.toString()))

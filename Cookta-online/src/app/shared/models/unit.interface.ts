@@ -1,5 +1,7 @@
+import {EUnitType} from "./grocery/unit-type.enum";
+
 export interface Unit {
-  type: number,
+  type: EUnitType,
   name: string,
   shortname: string,
   tobase: number,

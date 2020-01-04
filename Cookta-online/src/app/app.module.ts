@@ -34,6 +34,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import { IngredientItemPopupComponent } from './admin-components/ingredient-editor/ingredient-item-popup/ingredient-item-popup.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -64,22 +65,23 @@ const appRoutes: Routes = [
     IngredientEditorComponent,
     IngredientItemPopupComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    MDBBootstrapModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
-    AdsenseModule.forRoot({
-      adClient: 'ca-pub-8068476996237937',
-      adSlot: 1393101782,
-    }),
-    FormsModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        MDBBootstrapModule.forRoot(),
+        RouterModule.forRoot(appRoutes),
+        AdsenseModule.forRoot({
+            adClient: 'ca-pub-8068476996237937',
+            adSlot: 1393101782,
+        }),
+        FormsModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatSortModule,
+        MatAutocompleteModule,
+    ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService],
   bootstrap: [AppComponent]

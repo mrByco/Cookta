@@ -4,6 +4,7 @@ import {ServerService} from "./server.service";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Unit} from "../models/unit.interface";
+import {EUnitType} from "../models/grocery/unit-type.enum";
 
 @Injectable()
 export class UnitService {
@@ -49,16 +50,7 @@ export class UnitService {
   public async GetAvailableUnitsFor(CurrentType: IngredientType): Promise<Unit[]> {
     let units = await this.Units;
 
-    units = units.filter((unit) => {
-      switch (unit.type) {
-        case 0:
-          return CurrentType.volumeEnabled;
-        case 1:
-          return CurrentType.CountEnabled;
-        case 2:
-          return CurrentType.massEnabled;
-      }
-    });
+    units = units.filter(unit => unit.type == CurrentType.baseUnitType);
 
     try{
       units = units.concat(CurrentType.options.cunits);
@@ -67,4 +59,16 @@ export class UnitService {
       return units;
     }
   }
+
+  public static IsValidUnitName(name: string): string | undefined{
+    if (name.length < 2)
+      return "Minimum 2 character"
+    if (name.length > 20)
+      return "Max 20 character"
+  }
+  public static IsValidToBase(toBase: number): string | undefined{
+    if (toBase <= 0)
+      return "Must larger than 0";
+  }
+
 }

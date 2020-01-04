@@ -19,11 +19,11 @@
       </li>
 
       <!-- Dropdown -->
-      <li class="nav-item dropdown" dropdown routerLinkActive="active">
+      <li class="nav-item dropdown" dropdown routerLinkActive="active" *ngIf="ShowIngredientEditor">
         <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
           Admin felületek<span class="caret"></span></a>
         <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/ingredient-editor">Hozzávaló szerkesztő</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/ingredient-editor" *ngIf="ShowIngredientEditor">Hozzávaló szerkesztő</a>
           <a class="dropdown-item waves-light" mdbWavesEffect href="#">Tag szerkesztő</a>
           <a class="dropdown-item waves-light" mdbWavesEffect href="#">Étel érvényesítő</a>
           <div class="divider dropdown-divider"></div>
