@@ -49,9 +49,20 @@ export class Food {
   }
   public ToJson()
   {
-    return new Error('NOT IMPLEMENTED');
+    return {
+      owner: this.owner,
+      name: this.name,
+      desc: this.desc,
+      isPrivate: this.isPrivate,
+      ingredients: this.ingredients,
+      imageUploaded: this.imageUploaded, //Because describes the last modification
+      dose: this.dose,
+      subscriptions: this.subscriptions,
+      id: this.id,
+      foodId: this.foodId,
+      tags: this.tags,
+      autoTags: this.autoTags
+
+    }
   }
-
-
-
 }

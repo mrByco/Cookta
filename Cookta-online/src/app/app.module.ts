@@ -35,6 +35,8 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import { IngredientItemPopupComponent } from './admin-components/ingredient-editor/ingredient-item-popup/ingredient-item-popup.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { GenericTwoButtonDialogComponent } from './utilities/generic-two-button-dialog/generic-two-button-dialog.component';
+import {CanDeactivateGuard} from "./guards/can-deactivate-guard";
 
 const appRoutes: Routes = [
   { path: '', component: FoodListComponent },
@@ -42,7 +44,7 @@ const appRoutes: Routes = [
   { path: 'ingredient-editor', component: IngredientEditorComponent },
   { path: 'foods/collection', component: FoodCollectionListComponent},
   { path: 'foods/:id', component: FoodDetailComponent },
-  { path: 'foods/:id/edit', component: FoodEditComponent }
+  { path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard] }
 
   ];
 
@@ -63,7 +65,8 @@ const appRoutes: Routes = [
     AutoCompleteComponent,
     TagAdderComponent,
     IngredientEditorComponent,
-    IngredientItemPopupComponent
+    IngredientItemPopupComponent,
+    GenericTwoButtonDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -83,7 +86,8 @@ const appRoutes: Routes = [
         MatAutocompleteModule,
     ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, CanDeactivateGuard],
+  entryComponents: [GenericTwoButtonDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

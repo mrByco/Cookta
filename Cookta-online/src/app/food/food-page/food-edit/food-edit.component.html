@@ -1,13 +1,11 @@
 <div class="container-fluid no-padding" style="padding: 0px;">
   <div class="row">
     <div class="col-2">
-      <ng-adsense >
-      </ng-adsense>
     </div>
     <div class="col-6" style="padding: 50px">
       <div class="row">
         <div class="col">
-          <img [src]="SourceFood ? SourceFood.ImageUrl : ''" class="fillCol">
+          <img [src]="CurrentFood ? CurrentFood.ImageUrl : ''" class="fillCol">
         </div>
         <div>
           <ul class="list-group list-group-vertical" style="background-color: transparent; margin-left: fill; width: 100%">
@@ -42,7 +40,7 @@
     <div class="col-4" style="padding-top: 5%">
       <h2 class="ingredients-title">Hozzávalók</h2>
 
-      <app-food-ingredient class="ingredients-desc" *ngFor="let ingredient of SourceFood ? SourceFood.ingredients : []"
+      <app-food-ingredient class="ingredients-desc" *ngFor="let ingredient of CurrentFood ? CurrentFood.ingredients : []"
                            [ingredient]="ingredient"
                            [edit]="true"
                            (OnDeleted)="DeleteIngredient($event)"
@@ -57,7 +55,7 @@
       <div>
         <h3>Tagek</h3>
         <div class="masonry-with-columns-2">
-          <app-food-tag *ngFor="let tag of SourceFood.tags" EditMode="true" (OnTagRemoveClick)="DeleteTag($event)" [TagId]="tag.guid"></app-food-tag>
+          <app-food-tag *ngFor="let tag of CurrentFood.tags" EditMode="true" (OnTagRemoveClick)="DeleteTag($event)" [TagId]="tag.guid"></app-food-tag>
         </div>
         <app-tag-adder (OnTagAdded)="AddTag($event)"></app-tag-adder>
       </div>
@@ -75,7 +73,7 @@
     <div class="col"></div>
     <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect (click)="DeleteFood()" style="margin: 0 15px;">Törlés</button>
     <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect (click)="CancelEdit()" style="margin: 0 15px;">Elvetés</button>
-    <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect (click)="SaveFood()" style="margin: 0px 15px;">Mentés</button>
+    <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect (click)="SaveFoodAndExit()" style="margin: 0px 15px;">Mentés</button>
   </div>
 
 </footer>
