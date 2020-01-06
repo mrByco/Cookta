@@ -1,0 +1,17 @@
+<input type="file" (change)="fileChangeEvent($event)" [hidden]="InputHidden" #fileInput/>
+
+<image-cropper [hidden]="!EditMode"
+               [imageChangedEvent]="ImageChangedEvent"
+               [maintainAspectRatio]="true"
+               [resizeToWidth]="1024"
+               format="png"
+               [outputType]="'both'"
+               (imageCropped)="imageCropped($event)"
+               (imageLoaded)="imageLoaded()"
+               (cropperReady)="cropperReady()"
+               (loadImageFailed)="loadImageFailed()"
+               style="width: 100%"
+></image-cropper>
+
+
+<img [src]="CroppedImage ? CroppedImageBase64: SourceUrl" [hidden]="EditMode" style="width: 100%"/>

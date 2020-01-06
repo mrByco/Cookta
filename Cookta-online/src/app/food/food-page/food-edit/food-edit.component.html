@@ -5,15 +5,29 @@
     <div class="col-6" style="padding: 50px">
       <div class="row">
         <div class="col">
-          <img [src]="CurrentFood ? CurrentFood.ImageUrl : ''" class="fillCol">
+          <app-food-image-upload class="fillCol" #uploadComponent [SourceUrl]="SourceFood.ImageUrl" [EditMode]="false"
+                                 InputHidden="true"></app-food-image-upload>
         </div>
         <div>
-          <ul class="list-group list-group-vertical" style="background-color: transparent; margin-left: fill; width: 100%">
+          <ul class="list-group list-group-vertical"
+              style="background-color: transparent; margin-left: fill; width: 100%">
             <li class="list-group-item-2">
-              <button mdbBtn type="button" color="mdb-color" class="fillCol" (click)="Subscribe()">Képcsere</button>
+              <button mdbBtn type="button" color="mdb-color" class="fillCol"
+                      (click)="uploadComponent.OpenInputDialog()">Képcsere
+              </button>
             </li>
             <li class="list-group-item-2">
               <button mdbBtn type="button" color="mdb-color" class="fillCol">Kép törlése</button>
+            </li>
+            <li class="list-group-item-2" [hidden]="!uploadComponent.EditMode || !uploadComponent.EditAvailable">
+              <button mdbBtn type="button" color="mdb-color" class="fillCol" (click)="uploadComponent.EditMode = false">
+                Kész
+              </button>
+            </li>
+            <li class="list-group-item-2" [hidden]="uploadComponent.EditMode || !uploadComponent.EditAvailable">
+              <button mdbBtn type="button" color="mdb-color" class="fillCol" (click)="uploadComponent.EditMode = true">
+                Szerkesztés
+              </button>
             </li>
           </ul>
         </div>
@@ -26,13 +40,15 @@
       </div>
 
       <div class="md-form form-lg">
-        <input mdbInput type="text" id="form1" class="form-control form-control-lg" [(ngModel)]="CurrentFood.name" style="color: white; font-size: 30px">
+        <input mdbInput type="text" id="form1" class="form-control form-control-lg" [(ngModel)]="CurrentFood.name"
+               style="color: white; font-size: 30px">
         <label for="form1" style="color: white">Recept neve</label>
       </div>
 
 
       <div class="md-form">
-        <textarea type="text" id="form7" class="md-textarea md-textarea-auto form-control text-justify" [(ngModel)]="CurrentFood.desc" mdbInput style="color: white; font-size: 20px"></textarea>
+        <textarea type="text" id="form7" class="md-textarea md-textarea-auto form-control text-justify"
+                  [(ngModel)]="CurrentFood.desc" mdbInput style="color: white; font-size: 20px"></textarea>
         <label for="form7" style="color: white">Leírás</label>
       </div>
 
@@ -40,7 +56,8 @@
     <div class="col-4" style="padding-top: 5%">
       <h2 class="ingredients-title">Hozzávalók</h2>
 
-      <app-food-ingredient class="ingredients-desc" *ngFor="let ingredient of CurrentFood ? CurrentFood.ingredients : []"
+      <app-food-ingredient class="ingredients-desc"
+                           *ngFor="let ingredient of CurrentFood ? CurrentFood.ingredients : []"
                            [ingredient]="ingredient"
                            [edit]="true"
                            (OnDeleted)="DeleteIngredient($event)"
@@ -48,14 +65,16 @@
 
       <hr style="height: 20px">
 
-      <app-ingredient-adder style="margin: 0; padding: 0" (OnIngredientAdded)="AddIngredient($event)"></app-ingredient-adder>
+      <app-ingredient-adder style="margin: 0; padding: 0"
+                            (OnIngredientAdded)="AddIngredient($event)"></app-ingredient-adder>
 
       <div style="height: 40px"></div>
 
       <div>
         <h3>Tagek</h3>
         <div class="masonry-with-columns-2">
-          <app-food-tag *ngFor="let tag of CurrentFood.tags" EditMode="true" (OnTagRemoveClick)="DeleteTag($event)" [TagId]="tag.guid"></app-food-tag>
+          <app-food-tag *ngFor="let tag of CurrentFood.tags" EditMode="true" (OnTagRemoveClick)="DeleteTag($event)"
+                        [TagId]="tag.guid"></app-food-tag>
         </div>
         <app-tag-adder (OnTagAdded)="AddTag($event)"></app-tag-adder>
       </div>
@@ -71,9 +90,15 @@
 
   <div class="row">
     <div class="col"></div>
-    <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect (click)="DeleteFood()" style="margin: 0 15px;">Törlés</button>
-    <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect (click)="CancelEdit()" style="margin: 0 15px;">Elvetés</button>
-    <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect (click)="SaveFoodAndExit()" style="margin: 0px 15px;">Mentés</button>
+    <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect (click)="DeleteFood()"
+            style="margin: 0 15px;">Törlés
+    </button>
+    <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect (click)="CancelEdit()"
+            style="margin: 0 15px;">Elvetés
+    </button>
+    <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect (click)="SaveFoodAndExit()"
+            style="margin: 0px 15px;">Mentés
+    </button>
   </div>
 
 </footer>

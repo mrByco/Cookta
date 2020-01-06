@@ -5,47 +5,55 @@ import {AuthService} from "./auth.service";
 
 @Injectable()
 export class ServerService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+  }
 
   public GetBase(): string {
     return false ? "http://localhost:8080" : "https://cooktaservices.azurewebsites.net";
   }
+
   public async GetRequest(route: string): Promise<any> {
     let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
-    if (!loggedIn){
+    if (!loggedIn) {
       return this.http.get(this.GetBase() + route);
-    }else{
+    } else {
       let token = await this.authService.getTokenSilently$().toPromise();
       let options = {
         headers: new HttpHeaders({
-        'Authorization': `Bearer ${token}`})
+          'Authorization': `Bearer ${token}`
+        })
       };
       return this.http.get(this.GetBase() + route, options)
     }
   }
-  public async PostRequest(route: string, body: any): Promise<any> {
+
+  public async PostRequest(route: string, body: any, file?: boolean): Promise<any> {
     let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
-    if (!loggedIn){
-      return this.http.post(this.GetBase() + route, body);
-    }else{
+    let options = {headers: new HttpHeaders()};
+    if (loggedIn) {
       let token = await this.authService.getTokenSilently$().toPromise();
-      let options = {
-        headers: new HttpHeaders({
-          'Authorization': `Bearer ${token}`})
-      };
-      return this.http.post(this.GetBase() + route, body, options)
+      options.headers = options.headers.append('Authorization', `Bearer ${token}`);
     }
+    let data = body;
+    if (file) {
+      data = new FormData();
+      data.append('image', body as File);
+    }
+    return this.http.post(
+      this.GetBase() + route, data,
+      options)
   }
 
   public async DeleteRequest(route: string): Promise<any> {
     let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
-    if (!loggedIn){
+    if (!loggedIn) {
       return this.http.delete(this.GetBase() + route);
-    }else{
+    } else {
       let token = await this.authService.getTokenSilently$().toPromise();
       let options = {
         headers: new HttpHeaders({
-          'Authorization': `Bearer ${token}`})
+          'Authorization': `Bearer ${token}`
+        })
       };
       return this.http.delete(this.GetBase() + route, options)
     }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FoodService} from "../../../shared/services/food.service";
 import {IdentityService} from "../../../shared/services/identity.service";
@@ -9,6 +9,9 @@ import {Tag} from "../../../shared/models/grocery/tag.model";
 import {ICanDeactivate} from "../../../guards/can-deactivate-guard";
 import {MDBModalService} from "angular-bootstrap-md";
 import {GenericTwoButtonDialogComponent} from "../../../utilities/generic-two-button-dialog/generic-two-button-dialog.component";
+import {ImageCropperComponent} from "ngx-image-cropper";
+import {FoodImageUploadComponent} from "../../food-assemblies/food-image-upload/food-image-upload.component";
+import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 
 @Component({
   selector: 'app-food-edit',
@@ -21,7 +24,7 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
   public SourceFood: Food = FoodService.Placeholder;
   public CurrentFood: Food = FoodService.Placeholder;
 
-
+  @ViewChild(FoodImageUploadComponent, {static: true}) public ImageCropper: FoodImageUploadComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,9 +67,6 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
     }
     //Subscribe
   }
-
-
-
   DeleteIngredient(ingredient: IIngredient) {
     this.CurrentFood.ingredients.splice(this.CurrentFood.ingredients.findIndex(i => i == ingredient), 1);
   }
@@ -83,7 +83,7 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
 
 
   public async SaveFoodAndExit() {
-    let food = await this.foodService.UpdateFood(this.CurrentFood);
+    let food = await this.foodService.UpdateFood(this.CurrentFood, this.ImageCropper.CroppedImage ? this.ImageCropper.CroppedImage : undefined);
     await this.router.navigate(['/foods', food.foodId]);
   }
   public CancelEdit() {

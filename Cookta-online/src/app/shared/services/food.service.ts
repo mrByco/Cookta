@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {IdentityService} from "./identity.service";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {ServerService} from "./server.service";
 import {Routes} from "../routes";
 import {Food} from "../models/grocery/food.model";
@@ -16,59 +16,66 @@ export class FoodService {
     private http: HttpClient) {
 
   }
-  public GetFoods(): Promise<Food[]>{
 
-    return new Promise(async (resolve, reject) => {
-      let response = await this.serverService.GetRequest( Routes.Food.GetPublicFoods);
+  public GetFoods(): Promise<Food[]> {
+
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.GetRequest(Routes.Food.GetPublicFoods);
       let foods: Food[] = [];
       response.subscribe(data => {
-        for (const d of (data as any)){
+        for (const d of (data as any)) {
           foods.push(Food.FromJson(d));
         }
         resolve(foods);
-      }, error => {
+      }, () => {
         resolve([]);
       });
     })
   }
 
   public GetCollection(): Promise<Food[]> {
-    return new Promise(async (resolve, reject) => {
-      let response = await this.serverService.GetRequest( Routes.Food.GetCollectionFoods);
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.GetRequest(Routes.Food.GetCollectionFoods);
       let foods: Food[] = [];
       response.subscribe(data => {
-        for (const d of (data as any)){
+        for (const d of (data as any)) {
           foods.push(Food.FromJson(d));
         }
         resolve(foods.reverse());
-      }, error => {
+      }, () => {
         resolve([]);
       });
     })
   }
+
   public async GetFood(id: string): Promise<Food> {
     let response = await this.serverService.GetRequest(Routes.Food.GetFoodId.replace('{id}', id));
 
     return new Promise((resolve) => {
       response.subscribe(data => {
         resolve(Food.FromJson(data));
-      }, error => {
+      }, () => {
         return null;
       });
     });
   }
+
   public async DeleteFood(id: string): Promise<void> {
-    let response = await this.serverService.DeleteRequest(Routes.Food.DeleteFoodId.replace('{id}', id))
+    let response = await this.serverService.DeleteRequest(Routes.Food.DeleteFoodId.replace('{id}', id));
     return new Promise((resolve) => {
-      response.subscribe(data => {
+      response.subscribe(() => {
         resolve();
-      }, error => {
+      }, () => {
         resolve();
       });
     });
   }
 
-  public async UpdateFood(food: Food): Promise<Food> {
+  public async UpdateFood(food: Food, file?: File): Promise<Food> {
+    if (file) {
+      let a = await this.serverService.PostRequest(Routes.Food.PostFoodImage.replace('{foodVersionId}', food.id), file, true);
+      await a.toPromise();
+    }
     let body: IFoodUpdateRequest = {
       desc: food.desc,
       foodId: food.foodId,
@@ -78,12 +85,12 @@ export class FoodService {
       name: food.name,
       published: food.published,
       tags: food.tags.map(value => value.guid),
-    }
+    };
     let response = await this.serverService.PostRequest(Routes.Food.PostFood, body);
     return new Promise((resolve) => {
       response.subscribe(data => {
         resolve(Food.FromJson(data));
-      }, error => {
+      }, () => {
         return null;
       });
     });
