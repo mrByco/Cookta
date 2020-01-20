@@ -74,7 +74,11 @@ export class FoodService {
   public async UpdateFood(food: Food, file?: File): Promise<Food> {
     if (file) {
       let a = await this.serverService.PostRequest(Routes.Food.PostFoodImage.replace('{foodVersionId}', food.id), file, true);
-      await a.toPromise();
+      await new Promise((resolve) => {
+        a.subscribe(data => {
+          resolve();
+        });
+      });
     }
     let body: IFoodUpdateRequest = {
       desc: food.desc,
