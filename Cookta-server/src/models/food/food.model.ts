@@ -3,8 +3,7 @@ import {ObjectID} from "mongodb";
 import {iIngredient} from "../../interfaces/iingredient";
 import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
-import {PersonalFood} from "./food-personal";
-import {ForeignFood} from "./food-foreign";
+import {SendableFood} from "./food-sendable";
 
 const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
 const ContainerName = 'foodimages';
@@ -13,6 +12,7 @@ const ContainerName = 'foodimages';
 export class Food {
     private static readonly CollectionName = "Foods";
     private static readonly BlobContainerName = "foodimages";
+
     constructor(
         public owner: string,
         public name: string = "",
@@ -29,13 +29,13 @@ export class Food {
         public subscriptions: number,
         public id: string = new ObjectID().toHexString(),
         public foodId: string
-    ){
+    ) {
         let addId = async function (food: Food) {
             food.foodId = new ObjectID().toHexString();
             await food.Save();
             console.info("foodId Added for: " + food.id);
         };
-        if (foodId === undefined){
+        if (foodId === undefined) {
             // noinspection JSIgnoredPromiseFromCall
             addId(this);
         }
@@ -45,19 +45,21 @@ export class Food {
         let collection = await MongoHelper.getCollection(Food.CollectionName);
         let documents = await collection.find(filter).toArray();
         let foods: Food[] = [];
-        for (let doc of documents){
+        for (let doc of documents) {
             foods.push(this.FromDocument(doc));
         }
         return foods;
     }
-    public static async GetAllPublicFoods(): Promise<Food[]>{
+
+    public static async GetAllPublicFoods(): Promise<Food[]> {
         return await Food.GetAllFoods({published: true, private: false});
     }
+
     public static async GetAllOwnFoods(user: User): Promise<Food[]> {
         let collection = await MongoHelper.getCollection(Food.CollectionName);
         let documents = await collection.find({owner: user.sub}).toArray();
         let foods: Food[] = [];
-        for (let doc of documents){
+        for (let doc of documents) {
             foods.push(this.FromDocument(doc));
         }
         return foods;
@@ -68,18 +70,17 @@ export class Food {
 
         if (food == null)
             return null;
-
-        if (user != undefined && user.sub == food.owner || food.isPrivate == false) {
-            return food;
-        } else {
-            return null;
+        if (user == undefined && !food.isPrivate) {
+            return food.isPrivate ? null : food;
         }
+
+        return food;
     }
 
-    public static async GetFood(foodId?: string, versionId?: string){
+    public static async GetFood(foodId?: string, versionId?: string) {
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let doc = versionId ?
-            await collection.findOne({_id: new ObjectID(versionId)}):
+            await collection.findOne({_id: new ObjectID(versionId)}) :
             await collection.findOne({foodId: foodId});//5d42ecf37175860034c36b1c
         return doc ? this.FromDocument(doc) : null;
     }
@@ -89,12 +90,12 @@ export class Food {
         if (request.foodId)
             existing = await this.GetFoodForUser(request.foodId, modifier);
         let collection = await MongoHelper.getCollection(Food.CollectionName);
-        if (existing){
+        if (existing) {
             existing.uploaded = Date.now();
             let doc = {...existing.ToDocument(), ...request};
             await collection.replaceOne({foodId: request.foodId}, doc);
             return await this.GetFoodForUser(request.foodId, modifier);
-        }else{
+        } else {
             if (!request.foodId)
                 request.foodId = new ObjectID().toHexString();
             let food = new Food(
@@ -120,26 +121,26 @@ export class Food {
 
     public static async Delete(id: string, deleter: User) {
         let food = await this.GetFoodForUser(id, deleter);
-        if(!food){
+        if (!food) {
             return null;
         }
         let collection = await MongoHelper.getCollection(Food.CollectionName);
         let deletedResult = await collection.deleteMany({foodId: food.foodId});
-        if (deletedResult.deletedCount > 0){
+        if (deletedResult.deletedCount > 0) {
             food.id = undefined;
             return food;
-        }
-        else
+        } else
             return null;
     }
-    public static async GetIncremental(start: number, count: number, filter: any = {}){
+
+    public static async GetIncremental(start: number, count: number, filter: any = {}) {
         let collection = await MongoHelper.getCollection(Food.CollectionName);
         let cursor = await collection.find(filter);
         cursor.skip(start);
         cursor.limit(count);
         let docs = await cursor.toArray();
         let foods: Food[] = [];
-        for (let doc of docs){
+        for (let doc of docs) {
             foods.push(Food.FromDocument(doc));
         }
         return foods;
@@ -154,14 +155,10 @@ export class Food {
     }
 
     public async ToSendable(sendFor: User) {
-        if (sendFor != null && sendFor.sub == this.owner) {
-            return await PersonalFood.Create(this);
-        } else {
-            return await ForeignFood.Create(this);
-        }
+        return await SendableFood.Create(this, sendFor);
     }
 
-    public static async UploadImage(foodVersionName: string, path: string, user: User){
+    public static async UploadImage(foodVersionName: string, path: string, user: User) {
         let food = await Food.GetFood(undefined, foodVersionName);
         if (food == null)
             throw new Error("Food not found");
@@ -178,12 +175,13 @@ export class Food {
 
         return food;
     }
+
     public static async DeleteImage(foodVersionId: string, user: User): Promise<boolean> {
         let food = await Food.GetFood(undefined, foodVersionId);
-        if (food == null){
+        if (food == null) {
             throw Error('Food not found!');
         }
-        if (food.owner != user.sub){
+        if (food.owner != user.sub) {
             return false;
         }
         food.imageUploaded = null;
@@ -211,6 +209,7 @@ export class Food {
             doc['foodId']
         )
     }
+
     private ToDocument(): any {
         return {
             owner: this.owner,
@@ -230,6 +229,7 @@ export class Food {
             foodId: this.foodId
         }
     }
+
     public async Save(): Promise<void> {
         let document = this.ToDocument();
         let id = this.id;

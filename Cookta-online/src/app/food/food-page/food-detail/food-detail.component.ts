@@ -25,13 +25,13 @@ export class FoodDetailComponent implements OnInit {
     console.log(Food.name);
   }
 
-  Subscribe() {
+    Subscribe(state: boolean) {
     if (!this.identityService.LoggedIn){
       this.identityService.PleaseLogin();
       return;
     }
-    //Subscribe
-  }
+    this.Food.SubscribedFor = state;
+    }
 
   GoEdit() {
     this.router.navigate(["foods", this.Food.foodId, "edit"]);

@@ -47,7 +47,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ForeignFood": {
+    "SendableFood": {
         "dataType": "refObject",
         "properties": {
             "owner": { "dataType": "string", "required": true },
@@ -62,28 +62,8 @@ const models: TsoaRoute.Models = {
             "subscriptions": { "dataType": "double", "required": true },
             "id": { "dataType": "string" },
             "foodId": { "dataType": "string", "required": true },
-            "tags": { "dataType": "array", "array": { "ref": "Tag" }, "required": true },
-            "autoTags": { "dataType": "array", "array": { "ref": "Tag" }, "required": true },
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PersonalFood": {
-        "dataType": "refObject",
-        "properties": {
-            "owner": { "dataType": "string", "required": true },
-            "name": { "dataType": "string", "default": "" },
-            "desc": { "dataType": "string", "default": "" },
-            "isPrivate": { "dataType": "boolean", "default": true },
-            "published": { "dataType": "boolean", "default": false },
-            "ingredients": { "dataType": "array", "array": { "ref": "iIngredient" }, "default": [] },
-            "imageUploaded": { "dataType": "double", "required": true },
-            "uploaded": { "dataType": "double", "required": true },
-            "dose": { "dataType": "double", "default": 4 },
-            "lastModified": { "dataType": "double", "required": true },
-            "subscriptions": { "dataType": "double", "required": true },
-            "id": { "dataType": "string" },
-            "foodId": { "dataType": "string", "required": true },
+            "SubscribedFor": { "dataType": "boolean", "required": true },
+            "OwnFood": { "dataType": "boolean", "required": true },
             "tags": { "dataType": "array", "array": { "ref": "Tag" }, "required": true },
             "autoTags": { "dataType": "array", "array": { "ref": "Tag" }, "required": true },
         },

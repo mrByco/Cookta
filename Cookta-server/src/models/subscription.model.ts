@@ -36,9 +36,9 @@ export class Subscription {
         return foods;
     }
 
-    public static async GetSubscription(userSub: string, foodId: string){
+    public static async GetSubscription(userSub: string, foodVersionId: string){
         let collection = await MongoHelper.getCollection(this.CollectionName);
-        let subDoc = await collection.findOne({sub: userSub, foodId: foodId});
+        let subDoc = await collection.findOne({sub: userSub, foodID: foodVersionId});
         return subDoc ? await this.FromDocument(subDoc) : null;
     }
 

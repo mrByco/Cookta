@@ -1,10 +1,8 @@
 import {Body, Controller, Delete, Get, Post, Request, Route, Security, Tags} from "tsoa";
-import * as multer from 'multer';
 import {Food} from "../models/food/food.model";
 import {IUpdateFoodRequest} from "../requests/create.food.request";
 import {User} from "../models/user.model";
-import {ForeignFood} from "../models/food/food-foreign";
-import {PersonalFood} from "../models/food/food-personal";
+import {SendableFood} from "../models/food/food-sendable";
 import {Subscription} from "../models/subscription.model";
 
 @Tags("Food")
@@ -12,7 +10,7 @@ import {Subscription} from "../models/subscription.model";
 export class FoodController extends Controller {
     @Security("Bearer", ['noauth'])
     @Get()
-    public async GetPublicFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
+    public async GetPublicFoods(@Request() request: any): Promise<SendableFood[]> {
         try{
             let user = request.user as User;
             return (await Food.ToSendableAll(await Food.GetAllPublicFoods(), user));
@@ -25,7 +23,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Get("/collection")
-    public async GetCollectionFoods(@Request() request: any): Promise<ForeignFood[] | PersonalFood[]> {
+    public async GetCollectionFoods(@Request() request: any): Promise<SendableFood[]> {
         try{
             let user = request.user as User;
             let foods = await Subscription.GetSubsFoodsOfUser(user);
@@ -40,7 +38,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", ['noauth'])
     @Get('/{id}')
-    public async GetFoodById(@Request() request: any, id: string): Promise<ForeignFood | PersonalFood> {
+    public async GetFoodById(@Request() request: any, id: string): Promise<SendableFood> {
         let user = request.user as User;
         let food = await Food.GetFoodForUser(id, user);
         if (!food)
@@ -55,7 +53,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Get('/{from}/{count}')
-    public async GetPublicFoodsIncremental(@Request() request: any, from: number, count: number): Promise<ForeignFood[] | PersonalFood[]> {
+    public async GetPublicFoodsIncremental(@Request() request: any, from: number, count: number): Promise<SendableFood[]> {
         try{
             let user = request.user as User;
             return await Food.ToSendableAll(await Food.GetIncremental(from, count, {published: true}), user);
@@ -66,7 +64,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Post("/")
-    public async AddOrUpdateFood(@Body() updateFoodRequest: IUpdateFoodRequest, @Request() request: any): Promise<ForeignFood | PersonalFood> {
+    public async AddOrUpdateFood(@Body() updateFoodRequest: IUpdateFoodRequest, @Request() request: any): Promise<SendableFood> {
         let user = request.user as User;
         return await (await Food.UpdateFood(updateFoodRequest, user)).ToSendable(user);
         try{
@@ -78,7 +76,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Delete('/{foodId}')
-    public async DeleteFood(@Request() request: any, foodId: string): Promise<ForeignFood | PersonalFood> {
+    public async DeleteFood(@Request() request: any, foodId: string): Promise<SendableFood> {
         try{
             let user = request.user as User;
             if ((await Food.GetFoodForUser(foodId, user)).owner == user.sub) {

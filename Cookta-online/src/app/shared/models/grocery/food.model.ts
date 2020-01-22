@@ -24,6 +24,8 @@ export class Food {
     public foodId: string,
     public tags: Tag[],
     public autoTags: Tag[],
+    public SubscribedFor: boolean,
+    public OwnFood: boolean
   ) {}
 
 
@@ -44,7 +46,9 @@ export class Food {
       data['id'],
       data['foodId'],
       data['tags'],
-      data['autoTags']
+      data['autoTags'],
+      data['SubscribedFor'],
+      data['OwnFood']
     )
   }
   public ToJson()

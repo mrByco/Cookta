@@ -99,4 +99,15 @@ export class FoodService {
       });
     });
   }
+
+  public async SetSubscription(foodId: string, state: boolean): Promise<void> {
+    let response = await this.serverService.PutRequest(Routes.Food.SetSubscription, {foodId: foodId, state: state});
+    return new Promise((resolve) => {
+      response.subscribe(data => {
+        resolve();
+      }, () => {
+        return null;
+      });
+    });
+  }
 }

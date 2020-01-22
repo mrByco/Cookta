@@ -49,7 +49,7 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"ForeignFood": {
+		"SendableFood": {
 			"properties": {
 				"owner": {
 					"type": "string"
@@ -106,93 +106,11 @@
 				"foodId": {
 					"type": "string"
 				},
-				"tags": {
-					"items": {
-						"$ref": "#/definitions/Tag"
-					},
-					"type": "array"
+				"SubscribedFor": {
+					"type": "boolean"
 				},
-				"autoTags": {
-					"items": {
-						"$ref": "#/definitions/Tag"
-					},
-					"type": "array"
-				}
-			},
-			"required": [
-				"owner",
-				"imageUploaded",
-				"uploaded",
-				"lastModified",
-				"subscriptions",
-				"foodId",
-				"tags",
-				"autoTags"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"PersonalFood": {
-			"properties": {
-				"owner": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string",
-					"default": "",
-					"x-nullable": true
-				},
-				"desc": {
-					"type": "string",
-					"default": "",
-					"x-nullable": true
-				},
-				"isPrivate": {
-					"type": "boolean",
-					"default": true,
-					"x-nullable": true
-				},
-				"published": {
-					"type": "boolean",
-					"default": false,
-					"x-nullable": true
-				},
-				"ingredients": {
-					"items": {
-						"$ref": "#/definitions/iIngredient"
-					},
-					"type": "array",
-					"default": [],
-					"x-nullable": true
-				},
-				"imageUploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"uploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"dose": {
-					"type": "number",
-					"format": "double",
-					"default": 4,
-					"x-nullable": true
-				},
-				"lastModified": {
-					"type": "number",
-					"format": "double"
-				},
-				"subscriptions": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"foodId": {
-					"type": "string"
+				"OwnFood": {
+					"type": "boolean"
 				},
 				"tags": {
 					"items": {
@@ -214,6 +132,8 @@
 				"lastModified",
 				"subscriptions",
 				"foodId",
+				"SubscribedFor",
+				"OwnFood",
 				"tags",
 				"autoTags"
 			],
@@ -784,7 +704,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
 						}
 					}
 				},
@@ -809,7 +732,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"$ref": "#/definitions/SendableFood"
 						}
 					}
 				},
@@ -843,7 +766,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
 						}
 					}
 				},
@@ -868,7 +794,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"$ref": "#/definitions/SendableFood"
 						}
 					}
 				},
@@ -902,7 +828,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
 						}
 					}
 				},
@@ -942,7 +871,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"$ref": "#/definitions/SendableFood"
 						}
 					}
 				},

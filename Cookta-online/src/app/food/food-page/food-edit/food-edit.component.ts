@@ -37,7 +37,7 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
   async ngOnInit() {
     let Id = this.route.snapshot.params['id'];
     if (Id == "new"){
-      this.SourceFood = new Food(undefined, "", "", true, false, [], undefined, undefined, undefined, undefined, undefined, undefined, undefined, [], []);
+      this.SourceFood = new Food(undefined, "", "", true, false, [], undefined, undefined, undefined, undefined, undefined, undefined, undefined, [], [], false, true);
     }else{
       this.SourceFood = await this.foodService.GetFood(Id);
     }
@@ -56,17 +56,12 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
       this.SourceFood.id,
       this.SourceFood.foodId,
       [...this.SourceFood.tags],
-      [...this.SourceFood.autoTags]
+      [...this.SourceFood.autoTags],
+      this.SourceFood.SubscribedFor,
+      this.SourceFood.OwnFood
     );
   }
 
-  Subscribe() {
-    if (!this.identityService.LoggedIn){
-      this.identityService.PleaseLogin();
-      return;
-    }
-    //Subscribe
-  }
   DeleteIngredient(ingredient: IIngredient) {
     this.CurrentFood.ingredients.splice(this.CurrentFood.ingredients.findIndex(i => i == ingredient), 1);
   }

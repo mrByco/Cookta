@@ -2,13 +2,14 @@ import {Food} from "./food.model";
 import {iIngredient} from "../../interfaces/iingredient";
 import {ObjectID} from "bson";
 import {Tag} from "../tag.model";
+import {User} from "../user.model";
+import {Subscription} from "../subscription.model";
 
-export class PersonalFood {
+export class SendableFood {
 
     public owner: string;
     public name: string = "";
     public desc: string = "";
-    public isPrivate: boolean = true;
     public published: boolean = false; //TODO Replace by checking new certificate system DEP: new certificate system + blockchain food store
     public ingredients: iIngredient[] = [];
     public imageUploaded: number;
@@ -18,14 +19,14 @@ export class PersonalFood {
     public subscriptions: number;
     public id: string = new ObjectID().toHexString();
     public foodId: string;
+    public SubscribedFor: boolean;
+    public OwnFood: boolean;
 
-
-    constructor(food: Food, public tags: Tag[], public autoTags: Tag[]) {
+    constructor(food: Food, public tags: Tag[], public autoTags: Tag[], subscribedFor: boolean, ownFood: boolean) {
         // noinspection
         this.owner = food.owner;
         this.name = food.name;
         this.desc = food.desc;
-        this.isPrivate = food.isPrivate;
         this.published = food.published;
         this.ingredients = food.ingredients;
         this.imageUploaded = food.imageUploaded;
@@ -35,23 +36,24 @@ export class PersonalFood {
         this.subscriptions = food.subscriptions;
         this.id = food.id;
         this.foodId = food.foodId;
+        this.SubscribedFor = subscribedFor;
+        this.OwnFood = ownFood;
     }
 
-    public static async Create(food: Food) {
+    public static async Create(food: Food, user: User) {
         let autoTags: Tag[] = [];
         let tags: Tag[] = [];
 
-        if (food.generated.tags){
-            for (let tag of food.generated.tags) {
-                autoTags.push(await Tag.GetTagById(tag.guid));
-            }
+        for (let tag of food.generated.tags) {
+            autoTags.push(await Tag.GetTagById(tag.guid));
         }
-        if (food.tags) {
-            for (let tag of food.tags) {
-                tags.push(await Tag.GetTagById(tag));
-            }
+        for (let tag of food.tags) {
+            tags.push(await Tag.GetTagById(tag));
         }
 
-        return new PersonalFood(food, tags, autoTags);
+        let subscribedFor: boolean = user ? await Subscription.GetSubscription(user.sub, food.id) != null : false;
+        let ownFood: boolean = food.owner == user.sub || user.subs.includes(food.owner);
+
+        return new SendableFood(food, tags, autoTags, subscribedFor, ownFood);
     }
 }

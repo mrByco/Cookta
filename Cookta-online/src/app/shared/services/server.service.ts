@@ -44,6 +44,23 @@ export class ServerService {
       options)
   }
 
+  public async PutRequest(route: string, body: any, file?: boolean): Promise<any> {
+    let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
+    let options = {headers: new HttpHeaders()};
+    if (loggedIn) {
+      let token = await this.authService.getTokenSilently$().toPromise();
+      options.headers = options.headers.append('Authorization', `Bearer ${token}`);
+    }
+    let data = body;
+    if (file) {
+      data = new FormData();
+      data.append('image', body as File);
+    }
+    return this.http.put(
+      this.GetBase() + route, data,
+      options)
+  }
+
   public async DeleteRequest(route: string): Promise<any> {
     let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
     if (!loggedIn) {
