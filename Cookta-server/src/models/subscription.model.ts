@@ -66,7 +66,7 @@ export class Subscription {
             doc['foodID'], //used by legacy server (food version)
             doc[''] ? doc['foodTypeId'] : null, //food type id
             doc['_id']
-        )
+        );
         try{
             if (sub.foodId == null){
                 sub.foodId = (await Food.GetFood(null, sub.foodVersionId)).foodId;

@@ -185,7 +185,7 @@ export class Food {
             return false;
         }
         food.imageUploaded = null;
-        await food.Save()
+        await food.Save();
         return true;
     }
 

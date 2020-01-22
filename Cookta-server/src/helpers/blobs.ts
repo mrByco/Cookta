@@ -41,7 +41,7 @@ const uploadLocalJPEGImage = async (containerName, filePath, BlobName) => {
     return new Promise((resolve, reject) => {
         const fullPath = path.resolve(filePath);
         const blobName = BlobName + '.jpg';
-        var options = {contentSettings:{contentType:'image/jpeg'}}
+        var options = {contentSettings:{contentType:'image/jpeg'}};
         GetBlobService().createBlockBlobFromLocalFile(containerName, blobName, fullPath, options, err => {
             if (err) {
                 reject(err);
@@ -70,4 +70,4 @@ module.exports ={
     createContainer,
     uploadLocalJPEGImage,
     deleteBlob,
-}
+};

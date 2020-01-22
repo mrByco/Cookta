@@ -904,7 +904,7 @@ export function RegisterRoutes(app: express.Express) {
                     request['user'] = user;
                     next();
                 }
-            }
+            };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -914,7 +914,7 @@ export function RegisterRoutes(app: express.Express) {
                     error.status = error.status || 401;
                     next(error)
                 }
-            }
+            };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
