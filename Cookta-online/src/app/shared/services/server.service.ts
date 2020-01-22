@@ -58,7 +58,7 @@ export class ServerService {
     }
     return this.http.put(
       this.GetBase() + route, data,
-      options)
+      options);
   }
 
   public async DeleteRequest(route: string): Promise<any> {

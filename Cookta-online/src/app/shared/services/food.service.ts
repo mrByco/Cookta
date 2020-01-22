@@ -8,7 +8,7 @@ import {IFoodUpdateRequest} from "../contracts/food-update-request.interface";
 
 @Injectable()
 export class FoodService {
-  public static Placeholder: Food = new Food("", '', '', true, false, [], 0, 0, 0, 0, 0, null, null, [], []);
+  public static Placeholder: Food = new Food("", '', '', true, false, [], 0, 0, 0, 0, 0, null, null, [], [], false, false);
 
   constructor(
     private serverService: ServerService,

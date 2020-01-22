@@ -25,11 +25,12 @@ export class FoodDetailComponent implements OnInit {
     console.log(Food.name);
   }
 
-    Subscribe(state: boolean) {
+  async Subscribe(state: boolean) {
     if (!this.identityService.LoggedIn){
       this.identityService.PleaseLogin();
       return;
     }
+    let response = await this.foodService.SetSubscription(this.Food.foodId, state);
     this.Food.SubscribedFor = state;
     }
 
