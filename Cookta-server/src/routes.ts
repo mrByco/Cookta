@@ -206,6 +206,7 @@ const models: TsoaRoute.Models = {
             "logs": { "dataType": "array", "array": { "dataType": "nestedObjectLiteral", "nestedProperties": { "text": { "dataType": "string", "required": true }, "time": { "dataType": "double", "required": true } } }, "required": true },
             "families": { "dataType": "string", "required": true },
             "profilpic": { "dataType": "string", "required": true },
+            "currentFamilyId": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },

@@ -3,6 +3,7 @@ import {MongoHelper} from "../helpers/mongo.helper";
 import {Role} from "./role.model";
 import * as jwt from 'jsonwebtoken';
 import * as request from "request";
+import {Family} from "./family.model";
 
 
 export class User {
@@ -19,11 +20,24 @@ export class User {
         public logs: {time: number, text: string}[],
         public families: string,
         public profilpic: string,
+        public currentFamilyId: string,
         ) {}
 
     public HasPermission(permission: string): boolean{
         let role = this.GetRole();
         return role.permissions.includes(permission);
+    }
+
+    //Returns the new family of the user If id null change to first available family
+    public async ChangeFamily(familyId?: string): Promise<Family>{
+        let newFamily = await Family.GetFamily(this, familyId);
+        if (newFamily != null){
+            this.currentFamilyId = newFamily.id;
+            await this.Save();
+            return newFamily;
+        }else{
+            return await Family.GetFamily(this, this.currentFamilyId);
+        }
     }
 
     public static async GetUser(sub){
@@ -55,8 +69,11 @@ export class User {
                 data.email,
                 [],
                 undefined,
-                data.picture
-            )
+                data.picture,
+                undefined
+            );
+            let createdFamily = await Family.CreateFamily(data.sub, `${user.username} családja`);
+            user.currentFamilyId = createdFamily.id;
         }
         await collection.replaceOne({sub: user.sub}, user.ToDocument());
         return user;
@@ -166,7 +183,8 @@ export class User {
             email: this.email,
             logs: this.logs,
             families: this.families,
-            profilpic: this.profilpic
+            profilpic: this.profilpic,
+            currentFamilyId: this.currentFamilyId
         }
     }
     private static FromDocument(document): User {
@@ -179,7 +197,8 @@ export class User {
             document['email'],
             document['logs'],
             document['families'],
-            document['profilpic']
+            document['profilpic'],
+            document['currentFamilyId'],
         )
         ;
     }

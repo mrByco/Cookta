@@ -536,6 +536,9 @@
 				},
 				"profilpic": {
 					"type": "string"
+				},
+				"currentFamilyId": {
+					"type": "string"
 				}
 			},
 			"required": [
@@ -544,7 +547,8 @@
 				"email",
 				"logs",
 				"families",
-				"profilpic"
+				"profilpic",
+				"currentFamilyId"
 			],
 			"type": "object",
 			"additionalProperties": false

@@ -1,15 +1,17 @@
+
 import {Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
 import {User} from "../models/user.model";
+import {ExtendedUser} from "../models/extendedUser";
 
 @Tags('User')
 @Route('/user')
 export class UserController extends Controller {
     @Security('Bearer')
     @Get()
-    public async User(@Request() request): Promise<User> {
+    public async User(@Request() request): Promise<ExtendedUser> {
         try {
             let user = request.user as User;
-            return user;
+            return ExtendedUser.FromUser(user);
         } catch {
             this.setStatus(500);
         }
@@ -17,11 +19,11 @@ export class UserController extends Controller {
 
     @Security('Bearer')
     @Put('/{name}')
-    public async SetUserName(@Request() request, name: string): Promise<User> {
+    public async SetUserName(@Request() request, name: string): Promise<ExtendedUser> {
         try {
             let user = request.user as User;
             await user.SetUserName(name);
-            return user;
+            return ExtendedUser.FromUser(user);
         } catch {
             this.setStatus(500);
         }
