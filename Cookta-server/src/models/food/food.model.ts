@@ -4,6 +4,7 @@ import {iIngredient} from "../../interfaces/iingredient";
 import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
+import {Family} from "../family.model";
 
 const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
 const ContainerName = 'foodimages';
@@ -70,8 +71,9 @@ export class Food {
 
         if (food == null)
             return null;
-        if (user == undefined && !food.isPrivate) {
-            return food.isPrivate ? null : food;
+        if (user == undefined && !food.isPrivate ||
+            (await Family.GetUserFamilies(user)).find(f => f.members.find(m => m.sub == food.owner))) {
+            return food;
         }
 
         return food;

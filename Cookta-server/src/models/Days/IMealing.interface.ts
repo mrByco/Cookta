@@ -3,4 +3,5 @@ export interface IMealing {
     mealIndex: number,
     id: string,
     foodId: string,
+    info?: any,
 }

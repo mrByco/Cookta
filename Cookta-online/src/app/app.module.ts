@@ -39,6 +39,7 @@ import {GenericTwoButtonDialogComponent} from './utilities/generic-two-button-di
 import {CanDeactivateGuard} from "./guards/can-deactivate-guard";
 import {FoodImageUploadComponent} from './food/food-assemblies/food-image-upload/food-image-upload.component';
 import {ImageCropperModule} from "ngx-image-cropper";
+import {FamilyService} from './shared/services/family.service';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -90,7 +91,7 @@ const appRoutes: Routes = [
     MatAutocompleteModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, CanDeactivateGuard],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, CanDeactivateGuard],
   entryComponents: [GenericTwoButtonDialogComponent],
   bootstrap: [AppComponent]
 })

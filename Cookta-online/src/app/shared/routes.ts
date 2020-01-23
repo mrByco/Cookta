@@ -26,5 +26,10 @@ export class Routes {
 
   public static readonly User = {
     HasPermission: "/user/permission/{permission}",
+    GetUser: "/user",
+  };
+
+  public static readonly Family = {
+
   }
 }

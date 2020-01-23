@@ -11,8 +11,7 @@ export class DayController extends Controller {
     public async GetDay(@Request() request, date: string): Promise<Day> {
         try {
             let user = request.user as User;
-            let day = await Day.GetDay(date, user);
-            return day;
+            return await Day.GetDay(date, user);
         } catch {
             this.setStatus(500);
             return;
@@ -39,7 +38,7 @@ export class DayController extends Controller {
         try {
             let user = request.user as User;
             let day = await Day.GetDay(date, user);
-            await day.RefreshTagMealing(+mealingIdentity);
+            await day.RefreshTagMealing(+mealingIdentity, user);
             return day;
         } catch {
             this.setStatus(500);

@@ -9,7 +9,8 @@ export class ServerService {
   }
 
   public GetBase(): string {
-    return false ? "http://localhost:8080" : "https://cooktaservices.azurewebsites.net";
+    return true
+      ? "http://localhost:8080" : "https://cooktaservices.azurewebsites.net";
   }
 
   public async GetRequest(route: string): Promise<any> {
