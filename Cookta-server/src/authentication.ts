@@ -18,7 +18,7 @@ const debugTokenAdminByc0 = 'admin';
 export async function expressAuthentication(request: express.Request, securityName: string, permissions?: string[]): Promise<any> {
     let authHeader = request.headers["authorization"];
     if (process.env.NODE_ENV == "debug " && authHeader == "admin"){
-        return new User("5d443d40a53b9142100be6ad", "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients", ['XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients'], 'Matyi1809454', "member", 'example&something.com', [], '', '')
+        return await User.GetUser("XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients");
     }
 
     if (permissions[0] == "noauth" && !authHeader) {

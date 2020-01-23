@@ -13,6 +13,7 @@ import './controllers/stock.controller';
 import './controllers/user.controller';
 import './controllers/day.controller';
 import './controllers/subscription.controller';
+import './controllers/family.controller' ;
 
 const fileUpload = require('express-fileupload');
 

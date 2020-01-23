@@ -18,7 +18,6 @@ export class User {
         public role: string = 'default',
         public email: string,
         public logs: {time: number, text: string}[],
-        public families: string,
         public profilpic: string,
         public currentFamilyId: string,
         ) {}
@@ -49,6 +48,11 @@ export class User {
         }
         return doc ? this.FromDocument(doc) : null;
     }
+    public static async GetUserByEmail(email: string){
+        let collection = await MongoHelper.getCollection(this.CollectionName);
+        let doc = await collection.findOne({email: email});
+        return doc ? this.FromDocument(doc) : null;
+    }
 
     public static async NewUserOrSub(accessToken): Promise<User>{
         let data = await this.GetAdditionalUserInfo(accessToken);
@@ -68,7 +72,6 @@ export class User {
                 undefined,
                 data.email,
                 [],
-                undefined,
                 data.picture,
                 undefined
             );
@@ -153,19 +156,7 @@ export class User {
 
     private async Save() {
         let collection = await MongoHelper.getCollection(User.CollectionName);
-        let document = {
-            _id: "5d443d40a53b9142100be6ad",
-            sub: "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients",
-            subs: [
-            "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients"
-        ],
-            username: "jrr",
-            role: "member",
-            email: "example&something.com",
-            logs: [],
-            families: "",
-            profilpic: ""
-        };
+        let document = this.ToDocument();
         await collection.replaceOne({_id: this._id}, document);
     }
 
@@ -175,14 +166,13 @@ export class User {
 
     private ToDocument(): any {
         return {
-            _id: this._id,
+            _id: new ObjectID(this._id),
             sub: this.sub,
             subs: this.subs,
             username: this.username,
             role: this.role,
             email: this.email,
             logs: this.logs,
-            families: this.families,
             profilpic: this.profilpic,
             currentFamilyId: this.currentFamilyId
         }
@@ -196,7 +186,6 @@ export class User {
             document['role'],
             document['email'],
             document['logs'],
-            document['families'],
             document['profilpic'],
             document['currentFamilyId'],
         )

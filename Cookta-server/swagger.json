@@ -482,7 +482,63 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"User": {
+		"EFamilyRole": {
+			"enum": [
+				0,
+				1,
+				2,
+				3
+			],
+			"type": "integer"
+		},
+		"SendFamilyMember": {
+			"properties": {
+				"sub": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/EFamilyRole"
+				},
+				"username": {
+					"type": "string"
+				},
+				"profilpic": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"sub",
+				"role",
+				"username",
+				"profilpic"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"SendFamily": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"members": {
+					"items": {
+						"$ref": "#/definitions/SendFamilyMember"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"id",
+				"name",
+				"members"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ExtendedUser": {
 			"properties": {
 				"_id": {
 					"type": "string",
@@ -531,14 +587,20 @@
 					},
 					"type": "array"
 				},
-				"families": {
-					"type": "string"
-				},
 				"profilpic": {
 					"type": "string"
 				},
 				"currentFamilyId": {
 					"type": "string"
+				},
+				"ActiveFamily": {
+					"$ref": "#/definitions/SendFamily"
+				},
+				"Families": {
+					"items": {
+						"$ref": "#/definitions/SendFamily"
+					},
+					"type": "array"
 				}
 			},
 			"required": [
@@ -546,9 +608,10 @@
 				"username",
 				"email",
 				"logs",
-				"families",
 				"profilpic",
-				"currentFamilyId"
+				"currentFamilyId",
+				"ActiveFamily",
+				"Families"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -685,6 +748,73 @@
 				"lastModified",
 				"subscriptions",
 				"foodId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ifamilyMember": {
+			"properties": {
+				"sub": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/EFamilyRole"
+				}
+			},
+			"required": [
+				"sub",
+				"role"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"Family": {
+			"properties": {
+				"CollectionName": {
+					"type": "string",
+					"enum": [
+						"Family"
+					],
+					"default": "Family",
+					"x-nullable": true
+				},
+				"id": {
+					"type": "string"
+				},
+				"ownerSub": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"members": {
+					"items": {
+						"$ref": "#/definitions/ifamilyMember"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"id",
+				"ownerSub",
+				"name",
+				"members"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"InviteFamilyRequest": {
+			"properties": {
+				"invitedUsername": {
+					"type": "string"
+				},
+				"invitedEmail": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"invitedUsername",
+				"invitedEmail"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -1325,7 +1455,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/User"
+							"$ref": "#/definitions/ExtendedUser"
 						}
 					}
 				},
@@ -1350,7 +1480,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/User"
+							"$ref": "#/definitions/ExtendedUser"
 						}
 					}
 				},
@@ -1566,6 +1696,212 @@
 						"name": "body",
 						"required": true,
 						"type": "object"
+					}
+				]
+			}
+		},
+		"/family/{familyId}": {
+			"get": {
+				"operationId": "GetFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Family"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "familyId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{newId}": {
+			"put": {
+				"operationId": "SwitchFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Family"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "newId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{deleteId}": {
+			"delete": {
+				"operationId": "DeleteFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "deleteId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{name}": {
+			"post": {
+				"operationId": "CreateFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{familyId}/invite": {
+			"put": {
+				"operationId": "InviteByUserNameEmail",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "inv",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/InviteFamilyRequest"
+						}
+					},
+					{
+						"in": "path",
+						"name": "familyId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{familyId}/leave/{removeUserSub}": {
+			"delete": {
+				"operationId": "LeaveFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "familyId",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "path",
+						"name": "removeUserSub",
+						"required": true,
+						"type": "string"
 					}
 				]
 			}
