@@ -40,6 +40,9 @@ import {CanDeactivateGuard} from "./guards/can-deactivate-guard";
 import {FoodImageUploadComponent} from './food/food-assemblies/food-image-upload/food-image-upload.component';
 import {ImageCropperModule} from "ngx-image-cropper";
 import {FamilyService} from './shared/services/family.service';
+import { MenuEditorComponent } from './menu/menu-editor/menu-editor.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { FoodPoolComponent } from './food/food-other/food-pool/food-pool.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -47,7 +50,8 @@ const appRoutes: Routes = [
   {path: 'ingredient-editor', component: IngredientEditorComponent},
   {path: 'foods/collection', component: FoodCollectionListComponent},
   {path: 'foods/:id', component: FoodDetailComponent},
-  {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]}
+  {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
+  {path: 'calendar', component: MenuEditorComponent}
 
 ];
 
@@ -70,26 +74,29 @@ const appRoutes: Routes = [
     IngredientEditorComponent,
     IngredientItemPopupComponent,
     GenericTwoButtonDialogComponent,
-    FoodImageUploadComponent
+    FoodImageUploadComponent,
+    MenuEditorComponent,
+    FoodPoolComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    ImageCropperModule,
-    MDBBootstrapModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
-    AdsenseModule.forRoot({
-      adClient: 'ca-pub-8068476996237937',
-      adSlot: 1393101782,
-    }),
-    FormsModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
-    MatAutocompleteModule,
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        ImageCropperModule,
+        MDBBootstrapModule.forRoot(),
+        RouterModule.forRoot(appRoutes),
+        AdsenseModule.forRoot({
+            adClient: 'ca-pub-8068476996237937',
+            adSlot: 1393101782,
+        }),
+        FormsModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatSortModule,
+        MatAutocompleteModule,
+        DragDropModule,
+    ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, CanDeactivateGuard],
   entryComponents: [GenericTwoButtonDialogComponent],

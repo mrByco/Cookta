@@ -26,7 +26,7 @@ export class FoodController extends Controller {
     public async GetCollectionFoods(@Request() request: any): Promise<SendableFood[]> {
         let user = request.user as User;
         let foods = await Subscription.GetSubsFoodsOfUser(user);
-        foods = foods.concat(await Food.GetAllOwnFoods(user));
+        //foods = foods.concat(await Food.GetAllOwnFoods(user));
         return (await Food.ToSendableAll(foods, user));
         try{
         }

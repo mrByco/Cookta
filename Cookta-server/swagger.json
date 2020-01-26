@@ -630,6 +630,11 @@
 				},
 				"foodId": {
 					"type": "string"
+				},
+				"info": {
+					"additionalProperties": true,
+					"type": "object",
+					"x-nullable": true
 				}
 			},
 			"required": [
@@ -646,20 +651,20 @@
 				"date": {
 					"type": "string"
 				},
-				"sub": {
-					"type": "string"
-				},
 				"mealings": {
 					"items": {
 						"$ref": "#/definitions/IMealing"
 					},
 					"type": "array"
+				},
+				"familyId": {
+					"type": "string"
 				}
 			},
 			"required": [
 				"date",
-				"sub",
-				"mealings"
+				"mealings",
+				"familyId"
 			],
 			"type": "object",
 			"additionalProperties": false

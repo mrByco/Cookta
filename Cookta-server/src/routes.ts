@@ -247,6 +247,7 @@ const models: TsoaRoute.Models = {
             "mealIndex": { "dataType": "double", "required": true },
             "id": { "dataType": "string", "required": true },
             "foodId": { "dataType": "string", "required": true },
+            "info": { "dataType": "any" },
         },
         "additionalProperties": false,
     },
@@ -255,8 +256,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "date": { "dataType": "string", "required": true },
-            "sub": { "dataType": "string", "required": true },
             "mealings": { "dataType": "array", "array": { "ref": "IMealing" }, "required": true },
+            "familyId": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
