@@ -5,6 +5,7 @@ import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
 import {Family} from "../family.model";
+import {Subscription} from "../subscription.model";
 
 const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
 const ContainerName = 'foodimages';
@@ -150,14 +151,15 @@ export class Food {
 
     public static async ToSendableAll(foods: Food[], sendFor?: User) {
         let send = [];
+        let subFoods = sendFor ? await Subscription.GetSubsFoodsOfUser(sendFor) : undefined;
         for (let food of foods) {
-            send.push(await food.ToSendable(sendFor));
+            send.push(await food.ToSendable(sendFor, subFoods));
         }
         return send;
     }
 
-    public async ToSendable(sendFor: User) {
-        return await SendableFood.Create(this, sendFor);
+    public async ToSendable(sendFor?: User, cachedSubFoods?: Food[]) {
+        return await SendableFood.Create(this, sendFor, cachedSubFoods);
     }
 
     public static async UploadImage(foodVersionName: string, path: string, user: User) {

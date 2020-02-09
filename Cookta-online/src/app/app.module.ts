@@ -43,6 +43,8 @@ import {FamilyService} from './shared/services/family.service';
 import { MenuEditorComponent } from './menu/menu-editor/menu-editor.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { FoodPoolComponent } from './food/food-other/food-pool/food-pool.component';
+import { MenuDayComponent } from './menu/menu-day/menu-day.component';
+import { MenuMealingComponent } from './menu/menu-mealing/menu-mealing.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -77,6 +79,8 @@ const appRoutes: Routes = [
     FoodImageUploadComponent,
     MenuEditorComponent,
     FoodPoolComponent,
+    MenuDayComponent,
+    MenuMealingComponent,
   ],
     imports: [
         BrowserModule,

@@ -40,7 +40,7 @@ export class SendableFood {
         this.OwnFood = ownFood;
     }
 
-    public static async Create(food: Food, user: User) {
+    public static async Create(food: Food, user?: User, subscriptionsOfUser?: Food[]) {
         let autoTags: Tag[] = [];
         let tags: Tag[] = [];
 
@@ -51,8 +51,15 @@ export class SendableFood {
             tags.push(await Tag.GetTagById(tag));
         }
 
-        let subscribedFor: boolean = user ? await Subscription.GetSubscription(user.sub, food.id) != null : false;
-        let ownFood: boolean = food.owner == user.sub || user.subs.includes(food.owner);
+        let ownFood: boolean = false;
+        let subscribedFor: boolean = false;
+
+        if (user) {
+            subscribedFor = subscriptionsOfUser ?
+                subscriptionsOfUser.filter(s => s.id == food.id).length > 0 :
+                await Subscription.GetSubscription(user.sub, food.id) != null;
+            ownFood =  food.owner == user.sub || user.subs.includes(food.owner)
+        }
 
         return new SendableFood(food, tags, autoTags, subscribedFor, ownFood);
     }
