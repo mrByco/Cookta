@@ -23,7 +23,6 @@ export class Routes {
     GetAll: "/tag",
   };
 
-
   public static readonly User = {
     HasPermission: "/user/permission/{permission}",
     GetUser: "/user",
@@ -31,5 +30,11 @@ export class Routes {
 
   public static readonly Family = {
 
-  }
+  };
+
+  public static readonly Menu = {
+    GetDay: "/day/{date}",
+    SetDay: "/day/{date}",
+    RefreshDay: "/day/{date}/{mealingIdentity}",
+  };
 }

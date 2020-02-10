@@ -2,22 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/mealing.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/day.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/day.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/food.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/food.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/food/food-sendable.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food-sendable.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/food/food.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/food/food.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -416,10 +405,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="347" y="176" key="run.anything.popup/0.0.1366.738@0.0.1366.738" timestamp="1579699770480" />
-    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup" timestamp="1579873648950">
+    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup" timestamp="1581327297093">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1579873648950" />
+    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1581327297093" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
