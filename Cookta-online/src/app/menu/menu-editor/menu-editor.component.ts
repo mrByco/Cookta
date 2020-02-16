@@ -11,6 +11,7 @@ export class DisplayMeal extends Meal {
 
   constructor(public foodService: FoodService, public sourceMeal: Meal) {
     super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);
+    if (!sourceMeal.foodId) return;
     Meal.GetMealFood(this, foodService).then(f => this.Food = f ? f : FoodService.NoReferenceError);
   }
 }

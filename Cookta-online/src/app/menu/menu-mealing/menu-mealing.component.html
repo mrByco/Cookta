@@ -9,7 +9,7 @@
         <img src="{{meal.Food.ImageUrl}}">
         <div class="meal-panel-overlay">
           <h6 >{{meal.Food.name}}</h6>
-          <a><img class="icon refresh-icon" src="assets/refresh-icon.png"></a>
+          <a *ngIf="meal.type == 'tag'" (click)="RefreshMeal(meal)"><img class="icon refresh-icon" src="assets/refresh-icon.png"></a>
           <a (click)="DeleteMeal(meal)"><img class="icon trash-icon" src="assets/trash-icon.png"></a>
         </div>
       </a>

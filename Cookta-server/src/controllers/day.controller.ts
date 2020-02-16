@@ -2,6 +2,8 @@ import {Body, Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
 import {User} from "../models/user.model";
 import {Day} from "../models/Days/day.model";
 import {IMealing} from "../models/Days/IMealing.interface";
+import { ObjectID } from "mongodb";
+import {Food} from "../models/food/food.model";
 
 @Route("/day")
 @Tags("Days")
@@ -21,15 +23,25 @@ export class DayController extends Controller {
     @Security('Bearer', [])
     @Put('/{date}')
     public async SetDay(@Request() request, date: string, @Body() mealings: IMealing[]): Promise<Day> {
-        try {
+        //try {
             let user = request.user as User;
+            for (let mealing of mealings){
+                if (!mealing.id){
+                    mealing.id = new ObjectID().toHexString();
+                }
+                if (!mealing.foodId){
+                    let foods = await Food.GetFoodsOfTag(user, mealing.info.tagId);
+                    let food = foods[Math.floor(Math.random() * foods.length)];
+                    mealing.foodId = food ? food.foodId : undefined;
+                }
+            }
             let day = await Day.GetDay(date, user);
             await day.SetDay(mealings);
             return day;
-        } catch {
+       /* } catch {
             this.setStatus(500);
             return;
-        }
+        }*/
     }
 
     @Security('Bearer', [])

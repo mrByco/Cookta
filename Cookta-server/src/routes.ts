@@ -245,8 +245,8 @@ const models: TsoaRoute.Models = {
         "properties": {
             "type": { "dataType": "string", "required": true },
             "mealIndex": { "dataType": "double", "required": true },
-            "id": { "dataType": "string", "required": true },
-            "foodId": { "dataType": "string", "required": true },
+            "id": { "dataType": "string" },
+            "foodId": { "dataType": "string" },
             "info": { "dataType": "any" },
         },
         "additionalProperties": false,
@@ -884,7 +884,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
                 request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
                 date: { "in": "path", "name": "date", "required": true, "dataType": "string" },
-                mealingIdentity: { "in": "path", "name": "mealingIdentity", "required": true, "dataType": "string" },
+                mealingIdentity: { "in": "path", "name": "mealingIdentity", "required": true, "dataType": "double" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -10,6 +10,9 @@ import {IFoodUpdateRequest} from "../contracts/food-update-request.interface";
 export class FoodService {
   public static Placeholder: Food = new Food("", '', '', true, false, [], 0, 0, 0, 0, 0, null, null, [], [], false, false);
   public static NoReferenceError: Food = new Food("NOREFERENCE", 'NOREFERENCE', 'NOREFERENCE', true, false, [], 0, 0, 0, 0, 0, null, null, [], [], false, false);
+  public static EmptyTag: Food =
+    new Food(undefined, 'ÜRES TAG', 'ÜRES TAG', true, false, [], 0, 0, 0, 0, 0, null, null, [], [], false, false);
+
 
   constructor(
     private serverService: ServerService,
@@ -73,14 +76,6 @@ export class FoodService {
   }
 
   public async UpdateFood(food: Food, file?: File): Promise<Food> {
-    if (file) {
-      let a = await this.serverService.PostRequest(Routes.Food.PostFoodImage.replace('{foodVersionId}', food.id), file, true);
-      await new Promise((resolve) => {
-        a.subscribe(data => {
-          resolve();
-        });
-      });
-    }
     let body: IFoodUpdateRequest = {
       desc: food.desc,
       foodId: food.foodId,
@@ -92,13 +87,22 @@ export class FoodService {
       tags: food.tags.map(value => value.guid),
     };
     let response = await this.serverService.PostRequest(Routes.Food.PostFood, body);
-    return new Promise((resolve) => {
+    let newFood: Food = await new Promise((resolve) => {
       response.subscribe(data => {
         resolve(Food.FromJson(data));
       }, () => {
         return null;
       });
     });
+    if (file) {
+      let a = await this.serverService.PostRequest(Routes.Food.PostFoodImage.replace('{foodVersionId}', newFood.id), file, true);
+      await new Promise((resolve) => {
+        a.subscribe(data => {
+          resolve();
+        });
+      });
+    }
+    return newFood;
   }
 
   public async SetSubscription(foodId: string, state: boolean): Promise<void> {

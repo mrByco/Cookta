@@ -84,7 +84,7 @@ export class Food {
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let doc = versionId ?
             await collection.findOne({_id: new ObjectID(versionId)}) :
-            await collection.findOne({foodId: foodId});//5d42ecf37175860034c36b1c
+            await collection.findOne({foodId: foodId});
         return doc ? this.FromDocument(doc) : null;
     }
 
@@ -243,8 +243,8 @@ export class Food {
     }
 
     public static async GetFoodsOfTag(user: User, tagId: string): Promise<Food[]> {
-        //TODO Placeholder (get all available foods)
-        let foods = await this.GetAllOwnFoods(user);
+        let foods = await Subscription.GetSubsFoodsOfUser(user);
+        foods = foods.concat(await Food.GetAllOwnFoods(user));
         return foods.filter(value => value.tags.includes(tagId));
     }
 

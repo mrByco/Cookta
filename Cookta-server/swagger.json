@@ -626,10 +626,12 @@
 					"format": "double"
 				},
 				"id": {
-					"type": "string"
+					"type": "string",
+					"x-nullable": true
 				},
 				"foodId": {
-					"type": "string"
+					"type": "string",
+					"x-nullable": true
 				},
 				"info": {
 					"additionalProperties": true,
@@ -639,9 +641,7 @@
 			},
 			"required": [
 				"type",
-				"mealIndex",
-				"id",
-				"foodId"
+				"mealIndex"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -1645,7 +1645,8 @@
 						"in": "path",
 						"name": "mealingIdentity",
 						"required": true,
-						"type": "string"
+						"format": "double",
+						"type": "number"
 					}
 				]
 			}

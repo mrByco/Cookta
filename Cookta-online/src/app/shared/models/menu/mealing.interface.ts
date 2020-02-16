@@ -17,6 +17,7 @@ export class Meal {
       case "food":
         return await foodService.GetFood(meal.foodId);
       case "tag":
+        console.log(meal);
         return await foodService.GetFood(meal.foodId);
       case "fixed":
         break;

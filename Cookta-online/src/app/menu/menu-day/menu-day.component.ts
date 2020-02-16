@@ -12,7 +12,7 @@ import {MenuEditorComponent} from "../menu-editor/menu-editor.component";
 })
 export class MenuDayComponent implements OnInit {
 
-  @Input() SelectedItem: Meal;
+  @Input() SelectedItem: any;
   @Input() MenuEditorComponent: MenuEditorComponent;
   public OnDayChanged: EventEmitter<Day> = new EventEmitter<Day>();
 
@@ -60,7 +60,7 @@ export class MenuDayComponent implements OnInit {
     this.OnDayChanged.emit(this.CurrentDay);
   }
   public SaveDay(){
-    this.mealingService.SetDay(this.CurrentDay.date, this.CurrentDay.mealings);
+    this.mealingService.SetDay(this.CurrentDay.date, this.CurrentDay.mealings).then(d => {this.CurrentDay = d; this.OnDayChanged.emit(this.CurrentDay);});
   }
 
   async ngOnInit() {

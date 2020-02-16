@@ -6,6 +6,7 @@ import {Meal} from "../../shared/models/menu/mealing.interface";
 import {FoodService} from "../../shared/services/food.service";
 import {MenuDayComponent} from "../menu-day/menu-day.component";
 import {Food} from "../../shared/models/grocery/food.model";
+import {Tag} from "../../shared/models/grocery/tag.model";
 
 @Component({
   selector: 'app-menu-mealing',
@@ -43,14 +44,25 @@ export class MenuMealingComponent implements OnInit {
     if (!this.MenuDayComponent.SelectedItem)
       return null;
 
-    let mealToAdd = new Meal( (this.MenuDayComponent.SelectedItem instanceof Food ? 'food' : ''), this.MealType, this.MenuDayComponent.SelectedItem.id, this.MenuDayComponent.SelectedItem.foodId, this.MenuDayComponent.SelectedItem.info);
+    let mealToAdd;
+      if (this.MenuDayComponent.SelectedItem instanceof Food)
+    {
+      mealToAdd = new Meal( 'food', this.MealType, undefined, this.MenuDayComponent.SelectedItem.foodId, {});
+    }
+    else if (this.MenuDayComponent.SelectedItem instanceof Tag)
+    {
+      mealToAdd = new Meal('tag', this.MealType, undefined, undefined, {tagId: this.MenuDayComponent.SelectedItem.guid})
+    }
     this.AddMealToDay.emit(mealToAdd);
-    console.log(mealToAdd);
   }
 
   public DeleteMeal(meal: DisplayMeal) {
     this.MenuDayComponent.CurrentDay.mealings.splice(this.MenuDayComponent.CurrentDay.mealings.findIndex(d => d == meal.sourceMeal), 1);
     this.MenuDayComponent.SaveDay();
     this.MenuDayComponent.OnDayChanged.emit(this.MenuDayComponent.CurrentDay);
+  }
+
+  RefreshMeal(meal: DisplayMeal) {
+    this.MenuDayComponent.mealingService.RefreshMealing(this.MenuDayComponent.CurrentDay.date, this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {this.MenuDayComponent.CurrentDay = d; this.MenuDayComponent.OnDayChanged.emit(d)});
   }
 }

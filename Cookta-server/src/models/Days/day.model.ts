@@ -28,18 +28,18 @@ export class Day {
 
     public async SetDay(mealings: IMealing[]) {
         let collection = await MongoHelper.getCollection(Day.CollectionName);
-        let day = new Day(this.date, mealings, this.familyId);
-        await collection.replaceOne({date: this.date, familyId: this.familyId}, day.ToDocument(), {upsert: true});
-        return day;
+        this.mealings = mealings;
+        await collection.replaceOne({date: this.date, familyId: this.familyId}, this.ToDocument(), {upsert: true});
+        return this;
     }
 
     public async RefreshTagMealing(index: number, user: User) {
         let mealing = await this.mealings[index];
         if (!mealing) return null;
         if (this.mealings[index].type == "tag") {
-            let foods = await Food.GetFoodsOfTag(user, mealing.id);
-            let food = await foods[Math.round(Math.random() * foods.length - 1)];
-            mealing.foodId = food.id;
+            let foods = await Food.GetFoodsOfTag(user, mealing.info.tagId);
+            let food = await foods[Math.floor(Math.random() * foods.length)];
+            mealing.foodId = food ? food.foodId : undefined;
         }
         let collection = await MongoHelper.getCollection(Day.CollectionName);
         await collection.replaceOne({date: this.date, familyId: this.familyId}, this.ToDocument(), {upsert: true});
