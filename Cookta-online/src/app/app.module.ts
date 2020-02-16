@@ -46,6 +46,7 @@ import { FoodPoolComponent } from './food/food-other/food-pool/food-pool.compone
 import { MenuDayComponent } from './menu/menu-day/menu-day.component';
 import { MenuMealingComponent } from './menu/menu-mealing/menu-mealing.component';
 import {MealingService} from "./shared/services/mealing.service";
+import { TagPoolComponent } from './menu/tag-pool/tag-pool.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -82,6 +83,7 @@ const appRoutes: Routes = [
     FoodPoolComponent,
     MenuDayComponent,
     MenuMealingComponent,
+    TagPoolComponent,
   ],
     imports: [
         BrowserModule,
