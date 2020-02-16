@@ -1,7 +1,16 @@
-<app-menu-mealing [MealName]="'Reggeli'"></app-menu-mealing>
-<app-menu-mealing [MealName]="'Tízórai'"></app-menu-mealing>
-<app-menu-mealing [MealName]="'Ebéd'"></app-menu-mealing>
-<app-menu-mealing [MealName]="'Uzsonna'"></app-menu-mealing>
-<app-menu-mealing [MealName]="'Vacsora'"></app-menu-mealing>
-<app-menu-mealing [MealName]="'Utóvacsora'"></app-menu-mealing>
-<app-menu-mealing [MealName]="'Nasi'"></app-menu-mealing>
+<div class="row">
+  <button mdbBtn color="red" (click)="NavDay(-1)">Előző</button>
+  <div class="col">
+    <h3 style="text-align: center; padding: 10px">{{CurrentDay.date}} - {{GetCurrentDayName(CurrentDay.date)}}</h3>
+  </div>
+  <button mdbBtn color="red" (click)="NavDay(1)">Következő</button>
+</div>
+<div style="height: calc(100vh - 150px); overflow-x: hidden; overflow-y: auto">
+  <app-menu-mealing [MealType]="0" [MealName]="'Reggeli'" [MenuDayComponent]="this" (AddMealToDay)="AddItemToDay($event)"></app-menu-mealing>
+  <app-menu-mealing [MealType]="1" [MealName]="'Tízórai'" [MenuDayComponent]="this" (AddMealToDay)="AddItemToDay($event)"></app-menu-mealing>
+  <app-menu-mealing [MealType]="2" [MealName]="'Ebéd'" [MenuDayComponent]="this" (AddMealToDay)="AddItemToDay($event)"></app-menu-mealing>
+  <app-menu-mealing [MealType]="3" [MealName]="'Uzsonna'" [MenuDayComponent]="this" (AddMealToDay)="AddItemToDay($event)"></app-menu-mealing>
+  <app-menu-mealing [MealType]="4" [MealName]="'Vacsora'" [MenuDayComponent]="this" (AddMealToDay)="AddItemToDay($event)"></app-menu-mealing>
+  <app-menu-mealing [MealType]="5" [MealName]="'Utóvacsora'" [MenuDayComponent]="this" (AddMealToDay)="AddItemToDay($event)"></app-menu-mealing>
+  <app-menu-mealing [MealType]="6" [MealName]="'Nasi'" [MenuDayComponent]="this" (AddMealToDay)="AddItemToDay($event)"></app-menu-mealing>
+</div>

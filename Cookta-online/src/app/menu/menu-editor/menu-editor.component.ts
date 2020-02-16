@@ -9,9 +9,9 @@ import {EMealType} from '../../shared/models/menu/mealtype.enum';
 export class DisplayMeal extends Meal {
   public Food: Food = FoodService.Placeholder;
 
-  constructor(public foodService: FoodService, meal: Meal) {
-    super(meal.type, meal.mealIndex, meal.id, meal.foodId, meal.info);
-    Meal.GetMealFood(this, foodService).then(f => this.Food = f);
+  constructor(public foodService: FoodService, public sourceMeal: Meal) {
+    super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);
+    Meal.GetMealFood(this, foodService).then(f => this.Food = f ? f : FoodService.NoReferenceError);
   }
 }
 
@@ -42,7 +42,7 @@ export class MenuEditorComponent implements OnInit {
 
   public Selected: any;
 
-  public day: Day = new Day('2001-01-01', []);
+  public day: Day = new Day('2001-01-01', [], null);
   public currentDate: string = '2001-02-01';
 
   public mealings: {container: CdkDropList, mealing: DisplayMealing}[];
@@ -50,6 +50,7 @@ export class MenuEditorComponent implements OnInit {
   public OnSelectedChanged: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public foodService: FoodService) {
+    this.OnSelectedChanged.subscribe(i => this.Selected = i);
   }
 
   ngOnInit() {

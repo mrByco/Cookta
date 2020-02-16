@@ -45,6 +45,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { FoodPoolComponent } from './food/food-other/food-pool/food-pool.component';
 import { MenuDayComponent } from './menu/menu-day/menu-day.component';
 import { MenuMealingComponent } from './menu/menu-mealing/menu-mealing.component';
+import {MealingService} from "./shared/services/mealing.service";
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -102,7 +103,7 @@ const appRoutes: Routes = [
         DragDropModule,
     ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, CanDeactivateGuard],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard],
   entryComponents: [GenericTwoButtonDialogComponent],
   bootstrap: [AppComponent]
 })

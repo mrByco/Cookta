@@ -1,9 +1,19 @@
-<div class="row" style="height: 100px">
+<div class="row">
 <!--  <div class="col-3"></div>-->
   <div class="col-3">
-    <button type="button" mdbBtn color="orange" style="width: 100%; padding: 1rem 0 1rem 0">{{MealName}}</button>
+    <button type="button" mdbBtn (click)="AddCurrentMealToDay()" [color]="MenuDayComponent.SelectedItem ? 'green': 'orange'" style="width: 100%; padding: 1rem 0 1rem 0">{{MealName}}</button>
   </div>
   <div class="col-9">
+    <div class="row" style="height: 100%">
+      <a class="meal-panel" *ngFor="let meal of displayMeals">
+        <img src="{{meal.Food.ImageUrl}}">
+        <div class="meal-panel-overlay">
+          <h6 >{{meal.Food.name}}</h6>
+          <a><img class="icon refresh-icon" src="assets/refresh-icon.png"></a>
+          <a (click)="DeleteMeal(meal)"><img class="icon trash-icon" src="assets/trash-icon.png"></a>
+        </div>
+      </a>
+    </div>
 
   </div>
 </div>

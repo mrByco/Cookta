@@ -2,11 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
-      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/mealing.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/assets/refresh-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/assets/trash-icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-pool/food-pool.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-pool/food-pool.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/day.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/day.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/navigation-bar/navigation-bar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/navigation-bar/navigation-bar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/food.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/food.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/mealing.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/mealing.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/day.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/day.controller.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,6 +165,7 @@
       <workItem from="1580033584340" duration="2728000" />
       <workItem from="1581009110985" duration="4220000" />
       <workItem from="1581235999399" duration="629000" />
+      <workItem from="1581842888323" duration="3120000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -313,25 +325,25 @@
     </state>
     <state width="1259" height="657" key="DebuggerActiveHint/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581010975627" />
     <state width="844" height="466" key="DebuggerActiveHint/0.0.1366.738@0.0.1366.738" timestamp="1579788366803" />
-    <state width="1893" height="276" key="GridCell.Tab.0.bottom" timestamp="1581013056491">
+    <state width="1893" height="276" key="GridCell.Tab.0.bottom" timestamp="1581842941085">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="276" key="GridCell.Tab.0.bottom/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581013056491" />
+    <state width="1893" height="276" key="GridCell.Tab.0.bottom/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581842941085" />
     <state width="1344" height="262" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1580037725208" />
-    <state width="1893" height="276" key="GridCell.Tab.0.center" timestamp="1581013056491">
+    <state width="1893" height="276" key="GridCell.Tab.0.center" timestamp="1581842941084">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="276" key="GridCell.Tab.0.center/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581013056491" />
+    <state width="1893" height="276" key="GridCell.Tab.0.center/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581842941084" />
     <state width="1344" height="262" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1580037725208" />
-    <state width="1893" height="276" key="GridCell.Tab.0.left" timestamp="1581013056491">
+    <state width="1893" height="276" key="GridCell.Tab.0.left" timestamp="1581842941084">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="276" key="GridCell.Tab.0.left/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581013056491" />
+    <state width="1893" height="276" key="GridCell.Tab.0.left/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581842941084" />
     <state width="1344" height="262" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1580037725208" />
-    <state width="1893" height="276" key="GridCell.Tab.0.right" timestamp="1581013056491">
+    <state width="1893" height="276" key="GridCell.Tab.0.right" timestamp="1581842941085">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="276" key="GridCell.Tab.0.right/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581013056491" />
+    <state width="1893" height="276" key="GridCell.Tab.0.right/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581842941085" />
     <state width="1344" height="262" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1580037725208" />
     <state width="1893" height="276" key="GridCell.Tab.1.bottom" timestamp="1581013056491">
       <screen x="0" y="0" width="1920" height="1040" />

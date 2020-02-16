@@ -26,7 +26,11 @@ export class FoodPoolComponent implements OnInit {
   GetItemSelected(item: Food): boolean {
     return this.Selected === item;
   }
+
   SelectItem(item: Food): void {
-    this.OnSelectionChanged.emit(item);
+    if (this.GetItemSelected(item))
+      this.OnSelectionChanged.emit(null);
+    else
+      this.OnSelectionChanged.emit(item);
   }
 }

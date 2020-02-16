@@ -11,7 +11,7 @@
         <app-food-pool [SelectItemOut]="SelectItem" [OnSelectionChanged]="OnSelectedChanged"></app-food-pool>
       </div>
       <div class="col-5">
-        <app-menu-day></app-menu-day>
+        <app-menu-day [SelectedItem]="Selected" [MenuEditorComponent]="this"></app-menu-day>
       </div>
     </div>
   </div>

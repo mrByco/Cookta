@@ -34,7 +34,7 @@ export class DayController extends Controller {
 
     @Security('Bearer', [])
     @Get('/{date}/{mealingIdentity}')
-    public async RefreshDay(@Request() request, date: string, mealingIdentity: string): Promise<Day> {
+    public async RefreshDay(@Request() request, date: string, mealingIdentity: number): Promise<Day> {
         try {
             let user = request.user as User;
             let day = await Day.GetDay(date, user);
