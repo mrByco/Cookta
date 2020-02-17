@@ -12,13 +12,13 @@ export class Meal {
     public info?: any) {
   }
 
-  public static async GetMealFood(meal: Meal, foodService: FoodService): Promise<Food> {
+  public static GetMealFoodId(meal: Meal): string {
     switch (meal.type) {
       case "food":
-        return await foodService.GetFood(meal.foodId);
+        return meal.foodId;
       case "tag":
         console.log(meal);
-        return await foodService.GetFood(meal.foodId);
+        return meal.foodId;
       case "fixed":
         break;
     }

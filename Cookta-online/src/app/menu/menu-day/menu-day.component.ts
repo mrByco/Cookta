@@ -16,12 +16,12 @@ export class MenuDayComponent implements OnInit {
   @Input() MenuEditorComponent: MenuEditorComponent;
   public OnDayChanged: EventEmitter<Day> = new EventEmitter<Day>();
 
-  public async SetCurrentDay(date: string): Promise<void>{
+  public async SetCurrentDay(date: string): Promise<void> {
     this.CurrentDay = await this.mealingService.GetDay(date);
     this.OnDayChanged.emit(this.CurrentDay);
   }
 
-  public async NavDay(day: number){
+  public async NavDay(day: number) {
     let currentDate: Date = new Date(this.CurrentDay.date);
     currentDate.setDate(currentDate.getDate() + day);
     await this.SetCurrentDay(currentDate.toISOString().split('T')[0]);
@@ -30,9 +30,9 @@ export class MenuDayComponent implements OnInit {
 
   public CurrentDay: Day = Day.PlaceHolder;
 
-  public GetCurrentDayName(date: string){
+  public GetCurrentDayName(date: string) {
     let currentDate: Date = new Date(this.CurrentDay.date);
-    switch (currentDate.getDay()){
+    switch (currentDate.getDay()) {
       case 1:
         return "Hétfő";
       case 2:
@@ -59,14 +59,16 @@ export class MenuDayComponent implements OnInit {
     this.SaveDay();
     this.OnDayChanged.emit(this.CurrentDay);
   }
-  public SaveDay(){
-    this.mealingService.SetDay(this.CurrentDay.date, this.CurrentDay.mealings).then(d => {this.CurrentDay = d; this.OnDayChanged.emit(this.CurrentDay);});
+
+  public SaveDay() {
+    this.mealingService.SetDay(this.CurrentDay.date, this.CurrentDay.mealings).then(d => {
+      this.CurrentDay = d;
+      this.OnDayChanged.emit(this.CurrentDay);
+    });
   }
 
   async ngOnInit() {
     let today: Date = new Date(Date.now());
     await this.SetCurrentDay(today.toISOString().split('T')[0]);
   }
-
-
 }

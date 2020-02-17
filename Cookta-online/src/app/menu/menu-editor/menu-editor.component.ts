@@ -9,10 +9,15 @@ import {EMealType} from '../../shared/models/menu/mealtype.enum';
 export class DisplayMeal extends Meal {
   public Food: Food = FoodService.Placeholder;
 
-  constructor(public foodService: FoodService, public sourceMeal: Meal) {
+  constructor(public foodService: FoodService, public sourceMeal: Meal, knownFoods?: Food[]) {
     super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);
     if (!sourceMeal.foodId) return;
-    Meal.GetMealFood(this, foodService).then(f => this.Food = f ? f : FoodService.NoReferenceError);
+    let foodId = Meal.GetMealFoodId(this);
+    if (knownFoods && knownFoods.find(f => f.foodId == foodId)){
+      this.Food = knownFoods.find(f => f.foodId == foodId);
+    } else {
+      foodService.GetFood(foodId).then(f => this.Food = f ? f : FoodService.NoReferenceError);
+    }
   }
 }
 

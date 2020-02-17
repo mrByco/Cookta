@@ -24,10 +24,12 @@ export class MenuMealingComponent implements OnInit {
   public async setDay(day: Day): Promise<void>{
     this.Day = day;
     let meals = this.Day.GetMealsOfMealing(this.MealType);
-    this.displayMeals = [];
+    let newDisplayMeals = [];
+    let knownFoods = this.displayMeals.map(m => m.Food);
     for (let meal of meals){
-      this.displayMeals.push(new DisplayMeal(this.foodService, meal))
+      newDisplayMeals.push(new DisplayMeal(this.foodService, meal, knownFoods));
     }
+    this.displayMeals = newDisplayMeals;
   }
 
   public displayMeals: DisplayMeal[] = [];
