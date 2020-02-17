@@ -12,7 +12,10 @@ export class DisplayMeal extends Meal {
 
   constructor(public foodService: FoodService, public sourceMeal: Meal, knownFoods?: Food[]) {
     super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);
-    if (!sourceMeal.foodId) return;
+    if (!sourceMeal.foodId){
+      this.Food = null;
+      return;
+    }
     let foodId = Meal.GetMealFoodId(this);
     if (knownFoods && knownFoods.find(f => f.foodId == foodId)){
       this.Food = knownFoods.find(f => f.foodId == foodId);

@@ -23,7 +23,7 @@ export class RootComponentComponent implements OnInit {
     this.loadingState = LoadingState.Ingredients;
     this.IngredientService.IngredientTypes.then(types => {
     }).then(() => {
-      this.TagService.Tags.then(() => {
+      this.TagService.TagsAsync.then(() => {
         this.loadingState = LoadingState.Ready;
         console.log("Done");
       })

@@ -17,7 +17,6 @@ export class Meal {
       case "food":
         return meal.foodId;
       case "tag":
-        console.log(meal);
         return meal.foodId;
       case "fixed":
         break;
