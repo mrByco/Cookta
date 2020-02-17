@@ -52,6 +52,10 @@
   left: 10px;
 }
 
+.refresh-icon-loading {
+  animation: rotation 2s infinite linear;
+}
+
 .meal-panel-overlay:hover {
   background: rgba(0, 0, 0, 0.5);
 }

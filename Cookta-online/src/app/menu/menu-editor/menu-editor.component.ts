@@ -8,6 +8,7 @@ import {EMealType} from '../../shared/models/menu/mealtype.enum';
 
 export class DisplayMeal extends Meal {
   public Food: Food = FoodService.Placeholder;
+  public Refreshing: boolean = false;
 
   constructor(public foodService: FoodService, public sourceMeal: Meal, knownFoods?: Food[]) {
     super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);

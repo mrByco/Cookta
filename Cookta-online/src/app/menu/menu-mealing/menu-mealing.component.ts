@@ -65,6 +65,7 @@ export class MenuMealingComponent implements OnInit {
   }
 
   RefreshMeal(meal: DisplayMeal) {
+    meal.Refreshing = true;
     this.MenuDayComponent.mealingService.RefreshMealing(this.MenuDayComponent.CurrentDay.date, this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {this.MenuDayComponent.CurrentDay = d; this.MenuDayComponent.OnDayChanged.emit(d)});
   }
 }

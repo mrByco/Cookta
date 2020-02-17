@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/mealing.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/mealing.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
