@@ -36,5 +36,6 @@ export class Routes {
     GetDay: "/day/{date}",
     SetDay: "/day/{date}",
     RefreshDay: "/day/{date}/{mealingIdentity}",
+    FinalizeDay: "/day/finalize/{date}/{mealingIdentity}"
   };
 }

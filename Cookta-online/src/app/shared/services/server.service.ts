@@ -9,7 +9,7 @@ export class ServerService {
   }
 
   public GetBase(): string {
-    return false
+    return true
       ? "http://localhost:8080" : "https://cooktaservices.azurewebsites.net";
   }
 

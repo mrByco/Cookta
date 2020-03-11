@@ -44,6 +44,14 @@ export class MealingService {
       });
     })
   }
-
-
+  public async FinalizeMealing(date: string, mealIndex: number): Promise<Day> {
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.GetRequest(Routes.Menu.FinalizeDay.replace('{date}', date).replace('{mealingIdentity}', mealIndex.toString()));
+      response.subscribe(data => {
+        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+      }, () => {
+        resolve(null);
+      });
+    })
+  }
 }

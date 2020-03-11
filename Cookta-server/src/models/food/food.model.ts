@@ -194,7 +194,7 @@ export class Food {
     }
 
 
-    private static FromDocument(doc: any): Food {
+    public static FromDocument(doc: any): Food {
         return new Food(
             doc['owner'],
             doc['name'],
@@ -214,7 +214,7 @@ export class Food {
         )
     }
 
-    private ToDocument(): any {
+    public ToDocument(): any {
         return {
             owner: this.owner,
             name: this.name,

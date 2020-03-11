@@ -1,7 +1,16 @@
 .meal-panel {
   margin: 5px;
   position: relative;
+  padding-bottom: 5px;
 }
+
+.bcg-red {
+  background-color: darkred;
+}
+.bcg-green {
+  background-color: green;
+}
+
 .meal-panel img {
   height: 9rem;
 }
@@ -31,7 +40,6 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  top: 10px;
   opacity: 0;
   border-radius: 2px;
 
@@ -46,16 +54,20 @@
 }
 
 .meal-panel-overlay .trash-icon {
+  top: 10px;
   right: 10px;
 }
-.meal-panel-overlay .refresh-icon {
+.meal-panel-overlay .pin-icon {
+  top: 10px;
   left: 10px;
 }
-
+.meal-panel-overlay .refresh-icon {
+  bottom: 10px;
+  right: 10px;
+}
 .refresh-icon-loading {
   animation: rotation 2s infinite linear;
 }
-
 .meal-panel-overlay:hover {
   background: rgba(0, 0, 0, 0.5);
 }

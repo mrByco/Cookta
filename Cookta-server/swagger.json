@@ -1651,6 +1651,45 @@
 				]
 			}
 		},
+		"/day/finalize/{date}/{mealingIdentity}": {
+			"get": {
+				"operationId": "FinalizeMealing",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "path",
+						"name": "mealingIdentity",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
 		"/subscription": {
 			"get": {
 				"operationId": "GetSubscribedFoods",

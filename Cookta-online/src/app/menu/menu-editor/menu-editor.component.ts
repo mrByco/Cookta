@@ -14,6 +14,11 @@ export class DisplayMeal extends Meal {
     super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);
     if (!sourceMeal.foodId) return;
     let foodId = Meal.GetMealFoodId(this);
+    if (sourceMeal.type == 'final'){
+      this.Food = sourceMeal.info.finalFood as Food;
+      return;
+    }
+
     if (knownFoods && knownFoods.find(f => f.foodId == foodId)){
       this.Food = knownFoods.find(f => f.foodId == foodId);
     } else {
