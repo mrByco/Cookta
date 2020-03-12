@@ -14,6 +14,7 @@ import './controllers/user.controller';
 import './controllers/day.controller';
 import './controllers/subscription.controller';
 import './controllers/family.controller' ;
+import './controllers/ping.controller' ;
 
 const fileUpload = require('express-fileupload');
 

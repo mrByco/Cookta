@@ -13,6 +13,7 @@ export class NavigationBarComponent implements OnInit {
   public PictureUrl: string = "";
 
   public ShowIngredientEditor: boolean = false;
+  public ShowDebugOptions: boolean = false;
 
   constructor(private identityService: IdentityService,
               private familyService: FamilyService) {
@@ -22,6 +23,7 @@ export class NavigationBarComponent implements OnInit {
       this.PictureUrl = user['picture'];
 
       identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
+      identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
       console.log(user);
     });
   }

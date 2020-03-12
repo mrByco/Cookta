@@ -47,11 +47,13 @@ import { MenuDayComponent } from './menu/menu-day/menu-day.component';
 import { MenuMealingComponent } from './menu/menu-mealing/menu-mealing.component';
 import {MealingService} from "./shared/services/mealing.service";
 import { TagPoolComponent } from './menu/tag-pool/tag-pool.component';
+import { DebugOptionsComponent } from './admin-components/debug-options/debug-options.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
   {path: 'foods', component: FoodListComponent},
   {path: 'ingredient-editor', component: IngredientEditorComponent},
+  {path: 'debug-options', component: DebugOptionsComponent},
   {path: 'foods/collection', component: FoodCollectionListComponent},
   {path: 'foods/:id', component: FoodDetailComponent},
   {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
@@ -84,6 +86,7 @@ const appRoutes: Routes = [
     MenuDayComponent,
     MenuMealingComponent,
     TagPoolComponent,
+    DebugOptionsComponent,
   ],
     imports: [
         BrowserModule,
