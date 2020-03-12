@@ -15,7 +15,7 @@ export class DisplayMeal extends Meal {
     if (!sourceMeal.foodId) return;
     let foodId = Meal.GetMealFoodId(this);
     if (sourceMeal.type == 'final'){
-      this.Food = sourceMeal.info.finalFood as Food;
+      this.Food = Food.FromJson(sourceMeal.info.finalFood);
       return;
     }
 

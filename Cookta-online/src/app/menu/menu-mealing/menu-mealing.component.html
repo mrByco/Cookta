@@ -5,13 +5,13 @@
   </div>
   <div class="col-9">
     <div class="row" style="height: 100%">
-      <a class="meal-panel" [ngClass]="{'bcg-red': meal.type != 'final', 'bcg-green:': meal.type == 'final'}" *ngFor="let meal of displayMeals">
+      <a class="meal-panel" [ngClass]="{'bcg-red': meal.type != 'final', 'bcg-green': meal.type == 'final'}" *ngFor="let meal of displayMeals">
         <img src="{{meal.Food.ImageUrl}}">
         <div class="meal-panel-overlay">
           <h6>{{meal.Food.name}}</h6>
 
           <a *ngIf="meal.type == 'tag'" (click)="RefreshMeal(meal)">
-            <img class="icon refresh-icon refresh-icon-loading" [ngClass]="{'refresh-icon-loading': meal.Refreshing}" src="assets/refresh-icon.png">
+            <img class="icon refresh-icon" [ngClass]="{'refresh-icon-loading': meal.Refreshing}" src="assets/refresh-icon.png">
           </a>
 
           <a (click)="DeleteMeal(meal)">
@@ -19,7 +19,9 @@
           </a>
 
           <a (click)="FinalizeMeal(meal)">
-            <img class="icon pin-icon" src="assets/trash-icon.png">
+            <img class="icon pin-icon"
+                 src="assets/finalize-icon.png"
+                 [ngClass]="{'unpinned': meal.type != 'final', 'pinned': meal.type == 'final'}">
           </a>
         </div>
       </a>

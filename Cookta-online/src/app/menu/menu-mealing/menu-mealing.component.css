@@ -66,7 +66,7 @@
   right: 10px;
 }
 .refresh-icon-loading {
-  animation: rotation 2s infinite linear;
+  animation: rotation 3s infinite linear;
 }
 .meal-panel-overlay:hover {
   background: rgba(0, 0, 0, 0.5);
@@ -74,4 +74,23 @@
 .meal-panel-overlay:hover h6{
   color: white;
   bottom: 15%;
+}
+
+.unpinned {
+  transform: rotate(45deg);
+  transition: transform 1s;
+}
+.pinned {
+  transform: rotate(0);
+  transition: transform 1s;
+}
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-359deg);
+  }
 }

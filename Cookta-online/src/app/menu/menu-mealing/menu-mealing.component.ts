@@ -43,8 +43,9 @@ export class MenuMealingComponent implements OnInit {
   }
 
   public AddCurrentMealToDay() {
-    if (!this.MenuDayComponent.SelectedItem)
+    if (!this.MenuDayComponent.SelectedItem) {
       return null;
+    }
 
     let mealToAdd;
       if (this.MenuDayComponent.SelectedItem instanceof Food)
