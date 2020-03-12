@@ -76,7 +76,7 @@ export class FamilyController extends Controller {
             let family = await Family.GetFamily(user, familyId);
             if (!family)
                 return false;
-            return await family.GetOutUserFromFamily(user, userToLeave);
+            return await family.KickUserFromFamily(user, userToLeave);
         } catch {
             this.setStatus(500)
         }

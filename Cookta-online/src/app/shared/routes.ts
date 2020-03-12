@@ -29,7 +29,12 @@ export class Routes {
   };
 
   public static readonly Family = {
-
+    GetFamily: "/family/{familyId}",
+    SwitchFamily: "/family/{newId}",
+    DeleteFamily: "/family/{deleteId}",
+    CreateFamily: "/family/{familyName}",
+    InviteToFamily: "/family/{familyId}/invite",
+    KickUserFromFamily: "/family/{familyId}/leave/{removeUserSub}",
   };
 
   public static readonly Menu = {

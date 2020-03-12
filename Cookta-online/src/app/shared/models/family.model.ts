@@ -13,7 +13,7 @@ export interface IFamilyMember {
   profilpic: string
 }
 export class Family {
-  constructor(id: string, name: string, members: IFamilyMember[]) {
+  constructor(public id: string, public name: string, public members: IFamilyMember[]) {
   }
 
 

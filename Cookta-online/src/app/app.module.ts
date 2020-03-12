@@ -48,6 +48,10 @@ import { MenuMealingComponent } from './menu/menu-mealing/menu-mealing.component
 import {MealingService} from "./shared/services/mealing.service";
 import { TagPoolComponent } from './menu/tag-pool/tag-pool.component';
 import { DebugOptionsComponent } from './admin-components/debug-options/debug-options.component';
+import { FamilyPickerComponent } from './profile/family/family-picker/family-picker.component';
+import { FamilyManagementComponent } from './profile/family/family-management/family-management.component';
+import { FamilyEditPageComponent } from './profile/family/family-edit-page/family-edit-page.component';
+import { FamilyDetailsPageComponent } from './profile/family/family-details-page/family-details-page.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -57,6 +61,7 @@ const appRoutes: Routes = [
   {path: 'foods/collection', component: FoodCollectionListComponent},
   {path: 'foods/:id', component: FoodDetailComponent},
   {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
+  {path: 'family-manager', component: FamilyManagementComponent},
   {path: 'calendar', component: MenuEditorComponent}
 
 ];
@@ -87,6 +92,10 @@ const appRoutes: Routes = [
     MenuMealingComponent,
     TagPoolComponent,
     DebugOptionsComponent,
+    FamilyPickerComponent,
+    FamilyManagementComponent,
+    FamilyEditPageComponent,
+    FamilyDetailsPageComponent,
   ],
     imports: [
         BrowserModule,

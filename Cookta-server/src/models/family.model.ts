@@ -36,7 +36,7 @@ export class Family {
         else return false;
     }
 
-    public async GetOutUserFromFamily(user: User, userToLeave: User): Promise<boolean>{
+    public async KickUserFromFamily(user: User, userToLeave: User): Promise<boolean>{
         if (this.ownerSub == userToLeave.sub || !this.members.find(m => m.sub == userToLeave.sub))
             return false;
 
