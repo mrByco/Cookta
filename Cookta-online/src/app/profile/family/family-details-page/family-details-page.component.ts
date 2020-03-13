@@ -1,5 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Family} from '../../../shared/models/family.model';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {EFamilyRole, Family} from '../../../shared/models/family.model';
+import {FamilyService} from '../../../shared/services/family.service';
+import {IdentityService} from '../../../shared/services/identity.service';
+import {MDBModalRef, ModalDirective} from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-family-details-page',
@@ -11,8 +14,15 @@ import {Family} from '../../../shared/models/family.model';
 export class FamilyDetailsPageComponent implements OnInit {
   @Input() CurrentFamily: Family;
   @Input() Loading: boolean;
+  @Input() Editing: boolean;
 
-  constructor() {
+  @ViewChild('modalDirective', {static: true}) AddModal: ModalDirective ;
+  private AddUsername: string;
+  private AddEmail: string;
+
+  private RoleToString: (role: EFamilyRole) => string = Family.FamilyRoleToString;
+
+  constructor(private familyService: FamilyService, private identityService: IdentityService) {
   }
 
   ngOnInit() {
@@ -20,5 +30,41 @@ export class FamilyDetailsPageComponent implements OnInit {
 
   ShowAddMemberDialog() {
 
+  }
+
+  SetEditing(b: boolean) {
+    this.Editing = b;
+  }
+
+  GetShowDeleteButton(): boolean {
+    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.LastKnownUserInfo.sub)) != null;
+  }
+
+  GetShowLeaveButton(): boolean {
+    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.LastKnownUserInfo.sub)) == null;
+  }
+
+  GetShowEditButton(): boolean {
+    return false;
+    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.LastKnownUserInfo.sub)) != null;
+  }
+
+  CloseModal() {
+    this.AddModal.hide();
+    this.AddUsername = "";
+    this.AddEmail = "";
+  }
+
+  async AddUserToFamily() {
+    this.Loading = true;
+    let task = this.familyService.InviteMemberToFamily(this.CurrentFamily, {invitedEmail: this.AddEmail, invitedUsername: this.AddUsername});
+    this.CloseModal();
+    await task;
+    this.Loading = false;
+  }
+
+  DeleteFamily() {
+    this.familyService.DeleteFamily(this.CurrentFamily);
+    this.CurrentFamily = null;
   }
 }

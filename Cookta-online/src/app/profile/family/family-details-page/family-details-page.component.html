@@ -1,30 +1,70 @@
-
-
 <div class="row">
   <h2 class="family-title">{{CurrentFamily ? CurrentFamily.name : "Jelölj ki egy családot"}}</h2>
   <div *ngIf="Loading" class="spinner-border" style="margin-left: 2rem" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
-<div *ngIf="CurrentFamily" >
+<div *ngIf="CurrentFamily">
   <div class="row" style="margin-bottom: 2rem">
-    <button size="small" mdbBtn color="primary">Váltás</button>
-    <button size="small" mdbBtn color="primary">Szerkesztés</button>
-    <button size="small" mdbBtn color="red">Elhagyás</button>
-    <button size="small" mdbBtn color="red">Törlés</button>
+    <button size="small" mdbBtn color="primary" (click)="familyService.SwitchFamily(CurrentFamily)">Váltás</button>
+    <button size="small" mdbBtn color="primary" *ngIf=(GetShowEditButton()) (click)="SetEditing(true)">Szerkesztés
+    </button>
+    <button size="small" mdbBtn color="red" *ngIf="GetShowLeaveButton()"
+            (click)="familyService.RemoveFromFamily(CurrentFamily)">Elhagyás
+    </button>
+    <button size="small" mdbBtn color="red" *ngIf="GetShowDeleteButton()"
+            (click)="DeleteFamily()">Törlés
+    </button>
     <hr>
   </div>
   <h2 class="family-title">Részvevők</h2>
   <div class="family-list">
     <div *ngFor="let member of CurrentFamily.members"
-       class="row family-item" style="cursor: default;">
+         class="row family-item" style="cursor: default;">
       <label style="cursor: default">{{member.username}}</label>
+      <label style="cursor: default">{{RoleToString(member.role)}}</label>
+      <button *ngIf="GetShowDeleteButton()"
+              mdbBtn size="small" color="red" (click)="familyService.RemoveFromFamily(CurrentFamily, member)">
+        Eltávolítás
+      </button>
     </div>
 
 
     <a class="row family-item" style="font-style: italic; margin-top: 2rem"
-       (click)="ShowAddMemberDialog()">
+       (click)="modalDirective.show()">
       <label>Új családtag hozzáadása</label>
     </a>
+  </div>
+</div>
+
+
+<div mdbModal #modalDirective class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="CloseModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Családtag hozzáadása</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="md-form">
+          <input mdbInput type="text" id="form1" [(ngModel)]="AddUsername" class="form-control">
+          <label for="form1">Felhasználónév</label>
+        </div>
+        <div class="md-form">
+          <input mdbInput type="text" id="form2" [(ngModel)]="AddEmail" class="form-control">
+          <label for="form2">Email</label>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect
+                (click)="AddUserToFamily()">Hozzáadás
+        </button>
+      </div>
+    </div>
   </div>
 </div>

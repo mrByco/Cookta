@@ -52,35 +52,35 @@ export class FamilyController extends Controller {
 
     @Security('Bearer', [])
     @Put('/{familyId}/invite')
-    public async InviteByUserNameEmail(@Request() request, @Body() inv: InviteFamilyRequest, familyId: string): Promise<boolean> {
+    public async InviteByUserNameEmail(@Request() request, @Body() inv: InviteFamilyRequest, familyId: string): Promise<SendFamily> {
         try {
             let user = request.user as User;
             let familyToInvite = await Family.GetFamily(user, familyId);
             let invited = await User.GetUserByEmail(inv.invitedEmail);
             if (!familyToInvite || invited == null ||invited.username != inv.invitedUsername)
-                return false;
-            return await familyToInvite.JoinUserToFamily(user, invited);
+                return null;
+            await familyToInvite.JoinUserToFamily(user, invited);
+            return await familyToInvite.ToSendFamily(user);
 
         } catch {
             this.setStatus(500)
         }
-        return false;
     }
 
     @Security('Bearer', [])
     @Delete('/{familyId}/leave/{removeUserSub}')
-    public async LeaveFamily(@Request() request, familyId: string, removeUserSub: string): Promise<boolean> {
+    public async LeaveFamily(@Request() request, familyId: string, removeUserSub: string): Promise<Family> {
         try {
             let user = request.user as User;
             let userToLeave = await User.GetUser(removeUserSub);
             let family = await Family.GetFamily(user, familyId);
             if (!family)
-                return false;
-            return await family.KickUserFromFamily(user, userToLeave);
+                return family;
+            await family.KickUserFromFamily(user, userToLeave);
+            return family;
         } catch {
             this.setStatus(500)
         }
-        return false;
     }
 
 }

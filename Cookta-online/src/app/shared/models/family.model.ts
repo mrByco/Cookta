@@ -17,4 +17,17 @@ export class Family {
   }
 
 
+  public static FamilyRoleToString(role: EFamilyRole): string{
+    switch (role) {
+      case EFamilyRole.child:
+        return "Gyerek";
+      case EFamilyRole.guest:
+        return "Vendég";
+      case EFamilyRole.owner:
+        return "Házigazda";
+      case EFamilyRole.partner:
+        return "Partner";
+
+    }
+  }
 }
