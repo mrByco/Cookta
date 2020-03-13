@@ -267,6 +267,7 @@ const models: TsoaRoute.Models = {
     "Food": {
         "dataType": "refObject",
         "properties": {
+            "CollectionName": { "dataType": "enum", "enums": ["Foods"], "default": "Foods" },
             "owner": { "dataType": "string", "required": true },
             "name": { "dataType": "string", "default": "" },
             "desc": { "dataType": "string", "default": "" },

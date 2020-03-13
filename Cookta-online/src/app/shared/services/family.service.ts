@@ -16,16 +16,13 @@ export class FamilyService {
 
   public GetOwnFamilies(): Family[] {
     if (!this.families) return [];
-    return this.families.filter(f => f.members.find
-    (u => u.sub == this.identityService.LastKnownUserInfo.sub)
-      .role == EFamilyRole.owner);
+    return this.families.filter
+    (f => f.members.find(member => this.identityService.Identity.subs.includes(member.sub)).role == EFamilyRole.owner);
   }
 
   public GetOtherFamilies(): Family[] {
     if (!this.families) return [];
-    return this.families.filter(f => f.members.find
-    (u => u.sub == this.identityService.LastKnownUserInfo.sub)
-      .role != EFamilyRole.owner);
+    return this.families.filter(f => f.members.find(member => this.identityService.Identity.subs.includes(member.sub)).role != EFamilyRole.owner);
   }
 
   public onActiveFamilyChanged: EventEmitter<Family> = new EventEmitter<Family>();
@@ -91,7 +88,6 @@ export class FamilyService {
       response.subscribe(data => {
         let newFamily = data as Family;
 
-        console.log(newFamily);
 
         currentFamily.members = newFamily.members;
         currentFamily.name = newFamily.name;

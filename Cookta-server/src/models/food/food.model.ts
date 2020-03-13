@@ -12,7 +12,7 @@ const ContainerName = 'foodimages';
 
 
 export class Food {
-    private static readonly CollectionName = "Foods";
+    public static readonly CollectionName = "Foods";
     private static readonly BlobContainerName = "foodimages";
 
     constructor(

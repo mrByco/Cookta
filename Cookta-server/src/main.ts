@@ -2,6 +2,7 @@ import * as http from "http";
 import {app} from "./app";
 import {MongoHelper} from "./helpers/mongo.helper";
 import {Role} from "./models/role.model";
+import {User} from "./models/user.model";
 
 const PORT = process.env.PORT || 8080;
 
@@ -19,6 +20,14 @@ try{
         await Role.init();
         console.info("Starting server...");
         server.listen(PORT);
+
+        /*
+        let users = await User.GetAllUser();
+        console.log(`${users.length} users loaded...`);
+        for (let user of users){
+            await user.RefreshDependenciesToPrimarySub();
+            console.log(`User: ${user.username} - Refreshed!`);
+        }*/
     });
 }catch (err){
     console.error(err);

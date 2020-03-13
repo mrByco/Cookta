@@ -113,7 +113,7 @@ export class Family {
         return family;
     }
 
-    private async Save(){
+    public async Save(){
         let collection = await MongoHelper.getCollection(Family.CollectionName);
         await collection.replaceOne({_id: new ObjectID(this.id)}, this.ToDocument(), {upsert: true});
     }

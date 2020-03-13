@@ -24,15 +24,14 @@
       <hr>
       <h3 class="family-title">Egyéb családok</h3>
       <div class="family-list">
-        <a href="#" class="row family-item">
-          <label>Family 1 sadasd</label>
-        </a>
-        <a href="#" class="row family-item">
-          <label>Family 1 sadasd</label>
+        <a *ngFor="let family of familyService.GetOtherFamilies()"
+           class="row family-item"
+           [ngClass]="{'family-item-selected': CurrentFamily ? CurrentFamily.id == family.id : false}"
+           (click)="SelectFamily(family)">
+          <label>{{family.name}}</label>
         </a>
       </div>
     </div>
-
 
     <div class="col-7">
       <app-family-details-page [CurrentFamily]="CurrentFamily" [Loading]="Loading"></app-family-details-page>

@@ -671,6 +671,14 @@
 		},
 		"Food": {
 			"properties": {
+				"CollectionName": {
+					"type": "string",
+					"enum": [
+						"Foods"
+					],
+					"default": "Foods",
+					"x-nullable": true
+				},
 				"owner": {
 					"type": "string"
 				},
@@ -1923,7 +1931,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "boolean"
+							"$ref": "#/definitions/Family"
 						}
 					}
 				},

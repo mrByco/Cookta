@@ -4,6 +4,8 @@ import {Role} from "./role.model";
 import * as jwt from 'jsonwebtoken';
 import * as request from "request";
 import {Family} from "./family.model";
+import {Food} from "./food/food.model";
+import {Subscription} from "./subscription.model";
 
 
 export class User {
@@ -78,6 +80,7 @@ export class User {
             let createdFamily = await Family.CreateFamily(data.sub, `${user.username} családja`);
             user.currentFamilyId = createdFamily.id;
         }
+        await user.RefreshDependenciesToPrimarySub();
         await collection.replaceOne({sub: user.sub}, user.ToDocument());
         return user;
     }
@@ -148,6 +151,40 @@ export class User {
         await collection.replaceOne({_id: newUser._id}, newUser.ToDocument(), {upsert: true});
     }
 
+    public async RefreshDependenciesToPrimarySub(): Promise<void>{
+        let subs = this.subs;
+        let primary = this.sub;
+
+        let foods = await Food.GetAllFoods({});
+        for (let sub of subs){
+            for (let food of foods.filter(f => f.owner == sub)){
+                food.owner = primary;
+                await food.Save();
+            }
+
+            let subscriptions = await Subscription.GetAll();
+            for (let subscription of subscriptions.filter(s => s.userSub == sub)){
+                subscription.userSub = primary;
+                await subscription.Save()
+            }
+
+            let families = await Family.GetUserFamilies(this);
+            for (let family of families){
+                if (family.ownerSub == sub) family.ownerSub = primary;
+                for (let member of family.members){
+                    if (member.sub == sub){
+                        member.sub = primary;
+                    }
+                }
+                await family.Save();
+            }
+
+
+        }
+
+
+    }
+
     public async SetUserName(username: string) {
         this.username = username;
         await this.Save();
@@ -191,4 +228,17 @@ export class User {
         )
         ;
     }
+
+
+    static async GetAllUser(): Promise<User[]> {
+        let collection = await MongoHelper.getCollection(this.CollectionName);
+        let documents  = await collection.find().toArray();
+        let users: User[] = [];
+        for (let doc of documents){
+            users.push(this.FromDocument(doc));
+        }
+
+        return users;
+    }
+
 }

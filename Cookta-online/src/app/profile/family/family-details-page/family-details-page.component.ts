@@ -37,16 +37,16 @@ export class FamilyDetailsPageComponent implements OnInit {
   }
 
   GetShowDeleteButton(): boolean {
-    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.LastKnownUserInfo.sub)) != null;
+    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.Identity.sub)) != null;
   }
 
   GetShowLeaveButton(): boolean {
-    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.LastKnownUserInfo.sub)) == null;
+    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.Identity.sub)) == null;
   }
 
   GetShowEditButton(): boolean {
     return false;
-    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.LastKnownUserInfo.sub)) != null;
+    return this.CurrentFamily.members.find(m => (m.role == EFamilyRole.owner && m.sub == this.identityService.Identity.sub)) != null;
   }
 
   CloseModal() {
