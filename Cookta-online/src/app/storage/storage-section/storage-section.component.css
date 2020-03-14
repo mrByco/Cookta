@@ -1,0 +1,26 @@
+.storage-section-panel {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  width: 30rem;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+.storage-section-panel h2 {
+  margin: 20px;
+}
+.odd {
+}
+.even {
+  background: rgba(0, 27, 255, 0.06);
+}
+
+.storage-section-item {
+  margin: 0.1rem 1.3rem;
+  padding-left: 0.3rem;
+}
+.storage-section-item:hover {
+  background: rgba(0, 210, 255, 0.5);
+}
+.storage-section-item label {
+  font-size: 20px;
+}
