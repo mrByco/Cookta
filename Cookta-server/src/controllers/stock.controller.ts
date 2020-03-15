@@ -19,6 +19,7 @@ export class StockController extends Controller {
         let response = await RequestHelper.ExecuteRequest(this, () => {
             return Services.StorageService.GetSections(user);
         });
+        response.forEach(f => delete response['connectedService']); //TODO implement a To Json method
         return response;
     }
     @Security("Bearer", [])
