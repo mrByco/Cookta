@@ -171,14 +171,24 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ISetStockItemRequest": {
+    "ObjectId": {
         "dataType": "refObject",
         "properties": {
-            "owner": { "dataType": "string", "required": true },
-            "type": { "dataType": "string" },
-            "typeId": { "dataType": "string", "required": true },
-            "value": { "dataType": "double" },
-            "unitId": { "dataType": "string" },
+            "generationTime": { "dataType": "double", "required": true },
+            "cacheHexString": { "dataType": "boolean" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IStorageSection": {
+        "dataType": "refObject",
+        "properties": {
+            "Id": { "ref": "ObjectId" },
+            "FamilyId": { "dataType": "string" },
+            "Name": { "dataType": "string" },
+            "Items": { "dataType": "array", "array": { "ref": "IIngredient" } },
+            "GeneralList": { "dataType": "array", "array": { "ref": "IIngredient" } },
+            "IsDefaultList": { "dataType": "boolean" },
         },
         "additionalProperties": false,
     },
@@ -701,10 +711,11 @@ export function RegisterRoutes(app: express.Express) {
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/stock/:owner',
+    app.get('/stock',
+        authenticateMiddleware([{ "Bearer": [] }]),
         function(request: any, response: any, next: any) {
             const args = {
-                owner: { "in": "path", "name": "owner", "required": true, "dataType": "string" },
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -723,11 +734,11 @@ export function RegisterRoutes(app: express.Express) {
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/stock/:owner',
+    app.post('/stock',
+        authenticateMiddleware([{ "Bearer": [] }]),
         function(request: any, response: any, next: any) {
             const args = {
-                setRequest: { "in": "body", "name": "setRequest", "required": true, "ref": "ISetStockItemRequest" },
-                owner: { "in": "path", "name": "owner", "required": true, "dataType": "string" },
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -742,7 +753,55 @@ export function RegisterRoutes(app: express.Express) {
             const controller = new StockController();
 
 
-            const promise = controller.SetItem.apply(controller, validatedArgs as any);
+            const promise = controller.CreateSection.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/stock',
+        authenticateMiddleware([{ "Bearer": [] }]),
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                changeRequest: { "in": "body", "name": "changeRequest", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "isBase": { "dataType": "boolean", "required": true }, "general": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true }, "foods": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true }, "name": { "dataType": "string" }, "sectionId": { "ref": "ObjectId", "required": true } } },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new StockController();
+
+
+            const promise = controller.EditSection.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.delete('/stock/:sectionIdString',
+        authenticateMiddleware([{ "Bearer": [] }]),
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                sectionIdString: { "in": "path", "name": "sectionIdString", "required": true, "dataType": "string" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new StockController();
+
+
+            const promise = controller.DeleteSection.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

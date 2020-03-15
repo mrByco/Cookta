@@ -410,32 +410,59 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"ISetStockItemRequest": {
+		"ObjectId": {
+			"description": "A class representation of the BSON ObjectId type.",
 			"properties": {
-				"owner": {
-					"type": "string"
-				},
-				"type": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"typeId": {
-					"type": "string"
-				},
-				"value": {
+				"generationTime": {
 					"type": "number",
 					"format": "double",
-					"x-nullable": true
+					"description": "The generation time of this ObjectId instance"
 				},
-				"unitId": {
-					"type": "string",
+				"cacheHexString": {
+					"type": "boolean",
+					"description": "If true cache the hex string representation of ObjectId",
 					"x-nullable": true
 				}
 			},
 			"required": [
-				"owner",
-				"typeId"
+				"generationTime"
 			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IStorageSection": {
+			"properties": {
+				"Id": {
+					"$ref": "#/definitions/ObjectId",
+					"x-nullable": true
+				},
+				"FamilyId": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"Name": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"GeneralList": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"IsDefaultList": {
+					"type": "boolean",
+					"x-nullable": true
+				}
+			},
 			"type": "object",
 			"additionalProperties": false
 		},
@@ -1347,32 +1374,35 @@
 				]
 			}
 		},
-		"/stock/{owner}": {
+		"/stock": {
 			"get": {
 				"operationId": "GetAll",
 				"produces": [
 					"application/json"
 				],
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IStorageSection"
+							},
+							"type": "array"
+						}
 					}
 				},
 				"tags": [
 					"Stock"
 				],
-				"security": [],
-				"parameters": [
+				"security": [
 					{
-						"in": "path",
-						"name": "owner",
-						"required": true,
-						"type": "string"
+						"Bearer": []
 					}
-				]
+				],
+				"parameters": []
 			},
 			"post": {
-				"operationId": "SetItem",
+				"operationId": "CreateSection",
 				"produces": [
 					"application/json"
 				],
@@ -1384,19 +1414,73 @@
 				"tags": [
 					"Stock"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "EditSection",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IStorageSection"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "body",
-						"name": "setRequest",
+						"name": "changeRequest",
 						"required": true,
+						"type": "object"
+					}
+				]
+			}
+		},
+		"/stock/{sectionIdString}": {
+			"delete": {
+				"operationId": "DeleteSection",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ISetStockItemRequest"
+							"items": {
+								"$ref": "#/definitions/IStorageSection"
+							},
+							"type": "array"
 						}
-					},
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
 					{
 						"in": "path",
-						"name": "owner",
+						"name": "sectionIdString",
 						"required": true,
 						"type": "string"
 					}

@@ -1,8 +1,8 @@
-import {StoreService} from "atomik/store-service/store-service";
 import {StorageSection} from "../models/storage-section.model";
 import { ObjectId } from "mongodb";
 import {User} from "../models/user.model";
 import {IIngredient} from "../interfaces/IIngredient";
+import {StoreService} from "atomik/store-service/store-service";
 
 export class StorageService extends StoreService<StorageSection> {
 
@@ -14,13 +14,13 @@ export class StorageService extends StoreService<StorageSection> {
     public GetSections(user: User): StorageSection[] {
         return super.FindAll(i => i.FamilyId == user.currentFamilyId);
     }
-    public CreateSection(user: User): StorageSection {
+    public CreateSection(user: User): void {
         let item = super.CreateItem(new ObjectId()) as StorageSection;
         item.FamilyId = user.currentFamilyId;
         super.SaveItem(item);
-        return item;
+        //return item;
     }
-    public SetSectionFoods(user: User, sectionModify:
+    public SetSection(user: User, sectionModify:
         {sectionId: ObjectId, name?: string, foods: IIngredient[], general: IIngredient[], isBase: boolean}): StorageSection {
         let section = super.FindOne(i => i.FamilyId === user.currentFamilyId && i.Id === sectionModify.sectionId);
         if (!section)
@@ -48,7 +48,7 @@ export class StorageService extends StoreService<StorageSection> {
         section.Save();
     }
     public DeleteSection(user: User, sectionId: string){
-        let section = this.FindOne(s => s.FamilyId == user.currentFamilyId && s.Id == section.Id)
-        
+        let section = super.FindOne(s => s.FamilyId == user.currentFamilyId && s.Id == section.Id);
+        super.RemoveItem(section);
     }
 }
