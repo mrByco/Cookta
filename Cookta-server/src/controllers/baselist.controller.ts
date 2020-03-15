@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post, Route, Tags} from "tsoa";
 import {BaselistItem} from "../models/baselist-item.model";
-import {iIngredient} from "../interfaces/iingredient";
+import {IIngredient} from "../interfaces/IIngredient";
 
 @Route("/Baselist")
 @Tags('Baselist')
@@ -15,7 +15,7 @@ export class BaselistController extends Controller {
         }
     }
     @Post('/{owner}')
-    public async SetListItem(owner: string, @Body() data: iIngredient): Promise<BaselistItem> {
+    public async SetListItem(owner: string, @Body() data: IIngredient): Promise<BaselistItem> {
         try{
             let changed: BaselistItem;
             if (data.value === 0)

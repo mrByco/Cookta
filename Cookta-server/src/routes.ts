@@ -30,7 +30,7 @@ import * as express from 'express';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "iIngredient": {
+    "IIngredient": {
         "dataType": "refObject",
         "properties": {
             "ingredientID": { "dataType": "string", "required": true },
@@ -58,7 +58,7 @@ const models: TsoaRoute.Models = {
             "name": { "dataType": "string", "default": "" },
             "desc": { "dataType": "string", "default": "" },
             "published": { "dataType": "boolean", "default": false },
-            "ingredients": { "dataType": "array", "array": { "ref": "iIngredient" }, "default": [] },
+            "ingredients": { "dataType": "array", "array": { "ref": "IIngredient" }, "default": [] },
             "imageUploaded": { "dataType": "double", "required": true },
             "uploaded": { "dataType": "double", "required": true },
             "dose": { "dataType": "double", "default": 4 },
@@ -81,7 +81,7 @@ const models: TsoaRoute.Models = {
             "desc": { "dataType": "string", "required": true },
             "isPrivate": { "dataType": "boolean", "required": true },
             "published": { "dataType": "boolean", "required": true },
-            "ingredients": { "dataType": "array", "array": { "ref": "iIngredient" }, "required": true },
+            "ingredients": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true },
             "dose": { "dataType": "double", "required": true },
             "tags": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "foodId": { "dataType": "string" },
@@ -167,21 +167,6 @@ const models: TsoaRoute.Models = {
             "guid": { "dataType": "string" },
             "name": { "dataType": "string", "required": true },
             "parent": { "dataType": "string" },
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "IStockItem": {
-        "dataType": "refObject",
-        "properties": {
-            "_id": { "dataType": "string" },
-            "typeid": { "dataType": "string", "required": true },
-            "type": { "dataType": "string", "required": true },
-            "value": { "dataType": "double", "required": true },
-            "unitId": { "dataType": "string", "required": true },
-            "sub": { "dataType": "string" },
-            "validitydate": { "dataType": "double" },
-            "lastupdate": { "dataType": "double" },
         },
         "additionalProperties": false,
     },
@@ -273,7 +258,7 @@ const models: TsoaRoute.Models = {
             "desc": { "dataType": "string", "default": "" },
             "isPrivate": { "dataType": "boolean", "default": true },
             "published": { "dataType": "boolean", "default": false },
-            "ingredients": { "dataType": "array", "array": { "ref": "iIngredient" }, "default": [] },
+            "ingredients": { "dataType": "array", "array": { "ref": "IIngredient" }, "default": [] },
             "imageUploaded": { "dataType": "double", "required": true },
             "uploaded": { "dataType": "double", "required": true },
             "dose": { "dataType": "double", "default": 4 },
@@ -632,7 +617,7 @@ export function RegisterRoutes(app: express.Express) {
         function(request: any, response: any, next: any) {
             const args = {
                 owner: { "in": "path", "name": "owner", "required": true, "dataType": "string" },
-                data: { "in": "body", "name": "data", "required": true, "ref": "iIngredient" },
+                data: { "in": "body", "name": "data", "required": true, "ref": "IIngredient" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

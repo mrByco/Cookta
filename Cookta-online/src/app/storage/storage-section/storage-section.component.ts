@@ -14,18 +14,19 @@ export class StorageSectionComponent implements OnInit {
     Section.SectionName = "Hűtőszekrény";
     Section.Id = "Identifier";
     Section.SectionItems = [];
-    Section.SectionItems.push({ingredientID: 'id0', unit: '', value: 0})
-    Section.SectionItems.push({ingredientID: 'id1', unit: '', value: 0})
-    Section.SectionItems.push({ingredientID: 'id2', unit: '', value: 0})
-    Section.SectionItems.push({ingredientID: 'id3', unit: '', value: 0})
-    Section.SectionItems.push({ingredientID: 'id4', unit: '', value: 0})
-    Section.SectionItems.push({ingredientID: 'id5', unit: '', value: 0})
+    Section.SectionItems.push({ingredientID: 'id0', unit: '', value: 0});
+    Section.SectionItems.push({ingredientID: 'id1', unit: '', value: 0});
+    Section.SectionItems.push({ingredientID: 'id2', unit: '', value: 0});
+    Section.SectionItems.push({ingredientID: 'id3', unit: '', value: 0});
+    Section.SectionItems.push({ingredientID: 'id4', unit: '', value: 0});
+    Section.SectionItems.push({ingredientID: 'id5', unit: '', value: 0});
     this.CurrentSection = Section;
   }
 
   @Input() CurrentSection: StorageSection;
 
-  public SelectedItems: IIngredient[] = [];
+  @Input() public SelectedItems: IIngredient[] = [];
+
   public async ToggleItemSelect(item: IIngredient) {
     if (this.SelectedItems.includes(item)){
       this.SelectedItems.splice(this.SelectedItems.indexOf(item), 1);
@@ -33,6 +34,8 @@ export class StorageSectionComponent implements OnInit {
     else
       this.SelectedItems.push(item);
   };
+
+
 
   ngOnInit() {
   }

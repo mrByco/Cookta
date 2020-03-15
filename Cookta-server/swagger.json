@@ -4,7 +4,7 @@
 		"application/json"
 	],
 	"definitions": {
-		"iIngredient": {
+		"IIngredient": {
 			"properties": {
 				"ingredientID": {
 					"type": "string"
@@ -71,7 +71,7 @@
 				},
 				"ingredients": {
 					"items": {
-						"$ref": "#/definitions/iIngredient"
+						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array",
 					"default": [],
@@ -156,7 +156,7 @@
 				},
 				"ingredients": {
 					"items": {
-						"$ref": "#/definitions/iIngredient"
+						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array"
 				},
@@ -406,49 +406,6 @@
 			},
 			"required": [
 				"name"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IStockItem": {
-			"properties": {
-				"_id": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"typeid": {
-					"type": "string"
-				},
-				"type": {
-					"type": "string"
-				},
-				"value": {
-					"type": "number",
-					"format": "double"
-				},
-				"unitId": {
-					"type": "string"
-				},
-				"sub": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"validitydate": {
-					"type": "number",
-					"format": "double",
-					"x-nullable": true
-				},
-				"lastupdate": {
-					"type": "number",
-					"format": "double",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"typeid",
-				"type",
-				"value",
-				"unitId"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -704,7 +661,7 @@
 				},
 				"ingredients": {
 					"items": {
-						"$ref": "#/definitions/iIngredient"
+						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array",
 					"default": [],
@@ -1298,7 +1255,7 @@
 						"name": "data",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/iIngredient"
+							"$ref": "#/definitions/IIngredient"
 						}
 					}
 				]
@@ -1397,14 +1354,8 @@
 					"application/json"
 				],
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"$ref": "#/definitions/IStockItem"
-							},
-							"type": "array"
-						}
+					"204": {
+						"description": "No content"
 					}
 				},
 				"tags": [
@@ -1426,14 +1377,8 @@
 					"application/json"
 				],
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"$ref": "#/definitions/IStockItem"
-							},
-							"type": "array"
-						}
+					"204": {
+						"description": "No content"
 					}
 				},
 				"tags": [

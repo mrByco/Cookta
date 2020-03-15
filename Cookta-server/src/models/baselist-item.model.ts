@@ -1,7 +1,7 @@
 import {MongoHelper} from "../helpers/mongo.helper";
-import {iIngredient} from "../interfaces/iingredient";
+import {IIngredient} from "../interfaces/IIngredient";
 
-export class BaselistItem implements iIngredient{
+export class BaselistItem implements IIngredient{
     private static readonly CollectionName = "Baselist";
 
     constructor (
@@ -21,7 +21,7 @@ export class BaselistItem implements iIngredient{
         }
         return items;
     }
-    public static async SetItem(sub: string, data: iIngredient): Promise<BaselistItem>{
+    public static async SetItem(sub: string, data: IIngredient): Promise<BaselistItem>{
         let collection = await MongoHelper.getCollection(this.CollectionName);
         let newItem = new BaselistItem(data.ingredientID, data.unit, data.value, sub);
         await collection.replaceOne({sub: sub}, newItem.ToDocument(), {upsert: true});

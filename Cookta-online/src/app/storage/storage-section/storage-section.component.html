@@ -1,10 +1,12 @@
 
 <div class="storage-section-panel">
+  <a *ngIf="SelectedItems.length > 0" style="color: blue">Kijelültek áthelyezése ide</a>
   <h2>Storage name</h2>
 
 
   <a *ngFor="let item of CurrentSection.SectionItems; let i = index" [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}"
      class="row storage-section-item" (click)="ToggleItemSelect(item)">
+
     <!-- Default unchecked -->
     <div *ngIf="SelectedItems.length > 0"
          class="custom-control custom-checkbox" style="padding-top: 5px; ">

@@ -1,6 +1,6 @@
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {ObjectID} from "mongodb";
-import {iIngredient} from "../../interfaces/iingredient";
+import {IIngredient} from "../../interfaces/IIngredient";
 import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
@@ -21,7 +21,7 @@ export class Food {
         public desc: string = "",
         public isPrivate: boolean = true,
         public published: boolean = false,
-        public ingredients: iIngredient[] = [],
+        public ingredients: IIngredient[] = [],
         public imageUploaded: number,
         public uploaded: number,
         public dose: number = 4,

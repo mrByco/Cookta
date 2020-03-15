@@ -1,4 +1,4 @@
-import {iIngredient} from "../interfaces/iingredient";
+import {IIngredient} from "../interfaces/IIngredient";
 import {ObjectID} from "bson";
 
 export interface IUpdateFoodRequest {
@@ -7,7 +7,7 @@ export interface IUpdateFoodRequest {
     desc: string,
     isPrivate: boolean,
     published: boolean,
-    ingredients: iIngredient[],
+    ingredients: IIngredient[],
     dose: number,
     tags: string[],
     foodId?: string

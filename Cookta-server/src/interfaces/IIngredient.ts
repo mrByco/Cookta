@@ -1,4 +1,4 @@
-export interface iIngredient {
+export interface IIngredient {
     ingredientID: string,
     unit: string,
     value: number

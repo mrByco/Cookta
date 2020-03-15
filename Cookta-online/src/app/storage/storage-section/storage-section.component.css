@@ -1,12 +1,16 @@
 .storage-section-panel {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
-  width: 30rem;
+  width: 20rem;
   padding-top: 5px;
   padding-bottom: 10px;
 }
+.storage-section-panel a {
+  margin-left: 2rem;
+
+}
 .storage-section-panel h2 {
-  margin: 20px;
+  padding-left: 2rem;
 }
 .odd {
 }
