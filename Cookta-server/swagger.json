@@ -466,6 +466,40 @@
 			"type": "object",
 			"additionalProperties": false
 		},
+		"IStorageItemChangeRequest": {
+			"properties": {
+				"sectionId": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"foods": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"general": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"isBase": {
+					"type": "boolean",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"sectionId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
 		"EFamilyRole": {
 			"enum": [
 				0,
@@ -1384,10 +1418,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"items": {
-								"$ref": "#/definitions/IStorageSection"
-							},
-							"type": "array"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1447,7 +1479,9 @@
 						"in": "body",
 						"name": "changeRequest",
 						"required": true,
-						"type": "object"
+						"schema": {
+							"$ref": "#/definitions/IStorageItemChangeRequest"
+						}
 					}
 				]
 			}

@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import {User} from "../models/user.model";
 import {IIngredient} from "../interfaces/IIngredient";
 import {StoreService} from "atomik/store-service/store-service";
+import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
 
 export class StorageService extends StoreService<StorageSection> {
 
@@ -12,7 +13,8 @@ export class StorageService extends StoreService<StorageSection> {
 
 
     public GetSections(user: User): StorageSection[] {
-        return super.FindAll(i => i.FamilyId == user.currentFamilyId);
+        console.log(this.Items);
+        return this.Items.filter(i => i.FamilyId == user.currentFamilyId);
     }
     public CreateSection(user: User): void {
         let item = super.CreateItem(new ObjectId()) as StorageSection;
@@ -20,9 +22,8 @@ export class StorageService extends StoreService<StorageSection> {
         super.SaveItem(item);
         //return item;
     }
-    public SetSection(user: User, sectionModify:
-        {sectionId: ObjectId, name?: string, foods: IIngredient[], general: IIngredient[], isBase: boolean}): StorageSection {
-        let section = super.FindOne(i => i.FamilyId === user.currentFamilyId && i.Id === sectionModify.sectionId);
+    public SetSection(user: User, sectionModify: IStorageItemChangeRequest): StorageSection {
+        let section = super.FindOne(i => i.FamilyId === user.currentFamilyId && i.Id.toHexString() === sectionModify.sectionId);
         if (!section)
             return null;
 
@@ -46,9 +47,10 @@ export class StorageService extends StoreService<StorageSection> {
             section.IsDefaultList = true;
         }
         section.Save();
+        return section;
     }
     public DeleteSection(user: User, sectionId: string){
-        let section = super.FindOne(s => s.FamilyId == user.currentFamilyId && s.Id == section.Id);
+        let section = super.FindOne(s => s.FamilyId == user.currentFamilyId && s.Id.toHexString() == sectionId);
         super.RemoveItem(section);
     }
 }

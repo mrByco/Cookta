@@ -1,5 +1,4 @@
 import {Body, Controller, Delete, Get, Post, Put, Request, Route, Security, Tags} from "tsoa";
-import {IStockItem} from "../interfaces/istock.item";
 import {ISetStockItemRequest} from "../requests/set-stock-item.request";
 import {StorageSection} from "../models/storage-section.model";
 import {RequestHelper} from "../helpers/request.helper";
@@ -8,19 +7,21 @@ import {Services} from "../Services";
 import {ObjectId} from "mongodb";
 import {IIngredient} from "../interfaces/IIngredient";
 import {IStorageSection} from "../interfaces/IStorageSection";
+import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
 
 @Route('/stock')
 @Tags('Stock')
 export class StockController extends Controller {
     @Security("Bearer", [])
     @Get('/')
-    public async GetAll(@Request() request: any): Promise<IStorageSection[]> {
+    public async GetAll(@Request() request: any): Promise<any> {
         let user = request.user as User;
-        let response = await RequestHelper.ExecuteRequest(this, () => {
-            return Services.StorageService.GetSections(user);
+        let items = await RequestHelper.ExecuteRequest(this, () => {
+            let i =  Services.StorageService.GetSections(user);
+            console.log(i);
+            return i;
         });
-        response.forEach(f => delete response['connectedService']); //TODO implement a To Json method
-        return response;
+        return Services.ToSendableList(items);
     }
     @Security("Bearer", [])
     @Post('/')
@@ -32,10 +33,10 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Put('/')
-    public async EditSection(@Request() request: any, @Body() changeRequest: {sectionId: ObjectId, name?: string, foods: IIngredient[], general: IIngredient[], isBase: boolean}): Promise<IStorageSection> {
+    public async EditSection(@Request() request: any, @Body() changeRequest: IStorageItemChangeRequest): Promise<IStorageSection> {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
-            return Services.StorageService.SetSection(user, changeRequest);
+            return Services.StorageService.SetSection(user, changeRequest).ToSendJson();
         });
     }
     @Security("Bearer", [])
@@ -51,7 +52,7 @@ export class StockController extends Controller {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
             Services.StorageService.DeleteSection(user, sectionId);
-            return Services.StorageService.GetSections(user);
+            return Services.ToSendableList(Services.StorageService.GetSections(user));
         });
     }
 }

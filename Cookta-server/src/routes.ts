@@ -193,6 +193,18 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IStorageItemChangeRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "sectionId": { "dataType": "string", "required": true },
+            "name": { "dataType": "string" },
+            "foods": { "dataType": "array", "array": { "ref": "IIngredient" } },
+            "general": { "dataType": "array", "array": { "ref": "IIngredient" } },
+            "isBase": { "dataType": "boolean" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "EFamilyRole": {
         "dataType": "refEnum",
         "enums": [0, 1, 2, 3],
@@ -762,7 +774,7 @@ export function RegisterRoutes(app: express.Express) {
         function(request: any, response: any, next: any) {
             const args = {
                 request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-                changeRequest: { "in": "body", "name": "changeRequest", "required": true, "dataType": "nestedObjectLiteral", "nestedProperties": { "isBase": { "dataType": "boolean", "required": true }, "general": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true }, "foods": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true }, "name": { "dataType": "string" }, "sectionId": { "ref": "ObjectId", "required": true } } },
+                changeRequest: { "in": "body", "name": "changeRequest", "required": true, "ref": "IStorageItemChangeRequest" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

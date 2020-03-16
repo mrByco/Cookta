@@ -34,6 +34,7 @@ try{
         await ServiceManager.AddService(storageService);
         await ServiceManager.Start(MongoConnectionString);
 
+
         console.info("Starting server...");
         server.listen(PORT);
 
