@@ -1,19 +1,34 @@
-
 <div class="storage-section-panel">
-  <a *ngIf="SelectedItems.length > 0" style="color: blue">Kijelültek áthelyezése ide</a>
-  <h2>Storage name</h2>
+  <h2 *ngIf="!CurrentSection">Loading</h2>
+  <div *ngIf="CurrentSection">
+    <a *ngIf="SelectedItems.length > 0" style="color: blue">Kijelültek áthelyezése ide</a>
+    <div class="row" style="position: relative">
+      <h2 *ngIf="!ModifiedFields"
+      >{{CurrentSection.Name == undefined || CurrentSection.Name == '' ? '[NONAME]' : CurrentSection.Name}}</h2>
 
-
-  <a *ngFor="let item of CurrentSection.SectionItems; let i = index" [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}"
-     class="row storage-section-item" (click)="ToggleItemSelect(item)">
-
-    <!-- Default unchecked -->
-    <div *ngIf="SelectedItems.length > 0"
-         class="custom-control custom-checkbox" style="padding-top: 5px; ">
-      <input [ngModel]="SelectedItems.includes(item)" type="checkbox" class="custom-control-input">
-      <label class="custom-control-label" ></label>
-
+      <input
+        class="form-control"
+        style="width: 70%; margin-left: 2rem"
+        rows="1"
+        [(ngModel)]="CurrentSection.Name"
+        (focus)="AddModifiedField('Name')"
+        *ngIf="ModifiedFields">
+      <a (click)="ToggleEditSection()">
+        <img class="icon" src="assets/edit-icon.png">
+      </a>
     </div>
-    <label >{{item.ingredientID}}</label>
-  </a>
+
+
+    <a *ngFor="let item of CurrentSection.Items; let i = index" [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}"
+       class="row storage-section-item" (click)="ToggleItemSelect(item)">
+
+      <!-- Default unchecked -->
+      <div *ngIf="SelectedItems.length > 0"
+           class="custom-control custom-checkbox" style="padding-top: 5px; ">
+        <input [ngModel]="SelectedItems.includes(item)" type="checkbox" class="custom-control-input">
+        <label class="custom-control-label"></label>
+      </div>
+      <label>{{item.ingredientID}}</label>
+    </a>
+  </div>
 </div>

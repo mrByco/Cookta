@@ -16,27 +16,27 @@ export class StorageService extends StoreService<StorageSection> {
         console.log(this.Items);
         return this.Items.filter(i => i.FamilyId == user.currentFamilyId);
     }
-    public CreateSection(user: User): void {
+    public CreateSection(user: User): StorageSection {
         let item = super.CreateItem(new ObjectId()) as StorageSection;
         item.FamilyId = user.currentFamilyId;
         super.SaveItem(item);
-        //return item;
+        return item;
     }
     public SetSection(user: User, sectionModify: IStorageItemChangeRequest): StorageSection {
-        let section = super.FindOne(i => i.FamilyId === user.currentFamilyId && i.Id.toHexString() === sectionModify.sectionId);
+        let section = super.FindOne(i => i.FamilyId === user.currentFamilyId && i.Id.toHexString() === sectionModify.Id);
         if (!section)
             return null;
 
-        if (sectionModify.foods){
-            section.Items = sectionModify.foods;
+        if (sectionModify.Items){
+            section.Items = sectionModify.Items;
         }
-        if (sectionModify.name){
-            section.Name = sectionModify.name;
+        if (sectionModify.Name){
+            section.Name = sectionModify.Name;
         }
-        if (sectionModify.general){
-            section.GeneralList = sectionModify.general;
+        if (sectionModify.GeneralList){
+            section.GeneralList = sectionModify.GeneralList;
         }
-        if (sectionModify.isBase){
+        if (sectionModify.IsDefaultList){
             let sections = super.FindAll(s => s.FamilyId == user.currentFamilyId);
             for (let s of sections){
                 if (s.IsDefaultList && s !== section){

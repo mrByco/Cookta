@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
+import {StorageService} from '../../shared/services/storage.service';
 
 @Component({
   selector: 'app-storage-root-component',
@@ -10,9 +11,11 @@ export class StorageRootComponentComponent implements OnInit {
 
   public SelectedItems: IIngredient[] = [];
 
-  constructor() { }
+  constructor(public stockService: StorageService) { }
 
   ngOnInit() {
+    console.log('Update')
+    this.stockService.RefreshStorageSections();
   }
 
 }

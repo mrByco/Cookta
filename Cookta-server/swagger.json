@@ -468,34 +468,34 @@
 		},
 		"IStorageItemChangeRequest": {
 			"properties": {
-				"sectionId": {
+				"Id": {
 					"type": "string"
 				},
-				"name": {
+				"Name": {
 					"type": "string",
 					"x-nullable": true
 				},
-				"foods": {
+				"Items": {
 					"items": {
 						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array",
 					"x-nullable": true
 				},
-				"general": {
+				"GeneralList": {
 					"items": {
 						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array",
 					"x-nullable": true
 				},
-				"isBase": {
+				"IsDefaultList": {
 					"type": "boolean",
 					"x-nullable": true
 				}
 			},
 			"required": [
-				"sectionId"
+				"Id"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -1439,8 +1439,11 @@
 					"application/json"
 				],
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IStorageSection"
+						}
 					}
 				},
 				"tags": [

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StorageSection} from '../../shared/models/storage/storage-section.model';
+import {IStorageItemChangeRequest, StorageSection} from '../../shared/models/storage/storage-section.model';
 import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
+import { StorageService } from 'src/app/shared/services/storage.service';
 
 @Component({
   selector: 'app-storage-section',
@@ -9,19 +10,10 @@ import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
 })
 export class StorageSectionComponent implements OnInit {
 
-  constructor() {
-    let Section = new StorageSection();
-    Section.SectionName = "Hűtőszekrény";
-    Section.Id = "Identifier";
-    Section.SectionItems = [];
-    Section.SectionItems.push({ingredientID: 'id0', unit: '', value: 0});
-    Section.SectionItems.push({ingredientID: 'id1', unit: '', value: 0});
-    Section.SectionItems.push({ingredientID: 'id2', unit: '', value: 0});
-    Section.SectionItems.push({ingredientID: 'id3', unit: '', value: 0});
-    Section.SectionItems.push({ingredientID: 'id4', unit: '', value: 0});
-    Section.SectionItems.push({ingredientID: 'id5', unit: '', value: 0});
-    this.CurrentSection = Section;
+  constructor(public storageSectionService: StorageService) {
   }
+
+  public ModifiedFields: string[];
 
   @Input() CurrentSection: StorageSection;
 
@@ -35,9 +27,27 @@ export class StorageSectionComponent implements OnInit {
       this.SelectedItems.push(item);
   };
 
-
-
   ngOnInit() {
   }
 
+  public ToggleEditSection() {
+    if (this.ModifiedFields){
+      let modifyRequest: IStorageItemChangeRequest = {
+        Id: this.CurrentSection.Id,
+      };
+      for (let key of Object.keys(this.CurrentSection)){
+        if (this.ModifiedFields.includes(key))
+          modifyRequest[key] = this.CurrentSection[key];
+      }
+      this.storageSectionService.SetStorageSectionOnRemote(modifyRequest);
+      delete this.ModifiedFields;
+    }else{
+      this.ModifiedFields = [];
+    }
+  }
+
+  public AddModifiedField(key: string) {
+    if (!this.ModifiedFields.includes(key))
+      this.ModifiedFields.push(key);
+  }
 }

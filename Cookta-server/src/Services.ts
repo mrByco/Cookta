@@ -7,7 +7,7 @@ export class Services {
     static ToSendableList(items: StoreItemBase[]): any[]{
         let sendItems: any[] = [];
         for (let item of items){
-            sendItems.push(item);
+            sendItems.push(item.ToSendJson());
         }
         return sendItems;
     }

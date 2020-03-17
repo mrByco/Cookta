@@ -18,17 +18,16 @@ export class StockController extends Controller {
         let user = request.user as User;
         let items = await RequestHelper.ExecuteRequest(this, () => {
             let i =  Services.StorageService.GetSections(user);
-            console.log(i);
             return i;
         });
         return Services.ToSendableList(items);
     }
     @Security("Bearer", [])
     @Post('/')
-    public async CreateSection(@Request() request: any): Promise<void> {
+    public async CreateSection(@Request() request: any): Promise<IStorageSection> {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
-            return Services.StorageService.CreateSection(user);
+            return Services.StorageService.CreateSection(user).ToSendJson();
         });
     }
     @Security("Bearer", [])

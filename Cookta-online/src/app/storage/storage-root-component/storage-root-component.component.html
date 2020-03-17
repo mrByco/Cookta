@@ -1,15 +1,12 @@
 <div class="container-fluid">
   <h3>Storage</h3>
   <div class="row">
-    <div class="col">
+    <!--<div class="col">
       <app-storage-section [SelectedItems]="SelectedItems" class="masonry-item"></app-storage-section>
-    </div>
-    <div class="col-9 masonry-with-columns-2" #masonry>
-      <app-storage-section [SelectedItems]="SelectedItems" class="masonry-item"></app-storage-section>
-      <app-storage-section [SelectedItems]="SelectedItems" class="masonry-item"></app-storage-section>
-      <app-storage-section [SelectedItems]="SelectedItems" class="masonry-item"></app-storage-section>
-      <app-storage-section [SelectedItems]="SelectedItems" class="masonry-item"></app-storage-section>
-      <app-storage-section [SelectedItems]="SelectedItems" class="masonry-item"></app-storage-section>
+    </div>-->
+    <div class="col-9 masonry-with-columns-2" #masonry
+     *ngFor="let section of stockService.Sections">
+      <app-storage-section [SelectedItems]="SelectedItems" [CurrentSection]="section" class="masonry-item"></app-storage-section>
     </div>
   </div>
 </div>

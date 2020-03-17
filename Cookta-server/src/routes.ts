@@ -196,11 +196,11 @@ const models: TsoaRoute.Models = {
     "IStorageItemChangeRequest": {
         "dataType": "refObject",
         "properties": {
-            "sectionId": { "dataType": "string", "required": true },
-            "name": { "dataType": "string" },
-            "foods": { "dataType": "array", "array": { "ref": "IIngredient" } },
-            "general": { "dataType": "array", "array": { "ref": "IIngredient" } },
-            "isBase": { "dataType": "boolean" },
+            "Id": { "dataType": "string", "required": true },
+            "Name": { "dataType": "string" },
+            "Items": { "dataType": "array", "array": { "ref": "IIngredient" } },
+            "GeneralList": { "dataType": "array", "array": { "ref": "IIngredient" } },
+            "IsDefaultList": { "dataType": "boolean" },
         },
         "additionalProperties": false,
     },

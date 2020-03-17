@@ -20,13 +20,13 @@ body{
 }
 
 .mini-round-icon {
-  margin: 0px  6px  9px 16px;
+  margin: 0 6px  9px 16px;
   width: 28px;
   filter: brightness(1);
   transition: filter 0.2s, margin 0.2s, width 0.2s;
 }
 .mini-round-icon:hover {
-  margin: 0px  3px  3px 10px;
+  margin: 0 3px  3px 10px;
   width: 34px;
   filter: brightness(1.5);
 }
@@ -38,7 +38,7 @@ body{
 .mini-round-icon-disabled:hover {
   margin: 0px  3px  3px 10px;
   width: 24px;
-  filter: grayscale(100%);;
+  filter: grayscale(100%);
 }
 
 html, body { height: 100%; }

@@ -43,4 +43,11 @@ export class Routes {
     RefreshDay: "/day/{date}/{mealingIdentity}",
     FinalizeDay: "/day/finalize/{date}/{mealingIdentity}"
   };
+  public static readonly Storage = {
+    GetSections: "/stock",
+    CreateSection: "/stock",
+    SetSection: "/stock",
+    DeleteSection: "/stock/{storageSectionIdString}",
+
+  }
 }
