@@ -38,6 +38,7 @@ export class StorageService {
       let response = await this.serverService.PostRequest(Routes.Storage.CreateSection, {});
       response.subscribe(data => {
         StorageService.UpdateSection(createdSection, data);
+        this.Sections.push(createdSection);
         resolve();
       }, () => {
         resolve();

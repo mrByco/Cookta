@@ -9,13 +9,21 @@ import {StorageService} from '../../shared/services/storage.service';
 })
 export class StorageRootComponentComponent implements OnInit {
 
+
+
   public SelectedItems: IIngredient[] = [];
+  public ButtonLoading: boolean;
 
   constructor(public stockService: StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     console.log('Update')
-    this.stockService.RefreshStorageSections();
+    await this.stockService.RefreshStorageSections();
   }
 
+  async AddNewSection() {
+    this.ButtonLoading = true;
+    await this.stockService.CreateStorageSection();
+    this.ButtonLoading = false;
+  }
 }

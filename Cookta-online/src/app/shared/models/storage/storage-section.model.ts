@@ -11,10 +11,10 @@ export interface IStorageItemChangeRequest {
 
 
 export class StorageSection {
-  public Id: string;
-  public Name: string;
-  public FamilyId: string;
-  public Items: IIngredient[];
-  public GeneralList: IIngredient[];
-  public IsDefaultList: boolean;
+  public Id: string = undefined;
+  public Name: string = undefined;
+  public FamilyId: string = undefined;
+  public Items: IIngredient[] = [];
+  public GeneralList: IIngredient[] = [];
+  public IsDefaultList: boolean = false;
 }

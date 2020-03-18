@@ -4,10 +4,20 @@
     <!--<div class="col">
       <app-storage-section [SelectedItems]="SelectedItems" class="masonry-item"></app-storage-section>
     </div>-->
-    <div class="col-9 masonry-with-columns-2" #masonry
-     *ngFor="let section of stockService.Sections">
-      <app-storage-section [SelectedItems]="SelectedItems" [CurrentSection]="section" class="masonry-item"></app-storage-section>
+    <div class="col-9 masonry-with-columns-2" #masonry>
+      <app-storage-section *ngFor="let section of stockService.Sections"
+                           [SelectedItems]="SelectedItems" [CurrentSection]="section"
+                           class="masonry-item"></app-storage-section>
     </div>
   </div>
 </div>
+<button style="position: absolute; right: 2rem; bottom: 2rem;" mdbBtn size="small" color="blue"
+        [disabled]="ButtonLoading"
+        (click)="AddNewSection()">
+  {{ButtonLoading ? '' : 'Új szekció'}}
+
+  <div *ngIf="ButtonLoading" class="spinner-border text-light" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</button>
 
