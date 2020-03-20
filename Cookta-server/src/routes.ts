@@ -234,11 +234,10 @@ const models: TsoaRoute.Models = {
     "ExtendedUser": {
         "dataType": "refObject",
         "properties": {
-            "_id": { "dataType": "string" },
             "sub": { "dataType": "string", "required": true },
-            "subs": { "dataType": "array", "array": { "dataType": "string" }, "default": [null] },
+            "subs": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "username": { "dataType": "string", "required": true },
-            "role": { "dataType": "string", "default": "default" },
+            "role": { "dataType": "string", "required": true },
             "email": { "dataType": "string", "required": true },
             "logs": { "dataType": "array", "array": { "dataType": "nestedObjectLiteral", "nestedProperties": { "text": { "dataType": "string", "required": true }, "time": { "dataType": "double", "required": true } } }, "required": true },
             "profilpic": { "dataType": "string", "required": true },
@@ -290,27 +289,6 @@ const models: TsoaRoute.Models = {
             "subscriptions": { "dataType": "double", "required": true },
             "id": { "dataType": "string" },
             "foodId": { "dataType": "string", "required": true },
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ifamilyMember": {
-        "dataType": "refObject",
-        "properties": {
-            "sub": { "dataType": "string", "required": true },
-            "role": { "ref": "EFamilyRole", "required": true },
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Family": {
-        "dataType": "refObject",
-        "properties": {
-            "CollectionName": { "dataType": "enum", "enums": ["Family"], "default": "Family" },
-            "id": { "dataType": "string", "required": true },
-            "ownerSub": { "dataType": "string", "required": true },
-            "name": { "dataType": "string", "required": true },
-            "members": { "dataType": "array", "array": { "ref": "ifamilyMember" }, "required": true },
         },
         "additionalProperties": false,
     },

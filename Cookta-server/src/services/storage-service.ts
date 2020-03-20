@@ -1,7 +1,6 @@
 import {StorageSection} from "../models/storage-section.model";
-import { ObjectId } from "mongodb";
+import {ObjectId} from "mongodb";
 import {User} from "../models/user.model";
-import {IIngredient} from "../interfaces/IIngredient";
 import {StoreService} from "atomik/store-service/store-service";
 import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
 

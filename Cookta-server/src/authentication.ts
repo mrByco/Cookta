@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import {User} from "./models/user.model";
+import {Services} from "./Services";
 
 const jwksClient = require('jwks-rsa');
 
@@ -18,7 +19,7 @@ const debugTokenAdminByc0 = 'admin';
 export async function expressAuthentication(request: express.Request, securityName: string, permissions?: string[]): Promise<any> {
     let authHeader = request.headers["authorization"];
     if (process.env.NODE_ENV == "debug " && authHeader == "admin"){
-        return await User.GetUser("XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients");
+        return Services.UserService.FindOne(u => u.sub == "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients");
     }
 
     if (permissions[0] == "noauth" && !authHeader) {
@@ -57,7 +58,7 @@ export async function expressAuthentication(request: express.Request, securityNa
                     }
                     finally {
                         try{
-                            let user = await User.FetchUser(accessToken);
+                            let user = await Services.UserService.GetUserForAuth(decoded.payload.sub, accessToken);
                             if (!user)
                                 reject(new Error("Cant get or create user."));
                             for (let permission of permissions){

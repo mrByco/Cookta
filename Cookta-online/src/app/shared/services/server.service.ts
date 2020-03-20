@@ -8,11 +8,10 @@ import {Food} from '../models/grocery/food.model';
 @Injectable()
 export class ServerService {
   constructor(private http: HttpClient, private authService: AuthService, private cookieService: CookieService) {
-    this.m_UseDebugServer = cookieService.get('use-debug-server') == 'true';
+    this.m_UseDebugServer = true || cookieService.get('use-debug-server') == 'true';
     if (this.m_UseDebugServer) {
       this.CheckServerAvailable();
     }
-
   }
 
   public async CheckServerAvailable() {

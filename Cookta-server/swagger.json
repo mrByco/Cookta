@@ -558,10 +558,6 @@
 		},
 		"ExtendedUser": {
 			"properties": {
-				"_id": {
-					"type": "string",
-					"x-nullable": true
-				},
 				"sub": {
 					"type": "string"
 				},
@@ -569,19 +565,13 @@
 					"items": {
 						"type": "string"
 					},
-					"type": "array",
-					"default": [
-						null
-					],
-					"x-nullable": true
+					"type": "array"
 				},
 				"username": {
 					"type": "string"
 				},
 				"role": {
-					"type": "string",
-					"default": "default",
-					"x-nullable": true
+					"type": "string"
 				},
 				"email": {
 					"type": "string"
@@ -623,7 +613,9 @@
 			},
 			"required": [
 				"sub",
+				"subs",
 				"username",
+				"role",
 				"email",
 				"logs",
 				"profilpic",
@@ -779,57 +771,6 @@
 				"lastModified",
 				"subscriptions",
 				"foodId"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"ifamilyMember": {
-			"properties": {
-				"sub": {
-					"type": "string"
-				},
-				"role": {
-					"$ref": "#/definitions/EFamilyRole"
-				}
-			},
-			"required": [
-				"sub",
-				"role"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"Family": {
-			"properties": {
-				"CollectionName": {
-					"type": "string",
-					"enum": [
-						"Family"
-					],
-					"default": "Family",
-					"x-nullable": true
-				},
-				"id": {
-					"type": "string"
-				},
-				"ownerSub": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string"
-				},
-				"members": {
-					"items": {
-						"$ref": "#/definitions/ifamilyMember"
-					},
-					"type": "array"
-				}
-			},
-			"required": [
-				"id",
-				"ownerSub",
-				"name",
-				"members"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -1829,7 +1770,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Family"
+							"$ref": "#/definitions/SendFamily"
 						}
 					}
 				},
@@ -1861,7 +1802,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Family"
+							"$ref": "#/definitions/SendFamily"
 						}
 					}
 				},
@@ -1997,7 +1938,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Family"
+							"$ref": "#/definitions/SendFamily"
 						}
 					}
 				},

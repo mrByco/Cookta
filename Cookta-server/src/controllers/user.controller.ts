@@ -9,9 +9,9 @@ export class UserController extends Controller {
     @Security('Bearer')
     @Get()
     public async User(@Request() request): Promise<ExtendedUser> {
+        let user = request.user as User;
+        return user.ToExtendedUser();
         try {
-            let user = request.user as User;
-            return ExtendedUser.FromUser(user);
         } catch {
             this.setStatus(500);
         }
@@ -22,8 +22,9 @@ export class UserController extends Controller {
     public async SetUserName(@Request() request, name: string): Promise<ExtendedUser> {
         try {
             let user = request.user as User;
-            await user.SetUserName(name);
-            return ExtendedUser.FromUser(user);
+            user.username = name;
+            user.Save();
+            return user.ToExtendedUser();
         } catch {
             this.setStatus(500);
         }
