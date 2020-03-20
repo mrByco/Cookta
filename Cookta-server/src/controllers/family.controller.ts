@@ -21,11 +21,15 @@ export class FamilyController extends Controller {
     @Security('Bearer', [])
     @Put("/{newId}")
     public async SwitchFamily(@Request() request, newId: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == newId);
+        if (!family){
+            this.setStatus(404);
+            return null;
+        }
+        user.SwitchCurrentFamily(family);
+        return user.GetCurrentFamily().ToSendFamily();
         try {
-            let user = request.user as User;
-            let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == newId);
-            user.SwitchCurrentFamily(family);
-            return user.GetCurrentFamily().ToSendFamily();
         } catch {
             this.setStatus(500);
         }
@@ -46,11 +50,11 @@ export class FamilyController extends Controller {
     @Security('Bearer', [])
     @Post("/{name}")
     public async CreateFamily(@Request() request, name: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let newFamily = Services.FamilyService.CreateFamily(user, name);
+        user.SwitchCurrentFamily(newFamily);
+        return newFamily.ToSendFamily();
         try {
-            let user = request.user as User;
-            let newFamily = Services.FamilyService.CreateFamily(user, name);
-            user.SwitchCurrentFamily(newFamily);
-            return newFamily.ToSendFamily();
         } catch {
             this.setStatus(500);
         }
@@ -59,36 +63,37 @@ export class FamilyController extends Controller {
     @Security('Bearer', [])
     @Put('/{familyId}/invite')
     public async InviteByUserNameEmail(@Request() request, @Body() inv: InviteFamilyRequest, familyId: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let familyToInvite = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
+        let invited = Services.UserService.FindOne(u => u.email == inv.invitedEmail && u.username == inv.invitedUsername);
+        if (!familyToInvite || invited == null)
+            return null;
+        familyToInvite.members.push({role: EFamilyRole.partner, sub: invited.sub});
+        await Services.FamilyService.SaveItem(familyToInvite);
+        return familyToInvite.ToSendFamily();
         try {
-            let user = request.user as User;
-            let familyToInvite = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
-            let invited = Services.UserService.FindOne(u => u.email == inv.invitedEmail && u.username == inv.invitedUsername);
-            if (!familyToInvite || invited == null)
-                return null;
-            familyToInvite.members.push({role: EFamilyRole.partner, sub: invited.sub});
-            await familyToInvite.Save();
-            return familyToInvite.ToSendFamily();
 
         } catch {
             this.setStatus(500)
         }
     }
 
+
     @Security('Bearer', [])
     @Delete('/{familyId}/leave/{removeUserSub}')
     public async LeaveFamily(@Request() request, familyId: string, removeUserSub: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let userToLeave = await Services.UserService.FindOne(u => u.sub == removeUserSub);
+        let family = await Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
+        if (user === userToLeave && family.ownerSub == user.sub){
+            return null;
+        }
+        if (userToLeave.sub == family.ownerSub)
+            return null;
+        family.members.splice(family.members.findIndex(m => m.sub == userToLeave.sub), 1);
+        family.Save();
+        return user.GetCurrentFamily().ToSendFamily();
         try {
-            let user = request.user as User;
-            let userToLeave = await Services.UserService.FindOne(u => u.sub == removeUserSub);
-            let family = await Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
-            if (user === userToLeave && family.ownerSub == user.sub){
-                return null;
-            }
-            if (userToLeave.sub == family.ownerSub)
-                return null;
-            family.members.splice(family.members.findIndex(m => m.sub == userToLeave.sub), 1);
-            family.Save();
-            return user.GetCurrentFamily().ToSendFamily();
         } catch {
             this.setStatus(500)
         }

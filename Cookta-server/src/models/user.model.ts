@@ -33,7 +33,7 @@ export class User extends StoreItemBase {
 
     public GetCurrentFamily(): Family{
         let currentFamily = this.currentFamilyId ?
-            Services.FamilyService.GetItem(new ObjectId(this.currentFamilyId)) : null;
+            Services.FamilyService.FindOne(f => f.Id.toHexString() === this.currentFamilyId) : null;
         if (!currentFamily)
             currentFamily = this.FixCurrentFamily();
         return currentFamily;
@@ -44,14 +44,14 @@ export class User extends StoreItemBase {
         if (!familyToSwitch)
             familyToSwitch = Services.FamilyService.CreateFamily(this, `${this.username} családja`);
         this.currentFamilyId = familyToSwitch.Id.toHexString();
-        this.Save();
+        Services.UserService.SaveItem(this);
         return familyToSwitch;
     }
 
     public SwitchCurrentFamily(OtherFamily: Family){
         if (OtherFamily.members.find(m => m.sub == this.sub)){
             this.currentFamilyId = OtherFamily.Id.toHexString();
-            this.Save();
+            Services.UserService.SaveItem(this);
         }
     }
 
@@ -81,9 +81,13 @@ export class User extends StoreItemBase {
                         member.sub = primary;
                     }
                 }
-                await family.Save();
+                await Services.FamilyService.SaveItem(family);
             }
         }
+    }
+
+    public async Save(){
+        return await Services.UserService.SaveItem(this);
     }
 
     public ToExtendedUser(): ExtendedUser{

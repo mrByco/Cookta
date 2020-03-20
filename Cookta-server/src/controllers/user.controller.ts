@@ -2,6 +2,7 @@
 import {Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
 import {User} from "../models/user.model";
 import {ExtendedUser} from "../models/extendedUser";
+import {Services} from "../Services";
 
 @Tags('User')
 @Route('/user')
@@ -23,7 +24,7 @@ export class UserController extends Controller {
         try {
             let user = request.user as User;
             user.username = name;
-            user.Save();
+            Services.UserService.SaveItem(user);
             return user.ToExtendedUser();
         } catch {
             this.setStatus(500);

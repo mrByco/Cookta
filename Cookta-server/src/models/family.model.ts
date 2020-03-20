@@ -36,4 +36,9 @@ export class Family extends StoreItemBase {
         let sendFamily: SendFamily = {id: this.Id.toHexString(), members: members, name: this.name}
         return sendFamily;
     }
+
+
+    public async Save(){
+        return await Services.FamilyService.SaveItem(this);
+    }
 }

@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { IStoreService } from "atomik/store-service/store-service-interface";
 import {IIngredient} from "../interfaces/IIngredient";
 import {IStorageSection} from "../interfaces/IStorageSection";
+import {Services} from "../Services";
 
 export class StorageSection extends StoreItemBase implements IStorageSection {
 
@@ -18,6 +19,11 @@ export class StorageSection extends StoreItemBase implements IStorageSection {
         connectedService: IStoreService)
     {
         super(_id, connectedService);
+    }
+
+
+    public async Save(){
+        return await Services.StorageService.SaveItem(this);
     }
 
 
