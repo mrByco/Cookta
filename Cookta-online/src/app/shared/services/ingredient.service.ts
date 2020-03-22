@@ -49,8 +49,13 @@ export class IngredientService {
     });
   }
 
-  public async GetIngredient(id: string): Promise<IngredientType>{
+  public async GetIngredientAsync(id: string): Promise<IngredientType>{
     let types = await this.IngredientTypes;
+
+    return types.find(type => type.guid == id);
+  }
+  public GetIngredient(id: string): IngredientType{
+    let types = this.LastLoadedTypes;
 
     return types.find(type => type.guid == id);
   }

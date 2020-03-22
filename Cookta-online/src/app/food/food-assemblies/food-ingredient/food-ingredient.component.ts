@@ -10,9 +10,9 @@ class DisplayIngredient {
     private ingredientSource: IIngredient,
     private ingredientService: IngredientService,
     private unitService: UnitService) {
-    this.ingredientService.GetIngredient(this.ingredientSource.ingredientID).then(type => {
+    this.ingredientService.GetIngredientAsync(this.ingredientSource.ingredientID).then(type => {
       this.type = type;
-      this.unitService.GetUnit(this.ingredientSource.unit, type).then(unit => this.unit = unit);
+      this.unitService.GetUnitAsync(this.ingredientSource.unit, type).then(unit => this.unit = unit);
     });
   }
 

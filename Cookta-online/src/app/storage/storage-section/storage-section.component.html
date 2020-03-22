@@ -31,7 +31,28 @@
         <input [ngModel]="SelectedItems.includes(item)" type="checkbox" class="custom-control-input">
         <label class="custom-control-label"></label>
       </div>
-      <label>{{item.ingredientID}}</label>
+
+
+      <div class="row" style="margin-left: 1rem" *ngIf="!ModifiedFields">
+        <label>{{ingredientService.GetIngredient(item.ingredientID).name}}</label>
+        <label style="margin-left: .5rem; margin-right: .5rem;">{{item.value}}</label>
+        <label>{{unitService.GetUnit(item.unit, ingredientService.GetIngredient(item.ingredientID)).name}}</label>
+      </div>
+
+      <div class="row" style="margin-left: 1rem; width: 100%; position: relative" *ngIf="ModifiedFields">
+        <label>{{ingredientService.GetIngredient(item.ingredientID).name}}</label>
+        <input style="margin-left: .5rem; margin-right: .5rem; width: 4rem" type="number" [(ngModel)]="item.value">
+        <label>{{unitService.GetUnit(item.unit, ingredientService.GetIngredient(item.ingredientID)).name}}</label>
+
+        <a (click)="DeleteItem(item)" style="position: absolute; right: 3rem;">
+          <mdb-icon class="icon" far icon="trash-alt"></mdb-icon>
+        </a>
+      </div>
+
+
     </a>
+    <app-ingredient-adder *ngIf="ModifiedFields"
+      style="margin-left: 30px"
+                          (OnIngredientAdded)="OnAddIngredientToSection($event)"></app-ingredient-adder>
   </div>
 </div>

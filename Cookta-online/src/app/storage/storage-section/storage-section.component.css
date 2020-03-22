@@ -1,7 +1,9 @@
 .storage-section-panel {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
-  width: 20rem;
+  width: 30rem;
+  margin-left: 5px;
+  margin-right: 5px;
   padding-top: 5px;
   padding-bottom: 10px;
 }

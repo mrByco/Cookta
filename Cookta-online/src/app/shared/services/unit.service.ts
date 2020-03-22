@@ -9,6 +9,8 @@ import {EUnitType} from "../models/grocery/unit-type.enum";
 @Injectable()
 export class UnitService {
   public Units: Promise<Unit[]>;
+  public LastLoadedUnits: Unit[];
+
 
   constructor(
     private serverService: ServerService,
@@ -26,6 +28,7 @@ export class UnitService {
         for (const d of (data as any)){
           units.push(d);
         }
+        this.LastLoadedUnits = units;
         resolve(units);
       }, error => {
         resolve([]);
@@ -34,8 +37,20 @@ export class UnitService {
 
   }
 
-  public async GetUnit(id: string, ofType?: IngredientType): Promise<Unit>{
+  public async GetUnitAsync(id: string, ofType?: IngredientType): Promise<Unit>{
     let units = await this.Units;
+
+
+    try{
+      units = units.concat(ofType.options.cunits);
+    }
+    finally {
+      return units.find(type => type.id == id);
+    }
+
+  }
+  public GetUnit(id: string, ofType?: IngredientType): Unit{
+    let units = this.LastLoadedUnits;
 
 
     try{

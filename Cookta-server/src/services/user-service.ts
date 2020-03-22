@@ -27,6 +27,7 @@ export class UserService extends StoreService<User> {
             user = this.CreateItem(new ObjectId());
             user.sub = data.sub;
             user.email = data.email;
+            user.role = 'default';
             user.profilpic = data.picture;
             user.logs = [];
             user.subs = [data.sub];

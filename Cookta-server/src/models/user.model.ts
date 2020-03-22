@@ -16,7 +16,7 @@ export class User extends StoreItemBase {
     public sub: string;
     public subs: string[];
     public username: string;
-    public role: string = 'default';
+    public role: string;
     public email: string;
     public logs: {time: number, text: string}[];
     public profilpic: string;

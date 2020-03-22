@@ -1,10 +1,10 @@
-<div class="row dropdown open norounding" style="margin-left: -15px" >
+<div class="row dropdown open norounding">
   <div class="col-4 norounding">
     <app-auto-complete #TypeSelector [SuggestionPool]="ingredientService.IngredientTypes" PlaceholderText="Hozzávaló" (OnItemChosen)="OnTypeSelected($event)"></app-auto-complete>
   </div>
   <div class="col-3 fillHeight">
     <div class="md-form norounding" >
-      <input type="number" class="form-control" id="numberInputEx" mdbInput [(ngModel)]="CurrentValue" style="color: white">
+      <input autocomplete="off" type="number" class="form-control" id="numberInputEx" mdbInput [(ngModel)]="CurrentValue" style="color: white">
       <label for="numberInputEx" style="color: white">Mennyiség</label>
     </div>
   </div>
@@ -20,7 +20,5 @@
       </div>
     </div>
   </div>
-  <div class="col-2 fillHeight norounding">
-    <a><img src="assets/ingredient-add-icon.png" class="mini-round-icon" (click)="AddIngredient()" [ngClass]="{'mini-round-icon-disabled': !Done}"></a>
-  </div>
+  <a><img src="assets/ingredient-add-icon.png" class="mini-round-icon" (click)="AddIngredient()" [ngClass]="{'mini-round-icon-disabled': !Done}"></a>
 </div>
