@@ -1,6 +1,4 @@
-import {Body, Controller, Get, Post, Route, Tags} from "tsoa";
-import {BaselistItem} from "../models/baselist-item.model";
-import {IIngredient} from "../interfaces/IIngredient";
+import {Controller, Get, Route, Tags} from "tsoa";
 
 @Route("/ping")
 @Tags('Ping')

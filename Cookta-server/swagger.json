@@ -365,31 +365,6 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"BaselistItem": {
-			"properties": {
-				"ingredientID": {
-					"type": "string"
-				},
-				"unit": {
-					"type": "string"
-				},
-				"value": {
-					"type": "number",
-					"format": "double"
-				},
-				"sub": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"ingredientID",
-				"unit",
-				"value",
-				"sub"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
 		"SetTagRequest": {
 			"properties": {
 				"guid": {
@@ -1198,9 +1173,9 @@
 				"parameters": []
 			}
 		},
-		"/Baselist/{owner}": {
+		"/Baselist": {
 			"get": {
-				"operationId": "GetAllByOwner",
+				"operationId": "GetCurrentBaseList",
 				"produces": [
 					"application/json"
 				],
@@ -1209,7 +1184,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/BaselistItem"
+								"$ref": "#/definitions/IIngredient"
 							},
 							"type": "array"
 						}
@@ -1218,18 +1193,15 @@
 				"tags": [
 					"Baselist"
 				],
-				"security": [],
-				"parameters": [
+				"security": [
 					{
-						"in": "path",
-						"name": "owner",
-						"required": true,
-						"type": "string"
+						"Bearer": []
 					}
-				]
+				],
+				"parameters": []
 			},
 			"post": {
-				"operationId": "SetListItem",
+				"operationId": "SetBaseList",
 				"produces": [
 					"application/json"
 				],
@@ -1237,27 +1209,31 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/BaselistItem"
+							"items": {
+								"$ref": "#/definitions/IIngredient"
+							},
+							"type": "array"
 						}
 					}
 				},
 				"tags": [
 					"Baselist"
 				],
-				"security": [],
-				"parameters": [
+				"security": [
 					{
-						"in": "path",
-						"name": "owner",
-						"required": true,
-						"type": "string"
-					},
+						"Bearer": []
+					}
+				],
+				"parameters": [
 					{
 						"in": "body",
 						"name": "data",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/IIngredient"
+							"items": {
+								"$ref": "#/definitions/IIngredient"
+							},
+							"type": "array"
 						}
 					}
 				]

@@ -12,6 +12,8 @@ import {Service} from "@azure/storage-blob/typings/src/generated/src/operations"
 import {FamilyService} from "./services/family-service";
 import {UserService} from "./services/user-service";
 import {Family} from "./models/family.model";
+import {EssentialsService} from "./services/essentials-service";
+import {EssentialList} from "./models/essential-list.model";
 
 const PORT = process.env.PORT || 8080;
 
@@ -34,13 +36,16 @@ try{
         let storageService = new StorageService((id, s) => {return new StorageSection(id, storageService)}, 'Stock');
         let familyService = new FamilyService((id, s) => {return new Family(id, storageService)}, 'Family');
         let userService = new UserService((id, s) => {return new User(id, storageService)}, 'Users');
+        let essentialsService = new EssentialsService((id, s) => {return new EssentialList(id, storageService)}, 'Essentials');
 
         Services.StorageService = storageService;
         Services.FamilyService = familyService;
         Services.UserService = userService;
+        Services.EssentialsService = essentialsService;
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
+        await ServiceManager.AddService(essentialsService);
         await ServiceManager.Start(MongoConnectionString);
 
 

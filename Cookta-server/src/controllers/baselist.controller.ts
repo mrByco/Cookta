@@ -1,32 +1,33 @@
-import {Body, Controller, Get, Post, Route, Tags} from "tsoa";
-import {BaselistItem} from "../models/baselist-item.model";
+import {Body, Controller, Get, Post, Request, Route, Security, Tags} from "tsoa";
 import {IIngredient} from "../interfaces/IIngredient";
+import {EssentialList} from "../models/essential-list.model";
+import {User} from "../models/user.model";
+import {Services} from "../Services";
 
 @Route("/Baselist")
 @Tags('Baselist')
 export class BaselistController extends Controller {
-    @Get('/{owner}')
-    public async GetAllByOwner(owner: string): Promise<BaselistItem[]> {
-        try{
-            return await BaselistItem.GetAllOfSub(owner);
+
+    @Security('Bearer', [])
+    @Get('/')
+    public async GetCurrentBaseList(@Request() request: any): Promise<IIngredient[]> {
+        let User = request.user as User;
+        let essentials = Services.EssentialsService.GetEssentials(User.GetCurrentFamily());
+        if (!essentials){
+            essentials = Services.EssentialsService.CreateEssentials(User.GetCurrentFamily());
         }
-        catch{
-            this.setStatus(500);
-        }
+        return essentials.Essentials;
     }
-    @Post('/{owner}')
-    public async SetListItem(owner: string, @Body() data: IIngredient): Promise<BaselistItem> {
-        try{
-            let changed: BaselistItem;
-            if (data.value === 0)
-                changed = await BaselistItem.DeleteItem(owner, data.ingredientID);
-            else
-                changed = await BaselistItem.SetItem(owner, data);
-            return changed;
-        }
-        catch{
-            this.setStatus(500);
-        }
+    @Security('Bearer', [])
+    @Post('/')
+    public async SetBaseList(@Request() request: any, @Body() data: IIngredient[]): Promise<IIngredient[]> {
+        let User = request.user as User;
+        let essentialItem = Services.EssentialsService.GetEssentials(User.GetCurrentFamily());
+        if (!essentialItem)
+            essentialItem = Services.EssentialsService.CreateEssentials(User.GetCurrentFamily());
+        essentialItem.Essentials = data;
+        essentialItem.Save();
+        return essentialItem.Essentials;
     }
 
 }
