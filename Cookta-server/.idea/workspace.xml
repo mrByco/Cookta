@@ -2,9 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/essentials-root/essentials-root.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/essentials-root/essentials-root.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/essentials-root/essentials-root.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/navigation-bar/navigation-bar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/navigation-bar/navigation-bar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-root-component/storage-root-component.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-root-component/storage-root-component.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-root-component/storage-root-component.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-root-component/storage-root-component.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-root-component/storage-root-component.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-root-component/storage-root-component.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-root-component/storage-root-component.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-root-component/storage-root-component.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-section/storage-section.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-section/storage-section.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-section/storage-section.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-section/storage-section.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-section/storage-section.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-section/storage-section.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/storage/storage-section/storage-section.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/stock/storage-section/storage-section.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/baselist.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/baselist.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/essentials-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/essentials-service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +186,7 @@
       <workItem from="1584723505954" duration="911000" />
       <workItem from="1584799265593" duration="1139000" />
       <workItem from="1584863480843" duration="2009000" />
-      <workItem from="1584884572811" duration="1173000" />
+      <workItem from="1584884572811" duration="2279000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>

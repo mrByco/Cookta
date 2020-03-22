@@ -51,8 +51,9 @@ import {DebugOptionsComponent} from './admin-components/debug-options/debug-opti
 import {FamilyManagementComponent} from './profile/family/family-management/family-management.component';
 import {FamilyEditPageComponent} from './profile/family/family-edit-page/family-edit-page.component';
 import {FamilyDetailsPageComponent} from './profile/family/family-details-page/family-details-page.component';
-import {StorageRootComponentComponent} from './storage/storage-root-component/storage-root-component.component';
-import {StorageSectionComponent} from './storage/storage-section/storage-section.component';
+import {StorageRootComponentComponent} from './stock/storage-root-component/storage-root-component.component';
+import {StorageSectionComponent} from './stock/storage-section/storage-section.component';
+import { EssentialsRootComponent } from './stock/essentials-root/essentials-root.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -63,6 +64,7 @@ const appRoutes: Routes = [
   {path: 'foods/:id', component: FoodDetailComponent},
   {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
   {path: 'family-manager', component: FamilyManagementComponent},
+  {path: 'essentials', component: EssentialsRootComponent},
   {path: 'calendar', component: MenuEditorComponent},
   {path: 'storage', component: StorageRootComponentComponent}
 
@@ -99,6 +101,7 @@ const appRoutes: Routes = [
     FamilyDetailsPageComponent,
     StorageRootComponentComponent,
     StorageSectionComponent,
+    EssentialsRootComponent,
   ],
   imports: [
     BrowserModule,
