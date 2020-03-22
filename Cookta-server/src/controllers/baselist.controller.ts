@@ -26,7 +26,7 @@ export class BaselistController extends Controller {
         if (!essentialItem)
             essentialItem = Services.EssentialsService.CreateEssentials(User.GetCurrentFamily());
         essentialItem.Essentials = data;
-        essentialItem.Save();
+        Services.EssentialsService.SaveItem(essentialItem);
         return essentialItem.Essentials;
     }
 

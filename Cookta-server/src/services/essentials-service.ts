@@ -15,7 +15,7 @@ export class EssentialsService extends StoreService<EssentialList>{
         }
         let newEssentials = this.CreateItem(new ObjectId());
         newEssentials.FamilyId = family.Id.toHexString();
-        newEssentials.Save();
+        this.SaveItem(newEssentials);
         //TODO Can not save
         return newEssentials;
     }
