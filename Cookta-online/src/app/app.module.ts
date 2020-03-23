@@ -54,6 +54,7 @@ import {FamilyDetailsPageComponent} from './profile/family/family-details-page/f
 import {StorageRootComponentComponent} from './stock/storage-root-component/storage-root-component.component';
 import {StorageSectionComponent} from './stock/storage-section/storage-section.component';
 import { EssentialsRootComponent } from './stock/essentials-root/essentials-root.component';
+import { EssentialsListComponent } from './stock/essentials-list/essentials-list.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -102,6 +103,7 @@ const appRoutes: Routes = [
     StorageRootComponentComponent,
     StorageSectionComponent,
     EssentialsRootComponent,
+    EssentialsListComponent,
   ],
   imports: [
     BrowserModule,

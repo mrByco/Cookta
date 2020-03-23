@@ -7,10 +7,9 @@
   padding-left: 2rem;
 }
 
+
 .icon {
   position: absolute;
-  width: 20px;
-  height: 20px;
   opacity: .5;
   border-radius: 2px;
 
@@ -21,13 +20,13 @@
   opacity: 1;
   background: rgba(255, 255, 255, 0.4);
 }
-.icon-edit {
-  right: 55px;
-
+.edit-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
-.icon-delete {
-  right: 20px;
-
+.edit-ingredient {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
-
-

@@ -41,5 +41,39 @@ body{
   filter: grayscale(100%);
 }
 
+/* CONTENT FOR COOKTA*/
+.rounded-panel {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  width: 30rem;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+
+.odd {
+}
+.even {
+  background: rgba(0, 27, 255, 0.06);
+}
+
+.rounded-panel-item {
+  margin: 0.1rem 1.3rem;
+  padding-left: 0.3rem;
+  cursor: pointer;
+}
+.rounded-panel-item:hover {
+  background: rgba(0, 210, 255, 0.5);
+}
+.rounded-panel-item label {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

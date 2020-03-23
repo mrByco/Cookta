@@ -1,34 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
 import {IngredientService} from "../../../shared/services/ingredient.service";
-import {IngredientType} from "../../../shared/models/grocery/ingredient-type.model";
-import {Unit} from "../../../shared/models/unit.interface";
 import {UnitService} from "../../../shared/services/unit.service";
+import {DisplayIngredient} from "../../../shared/ingredient-display";
 
-class DisplayIngredient {
-  constructor(
-    private ingredientSource: IIngredient,
-    private ingredientService: IngredientService,
-    private unitService: UnitService) {
-    this.ingredientService.GetIngredientAsync(this.ingredientSource.ingredientID).then(type => {
-      this.type = type;
-      this.unitService.GetUnitAsync(this.ingredientSource.unit, type).then(unit => this.unit = unit);
-    });
-  }
-
-  public get TypeName(): string {
-    return this.type ? this.type.name : this.ingredientSource.ingredientID;
-  }
-  public get UnitName(): string {
-    return this.unit ? this.unit.name : "MértékID";
-  }
-  public get ValueName(): string {
-    return this.ingredientSource.value.toString();
-  }
-
-  private type: IngredientType;
-  private unit: Unit;
-}
 
 @Component({
   selector: 'app-food-ingredient',

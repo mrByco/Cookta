@@ -111,11 +111,9 @@ const models: TsoaRoute.Models = {
         "properties": {
             "category": { "dataType": "string", "default": "Default" },
             "name": { "dataType": "string", "default": "UnitName" },
-            "baseUnit": { "dataType": "string", "required": true },
             "volumeEnabled": { "dataType": "boolean", "required": true },
             "countEnabled": { "dataType": "boolean", "required": true },
             "massEnabled": { "dataType": "boolean", "required": true },
-            "inshopping": { "dataType": "string", "required": true },
             "guid": { "dataType": "string", "required": true },
             "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "iUnit" }, "required": true } }, "required": true },
         },
