@@ -7,6 +7,7 @@ import {FoodService} from "../../shared/services/food.service";
 import {MenuDayComponent} from "../menu-day/menu-day.component";
 import {Food} from "../../shared/models/grocery/food.model";
 import {Tag} from "../../shared/models/grocery/tag.model";
+import {TagService} from "../../shared/services/tag.service";
 
 @Component({
   selector: 'app-menu-mealing',
@@ -36,7 +37,7 @@ export class MenuMealingComponent implements OnInit {
 
 
 
-  constructor(public foodService: FoodService) { }
+  constructor(public foodService: FoodService, public tagService: TagService) { }
 
   ngOnInit() {
     this.MenuDayComponent.OnDayChanged.subscribe(i => this.setDay(i));

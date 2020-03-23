@@ -19,7 +19,7 @@ export class FoodTagComponent implements OnInit {
   constructor(public tagService: TagService) { }
 
   ngOnInit() {
-    this.tagService.GetTag(this.TagId).then(tag => {
+    this.tagService.GetTagAsync(this.TagId).then(tag => {
       this.Tag = tag;
     });
   }

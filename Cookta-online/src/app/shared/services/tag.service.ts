@@ -10,13 +10,14 @@ import {Tag} from "../models/grocery/tag.model";
 @Injectable()
 export class TagService {
 
-  public Tags: Promise<Tag[]>;
+  public TagsAsync: Promise<Tag[]>;
+  public Tags: Tag[];
 
   constructor(
     private serverService: ServerService,
     private http: HttpClient
   ) {
-    this.Tags = this.LoadTags();
+    this.TagsAsync = this.LoadTags().then(t => this.Tags = t);
   }
 
   public async LoadTags(): Promise<Tag[]>{
@@ -37,10 +38,13 @@ export class TagService {
     });
   }
 
-  public async GetTag(id: string): Promise<Tag>{
-    let tags = await this.Tags;
-
+  public async GetTagAsync(id: string): Promise<Tag>{
+    let tags = await this.TagsAsync;
     return tags.find(tag => tag.guid == id);
   }
-
+  public GetTag(id: string): Tag{
+    if (!this.TagsAsync) return new Tag('', 'NoTags', '', true);
+    let tags = this.Tags;
+    return tags.find(tag => tag.guid == id);
+  }
 }
