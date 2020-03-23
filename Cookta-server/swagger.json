@@ -293,9 +293,6 @@
 					"type": "string",
 					"x-nullable": true
 				},
-				"baseUnit": {
-					"type": "string"
-				},
 				"volumeEnabled": {
 					"type": "boolean"
 				},
@@ -304,9 +301,6 @@
 				},
 				"massEnabled": {
 					"type": "boolean"
-				},
-				"inshopping": {
-					"type": "string"
 				},
 				"options": {
 					"properties": {
@@ -326,11 +320,9 @@
 			"required": [
 				"category",
 				"name",
-				"baseUnit",
 				"volumeEnabled",
 				"countEnabled",
 				"massEnabled",
-				"inshopping",
 				"options"
 			],
 			"type": "object",
