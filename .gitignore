@@ -1,2 +1,10 @@
 Cookta-server/dist/
 Cookta-online/.firebase/
+.vs/
+Cooktapi/bin/
+Cooktapi/obj/Debug/
+Cooktapi/obj/
+IngredientUpdater/bin/
+IngredientUpdater/obj/
+Kukta/bin/
+Kukta/obj/
