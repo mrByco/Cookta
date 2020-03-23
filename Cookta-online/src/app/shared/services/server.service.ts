@@ -1,16 +1,49 @@
-import {Routes} from "../routes";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Injectable} from "@angular/core";
-import {AuthService} from "./auth.service";
+import {Routes} from '../routes';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {AuthService} from './auth.service';
+import {CookieService} from 'ngx-cookie-service';
+import {Food} from '../models/grocery/food.model';
 
 @Injectable()
 export class ServerService {
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService, private cookieService: CookieService) {
+    this.m_UseDebugServer = cookieService.get('use-debug-server') == 'true';
+    if (this.m_UseDebugServer) {
+      this.CheckServerAvailable();
+    }
   }
 
+  public async CheckServerAvailable() {
+    return new Promise(async (resolve) => {
+      let response = await this.http.get(this.GetBase() + '/ping');
+      response.subscribe(() => {
+        console.log('Server ping success!');
+        resolve();
+      }, async ()  => {
+        console.log('Server ping failed!');
+        let confirmed = await confirm('Debug server not available on \'http://localhost:8080/ping\'. Switching to production server...');
+        this.UseDebugServer = false;
+        location = location;
+        resolve();
+      });
+    });
+  }
+
+  public get UseDebugServer() {
+    return this.m_UseDebugServer;
+  }
+
+  public set UseDebugServer(value: boolean) {
+    this.cookieService.set('use-debug-server', value + '', 6000);
+    this.m_UseDebugServer = value;
+  }
+
+  private m_UseDebugServer: boolean;
+
   public GetBase(): string {
-    return false
-      ? "http://localhost:8080" : "https://cooktaservices.azurewebsites.net";
+    return this.UseDebugServer
+      ? 'http://localhost:8080' : 'https://cooktaservices.azurewebsites.net';
   }
 
   public async GetRequest(route: string): Promise<any> {
@@ -24,7 +57,7 @@ export class ServerService {
           'Authorization': `Bearer ${token}`
         })
       };
-      return this.http.get(this.GetBase() + route, options)
+      return this.http.get(this.GetBase() + route, options);
     }
   }
 
@@ -42,7 +75,7 @@ export class ServerService {
     }
     return this.http.post(
       this.GetBase() + route, data,
-      options)
+      options);
   }
 
   public async PutRequest(route: string, body: any, file?: boolean): Promise<any> {
@@ -73,7 +106,7 @@ export class ServerService {
           'Authorization': `Bearer ${token}`
         })
       };
-      return this.http.delete(this.GetBase() + route, options)
+      return this.http.delete(this.GetBase() + route, options);
     }
   }
 }

@@ -17,6 +17,11 @@ export class DisplayMeal extends Meal {
       return;
     }
     let foodId = Meal.GetMealFoodId(this);
+    if (sourceMeal.type == 'final'){
+      this.Food = Food.FromJson(sourceMeal.info.finalFood);
+      return;
+    }
+
     if (knownFoods && knownFoods.find(f => f.foodId == foodId)){
       this.Food = knownFoods.find(f => f.foodId == foodId);
     } else {

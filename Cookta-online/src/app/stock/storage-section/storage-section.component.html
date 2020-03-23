@@ -1,0 +1,58 @@
+<div class="storage-section-panel">
+  <h2 *ngIf="!CurrentSection">Loading</h2>
+  <div *ngIf="CurrentSection">
+    <a *ngIf="SelectedItems.length > 0" style="color: blue">Kijelöltek áthelyezése ide</a>
+    <div class="row" style="position: relative">
+      <h2 *ngIf="!ModifiedFields"
+      >{{CurrentSection.Name == undefined || CurrentSection.Name == '' ? '[NONAME]' : CurrentSection.Name}}</h2>
+
+      <input
+        class="form-control"
+        style="width: 70%; margin-left: 2rem"
+        [(ngModel)]="CurrentSection.Name"
+        (focus)="AddModifiedField('Name')"
+        *ngIf="ModifiedFields">
+      <a (click)="ToggleEditSection()">
+        <img class="icon icon-edit" src="assets/edit-icon.png">
+      </a>
+      <a (click)="DeleteSection()">
+        <mdb-icon class="icon icon-delete" far icon="trash-alt"></mdb-icon>
+      </a>
+    </div>
+
+
+
+    <a *ngFor="let item of CurrentSection.Items; let i = index" [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}"
+       class="row storage-section-item" (click)="ToggleItemSelect(item)">
+
+      <!-- Default unchecked -->
+      <div *ngIf="SelectedItems.length > 0"
+           class="custom-control custom-checkbox" style="padding-top: 5px; ">
+        <input [ngModel]="SelectedItems.includes(item)" type="checkbox" class="custom-control-input">
+        <label class="custom-control-label"></label>
+      </div>
+
+
+      <div class="row" style="margin-left: 1rem" *ngIf="!ModifiedFields">
+        <label>{{ingredientService.GetIngredient(item.ingredientID).name}}</label>
+        <label style="margin-left: .5rem; margin-right: .5rem;">{{item.value}}</label>
+        <label>{{unitService.GetUnit(item.unit, ingredientService.GetIngredient(item.ingredientID)).name}}</label>
+      </div>
+
+      <div class="row" style="margin-left: 1rem; width: 100%; position: relative" *ngIf="ModifiedFields">
+        <label>{{ingredientService.GetIngredient(item.ingredientID).name}}</label>
+        <input style="margin-left: .5rem; margin-right: .5rem; width: 4rem" type="number" [(ngModel)]="item.value">
+        <label>{{unitService.GetUnit(item.unit, ingredientService.GetIngredient(item.ingredientID)).name}}</label>
+
+        <a (click)="DeleteItem(item)" style="position: absolute; right: 3rem;">
+          <mdb-icon class="icon" far icon="trash-alt"></mdb-icon>
+        </a>
+      </div>
+
+
+    </a>
+    <app-ingredient-adder *ngIf="ModifiedFields"
+      style="margin-left: 30px"
+                          (OnIngredientAdded)="OnAddIngredientToSection($event)"></app-ingredient-adder>
+  </div>
+</div>

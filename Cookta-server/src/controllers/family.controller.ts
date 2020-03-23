@@ -2,26 +2,34 @@ import {Body, Controller, Delete, Get, Post, Put, Request, Route, Security, Tags
 import {User} from "../models/user.model";
 import {Family, SendFamily} from "../models/family.model";
 import {InviteFamilyRequest} from "../requests/invite.family.request";
+import {Services} from "../Services";
+import {EFamilyRole} from "../interfaces/ifamilyMember";
 
 @Route("/family")
 @Tags("Family")
 export class FamilyController extends Controller {
     @Security('Bearer', [])
     @Get("/{familyId}")
-    public async GetFamily(@Request() request, familyId: string): Promise<Family> {
+    public async GetFamily(@Request() request, familyId: string): Promise<SendFamily> {
         try {
             let user = request.user as User;
-            return Family.GetFamily(user, familyId);
+            return Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId).ToSendFamily();
         } catch {
             this.setStatus(500);
         }
     }
     @Security('Bearer', [])
     @Put("/{newId}")
-    public async SwitchFamily(@Request() request, newId: string): Promise<Family> {
+    public async SwitchFamily(@Request() request, newId: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == newId);
+        if (!family){
+            this.setStatus(404);
+            return null;
+        }
+        user.SwitchCurrentFamily(family);
+        return user.GetCurrentFamily().ToSendFamily();
         try {
-            let user = request.user as User;
-            return await user.ChangeFamily(newId);
         } catch {
             this.setStatus(500);
         }
@@ -31,8 +39,9 @@ export class FamilyController extends Controller {
     public async DeleteFamily(@Request() request, deleteId: string): Promise<SendFamily> {
         try {
             let user = request.user as User;
-            let deleted = await Family.DeleteFamily(user, deleteId);
-            return await (await Family.GetFamily(user, user.currentFamilyId)).ToSendFamily(user);
+            let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == deleteId);
+            let deleted = await Services.FamilyService.RemoveItem(family);
+            return user.GetCurrentFamily().ToSendFamily();
         } catch {
             this.setStatus(500);
         }
@@ -41,10 +50,11 @@ export class FamilyController extends Controller {
     @Security('Bearer', [])
     @Post("/{name}")
     public async CreateFamily(@Request() request, name: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let newFamily = Services.FamilyService.CreateFamily(user, name);
+        user.SwitchCurrentFamily(newFamily);
+        return newFamily.ToSendFamily();
         try {
-            let user = request.user as User;
-            let newFamily = await Family.CreateFamily(user, name);
-            return await (await user.ChangeFamily(newFamily.id)).ToSendFamily(user);
         } catch {
             this.setStatus(500);
         }
@@ -52,35 +62,41 @@ export class FamilyController extends Controller {
 
     @Security('Bearer', [])
     @Put('/{familyId}/invite')
-    public async InviteByUserNameEmail(@Request() request, @Body() inv: InviteFamilyRequest, familyId: string): Promise<boolean> {
+    public async InviteByUserNameEmail(@Request() request, @Body() inv: InviteFamilyRequest, familyId: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let familyToInvite = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
+        let invited = Services.UserService.FindOne(u => u.email == inv.invitedEmail && u.username == inv.invitedUsername);
+        if (!familyToInvite || invited == null)
+            return null;
+        familyToInvite.members.push({role: EFamilyRole.partner, sub: invited.sub});
+        await Services.FamilyService.SaveItem(familyToInvite);
+        return familyToInvite.ToSendFamily();
         try {
-            let user = request.user as User;
-            let familyToInvite = await Family.GetFamily(user, familyId);
-            let invited = await User.GetUserByEmail(inv.invitedEmail);
-            if (!familyToInvite || invited == null ||invited.username != inv.invitedUsername)
-                return false;
-            return await familyToInvite.JoinUserToFamily(user, invited);
 
         } catch {
             this.setStatus(500)
         }
-        return false;
     }
+
 
     @Security('Bearer', [])
     @Delete('/{familyId}/leave/{removeUserSub}')
-    public async LeaveFamily(@Request() request, familyId: string, removeUserSub: string): Promise<boolean> {
+    public async LeaveFamily(@Request() request, familyId: string, removeUserSub: string): Promise<SendFamily> {
+        let user = request.user as User;
+        let userToLeave = await Services.UserService.FindOne(u => u.sub == removeUserSub);
+        let family = await Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
+        if (user === userToLeave && family.ownerSub == user.sub){
+            return null;
+        }
+        if (userToLeave.sub == family.ownerSub)
+            return null;
+        family.members.splice(family.members.findIndex(m => m.sub == userToLeave.sub), 1);
+        family.Save();
+        return user.GetCurrentFamily().ToSendFamily();
         try {
-            let user = request.user as User;
-            let userToLeave = await User.GetUser(removeUserSub);
-            let family = await Family.GetFamily(user, familyId);
-            if (!family)
-                return false;
-            return await family.GetOutUserFromFamily(user, userToLeave);
         } catch {
             this.setStatus(500)
         }
-        return false;
     }
 
 }

@@ -5,20 +5,23 @@
   </div>
   <div class="col-9">
     <div class="row" style="height: 100%">
-      <a class="meal-panel" *ngFor="let meal of displayMeals">
-
-        <img [src]="meal.Food ? meal.Food.ImageUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQuKMM3X9QALYNAV5QS_mmujp2EG4ufVxyL4lOkTn6C-FmEHOsu'">
+      <a class="meal-panel" [ngClass]="{'bcg-red': meal.type != 'final', 'bcg-green': meal.type == 'final'}" *ngFor="let meal of displayMeals">
+        <img src="{{meal.Food.ImageUrl}}">
         <div class="meal-panel-overlay">
-
-          <h5>{{meal.Food ? meal.Food.name : 'Nincs ilyen ételed'}}</h5>
-          <h6 *ngIf="meal.type == 'tag'">{{tagService.GetTag(meal.sourceMeal.info.tagId).name}}</h6>
+          <h6>{{meal.Food.name}}</h6>
 
           <a *ngIf="meal.type == 'tag'" (click)="RefreshMeal(meal)">
-            <img class="icon refresh-icon refresh-icon-loading" [ngClass]="{'refresh-icon-loading': meal.Refreshing}" src="assets/refresh-icon.png">
+            <img class="icon refresh-icon" [ngClass]="{'refresh-icon-loading': meal.Refreshing}" src="assets/refresh-icon.png">
           </a>
 
           <a (click)="DeleteMeal(meal)">
             <img class="icon trash-icon" src="assets/trash-icon.png">
+          </a>
+
+          <a (click)="FinalizeMeal(meal)">
+            <img class="icon pin-icon"
+                 src="assets/finalize-icon.png"
+                 [ngClass]="{'unpinned': meal.type != 'final', 'pinned': meal.type == 'final'}">
           </a>
         </div>
       </a>

@@ -4,7 +4,7 @@
 		"application/json"
 	],
 	"definitions": {
-		"iIngredient": {
+		"IIngredient": {
 			"properties": {
 				"ingredientID": {
 					"type": "string"
@@ -71,7 +71,7 @@
 				},
 				"ingredients": {
 					"items": {
-						"$ref": "#/definitions/iIngredient"
+						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array",
 					"default": [],
@@ -156,7 +156,7 @@
 				},
 				"ingredients": {
 					"items": {
-						"$ref": "#/definitions/iIngredient"
+						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array"
 				},
@@ -365,31 +365,6 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"BaselistItem": {
-			"properties": {
-				"ingredientID": {
-					"type": "string"
-				},
-				"unit": {
-					"type": "string"
-				},
-				"value": {
-					"type": "number",
-					"format": "double"
-				},
-				"sub": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"ingredientID",
-				"unit",
-				"value",
-				"sub"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
 		"SetTagRequest": {
 			"properties": {
 				"guid": {
@@ -410,74 +385,92 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"IStockItem": {
+		"ObjectId": {
+			"description": "A class representation of the BSON ObjectId type.",
 			"properties": {
-				"_id": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"typeid": {
-					"type": "string"
-				},
-				"type": {
-					"type": "string"
-				},
-				"value": {
-					"type": "number",
-					"format": "double"
-				},
-				"unitId": {
-					"type": "string"
-				},
-				"sub": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"validitydate": {
+				"generationTime": {
 					"type": "number",
 					"format": "double",
-					"x-nullable": true
+					"description": "The generation time of this ObjectId instance"
 				},
-				"lastupdate": {
-					"type": "number",
-					"format": "double",
+				"cacheHexString": {
+					"type": "boolean",
+					"description": "If true cache the hex string representation of ObjectId",
 					"x-nullable": true
 				}
 			},
 			"required": [
-				"typeid",
-				"type",
-				"value",
-				"unitId"
+				"generationTime"
 			],
 			"type": "object",
 			"additionalProperties": false
 		},
-		"ISetStockItemRequest": {
+		"IStorageSection": {
 			"properties": {
-				"owner": {
-					"type": "string"
+				"Id": {
+					"$ref": "#/definitions/ObjectId",
+					"x-nullable": true
 				},
-				"type": {
+				"FamilyId": {
 					"type": "string",
 					"x-nullable": true
 				},
-				"typeId": {
-					"type": "string"
-				},
-				"value": {
-					"type": "number",
-					"format": "double",
+				"Name": {
+					"type": "string",
 					"x-nullable": true
 				},
-				"unitId": {
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"GeneralList": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"IsDefaultList": {
+					"type": "boolean",
+					"x-nullable": true
+				}
+			},
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IStorageItemChangeRequest": {
+			"properties": {
+				"Id": {
+					"type": "string"
+				},
+				"Name": {
 					"type": "string",
+					"x-nullable": true
+				},
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"GeneralList": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"IsDefaultList": {
+					"type": "boolean",
 					"x-nullable": true
 				}
 			},
 			"required": [
-				"owner",
-				"typeId"
+				"Id"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -540,10 +533,6 @@
 		},
 		"ExtendedUser": {
 			"properties": {
-				"_id": {
-					"type": "string",
-					"x-nullable": true
-				},
 				"sub": {
 					"type": "string"
 				},
@@ -551,19 +540,13 @@
 					"items": {
 						"type": "string"
 					},
-					"type": "array",
-					"default": [
-						null
-					],
-					"x-nullable": true
+					"type": "array"
 				},
 				"username": {
 					"type": "string"
 				},
 				"role": {
-					"type": "string",
-					"default": "default",
-					"x-nullable": true
+					"type": "string"
 				},
 				"email": {
 					"type": "string"
@@ -605,7 +588,9 @@
 			},
 			"required": [
 				"sub",
+				"subs",
 				"username",
+				"role",
 				"email",
 				"logs",
 				"profilpic",
@@ -671,6 +656,14 @@
 		},
 		"Food": {
 			"properties": {
+				"CollectionName": {
+					"type": "string",
+					"enum": [
+						"Foods"
+					],
+					"default": "Foods",
+					"x-nullable": true
+				},
 				"owner": {
 					"type": "string"
 				},
@@ -696,7 +689,7 @@
 				},
 				"ingredients": {
 					"items": {
-						"$ref": "#/definitions/iIngredient"
+						"$ref": "#/definitions/IIngredient"
 					},
 					"type": "array",
 					"default": [],
@@ -753,57 +746,6 @@
 				"lastModified",
 				"subscriptions",
 				"foodId"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"ifamilyMember": {
-			"properties": {
-				"sub": {
-					"type": "string"
-				},
-				"role": {
-					"$ref": "#/definitions/EFamilyRole"
-				}
-			},
-			"required": [
-				"sub",
-				"role"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"Family": {
-			"properties": {
-				"CollectionName": {
-					"type": "string",
-					"enum": [
-						"Family"
-					],
-					"default": "Family",
-					"x-nullable": true
-				},
-				"id": {
-					"type": "string"
-				},
-				"ownerSub": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string"
-				},
-				"members": {
-					"items": {
-						"$ref": "#/definitions/ifamilyMember"
-					},
-					"type": "array"
-				}
-			},
-			"required": [
-				"id",
-				"ownerSub",
-				"name",
-				"members"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -1231,9 +1173,9 @@
 				"parameters": []
 			}
 		},
-		"/Baselist/{owner}": {
+		"/Baselist": {
 			"get": {
-				"operationId": "GetAllByOwner",
+				"operationId": "GetCurrentBaseList",
 				"produces": [
 					"application/json"
 				],
@@ -1242,7 +1184,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/BaselistItem"
+								"$ref": "#/definitions/IIngredient"
 							},
 							"type": "array"
 						}
@@ -1251,18 +1193,15 @@
 				"tags": [
 					"Baselist"
 				],
-				"security": [],
-				"parameters": [
+				"security": [
 					{
-						"in": "path",
-						"name": "owner",
-						"required": true,
-						"type": "string"
+						"Bearer": []
 					}
-				]
+				],
+				"parameters": []
 			},
 			"post": {
-				"operationId": "SetListItem",
+				"operationId": "SetBaseList",
 				"produces": [
 					"application/json"
 				],
@@ -1270,27 +1209,31 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/BaselistItem"
+							"items": {
+								"$ref": "#/definitions/IIngredient"
+							},
+							"type": "array"
 						}
 					}
 				},
 				"tags": [
 					"Baselist"
 				],
-				"security": [],
-				"parameters": [
+				"security": [
 					{
-						"in": "path",
-						"name": "owner",
-						"required": true,
-						"type": "string"
-					},
+						"Bearer": []
+					}
+				],
+				"parameters": [
 					{
 						"in": "body",
 						"name": "data",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/iIngredient"
+							"items": {
+								"$ref": "#/definitions/IIngredient"
+							},
+							"type": "array"
 						}
 					}
 				]
@@ -1382,7 +1325,7 @@
 				]
 			}
 		},
-		"/stock/{owner}": {
+		"/stock": {
 			"get": {
 				"operationId": "GetAll",
 				"produces": [
@@ -1392,28 +1335,80 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"items": {
-								"$ref": "#/definitions/IStockItem"
-							},
-							"type": "array"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
 				"tags": [
 					"Stock"
 				],
-				"security": [],
-				"parameters": [
+				"security": [
 					{
-						"in": "path",
-						"name": "owner",
-						"required": true,
-						"type": "string"
+						"Bearer": []
 					}
-				]
+				],
+				"parameters": []
 			},
 			"post": {
-				"operationId": "SetItem",
+				"operationId": "CreateSection",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IStorageSection"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "EditSection",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IStorageSection"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "changeRequest",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IStorageItemChangeRequest"
+						}
+					}
+				]
+			}
+		},
+		"/stock/{sectionIdString}": {
+			"delete": {
+				"operationId": "DeleteSection",
 				"produces": [
 					"application/json"
 				],
@@ -1422,7 +1417,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IStockItem"
+								"$ref": "#/definitions/IStorageSection"
 							},
 							"type": "array"
 						}
@@ -1431,19 +1426,15 @@
 				"tags": [
 					"Stock"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
-						"in": "body",
-						"name": "setRequest",
-						"required": true,
-						"schema": {
-							"$ref": "#/definitions/ISetStockItemRequest"
-						}
-					},
-					{
 						"in": "path",
-						"name": "owner",
+						"name": "sectionIdString",
 						"required": true,
 						"type": "string"
 					}
@@ -1651,6 +1642,45 @@
 				]
 			}
 		},
+		"/day/finalize/{date}/{mealingIdentity}": {
+			"get": {
+				"operationId": "FinalizeMealing",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "path",
+						"name": "mealingIdentity",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
 		"/subscription": {
 			"get": {
 				"operationId": "GetSubscribedFoods",
@@ -1716,7 +1746,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Family"
+							"$ref": "#/definitions/SendFamily"
 						}
 					}
 				},
@@ -1748,7 +1778,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Family"
+							"$ref": "#/definitions/SendFamily"
 						}
 					}
 				},
@@ -1844,7 +1874,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "boolean"
+							"$ref": "#/definitions/SendFamily"
 						}
 					}
 				},
@@ -1884,7 +1914,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "boolean"
+							"$ref": "#/definitions/SendFamily"
 						}
 					}
 				},
@@ -1910,6 +1940,27 @@
 						"type": "string"
 					}
 				]
+			}
+		},
+		"/ping": {
+			"get": {
+				"operationId": "Ping",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "string"
+						}
+					}
+				},
+				"tags": [
+					"Ping"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},

@@ -85,4 +85,23 @@ export class Subscription {
             _id: new ObjectID(this._id)
         }
     }
+
+    public static async GetAll(): Promise<Subscription[]> {
+        let collection = await MongoHelper.getCollection(this.CollectionName);
+        let subDocs = await collection.find({}).toArray();
+        let subs: Subscription[] = [];
+        for (let doc of subDocs){
+            let subscription = await this.FromDocument(doc);
+            if (subscription == null){
+                continue;
+            }
+            subs.push(subscription);
+        }
+        return subs;
+    }
+
+    async Save(): Promise<void> {
+        let collection = await MongoHelper.getCollection(Subscription.CollectionName);
+        await collection.replaceOne({_id: new ObjectID(this._id)}, this.ToDocument(), {upsert: true});
+    }
 }

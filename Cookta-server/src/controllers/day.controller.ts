@@ -1,9 +1,9 @@
 import {Body, Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
-import {User} from "../models/user.model";
 import {Day} from "../models/Days/day.model";
 import {IMealing} from "../models/Days/IMealing.interface";
 import { ObjectID } from "mongodb";
 import {Food} from "../models/food/food.model";
+import {User} from "../models/user.model";
 
 @Route("/day")
 @Tags("Days")
@@ -38,10 +38,6 @@ export class DayController extends Controller {
             let day = await Day.GetDay(date, user);
             await day.SetDay(mealings);
             return day;
-       /* } catch {
-            this.setStatus(500);
-            return;
-        }*/
     }
 
     @Security('Bearer', [])
@@ -51,6 +47,19 @@ export class DayController extends Controller {
             let user = request.user as User;
             let day = await Day.GetDay(date, user);
             await day.RefreshTagMealing(+mealingIdentity, user);
+            return day;
+        } catch {
+            this.setStatus(500);
+            return;
+        }
+    }
+    @Security('Bearer', [])
+    @Get('/finalize/{date}/{mealingIdentity}')
+    public async FinalizeMealing(@Request() request, date: string, mealingIdentity: number): Promise<Day> {
+        try {
+            let user = request.user as User;
+            let day = await Day.GetDay(date, user);
+            await day.FinalizeMealing(+mealingIdentity, user);
             return day;
         } catch {
             this.setStatus(500);

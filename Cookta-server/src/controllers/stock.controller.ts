@@ -1,37 +1,58 @@
-import {Body, Controller, Get, Post, Put, Route, Tags} from "tsoa";
-import {IStockItem} from "../interfaces/istock.item";
-import {Stock} from "../models/stock.model";
+import {Body, Controller, Delete, Get, Post, Put, Request, Route, Security, Tags} from "tsoa";
 import {ISetStockItemRequest} from "../requests/set-stock-item.request";
+import {StorageSection} from "../models/storage-section.model";
+import {RequestHelper} from "../helpers/request.helper";
+import {User} from "../models/user.model";
+import {Services} from "../Services";
+import {ObjectId} from "mongodb";
+import {IIngredient} from "../interfaces/IIngredient";
+import {IStorageSection} from "../interfaces/IStorageSection";
+import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
 
 @Route('/stock')
 @Tags('Stock')
 export class StockController extends Controller {
-    @Get('/{owner}')
-    public async GetAll(owner: string): Promise<IStockItem[]> {
-        try{
-            let stock = await Stock.GetStockOfSub(owner);
-            return stock.items;
-        }catch{
-            this.setStatus(500);
-        }
+    @Security("Bearer", [])
+    @Get('/')
+    public async GetAll(@Request() request: any): Promise<any> {
+        let user = request.user as User;
+        let items = await RequestHelper.ExecuteRequest(this, () => {
+            let i =  Services.StorageService.GetSections(user);
+            return i;
+        });
+        return Services.ToSendableList(items);
     }
-    @Post('/{owner}')
-    public async SetItem(@Body() setRequest: ISetStockItemRequest, owner: string): Promise<IStockItem[]> {
+    @Security("Bearer", [])
+    @Post('/')
+    public async CreateSection(@Request() request: any): Promise<IStorageSection> {
+        let user = request.user as User;
+        return await RequestHelper.ExecuteRequest(this, () => {
+            return Services.StorageService.CreateSection(user).ToSendJson();
+        });
+    }
+    @Security("Bearer", [])
+    @Put('/')
+    public async EditSection(@Request() request: any, @Body() changeRequest: IStorageItemChangeRequest): Promise<IStorageSection> {
+        let user = request.user as User;
+        return await RequestHelper.ExecuteRequest(this, () => {
+            return Services.StorageService.SetSection(user, changeRequest).ToSendJson();
+        });
+    }
+    @Security("Bearer", [])
+    @Delete('/{sectionIdString}')
+    public async DeleteSection(@Request() request: any, sectionIdString: string): Promise<IStorageSection[]> {
+        let sectionId;
         try{
-
-            let stock = await Stock.GetStockOfSub(owner);
-            //Zero value deletes the item
-
-            if (setRequest.value == 0)
-                await stock.Delete(setRequest.typeId);
-            else if (!stock.items.find(i => i.typeid == setRequest.typeId))
-                await stock.Add({typeid: setRequest.typeId, value: setRequest.value, unitId: setRequest.unitId, type: setRequest.type});
-            else
-                await stock.Update(setRequest);
-
-            return stock.items;
+            sectionId = new ObjectId(sectionIdString);
         }catch{
-            this.setStatus(500);
+            this.setStatus(404);
+            return;
         }
+        let user = request.user as User;
+        return await RequestHelper.ExecuteRequest(this, () => {
+            Services.StorageService.DeleteSection(user, sectionId);
+            return Services.ToSendableList(Services.StorageService.GetSections(user));
+        });
     }
 }
+

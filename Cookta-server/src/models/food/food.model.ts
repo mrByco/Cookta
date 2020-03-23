@@ -1,18 +1,19 @@
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {ObjectID} from "mongodb";
-import {iIngredient} from "../../interfaces/iingredient";
+import {IIngredient} from "../../interfaces/IIngredient";
 import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
 import {Family} from "../family.model";
 import {Subscription} from "../subscription.model";
+import {Services} from "../../Services";
 
 const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
 const ContainerName = 'foodimages';
 
 
 export class Food {
-    private static readonly CollectionName = "Foods";
+    public static readonly CollectionName = "Foods";
     private static readonly BlobContainerName = "foodimages";
 
     constructor(
@@ -21,7 +22,7 @@ export class Food {
         public desc: string = "",
         public isPrivate: boolean = true,
         public published: boolean = false,
-        public ingredients: iIngredient[] = [],
+        public ingredients: IIngredient[] = [],
         public imageUploaded: number,
         public uploaded: number,
         public dose: number = 4,
@@ -73,7 +74,7 @@ export class Food {
         if (food == null)
             return null;
         if (user == undefined && !food.isPrivate ||
-            (await Family.GetUserFamilies(user)).find(f => f.members.find(m => m.sub == food.owner))) {
+            (Services.FamilyService.GetUserFamilies(user)).find(f => f.members.find(m => m.sub == food.owner))) {
             return food;
         }
 
@@ -194,7 +195,7 @@ export class Food {
     }
 
 
-    private static FromDocument(doc: any): Food {
+    public static FromDocument(doc: any): Food {
         return new Food(
             doc['owner'],
             doc['name'],
@@ -214,7 +215,7 @@ export class Food {
         )
     }
 
-    private ToDocument(): any {
+    public ToDocument(): any {
         return {
             owner: this.owner,
             name: this.name,

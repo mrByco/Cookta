@@ -44,8 +44,9 @@ export class MenuMealingComponent implements OnInit {
   }
 
   public AddCurrentMealToDay() {
-    if (!this.MenuDayComponent.SelectedItem)
+    if (!this.MenuDayComponent.SelectedItem) {
       return null;
+    }
 
     let mealToAdd;
       if (this.MenuDayComponent.SelectedItem instanceof Food)
@@ -67,6 +68,12 @@ export class MenuMealingComponent implements OnInit {
 
   RefreshMeal(meal: DisplayMeal) {
     meal.Refreshing = true;
-    this.MenuDayComponent.mealingService.RefreshMealing(this.MenuDayComponent.CurrentDay.date, this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {this.MenuDayComponent.CurrentDay = d; this.MenuDayComponent.OnDayChanged.emit(d)});
+    this.MenuDayComponent.mealingService.RefreshMealing(this.MenuDayComponent.CurrentDay.date,
+      this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {this.MenuDayComponent.CurrentDay = d; this.MenuDayComponent.OnDayChanged.emit(d)});
+  }
+
+  FinalizeMeal(meal: DisplayMeal) {
+    this.MenuDayComponent.mealingService.FinalizeMealing(this.MenuDayComponent.CurrentDay.date,
+      this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {this.MenuDayComponent.CurrentDay = d; this.MenuDayComponent.OnDayChanged.emit(d)});
   }
 }

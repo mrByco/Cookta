@@ -4,6 +4,7 @@ import {DatePipe} from '@angular/common';
 import {MealingService} from "../../shared/services/mealing.service";
 import {Meal} from "../../shared/models/menu/mealing.interface";
 import {MenuEditorComponent} from "../menu-editor/menu-editor.component";
+import {FamilyService} from '../../shared/services/family.service';
 
 @Component({
   selector: 'app-menu-day',
@@ -50,7 +51,7 @@ export class MenuDayComponent implements OnInit {
     }
   }
 
-  constructor(public mealingService: MealingService) {
+  constructor(public mealingService: MealingService, familyService: FamilyService) {
   }
 
   public AddItemToDay(meal: Meal) {

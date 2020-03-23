@@ -1,5 +1,5 @@
 import {Food} from "./food.model";
-import {iIngredient} from "../../interfaces/iingredient";
+import {IIngredient} from "../../interfaces/IIngredient";
 import {ObjectID} from "bson";
 import {Tag} from "../tag.model";
 import {User} from "../user.model";
@@ -11,7 +11,7 @@ export class SendableFood {
     public name: string = "";
     public desc: string = "";
     public published: boolean = false; //TODO Replace by checking new certificate system DEP: new certificate system + blockchain food store
-    public ingredients: iIngredient[] = [];
+    public ingredients: IIngredient[] = [];
     public imageUploaded: number;
     public uploaded: number;
     public dose: number = 4;

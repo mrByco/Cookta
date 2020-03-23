@@ -25,6 +25,10 @@ export class Day {
             document['mealings'],
             document['familyId']);
     }
+    private async Save(): Promise<void>{
+        let collection = await MongoHelper.getCollection(Day.CollectionName);
+        await collection.replaceOne({date: this.date, familyId: this.familyId}, this.ToDocument(), {upsert: true});
+    }
 
     public async SetDay(mealings: IMealing[]) {
         let collection = await MongoHelper.getCollection(Day.CollectionName);
@@ -41,8 +45,20 @@ export class Day {
             let food = await foods[Math.floor(Math.random() * foods.length)];
             mealing.foodId = food ? food.foodId : undefined;
         }
-        let collection = await MongoHelper.getCollection(Day.CollectionName);
-        await collection.replaceOne({date: this.date, familyId: this.familyId}, this.ToDocument(), {upsert: true});
+        await this.Save();
+    }
+
+    public async FinalizeMealing(index: number, user: User): Promise<IMealing>{
+        let mealing = await this.mealings[index];
+        if (!mealing) return null;
+        let food: Food = await Food.GetFoodForUser(mealing.foodId, user);
+        if (!food){
+            return null;
+        }
+        mealing.type = 'final';
+        mealing.info.finalFood = await food.ToSendable(user);
+        await this.Save();
+        return mealing;
     }
 
     private ToDocument(): any {
@@ -52,5 +68,4 @@ export class Day {
             familyId: this.familyId,
         }
     }
-
 }
