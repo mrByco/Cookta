@@ -53,7 +53,9 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   OnFocus() {
-    this.DropDown.show();
+    if (this.Suggestions.length > 0){
+      this.DropDown.show();
+    }
   }
 
   UnFocus() {
@@ -76,6 +78,11 @@ export class AutoCompleteComponent implements OnInit {
     this.SelectedItem = filtered.find(item => item.displayName() == this.CurrentText);
     if (this.SelectedItem != null){
       this.ItemChosen.emit(this.SelectedItem);
+    }
+    if (this.Suggestions.length > 0){
+      this.DropDown.show();
+    }else{
+      this.DropDown.hide();
     }
   }
 
