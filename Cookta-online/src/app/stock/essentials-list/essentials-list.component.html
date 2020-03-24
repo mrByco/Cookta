@@ -7,7 +7,7 @@
   </a>
   <hr>
   <a [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}" class="row rounded-panel-item" style="position: relative; font-weight: normal; padding: 5px; font-size: 20px"
-    *ngFor="let item of m_items; let i = index">
+    *ngFor="let item of essentialsService.GetDisplays(); let i = index">
     {{item.ValueName}} {{item.UnitName}} {{item.TypeName}}
 
     <mdb-icon *ngIf="Editing" class="icon edit-ingredient" far icon="trash-alt"></mdb-icon>

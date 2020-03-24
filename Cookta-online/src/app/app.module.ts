@@ -55,6 +55,7 @@ import {StorageRootComponentComponent} from './stock/storage-root-component/stor
 import {StorageSectionComponent} from './stock/storage-section/storage-section.component';
 import { EssentialsRootComponent } from './stock/essentials-root/essentials-root.component';
 import { EssentialsListComponent } from './stock/essentials-list/essentials-list.component';
+import {EssentialsService} from "./shared/services/essentials.service";
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -126,7 +127,7 @@ const appRoutes: Routes = [
     DragDropModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, EssentialsService, CanDeactivateGuard],
   entryComponents: [GenericTwoButtonDialogComponent],
   bootstrap: [AppComponent]
 })

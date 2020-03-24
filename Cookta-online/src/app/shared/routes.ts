@@ -50,4 +50,8 @@ export class Routes {
     DeleteSection: "/stock/{storageSectionIdString}",
 
   }
+  public static readonly Essentials = {
+    GetEssentials: "/baselist",
+    SetEssentials: "/baselist",
+  };
 }
