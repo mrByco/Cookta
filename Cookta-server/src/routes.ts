@@ -9,7 +9,7 @@ import { IngredientTypeController } from './controllers/ingredient-type.controll
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UnitController } from './controllers/unit.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { BaselistController } from './controllers/baselist.controller';
+import { EssentialsController } from './controllers/essentialsController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TagController } from './controllers/tag.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -592,7 +592,7 @@ export function RegisterRoutes(app: express.Express) {
                 return next(err);
             }
 
-            const controller = new BaselistController();
+            const controller = new EssentialsController();
 
 
             const promise = controller.GetCurrentBaseList.apply(controller, validatedArgs as any);
@@ -616,7 +616,7 @@ export function RegisterRoutes(app: express.Express) {
                 return next(err);
             }
 
-            const controller = new BaselistController();
+            const controller = new EssentialsController();
 
 
             const promise = controller.SetBaseList.apply(controller, validatedArgs as any);

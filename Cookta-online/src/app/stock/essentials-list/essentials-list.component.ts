@@ -20,7 +20,7 @@ export class EssentialsListComponent implements OnInit {
               private essentialsService: EssentialsService) { }
 
   ngOnInit() {
-
+    this.essentialsService.RefreshEssentials();
   }
 
   public async ToggleEdit() {

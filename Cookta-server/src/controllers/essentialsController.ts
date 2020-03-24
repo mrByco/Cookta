@@ -5,8 +5,8 @@ import {User} from "../models/user.model";
 import {Services} from "../Services";
 
 @Route("/Baselist")
-@Tags('Baselist')
-export class BaselistController extends Controller {
+@Tags('Essentials')
+export class EssentialsController extends Controller {
 
     @Security('Bearer', [])
     @Get('/')

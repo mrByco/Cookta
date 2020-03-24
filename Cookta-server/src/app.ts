@@ -7,7 +7,7 @@ import {requestLoggerMiddleware} from "./request.logger.middleware";
 import './controllers/food.controller';
 import './controllers/ingredient-type.controller';
 import './controllers/unit.controller';
-import './controllers/baselist.controller';
+import './controllers/essentialsController';
 import './controllers/tag.controller';
 import './controllers/stock.controller';
 import './controllers/user.controller';
