@@ -8,6 +8,9 @@ export class Routes {
     GetFoodFrom: "/food/{from}/{count}",
     PostFoodImage: "/food/image/{foodVersionId}",
     DeleteFoodImage: "/food/image/{foodVersionId}",
+    GetOwnFoods: "/food/own",
+    GetFamilyFoods: "/food/family",
+    GetSubscriptionFoods: '/food/subscription',
     SetSubscription: '/subscription'
   };
   public static readonly IngredientType = {

@@ -49,7 +49,7 @@ export class Family extends StoreItemBase {
         for (let member of this.members){
             let user = Services.UserService.FindOne(u => u.sub == member.sub);
             let f = await Food.GetAllOwnFoods(user);
-            foods.concat(f);
+            foods = foods.concat(f);
         }
         return foods;
     }
