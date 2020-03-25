@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row" style="padding-top: 2rem; padding-bottom: 1rem">
+    <h1 class="family-title">Családok</h1>
+  </div>
+  <div class="row" style="padding-bottom: 2rem">
+    <h5 class="family-title">Ezekkel az adatokkal tudnak meghívni: {{username}}, {{email}}</h5>
+  </div>
+  <div class="row">
+    <div class="col-5">
+      <h3 class="family-title">Saját családok</h3>
+      <div class="family-list">
+        <a *ngFor="let family of familyService.GetOwnFamilies()"
+           class="row family-item"
+           [ngClass]="{'family-item-selected': CurrentFamily ? CurrentFamily.id == family.id : false}"
+           (click)="SelectFamily(family)">
+          <label>{{family.name}}</label>
+        </a>
+
+        <a class="row family-item" style="font-style: italic; margin-top: 2rem"
+        (click)="CreateNewFamily()">
+          <label>Új család</label>
+        </a>
+      </div>
+      <hr>
+      <h3 class="family-title">Egyéb családok</h3>
+      <div class="family-list">
+        <a *ngFor="let family of familyService.GetOtherFamilies()"
+           class="row family-item"
+           [ngClass]="{'family-item-selected': CurrentFamily ? CurrentFamily.id == family.id : false}"
+           (click)="SelectFamily(family)">
+          <label>{{family.name}}</label>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-7">
+      <app-family-details-page [CurrentFamily]="CurrentFamily" [Loading]="Loading"></app-family-details-page>
+    </div>
+  </div>
+</div>

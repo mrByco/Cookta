@@ -1,0 +1,6 @@
+<div class="row" style="margin-top: 10px">
+  <div class="col">
+    <app-auto-complete #autoSugg [SuggestionPool]="Tags" (OnSelectedChanged)="TagSelected($event)" PlaceholderText="Tag" style="width: 100%"></app-auto-complete>
+  </div>
+  <a><img src="assets/ingredient-add-icon.png" class="mini-round-icon" (click)="AddTag()" [ngClass]="{'mini-round-icon-disabled': !Done}"></a>
+</div>

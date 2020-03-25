@@ -1,0 +1,11 @@
+// SCSS
+// Masonry layout horizontal
+//
+.masonry-with-columns-2 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.masonry-item {
+  margin: 1rem;
+}

@@ -1,0 +1,18 @@
+<div style="height: 100%; max-height: 500px; display: flex;">
+  <div class="container-fluid" >
+    <div class="row fill">
+      <div class="col-2 no-padding">
+        <app-food-pool [SelectItemOut]="SelectItem" [OnSelectionChanged]="OnSelectedChanged"></app-food-pool>
+      </div>
+      <div class="col-3 no-padding">
+        <app-food-pool [SelectItemOut]="SelectItem" [OnSelectionChanged]="OnSelectedChanged"></app-food-pool>
+      </div>
+      <div class="col-2 no-padding">
+        <app-tag-pool [SelectItemOut]="SelectItem" [OnSelectionChanged]="OnSelectedChanged"></app-tag-pool>
+      </div>
+      <div class="col-5">
+        <app-menu-day [SelectedItem]="Selected" [MenuEditorComponent]="this"></app-menu-day>
+      </div>
+    </div>
+  </div>
+</div>

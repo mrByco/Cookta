@@ -1,0 +1,9 @@
+diff a/Cookta-online/src/app/app.module.ts b/Cookta-online/src/app/app.module.ts	(rejected hunks)
+@@ -10,6 +10,7 @@
+ import {ServerService} from "./shared/models/grocery/server.service";
+ import {Router, RouterModule, Routes} from "@angular/router";
+ 
++const appRoutes: Routes = [
+   { path: '', component: FoodListComponent },
+   { path: 'foods', component: FoodListComponent },
+   { path: 'foods/:id', component: FoodDetailComponent }

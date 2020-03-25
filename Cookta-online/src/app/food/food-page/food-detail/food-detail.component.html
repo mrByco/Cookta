@@ -1,0 +1,51 @@
+<div class="container-fluid no-padding" style="padding: 0px;">
+  <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-6" style="padding: 20px">
+      <img [src]="Food ? Food.ImageUrl : ''" style="width: 70%">
+
+      <ul class="list-group list-group-horizontal" style="background-color: transparent; margin-left: fill; width: 100%">
+        <li class="list-group-item-2" *ngIf="!Food.SubscribedFor && !Food.OwnFood">
+          <button class="btn btn-primary" (click)="Subscribe(true)">Feliratkozás</button>
+        </li>
+        <li class="list-group-item-2" *ngIf="Food.SubscribedFor">
+          <button class="btn btn-primary" (click)="Subscribe(false)">Leiratkozás</button>
+        </li>
+        <li class="list-group-item-2">
+          <button class="btn btn-primary">Feltöltő</button>
+        </li>
+        <li class="list-group-item-2" *ngIf="identityService.LastKnownUserInfo && identityService.LastKnownUserInfo['sub'] == this.Food.owner">
+          <button class="btn btn-primary" (click)="GoEdit()">Szerkesztés</button>
+        </li>
+      </ul>
+
+      <hr>
+
+      <div class="row">
+
+      </div>
+
+      <h1 class="recipe-title">{{Food ? Food.name : "FOODNAME"}}</h1>
+
+
+      <p class="recipe-desc">{{Food ? Food.desc : "FOODDESC"}}</p>
+    </div>
+    <div class="col-4" style="padding-top: 5%">
+      <h2 class="ingredients-title">Hozzávalók</h2>
+
+      <app-food-ingredient style="color: white" class="ingredients-desc" *ngFor="let ingredient of Food ? Food.ingredients : []" [ingredient]="ingredient"></app-food-ingredient>
+
+      <div style="height: 40px"></div>
+
+      <div>
+        <h3>Tagek</h3>
+        <div class="masonry-with-columns-2">
+          <app-food-tag *ngFor="let tag of Food.tags.concat(Food.autoTags)" [TagId]="tag.guid"></app-food-tag>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

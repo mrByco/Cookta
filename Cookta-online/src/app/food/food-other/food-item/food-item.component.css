@@ -1,0 +1,55 @@
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Arial Black";
+}
+
+.highlight {
+  padding: 10px;
+  transition: padding 0.3s;
+}
+.highlight:hover {
+  padding: 0px;
+}
+.highlightBackground {
+  background-color: inherit;
+  transition: background-color 0.3s;
+}
+.highlightBackground:hover {
+  background-color: #9B1B30;
+}
+
+.outer {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.inner_fixed {
+  height: auto;
+  background-color: grey;
+  margin: auto;
+}
+
+.inner_remaining {
+  flex-grow : 1;
+}
+
+.more-options-icon-frame {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  transition: height 0.2s, right 0.2s, top 0.2s;
+}
+.more-options-icon-frame img{
+  height: 30px;
+  transition: height 0.2s, right 0.2s, top 0.2s;
+}
+.more-options-icon-frame:hover {
+  right: 7px;
+  top: 7px;
+}
+.more-options-icon-frame img:hover{
+  height: 36px;
+}
+
