@@ -4,7 +4,6 @@ import {IIngredient} from "../../interfaces/IIngredient";
 import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
-import {Family} from "../family.model";
 import {Subscription} from "../subscription.model";
 import {Services} from "../../Services";
 
