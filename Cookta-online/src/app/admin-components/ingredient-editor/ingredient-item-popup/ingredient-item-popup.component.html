@@ -20,10 +20,10 @@
         </div>
 
         <p class="start-paragraph">Alap mértékegység</p>
-        <select class="browser-default custom-select">
-          <option value="1">Térfogat (l)</option>
-          <option value="2">Szám (darab)</option>
-          <option value="3">Súly (g)</option>
+        <select class="browser-default custom-select" [(ngModel)]="CurrentBaseUnitType">
+          <option value="0">Térfogat (l)</option>
+          <option value="1">Szám (darab)</option>
+          <option value="2">Súly (g)</option>
         </select>
 
 

@@ -59,15 +59,16 @@ export class IngredientType implements IDisplayable {
       return EUnitType.mass;
   }
   public static enumUnitTypeToBool(type: EUnitType): {volumeEnabled: boolean, countEnabled: boolean, massEnabled} {
+    let realType: EUnitType = type as EUnitType;
     let base = {volumeEnabled: false, countEnabled: false, massEnabled: false};
-    switch (type) {
-      case EUnitType.count:
+    switch (realType) {
+      case 1:
         base.countEnabled = true;
         break;
-      case EUnitType.mass:
+      case 2:
         base.massEnabled = true;
         break;
-      case EUnitType.volume:
+      case 0:
         base.volumeEnabled = true;
         break;
     }

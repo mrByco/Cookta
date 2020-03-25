@@ -1,6 +1,5 @@
 import {Body, Controller, Get, Post, Request, Route, Security, Tags} from "tsoa";
 import {IIngredient} from "../interfaces/IIngredient";
-import {EssentialList} from "../models/essential-list.model";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
 
