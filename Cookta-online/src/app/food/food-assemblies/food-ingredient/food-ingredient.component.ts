@@ -13,14 +13,14 @@ import {DisplayIngredient} from "../../../shared/ingredient-display";
 export class FoodIngredientComponent implements OnInit {
 
   @Input('ingredient') private ingredient: IIngredient;
-  @Input('edit') private edit: boolean = false;
+  @Input('edit') public edit: boolean = false;
   @Output('OnDeleted')  OnDeleted: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
 
-  private displayIngredient: DisplayIngredient;
+  public displayIngredient: DisplayIngredient;
 
   constructor(
-    private ingredientService: IngredientService,
-    private unitService: UnitService) {
+    public ingredientService: IngredientService,
+    public unitService: UnitService) {
   }
 
   ngOnInit() {

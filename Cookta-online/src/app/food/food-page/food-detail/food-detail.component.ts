@@ -13,10 +13,10 @@ export class FoodDetailComponent implements OnInit {
 
   public Food: Food = FoodService.Placeholder;
   constructor(
-    private route: ActivatedRoute,
-    private foodService: FoodService,
-    private identityService: IdentityService,
-    private router: Router) { }
+    public route: ActivatedRoute,
+    public foodService: FoodService,
+    public identityService: IdentityService,
+    public router: Router) { }
 
 
   async ngOnInit() {

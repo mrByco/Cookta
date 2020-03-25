@@ -17,7 +17,6 @@ import {IngredientService} from './shared/services/ingredient.service';
 import {FoodIngredientComponent} from './food/food-assemblies/food-ingredient/food-ingredient.component';
 import {UnitService} from './shared/services/unit.service';
 import {AuthService} from './shared/services/auth.service';
-import {AdsenseModule} from 'ng2-adsense';
 import {FoodCollectionListComponent} from './food/food-other/food-collection-list/food-collection-list.component';
 import {LoginModalComponent} from './identity/login-modal/login-modal.component';
 import {TagService} from './shared/services/tag.service';
@@ -112,10 +111,10 @@ const appRoutes: Routes = [
     ImageCropperModule,
     MDBBootstrapModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    AdsenseModule.forRoot({
+    /*AdsenseModule.forRoot({
       adClient: 'ca-pub-8068476996237937',
       adSlot: 1393101782,
-    }),
+    }),*/
     FormsModule,
     IconsModule,
     BrowserAnimationsModule,

@@ -10,7 +10,7 @@ import {IdentityService} from '../../../shared/services/identity.service';
 })
 export class FamilyManagementComponent implements OnInit {
 
-  constructor(private familyService: FamilyService, private identityService: IdentityService) {
+  constructor(public familyService: FamilyService, public identityService: IdentityService) {
     this.username = identityService.LastKnownUserInfo.username;
     this.email = identityService.LastKnownUserInfo.email;
     identityService.OnIdentityChanged.subscribe(u => {
@@ -21,8 +21,8 @@ export class FamilyManagementComponent implements OnInit {
 
   public CurrentFamily: Family;
   public Loading: boolean;
-  private username: string;
-  private email: string;
+  public username: string;
+  public email: string;
 
 
   ngOnInit() {

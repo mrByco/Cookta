@@ -14,8 +14,8 @@ export class FoodItemComponent implements OnInit {
 
 
 
-  constructor(private router: Router,
-              private identityService: IdentityService) {
+  constructor(public router: Router,
+              public identityService: IdentityService) {
   }
 
   ngOnInit() {

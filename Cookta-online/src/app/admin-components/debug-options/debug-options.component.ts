@@ -9,7 +9,7 @@ import {ServerService} from '../../shared/services/server.service';
 export class DebugOptionsComponent implements OnInit {
   State: boolean;
 
-  constructor(private serverService: ServerService) { }
+  constructor(public serverService: ServerService) { }
 
   ngOnInit() {
   }

@@ -62,13 +62,13 @@ export class IngredientAdderComponent implements OnInit {
     this.Done = this.CurrentType != null && this.CurrentValue != null && this.CurrentUnit != null;
   }
 
-  constructor(private ingredientService: IngredientService,
-              private unitService: UnitService) { }
+  constructor(public ingredientService: IngredientService,
+              public unitService: UnitService) { }
 
   ngOnInit() {
   }
 
-  private OnTypeSelected(item: IDisplayable) {
+  public OnTypeSelected(item: IDisplayable) {
     // if (!this.TypeSelector){
     //   return;
     // }
@@ -76,11 +76,11 @@ export class IngredientAdderComponent implements OnInit {
     this.RefreshAvailableUnits();
   }
 
-  private OnUnitSelected(unit: Unit) {
+  public OnUnitSelected(unit: Unit) {
     this.CurrentUnit = unit;
   }
 
-  private AddIngredient() {
+  public AddIngredient() {
     this.IngredientAdded.emit({ingredientID: this.CurrentType.guid, value: this.CurrentValue, unit: this.m_CurrentUnit.id});
     this.CurrentUnit = null;
     this.CurrentValue = null;

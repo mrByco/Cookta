@@ -65,7 +65,7 @@ export class IngredientItemPopupComponent implements OnInit {
   }
 
   //Check methods
-  private SaveEnabled: boolean;
+  public SaveEnabled: boolean;
   RefreshSaveEnabled(){
     let AllParamsValid = (): boolean => {
       if (IngredientService.IsValidCategoryName(this.CurrentCategory))
@@ -103,7 +103,7 @@ export class IngredientItemPopupComponent implements OnInit {
     return IngredientService.IsValidCategoryName(CurrentCategory) == undefined;
   }
 
-  private async SaveCurrent() {
+  public async SaveCurrent() {
     await this.IngredientService.SaveIngredient(new IngredientType(this.CurrentCategory, this.CurrentName, this.CurrentBaseUnit, this.CurrentBaseUnitType, this.CurrentInShopping, this.CurrentGuid, {cunits: this.CurrentCustomUnits}));
     this.Close();
   }

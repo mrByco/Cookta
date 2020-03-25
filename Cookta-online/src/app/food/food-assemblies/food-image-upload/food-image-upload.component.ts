@@ -1,6 +1,5 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ImageCroppedEvent} from "ngx-image-cropper";
-import {Observable, Observer} from "rxjs";
 
 @Component({
   selector: 'app-food-image-upload',
@@ -12,7 +11,7 @@ export class FoodImageUploadComponent {
   @Input() public InputHidden: boolean = false;
   @Input() public AspectRatio: number = 1;
   @Input() public EditMode: boolean;
-  @Input() private SourceUrl: any = "";
+  @Input() public SourceUrl: any = "";
 
   public EditAvailable = false;
   public ImageChangedEvent: any = '';
@@ -26,20 +25,20 @@ export class FoodImageUploadComponent {
     this.fileInput.nativeElement.dispatchEvent(event);
   }
 
-  private fileChangeEvent(event: any): void {
+  public fileChangeEvent(event: any): void {
     this.ImageChangedEvent = event;
   }
-  private imageCropped(event: ImageCroppedEvent) {
+  public imageCropped(event: ImageCroppedEvent) {
     this.CroppedImage = event.file;
     this.CroppedImageBase64 = event.base64;
   }
-  private imageLoaded() {
+  public imageLoaded() {
     this.EditMode = true;
     this.EditAvailable = true;
   }
-  private cropperReady() {
+  public cropperReady() {
   }
-  private loadImageFailed() {
+  public loadImageFailed() {
     console.log("failed")
     // show message
   }

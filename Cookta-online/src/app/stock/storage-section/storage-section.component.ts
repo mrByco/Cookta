@@ -115,7 +115,7 @@ export class StorageSectionComponent implements OnInit {
     return false;
   }
 
-  private async DeleteItem(item: IIngredient) {
+  public async DeleteItem(item: IIngredient) {
     this.CurrentSection.Items.splice(this.CurrentSection.Items.indexOf(item), 1);
     this.AddModifiedField('Items');
   }

@@ -15,8 +15,8 @@ export class NavigationBarComponent implements OnInit {
   public ShowIngredientEditor: boolean = false;
   public ShowDebugOptions: boolean = false;
 
-  constructor(private identityService: IdentityService,
-              private familyService: FamilyService) {
+  constructor(public identityService: IdentityService,
+              public familyService: FamilyService) {
     this.identityService.OnUserChanged.subscribe((user) => {
       if (!user)
         return;

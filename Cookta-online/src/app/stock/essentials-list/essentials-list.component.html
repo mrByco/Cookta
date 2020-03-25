@@ -23,7 +23,7 @@
 
     <mdb-icon *ngIf="Editing" (click)="DeleteEssential(i)" class="icon edit-ingredient" far icon="trash-alt"></mdb-icon>
   </a>
-  <p *ngIf="this.displays < 1"
+  <p *ngIf="this.displays.length < 1"
      style="font-style: italic; padding-left: 2rem">Alaplistád elemei itt fognak megjelenni.</p>
 
   <div *ngIf="Editing">

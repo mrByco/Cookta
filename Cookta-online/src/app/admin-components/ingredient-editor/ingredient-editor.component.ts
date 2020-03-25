@@ -25,7 +25,7 @@ export class IngredientEditorComponent implements OnInit {
   @ViewChild("table", {static: true}) table: MatTable<IngredientType>;
   @ViewChild(IngredientItemPopupComponent, {static: true}) popup: IngredientItemPopupComponent;
 
-  private set Filter(value: string){
+  public set Filter(value: string){
     let filterValue = value;
     this.elements.filter = filterValue.trim().toLowerCase();
 
@@ -33,7 +33,7 @@ export class IngredientEditorComponent implements OnInit {
       this.elements.paginator.firstPage();
     }
   }
-  private CurrentIngredient: IngredientType = new IngredientType("", "", "", EUnitType.volume, "", Guid.create().toString(), {cunits: []});
+  public CurrentIngredient: IngredientType = new IngredientType("", "", "", EUnitType.volume, "", Guid.create().toString(), {cunits: []});
 
   constructor(private ingredientService: IngredientService) { }
 
@@ -50,7 +50,7 @@ export class IngredientEditorComponent implements OnInit {
     this.elements.paginator = this.paginator;
     this.elements.sort = this.sort;
   }
-  private NewIngredientType() {
+  public NewIngredientType() {
     this.OpenModalWith(new IngredientType("", "", "", EUnitType.volume, "", undefined, {cunits: []}))
   }
 

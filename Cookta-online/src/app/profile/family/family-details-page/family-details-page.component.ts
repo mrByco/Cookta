@@ -17,12 +17,12 @@ export class FamilyDetailsPageComponent implements OnInit {
   @Input() Editing: boolean;
 
   @ViewChild('modalDirective', {static: true}) AddModal: ModalDirective ;
-  private AddUsername: string;
-  private AddEmail: string;
+  public AddUsername: string;
+  public AddEmail: string;
 
-  private RoleToString: (role: EFamilyRole) => string = Family.FamilyRoleToString;
+  public RoleToString: (role: EFamilyRole) => string = Family.FamilyRoleToString;
 
-  constructor(private familyService: FamilyService, private identityService: IdentityService) {
+  constructor(public familyService: FamilyService, public identityService: IdentityService) {
   }
 
   ngOnInit() {
