@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/admin-components/ingredient-editor/ingredient-item-popup/ingredient-item-popup.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/admin-components/ingredient-editor/ingredient-item-popup/ingredient-item-popup.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/admin-components/ingredient-editor/ingredient-item-popup/ingredient-item-popup.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/admin-components/ingredient-editor/ingredient-item-popup/ingredient-item-popup.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/grocery/ingredient-type.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/grocery/ingredient-type.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/essentialsController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/essentialsController.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interfaces/iunit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/iunit.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/swagger.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,6 +180,7 @@
       <workItem from="1585043984259" duration="782000" />
       <workItem from="1585050520445" duration="3633000" />
       <workItem from="1585125190878" duration="1433000" />
+      <workItem from="1585141437523" duration="827000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
