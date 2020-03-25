@@ -9,13 +9,21 @@ import {FoodService} from "../../../shared/services/food.service";
 })
 export class FoodCollectionListComponent implements OnInit {
 
-  public Foods: Food[];
+  public OwnFoods: Food[];
+  public SubFoods: Food[];
+  public FamilyFoods: Food[];
 
   constructor(private foodService: FoodService) { }
 
   ngOnInit() {
-    this.foodService.GetCollection().then(foods => {
-      this.Foods = foods;
+    this.foodService.GetOwnFoods().then(foods => {
+      this.OwnFoods = foods;
+    });
+    this.foodService.GetFamilyFoods().then(foods => {
+      this.FamilyFoods = foods;
+    });
+    this.foodService.GetSubscriptionFoods().then(foods => {
+      this.SubFoods = foods;
     });
   }
 }

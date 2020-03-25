@@ -845,6 +845,90 @@
 				"parameters": []
 			}
 		},
+		"/food/own": {
+			"get": {
+				"operationId": "GetOwnFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/food/family": {
+			"get": {
+				"operationId": "GetFamilyFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/food/subscription": {
+			"get": {
+				"operationId": "GetSubscriptionFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
 		"/food/{id}": {
 			"get": {
 				"operationId": "GetFoodById",

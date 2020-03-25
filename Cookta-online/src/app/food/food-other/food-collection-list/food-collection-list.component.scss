@@ -20,3 +20,20 @@ body {
     flex: 1 0 auto;
   }
 }
+
+
+.collection-section-title {
+  background: #d32f2f;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding-left: 3rem;
+  padding-top: .5rem;
+  padding-down: .5rem;
+  padding-right: 3rem;
+}
+
+.collection-section-title h2 {
+  color: white;
+  font-size: 24px;
+  font-family: "Comic Sans MS";
+}

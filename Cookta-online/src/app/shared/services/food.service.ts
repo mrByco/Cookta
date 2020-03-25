@@ -51,6 +51,48 @@ export class FoodService {
       });
     })
   }
+  public GetOwnFoods(): Promise<Food[]> {
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.GetRequest(Routes.Food.GetOwnFoods);
+      let foods: Food[] = [];
+      response.subscribe(data => {
+        for (const d of (data as any)) {
+          foods.push(Food.FromJson(d));
+        }
+        resolve(foods.reverse());
+      }, () => {
+        resolve([]);
+      });
+    })
+  }
+  public GetFamilyFoods(): Promise<Food[]> {
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.GetRequest(Routes.Food.GetFamilyFoods);
+      let foods: Food[] = [];
+      response.subscribe(data => {
+        for (const d of (data as any)) {
+          foods.push(Food.FromJson(d));
+        }
+        resolve(foods.reverse());
+      }, () => {
+        resolve([]);
+      });
+    })
+  }
+  public GetSubscriptionFoods(): Promise<Food[]> {
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.GetRequest(Routes.Food.GetSubscriptionFoods);
+      let foods: Food[] = [];
+      response.subscribe(data => {
+        for (const d of (data as any)) {
+          foods.push(Food.FromJson(d));
+        }
+        resolve(foods.reverse());
+      }, () => {
+        resolve([]);
+      });
+    })
+  }
 
   public async GetFood(id: string): Promise<Food> {
     let response = await this.serverService.GetRequest(Routes.Food.GetFoodId.replace('{id}', id));
