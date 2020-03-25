@@ -99,7 +99,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "type": { "ref": "EUnitType", "required": true },
             "name": { "dataType": "string", "required": true },
-            "shortname": { "dataType": "string", "required": true },
             "tobase": { "dataType": "double", "required": true },
             "id": { "dataType": "string", "required": true },
         },
@@ -139,9 +138,9 @@ const models: TsoaRoute.Models = {
         "properties": {
             "type": { "ref": "EUnitType", "required": true },
             "name": { "dataType": "string", "required": true },
-            "shortname": { "dataType": "string", "required": true },
             "tobase": { "dataType": "double", "required": true },
             "id": { "dataType": "string", "required": true },
+            "shortname": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },

@@ -19,9 +19,11 @@ export class IngredientItemPopupComponent implements OnInit {
     this.CurrentCategory = value.category;
     this.CurrentName = value.name;
     this.CurrentBaseUnit = value.baseUnit;
-    this.CurrentBaseUnitType= value.baseUnitType;
+    this.CurrentBaseUnitType = value.baseUnitType != undefined ? value.baseUnitType : 0;
     this.CurrentInShopping = value.inshopping;
     this.CurrentCustomUnits = value.options && value.options.cunits ? [...value.options.cunits]: [];
+    console.log(value.baseUnitType != undefined);
+
   };
 
 
@@ -29,7 +31,14 @@ export class IngredientItemPopupComponent implements OnInit {
   public CurrentCategory: string = "";
   public CurrentName: string = "";
   public CurrentBaseUnit: string = "";
-  public CurrentBaseUnitType: EUnitType = EUnitType.volume;
+  public get CurrentBaseUnitType(){
+    return this.m_CurrentBaseUnitType;
+  };
+  public set CurrentBaseUnitType(value){
+    if (typeof(value) == "string") value = (+value) as EUnitType;
+    this.m_CurrentBaseUnitType = value;
+  };
+  private m_CurrentBaseUnitType: EUnitType;
   public CurrentInShopping: string = "";
   public CurrentCustomUnits: Unit[] = [];
 
@@ -104,6 +113,7 @@ export class IngredientItemPopupComponent implements OnInit {
   }
 
   public async SaveCurrent() {
+    console.log(this.CurrentCategory, this.CurrentName, this.CurrentBaseUnit, this.CurrentBaseUnitType, this.CurrentInShopping, this.CurrentGuid, {cunits: this.CurrentCustomUnits});
     await this.IngredientService.SaveIngredient(new IngredientType(this.CurrentCategory, this.CurrentName, this.CurrentBaseUnit, this.CurrentBaseUnitType, this.CurrentInShopping, this.CurrentGuid, {cunits: this.CurrentCustomUnits}));
     this.Close();
   }

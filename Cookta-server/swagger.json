@@ -203,9 +203,6 @@
 				"name": {
 					"type": "string"
 				},
-				"shortname": {
-					"type": "string"
-				},
 				"tobase": {
 					"type": "number",
 					"format": "double"
@@ -217,7 +214,6 @@
 			"required": [
 				"type",
 				"name",
-				"shortname",
 				"tobase",
 				"id"
 			],
@@ -328,23 +324,23 @@
 				"name": {
 					"type": "string"
 				},
-				"shortname": {
-					"type": "string"
-				},
 				"tobase": {
 					"type": "number",
 					"format": "double"
 				},
 				"id": {
 					"type": "string"
+				},
+				"shortname": {
+					"type": "string"
 				}
 			},
 			"required": [
 				"type",
 				"name",
-				"shortname",
 				"tobase",
-				"id"
+				"id",
+				"shortname"
 			],
 			"type": "object",
 			"additionalProperties": false
