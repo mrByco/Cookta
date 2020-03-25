@@ -35,6 +35,46 @@ export class FoodController extends Controller {
             console.error("An error caught: " + error.message);
         }
     }
+    @Security("Bearer", [])
+    @Get("/own")
+    public async GetOwnFoods(@Request() request: any): Promise<SendableFood[]> {
+        try{
+            let User = request.user as User;
+            let foods = await Food.GetAllOwnFoods(User);
+            return await Food.ToSendableAll(foods, User);
+        }
+        catch (error){
+            this.setStatus(500);
+            console.error("An error caught: " + error.message);
+        }
+    }
+    @Security("Bearer", [])
+    @Get("/family")
+    public async GetFamilyFoods(@Request() request: any): Promise<SendableFood[]> {
+        try{
+            let User = request.user as User;
+            let currentFamily = User.GetCurrentFamily();
+            let familyFoods = await currentFamily.GetFamilyFoods();
+            return (await Food.ToSendableAll(familyFoods, User));
+        }
+        catch (error){
+            this.setStatus(500);
+            console.error("An error caught: " + error.message);
+        }
+    }
+    @Security("Bearer", [])
+    @Get("/subscription")
+    public async GetSubscriptionFoods(@Request() request: any): Promise<SendableFood[]> {
+        try{
+            let User = request.user as User;
+            let foods = await Subscription.GetSubsFoodsOfUser(User);
+            return (await Food.ToSendableAll(foods, User));
+        }
+        catch (error){
+            this.setStatus(500);
+            console.error("An error caught: " + error.message);
+        }
+    }
 
     @Security("Bearer", ['noauth'])
     @Get('/{id}')

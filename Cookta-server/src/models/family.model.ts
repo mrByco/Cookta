@@ -1,6 +1,8 @@
 import {StoreItemBase} from "atomik/store-item/store-item-base";
 import {EFamilyRole, ifamilyMember} from "../interfaces/ifamilyMember";
 import {Services} from "../Services";
+import {Food} from "./food/food.model";
+import {Service} from "@azure/storage-blob/typings/src/generated/src/operations";
 
 export interface SendFamilyMember {
     sub: string;
@@ -40,5 +42,15 @@ export class Family extends StoreItemBase {
 
     public async Save(){
         return await Services.FamilyService.SaveItem(this);
+    }
+
+    public async GetFamilyFoods(): Promise<Food[]> {
+        let foods: Food[] = [];
+        for (let member of this.members){
+            let user = Services.UserService.FindOne(u => u.sub == member.sub);
+            let f = await Food.GetAllOwnFoods(user);
+            foods = foods.concat(f);
+        }
+        return foods;
     }
 }
