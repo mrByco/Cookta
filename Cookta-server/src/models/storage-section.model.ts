@@ -2,10 +2,10 @@ import {StoreItemBase} from "atomik/store-item/store-item-base";
 import { ObjectId } from "mongodb";
 import { IStoreService } from "atomik/store-service/store-service-interface";
 import {IIngredient} from "../interfaces/IIngredient";
-import {IStorageSection} from "../interfaces/IStorageSection";
+import {IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
 import {Services} from "../Services";
 
-export class StorageSection extends StoreItemBase implements IStorageSection {
+export class StorageSection extends StoreItemBase implements IStorageSectionRequest {
 
     public Id: ObjectId;
     public FamilyId: string;
@@ -16,7 +16,7 @@ export class StorageSection extends StoreItemBase implements IStorageSection {
 
     constructor(
         _id: ObjectId,
-        connectedService: IStoreService)
+        connectedService: IStoreService<any>)
     {
         super(_id, connectedService);
     }

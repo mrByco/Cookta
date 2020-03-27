@@ -1,5 +1,5 @@
 import {Controller, Get, Route, Tags} from "tsoa";
-import {Unit} from "../models/unit.model";
+import {Unit} from "../models/unit/unit.model";
 
 @Route('/unit')
 @Tags('Unit')

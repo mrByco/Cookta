@@ -2,31 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
-      <change afterPath="$PROJECT_DIR$/packages/atomik-1.0.8.tgz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/shopping-list.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mocking/mock-services.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/shopping-list.interface.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/shopping-list.model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.interface.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/storage/mock-storage.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/storage/storage-service.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/ingredient.helper.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/ingredient.helper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/IngredientType/ingredient-type.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/MockServices.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/family.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/family.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/essentials-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/essentials/essentials-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/family-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/family/family-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/storage-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/storage/storage-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/user/user-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/ingredient-type.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/ingredient-type.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/stock.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/stock.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/unit.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/unit.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/IIngredient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/IIngredient.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/IStorageSection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/IStorageSectionRequest.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/iunit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/unit/unit.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mocking/mock-services.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ingredient-type.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/IngredientType/ingredient-type.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/storage-section.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/storage-section.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/unit.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/unit/unit.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/requests/set.ingredient-type.request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/requests/set.ingredient-type.request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/storage/mock-storage.service.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="375" />
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -56,6 +60,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs.mocha.mocha_node_package_dir" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
@@ -63,11 +68,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\helpers" />
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\models\unit" />
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\models\IngredientType" />
       <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\shopping-list" />
       <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\family" />
-      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\essentials" />
-      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\storage" />
-      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\user" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Lenovo\Documents\Cookta\Cookta-server\src\controllers" />
@@ -77,7 +82,7 @@
       <recent name="C:\Repos\Cookta\Cookta-server\src\helpers" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="Mocha.Shopping list service Tests (1)">
     <configuration default="true" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -88,10 +93,84 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="Shopping list service Tests (1)" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>SUITE</test-kind>
+      <test-file>$PROJECT_DIR$/src/helpers/ingredient.helper.spec.ts</test-file>
+      <test-names>
+        <name value="Shopping list service Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Shopping list service Tests" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>SUITE</test-kind>
+      <test-file>$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.spec.ts</test-file>
+      <test-names>
+        <name value="Shopping list service Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Shopping list service Tests.Merge ingredient lists" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>TEST</test-kind>
+      <test-file>$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.spec.ts</test-file>
+      <test-names>
+        <name value="Shopping list service Tests" />
+        <name value="Merge ingredient lists" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Shopping list service Tests.Merge list in its self" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>TEST</test-kind>
+      <test-file>$PROJECT_DIR$/src/helpers/ingredient.helper.spec.ts</test-file>
+      <test-names>
+        <name value="Shopping list service Tests" />
+        <name value="Merge list in its self" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="npm.start" />
       <item itemvalue="npm.start-backup" />
+      <item itemvalue="Mocha.Shopping list service Tests" />
+      <item itemvalue="Mocha.Shopping list service Tests.Merge ingredient lists" />
+      <item itemvalue="Mocha.Shopping list service Tests (1)" />
+      <item itemvalue="Mocha.Shopping list service Tests.Merge list in its self" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Mocha.Shopping list service Tests (1)" />
+        <item itemvalue="Mocha.Shopping list service Tests.Merge list in its self" />
+        <item itemvalue="Mocha.Shopping list service Tests.Merge ingredient lists" />
+        <item itemvalue="Mocha.Shopping list service Tests" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -200,7 +279,7 @@
       <workItem from="1585050520445" duration="3633000" />
       <workItem from="1585125190878" duration="1433000" />
       <workItem from="1585141437523" duration="827000" />
-      <workItem from="1585311847376" duration="5611000" />
+      <workItem from="1585311847376" duration="15811000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -349,6 +428,18 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="545" y="107" key="#Shopping_list_service_Tests.Merge_ingredient_lists" timestamp="1585331822947">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="545" y="107" key="#Shopping_list_service_Tests.Merge_ingredient_lists/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585331822947" />
+    <state x="414" y="167" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585333700030">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="167" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585333700030" />
+    <state x="92" y="92" width="1736" height="856" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1585333634321">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585333634321" />
     <state x="596" y="304" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585314275196">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -400,28 +491,28 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1579" height="181" key="GridCell.Tab.-1.right/0.0.1600.860@0.0.1600.860" timestamp="1584528421176" />
-    <state width="1893" height="275" key="GridCell.Tab.0.bottom" timestamp="1585145866906">
+    <state width="1865" height="269" key="GridCell.Tab.0.bottom" timestamp="1585333623031">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="275" key="GridCell.Tab.0.bottom/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585145866906" />
+    <state width="1865" height="269" key="GridCell.Tab.0.bottom/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585333623031" />
     <state width="1328" height="262" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
     <state width="1579" height="247" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1584898963921" />
-    <state width="1893" height="275" key="GridCell.Tab.0.center" timestamp="1585145866906">
+    <state width="1865" height="269" key="GridCell.Tab.0.center" timestamp="1585333623031">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="275" key="GridCell.Tab.0.center/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585145866906" />
+    <state width="1865" height="269" key="GridCell.Tab.0.center/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585333623031" />
     <state width="1328" height="262" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
     <state width="1579" height="247" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1584898963920" />
-    <state width="1893" height="275" key="GridCell.Tab.0.left" timestamp="1585145866906">
+    <state width="1865" height="269" key="GridCell.Tab.0.left" timestamp="1585333623031">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="275" key="GridCell.Tab.0.left/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585145866906" />
+    <state width="1865" height="269" key="GridCell.Tab.0.left/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585333623031" />
     <state width="1328" height="262" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
     <state width="1579" height="247" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1584898963920" />
-    <state width="1893" height="275" key="GridCell.Tab.0.right" timestamp="1585145866906">
+    <state width="1865" height="269" key="GridCell.Tab.0.right" timestamp="1585333623031">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="275" key="GridCell.Tab.0.right/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585145866906" />
+    <state width="1865" height="269" key="GridCell.Tab.0.right/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585333623031" />
     <state width="1328" height="262" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
     <state width="1579" height="247" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1584898963920" />
     <state width="1893" height="275" key="GridCell.Tab.1.bottom" timestamp="1585145866906">
@@ -496,10 +587,11 @@
     <state width="1893" height="275" key="GridCell.Tab.3.right/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585145866907" />
     <state width="1328" height="262" key="GridCell.Tab.3.right/0.0.1366.738@0.0.1366.738" timestamp="1583933660146" />
     <state width="1579" height="247" key="GridCell.Tab.3.right/0.0.1600.860@0.0.1600.860" timestamp="1584898963919" />
-    <state x="-1246" y="0" key="SettingsEditor" timestamp="1585316668559">
-      <screen x="-1440" y="0" width="1440" height="860" />
+    <state x="259" y="0" key="SettingsEditor" timestamp="1585330375916">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1246" y="0" key="SettingsEditor/-1440.0.1440.860/0.0.1920.1040@-1440.0.1440.860" timestamp="1585316668559" />
+    <state x="259" y="0" key="SettingsEditor/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585330375916" />
     <state x="184" y="22" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1579685703354" />
     <state x="216" y="26" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1584884660018" />
     <state x="609" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584864317513">
@@ -510,16 +602,20 @@
       <screen x="-1440" y="0" width="1440" height="860" />
     </state>
     <state x="-1440" y="0" width="1456" height="960" key="dock-window-1/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585314877321" />
+    <state x="642" y="78" key="refactoring.ChangeSignatureDialog" timestamp="1585332859863">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="642" y="78" key="refactoring.ChangeSignatureDialog/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585332859863" />
     <state x="407" y="205" key="run.anything.popup" timestamp="1584256594752">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="488" y="248" key="run.anything.popup/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581879532319" />
     <state x="347" y="176" key="run.anything.popup/0.0.1366.738@0.0.1366.738" timestamp="1579699770480" />
     <state x="407" y="205" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1584256594752" />
-    <state x="486" y="83" width="946" height="957" key="search.everywhere.popup" timestamp="1585144097657">
+    <state x="486" y="83" width="946" height="957" key="search.everywhere.popup" timestamp="1585327437760">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="486" y="83" width="946" height="957" key="search.everywhere.popup/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585144097657" />
+    <state x="486" y="83" width="946" height="957" key="search.everywhere.popup/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585327437760" />
     <state x="346" y="59" width="672" height="678" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1581327297093" />
     <state x="405" y="69" width="788" height="791" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1584865110558" />
   </component>
@@ -541,5 +637,8 @@
         <watch expression="sectionModify.Id" language="TypeScript" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Cookta_server$Shopping_list_service_Tests__1_.dat" NAME="Shopping list service Tests (1) Coverage Results" MODIFIED="1585333137580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="MochaJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

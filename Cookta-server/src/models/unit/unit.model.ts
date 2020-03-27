@@ -1,8 +1,8 @@
-import {iUnit} from "../interfaces/iunit";
-import {MongoHelper} from "../helpers/mongo.helper";
-import {EUnitType} from "../enums/unit-type.enum";
+import {IUnit} from "./unit.interface";
+import {MongoHelper} from "../../helpers/mongo.helper";
+import {EUnitType} from "../../enums/unit-type.enum";
 
-export class Unit implements iUnit {
+export class Unit implements IUnit {
     private static readonly CollectionName =  "Units";
 
     constructor (

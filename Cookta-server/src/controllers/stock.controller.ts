@@ -6,7 +6,7 @@ import {User} from "../models/user.model";
 import {Services} from "../Services";
 import {ObjectId} from "mongodb";
 import {IIngredient} from "../interfaces/IIngredient";
-import {IStorageSection} from "../interfaces/IStorageSection";
+import {IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
 import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
 
 @Route('/stock')
@@ -24,7 +24,7 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Post('/')
-    public async CreateSection(@Request() request: any): Promise<IStorageSection> {
+    public async CreateSection(@Request() request: any): Promise<IStorageSectionRequest> {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
             return Services.StorageService.CreateSection(user).ToSendJson();
@@ -32,7 +32,7 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Put('/')
-    public async EditSection(@Request() request: any, @Body() changeRequest: IStorageItemChangeRequest): Promise<IStorageSection> {
+    public async EditSection(@Request() request: any, @Body() changeRequest: IStorageItemChangeRequest): Promise<IStorageSectionRequest> {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
             return Services.StorageService.SetSection(user, changeRequest).ToSendJson();
@@ -40,7 +40,7 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Delete('/{sectionIdString}')
-    public async DeleteSection(@Request() request: any, sectionIdString: string): Promise<IStorageSection[]> {
+    public async DeleteSection(@Request() request: any, sectionIdString: string): Promise<IStorageSectionRequest[]> {
         let sectionId;
         try{
             sectionId = new ObjectId(sectionIdString);

@@ -1,9 +1,10 @@
-import {iUnit} from "../interfaces/iunit";
-import {MongoHelper} from "../helpers/mongo.helper";
-import {ISetIngredientTypeRequest} from "../requests/set.ingredient-type.request";
+import {IUnit} from "../unit/unit.interface";
+import {MongoHelper} from "../../helpers/mongo.helper";
+import {ISetIngredientTypeRequest} from "../../requests/set.ingredient-type.request";
 import {Guid} from "guid-typescript";
+import {IIngredientType} from "./ingredient-type.interface";
 
-export class IngredientType {
+export class IngredientType implements IIngredientType{
 
     private static readonly CollectionName = "Ingredients";
     constructor(
@@ -13,7 +14,7 @@ export class IngredientType {
         public countEnabled: boolean,
         public massEnabled: boolean,
         public guid: string,
-        public options: {cunits: iUnit[]}
+        public options: {cunits: IUnit[]}
     ){}
 
     public static async GetAllTypes(): Promise<IngredientType[]> {
