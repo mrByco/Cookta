@@ -4,17 +4,28 @@ import {EUnitType} from "../enums/unit-type.enum";
 
 export class IngredientHelper {
 
-    static MergeLists(list: ICompleteIngredient[][]): ICompleteIngredient[] {
-        return list[0];
+    static MergeLists(lists: ICompleteIngredient[][]): ICompleteIngredient[] {
+        let added: ICompleteIngredient[] = [];
+        for (let ingredientList of lists){
+            for (let ingredient of ingredientList){
+                added.push(ingredient);
+            }
+        }
+        return this.MergeIngredients(added);
 
     }
 
     static MergeIngredients(ingredients: ICompleteIngredient[]): ICompleteIngredient[] {
-        let added: ICompleteIngredient[] = [];
+        let merged: ICompleteIngredient[] = [];
         for (let ing of ingredients){
-
+            let addedSameType = merged.find(x => x.ingredientType.guid == ing.ingredientType.guid);
+            if (addedSameType){
+                merged[merged.indexOf(addedSameType)] = IngredientHelper.Add(addedSameType, ing);
+            }else{
+                merged.push(ing);
+            }
         }
-        return [];
+        return merged;
     }
 
     static Add(Ing1: ICompleteIngredient, Ing2: ICompleteIngredient): ICompleteIngredient{
@@ -38,6 +49,6 @@ export class IngredientHelper {
             value1 = Ing1.value * Ing1.unit.tobase;
             value2 = Ing2.value * Ing2.unit.tobase;
         }
-        return {ingredientType: Ing1.ingredientType, unit, value: value1 + value2}
+        return {ingredientType: Ing1.ingredientType, unit, value: +(value1 + value2).toFixed(7)}
     }
 }

@@ -23,23 +23,31 @@ let butter: IIngredientType = {
     name: 'butter', category: 'base', countEnabled: false, massEnabled: true, volumeEnabled: false,
     guid: 'asd4', options: {cunits: [{name: 'knife', id: 'p', shortname: "knife", tobase: 20, type: EUnitType.MASS}]}
 };
+let chocolate: IIngredientType = {
+    name: 'chocolate', category: 'base', countEnabled: true, massEnabled: false, volumeEnabled: false,
+    guid: 'asd5', options: {cunits: []}
+};
 
 let kg: IUnit = {name: 'kg', type: EUnitType.MASS, shortname: 'kg', tobase: 1000, id: 'kg'};
 let dkg: IUnit = {name: 'dkg', type: EUnitType.MASS, shortname: 'dkg', tobase: 10, id: 'dkg'};
 let g: IUnit = {name: 'g', type: EUnitType.MASS, tobase: 1, shortname: 'g', id: 'g'};
-let dl: IUnit = {name: 'dl', type: EUnitType.VOLUME, tobase: 1000, shortname: 'dl', id: 'dl'};
+let dl: IUnit = {name: 'dl', type: EUnitType.VOLUME, tobase: 0.1, shortname: 'dl', id: 'dl'};
 let l: IUnit = {name: 'l', type: EUnitType.VOLUME, tobase: 1, shortname: 'l', id: 'l'};
 
 
 describe('Shopping list service Tests', () => {
-        /*it('Merge ingredient lists', () => {
+        it('Merge ingredient lists', () => {
 
             let ing1: ICompleteIngredient[] = [
                 {ingredientType: bread, unit: kg, value: 2},
                 {ingredientType: milk, unit: l, value: 1.2},
             ];
             let ing2: ICompleteIngredient[] = [
-                {ingredientType: butter, unit: {name: 'knife', id: 'p', tobase: 20, type: EUnitType.MASS}, value: 2},
+                {
+                    ingredientType: butter,
+                    unit: {name: 'knife', id: 'p', tobase: 20, shortname: 'knife', type: EUnitType.MASS},
+                    value: 2
+                },
                 {ingredientType: milk, unit: dl, value: 5},
                 {ingredientType: bread, unit: g, value: 15},
                 {ingredientType: milk, unit: l, value: 1},
@@ -48,19 +56,22 @@ describe('Shopping list service Tests', () => {
                 {ingredientType: butter, unit: dkg, value: 80},
                 {ingredientType: milk, unit: milk.options.cunits[0], value: 3},
             ];
-            const result = ShoppingListService.MergeLists([ing1, ing2]);
+            const result = IngredientHelper.MergeLists([ing1, ing2, ing3]);
             expect(result).to.eql([
-                {ingredientType: bread, unit: kg, value: 2},
-                {ingredientType: milk, unit: dl, value: 5},
-                {ingredientType: milk, unit: l, value: 1},
-                {ingredientType: butter, unit: g, value: 2}]);
-        });*/
+                {ingredientType: bread, unit: g, value: 2015},
+                {ingredientType: milk, unit: l, value: 3.3},
+                {ingredientType: butter, unit: g, value: 840}]);
+        });
 
 
         it('Merge list in its self', () => {
 
             let ingredients: ICompleteIngredient[] = [
-                {ingredientType: butter, unit: {name: 'knife', id: 'p', shortname: 'knife', tobase: 20, type: EUnitType.MASS}, value: 2},
+                {
+                    ingredientType: butter,
+                    unit: {name: 'knife', id: 'p', shortname: 'knife', tobase: 20, type: EUnitType.MASS},
+                    value: 2
+                },
                 {ingredientType: milk, unit: dl, value: 5},
                 {ingredientType: bread, unit: g, value: 5},
                 {ingredientType: butter, unit: g, value: 2},
@@ -70,7 +81,7 @@ describe('Shopping list service Tests', () => {
             const result = IngredientHelper.MergeIngredients(ingredients);
 
             expect(result).to.eql([
-                {ingredientType: butter, unit: g, value: 40},
+                {ingredientType: butter, unit: g, value: 42},
                 {ingredientType: milk, unit: l, value: 1.5},
                 {ingredientType: bread, unit: g, value: 10}]);
         });
@@ -86,7 +97,7 @@ describe('Shopping list service Tests', () => {
             expect(result).to.eql({ingredientType: butter, unit: dkg, value: 7});
         });
 
-        it('Add different unit ingredients', () => {
+        it('Add different unit ingredients (1)', () => {
 
             let ing1: ICompleteIngredient = {
                 ingredientType: butter,
@@ -98,6 +109,24 @@ describe('Shopping list service Tests', () => {
             const result = IngredientHelper.Add(ing1, ing2);
 
             expect(result).to.eql({ingredientType: butter, unit: g, value: 60});
+        });
+
+        it('Add different unit ingredients (2)', () => {
+
+            let ing1: ICompleteIngredient = {
+                ingredientType: spice,
+                unit: {name: 'big piece', id: 'bp', shortname: 'knife', tobase: 20, type: EUnitType.COUNT},
+                value: 2
+            };
+            let ing2 = {
+                ingredientType: spice,
+                unit: {name: 'small piece', id: 'sp', shortname: 'knife', tobase: 1, type: EUnitType.COUNT},
+                value: 3
+            };
+
+            const result = IngredientHelper.Add(ing1, ing2);
+
+            expect(result).to.eql({ingredientType: spice, unit: {name: 'db', type: EUnitType.COUNT, id: 'db', shortname: 'db', tobase: 1}, value: 43});
         });
     }
 );
