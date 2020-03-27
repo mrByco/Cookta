@@ -57,18 +57,18 @@ export async function expressAuthentication(request: express.Request, securityNa
                         return reject(new Error("Invalid signature"));
                     }
                     finally {
-                        try{
-                            let user = await Services.UserService.GetUserForAuth(decoded.payload.sub, accessToken);
-                            if (!user)
-                                reject(new Error("Cant get or create user."));
-                            for (let permission of permissions){
-                                if (permission == "noauth")
-                                    continue;
-                                if (!user.HasPermission(permission)){
-                                    reject(new Error("Not all the permissions covered."));
-                                }
+                        let user = await Services.UserService.GetUserForAuth(decoded.payload.sub, accessToken);
+                        if (!user)
+                            reject(new Error("Cant get or create user."));
+                        for (let permission of permissions){
+                            if (permission == "noauth")
+                                continue;
+                            if (!user.HasPermission(permission)){
+                                reject(new Error("Not all the permissions covered."));
                             }
-                            resolve(user);
+                        }
+                        resolve(user);
+                        try{
                         }catch{
                             reject(new Error('Cant check permissions!'))
                         }

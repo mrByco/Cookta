@@ -8,7 +8,7 @@ export class UserService extends StoreService<User> {
 
     public async GetUserForAuth(sub: string, accessToken): Promise<User> {
         let user: User;
-        user = this.FindOne(u => u.sub == sub);
+        user = this.FindOne(u => u.sub == sub || (u.subs ? u.subs.includes(sub) : false));
         if (user)
             return user;
         else
