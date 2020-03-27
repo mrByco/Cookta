@@ -1,8 +1,8 @@
-import {StorageSection} from "../models/storage-section.model";
+import {StorageSection} from "../../models/storage-section.model";
 import {ObjectId} from "mongodb";
-import {User} from "../models/user.model";
+import {User} from "../../models/user.model";
 import {StoreService} from "atomik/store-service/store-service";
-import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
+import {IStorageItemChangeRequest} from "../../interfaces/StorageItemChange.request";
 
 export class StorageService extends StoreService<StorageSection> {
 

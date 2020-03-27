@@ -2,7 +2,6 @@ import {StoreItemBase} from "atomik/store-item/store-item-base";
 import {EFamilyRole, ifamilyMember} from "../interfaces/ifamilyMember";
 import {Services} from "../Services";
 import {Food} from "./food/food.model";
-import {Service} from "@azure/storage-blob/typings/src/generated/src/operations";
 
 export interface SendFamilyMember {
     sub: string;

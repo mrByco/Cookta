@@ -1,8 +1,8 @@
-import { StorageService } from "./services/storage-service";
+import { StorageService } from "./services/storage/storage-service";
 import {StoreItemBase} from "atomik/store-item/store-item-base";
-import {FamilyService} from "./services/family-service";
-import {UserService} from "./services/user-service";
-import {EssentialsService} from "./services/essentials-service";
+import {FamilyService} from "./services/family/family-service";
+import {UserService} from "./services/user/user-service";
+import {EssentialsService} from "./services/essentials/essentials-service";
 
 export class Services {
     static StorageService: StorageService;

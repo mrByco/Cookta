@@ -2,12 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/food/food-other/food-collection-list/food-collection-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/food.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/food.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/atomik-1.0.8.tgz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/shopping-list.controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mocking/mock-services.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/shopping-list.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/shopping-list.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/storage/mock-storage.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/storage/storage-service.interface.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/family.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/family.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/essentials-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/essentials/essentials-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/family-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/family/family-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/storage-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/storage/storage-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/user/user-service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +49,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/controllers" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/atomik/atomik" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -48,17 +62,19 @@
     <property name="ts.external.directory.path" value="D:\Development\Repos\Cookta\Cookta-server\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\shopping-list" />
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\family" />
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\essentials" />
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\storage" />
+      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\services\user" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Lenovo\Documents\Cookta\Cookta-server\src\controllers" />
       <recent name="C:\Users\Lenovo\Documents\Cookta\Cookta-server\src\helpers" />
       <recent name="C:\Repos\Cookta\Cookta-server" />
       <recent name="C:\Repos\Cookta\Cookta-server\src" />
       <recent name="C:\Repos\Cookta\Cookta-server\src\helpers" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Repos\Cookta\Cookta-server\src\models" />
-      <recent name="C:\Repos\Cookta\Cookta-server\src\models\Days" />
-      <recent name="D:\Development\Repos\Cookta\Cookta-server\src\models\food" />
     </key>
   </component>
   <component name="RunManager" selected="npm.start">
@@ -184,6 +200,7 @@
       <workItem from="1585050520445" duration="3633000" />
       <workItem from="1585125190878" duration="1433000" />
       <workItem from="1585141437523" duration="827000" />
+      <workItem from="1585311847376" duration="5611000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -291,6 +308,8 @@
     <option name="exactExcludedFiles">
       <list>
         <option value="$PROJECT_DIR$/../Cookta-online/node_modules/karma/config.tpl.js" />
+        <option value="$USER_HOME$/Documents/atomik/atomik/store-service/store-service-mock.js" />
+        <option value="$PROJECT_DIR$/node_modules/atomik/store-service/store-service-mock.js" />
       </list>
     </option>
   </component>
@@ -330,9 +349,15 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="605" y="149" key="#com.intellij.ide.util.MemberChooser" timestamp="1584689471323">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="596" y="304" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585314275196">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="596" y="304" key="#com.intellij.fileTypes.FileTypeChooser/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585314275196" />
+    <state x="-895" y="149" key="#com.intellij.ide.util.MemberChooser" timestamp="1585316682989">
+      <screen x="-1440" y="0" width="1440" height="860" />
+    </state>
+    <state x="-895" y="149" key="#com.intellij.ide.util.MemberChooser/-1440.0.1440.860/0.0.1920.1040@-1440.0.1440.860" timestamp="1585316682989" />
+    <state x="726" y="180" key="#com.intellij.ide.util.MemberChooser/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585315237129" />
     <state x="605" y="149" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1584689471323" />
     <state x="484" y="151" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584636924761">
       <screen x="0" y="0" width="1600" height="860" />
@@ -354,9 +379,10 @@
     <state width="1259" height="657" key="DebuggerActiveHint/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585125394272" />
     <state width="844" height="466" key="DebuggerActiveHint/0.0.1366.738@0.0.1366.738" timestamp="1579788366803" />
     <state width="1100" height="544" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1584884981041" />
-    <state x="580" y="185" key="FileChooserDialogImpl" timestamp="1583998832868">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="696" y="224" key="FileChooserDialogImpl" timestamp="1585316404684">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="696" y="224" key="FileChooserDialogImpl/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585316404684" />
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1583998832868" />
     <state width="1579" height="181" key="GridCell.Tab.-1.bottom" timestamp="1584528421177">
       <screen x="0" y="0" width="1600" height="860" />
@@ -470,19 +496,20 @@
     <state width="1893" height="275" key="GridCell.Tab.3.right/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585145866907" />
     <state width="1328" height="262" key="GridCell.Tab.3.right/0.0.1366.738@0.0.1366.738" timestamp="1583933660146" />
     <state width="1579" height="247" key="GridCell.Tab.3.right/0.0.1600.860@0.0.1600.860" timestamp="1584898963919" />
-    <state x="216" y="26" key="SettingsEditor" timestamp="1584884660018">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="-1246" y="0" key="SettingsEditor" timestamp="1585316668559">
+      <screen x="-1440" y="0" width="1440" height="860" />
     </state>
+    <state x="-1246" y="0" key="SettingsEditor/-1440.0.1440.860/0.0.1920.1040@-1440.0.1440.860" timestamp="1585316668559" />
     <state x="184" y="22" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1579685703354" />
     <state x="216" y="26" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1584884660018" />
     <state x="609" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584864317513">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="609" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1600.860@0.0.1600.860" timestamp="1584864317513" />
-    <state x="215" y="173" width="1456" height="825" key="dock-window-1" timestamp="1585144053732">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1440" y="0" width="1456" height="960" key="dock-window-1" timestamp="1585314877321">
+      <screen x="-1440" y="0" width="1440" height="860" />
     </state>
-    <state x="215" y="173" width="1456" height="825" key="dock-window-1/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585144053732" />
+    <state x="-1440" y="0" width="1456" height="960" key="dock-window-1/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585314877321" />
     <state x="407" y="205" key="run.anything.popup" timestamp="1584256594752">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -501,14 +528,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/node_modules/atomik/store-service/store-service.ts</url>
-          <line>85</line>
+          <line>84</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/models/family.model.ts</url>
-          <line>48</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
