@@ -88,11 +88,9 @@ export class IngredientHelper {
         return {ingredientType: ing1.ingredientType, unit, value: Math.max(+(value1 - value2).toFixed(7), 0)}
     }
 
-    static async ToCompleteIngredient(ing: IIngredient, cache: { units: any, types: any }): Promise<ICompleteIngredient> {
+    /*static async ToCompleteIngredient(ing: IIngredient, cache: { units: any, types: any }): Promise<ICompleteIngredient> {
         let unit: IUnit;
         let type: IIngredientType;
 
-        if (!unit[ing.unit]) cache.units[ing.unit] = await Unit.GetUnit(ing.unit);
-        unit = unit.
-    }
+    }*/
 }
