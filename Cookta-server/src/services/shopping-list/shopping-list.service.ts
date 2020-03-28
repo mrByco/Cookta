@@ -5,5 +5,7 @@ import {IngredientType} from "../../models/IngredientType/ingredient-type.model"
 
 export class ShoppingListService extends StoreService<ShoppingList> {
 
+    public async GetShoppingList: Promise<ICompleteIngredient[]>{
 
+    }
 }

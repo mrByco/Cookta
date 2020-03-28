@@ -14,6 +14,8 @@ import {UserService} from "./services/user/user-service";
 import {Family} from "./models/family.model";
 import {EssentialsService} from "./services/essentials/essentials-service";
 import {EssentialList} from "./models/essential-list.model";
+import {UnitService} from "./services/unit/unit.service";
+import {Unit} from "./models/unit/unit.model";
 
 const PORT = process.env.PORT || 8080;
 
@@ -37,28 +39,23 @@ try{
         let familyService = new FamilyService((id, s) => {return new Family(id, storageService)}, 'Family');
         let userService = new UserService((id, s) => {return new User(id, storageService)}, 'Users');
         let essentialsService = new EssentialsService((id, s) => {return new EssentialList(id, storageService)}, 'Essentials');
+        let unitService = new UnitService((id, s) => {return new Unit(id, storageService)}, 'Units');
 
         Services.StorageService = storageService;
         Services.FamilyService = familyService;
         Services.UserService = userService;
         Services.EssentialsService = essentialsService;
+        Services.UnitService = unitService;
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
         await ServiceManager.AddService(essentialsService);
+        await ServiceManager.AddService(unitService);
         await ServiceManager.Start(MongoConnectionString);
 
 
         console.info("Starting server...");
         server.listen(PORT);
-
-        /*
-        let users = await User.GetAllUser();
-        console.log(`${users.length} users loaded...`);
-        for (let user of users){
-            await user.RefreshDependenciesToPrimarySub();
-            console.log(`User: ${user.username} - Refreshed!`);
-        }*/
     });
 }catch (err){
     console.error(err);

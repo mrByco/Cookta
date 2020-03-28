@@ -22,7 +22,7 @@ export class User extends StoreItemBase {
     public profilpic: string;
     public currentFamilyId: string;
 
-    constructor(_id: ObjectId, connectedService: IStoreService) {
+    constructor(_id: ObjectId, connectedService: IStoreService<User>) {
         super(_id, connectedService);
     }
 

@@ -3,12 +3,15 @@ import {StoreItemBase} from "atomik/store-item/store-item-base";
 import {FamilyService} from "./services/family/family-service";
 import {UserService} from "./services/user/user-service";
 import {EssentialsService} from "./services/essentials/essentials-service";
+import {IUnitService} from "./services/unit/unit.service.interface";
 
 export class Services {
     static StorageService: StorageService;
     static FamilyService: FamilyService;
     static UserService: UserService;
     static EssentialsService: EssentialsService;
+
+    static UnitService: IUnitService;
 
     static ToSendableList(items: StoreItemBase[]): any[]{
         let sendItems: any[] = [];
