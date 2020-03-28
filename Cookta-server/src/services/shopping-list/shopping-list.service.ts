@@ -1,7 +1,7 @@
 import {StoreService} from "atomik/store-service/store-service";
 import {ShoppingList} from "../../models/shopping-list.model";
 import {ICompleteIngredient, IIngredient} from "../../interfaces/IIngredient";
-import {IngredientType} from "../../models/IngredientType/ingredient-type.model";
+import {IngredientType} from "../../models/ingredient-type/ingredient-type.model";
 
 export class ShoppingListService extends StoreService<ShoppingList> {
 

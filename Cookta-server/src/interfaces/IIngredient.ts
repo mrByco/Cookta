@@ -1,4 +1,4 @@
-import {IIngredientType} from "../models/IngredientType/ingredient-type.interface";
+import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
 import {IUnit} from "../models/unit/unit.interface";
 
 export interface IIngredient {

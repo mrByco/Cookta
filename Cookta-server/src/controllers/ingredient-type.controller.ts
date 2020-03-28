@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, Post, Route, Security, Tags} from "tsoa";
-import {IngredientType} from "../models/IngredientType/ingredient-type.model";
+import {IngredientType} from "../models/ingredient-type/ingredient-type.model";
 import {ISetIngredientTypeRequest} from "../requests/set.ingredient-type.request";
 
 @Route('/ingredientType')

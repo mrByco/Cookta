@@ -1,0 +1,53 @@
+import {StoreService} from "atomik/store-service/store-service";
+import {IngredientType} from "../../models/ingredient-type/ingredient-type.model";
+import {IIngredientTypeService} from "./ingredient-type.service.interface";
+import {IIngredientType} from "../../models/ingredient-type/ingredient-type.interface";
+import {ISetIngredientTypeRequest} from "../../requests/set.ingredient-type.request";
+import {MongoHelper} from "../../helpers/mongo.helper";
+import {Guid} from "guid-typescript";
+import { ObjectId } from "mongodb";
+
+export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
+
+    DeleteIngredientType(guid: string): boolean {
+        let item = this.Items.find(i => i.guid);
+        if (!item)
+            return false;
+        item.arhived = true;
+        this.SaveItem(item);
+        return true;
+    }
+
+    GetAllNotArhived(): IIngredientType[] {
+        return this.FindAll(i => i.arhived != true);
+    }
+
+    SetIngredientType(request: ISetIngredientTypeRequest): IngredientType {
+        let guid: Guid = request.guid ? Guid.parse(request.guid) : undefined;
+        while (!guid) {
+            guid = Guid.create();
+            if (this.Items.find(e => e.guid == guid.toString()))
+                guid = undefined;
+        }
+        let currentItem = this.FindOne(i => i.guid == guid.toString());
+        if (!currentItem){
+            currentItem = this.CreateItem(new ObjectId());
+        }
+        currentItem.category = request.category;
+        currentItem.name = request.name;
+        currentItem.volumeEnabled = request.volumeEnabled;
+        currentItem.countEnabled = request.countEnabled;
+        currentItem.massEnabled = request.massEnabled;
+        currentItem.guid = guid.toString();
+        request.options = request.options;
+        this.SaveItem(currentItem);
+        return currentItem;
+    }
+
+    public async Start(): Promise<void> {
+        let collection = MongoHelper.getCollection("Ingredients");
+        let FindFood;
+        let start = await super.Start();
+    }
+
+}

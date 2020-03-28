@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Set username">
-      <change afterPath="$PROJECT_DIR$/src/services/unit/unit.service.interface.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/unit/unit.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/ingredient-types/ingredient-type.service.interface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/ingredient-types/ingredient-type.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/unit.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/unit.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/ingredient-type.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/ingredient-type.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/ingredient.helper.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/ingredient.helper.spec.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/ingredient.helper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/ingredient.helper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/IIngredient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/IIngredient.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/unit/unit.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/unit/unit.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/IngredientType/ingredient-type.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ingredient-type/ingredient-type.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/IngredientType/ingredient-type.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ingredient-type/ingredient-type.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/shopping-list/shopping-list.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +75,7 @@
       <recent name="C:\Repos\Cookta\Cookta-server\src\helpers" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="npm.start-backup">
     <configuration default="true" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -198,7 +200,8 @@
       <workItem from="1585141437523" duration="827000" />
       <workItem from="1585311847376" duration="21320000" />
       <workItem from="1585389145918" duration="3865000" />
-      <workItem from="1585394315803" duration="1897000" />
+      <workItem from="1585394315803" duration="4726000" />
+      <workItem from="1585402651306" duration="13000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -363,12 +366,12 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="596" y="304" key="#com.intellij.fileTypes.FileTypeChooser/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585314275196" />
-    <state x="605" y="149" key="#com.intellij.ide.util.MemberChooser" timestamp="1585395818018">
+    <state x="605" y="149" key="#com.intellij.ide.util.MemberChooser" timestamp="1585401086648">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="-895" y="149" key="#com.intellij.ide.util.MemberChooser/-1440.0.1440.860/0.0.1920.1040@-1440.0.1440.860" timestamp="1585316682989" />
     <state x="726" y="180" key="#com.intellij.ide.util.MemberChooser/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585315237129" />
-    <state x="605" y="149" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1585395818018" />
+    <state x="605" y="149" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1585401086648" />
     <state x="484" y="151" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584636924761">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -410,30 +413,30 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1579" height="181" key="GridCell.Tab.-1.right/0.0.1600.860@0.0.1600.860" timestamp="1584528421176" />
-    <state width="1579" height="249" key="GridCell.Tab.0.bottom" timestamp="1585393016652">
+    <state width="1579" height="249" key="GridCell.Tab.0.bottom" timestamp="1585402632905">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1865" height="269" key="GridCell.Tab.0.bottom/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585342484630" />
     <state width="1328" height="262" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
-    <state width="1579" height="249" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1585393016652" />
-    <state width="1579" height="249" key="GridCell.Tab.0.center" timestamp="1585393016652">
+    <state width="1579" height="249" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1585402632905" />
+    <state width="1579" height="249" key="GridCell.Tab.0.center" timestamp="1585402632904">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1865" height="269" key="GridCell.Tab.0.center/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585342484630" />
     <state width="1328" height="262" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
-    <state width="1579" height="249" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1585393016652" />
-    <state width="1579" height="249" key="GridCell.Tab.0.left" timestamp="1585393016652">
+    <state width="1579" height="249" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1585402632904" />
+    <state width="1579" height="249" key="GridCell.Tab.0.left" timestamp="1585402632904">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1865" height="269" key="GridCell.Tab.0.left/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585342484630" />
     <state width="1328" height="262" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
-    <state width="1579" height="249" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1585393016652" />
-    <state width="1579" height="249" key="GridCell.Tab.0.right" timestamp="1585393016652">
+    <state width="1579" height="249" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1585402632904" />
+    <state width="1579" height="249" key="GridCell.Tab.0.right" timestamp="1585402632905">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1865" height="269" key="GridCell.Tab.0.right/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585342484630" />
     <state width="1328" height="262" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1583933660145" />
-    <state width="1579" height="249" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1585393016652" />
+    <state width="1579" height="249" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1585402632905" />
     <state width="1893" height="275" key="GridCell.Tab.1.bottom" timestamp="1585145866906">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -531,12 +534,12 @@
     <state x="488" y="248" key="run.anything.popup/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581879532319" />
     <state x="347" y="176" key="run.anything.popup/0.0.1366.738@0.0.1366.738" timestamp="1579699770480" />
     <state x="407" y="205" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1584256594752" />
-    <state x="405" y="69" width="788" height="791" key="search.everywhere.popup" timestamp="1585394844246">
+    <state x="405" y="69" width="788" height="791" key="search.everywhere.popup" timestamp="1585402603344">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="486" y="83" width="946" height="957" key="search.everywhere.popup/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585327437760" />
     <state x="346" y="59" width="672" height="678" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1581327297093" />
-    <state x="405" y="69" width="788" height="791" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1585394844246" />
+    <state x="405" y="69" width="788" height="791" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1585402603344" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

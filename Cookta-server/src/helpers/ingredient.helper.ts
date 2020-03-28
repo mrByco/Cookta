@@ -1,7 +1,7 @@
 import {ICompleteIngredient, IIngredient} from "../interfaces/IIngredient";
 import {IUnit} from "../models/unit/unit.interface";
 import {EUnitType} from "../enums/unit-type.enum";
-import {IIngredientType} from "../models/IngredientType/ingredient-type.interface";
+import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
 import {Services} from "../Services";
 import {Unit} from "../models/unit/unit.model";
 

@@ -1,5 +1,5 @@
 import {ICompleteIngredient} from "../interfaces/IIngredient";
-import {IIngredientType} from "../models/IngredientType/ingredient-type.interface";
+import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
 import {EUnitType} from "../enums/unit-type.enum";
 import {IUnit} from "../models/unit/unit.interface";
 import {expect} from "chai";

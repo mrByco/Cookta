@@ -16,6 +16,8 @@ import {EssentialsService} from "./services/essentials/essentials-service";
 import {EssentialList} from "./models/essential-list.model";
 import {UnitService} from "./services/unit/unit.service";
 import {Unit} from "./models/unit/unit.model";
+import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
+import {IngredientType} from "./models/ingredient-type/ingredient-type.model";
 
 const PORT = process.env.PORT || 8080;
 
@@ -40,6 +42,7 @@ try{
         let userService = new UserService((id, s) => {return new User(id, storageService)}, 'Users');
         let essentialsService = new EssentialsService((id, s) => {return new EssentialList(id, storageService)}, 'Essentials');
         let unitService = new UnitService((id, s) => {return new Unit(id, storageService)}, 'Units');
+        let ingredientTypeService = new IngredientTypeService((id, s) => {return new IngredientType(id, storageService)}, 'Ingredients');
 
         Services.StorageService = storageService;
         Services.FamilyService = familyService;
