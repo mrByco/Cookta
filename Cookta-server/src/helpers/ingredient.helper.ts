@@ -1,13 +1,16 @@
-import {ICompleteIngredient} from "../interfaces/IIngredient";
+import {ICompleteIngredient, IIngredient} from "../interfaces/IIngredient";
 import {IUnit} from "../models/unit/unit.interface";
 import {EUnitType} from "../enums/unit-type.enum";
+import {IIngredientType} from "../models/IngredientType/ingredient-type.interface";
+import {Services} from "../Services";
+import {Unit} from "../models/unit/unit.model";
 
 export class IngredientHelper {
 
     static MergeLists(lists: ICompleteIngredient[][]): ICompleteIngredient[] {
         let added: ICompleteIngredient[] = [];
-        for (let ingredientList of lists){
-            for (let ingredient of ingredientList){
+        for (let ingredientList of lists) {
+            for (let ingredient of ingredientList) {
                 added.push(ingredient);
             }
         }
@@ -17,25 +20,24 @@ export class IngredientHelper {
 
     static MergeIngredients(ingredients: ICompleteIngredient[]): ICompleteIngredient[] {
         let merged: ICompleteIngredient[] = [];
-        for (let ing of ingredients){
+        for (let ing of ingredients) {
             let addedSameType = merged.find(x => x.ingredientType.guid == ing.ingredientType.guid);
-            if (addedSameType){
+            if (addedSameType) {
                 merged[merged.indexOf(addedSameType)] = IngredientHelper.Add(addedSameType, ing);
-            }else{
+            } else {
                 merged.push(ing);
             }
         }
         return merged;
     }
 
-    static Add(Ing1: ICompleteIngredient, Ing2: ICompleteIngredient): ICompleteIngredient{
-        let value1: number = Ing1.value;
-        let value2: number = Ing2.value;
-        let unit: IUnit = Ing1.unit;
-        if (Ing1.unit.id != Ing2.unit.id)
-        {
-            if (Ing1.unit.type != Ing2.unit.type) throw Error("Cannot add ingredients with different base");
-            switch (Ing1.unit.type){
+    static Add(ing1: ICompleteIngredient, ing2: ICompleteIngredient): ICompleteIngredient {
+        let value1: number = ing1.value;
+        let value2: number = ing2.value;
+        let unit: IUnit = ing1.unit;
+        if (ing1.unit.id != ing2.unit.id) {
+            if (ing1.unit.type != ing2.unit.type) throw Error("Cannot add ingredients with different base");
+            switch (ing1.unit.type) {
                 case EUnitType.MASS:
                     unit = {name: 'g', type: EUnitType.MASS, id: 'g', shortname: 'g', tobase: 1};
                     break;
@@ -46,9 +48,51 @@ export class IngredientHelper {
                     unit = {name: 'l', type: EUnitType.VOLUME, id: 'l', shortname: 'l', tobase: 1};
                     break;
             }
-            value1 = Ing1.value * Ing1.unit.tobase;
-            value2 = Ing2.value * Ing2.unit.tobase;
+            value1 = ing1.value * ing1.unit.tobase;
+            value2 = ing2.value * ing2.unit.tobase;
         }
-        return {ingredientType: Ing1.ingredientType, unit, value: +(value1 + value2).toFixed(7)}
+        return {ingredientType: ing1.ingredientType, unit, value: +(value1 + value2).toFixed(7)}
+    }
+
+    static SubtractList(ingList1: ICompleteIngredient[], ingList2: ICompleteIngredient[]): ICompleteIngredient[] {
+        let subtracted = ingList1;
+        for (let ing of ingList2) {
+            let containItem: ICompleteIngredient = subtracted.find(s => s.ingredientType.guid === ing.ingredientType.guid);
+            if (containItem) {
+                subtracted[subtracted.indexOf(containItem)] = this.Subtract(containItem, ing);
+            }
+        }
+        return subtracted;
+    }
+
+    static Subtract(ing1: ICompleteIngredient, ing2: ICompleteIngredient): ICompleteIngredient {
+        let value1: number = ing1.value;
+        let value2: number = ing2.value;
+        let unit: IUnit = ing1.unit;
+        if (ing1.unit.id != ing2.unit.id) {
+            if (ing1.unit.type != ing2.unit.type) throw Error("Cannot add ingredients with different base");
+            switch (ing1.unit.type) {
+                case EUnitType.MASS:
+                    unit = {name: 'g', type: EUnitType.MASS, id: 'g', shortname: 'g', tobase: 1};
+                    break;
+                case EUnitType.COUNT:
+                    unit = {name: 'db', type: EUnitType.COUNT, id: 'db', shortname: 'db', tobase: 1};
+                    break;
+                case EUnitType.VOLUME:
+                    unit = {name: 'l', type: EUnitType.VOLUME, id: 'l', shortname: 'l', tobase: 1};
+                    break;
+            }
+            value1 = ing1.value * ing1.unit.tobase;
+            value2 = ing2.value * ing2.unit.tobase;
+        }
+        return {ingredientType: ing1.ingredientType, unit, value: Math.max(+(value1 - value2).toFixed(7), 0)}
+    }
+
+    static async ToCompleteIngredient(ing: IIngredient, cache: { units: any, types: any }): Promise<ICompleteIngredient> {
+        let unit: IUnit;
+        let type: IIngredientType;
+
+        if (!unit[ing.unit]) cache.units[ing.unit] = await Unit.GetUnit(ing.unit);
+        unit = unit.
     }
 }
