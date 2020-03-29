@@ -516,10 +516,14 @@
     <state x="259" y="0" key="SettingsEditor/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585342382431" />
     <state x="184" y="22" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1579685703354" />
     <state x="216" y="26" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1585389165397" />
-    <state x="609" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584864317513">
+    <state x="100" y="100" width="1400" height="700" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585469542142">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="609" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1600.860@0.0.1600.860" timestamp="1584864317513" />
+    <state x="100" y="100" width="1400" height="700" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1600.860@0.0.1600.860" timestamp="1585469542142" />
+    <state x="609" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585469527465">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="609" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1600.860@0.0.1600.860" timestamp="1585469527465" />
     <state x="-1440" y="0" width="1456" height="960" key="dock-window-1" timestamp="1585314877321">
       <screen x="-1440" y="0" width="1440" height="860" />
     </state>
