@@ -7,5 +7,6 @@ export interface IIngredientType {
     countEnabled: boolean;
     massEnabled: boolean;
     guid: string;
-    options: {cunits: IUnit[]}
+    options: {cunits: IUnit[]};
+    arhived?: boolean;
 }

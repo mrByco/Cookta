@@ -16,6 +16,8 @@ import {UnitService} from "./services/unit/unit.service";
 import {Unit} from "./models/unit/unit.model";
 import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
 import {IngredientType} from "./models/ingredient-type/ingredient-type.model";
+import {ShoppingListService} from "./services/shopping-list/shopping-list.service";
+import {ShoppingList} from "./models/shopping-list.model";
 
 const PORT = process.env.PORT || 8080;
 
@@ -47,18 +49,22 @@ try{
 
         let ingredientTypeService = new IngredientTypeService((id) => {return new IngredientType(id)}, 'Ingredients');
 
+        let shoppingListService = new ShoppingListService(id => new ShoppingList(id), 'ShoppingLists');
+
         Services.StorageService = storageService;
         Services.FamilyService = familyService;
         Services.UserService = userService;
         Services.EssentialsService = essentialsService;
         Services.UnitService = unitService;
-        Services.IngredientTypeService = ingredientTypeService
+        Services.IngredientTypeService = ingredientTypeService;
+        Services.ShoppingListService = shoppingListService;
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
         await ServiceManager.AddService(essentialsService);
         await ServiceManager.AddService(unitService);
         await ServiceManager.AddService(ingredientTypeService);
+        await ServiceManager.AddService(shoppingListService);
         await ServiceManager.Start(MongoConnectionString);
 
 

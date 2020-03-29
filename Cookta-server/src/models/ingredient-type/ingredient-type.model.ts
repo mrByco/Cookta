@@ -1,7 +1,4 @@
 import {IUnit} from "../unit/unit.interface";
-import {MongoHelper} from "../../helpers/mongo.helper";
-import {ISetIngredientTypeRequest} from "../../requests/set.ingredient-type.request";
-import {Guid} from "guid-typescript";
 import {IIngredientType} from "./ingredient-type.interface";
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 

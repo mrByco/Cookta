@@ -127,10 +127,16 @@
 			},
 			"required": [
 				"owner",
+				"name",
+				"desc",
+				"published",
+				"ingredients",
 				"imageUploaded",
 				"uploaded",
+				"dose",
 				"lastModified",
 				"subscriptions",
+				"id",
 				"foodId",
 				"SubscribedFor",
 				"OwnFood",
@@ -257,6 +263,10 @@
 						"cunits"
 					],
 					"type": "object"
+				},
+				"arhived": {
+					"type": "boolean",
+					"x-nullable": true
 				}
 			},
 			"required": [
@@ -354,6 +364,37 @@
 			},
 			"required": [
 				"generationTime"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IStorageSection": {
+			"properties": {
+				"Id": {
+					"$ref": "#/definitions/ObjectId"
+				},
+				"FamilyId": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"IsDefaultList": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"Id",
+				"FamilyId",
+				"Name",
+				"Items",
+				"IsDefaultList"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -547,6 +588,78 @@
 			"type": "object",
 			"additionalProperties": false
 		},
+		"ISendableFood": {
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"desc": {
+					"type": "string"
+				},
+				"published": {
+					"type": "boolean"
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"imageUploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"uploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double"
+				},
+				"lastModified": {
+					"type": "number",
+					"format": "double"
+				},
+				"subscriptions": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string"
+				},
+				"foodId": {
+					"type": "string"
+				},
+				"SubscribedFor": {
+					"type": "boolean"
+				},
+				"OwnFood": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"owner",
+				"name",
+				"desc",
+				"published",
+				"ingredients",
+				"imageUploaded",
+				"uploaded",
+				"dose",
+				"lastModified",
+				"subscriptions",
+				"id",
+				"foodId",
+				"SubscribedFor",
+				"OwnFood"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
 		"IMealing": {
 			"properties": {
 				"type": {
@@ -565,8 +678,20 @@
 					"x-nullable": true
 				},
 				"info": {
-					"additionalProperties": true,
+					"properties": {
+						"finalFood": {
+							"$ref": "#/definitions/ISendableFood"
+						},
+						"tagId": {
+							"type": "string"
+						}
+					},
 					"type": "object",
+					"x-nullable": true
+				},
+				"dose": {
+					"type": "number",
+					"format": "double",
 					"x-nullable": true
 				}
 			},
@@ -708,6 +833,32 @@
 			"required": [
 				"invitedUsername",
 				"invitedEmail"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IShoppingList": {
+			"properties": {
+				"IngredientsToBuy": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"IngredientsCompleted": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"FamilyId": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"IngredientsToBuy",
+				"IngredientsCompleted",
+				"FamilyId"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -1389,7 +1540,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IStorageSectionRequest"
+							"$ref": "#/definitions/IStorageSection"
 						}
 					}
 				},
@@ -1447,7 +1598,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IStorageSectionRequest"
+								"$ref": "#/definitions/IStorageSection"
 							},
 							"type": "array"
 						}
@@ -1991,6 +2142,35 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/ShoppingList/{nextShopping}": {
+			"get": {
+				"operationId": "GetShoppingList",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IShoppingList"
+						}
+					}
+				},
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nextShopping",
+						"required": true,
+						"type": "string"
+					}
+				]
 			}
 		}
 	},

@@ -24,6 +24,8 @@ import { SubscriptionController } from './controllers/subscription.controller';
 import { FamilyController } from './controllers/family.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { PingController } from './controllers/ping.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { ShoppingListController } from './controllers/shopping-list.controller';
 import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
@@ -116,6 +118,7 @@ const models: TsoaRoute.Models = {
             "massEnabled": { "dataType": "boolean", "required": true },
             "guid": { "dataType": "string", "required": true },
             "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "IUnit" }, "required": true } }, "required": true },
+            "arhived": { "dataType": "boolean" },
         },
         "additionalProperties": false,
     },
@@ -149,6 +152,18 @@ const models: TsoaRoute.Models = {
         "properties": {
             "generationTime": { "dataType": "double", "required": true },
             "cacheHexString": { "dataType": "boolean" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IStorageSection": {
+        "dataType": "refObject",
+        "properties": {
+            "Id": { "ref": "ObjectId", "required": true },
+            "FamilyId": { "dataType": "string", "required": true },
+            "Name": { "dataType": "string", "required": true },
+            "Items": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true },
+            "IsDefaultList": { "dataType": "boolean", "required": true },
         },
         "additionalProperties": false,
     },
@@ -220,6 +235,27 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ISendableFood": {
+        "dataType": "refObject",
+        "properties": {
+            "owner": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "desc": { "dataType": "string", "required": true },
+            "published": { "dataType": "boolean", "required": true },
+            "ingredients": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true },
+            "imageUploaded": { "dataType": "double", "required": true },
+            "uploaded": { "dataType": "double", "required": true },
+            "dose": { "dataType": "double", "required": true },
+            "lastModified": { "dataType": "double", "required": true },
+            "subscriptions": { "dataType": "double", "required": true },
+            "id": { "dataType": "string", "required": true },
+            "foodId": { "dataType": "string", "required": true },
+            "SubscribedFor": { "dataType": "boolean", "required": true },
+            "OwnFood": { "dataType": "boolean", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IMealing": {
         "dataType": "refObject",
         "properties": {
@@ -227,7 +263,8 @@ const models: TsoaRoute.Models = {
             "mealIndex": { "dataType": "double", "required": true },
             "id": { "dataType": "string" },
             "foodId": { "dataType": "string" },
-            "info": { "dataType": "any" },
+            "info": { "dataType": "nestedObjectLiteral", "nestedProperties": { "tagId": { "dataType": "string" }, "finalFood": { "ref": "ISendableFood" } } },
+            "dose": { "dataType": "double" },
         },
         "additionalProperties": false,
     },
@@ -270,6 +307,16 @@ const models: TsoaRoute.Models = {
         "properties": {
             "invitedUsername": { "dataType": "string", "required": true },
             "invitedEmail": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IShoppingList": {
+        "dataType": "refObject",
+        "properties": {
+            "IngredientsToBuy": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true },
+            "IngredientsCompleted": { "dataType": "array", "array": { "ref": "IIngredient" }, "required": true },
+            "FamilyId": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
@@ -1219,6 +1266,30 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.Ping.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/ShoppingList/:nextShopping',
+        authenticateMiddleware([{ "Bearer": [] }]),
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                nextShopping: { "in": "path", "name": "nextShopping", "required": true, "dataType": "string" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ShoppingListController();
+
+
+            const promise = controller.GetShoppingList.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

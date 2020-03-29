@@ -13,8 +13,9 @@ import './controllers/stock.controller';
 import './controllers/user.controller';
 import './controllers/day.controller';
 import './controllers/subscription.controller';
-import './controllers/family.controller' ;
-import './controllers/ping.controller' ;
+import './controllers/family.controller';
+import './controllers/ping.controller';
+import './controllers/shopping-list.controller';
 
 const fileUpload = require('express-fileupload');
 
@@ -25,8 +26,8 @@ app.use(bodyParser.json());
 app.use(requestLoggerMiddleware);
 app.use(fileUpload(
     {
-        useTempFiles : true,
-        tempFileDir : '/tmp/',
+        useTempFiles: true,
+        tempFileDir: '/tmp/',
         preserveExtension: true,
     }));
 RegisterRoutes(app);
@@ -36,15 +37,14 @@ app.get('/', (req, res) => {
 });
 
 
-if (process.env.NODE_ENV == "debug "){
-    try{
+if (process.env.NODE_ENV == "debug ") {
+    try {
         const swaggerDocument = require('../swagger.json');
         app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-    } catch (err){
+    } catch (err) {
         console.error(err);
     }
 }
-
 
 
 export {app};

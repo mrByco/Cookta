@@ -4,6 +4,7 @@ import {EUnitType} from "../enums/unit-type.enum";
 import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
 import {Services} from "../Services";
 import {Unit} from "../models/unit/unit.model";
+import {IngredientType} from "../models/ingredient-type/ingredient-type.model";
 
 export class IngredientHelper {
 
@@ -88,9 +89,22 @@ export class IngredientHelper {
         return {ingredientType: ing1.ingredientType, unit, value: Math.max(+(value1 - value2).toFixed(7), 0)}
     }
 
-    /*static async ToCompleteIngredient(ing: IIngredient, cache: { units: any, types: any }): Promise<ICompleteIngredient> {
-        let unit: IUnit;
-        let type: IIngredientType;
+    static ToCompleteIngredientList(ings: IIngredient[]): ICompleteIngredient[] {
+        let ingredients: ICompleteIngredient[] = [];
+        if (!ings) return [];
+        for (let i of ings){
+            ingredients.push(this.ToCompleteIngredient(i));
+        }
+        return ingredients;
+    }
 
-    }*/
+    static ToCompleteIngredient(ing: IIngredient): ICompleteIngredient {
+        let type: IngredientType = Services.IngredientTypeService.FindOne(t => t.guid == ing.ingredientID);
+        let unit: IUnit = ((Services.UnitService.GetAllItems() as IUnit[]).concat(type.options.cunits)).find(u => u.id == ing.unit);
+
+        return {
+            ingredientType: Object.assign({}, type),
+            unit: Object.assign({}, unit),
+            value: ing.value}
+    }
 }

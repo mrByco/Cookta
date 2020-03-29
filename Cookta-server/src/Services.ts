@@ -5,15 +5,16 @@ import {UserService} from "./services/user/user-service";
 import {EssentialsService} from "./services/essentials/essentials-service";
 import {IUnitService} from "./services/unit/unit.service.interface";
 import {IIngredientTypeService} from "./services/ingredient-types/ingredient-type.service.interface";
+import {IShoppingListService} from "./services/shopping-list/shopping-list.service.interface";
 
 export class Services {
     static StorageService: StorageService;
     static FamilyService: FamilyService;
     static UserService: UserService;
     static EssentialsService: EssentialsService;
-
     static UnitService: IUnitService;
     static IngredientTypeService: IIngredientTypeService;
+    static ShoppingListService: IShoppingListService;
 
     static ToSendableList(items: StoreItemBase[]): any[]{
         let sendItems: any[] = [];

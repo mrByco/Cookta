@@ -3,6 +3,7 @@ import {ObjectId} from "mongodb";
 import {User} from "../../models/user.model";
 import {StoreService} from "atomik/lib/store-service/store-service";
 import {IStorageItemChangeRequest} from "../../interfaces/StorageItemChange.request";
+import {Family} from "../../models/family.model";
 
 export class StorageService extends StoreService<StorageSection> {
 
@@ -11,9 +12,8 @@ export class StorageService extends StoreService<StorageSection> {
     }
 
 
-    public GetSections(user: User): StorageSection[] {
-        console.log(this.Items);
-        return this.Items.filter(i => i.FamilyId == user.currentFamilyId);
+    public GetSections(family: Family): StorageSection[] {
+        return this.Items.filter(i => i.FamilyId == family.Id.toHexString());
     }
     public CreateSection(user: User): StorageSection {
         let item = super.CreateItem(new ObjectId()) as StorageSection;
@@ -51,5 +51,11 @@ export class StorageService extends StoreService<StorageSection> {
     public DeleteSection(user: User, sectionId: string){
         let section = super.FindOne(s => s.FamilyId == user.currentFamilyId && s.Id.toHexString() == sectionId);
         super.RemoveItem(section);
+    }
+
+    protected FromSaveJson(doc: any): StorageSection {
+        let section = super.FromSaveJson(doc);
+        if (section.Items == null) section.Items == [];
+        return section;
     }
 }

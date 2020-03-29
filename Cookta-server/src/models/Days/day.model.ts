@@ -2,6 +2,7 @@ import {User} from "../user.model";
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {Food} from "../food/food.model";
 import {IMealing} from "./IMealing.interface";
+import {Family} from "../family.model";
 
 
 export class Day {
@@ -10,12 +11,15 @@ export class Day {
     constructor(public date: string,
                 public mealings: IMealing[],
                 public familyId: string) {
+        mealings.forEach(m => {
+            if (!m.dose) m.dose = 4
+        })
     }
 
-    public static async GetDay(date: string, user: User) {
+    public static async GetDay(date: string, family: Family) {
         let collection = await MongoHelper.getCollection(this.CollectionName);
-        let document = await collection.findOne({date: date, familyId: user.currentFamilyId});
-        if (!document) return new Day(date,  [], user.currentFamilyId);
+        let document = await collection.findOne({date: date, familyId: family.Id.toHexString()});
+        if (!document) return new Day(date, [], family.Id.toHexString());
         return this.FromDocument(document);
     }
 
@@ -25,7 +29,8 @@ export class Day {
             document['mealings'],
             document['familyId']);
     }
-    private async Save(): Promise<void>{
+
+    private async Save(): Promise<void> {
         let collection = await MongoHelper.getCollection(Day.CollectionName);
         await collection.replaceOne({date: this.date, familyId: this.familyId}, this.ToDocument(), {upsert: true});
     }
@@ -48,11 +53,11 @@ export class Day {
         await this.Save();
     }
 
-    public async FinalizeMealing(index: number, user: User): Promise<IMealing>{
+    public async FinalizeMealing(index: number, user: User): Promise<IMealing> {
         let mealing = await this.mealings[index];
         if (!mealing) return null;
         let food: Food = await Food.GetFoodForUser(mealing.foodId, user);
-        if (!food){
+        if (!food) {
             return null;
         }
         mealing.type = 'final';

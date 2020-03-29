@@ -6,18 +6,12 @@ import {Services} from "../Services";
 
 export class StorageSection extends StoreItemBase implements IStorageSectionRequest {
 
-    public Id: ObjectId = null;
     public FamilyId: string = null;
     public Name: string = null;
     public Items: IIngredient[] = null;
     public GeneralList: IIngredient[] = null;
     public IsDefaultList: boolean = null;
 
-    constructor(
-        _id: ObjectId)
-    {
-        super(_id);
-    }
 
 
     public async Save(){
