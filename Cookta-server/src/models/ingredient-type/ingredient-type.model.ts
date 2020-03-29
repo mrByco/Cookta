@@ -3,82 +3,18 @@ import {MongoHelper} from "../../helpers/mongo.helper";
 import {ISetIngredientTypeRequest} from "../../requests/set.ingredient-type.request";
 import {Guid} from "guid-typescript";
 import {IIngredientType} from "./ingredient-type.interface";
-import {StoreItemBase} from "atomik/store-item/store-item-base";
+import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 
 export class IngredientType extends StoreItemBase implements IIngredientType {
 
 
-    public category: string = 'Default';
-    public name: string = 'UnitName';
-    public volumeEnabled: boolean;
-    public countEnabled: boolean;
-    public massEnabled: boolean;
-    public guid: string;
-    public options: { cunits: IUnit[]};
-    public arhived: boolean;
+    public category: string = null;
+    public name: string = null;
+    public volumeEnabled: boolean = null;
+    public countEnabled: boolean = null;
+    public massEnabled: boolean = null;
+    public guid: string = null;
+    public options: { cunits: IUnit[]} = null;
+    public arhived: boolean = null;
 
-
-
-    private static FromDocument(doc: any): IngredientType {
-        return new IngredientType(
-            doc['category'],
-            doc['name'],
-            doc['volume-enabled'],
-            doc['count-enabled'],
-            doc['mass-enabled'],
-            doc['guid'],
-            doc['options']
-        )
-    }
-
-    public static async GetAllTypes(): Promise<IngredientType[]> {
-        let collection = await MongoHelper.getCollection(this.CollectionName);
-        let documents = await collection.find({arhived: {$ne: true}}).toArray();
-        let types: IngredientType[] = [];
-        for (let doc of documents) {
-            types.push(this.FromDocument(doc));
-        }
-        return types;
-    }
-
-    public static async SetIngredientType(request: ISetIngredientTypeRequest): Promise<IngredientType> {
-        let collection = await MongoHelper.getCollection(this.CollectionName);
-        let allExisting = await this.GetAllTypes();
-        let guid: Guid = request.guid ? Guid.parse(request.guid) : undefined;
-        while (!guid) {
-            guid = Guid.create();
-            if (allExisting.find(e => e.guid == guid.toString()))
-                guid = undefined;
-        }
-        let ingredientType = new IngredientType(
-            request.category,
-            request.name,
-            request.volumeEnabled,
-            request.countEnabled,
-            request.massEnabled,
-            guid.toString(),
-            request.options);
-        await collection.replaceOne({guid: ingredientType.guid}, ingredientType.ToDocument(), {upsert: true});
-        return ingredientType;
-    }
-
-    public static async DeleteIngredientType(guid: string): Promise<boolean> {
-        let collection = await MongoHelper.getCollection(this.CollectionName);
-        let result = await collection.deleteOne({guid: guid});
-        return result.deletedCount > 0;
-    }
-
-
-    private ToDocument(): any {
-        let doc = {
-            category: this.category,
-            name: this.name,
-            guid: this.guid,
-            options: this.options,
-        };
-        doc['volume-enabled'] = this.volumeEnabled;
-        doc['count-enabled'] = this.countEnabled;
-        doc['mass-enabled'] = this.massEnabled;
-        return doc;
-    }
 }

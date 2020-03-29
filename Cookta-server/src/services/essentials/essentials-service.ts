@@ -1,5 +1,5 @@
 import {EssentialList} from "../../models/essential-list.model";
-import {StoreService} from "atomik/store-service/store-service";
+import {StoreService} from "atomik/lib/store-service/store-service";
 import {Family} from "../../models/family.model";
 import { ObjectId } from "mongodb";
 

@@ -1,9 +1,10 @@
 import { StorageService } from "./services/storage/storage-service";
-import {StoreItemBase} from "atomik/store-item/store-item-base";
+import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 import {FamilyService} from "./services/family/family-service";
 import {UserService} from "./services/user/user-service";
 import {EssentialsService} from "./services/essentials/essentials-service";
 import {IUnitService} from "./services/unit/unit.service.interface";
+import {IIngredientTypeService} from "./services/ingredient-types/ingredient-type.service.interface";
 
 export class Services {
     static StorageService: StorageService;
@@ -12,6 +13,7 @@ export class Services {
     static EssentialsService: EssentialsService;
 
     static UnitService: IUnitService;
+    static IngredientTypeService: IIngredientTypeService;
 
     static ToSendableList(items: StoreItemBase[]): any[]{
         let sendItems: any[] = [];

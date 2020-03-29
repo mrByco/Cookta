@@ -1,5 +1,5 @@
-import {Family, SendFamily, SendFamilyMember} from "../../models/family.model";
-import {StoreService} from "atomik/store-service/store-service";
+import {Family} from "../../models/family.model";
+import {StoreService} from "atomik/lib/store-service/store-service";
 import {User} from "../../models/user.model";
 import {ObjectId} from "mongodb";
 import {EFamilyRole} from "../../interfaces/ifamilyMember";

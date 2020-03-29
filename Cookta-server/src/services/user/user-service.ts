@@ -1,4 +1,4 @@
-import {StoreService} from "atomik/store-service/store-service";
+import {StoreService} from "atomik/lib/store-service/store-service";
 import {User} from "../../models/user.model";
 import {ObjectId} from "bson";
 import * as request from "request";

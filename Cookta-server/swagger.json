@@ -195,12 +195,15 @@
 			],
 			"type": "integer"
 		},
-		"iUnit": {
+		"IUnit": {
 			"properties": {
 				"type": {
 					"$ref": "#/definitions/EUnitType"
 				},
 				"name": {
+					"type": "string"
+				},
+				"shortname": {
 					"type": "string"
 				},
 				"tobase": {
@@ -214,23 +217,20 @@
 			"required": [
 				"type",
 				"name",
+				"shortname",
 				"tobase",
 				"id"
 			],
 			"type": "object",
 			"additionalProperties": false
 		},
-		"IngredientType": {
+		"IIngredientType": {
 			"properties": {
 				"category": {
-					"type": "string",
-					"default": "Default",
-					"x-nullable": true
+					"type": "string"
 				},
 				"name": {
-					"type": "string",
-					"default": "UnitName",
-					"x-nullable": true
+					"type": "string"
 				},
 				"volumeEnabled": {
 					"type": "boolean"
@@ -248,7 +248,7 @@
 					"properties": {
 						"cunits": {
 							"items": {
-								"$ref": "#/definitions/iUnit"
+								"$ref": "#/definitions/IUnit"
 							},
 							"type": "array"
 						}
@@ -260,6 +260,8 @@
 				}
 			},
 			"required": [
+				"category",
+				"name",
 				"volumeEnabled",
 				"countEnabled",
 				"massEnabled",
@@ -294,7 +296,7 @@
 					"properties": {
 						"cunits": {
 							"items": {
-								"$ref": "#/definitions/iUnit"
+								"$ref": "#/definitions/IUnit"
 							},
 							"type": "array"
 						}
@@ -312,35 +314,6 @@
 				"countEnabled",
 				"massEnabled",
 				"options"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"Unit": {
-			"properties": {
-				"type": {
-					"$ref": "#/definitions/EUnitType"
-				},
-				"name": {
-					"type": "string"
-				},
-				"tobase": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string"
-				},
-				"shortname": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"type",
-				"name",
-				"tobase",
-				"id",
-				"shortname"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -385,7 +358,7 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"IStorageSection": {
+		"IStorageSectionRequest": {
 			"properties": {
 				"Id": {
 					"$ref": "#/definitions/ObjectId",
@@ -400,13 +373,6 @@
 					"x-nullable": true
 				},
 				"Items": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array",
-					"x-nullable": true
-				},
-				"GeneralList": {
 					"items": {
 						"$ref": "#/definitions/IIngredient"
 					},
@@ -1114,7 +1080,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IngredientType"
+								"$ref": "#/definitions/IIngredientType"
 							},
 							"type": "array"
 						}
@@ -1138,12 +1104,12 @@
 							"properties": {
 								"all": {
 									"items": {
-										"$ref": "#/definitions/IngredientType"
+										"$ref": "#/definitions/IIngredientType"
 									},
 									"type": "array"
 								},
 								"created": {
-									"$ref": "#/definitions/IngredientType"
+									"$ref": "#/definitions/IIngredientType"
 								}
 							},
 							"required": [
@@ -1187,7 +1153,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IngredientType"
+								"$ref": "#/definitions/IIngredientType"
 							},
 							"type": "array"
 						}
@@ -1224,7 +1190,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/Unit"
+								"$ref": "#/definitions/IUnit"
 							},
 							"type": "array"
 						}
@@ -1423,7 +1389,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IStorageSection"
+							"$ref": "#/definitions/IStorageSectionRequest"
 						}
 					}
 				},
@@ -1446,7 +1412,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IStorageSection"
+							"$ref": "#/definitions/IStorageSectionRequest"
 						}
 					}
 				},
@@ -1481,7 +1447,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IStorageSection"
+								"$ref": "#/definitions/IStorageSectionRequest"
 							},
 							"type": "array"
 						}

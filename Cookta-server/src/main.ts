@@ -6,9 +6,7 @@ import {User} from "./models/user.model";
 import {StorageService} from "./services/storage/storage-service";
 import {StorageSection} from "./models/storage-section.model";
 import {Services} from "./Services";
-import { StoreService } from "atomik/store-service/store-service";
-import {ItemStore} from "atomik/store/item-store";
-import {Service} from "@azure/storage-blob/typings/src/generated/src/operations";
+import {ItemStore} from "atomik/lib/store/item-store";
 import {FamilyService} from "./services/family/family-service";
 import {UserService} from "./services/user/user-service";
 import {Family} from "./models/family.model";
@@ -37,23 +35,30 @@ try{
 
         console.log("Start atomik services...");
 
-        let storageService = new StorageService((id, s) => {return new StorageSection(id, storageService)}, 'Stock');
-        let familyService = new FamilyService((id, s) => {return new Family(id, storageService)}, 'Family');
-        let userService = new UserService((id, s) => {return new User(id, storageService)}, 'Users');
-        let essentialsService = new EssentialsService((id, s) => {return new EssentialList(id, storageService)}, 'Essentials');
-        let unitService = new UnitService((id, s) => {return new Unit(id, storageService)}, 'Units');
-        let ingredientTypeService = new IngredientTypeService((id, s) => {return new IngredientType(id, storageService)}, 'Ingredients');
+        let storageService = new StorageService((id) => {return new StorageSection(id)}, 'Stock');
+
+        let familyService = new FamilyService((id) => {return new Family(id)}, 'Family');
+
+        let userService = new UserService((id) => {return new User(id)}, 'Users');
+
+        let essentialsService = new EssentialsService((id) => {return new EssentialList(id)}, 'Essentials');
+
+        let unitService = new UnitService((id) => {return new Unit(id)}, 'Units');
+
+        let ingredientTypeService = new IngredientTypeService((id) => {return new IngredientType(id)}, 'Ingredients');
 
         Services.StorageService = storageService;
         Services.FamilyService = familyService;
         Services.UserService = userService;
         Services.EssentialsService = essentialsService;
         Services.UnitService = unitService;
+        Services.IngredientTypeService = ingredientTypeService
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
         await ServiceManager.AddService(essentialsService);
         await ServiceManager.AddService(unitService);
+        await ServiceManager.AddService(ingredientTypeService);
         await ServiceManager.Start(MongoConnectionString);
 
 

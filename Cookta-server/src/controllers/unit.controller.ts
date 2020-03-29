@@ -10,7 +10,7 @@ export class UnitController extends Controller {
     @Get()
     public async GetAll(): Promise<IUnit[]> {
         try{
-            return Services.UnitService.GetAllItems().map(i => i.ToSendJson());
+            return Services.UnitService.GetAllItems();
         }catch{
             this.setStatus(500);
         }

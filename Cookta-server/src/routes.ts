@@ -94,27 +94,28 @@ const models: TsoaRoute.Models = {
         "enums": [0, 1, 2],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "iUnit": {
+    "IUnit": {
         "dataType": "refObject",
         "properties": {
             "type": { "ref": "EUnitType", "required": true },
             "name": { "dataType": "string", "required": true },
+            "shortname": { "dataType": "string", "required": true },
             "tobase": { "dataType": "double", "required": true },
             "id": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "IngredientType": {
+    "IIngredientType": {
         "dataType": "refObject",
         "properties": {
-            "category": { "dataType": "string", "default": "Default" },
-            "name": { "dataType": "string", "default": "UnitName" },
+            "category": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
             "volumeEnabled": { "dataType": "boolean", "required": true },
             "countEnabled": { "dataType": "boolean", "required": true },
             "massEnabled": { "dataType": "boolean", "required": true },
             "guid": { "dataType": "string", "required": true },
-            "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "iUnit" }, "required": true } }, "required": true },
+            "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "IUnit" }, "required": true } }, "required": true },
         },
         "additionalProperties": false,
     },
@@ -128,19 +129,7 @@ const models: TsoaRoute.Models = {
             "volumeEnabled": { "dataType": "boolean", "required": true },
             "countEnabled": { "dataType": "boolean", "required": true },
             "massEnabled": { "dataType": "boolean", "required": true },
-            "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "iUnit" }, "required": true } }, "required": true },
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Unit": {
-        "dataType": "refObject",
-        "properties": {
-            "type": { "ref": "EUnitType", "required": true },
-            "name": { "dataType": "string", "required": true },
-            "tobase": { "dataType": "double", "required": true },
-            "id": { "dataType": "string", "required": true },
-            "shortname": { "dataType": "string", "required": true },
+            "options": { "dataType": "nestedObjectLiteral", "nestedProperties": { "cunits": { "dataType": "array", "array": { "ref": "IUnit" }, "required": true } }, "required": true },
         },
         "additionalProperties": false,
     },
@@ -164,14 +153,13 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "IStorageSection": {
+    "IStorageSectionRequest": {
         "dataType": "refObject",
         "properties": {
             "Id": { "ref": "ObjectId" },
             "FamilyId": { "dataType": "string" },
             "Name": { "dataType": "string" },
             "Items": { "dataType": "array", "array": { "ref": "IIngredient" } },
-            "GeneralList": { "dataType": "array", "array": { "ref": "IIngredient" } },
             "IsDefaultList": { "dataType": "boolean" },
         },
         "additionalProperties": false,

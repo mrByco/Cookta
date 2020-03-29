@@ -1,4 +1,3 @@
-import {StoreService} from "atomik/store-service/store-service";
 import {IngredientType} from "../../models/ingredient-type/ingredient-type.model";
 import {IIngredientTypeService} from "./ingredient-type.service.interface";
 import {IIngredientType} from "../../models/ingredient-type/ingredient-type.interface";
@@ -6,8 +5,18 @@ import {ISetIngredientTypeRequest} from "../../requests/set.ingredient-type.requ
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {Guid} from "guid-typescript";
 import { ObjectId } from "mongodb";
+import {StoreService} from "atomik/lib/store-service/store-service";
+import {IFieldConverter} from "atomik/lib/store-item/field.converter.interface";
 
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
+
+    private readonly returnSame: (any) => any = (d) => d;
+
+    public Converters: IFieldConverter[] = [
+        { DatabaseFieldName: "volume-enabled", ClassFieldName: 'volumeEnabled', Convert: this.returnSame, ConvertBack: this.returnSame },
+        { DatabaseFieldName: "mass-enabled", ClassFieldName: 'massEnabled', Convert: this.returnSame, ConvertBack: this.returnSame },
+        { DatabaseFieldName: "count-enabled", ClassFieldName: 'countEnabled', Convert: this.returnSame, ConvertBack: this.returnSame },
+    ]
 
     DeleteIngredientType(guid: string): boolean {
         let item = this.Items.find(i => i.guid);

@@ -1,4 +1,4 @@
-import {StoreService} from "atomik/store-service/store-service";
+import {StoreService} from "atomik/lib/store-service/store-service";
 import {IUnitService} from "./unit.service.interface";
 import {Unit} from "../../models/unit/unit.model";
 
