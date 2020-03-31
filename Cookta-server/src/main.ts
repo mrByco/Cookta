@@ -3,17 +3,21 @@ import {app} from "./app";
 import {MongoHelper} from "./helpers/mongo.helper";
 import {Role} from "./models/role.model";
 import {User} from "./models/user.model";
-import {StorageService} from "./services/storage-service";
+import {StorageService} from "./services/storage/storage-service";
 import {StorageSection} from "./models/storage-section.model";
 import {Services} from "./Services";
-import { StoreService } from "atomik/store-service/store-service";
-import {ItemStore} from "atomik/store/item-store";
-import {Service} from "@azure/storage-blob/typings/src/generated/src/operations";
-import {FamilyService} from "./services/family-service";
-import {UserService} from "./services/user-service";
+import {ItemStore} from "atomik/lib/store/item-store";
+import {FamilyService} from "./services/family/family-service";
+import {UserService} from "./services/user/user-service";
 import {Family} from "./models/family.model";
-import {EssentialsService} from "./services/essentials-service";
+import {EssentialsService} from "./services/essentials/essentials-service";
 import {EssentialList} from "./models/essential-list.model";
+import {UnitService} from "./services/unit/unit.service";
+import {Unit} from "./models/unit/unit.model";
+import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
+import {IngredientType} from "./models/ingredient-type/ingredient-type.model";
+import {ShoppingListService} from "./services/shopping-list/shopping-list.service";
+import {ShoppingList} from "./models/shopping-list.model";
 
 const PORT = process.env.PORT || 8080;
 
@@ -33,32 +37,39 @@ try{
 
         console.log("Start atomik services...");
 
-        let storageService = new StorageService((id, s) => {return new StorageSection(id, storageService)}, 'Stock');
-        let familyService = new FamilyService((id, s) => {return new Family(id, storageService)}, 'Family');
-        let userService = new UserService((id, s) => {return new User(id, storageService)}, 'Users');
-        let essentialsService = new EssentialsService((id, s) => {return new EssentialList(id, storageService)}, 'Essentials');
+        let storageService = new StorageService((id) => {return new StorageSection(id)}, 'Stock');
+
+        let familyService = new FamilyService((id) => {return new Family(id)}, 'Family');
+
+        let userService = new UserService((id) => {return new User(id)}, 'Users');
+
+        let essentialsService = new EssentialsService((id) => {return new EssentialList(id)}, 'Essentials');
+
+        let unitService = new UnitService((id) => {return new Unit(id)}, 'Units');
+
+        let ingredientTypeService = new IngredientTypeService((id) => {return new IngredientType(id)}, 'Ingredients');
+
+        let shoppingListService = new ShoppingListService(id => new ShoppingList(id), 'ShoppingLists');
 
         Services.StorageService = storageService;
         Services.FamilyService = familyService;
         Services.UserService = userService;
         Services.EssentialsService = essentialsService;
+        Services.UnitService = unitService;
+        Services.IngredientTypeService = ingredientTypeService;
+        Services.ShoppingListService = shoppingListService;
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
         await ServiceManager.AddService(essentialsService);
+        await ServiceManager.AddService(unitService);
+        await ServiceManager.AddService(ingredientTypeService);
+        await ServiceManager.AddService(shoppingListService);
         await ServiceManager.Start(MongoConnectionString);
 
 
         console.info("Starting server...");
         server.listen(PORT);
-
-        /*
-        let users = await User.GetAllUser();
-        console.log(`${users.length} users loaded...`);
-        for (let user of users){
-            await user.RefreshDependenciesToPrimarySub();
-            console.log(`User: ${user.username} - Refreshed!`);
-        }*/
     });
 }catch (err){
     console.error(err);

@@ -4,8 +4,9 @@ import {ObjectID} from "bson";
 import {Tag} from "../tag.model";
 import {User} from "../user.model";
 import {Subscription} from "../subscription.model";
+import {ISendableFood} from "./food-sendable.interface";
 
-export class SendableFood {
+export class SendableFood implements ISendableFood {
 
     public owner: string;
     public name: string = "";
@@ -21,6 +22,8 @@ export class SendableFood {
     public foodId: string;
     public SubscribedFor: boolean;
     public OwnFood: boolean;
+
+
 
     constructor(food: Food, public tags: Tag[], public autoTags: Tag[], subscribedFor: boolean, ownFood: boolean) {
         // noinspection

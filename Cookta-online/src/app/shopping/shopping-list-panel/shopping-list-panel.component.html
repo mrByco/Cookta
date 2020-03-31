@@ -1,0 +1,11 @@
+<div class="rounded-panel" style="width: 100%; height: 85%; overflow: auto"
+     *ngIf="!shoppingListService.IsBusy && unitService.LastLoadedUnits.length > 0 && ingredientService.LastLoadedTypes.length > 0">
+  <div class="rounded-panel-item" *ngFor="let ing of shoppingListService.ShoppingItems">
+    <div class="row" style="margin-left: 1rem">
+      <label>{{ing.value}}</label>
+      <label
+        style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
+      <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
+    </div>
+  </div>
+</div>

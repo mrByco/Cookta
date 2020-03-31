@@ -9,7 +9,7 @@ import {EUnitType} from "../models/grocery/unit-type.enum";
 @Injectable()
 export class UnitService {
   public Units: Promise<Unit[]>;
-  public LastLoadedUnits: Unit[];
+  public LastLoadedUnits: Unit[] = [];
 
 
   constructor(
@@ -19,16 +19,17 @@ export class UnitService {
     this.Units = this.LoadUnits();
   }
 
-  public async LoadUnits(): Promise<Unit[]>{
+  public async LoadUnits(): Promise<Unit[]> {
 
     return new Promise(async (resolve, reject) => {
       let response = await this.http.get(this.serverService.GetBase() + Routes.Unit.GetAll);
       let units: Unit[] = [];
       response.subscribe(data => {
-        for (const d of (data as any)){
+        for (const d of (data as any)) {
           units.push(d);
         }
         this.LastLoadedUnits = units;
+        console.log( units.length + ' units loaded')
         resolve(units);
       }, error => {
         resolve([]);
@@ -37,27 +38,32 @@ export class UnitService {
 
   }
 
-  public async GetUnitAsync(id: string, ofType?: IngredientType): Promise<Unit>{
+  public async GetUnitAsync(id: string, ofType?: IngredientType): Promise<Unit> {
     let units = await this.Units;
 
 
-    try{
+    try {
       units = units.concat(ofType.options.cunits);
-    }
-    finally {
+    } finally {
       return units.find(type => type.id == id);
     }
 
   }
-  public GetUnit(id: string, ofType?: IngredientType): Unit{
+
+  public GetUnit(id: string, ofType?: IngredientType): Unit {
     let units = this.LastLoadedUnits;
 
 
-    try{
+    try {
       units = units.concat(ofType.options.cunits);
-    }
-    finally {
-      return units.find(type => type.id == id);
+    } finally {
+      let u = units.find(type => type.id == id);
+      if (!u) {
+        console.error('Cannot find unit of: ' + id + '  From: ');
+        console.error(units);
+      }
+
+      return u;
     }
 
   }
@@ -67,21 +73,21 @@ export class UnitService {
 
     units = units.filter(unit => unit.type == CurrentType.baseUnitType);
 
-    try{
+    try {
       units = units.concat(CurrentType.options.cunits);
-    }
-    finally {
+    } finally {
       return units;
     }
   }
 
-  public static IsValidUnitName(name: string): string | undefined{
+  public static IsValidUnitName(name: string): string | undefined {
     if (name.length < 2)
       return "Minimum 2 character"
     if (name.length > 20)
       return "Max 20 character"
   }
-  public static IsValidToBase(toBase: number): string | undefined{
+
+  public static IsValidToBase(toBase: number): string | undefined {
     if (toBase <= 0)
       return "Must larger than 0";
   }

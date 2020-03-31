@@ -6,7 +6,7 @@ import {User} from "../models/user.model";
 import {Services} from "../Services";
 import {ObjectId} from "mongodb";
 import {IIngredient} from "../interfaces/IIngredient";
-import {IStorageSection} from "../interfaces/IStorageSection";
+import {IStorageSection, IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
 import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
 
 @Route('/stock')
@@ -17,7 +17,7 @@ export class StockController extends Controller {
     public async GetAll(@Request() request: any): Promise<any> {
         let user = request.user as User;
         let items = await RequestHelper.ExecuteRequest(this, () => {
-            let i =  Services.StorageService.GetSections(user);
+            let i =  Services.StorageService.GetSections(user.GetCurrentFamily());
             return i;
         });
         return Services.ToSendableList(items);
@@ -32,7 +32,7 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Put('/')
-    public async EditSection(@Request() request: any, @Body() changeRequest: IStorageItemChangeRequest): Promise<IStorageSection> {
+    public async EditSection(@Request() request: any, @Body() changeRequest: IStorageItemChangeRequest): Promise<IStorageSectionRequest> {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
             return Services.StorageService.SetSection(user, changeRequest).ToSendJson();
@@ -51,7 +51,7 @@ export class StockController extends Controller {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
             Services.StorageService.DeleteSection(user, sectionId);
-            return Services.ToSendableList(Services.StorageService.GetSections(user));
+            return Services.ToSendableList(Services.StorageService.GetSections(user.GetCurrentFamily()));
         });
     }
 }

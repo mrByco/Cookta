@@ -1,8 +1,7 @@
-import {StoreItemBase} from "atomik/store-item/store-item-base";
+import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 import {EFamilyRole, ifamilyMember} from "../interfaces/ifamilyMember";
 import {Services} from "../Services";
 import {Food} from "./food/food.model";
-import {Service} from "@azure/storage-blob/typings/src/generated/src/operations";
 
 export interface SendFamilyMember {
     sub: string;
@@ -19,9 +18,9 @@ export interface SendFamily {
 
 export class Family extends StoreItemBase {
 
-    public ownerSub: string;
-    public name: string;
-    public members: ifamilyMember[];
+    public ownerSub: string = null;
+    public name: string = null;
+    public members: ifamilyMember[] = null;
 
 
     public ToSendFamily(): SendFamily {

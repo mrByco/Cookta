@@ -1,23 +1,26 @@
 import {Body, Controller, Delete, Get, Post, Route, Security, Tags} from "tsoa";
-import {IngredientType} from "../models/ingredient-type.model";
+import {IngredientType} from "../models/ingredient-type/ingredient-type.model";
 import {ISetIngredientTypeRequest} from "../requests/set.ingredient-type.request";
+import {Services} from "../Services";
+import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
+import {IIngredient} from "../interfaces/IIngredient";
 
 @Route('/ingredientType')
 @Tags('IngredientType')
 export class IngredientTypeController extends Controller {
     @Get()
-    public async GetAll(): Promise<IngredientType[]> {
+    public async GetAll(): Promise<IIngredientType[]> {
         try{
-            return await IngredientType.GetAllTypes();
+            return Services.IngredientTypeService.GetAllItems();
         }catch{
             this.setStatus(500);
         }
     }
     @Security('Bearer', ['edit-ingredients'])
     @Post()
-    public async SetIngredient(@Body() request: ISetIngredientTypeRequest): Promise<{all: IngredientType[], created: IngredientType}> {
+    public async SetIngredient(@Body() request: ISetIngredientTypeRequest): Promise<{all: IIngredientType[], created: IIngredientType}> {
         let result = {all: undefined, created: undefined};
-        result.created = await IngredientType.SetIngredientType(request);
+        result.created = Services.IngredientTypeService.SetIngredientType(request);
         result.all = await this.GetAll();
         return result;
         try{
@@ -27,10 +30,10 @@ export class IngredientTypeController extends Controller {
     }
     @Security('Bearer', ['delete-ingredients'])
     @Delete('/{guid}')
-    public async DeleteIngredient(guid: string): Promise<IngredientType[]> {
+    public async DeleteIngredient(guid: string): Promise<IIngredientType[]> {
         try{
-            await IngredientType.DeleteIngredientType(guid);
-            return await IngredientType.GetAllTypes();
+            await Services.IngredientTypeService.DeleteIngredientType(guid);
+            return Services.IngredientTypeService.GetAllItems();
         }catch{
             this.setStatus(500);
         }

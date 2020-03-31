@@ -1,4 +1,4 @@
-import {iUnit} from "../interfaces/iunit";
+import {IUnit} from "../models/unit/unit.interface";
 
 export interface ISetIngredientTypeRequest {
     category: string,
@@ -7,5 +7,5 @@ export interface ISetIngredientTypeRequest {
     volumeEnabled: boolean,
     countEnabled: boolean,
     massEnabled: boolean,
-    options: {cunits: iUnit[]}
+    options: {cunits: IUnit[]}
 }

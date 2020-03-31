@@ -1,25 +1,17 @@
-import {StoreItemBase} from "atomik/store-item/store-item-base";
-import { ObjectId } from "mongodb";
-import { IStoreService } from "atomik/store-service/store-service-interface";
+import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
+import {ObjectId} from "mongodb";
 import {IIngredient} from "../interfaces/IIngredient";
-import {IStorageSection} from "../interfaces/IStorageSection";
+import {IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
 import {Services} from "../Services";
 
-export class StorageSection extends StoreItemBase implements IStorageSection {
+export class StorageSection extends StoreItemBase implements IStorageSectionRequest {
 
-    public Id: ObjectId;
-    public FamilyId: string;
-    public Name: string;
-    public Items: IIngredient[];
-    public GeneralList: IIngredient[];
-    public IsDefaultList: boolean;
+    public FamilyId: string = null;
+    public Name: string = null;
+    public Items: IIngredient[] = null;
+    public GeneralList: IIngredient[] = null;
+    public IsDefaultList: boolean = null;
 
-    constructor(
-        _id: ObjectId,
-        connectedService: IStoreService)
-    {
-        super(_id, connectedService);
-    }
 
 
     public async Save(){

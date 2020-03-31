@@ -74,6 +74,7 @@ export class IngredientService {
         }
         this.LastLoadedTypes = types;
         this.IngredientTypes = new Promise<IngredientType[]>(r => r(types));
+        console.log( types.length + ' ingredients loaded')
         this.OnIngredientsChanged.emit(types);
         resolve(IngredientType.FromJson(data['created']));
       }, error => {

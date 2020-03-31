@@ -1,29 +1,26 @@
-import {ObjectID, ObjectId} from "mongodb";
-import {MongoHelper} from "../helpers/mongo.helper";
+import {ObjectId} from "mongodb";
 import {Role} from "./role.model";
-import * as jwt from 'jsonwebtoken';
-import * as request from "request";
 import {Family, SendFamily} from "./family.model";
 import {Food} from "./food/food.model";
 import {Subscription} from "./subscription.model";
-import {StoreItemBase} from "atomik/store-item/store-item-base";
-import {IStoreService} from "atomik/store-service/store-service-interface";
+import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
+import {IStoreService} from "atomik/lib/store-service/store-service-interface";
 import {Services} from "../Services";
 import {ExtendedUser} from "./extendedUser";
 
 
 export class User extends StoreItemBase {
-    public sub: string;
-    public subs: string[];
-    public username: string;
-    public role: string;
-    public email: string;
+    public sub: string = null;
+    public subs: string[] = null;
+    public username: string = null;
+    public role: string = null;
+    public email: string = null;
     public logs: {time: number, text: string}[];
-    public profilpic: string;
-    public currentFamilyId: string;
+    public profilpic: string = null;
+    public currentFamilyId: string = null;
 
-    constructor(_id: ObjectId, connectedService: IStoreService) {
-        super(_id, connectedService);
+    constructor(_id: ObjectId) {
+        super(_id);
     }
 
     public HasPermission(permission: string): boolean{

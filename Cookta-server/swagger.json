@@ -127,10 +127,16 @@
 			},
 			"required": [
 				"owner",
+				"name",
+				"desc",
+				"published",
+				"ingredients",
 				"imageUploaded",
 				"uploaded",
+				"dose",
 				"lastModified",
 				"subscriptions",
+				"id",
 				"foodId",
 				"SubscribedFor",
 				"OwnFood",
@@ -195,12 +201,15 @@
 			],
 			"type": "integer"
 		},
-		"iUnit": {
+		"IUnit": {
 			"properties": {
 				"type": {
 					"$ref": "#/definitions/EUnitType"
 				},
 				"name": {
+					"type": "string"
+				},
+				"shortname": {
 					"type": "string"
 				},
 				"tobase": {
@@ -214,23 +223,20 @@
 			"required": [
 				"type",
 				"name",
+				"shortname",
 				"tobase",
 				"id"
 			],
 			"type": "object",
 			"additionalProperties": false
 		},
-		"IngredientType": {
+		"IIngredientType": {
 			"properties": {
 				"category": {
-					"type": "string",
-					"default": "Default",
-					"x-nullable": true
+					"type": "string"
 				},
 				"name": {
-					"type": "string",
-					"default": "UnitName",
-					"x-nullable": true
+					"type": "string"
 				},
 				"volumeEnabled": {
 					"type": "boolean"
@@ -248,7 +254,7 @@
 					"properties": {
 						"cunits": {
 							"items": {
-								"$ref": "#/definitions/iUnit"
+								"$ref": "#/definitions/IUnit"
 							},
 							"type": "array"
 						}
@@ -257,9 +263,15 @@
 						"cunits"
 					],
 					"type": "object"
+				},
+				"arhived": {
+					"type": "boolean",
+					"x-nullable": true
 				}
 			},
 			"required": [
+				"category",
+				"name",
 				"volumeEnabled",
 				"countEnabled",
 				"massEnabled",
@@ -294,7 +306,7 @@
 					"properties": {
 						"cunits": {
 							"items": {
-								"$ref": "#/definitions/iUnit"
+								"$ref": "#/definitions/IUnit"
 							},
 							"type": "array"
 						}
@@ -312,35 +324,6 @@
 				"countEnabled",
 				"massEnabled",
 				"options"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"Unit": {
-			"properties": {
-				"type": {
-					"$ref": "#/definitions/EUnitType"
-				},
-				"name": {
-					"type": "string"
-				},
-				"tobase": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string"
-				},
-				"shortname": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"type",
-				"name",
-				"tobase",
-				"id",
-				"shortname"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -388,6 +371,37 @@
 		"IStorageSection": {
 			"properties": {
 				"Id": {
+					"$ref": "#/definitions/ObjectId"
+				},
+				"FamilyId": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"IsDefaultList": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"Id",
+				"FamilyId",
+				"Name",
+				"Items",
+				"IsDefaultList"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IStorageSectionRequest": {
+			"properties": {
+				"Id": {
 					"$ref": "#/definitions/ObjectId",
 					"x-nullable": true
 				},
@@ -400,13 +414,6 @@
 					"x-nullable": true
 				},
 				"Items": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array",
-					"x-nullable": true
-				},
-				"GeneralList": {
 					"items": {
 						"$ref": "#/definitions/IIngredient"
 					},
@@ -581,6 +588,78 @@
 			"type": "object",
 			"additionalProperties": false
 		},
+		"ISendableFood": {
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"desc": {
+					"type": "string"
+				},
+				"published": {
+					"type": "boolean"
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"imageUploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"uploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double"
+				},
+				"lastModified": {
+					"type": "number",
+					"format": "double"
+				},
+				"subscriptions": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string"
+				},
+				"foodId": {
+					"type": "string"
+				},
+				"SubscribedFor": {
+					"type": "boolean"
+				},
+				"OwnFood": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"owner",
+				"name",
+				"desc",
+				"published",
+				"ingredients",
+				"imageUploaded",
+				"uploaded",
+				"dose",
+				"lastModified",
+				"subscriptions",
+				"id",
+				"foodId",
+				"SubscribedFor",
+				"OwnFood"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
 		"IMealing": {
 			"properties": {
 				"type": {
@@ -599,8 +678,20 @@
 					"x-nullable": true
 				},
 				"info": {
-					"additionalProperties": true,
+					"properties": {
+						"finalFood": {
+							"$ref": "#/definitions/ISendableFood"
+						},
+						"tagId": {
+							"type": "string"
+						}
+					},
 					"type": "object",
+					"x-nullable": true
+				},
+				"dose": {
+					"type": "number",
+					"format": "double",
 					"x-nullable": true
 				}
 			},
@@ -742,6 +833,32 @@
 			"required": [
 				"invitedUsername",
 				"invitedEmail"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IShoppingList": {
+			"properties": {
+				"IngredientsToBuy": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"IngredientsCompleted": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"FamilyId": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"IngredientsToBuy",
+				"IngredientsCompleted",
+				"FamilyId"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -1114,7 +1231,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IngredientType"
+								"$ref": "#/definitions/IIngredientType"
 							},
 							"type": "array"
 						}
@@ -1138,12 +1255,12 @@
 							"properties": {
 								"all": {
 									"items": {
-										"$ref": "#/definitions/IngredientType"
+										"$ref": "#/definitions/IIngredientType"
 									},
 									"type": "array"
 								},
 								"created": {
-									"$ref": "#/definitions/IngredientType"
+									"$ref": "#/definitions/IIngredientType"
 								}
 							},
 							"required": [
@@ -1187,7 +1304,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IngredientType"
+								"$ref": "#/definitions/IIngredientType"
 							},
 							"type": "array"
 						}
@@ -1224,7 +1341,7 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/Unit"
+								"$ref": "#/definitions/IUnit"
 							},
 							"type": "array"
 						}
@@ -1446,7 +1563,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IStorageSection"
+							"$ref": "#/definitions/IStorageSectionRequest"
 						}
 					}
 				},
@@ -2025,6 +2142,35 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/ShoppingList/{nextShopping}": {
+			"get": {
+				"operationId": "GetShoppingList",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IShoppingList"
+						}
+					}
+				},
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nextShopping",
+						"required": true,
+						"type": "string"
+					}
+				]
 			}
 		}
 	},

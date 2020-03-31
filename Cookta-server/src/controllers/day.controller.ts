@@ -13,7 +13,7 @@ export class DayController extends Controller {
     public async GetDay(@Request() request, date: string): Promise<Day> {
         try {
             let user = request.user as User;
-            return await Day.GetDay(date, user);
+            return await Day.GetDay(date, user.GetCurrentFamily());
         } catch {
             this.setStatus(500);
             return;
@@ -35,7 +35,7 @@ export class DayController extends Controller {
                     mealing.foodId = food ? food.foodId : undefined;
                 }
             }
-            let day = await Day.GetDay(date, user);
+            let day = await Day.GetDay(date, user.GetCurrentFamily());
             await day.SetDay(mealings);
             return day;
     }
@@ -45,7 +45,7 @@ export class DayController extends Controller {
     public async RefreshDay(@Request() request, date: string, mealingIdentity: number): Promise<Day> {
         try {
             let user = request.user as User;
-            let day = await Day.GetDay(date, user);
+            let day = await Day.GetDay(date, user.GetCurrentFamily());
             await day.RefreshTagMealing(+mealingIdentity, user);
             return day;
         } catch {
@@ -58,7 +58,7 @@ export class DayController extends Controller {
     public async FinalizeMealing(@Request() request, date: string, mealingIdentity: number): Promise<Day> {
         try {
             let user = request.user as User;
-            let day = await Day.GetDay(date, user);
+            let day = await Day.GetDay(date, user.GetCurrentFamily());
             await day.FinalizeMealing(+mealingIdentity, user);
             return day;
         } catch {
