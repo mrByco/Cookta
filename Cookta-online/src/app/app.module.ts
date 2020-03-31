@@ -55,6 +55,8 @@ import {StorageSectionComponent} from './stock/storage-section/storage-section.c
 import { EssentialsRootComponent } from './stock/essentials-root/essentials-root.component';
 import { EssentialsListComponent } from './stock/essentials-list/essentials-list.component';
 import {EssentialsService} from "./shared/services/essentials.service";
+import { ShoppingListRootComponent } from './shopping/shopping-list-root/shopping-list-root.component';
+import { ShoppingListPanelComponent } from './shopping/shopping-list-panel/shopping-list-panel.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -67,7 +69,8 @@ const appRoutes: Routes = [
   {path: 'family-manager', component: FamilyManagementComponent},
   {path: 'essentials', component: EssentialsRootComponent},
   {path: 'calendar', component: MenuEditorComponent},
-  {path: 'storage', component: StorageRootComponentComponent}
+  {path: 'storage', component: StorageRootComponentComponent},
+  {path: 'shopping', component: ShoppingListRootComponent}
 
 ];
 
@@ -104,6 +107,8 @@ const appRoutes: Routes = [
     StorageSectionComponent,
     EssentialsRootComponent,
     EssentialsListComponent,
+    ShoppingListRootComponent,
+    ShoppingListPanelComponent,
   ],
   imports: [
     BrowserModule,

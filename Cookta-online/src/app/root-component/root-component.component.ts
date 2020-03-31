@@ -11,6 +11,8 @@ import {TagService} from "../shared/services/tag.service";
 })
 export class RootComponentComponent implements OnInit {
 
+  public static readonly HeaderSize = 70;
+
   get LoadingState(): LoadingState {
     return this.loadingState;
   }

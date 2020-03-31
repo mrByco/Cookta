@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "mocha --recursive --require ts-node/register ./src/**/*.spec.ts",
     "start": "set NODE_ENV=debug && nodemon -x ts-node src/main.ts",
     "start-backup": "nodemon -x ts-node src/database-command-tool/main.ts",
     "generate": "tsoa routes && tsoa swagger",

@@ -1,4 +1,4 @@
-<div class="fill" style="height: calc(100vh - 56px); overflow: auto">
+<div class="fill" style="height: var(--MainContentSize); overflow: auto">
   <a *ngFor="let item of Foods" (click)="SelectItem(item)">
     <div class="food-icon-panel" [ngClass]="{'food-icon-panel-selected': GetItemSelected(item)}">
       <img [src]="item.ImageUrl" [alt]="item.name">

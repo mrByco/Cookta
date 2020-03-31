@@ -40,7 +40,8 @@ export class ShoppingListService extends StoreService<ShoppingList> implements I
         let need = IngredientHelper.MergeLists([foodIngredients, essentials]);
         let buy: IIngredient[] = [];
         IngredientHelper.SubtractList(need, ingredientsAtHome).forEach(i => {
-            buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id});
+            if (i.value > 0)
+                buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id});
         });
 
         return {IngredientsToBuy: buy, FamilyId: family.Id.toHexString(), IngredientsCompleted: []};
@@ -54,7 +55,7 @@ export class ShoppingListService extends StoreService<ShoppingList> implements I
         const limit = 80;
         let i = 0;
         let currentDate: Date = new Date(fromDate);
-        while (currentDate.ToYYYYMMDDString() !== lastDate.ToYYYYMMDDString()){
+        while (currentDate.ToYYYYMMDDString() !== lastDate.ToYYYYMMDDString()) {
             if (i > limit) throw Error('Too many date string requested');
             dates.push(currentDate.ToYYYYMMDDString());
             currentDate.setDate(currentDate.getDate() + 1);

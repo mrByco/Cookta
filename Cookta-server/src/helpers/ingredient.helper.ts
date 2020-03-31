@@ -1,9 +1,7 @@
 import {ICompleteIngredient, IIngredient} from "../interfaces/IIngredient";
 import {IUnit} from "../models/unit/unit.interface";
 import {EUnitType} from "../enums/unit-type.enum";
-import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
 import {Services} from "../Services";
-import {Unit} from "../models/unit/unit.model";
 import {IngredientType} from "../models/ingredient-type/ingredient-type.model";
 
 export class IngredientHelper {
@@ -71,7 +69,8 @@ export class IngredientHelper {
         let value2: number = ing2.value;
         let unit: IUnit = ing1.unit;
         if (ing1.unit.id != ing2.unit.id) {
-            if (ing1.unit.type != ing2.unit.type) throw Error("Cannot add ingredients with different base");
+            if (ing1.unit.type != ing2.unit.type)
+                throw Error("Cannot add ingredients with different base");
             switch (ing1.unit.type) {
                 case EUnitType.MASS:
                     unit = {name: 'g', type: EUnitType.MASS, id: 'g', shortname: 'g', tobase: 1};
@@ -100,7 +99,14 @@ export class IngredientHelper {
 
     static ToCompleteIngredient(ing: IIngredient): ICompleteIngredient {
         let type: IngredientType = Services.IngredientTypeService.FindOne(t => t.guid == ing.ingredientID);
-        let unit: IUnit = ((Services.UnitService.GetAllItems() as IUnit[]).concat(type.options.cunits)).find(u => u.id == ing.unit);
+        let unit: IUnit = (Services.UnitService.GetAllItems() as IUnit[]).find(u => u.id == ing.unit);
+
+        if (!unit){
+            unit = type.options.cunits.find(u => u.id == ing.unit);
+            if (type.massEnabled) unit.type = EUnitType.MASS;
+            if (type.volumeEnabled) unit.type = EUnitType.VOLUME;
+            if (type.countEnabled) unit.type = EUnitType.COUNT;
+        }
 
         return {
             ingredientType: Object.assign({}, type),

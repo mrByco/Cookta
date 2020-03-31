@@ -63,4 +63,7 @@ export class Routes {
     GetEssentials: "/baselist",
     SetEssentials: "/baselist",
   };
+  public static readonly Shopping = {
+    GetShoppingList: "/ShoppingList/{nextShopping}",
+  };
 }
