@@ -1,3 +1,8 @@
+export class Myclass {
+  public num: number;
+}
+
+
 export class Routes {
   public static readonly Food = {
     GetPublicFoods: "/food",
@@ -13,6 +18,7 @@ export class Routes {
     GetSubscriptionFoods: '/food/subscription',
     SetSubscription: '/subscription'
   };
+
   public static readonly IngredientType = {
     GetAll: "/ingredientType",
     SaveIngredient: "/ingredientType"
@@ -52,7 +58,7 @@ export class Routes {
     SetSection: "/stock",
     DeleteSection: "/stock/{storageSectionIdString}",
 
-  }
+  };
   public static readonly Essentials = {
     GetEssentials: "/baselist",
     SetEssentials: "/baselist",
