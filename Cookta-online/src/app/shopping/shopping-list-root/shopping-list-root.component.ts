@@ -41,7 +41,7 @@ export class ShoppingListRootComponent implements OnInit {
   public async CopyListToClipboard() {
     let foodStrings = await Promise.all(this.shoppingService.ShoppingItems.map(async (item) => {
       let ing = await this.ingredientService.GetIngredient(item.ingredientID);
-      let unit = await this.unitService.GetUnit(item.unit, ing).name;
+      let unit = this.unitService.GetUnit(item.unit, ing).name;
       return `${item.value} ${unit ? unit : item.unit}  ${ing.name ? ing.name : `Ismeretlen: ${item.ingredientID}`}`;
     }));
     this.copyStringToClipboard(
@@ -74,4 +74,5 @@ export class ShoppingListRootComponent implements OnInit {
     console.log(dateObj);
     this.shoppingService.SetShoppingDate(dateObj);
   }
+
 }

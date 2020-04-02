@@ -17,9 +17,9 @@
       <h3>Pakolás helye: </h3>
     </div>
     <div class="col">
-      <select class="browser-default custom-select" >
-        <option *ngIf="storageService.Sections.length < 1">{{SelectedSection ? SelectedSection.Name : "Névtelen szekció"}}</option>
-        <option *ngFor="let section of storageService.Sections">{{section.Name}}</option>
+      <select class="browser-default custom-select" [(ngModel)]="this.SelectedSection">
+        <option *ngIf="storageService.Sections.length < 1" [ngValue]="null">{{SelectedSection ? SelectedSection.Name : "Névtelen szekció"}}</option>
+        <option *ngFor="let section of storageService.Sections" [ngValue]="section">{{section.Name}}</option>
       </select>
     </div>
   </div>
@@ -27,7 +27,7 @@
     <span class="sr-only">Loading...</span>
   </div>
   <ng-template #loaded>
-    <app-shopping-list-panel #loaded ></app-shopping-list-panel>
+    <app-shopping-list-panel #loaded [PackSection]="SelectedSection"></app-shopping-list-panel>
   </ng-template>
 </div>
 
