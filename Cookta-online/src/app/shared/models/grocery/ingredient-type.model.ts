@@ -1,8 +1,9 @@
 import {Unit} from "../unit.interface";
 import {IDisplayable} from "../../../utilities/displayable";
 import {EUnitType} from "./unit-type.enum";
+import {IIngredientType} from './ingredient-type.interface';
 
-export class IngredientType implements IDisplayable {
+export class IngredientType implements IDisplayable, IIngredientType {
 
 
   constructor (

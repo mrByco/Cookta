@@ -1,17 +1,15 @@
 
 <div class="container" style="height: var(--MainContentSize); overflow: auto">
-  <p>shopping-list-root works!</p>
+  <a class="copy-to-list-a" (click)="CopyListToClipboard()" >Lista másolása a vágólapra</a>
   <div class="row">
     <div class="col-auto">
-      <h3>Következő vásárlás dátuma: </h3>
+      <h3>Bevásárlás eddig: </h3>
     </div>
     <div class="col-auto">
-      <select disabled class="browser-default custom-select">
+      <select class="browser-default custom-select" (change)="ChangeNextShoppingDay($event.target['value'])">
         <option selected>{{shoppingService.GetSelectedShoppingDate.toISOString().slice(0, 10)}}</option>
-        <option value="1">{{GetDateStringWithOffset(1)}}</option>
-        <option value="2">{{GetDateStringWithOffset(2)}}</option>
-        <option value="3">{{GetDateStringWithOffset(3)}}</option>
-        <option value="4">{{GetDateStringWithOffset(4)}}</option>
+        <option *ngFor="let i of [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]"
+                [ngValue]="i">{{GetDateStringWithOffset(i)}}</option>
       </select>
     </div>
     <div class="col-1"></div>
@@ -19,8 +17,9 @@
       <h3>Pakolás helye: </h3>
     </div>
     <div class="col">
-      <select disabled class="browser-default custom-select">
-        <option selected>{{SelectedSection ? SelectedSection.Name : "Névtelen szekció"}}</option>
+      <select class="browser-default custom-select" [(ngModel)]="this.SelectedSection">
+        <option *ngIf="storageService.Sections.length < 1" [ngValue]="null">{{SelectedSection ? SelectedSection.Name : "Névtelen szekció"}}</option>
+        <option *ngFor="let section of storageService.Sections" [ngValue]="section">{{section.Name}}</option>
       </select>
     </div>
   </div>
@@ -28,7 +27,7 @@
     <span class="sr-only">Loading...</span>
   </div>
   <ng-template #loaded>
-    <app-shopping-list-panel #loaded ></app-shopping-list-panel>
+    <app-shopping-list-panel #loaded [PackSection]="SelectedSection"></app-shopping-list-panel>
   </ng-template>
 </div>
 
