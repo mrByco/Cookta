@@ -24,4 +24,7 @@ export class ShoppingListPanelComponent implements OnInit {
   ngOnInit() {
   }
 
+  PutToStorage(ing: IIngredient) {
+
+  }
 }
