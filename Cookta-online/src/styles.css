@@ -1,0 +1,100 @@
+/* You can add global styles to this file, and also import other style files */
+html{
+  height: 100%;
+  background-color: #f09a00;
+}
+body{
+  height: 100%;
+  background-color: #f09a00;
+}
+.bg{
+  background-image: url("https://kuktaimages.blob.core.windows.net/application/login-background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  width: 100%;
+  background-position: center;
+}
+.fill{
+  height: 100%;
+}
+
+.mini-round-icon {
+  margin: 0 6px  9px 16px;
+  width: 28px;
+  filter: brightness(1);
+  transition: filter 0.2s, margin 0.2s, width 0.2s;
+}
+.mini-round-icon:hover {
+  margin: 0 3px  3px 10px;
+  width: 34px;
+  filter: brightness(1.5);
+}
+.mini-round-icon-disabled {
+  margin: 0px  3px  3px 10px;
+  width: 24px;
+  filter: grayscale(100%);;
+}
+.mini-round-icon-disabled:hover {
+  margin: 0px  3px  3px 10px;
+  width: 24px;
+  filter: grayscale(100%);
+}
+
+:root {
+  --MainContentSize: calc(100vh - 88px);
+}
+
+
+
+/* CONTENT FOR COOKTA*/
+
+
+.icon {
+  position: absolute;
+  opacity: .5;
+  border-radius: 2px;
+
+  transition: opacity 0.2s, box-shadow 0.2s;
+}
+.icon:hover{
+  box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.4);
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.rounded-panel {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  width: 30rem;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+
+.odd {
+}
+.even {
+  background: rgba(0, 27, 255, 0.06);
+}
+
+.rounded-panel-item {
+  margin: 0.1rem 1.3rem;
+  padding-left: 0.3rem;
+  cursor: pointer;
+}
+.rounded-panel-item:hover {
+  background: rgba(0, 210, 255, 0.5);
+}
+.rounded-panel-item label {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

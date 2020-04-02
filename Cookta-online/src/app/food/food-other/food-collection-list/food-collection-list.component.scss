@@ -1,0 +1,39 @@
+// Within style tags in your html file
+body {
+  margin: 0;
+  padding: 1rem;
+}
+// SCSS
+// Masonry layout horizontal
+.masonry-with-columns-2 {
+  display: flex;
+  flex-wrap: wrap;
+  div {
+    height: 150px;
+    line-height: 150px;
+    background: #9B1B30;
+    color: white;
+    margin: 0 1rem 1rem 0;
+    text-align: center;
+    font-weight: 900;
+    font-size: 2rem;
+    flex: 1 0 auto;
+  }
+}
+
+
+.collection-section-title {
+  background: #d32f2f;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding-left: 3rem;
+  padding-top: .5rem;
+  padding-down: .5rem;
+  padding-right: 3rem;
+}
+
+.collection-section-title h2 {
+  color: white;
+  font-size: 24px;
+  font-family: "Comic Sans MS";
+}

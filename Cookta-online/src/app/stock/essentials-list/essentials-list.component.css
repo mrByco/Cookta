@@ -1,0 +1,20 @@
+
+.rounded-panel a {
+  margin-left: 2rem;
+
+}
+.rounded-panel h2 {
+  padding-left: 2rem;
+}
+
+
+.edit-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.edit-ingredient {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

@@ -1,0 +1,7 @@
+<div class="fill" style="height: var(--MainContentSize); overflow: auto">
+  <a *ngFor="let item of Tags" (click)="SelectItem(item)">
+    <div class="tag-icon-panel" [ngClass]="{'tag-icon-panel-selected': GetItemSelected(item)}">
+      <h6>{{item.name}}</h6>
+    </div>
+  </a>
+</div>

@@ -1,0 +1,23 @@
+
+<div class="row collection-section-title">
+  <h2>Saját ételek</h2>
+</div>
+<div class="masonry-with-columns-2" #masonry1>
+  <app-food-item *ngFor="let food of OwnFoods" [Food]="food"></app-food-item>
+</div>
+
+<div class="row collection-section-title">
+  <h2>Családod ételei</h2>
+</div>
+<div class="masonry-with-columns-2" #masonry2>
+  <app-food-item *ngFor="let food of FamilyFoods" [Food]="food"></app-food-item>
+</div>
+
+<div class="row collection-section-title">
+  <h2>Feliratkozások</h2>
+</div>
+<div class="masonry-with-columns-2" #masonry3>
+  <app-food-item *ngFor="let food of SubFoods" [Food]="food"></app-food-item>
+</div>
+
+

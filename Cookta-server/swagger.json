@@ -1,0 +1,2188 @@
+{
+	"basePath": "/",
+	"consumes": [
+		"application/json"
+	],
+	"definitions": {
+		"IIngredient": {
+			"properties": {
+				"ingredientID": {
+					"type": "string"
+				},
+				"unit": {
+					"type": "string"
+				},
+				"value": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"ingredientID",
+				"unit",
+				"value"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"Tag": {
+			"properties": {
+				"guid": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"parentId": {
+					"type": "string"
+				},
+				"ischildonly": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"guid",
+				"name",
+				"parentId",
+				"ischildonly"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"SendableFood": {
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string",
+					"default": "",
+					"x-nullable": true
+				},
+				"desc": {
+					"type": "string",
+					"default": "",
+					"x-nullable": true
+				},
+				"published": {
+					"type": "boolean",
+					"default": false,
+					"x-nullable": true
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"default": [],
+					"x-nullable": true
+				},
+				"imageUploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"uploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double",
+					"default": 4,
+					"x-nullable": true
+				},
+				"lastModified": {
+					"type": "number",
+					"format": "double"
+				},
+				"subscriptions": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"foodId": {
+					"type": "string"
+				},
+				"SubscribedFor": {
+					"type": "boolean"
+				},
+				"OwnFood": {
+					"type": "boolean"
+				},
+				"tags": {
+					"items": {
+						"$ref": "#/definitions/Tag"
+					},
+					"type": "array"
+				},
+				"autoTags": {
+					"items": {
+						"$ref": "#/definitions/Tag"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"owner",
+				"name",
+				"desc",
+				"published",
+				"ingredients",
+				"imageUploaded",
+				"uploaded",
+				"dose",
+				"lastModified",
+				"subscriptions",
+				"id",
+				"foodId",
+				"SubscribedFor",
+				"OwnFood",
+				"tags",
+				"autoTags"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IUpdateFoodRequest": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"desc": {
+					"type": "string"
+				},
+				"isPrivate": {
+					"type": "boolean"
+				},
+				"published": {
+					"type": "boolean"
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double"
+				},
+				"tags": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"foodId": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"name",
+				"desc",
+				"isPrivate",
+				"published",
+				"ingredients",
+				"dose",
+				"tags"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"EUnitType": {
+			"enum": [
+				0,
+				1,
+				2
+			],
+			"type": "integer"
+		},
+		"IUnit": {
+			"properties": {
+				"type": {
+					"$ref": "#/definitions/EUnitType"
+				},
+				"name": {
+					"type": "string"
+				},
+				"shortname": {
+					"type": "string"
+				},
+				"tobase": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"type",
+				"name",
+				"shortname",
+				"tobase",
+				"id"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IIngredientType": {
+			"properties": {
+				"category": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"volumeEnabled": {
+					"type": "boolean"
+				},
+				"countEnabled": {
+					"type": "boolean"
+				},
+				"massEnabled": {
+					"type": "boolean"
+				},
+				"guid": {
+					"type": "string"
+				},
+				"options": {
+					"properties": {
+						"cunits": {
+							"items": {
+								"$ref": "#/definitions/IUnit"
+							},
+							"type": "array"
+						}
+					},
+					"required": [
+						"cunits"
+					],
+					"type": "object"
+				},
+				"arhived": {
+					"type": "boolean",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"category",
+				"name",
+				"volumeEnabled",
+				"countEnabled",
+				"massEnabled",
+				"guid",
+				"options"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ISetIngredientTypeRequest": {
+			"properties": {
+				"category": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"guid": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"volumeEnabled": {
+					"type": "boolean"
+				},
+				"countEnabled": {
+					"type": "boolean"
+				},
+				"massEnabled": {
+					"type": "boolean"
+				},
+				"options": {
+					"properties": {
+						"cunits": {
+							"items": {
+								"$ref": "#/definitions/IUnit"
+							},
+							"type": "array"
+						}
+					},
+					"required": [
+						"cunits"
+					],
+					"type": "object"
+				}
+			},
+			"required": [
+				"category",
+				"name",
+				"volumeEnabled",
+				"countEnabled",
+				"massEnabled",
+				"options"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"SetTagRequest": {
+			"properties": {
+				"guid": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"name": {
+					"type": "string"
+				},
+				"parent": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"name"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ObjectId": {
+			"description": "A class representation of the BSON ObjectId type.",
+			"properties": {
+				"generationTime": {
+					"type": "number",
+					"format": "double",
+					"description": "The generation time of this ObjectId instance"
+				},
+				"cacheHexString": {
+					"type": "boolean",
+					"description": "If true cache the hex string representation of ObjectId",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"generationTime"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IStorageSection": {
+			"properties": {
+				"Id": {
+					"$ref": "#/definitions/ObjectId"
+				},
+				"FamilyId": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"IsDefaultList": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"Id",
+				"FamilyId",
+				"Name",
+				"Items",
+				"IsDefaultList"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IStorageSectionRequest": {
+			"properties": {
+				"Id": {
+					"$ref": "#/definitions/ObjectId",
+					"x-nullable": true
+				},
+				"FamilyId": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"Name": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"IsDefaultList": {
+					"type": "boolean",
+					"x-nullable": true
+				}
+			},
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IStorageItemChangeRequest": {
+			"properties": {
+				"Id": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"Items": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"GeneralList": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"IsDefaultList": {
+					"type": "boolean",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"Id"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"EFamilyRole": {
+			"enum": [
+				0,
+				1,
+				2,
+				3
+			],
+			"type": "integer"
+		},
+		"SendFamilyMember": {
+			"properties": {
+				"sub": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/EFamilyRole"
+				},
+				"username": {
+					"type": "string"
+				},
+				"profilpic": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"sub",
+				"role",
+				"username",
+				"profilpic"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"SendFamily": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"members": {
+					"items": {
+						"$ref": "#/definitions/SendFamilyMember"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"id",
+				"name",
+				"members"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ExtendedUser": {
+			"properties": {
+				"sub": {
+					"type": "string"
+				},
+				"subs": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"username": {
+					"type": "string"
+				},
+				"role": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"logs": {
+					"items": {
+						"properties": {
+							"time": {
+								"type": "number",
+								"format": "double"
+							},
+							"text": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"text",
+							"time"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"profilpic": {
+					"type": "string"
+				},
+				"currentFamilyId": {
+					"type": "string"
+				},
+				"ActiveFamily": {
+					"$ref": "#/definitions/SendFamily"
+				},
+				"Families": {
+					"items": {
+						"$ref": "#/definitions/SendFamily"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"sub",
+				"subs",
+				"username",
+				"role",
+				"email",
+				"logs",
+				"profilpic",
+				"currentFamilyId",
+				"ActiveFamily",
+				"Families"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ISendableFood": {
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"desc": {
+					"type": "string"
+				},
+				"published": {
+					"type": "boolean"
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"imageUploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"uploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double"
+				},
+				"lastModified": {
+					"type": "number",
+					"format": "double"
+				},
+				"subscriptions": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string"
+				},
+				"foodId": {
+					"type": "string"
+				},
+				"SubscribedFor": {
+					"type": "boolean"
+				},
+				"OwnFood": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"owner",
+				"name",
+				"desc",
+				"published",
+				"ingredients",
+				"imageUploaded",
+				"uploaded",
+				"dose",
+				"lastModified",
+				"subscriptions",
+				"id",
+				"foodId",
+				"SubscribedFor",
+				"OwnFood"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IMealing": {
+			"properties": {
+				"type": {
+					"type": "string"
+				},
+				"mealIndex": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"foodId": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"info": {
+					"properties": {
+						"finalFood": {
+							"$ref": "#/definitions/ISendableFood"
+						},
+						"tagId": {
+							"type": "string"
+						}
+					},
+					"type": "object",
+					"x-nullable": true
+				},
+				"dose": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"type",
+				"mealIndex"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"Day": {
+			"properties": {
+				"date": {
+					"type": "string"
+				},
+				"mealings": {
+					"items": {
+						"$ref": "#/definitions/IMealing"
+					},
+					"type": "array"
+				},
+				"familyId": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"date",
+				"mealings",
+				"familyId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"Food": {
+			"properties": {
+				"CollectionName": {
+					"type": "string",
+					"enum": [
+						"Foods"
+					],
+					"default": "Foods",
+					"x-nullable": true
+				},
+				"owner": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string",
+					"default": "",
+					"x-nullable": true
+				},
+				"desc": {
+					"type": "string",
+					"default": "",
+					"x-nullable": true
+				},
+				"isPrivate": {
+					"type": "boolean",
+					"default": true,
+					"x-nullable": true
+				},
+				"published": {
+					"type": "boolean",
+					"default": false,
+					"x-nullable": true
+				},
+				"ingredients": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array",
+					"default": [],
+					"x-nullable": true
+				},
+				"imageUploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"uploaded": {
+					"type": "number",
+					"format": "double"
+				},
+				"dose": {
+					"type": "number",
+					"format": "double",
+					"default": 4,
+					"x-nullable": true
+				},
+				"tags": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array",
+					"default": [],
+					"x-nullable": true
+				},
+				"lastModified": {
+					"type": "number",
+					"format": "double"
+				},
+				"generated": {
+					"additionalProperties": true,
+					"type": "object",
+					"default": {},
+					"x-nullable": true
+				},
+				"subscriptions": {
+					"type": "number",
+					"format": "double"
+				},
+				"id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"foodId": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"owner",
+				"imageUploaded",
+				"uploaded",
+				"lastModified",
+				"subscriptions",
+				"foodId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"InviteFamilyRequest": {
+			"properties": {
+				"invitedUsername": {
+					"type": "string"
+				},
+				"invitedEmail": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"invitedUsername",
+				"invitedEmail"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IShoppingList": {
+			"properties": {
+				"IngredientsToBuy": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"IngredientsCompleted": {
+					"items": {
+						"$ref": "#/definitions/IIngredient"
+					},
+					"type": "array"
+				},
+				"FamilyId": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"IngredientsToBuy",
+				"IngredientsCompleted",
+				"FamilyId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		}
+	},
+	"info": {
+		"title": "cookta-server",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		}
+	},
+	"paths": {
+		"/food": {
+			"get": {
+				"operationId": "GetPublicFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"noauth"
+						]
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "AddOrUpdateFood",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendableFood"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "updateFoodRequest",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IUpdateFoodRequest"
+						}
+					}
+				]
+			}
+		},
+		"/food/collection": {
+			"get": {
+				"operationId": "GetCollectionFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/food/own": {
+			"get": {
+				"operationId": "GetOwnFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/food/family": {
+			"get": {
+				"operationId": "GetFamilyFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/food/subscription": {
+			"get": {
+				"operationId": "GetSubscriptionFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/food/{id}": {
+			"get": {
+				"operationId": "GetFoodById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendableFood"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"noauth"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/food/{from}/{count}": {
+			"get": {
+				"operationId": "GetPublicFoodsIncremental",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/SendableFood"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "from",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					},
+					{
+						"in": "path",
+						"name": "count",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/food/{foodId}": {
+			"delete": {
+				"operationId": "DeleteFood",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendableFood"
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "foodId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/food/image/{foodVersionId}": {
+			"post": {
+				"operationId": "UploadImage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "foodVersionId",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "formData",
+						"name": "image",
+						"required": true,
+						"type": "file"
+					}
+				],
+				"consumes": [
+					"multipart/from-data"
+				]
+			},
+			"delete": {
+				"operationId": "DeleteImage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "foodVersionId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/ingredientType": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IIngredientType"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "SetIngredient",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"all": {
+									"items": {
+										"$ref": "#/definitions/IIngredientType"
+									},
+									"type": "array"
+								},
+								"created": {
+									"$ref": "#/definitions/IIngredientType"
+								}
+							},
+							"required": [
+								"created",
+								"all"
+							],
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"edit-ingredients"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "request",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ISetIngredientTypeRequest"
+						}
+					}
+				]
+			}
+		},
+		"/ingredientType/{guid}": {
+			"delete": {
+				"operationId": "DeleteIngredient",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IIngredientType"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"delete-ingredients"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "guid",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/unit": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IUnit"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Unit"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/Baselist": {
+			"get": {
+				"operationId": "GetCurrentBaseList",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IIngredient"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Essentials"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "SetBaseList",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IIngredient"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Essentials"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IIngredient"
+							},
+							"type": "array"
+						}
+					}
+				]
+			}
+		},
+		"/tag": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Tag"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Tag"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "SetTag",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Tag"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Tag"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "request",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/SetTagRequest"
+						}
+					}
+				]
+			}
+		},
+		"/tag/{id}": {
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Tag"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Tag"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/stock": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"additionalProperties": true,
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateSection",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IStorageSection"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "EditSection",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IStorageSectionRequest"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "changeRequest",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IStorageItemChangeRequest"
+						}
+					}
+				]
+			}
+		},
+		"/stock/{sectionIdString}": {
+			"delete": {
+				"operationId": "DeleteSection",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IStorageSection"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Stock"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "sectionIdString",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/user": {
+			"get": {
+				"operationId": "User",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ExtendedUser"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/user/{name}": {
+			"put": {
+				"operationId": "SetUserName",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ExtendedUser"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/user/permission/{permission}": {
+			"get": {
+				"operationId": "HasPermission",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "permission",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/day/{date}": {
+			"get": {
+				"operationId": "GetDay",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "SetDay",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "mealings",
+						"required": true,
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IMealing"
+							},
+							"type": "array"
+						}
+					}
+				]
+			}
+		},
+		"/day/{date}/{mealingIdentity}": {
+			"get": {
+				"operationId": "RefreshDay",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "path",
+						"name": "mealingIdentity",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/day/finalize/{date}/{mealingIdentity}": {
+			"get": {
+				"operationId": "FinalizeMealing",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Day"
+						}
+					}
+				},
+				"tags": [
+					"Days"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "path",
+						"name": "mealingIdentity",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/subscription": {
+			"get": {
+				"operationId": "GetSubscribedFoods",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Food"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Subscription"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "SetSubscriptionState",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Subscription"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"type": "object"
+					}
+				]
+			}
+		},
+		"/family/{familyId}": {
+			"get": {
+				"operationId": "GetFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "familyId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{newId}": {
+			"put": {
+				"operationId": "SwitchFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "newId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{deleteId}": {
+			"delete": {
+				"operationId": "DeleteFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "deleteId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{name}": {
+			"post": {
+				"operationId": "CreateFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{familyId}/invite": {
+			"put": {
+				"operationId": "InviteByUserNameEmail",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "inv",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/InviteFamilyRequest"
+						}
+					},
+					{
+						"in": "path",
+						"name": "familyId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/family/{familyId}/leave/{removeUserSub}": {
+			"delete": {
+				"operationId": "LeaveFamily",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/SendFamily"
+						}
+					}
+				},
+				"tags": [
+					"Family"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "familyId",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "path",
+						"name": "removeUserSub",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/ping": {
+			"get": {
+				"operationId": "Ping",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "string"
+						}
+					}
+				},
+				"tags": [
+					"Ping"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/ShoppingList/{nextShopping}": {
+			"get": {
+				"operationId": "GetShoppingList",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IShoppingList"
+						}
+					}
+				},
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nextShopping",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		}
+	},
+	"produces": [
+		"application/json"
+	],
+	"swagger": "2.0",
+	"securityDefinitions": {
+		"Bearer": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header"
+		}
+	}
+}

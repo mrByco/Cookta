@@ -1,0 +1,38 @@
+<div class="highlight" style="width: 300px;">
+  <!-- Card -->
+  <div class="card" >
+
+    <div mdbDropdown style="position: absolute; right: 10px; top: 10px" *ngIf="identityService.LastKnownUserInfo">
+      <a mdbDropdownToggle class="more-options-icon-frame" *ngIf="identityService.LastKnownUserInfo['sub'] == Food.owner">
+        <img src="assets/more-options-button.png">
+      </a>
+      <div class="dropdown-menu dropdown-primary">
+        <button class="dropdown-item highlightBackground" [routerLink]="'/foods/' + Food.foodId">Megtekintés</button>
+        <button class="dropdown-item highlightBackground" [routerLink]="'/foods/' + Food.foodId + '/edit'">Szerkesztés</button>
+<!--        <button class="dropdown-item highlightBackground">Eltávolítás</button>-->
+      </div>
+    </div>
+
+
+
+
+    <a (click)="OnCardClick()">
+
+      <!-- Card image -->
+      <img class="card-img-top" [src]="Food.ImageUrl"  alt="Card image cap">
+
+
+      <!-- Card content -->
+      <div class="card-body">
+
+        <!-- Title -->
+        <h4 class="card-title"><a>{{Food.name}}</a></h4>
+        <!-- Text -->
+        <!--      <p class="card-text"></p>-->
+
+      </div>
+    </a>
+
+  </div>
+  <!-- Card -->
+</div>

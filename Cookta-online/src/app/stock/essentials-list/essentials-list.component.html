@@ -1,0 +1,36 @@
+<p>essentials-list works!</p>
+<div class="rounded-panel" style="position: relative">
+  <h2>Alaplista tartalma:</h2>
+  <a (click)="ToggleEdit()" class="icon edit-icon">
+    <mdb-icon size="fa-1x" *ngIf="!Editing" far icon="edit"></mdb-icon>
+    <mdb-icon size="fa-1x" *ngIf="Editing" fas icon="edit"></mdb-icon>
+  </a>
+  <hr>
+  <a [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}" class="row rounded-panel-item"
+     style="position: relative; font-weight: normal; padding: 5px; font-size: 20px"
+     *ngFor="let item of displays; let i = index">
+    <span *ngIf="!Editing" class="row" style="margin-left: 1rem">
+      <label > {{item.ValueName}}</label>
+      <label style="margin: 0rem .3rem">{{item.UnitName}}</label>
+      <label > {{item.TypeName}}</label>
+    </span>
+    <span *ngIf="Editing" class="row" style="margin-left: 1rem">
+      <input style="width: 4rem" [(ngModel)]="essentialsService.Essentials[i].value">
+      <label style="margin: 0 .3rem">{{item.UnitName}}</label>
+      <label > {{item.TypeName}}</label>
+    </span>
+
+
+    <mdb-icon *ngIf="Editing" (click)="DeleteEssential(i)" class="icon edit-ingredient" far icon="trash-alt"></mdb-icon>
+  </a>
+  <p *ngIf="this.displays.length < 1"
+     style="font-style: italic; padding-left: 2rem">Alaplistád elemei itt fognak megjelenni.</p>
+
+  <div *ngIf="Editing">
+    <hr>
+    <div style="padding-left: 1rem">
+      <app-ingredient-adder (OnIngredientAdded)="AddIngredientToEssentials($event)"></app-ingredient-adder>
+    </div>
+  </div>
+</div>
+

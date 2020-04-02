@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/9fd6c1a9-9825-4d62-a68c-0907996e5a5c/resourceGroups/Base/providers/Microsoft.Web/sites/cooktaservices",
+    "appService.deploySubpath": ""
+}
