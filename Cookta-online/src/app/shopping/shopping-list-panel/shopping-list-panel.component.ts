@@ -30,7 +30,7 @@ export class ShoppingListPanelComponent implements OnInit {
 
     if (existingSameType){
       let completeExisting: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(existingSameType, this.unitService, this.ingredientService);
-      let completeIng: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(existingSameType, this.unitService, this.ingredientService);
+      let completeIng: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(ing, this.unitService, this.ingredientService);
       let completeAdded = IngredientHelper.Add(completeExisting, completeIng);
 
       this.storageSection.Items[this.storageSection.Items.indexOf(existingSameType)] =
