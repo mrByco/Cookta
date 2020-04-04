@@ -16,7 +16,7 @@ export class MealingService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.Menu.GetDay.replace('{date}', date));
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });
@@ -27,7 +27,7 @@ export class MealingService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.PutRequest(Routes.Menu.SetDay.replace('{date}', date), meals);
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });
@@ -38,7 +38,7 @@ export class MealingService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.Menu.RefreshDay.replace('{date}', date).replace('{mealingIdentity}', mealIndex.toString()));
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });
@@ -48,7 +48,7 @@ export class MealingService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.Menu.FinalizeDay.replace('{date}', date).replace('{mealingIdentity}', mealIndex.toString()));
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });

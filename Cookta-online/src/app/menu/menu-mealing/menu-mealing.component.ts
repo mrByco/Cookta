@@ -8,6 +8,8 @@ import {MenuDayComponent} from '../menu-day/menu-day.component';
 import {Food} from '../../shared/models/grocery/food.model';
 import {Tag} from '../../shared/models/grocery/tag.model';
 import {TagService} from '../../shared/services/tag.service';
+import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-menu-mealing',
@@ -26,7 +28,7 @@ export class MenuMealingComponent implements OnInit {
     this.Day = day;
     let meals = this.Day.GetMealsOfMealing(this.MealType);
     let newDisplayMeals = [];
-    let knownFoods = this.displayMeals.map(m => m.Food);
+    let knownFoods = this.displayMeals.map(m => m.ObjFood);
     for (let meal of meals) {
       newDisplayMeals.push(new DisplayMeal(this.foodService, meal, knownFoods));
     }
@@ -34,9 +36,12 @@ export class MenuMealingComponent implements OnInit {
   }
 
   public displayMeals: DisplayMeal[] = [];
+  DoseEdit: {displayMeal: DisplayMeal, dose: number } = {displayMeal: undefined, dose: undefined}
+  doseForm;
 
 
-  constructor(public foodService: FoodService, public tagService: TagService) {
+  constructor(public foodService: FoodService, private formBuilder: FormBuilder) {
+    this.doseForm = this.formBuilder.group({dose: undefined});
   }
 
   ngOnInit() {
@@ -90,5 +95,25 @@ export class MenuMealingComponent implements OnInit {
       this.MenuDayComponent.CurrentDay = d;
       this.MenuDayComponent.OnDayChanged.emit(d);
     });
+  }
+
+
+  EditDoseFor(meal: DisplayMeal) {
+    if (this.DoseEdit.displayMeal == meal)
+      this.DoseEdit.displayMeal = undefined;
+    else {
+      this.DoseEdit.displayMeal = meal;
+      this.DoseEdit.dose = meal.sourceMeal.dose;
+    }
+  }
+
+  GetFoodUrl(ObjFood: ISendableFood): string {
+    return Food.GetImageForFood(ObjFood);
+  }
+
+  SetMealDose(data: Event, meal: DisplayMeal) {
+    meal.sourceMeal.dose = data['dose'];
+    this.DoseEdit.displayMeal = undefined;
+    this.MenuDayComponent.SaveDay();
   }
 }

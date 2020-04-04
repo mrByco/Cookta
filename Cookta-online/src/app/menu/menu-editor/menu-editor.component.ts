@@ -5,25 +5,26 @@ import {FoodService} from '../../shared/services/food.service';
 import {Day} from '../../shared/models/menu/day.model';
 import {IMeal} from '../../shared/models/menu/mealing.interface';
 import {EMealType} from '../../shared/models/menu/mealtype.enum';
+import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
 
 export class DisplayMeal {
-  public Food: Food = FoodService.Placeholder;
+  public ObjFood: ISendableFood = FoodService.Placeholder;
   public Refreshing: boolean = false;
 
   constructor(public foodService: FoodService,
               public sourceMeal: IMeal,
-              knownFoods?: Food[]) {
+              knownFoods?: ISendableFood[]) {
     if (!sourceMeal.foodId) {
-      this.Food = null;
+      this.ObjFood = null;
       return;
     }
     let foodId = sourceMeal.foodId;
     if (sourceMeal.type == 'final') {
-      this.Food = Food.FromJson(sourceMeal.info.finalFood);
+      this.ObjFood = sourceMeal.info.finalFood as ISendableFood;
     } else if (knownFoods && knownFoods.find(f => f.foodId == foodId)) {
-      this.Food = knownFoods.find(f => f.foodId == foodId);
+      this.ObjFood = knownFoods.find(f => f.foodId == foodId);
     } else {
-      foodService.GetFood(foodId).then(f => this.Food = f ? f : FoodService.NoReferenceError);
+      foodService.GetFood(foodId).then(f => this.ObjFood = f ? f : FoodService.NoReferenceError);
     }
   }
 }
@@ -56,7 +57,7 @@ export class MenuEditorComponent implements OnInit {
 
   public Selected: any;
 
-  public day: Day = new Day('2001-01-01', [], null);
+  public day: Day = new Day('2001-01-01', []);
   public currentDate: string = '2001-02-01';
 
   public mealings: { container: CdkDropList, mealing: DisplayMealing }[];

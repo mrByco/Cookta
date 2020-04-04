@@ -1,11 +1,11 @@
-import { IIngredient } from './ingredient.interface';
-import {Tag} from "./tag.model";
+import {IIngredient} from './ingredient.interface';
+import {Tag} from './tag.model';
+import {ISendableFood} from './food.isendable.interface';
 
-export class Food {
+export class Food implements ISendableFood{
 
-  public get ImageUrl(): string{
-    if (!this.imageUploaded) { return 'https://kuktaimages.blob.core.windows.net/application/dish.png'; }
-    return `https://kuktaimages.blob.core.windows.net/foodimages/${this.id}.jpg`;
+  public get ImageUrl(): string {
+    return Food.GetImageForFood(this);
   }
 
   constructor(
@@ -17,7 +17,7 @@ export class Food {
     public ingredients: IIngredient[] = [],
     public imageUploaded: number,
     public uploaded: number,
-    public dose: number = 4,
+    public dose: number,
     public lastModified: number,
     public subscriptions: number,
     public id: string,
@@ -26,11 +26,11 @@ export class Food {
     public autoTags: Tag[],
     public SubscribedFor: boolean,
     public OwnFood: boolean
-  ) {}
+  ) {
+  }
 
 
-  public static FromJson(data: any): Food
-  {
+  public static FromJson(data: any): Food {
     return new Food(
       data['owner'],
       data['name'],
@@ -49,10 +49,10 @@ export class Food {
       data['autoTags'],
       data['SubscribedFor'],
       data['OwnFood']
-    )
+    );
   }
-  public ToJson()
-  {
+
+  public ToJson() {
     return {
       owner: this.owner,
       name: this.name,
@@ -67,6 +67,32 @@ export class Food {
       tags: this.tags,
       autoTags: this.autoTags
 
+    };
+  }
+
+  public ToISendable(): ISendableFood {
+    return {
+      owner: this.owner,
+      name: this.name,
+      desc: this.desc,
+      published: this.published,
+      ingredients: this.ingredients,
+      imageUploaded: this.imageUploaded,
+      uploaded: this.uploaded,
+      dose: this.dose,
+      lastModified: this.lastModified,
+      subscriptions: this.subscriptions,
+      id: this.id,
+      foodId: this.foodId,
+      SubscribedFor: this.SubscribedFor,
+      OwnFood: this.OwnFood
+    };
+  }
+
+  public static GetImageForFood(food: ISendableFood): string {
+    if (!food || !food.imageUploaded) {
+      return 'https://kuktaimages.blob.core.windows.net/application/dish.png';
     }
+    return `https://kuktaimages.blob.core.windows.net/foodimages/${food.id}.jpg`;
   }
 }
