@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c155aff1-8dc5-46bb-8101-3122cf69b8ce" name="Default Changelist" comment="Test commit">
-      <change beforePath="$PROJECT_DIR$/../Cookta-online/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-day/menu-day.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-editor/menu-editor.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/menu/menu-mealing/menu-mealing.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/day.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/day.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/mealing.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/models/menu/mealing.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/mealing.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Cookta-online/src/app/shared/services/mealing.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +61,7 @@
     <property name="recentsLimit" value="0" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-    <property name="ts.external.directory.path" value="D:\Development\Repos\Cookta\Cookta-server\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Users\Lenovo\Documents\Cookta\Cookta-server\node_modules\typescript\lib" />
     <property name="ts.rename.search.for.js.occurrences" value="false" />
   </component>
   <component name="RecentsManager">
@@ -211,6 +216,7 @@
       <workItem from="1585635779227" duration="1207000" />
       <workItem from="1585649266816" duration="239000" />
       <workItem from="1585659097199" duration="5624000" />
+      <workItem from="1585985683517" duration="331000" />
     </task>
     <task id="LOCAL-00001" summary="Added mongo connection string">
       <created>1572274977423</created>
@@ -568,12 +574,12 @@
     <state x="488" y="248" key="run.anything.popup/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1581879532319" />
     <state x="347" y="176" key="run.anything.popup/0.0.1366.738@0.0.1366.738" timestamp="1579699770480" />
     <state x="407" y="205" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1585487603232" />
-    <state x="486" y="83" width="946" height="957" key="search.everywhere.popup" timestamp="1585674658596">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="405" y="69" width="788" height="791" key="search.everywhere.popup" timestamp="1585985694427">
+      <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="486" y="83" width="946" height="957" key="search.everywhere.popup/-1440.0.1440.860/0.0.1920.1040@0.0.1920.1040" timestamp="1585674658596" />
     <state x="346" y="59" width="672" height="678" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1581327297093" />
-    <state x="405" y="69" width="788" height="791" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1585504858083" />
+    <state x="405" y="69" width="788" height="791" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1585985694427" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -595,7 +601,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Cookta_server$Shopping_list_service_Tests.dat" NAME="Shopping list service Tests Coverage Results" MODIFIED="1585342241152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="MochaJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Cookta_server$Shopping_list_service_Tests__1_.dat" NAME="Shopping list service Tests (1) Coverage Results" MODIFIED="1585341860367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="MochaJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Cookta_server$Shopping_list_service_Tests.dat" NAME="Shopping list service Tests Coverage Results" MODIFIED="1585342241152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="MochaJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

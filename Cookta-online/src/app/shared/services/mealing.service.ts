@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Day} from '../models/menu/day.model';
 import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
-import {Meal} from "../models/menu/mealing.interface";
+import {IMeal} from "../models/menu/mealing.interface";
 
 @Injectable()
 export class MealingService {
@@ -23,7 +23,7 @@ export class MealingService {
     })
   }
 
-  public async SetDay(date: string, meals: Meal[]): Promise<Day> {
+  public async SetDay(date: string, meals: IMeal[]): Promise<Day> {
     return new Promise(async (resolve) => {
       let response = await this.serverService.PutRequest(Routes.Menu.SetDay.replace('{date}', date), meals);
       response.subscribe(data => {

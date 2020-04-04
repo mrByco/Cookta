@@ -3,24 +3,13 @@ import {Food} from '../grocery/food.model';
 import {FoodService} from '../../services/food.service';
 import {Injectable} from '@angular/core';
 
-export class Meal {
-  constructor(
-    public type: string,
-    public mealIndex: EMealType,
-    public id: string,
-    public foodId: string,
-    public info?: any) {
-  }
+export interface IMeal {
+  type: string;
+  mealIndex: EMealType;
+  id: string;
+  foodId: string;
+  dose: number;
+  info?: any;
 
-  public static GetMealFoodId(meal: Meal): string {
-    switch (meal.type) {
-      case "food":
-        return meal.foodId;
-      case "tag":
-        return meal.foodId;
-      case "fixed":
-        break;
-    }
-  }
 }
 

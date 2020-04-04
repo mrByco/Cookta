@@ -3,20 +3,20 @@ import {CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@ang
 import {Food} from '../../shared/models/grocery/food.model';
 import {FoodService} from '../../shared/services/food.service';
 import {Day} from '../../shared/models/menu/day.model';
-import {Meal} from '../../shared/models/menu/mealing.interface';
+import {IMeal} from '../../shared/models/menu/mealing.interface';
 import {EMealType} from '../../shared/models/menu/mealtype.enum';
 
-export class DisplayMeal extends Meal {
+export class DisplayMeal extends IMeal {
   public Food: Food = FoodService.Placeholder;
   public Refreshing: boolean = false;
 
-  constructor(public foodService: FoodService, public sourceMeal: Meal, knownFoods?: Food[]) {
+  constructor(public foodService: FoodService, public sourceMeal: IMeal, knownFoods?: Food[]) {
     super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);
     if (!sourceMeal.foodId){
       this.Food = null;
       return;
     }
-    let foodId = Meal.GetMealFoodId(this);
+    let foodId = IMeal.GetMealFoodId(this);
     if (sourceMeal.type == 'final'){
       this.Food = Food.FromJson(sourceMeal.info.finalFood);
       return;
@@ -42,7 +42,7 @@ export class DisplayMealing {
       this.Meals.push(new DisplayMeal(foodService, meal));
     }
   }
-  public ToMeals(): Meal[] {
+  public ToMeals(): IMeal[] {
     //TODO Placeholder
     return [];
   }

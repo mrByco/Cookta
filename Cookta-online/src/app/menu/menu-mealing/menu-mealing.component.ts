@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EMealType} from "../../shared/models/menu/mealtype.enum";
 import {Day} from "../../shared/models/menu/day.model";
 import {DisplayMeal, DisplayMealing} from "../menu-editor/menu-editor.component";
-import {Meal} from "../../shared/models/menu/mealing.interface";
+import {IMeal} from "../../shared/models/menu/mealing.interface";
 import {FoodService} from "../../shared/services/food.service";
 import {MenuDayComponent} from "../menu-day/menu-day.component";
 import {Food} from "../../shared/models/grocery/food.model";
@@ -20,7 +20,7 @@ export class MenuMealingComponent implements OnInit {
   @Input() MealType: EMealType = 0;
   @Input() Day: Day = Day.PlaceHolder;
   @Input() MenuDayComponent: MenuDayComponent = null;
-  @Output() AddMealToDay: EventEmitter<Meal> = new EventEmitter<Meal>();
+  @Output() AddMealToDay: EventEmitter<IMeal> = new EventEmitter<IMeal>();
 
   public async setDay(day: Day): Promise<void>{
     this.Day = day;
@@ -51,11 +51,11 @@ export class MenuMealingComponent implements OnInit {
     let mealToAdd;
       if (this.MenuDayComponent.SelectedItem instanceof Food)
     {
-      mealToAdd = new Meal( 'food', this.MealType, undefined, this.MenuDayComponent.SelectedItem.foodId, {});
+      mealToAdd = new IMeal( 'food', this.MealType, undefined, this.MenuDayComponent.SelectedItem.foodId, {});
     }
     else if (this.MenuDayComponent.SelectedItem instanceof Tag)
     {
-      mealToAdd = new Meal('tag', this.MealType, undefined, undefined, {tagId: this.MenuDayComponent.SelectedItem.guid})
+      mealToAdd = new IMeal('tag', this.MealType, undefined, undefined, {tagId: this.MenuDayComponent.SelectedItem.guid})
     }
     this.AddMealToDay.emit(mealToAdd);
   }
