@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 import {Day} from '../../shared/models/menu/day.model';
 import {DatePipe} from '@angular/common';
 import {MealingService} from "../../shared/services/mealing.service";
-import {Meal} from "../../shared/models/menu/mealing.interface";
+import {IMeal} from "../../shared/models/menu/mealing.interface";
 import {MenuEditorComponent} from "../menu-editor/menu-editor.component";
 import {FamilyService} from '../../shared/services/family.service';
 
@@ -54,7 +54,7 @@ export class MenuDayComponent implements OnInit {
   constructor(public mealingService: MealingService, familyService: FamilyService) {
   }
 
-  public AddItemToDay(meal: Meal) {
+  public AddItemToDay(meal: IMeal) {
     this.MenuEditorComponent.SelectItem(null);
     this.CurrentDay.mealings.push(meal);
     this.SaveDay();

@@ -1,13 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {EMealType} from "../../shared/models/menu/mealtype.enum";
-import {Day} from "../../shared/models/menu/day.model";
-import {DisplayMeal, DisplayMealing} from "../menu-editor/menu-editor.component";
-import {Meal} from "../../shared/models/menu/mealing.interface";
-import {FoodService} from "../../shared/services/food.service";
-import {MenuDayComponent} from "../menu-day/menu-day.component";
-import {Food} from "../../shared/models/grocery/food.model";
-import {Tag} from "../../shared/models/grocery/tag.model";
-import {TagService} from "../../shared/services/tag.service";
+import {EMealType} from '../../shared/models/menu/mealtype.enum';
+import {Day} from '../../shared/models/menu/day.model';
+import {DisplayMeal, DisplayMealing} from '../menu-editor/menu-editor.component';
+import {IMeal} from '../../shared/models/menu/mealing.interface';
+import {FoodService} from '../../shared/services/food.service';
+import {MenuDayComponent} from '../menu-day/menu-day.component';
+import {Food} from '../../shared/models/grocery/food.model';
+import {Tag} from '../../shared/models/grocery/tag.model';
+import {TagService} from '../../shared/services/tag.service';
+import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-menu-mealing',
@@ -16,28 +18,31 @@ import {TagService} from "../../shared/services/tag.service";
 })
 export class MenuMealingComponent implements OnInit {
 
-  @Input() MealName: string = "MEALNAME";
+  @Input() MealName: string = 'MEALNAME';
   @Input() MealType: EMealType = 0;
   @Input() Day: Day = Day.PlaceHolder;
   @Input() MenuDayComponent: MenuDayComponent = null;
-  @Output() AddMealToDay: EventEmitter<Meal> = new EventEmitter<Meal>();
+  @Output() AddMealToDay: EventEmitter<IMeal> = new EventEmitter<IMeal>();
 
-  public async setDay(day: Day): Promise<void>{
+  public async setDay(day: Day): Promise<void> {
     this.Day = day;
     let meals = this.Day.GetMealsOfMealing(this.MealType);
     let newDisplayMeals = [];
-    let knownFoods = this.displayMeals.map(m => m.Food);
-    for (let meal of meals){
+    let knownFoods = this.displayMeals.map(m => m.ObjFood);
+    for (let meal of meals) {
       newDisplayMeals.push(new DisplayMeal(this.foodService, meal, knownFoods));
     }
     this.displayMeals = newDisplayMeals;
   }
 
   public displayMeals: DisplayMeal[] = [];
+  DoseEdit: {displayMeal: DisplayMeal, dose: number } = {displayMeal: undefined, dose: undefined}
+  doseForm;
 
 
-
-  constructor(public foodService: FoodService, public tagService: TagService) { }
+  constructor(public foodService: FoodService, private formBuilder: FormBuilder) {
+    this.doseForm = this.formBuilder.group({dose: undefined});
+  }
 
   ngOnInit() {
     this.MenuDayComponent.OnDayChanged.subscribe(i => this.setDay(i));
@@ -48,14 +53,23 @@ export class MenuMealingComponent implements OnInit {
       return null;
     }
 
-    let mealToAdd;
-      if (this.MenuDayComponent.SelectedItem instanceof Food)
-    {
-      mealToAdd = new Meal( 'food', this.MealType, undefined, this.MenuDayComponent.SelectedItem.foodId, {});
-    }
-    else if (this.MenuDayComponent.SelectedItem instanceof Tag)
-    {
-      mealToAdd = new Meal('tag', this.MealType, undefined, undefined, {tagId: this.MenuDayComponent.SelectedItem.guid})
+    let mealToAdd: IMeal;
+    if (this.MenuDayComponent.SelectedItem instanceof Food) {
+      mealToAdd = {
+        dose: 4,
+        foodId: this.MenuDayComponent.SelectedItem.foodId,
+        id: undefined, mealIndex: this.MealType,
+        type: 'food',
+        info: {}
+      };
+    } else if (this.MenuDayComponent.SelectedItem instanceof Tag) {
+      mealToAdd = {
+        dose: 4,
+        foodId: undefined,
+        id: undefined, mealIndex: this.MealType,
+        type: 'tag',
+        info: {tagId: this.MenuDayComponent.SelectedItem.guid}
+      };
     }
     this.AddMealToDay.emit(mealToAdd);
   }
@@ -69,11 +83,37 @@ export class MenuMealingComponent implements OnInit {
   RefreshMeal(meal: DisplayMeal) {
     meal.Refreshing = true;
     this.MenuDayComponent.mealingService.RefreshMealing(this.MenuDayComponent.CurrentDay.date,
-      this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {this.MenuDayComponent.CurrentDay = d; this.MenuDayComponent.OnDayChanged.emit(d)});
+      this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {
+      this.MenuDayComponent.CurrentDay = d;
+      this.MenuDayComponent.OnDayChanged.emit(d);
+    });
   }
 
   FinalizeMeal(meal: DisplayMeal) {
     this.MenuDayComponent.mealingService.FinalizeMealing(this.MenuDayComponent.CurrentDay.date,
-      this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {this.MenuDayComponent.CurrentDay = d; this.MenuDayComponent.OnDayChanged.emit(d)});
+      this.MenuDayComponent.CurrentDay.mealings.findIndex(m => meal.sourceMeal == m)).then(d => {
+      this.MenuDayComponent.CurrentDay = d;
+      this.MenuDayComponent.OnDayChanged.emit(d);
+    });
+  }
+
+
+  EditDoseFor(meal: DisplayMeal) {
+    if (this.DoseEdit.displayMeal == meal)
+      this.DoseEdit.displayMeal = undefined;
+    else {
+      this.DoseEdit.displayMeal = meal;
+      this.DoseEdit.dose = meal.sourceMeal.dose;
+    }
+  }
+
+  GetFoodUrl(ObjFood: ISendableFood): string {
+    return Food.GetImageForFood(ObjFood);
+  }
+
+  SetMealDose(data: Event, meal: DisplayMeal) {
+    meal.sourceMeal.dose = data['dose'];
+    this.DoseEdit.displayMeal = undefined;
+    this.MenuDayComponent.SaveDay();
   }
 }
