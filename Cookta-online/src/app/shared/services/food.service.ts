@@ -1,6 +1,4 @@
 import {Injectable} from "@angular/core";
-import {IdentityService} from "./identity.service";
-import {HttpClient} from "@angular/common/http";
 import {ServerService} from "./server.service";
 import {Routes} from "../routes";
 import {Food} from "../models/grocery/food.model";
@@ -15,9 +13,7 @@ export class FoodService {
 
 
   constructor(
-    private serverService: ServerService,
-    private identityService: IdentityService,
-    private http: HttpClient) {
+    private serverService: ServerService) {
 
   }
 
