@@ -22,10 +22,10 @@ export class DayController extends Controller {
 
     @Security('Bearer', [])
     @Put('/{date}')
-    public async SetDay(@Request() request, date: string, @Body() mealings: IMealing[]): Promise<Day> {
+    public async SetDay(@Request() request, date: string, @Body() mealings: any[]): Promise<Day> {
         //try {
             let user = request.user as User;
-            for (let mealing of mealings){
+            for (let mealing of mealings as IMealing[]){
                 if (!mealing.id){
                     mealing.id = new ObjectID().toHexString();
                 }

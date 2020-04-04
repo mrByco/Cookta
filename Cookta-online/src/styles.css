@@ -73,6 +73,13 @@ body{
   padding-bottom: 10px;
 }
 
+.small-number-field {
+  background: rgba(255, 255, 255, .2);
+  margin: 0 .5rem .5rem;
+  width: 3.3rem;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
 
 .odd {
 }

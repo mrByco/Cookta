@@ -986,7 +986,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
                 request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
                 date: { "in": "path", "name": "date", "required": true, "dataType": "string" },
-                mealings: { "in": "body", "name": "mealings", "required": true, "dataType": "array", "array": { "ref": "IMealing" } },
+                mealings: { "in": "body", "name": "mealings", "required": true, "dataType": "array", "array": { "dataType": "any" } },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

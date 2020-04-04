@@ -73,4 +73,8 @@ export class Day {
             familyId: this.familyId,
         }
     }
+
+    public ToSendDay(){
+
+    }
 }

@@ -3,29 +3,28 @@ import {CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@ang
 import {Food} from '../../shared/models/grocery/food.model';
 import {FoodService} from '../../shared/services/food.service';
 import {Day} from '../../shared/models/menu/day.model';
-import {Meal} from '../../shared/models/menu/mealing.interface';
+import {IMeal} from '../../shared/models/menu/mealing.interface';
 import {EMealType} from '../../shared/models/menu/mealtype.enum';
+import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
 
-export class DisplayMeal extends Meal {
-  public Food: Food = FoodService.Placeholder;
+export class DisplayMeal {
+  public ObjFood: ISendableFood = FoodService.Placeholder;
   public Refreshing: boolean = false;
 
-  constructor(public foodService: FoodService, public sourceMeal: Meal, knownFoods?: Food[]) {
-    super(sourceMeal.type, sourceMeal.mealIndex, sourceMeal.id, sourceMeal.foodId, sourceMeal.info);
-    if (!sourceMeal.foodId){
-      this.Food = null;
+  constructor(public foodService: FoodService,
+              public sourceMeal: IMeal,
+              knownFoods?: ISendableFood[]) {
+    if (!sourceMeal.foodId) {
+      this.ObjFood = null;
       return;
     }
-    let foodId = Meal.GetMealFoodId(this);
-    if (sourceMeal.type == 'final'){
-      this.Food = Food.FromJson(sourceMeal.info.finalFood);
-      return;
-    }
-
-    if (knownFoods && knownFoods.find(f => f.foodId == foodId)){
-      this.Food = knownFoods.find(f => f.foodId == foodId);
+    let foodId = sourceMeal.foodId;
+    if (sourceMeal.type == 'final') {
+      this.ObjFood = sourceMeal.info.finalFood as ISendableFood;
+    } else if (knownFoods && knownFoods.find(f => f.foodId == foodId)) {
+      this.ObjFood = knownFoods.find(f => f.foodId == foodId);
     } else {
-      foodService.GetFood(foodId).then(f => this.Food = f ? f : FoodService.NoReferenceError);
+      foodService.GetFood(foodId).then(f => this.ObjFood = f ? f : FoodService.NoReferenceError);
     }
   }
 }
@@ -38,11 +37,12 @@ export class DisplayMealing {
 
   constructor(time: EMealType, day: Day, foodService: FoodService) {
     let filtered = day.GetMealsOfMealing(time);
-    for (let meal of filtered){
+    for (let meal of filtered) {
       this.Meals.push(new DisplayMeal(foodService, meal));
     }
   }
-  public ToMeals(): Meal[] {
+
+  public ToMeals(): IMeal[] {
     //TODO Placeholder
     return [];
   }
@@ -57,10 +57,10 @@ export class MenuEditorComponent implements OnInit {
 
   public Selected: any;
 
-  public day: Day = new Day('2001-01-01', [], null);
+  public day: Day = new Day('2001-01-01', []);
   public currentDate: string = '2001-02-01';
 
-  public mealings: {container: CdkDropList, mealing: DisplayMealing}[];
+  public mealings: { container: CdkDropList, mealing: DisplayMealing }[];
 
   public OnSelectedChanged: EventEmitter<any> = new EventEmitter<any>();
 
@@ -71,7 +71,7 @@ export class MenuEditorComponent implements OnInit {
   ngOnInit() {
   }
 
-  public SelectItem(item: any){
+  public SelectItem(item: any) {
     this.Selected = item;
     this.OnSelectedChanged.emit(item);
   }

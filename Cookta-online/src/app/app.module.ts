@@ -22,7 +22,7 @@ import {LoginModalComponent} from './identity/login-modal/login-modal.component'
 import {TagService} from './shared/services/tag.service';
 import {FoodTagComponent} from './food/food-assemblies/food-tag/food-tag.component';
 import {FoodEditComponent} from './food/food-page/food-edit/food-edit.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IngredientAdderComponent} from './food/food-assemblies/ingredient-adder/ingredient-adder.component';
 import {AutoCompleteComponent} from './utilities/auto-complete/auto-complete.component';
 import {TagAdderComponent} from './food/food-assemblies/tag-adder/tag-adder.component';
@@ -110,26 +110,27 @@ const appRoutes: Routes = [
     ShoppingListRootComponent,
     ShoppingListPanelComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    ImageCropperModule,
-    MDBBootstrapModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
-    /*AdsenseModule.forRoot({
-      adClient: 'ca-pub-8068476996237937',
-      adSlot: 1393101782,
-    }),*/
-    FormsModule,
-    IconsModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
-    MatAutocompleteModule,
-    DragDropModule,
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        ImageCropperModule,
+        MDBBootstrapModule.forRoot(),
+        RouterModule.forRoot(appRoutes),
+        /*AdsenseModule.forRoot({
+          adClient: 'ca-pub-8068476996237937',
+          adSlot: 1393101782,
+        }),*/
+        FormsModule,
+        IconsModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatSortModule,
+        MatAutocompleteModule,
+        DragDropModule,
+        ReactiveFormsModule,
+    ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard],
   entryComponents: [GenericTwoButtonDialogComponent],

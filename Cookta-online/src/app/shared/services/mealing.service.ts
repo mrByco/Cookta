@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Day} from '../models/menu/day.model';
 import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
-import {Meal} from "../models/menu/mealing.interface";
+import {IMeal} from "../models/menu/mealing.interface";
 
 @Injectable()
 export class MealingService {
@@ -16,18 +16,18 @@ export class MealingService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.Menu.GetDay.replace('{date}', date));
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });
     })
   }
 
-  public async SetDay(date: string, meals: Meal[]): Promise<Day> {
+  public async SetDay(date: string, meals: IMeal[]): Promise<Day> {
     return new Promise(async (resolve) => {
       let response = await this.serverService.PutRequest(Routes.Menu.SetDay.replace('{date}', date), meals);
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });
@@ -38,7 +38,7 @@ export class MealingService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.Menu.RefreshDay.replace('{date}', date).replace('{mealingIdentity}', mealIndex.toString()));
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });
@@ -48,7 +48,7 @@ export class MealingService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.Menu.FinalizeDay.replace('{date}', date).replace('{mealingIdentity}', mealIndex.toString()));
       response.subscribe(data => {
-        resolve(new Day(data['date'], data['mealings'], data['familyId']));
+        resolve(new Day(data['date'], data['mealings']));
       }, () => {
         resolve(null);
       });

@@ -1776,7 +1776,8 @@
 						"required": true,
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IMealing"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
