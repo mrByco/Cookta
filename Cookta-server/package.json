@@ -9,7 +9,8 @@
     "start-backup": "nodemon -x ts-node src/database-command-tool/main.ts",
     "generate": "tsoa routes && tsoa swagger",
     "watch": "nodemon -x ts-node",
-    "tsc": "rmdir dist /Q /S  && tsc"
+    "tsc": "rmdir dist /Q /S  && tsc",
+    "build": "tsoa routes && tsoa swagger & tsc"
   },
   "author": "",
   "license": "ISC",
