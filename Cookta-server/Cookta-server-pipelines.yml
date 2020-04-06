@@ -16,7 +16,7 @@ steps:
     checkLatest: true
   displayName: 'Install Node.js'
 
-- script: 
+- script: |
     npm install
     npm run build
     npm test
