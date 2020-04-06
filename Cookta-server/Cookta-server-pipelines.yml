@@ -15,12 +15,18 @@ steps:
     versionSpec: '10.x'
     checkLatest: true
   displayName: 'Install Node.js'
-
-- script: npm install
-  displayName: 'npm install'
-
-- script: npm run build
-  displayName: 'npm build'
-
-- script: npm test
-  displayName: 'npm tests'
+  
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Cookta-server'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Cookta-server'
+    customCommand: 'run build'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Cookta-server'
+    customCommand: 'test'
