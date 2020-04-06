@@ -16,5 +16,5 @@ steps:
     checkLatest: true
   displayName: 'Install Node.js'
 
-- script: npm run tsc
+- script: npm install
   displayName: 'npm build'
