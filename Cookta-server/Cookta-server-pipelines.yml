@@ -20,12 +20,13 @@ steps:
   inputs:
     command: 'install'
     workingDir: 'Cookta-server'
-
-- script: npm install
-  displayName: 'npm install'
-
-- script: npm run build
-  displayName: 'npm build'
-
-- script: npm test
-  displayName: 'npm tests'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Cookta-server'
+    customCommand: 'run build'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Cookta-server'
+    customCommand: 'test'
