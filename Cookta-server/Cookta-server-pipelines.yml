@@ -16,7 +16,5 @@ steps:
     checkLatest: true
   displayName: 'Install Node.js'
 
-- script: 
-    cd Cookta-server
-    npm run tsc
+- script: npm run tsc
   displayName: 'npm build'
