@@ -24,7 +24,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'Cookta-server'
-    customCommand: 'run tsc'
+    customCommand: 'run build'
   displayName: 'Build'
 - task: Npm@1
   inputs:
