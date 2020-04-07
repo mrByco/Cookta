@@ -17,4 +17,9 @@ export class StorageSection {
   public Items: IIngredient[] = [];
   public GeneralList: IIngredient[] = [];
   public IsDefaultList: boolean = false;
+
+  public GetDisplayName() {
+    console.log(this);
+    return this.Name == undefined || this.Name == '' ? 'Névtelen' : this.Name
+  }
 }

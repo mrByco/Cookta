@@ -32,7 +32,9 @@ export class StorageService {
       let response = await this.serverService.GetRequest(Routes.Storage.GetSections);
       response.subscribe(data => {
         for (const d of (data as any)) {
-          this.Sections.push(d);
+          let section = new StorageSection();
+          section = Object.assign(section, d);
+          this.Sections.push(section);
         }
         resolve();
         this.IsBusy = false;
@@ -43,11 +45,11 @@ export class StorageService {
     })
   }
 
-  public CreateStorageSection(): Promise<void>{
+  public CreateStorageSection(): StorageSection{
     let createdSection = new StorageSection();
 
     this.IsBusy = true;
-    return new Promise(async (resolve) => {
+    let task = new Promise(async (resolve) => {
       let response = await this.serverService.PostRequest(Routes.Storage.CreateSection, {});
       response.subscribe(data => {
         StorageService.UpdateSection(createdSection, data);
@@ -58,7 +60,8 @@ export class StorageService {
         resolve();
         this.IsBusy = false;
       });
-    })
+    });
+    return createdSection;
   }
 
   public SetStorageSectionOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void>{
@@ -123,5 +126,5 @@ export class StorageService {
     if (save){
       this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items})
     }
-  }
+  }s
 }

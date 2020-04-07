@@ -18,7 +18,7 @@
   </div>
 </button>
 <button style="position: absolute; right: 2rem; top: 7rem;" mdbBtn size="small" color="green"
-        (click)="AddIngModal.show()">
+        (click)="ShowModal()">
   Mit vettél?
 </button>
 
@@ -34,7 +34,7 @@
         <h4 class="modal-title w-100" id="myModalLabel">Mit vettél?</h4>
       </div>
       <div class="modal-body">
-        <app-ingredient-adder></app-ingredient-adder>
+        <app-ingredient-adder (OnIngredientAdded)="AddIngredientToSection($event)"></app-ingredient-adder>
         <hr>
         <div class="row">
           <div class="col-auto">
@@ -42,8 +42,9 @@
           </div>
           <div class="col">
             <select class="browser-default custom-select " style="width: 100%" [(ngModel)]="this.SelectedSection">
-              <option *ngIf="stockService.Sections.length < 1" [ngValue]="null">{{SelectedSection ? SelectedSection.Name : "Névtelen szekció"}}</option>
-              <option *ngFor="let section of stockService.Sections" [ngValue]="section">{{section.Name}}</option>
+              <option *ngFor="let section of stockService.Sections" [selected]="SelectedSection == section" [ngValue]="section">
+                {{section.GetDisplayName()}}
+              </option>
             </select>
           </div>
         </div>

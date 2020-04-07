@@ -90,7 +90,6 @@ export class StorageSectionComponent implements OnInit {
       if (!await this.ShowMergeOrCancel(ingredient))
         return false;
       let item = this.CurrentSection.Items.find(i => i.ingredientID == ingredient.ingredientID);
-      //TODO Enable to smart merge 2 ingredients
     }
     this.AddModifiedField('Items');
     this.CurrentSection.Items.push({ingredientID: ingredient.ingredientID, unit: ingredient.unit, value: ingredient.value});
