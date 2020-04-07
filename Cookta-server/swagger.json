@@ -210,7 +210,8 @@
 					"type": "string"
 				},
 				"shortname": {
-					"type": "string"
+					"type": "string",
+					"x-nullable": true
 				},
 				"tobase": {
 					"type": "number",
@@ -223,7 +224,6 @@
 			"required": [
 				"type",
 				"name",
-				"shortname",
 				"tobase",
 				"id"
 			],
