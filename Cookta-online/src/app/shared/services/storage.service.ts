@@ -3,6 +3,10 @@ import {ServerService} from './server.service';
 import {IStorageItemChangeRequest, StorageSection} from '../models/storage/storage-section.model';
 import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
+import {IIngredient} from "../models/grocery/ingredient.interface";
+import {ICompleteIngredient, IngredientHelper} from "../../utilities/ingredient-helper/ingredient.helper";
+import {UnitService} from "./unit.service";
+import {IngredientService} from "./ingredient.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +17,9 @@ export class StorageService {
 
   public IsBusy: boolean;
 
-  constructor(public serverService: ServerService) {
+  constructor(public serverService: ServerService,
+              public unitService: UnitService,
+              public ingredientService: IngredientService) {
 
   }
 
@@ -93,6 +99,29 @@ export class StorageService {
     for (let key of Object.keys(sectionToUpdate)){
       if (info[key])
         sectionToUpdate[key] = info[key];
+    }
+  }
+
+  public AddIngredientToSection(ing: IIngredient, section: StorageSection, save?: boolean) {
+
+    let existingSameType: IIngredient = section.Items.find(i => i.ingredientID == ing.ingredientID);
+
+    if (existingSameType) {
+      let completeExisting: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(existingSameType, this.unitService, this.ingredientService);
+      let completeIng: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(ing, this.unitService, this.ingredientService);
+      let completeAdded = IngredientHelper.Add(completeExisting, completeIng);
+
+      section.Items[section.Items.indexOf(existingSameType)] =
+        {
+          ingredientID: completeAdded.ingredientType.guid,
+          unit: completeAdded.unit.id,
+          value: completeAdded.value,
+        };
+    } else
+      section.Items.push(ing);
+
+    if (save){
+
     }
   }
 }
