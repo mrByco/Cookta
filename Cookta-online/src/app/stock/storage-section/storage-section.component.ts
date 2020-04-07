@@ -68,7 +68,7 @@ export class StorageSectionComponent implements OnInit {
     let sure = await new Promise<boolean>(resolve => {
       let component = this.modalService.show(GenericTwoButtonDialogComponent);
       let dialog = component.content as GenericTwoButtonDialogComponent;
-      dialog.Title = `Biztos a "${this.CurrentSection.Name}" nevű szekciót`;
+      dialog.Title = `Biztos a "${this.CurrentSection.GetDisplayName()}" nevű szekciót`;
       dialog.Desc = 'A törölt információkat nem lehet majd visszaállítani.';
       dialog.SuccessText = 'Törlés';
       dialog.FailText = 'Mégse';
@@ -90,7 +90,6 @@ export class StorageSectionComponent implements OnInit {
       if (!await this.ShowMergeOrCancel(ingredient))
         return false;
       let item = this.CurrentSection.Items.find(i => i.ingredientID == ingredient.ingredientID);
-      //TODO Enable to smart merge 2 ingredients
     }
     this.AddModifiedField('Items');
     this.CurrentSection.Items.push({ingredientID: ingredient.ingredientID, unit: ingredient.unit, value: ingredient.value});

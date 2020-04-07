@@ -18,8 +18,8 @@
     </div>
     <div class="col">
       <select class="browser-default custom-select" [(ngModel)]="this.SelectedSection">
-        <option *ngIf="storageService.Sections.length < 1" [ngValue]="null">{{SelectedSection ? SelectedSection.Name : "Névtelen szekció"}}</option>
-        <option *ngFor="let section of storageService.Sections" [ngValue]="section">{{section.Name}}</option>
+        <option *ngIf="storageService.Sections.length < 1" [ngValue]="null">{{SelectedSection ? SelectedSection.GetDisplayName() : "Betöltés..."}}</option>
+        <option *ngFor="let section of storageService.Sections" [ngValue]="section">{{section.GetDisplayName()}}</option>
       </select>
     </div>
   </div>
