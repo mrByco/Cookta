@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
 import {StorageService} from '../../shared/services/storage.service';
+import {StorageSection} from "../../shared/models/storage/storage-section.model";
+import {ModalDirective} from "angular-bootstrap-md";
 
 @Component({
   selector: 'app-storage-root-component',
@@ -10,14 +12,16 @@ import {StorageService} from '../../shared/services/storage.service';
 export class StorageRootComponentComponent implements OnInit {
 
 
-
   public SelectedItems: IIngredient[] = [];
   public ButtonLoading: boolean;
+  public SelectedSection: StorageSection;
 
-  constructor(public stockService: StorageService) { }
+  @ViewChild("AddIngModal", {static: true}) public AddIngModal: ModalDirective;
+
+  constructor(public stockService: StorageService) {
+  }
 
   async ngOnInit() {
-    console.log('Update')
     await this.stockService.RefreshStorageSections();
   }
 
@@ -26,4 +30,18 @@ export class StorageRootComponentComponent implements OnInit {
     await this.stockService.CreateStorageSection();
     this.ButtonLoading = false;
   }
+
+  AddIngredientToSection(ingredient) {
+    this.stockService.AddIngredientToSection(ingredient, this.SelectedSection, true);
+  }
+
+  public ShowModal() {
+    if (this.stockService.Sections.length > 0)
+      this.SelectedSection = this.stockService.Sections[0];
+     else
+      this.SelectedSection = this.stockService.CreateStorageSection();
+
+    this.AddIngModal.show();
+  }
+
 }

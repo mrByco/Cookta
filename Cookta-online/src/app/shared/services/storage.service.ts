@@ -3,6 +3,10 @@ import {ServerService} from './server.service';
 import {IStorageItemChangeRequest, StorageSection} from '../models/storage/storage-section.model';
 import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
+import {IIngredient} from "../models/grocery/ingredient.interface";
+import {ICompleteIngredient, IngredientHelper} from "../../utilities/ingredient-helper/ingredient.helper";
+import {UnitService} from "./unit.service";
+import {IngredientService} from "./ingredient.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +17,9 @@ export class StorageService {
 
   public IsBusy: boolean;
 
-  constructor(public serverService: ServerService) {
+  constructor(public serverService: ServerService,
+              public unitService: UnitService,
+              public ingredientService: IngredientService) {
 
   }
 
@@ -26,7 +32,7 @@ export class StorageService {
       let response = await this.serverService.GetRequest(Routes.Storage.GetSections);
       response.subscribe(data => {
         for (const d of (data as any)) {
-          this.Sections.push(d);
+          this.Sections.push(this.SectionFromData(d));
         }
         resolve();
         this.IsBusy = false;
@@ -37,11 +43,11 @@ export class StorageService {
     })
   }
 
-  public CreateStorageSection(): Promise<void>{
+  public CreateStorageSection(): StorageSection {
     let createdSection = new StorageSection();
 
     this.IsBusy = true;
-    return new Promise(async (resolve) => {
+    let task = new Promise(async (resolve) => {
       let response = await this.serverService.PostRequest(Routes.Storage.CreateSection, {});
       response.subscribe(data => {
         StorageService.UpdateSection(createdSection, data);
@@ -52,10 +58,11 @@ export class StorageService {
         resolve();
         this.IsBusy = false;
       });
-    })
+    });
+    return createdSection;
   }
 
-  public SetStorageSectionOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void>{
+  public SetStorageSectionOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void> {
     this.IsBusy = true;
 
     return new Promise(async (resolve) => {
@@ -71,7 +78,7 @@ export class StorageService {
     })
   }
 
-  public DeleteStorageSection(sectionId: string): Promise<void>{
+  public DeleteStorageSection(sectionId: string): Promise<void> {
     this.Sections.splice(0, this.Sections.length);
 
     this.IsBusy = true;
@@ -79,7 +86,7 @@ export class StorageService {
       let response = await this.serverService.DeleteRequest(Routes.Storage.DeleteSection.replace('{storageSectionIdString}', sectionId));
       response.subscribe(data => {
         for (const d of (data as any)) {
-          this.Sections.push(d);
+          this.Sections.push(this.SectionFromData(d));
         }
         this.IsBusy = false;
       }, () => {
@@ -89,10 +96,44 @@ export class StorageService {
     })
   }
 
-  public static UpdateSection(sectionToUpdate: StorageSection, info: any){
-    for (let key of Object.keys(sectionToUpdate)){
+  public static UpdateSection(sectionToUpdate: StorageSection, info: any) {
+    for (let key of Object.keys(sectionToUpdate)) {
       if (info[key])
         sectionToUpdate[key] = info[key];
     }
+  }
+
+  public AddIngredientToSection(ing: IIngredient, section: StorageSection, save?: boolean) {
+
+    if (!section.Items) section.Items = [];
+    let existingSameType: IIngredient = section.Items.find(i => i.ingredientID == ing.ingredientID);
+
+    if (existingSameType) {
+      let completeExisting: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(existingSameType, this.unitService, this.ingredientService);
+      let completeIng: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(ing, this.unitService, this.ingredientService);
+      let completeAdded = IngredientHelper.Add(completeExisting, completeIng);
+
+      section.Items[section.Items.indexOf(existingSameType)] =
+        {
+          ingredientID: completeAdded.ingredientType.guid,
+          unit: completeAdded.unit.id,
+          value: completeAdded.value,
+        };
+    } else
+      section.Items.push(ing);
+
+    if (save) {
+      this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items});
+    }
+  }
+
+  public FindStorageByIngredientType(ingredientId: string) {
+    return this.Sections.find(s => s.Items ? s.Items.find((s) => s.ingredientID == ingredientId) : false);
+  }
+
+  private SectionFromData(d: any): StorageSection {
+    let section = new StorageSection();
+    section = Object.assign(section, d);
+    return section;
   }
 }

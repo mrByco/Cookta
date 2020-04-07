@@ -13,36 +13,18 @@ import {ICompleteIngredient, IngredientHelper} from '../../utilities/ingredient-
   templateUrl: './shopping-list-panel.component.html',
   styleUrls: ['./shopping-list-panel.component.css']
 })
-export class ShoppingListPanelComponent implements OnInit {
+export class ShoppingListPanelComponent {
 
   @Input('PackSection') public storageSection: StorageSection;
 
   constructor(public shoppingListService: ShoppingService,
               public unitService: UnitService,
               public ingredientService: IngredientService,
-              public storageService: StorageService) {}
-
-  ngOnInit() {
+              public storageService: StorageService) {
   }
 
   PutToStorage(ing: IIngredient) {
-    let existingSameType: IIngredient = this.storageSection.Items.find(i => i.ingredientID == ing.ingredientID);
-
-    if (existingSameType){
-      let completeExisting: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(existingSameType, this.unitService, this.ingredientService);
-      let completeIng: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(ing, this.unitService, this.ingredientService);
-      let completeAdded = IngredientHelper.Add(completeExisting, completeIng);
-
-      this.storageSection.Items[this.storageSection.Items.indexOf(existingSameType)] =
-        {
-          ingredientID: completeAdded.ingredientType.guid,
-          unit: completeAdded.unit.id,
-          value: completeAdded.value,
-        };
-    }
-    else
-      this.storageSection.Items.push(ing);
+    this.storageService.AddIngredientToSection(ing, this.storageSection, true);
     this.shoppingListService.ShoppingItems.splice(this.shoppingListService.ShoppingItems.indexOf(ing), 1);
-    this.storageService.SetStorageSectionOnRemote({Id: this.storageSection.Id, Items: this.storageSection.Items})
   }
 }

@@ -3,8 +3,7 @@
   <div *ngIf="CurrentSection">
     <a *ngIf="SelectedItems.length > 0" style="color: blue">Kijelöltek áthelyezése ide</a>
     <div class="row" style="position: relative">
-      <h2 *ngIf="!ModifiedFields"
-      >{{CurrentSection.Name == undefined || CurrentSection.Name == '' ? '[NONAME]' : CurrentSection.Name}}</h2>
+      <h2 *ngIf="!ModifiedFields">{{CurrentSection.GetDisplayName()}}</h2>
 
       <input
         class="form-control"
