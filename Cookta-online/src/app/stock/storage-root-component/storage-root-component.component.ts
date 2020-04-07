@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
 import {StorageService} from '../../shared/services/storage.service';
+import {StorageSection} from "../../shared/models/storage/storage-section.model";
 
 @Component({
   selector: 'app-storage-root-component',
@@ -13,6 +14,7 @@ export class StorageRootComponentComponent implements OnInit {
 
   public SelectedItems: IIngredient[] = [];
   public ButtonLoading: boolean;
+  SelectedSection: StorageSection;
 
   constructor(public stockService: StorageService) { }
 
