@@ -19,7 +19,6 @@ export class StorageSection {
   public IsDefaultList: boolean = false;
 
   public GetDisplayName() {
-    console.log(this);
     return this.Name == undefined || this.Name == '' ? 'Névtelen' : this.Name
   }
 }

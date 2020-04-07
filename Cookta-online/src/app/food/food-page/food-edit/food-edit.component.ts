@@ -37,7 +37,7 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
   async ngOnInit() {
     let Id = this.route.snapshot.params['id'];
     if (Id == "new"){
-      this.SourceFood = new Food(undefined, "", "", true, false, [], undefined, undefined, undefined, undefined, undefined, undefined, undefined, [], [], false, true);
+      this.SourceFood = new Food(undefined, "", "", true, false, [], undefined, undefined, 4, undefined, undefined, undefined, undefined, [], [], false, true);
     }else{
       this.SourceFood = await this.foodService.GetFood(Id);
     }

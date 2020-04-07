@@ -32,9 +32,7 @@ export class StorageService {
       let response = await this.serverService.GetRequest(Routes.Storage.GetSections);
       response.subscribe(data => {
         for (const d of (data as any)) {
-          let section = new StorageSection();
-          section = Object.assign(section, d);
-          this.Sections.push(section);
+          this.Sections.push(this.SectionFromData(d));
         }
         resolve();
         this.IsBusy = false;
@@ -45,7 +43,7 @@ export class StorageService {
     })
   }
 
-  public CreateStorageSection(): StorageSection{
+  public CreateStorageSection(): StorageSection {
     let createdSection = new StorageSection();
 
     this.IsBusy = true;
@@ -64,7 +62,7 @@ export class StorageService {
     return createdSection;
   }
 
-  public SetStorageSectionOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void>{
+  public SetStorageSectionOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void> {
     this.IsBusy = true;
 
     return new Promise(async (resolve) => {
@@ -80,7 +78,7 @@ export class StorageService {
     })
   }
 
-  public DeleteStorageSection(sectionId: string): Promise<void>{
+  public DeleteStorageSection(sectionId: string): Promise<void> {
     this.Sections.splice(0, this.Sections.length);
 
     this.IsBusy = true;
@@ -88,7 +86,7 @@ export class StorageService {
       let response = await this.serverService.DeleteRequest(Routes.Storage.DeleteSection.replace('{storageSectionIdString}', sectionId));
       response.subscribe(data => {
         for (const d of (data as any)) {
-          this.Sections.push(d);
+          this.Sections.push(this.SectionFromData(d));
         }
         this.IsBusy = false;
       }, () => {
@@ -98,8 +96,8 @@ export class StorageService {
     })
   }
 
-  public static UpdateSection(sectionToUpdate: StorageSection, info: any){
-    for (let key of Object.keys(sectionToUpdate)){
+  public static UpdateSection(sectionToUpdate: StorageSection, info: any) {
+    for (let key of Object.keys(sectionToUpdate)) {
       if (info[key])
         sectionToUpdate[key] = info[key];
     }
@@ -107,6 +105,7 @@ export class StorageService {
 
   public AddIngredientToSection(ing: IIngredient, section: StorageSection, save?: boolean) {
 
+    if (!section.Items) section.Items = [];
     let existingSameType: IIngredient = section.Items.find(i => i.ingredientID == ing.ingredientID);
 
     if (existingSameType) {
@@ -123,8 +122,18 @@ export class StorageService {
     } else
       section.Items.push(ing);
 
-    if (save){
-      this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items})
+    if (save) {
+      this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items});
     }
-  }s
+  }
+
+  public FindStorageByIngredientType(ingredientId: string) {
+    return this.Sections.find(s => s.Items ? s.Items.find((s) => s.ingredientID == ingredientId) : false);
+  }
+
+  private SectionFromData(d: any): StorageSection {
+    let section = new StorageSection();
+    section = Object.assign(section, d);
+    return section;
+  }
 }

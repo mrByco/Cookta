@@ -32,7 +32,6 @@ export class StorageRootComponentComponent implements OnInit {
   }
 
   AddIngredientToSection(ingredient) {
-    console.log(ingredient);
     this.stockService.AddIngredientToSection(ingredient, this.SelectedSection, true);
   }
 
@@ -44,4 +43,5 @@ export class StorageRootComponentComponent implements OnInit {
 
     this.AddIngModal.show();
   }
+
 }

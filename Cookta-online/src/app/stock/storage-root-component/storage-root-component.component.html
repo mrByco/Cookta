@@ -34,15 +34,26 @@
         <h4 class="modal-title w-100" id="myModalLabel">Mit vettél?</h4>
       </div>
       <div class="modal-body">
-        <app-ingredient-adder (OnIngredientAdded)="AddIngredientToSection($event)"></app-ingredient-adder>
+        <app-ingredient-adder
+          #ingredientAdder
+          (OnIngredientAdded)="AddIngredientToSection($event)">
+        </app-ingredient-adder>
         <hr>
+        <a *ngIf="ingredientAdder.CurrentType != null && stockService.FindStorageByIngredientType(ingredientAdder.CurrentType.guid) &&
+             ingredientAdder.CurrentType != null && stockService.FindStorageByIngredientType(ingredientAdder.CurrentType.guid) != SelectedSection"
+           (click)="SelectedSection = ingredientAdder.CurrentType != null && stockService.FindStorageByIngredientType(ingredientAdder.CurrentType.guid)"
+           style="color: dodgerblue; margin-bottom: 1rem">
+          `Ez már be van írva: {{stockService.FindStorageByIngredientType(ingredientAdder.CurrentType.guid).GetDisplayName()}}-tárolóba,
+          kattints ide átváltáshoz
+        </a>
         <div class="row">
           <div class="col-auto">
             <h6 style="margin-top: 10px">Pakolás helye: </h6>
           </div>
           <div class="col">
             <select class="browser-default custom-select " style="width: 100%" [(ngModel)]="this.SelectedSection">
-              <option *ngFor="let section of stockService.Sections" [selected]="SelectedSection == section" [ngValue]="section">
+              <option *ngFor="let section of stockService.Sections" [selected]="SelectedSection == section"
+                      [ngValue]="section">
                 {{section.GetDisplayName()}}
               </option>
             </select>

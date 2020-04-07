@@ -68,7 +68,7 @@ export class StorageSectionComponent implements OnInit {
     let sure = await new Promise<boolean>(resolve => {
       let component = this.modalService.show(GenericTwoButtonDialogComponent);
       let dialog = component.content as GenericTwoButtonDialogComponent;
-      dialog.Title = `Biztos a "${this.CurrentSection.Name}" nevű szekciót`;
+      dialog.Title = `Biztos a "${this.CurrentSection.GetDisplayName()}" nevű szekciót`;
       dialog.Desc = 'A törölt információkat nem lehet majd visszaállítani.';
       dialog.SuccessText = 'Törlés';
       dialog.FailText = 'Mégse';
