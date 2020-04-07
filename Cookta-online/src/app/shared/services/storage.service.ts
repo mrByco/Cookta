@@ -121,7 +121,7 @@ export class StorageService {
       section.Items.push(ing);
 
     if (save){
-
+      this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items})
     }
   }
 }
