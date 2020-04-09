@@ -3,6 +3,7 @@ import {IUpdateFoodRequest} from "../requests/create.food.request";
 import {Food} from "../models/food/food.model";
 import {SendableFood} from "../models/food/food-sendable";
 import {Subscription} from "../models/subscription.model";
+import {Family} from "../models/family.model";
 import {User} from "../models/User.model";
 
 @Tags("Food")

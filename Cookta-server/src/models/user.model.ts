@@ -18,10 +18,6 @@ export class User extends StoreItemBase {
     public profilpic: string = null;
     public currentFamilyId: string = null;
 
-    constructor(_id: ObjectId) {
-        super(_id);
-    }
-
     public HasPermission(permission: string): boolean{
         let role = Role.GetRole(this.role);
         return role.permissions.includes(permission);
