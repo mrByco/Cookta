@@ -19,6 +19,7 @@ steps:
     npm install -g @angular/cli
     npm install
     ng build
+  workingDirectory: Cookta-online
   displayName: 'npm install and build'
 
   
