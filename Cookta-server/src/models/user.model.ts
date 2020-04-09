@@ -9,6 +9,7 @@ import {ExtendedUser} from "./extendedUser";
 
 
 export class User extends StoreItemBase {
+
     public sub: string = null;
     public subs: string[] = null;
     public username: string = null;
