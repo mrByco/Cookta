@@ -4,12 +4,12 @@ import {Family, SendFamily} from "./family.model";
 import {Food} from "./food/food.model";
 import {Subscription} from "./subscription.model";
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
-import {IStoreService} from "atomik/lib/store-service/store-service-interface";
 import {Services} from "../Services";
 import {ExtendedUser} from "./extendedUser";
 
 
 export class User extends StoreItemBase {
+
     public sub: string = null;
     public subs: string[] = null;
     public username: string = null;
@@ -18,10 +18,6 @@ export class User extends StoreItemBase {
     public logs: {time: number, text: string}[];
     public profilpic: string = null;
     public currentFamilyId: string = null;
-
-    constructor(_id: ObjectId) {
-        super(_id);
-    }
 
     public HasPermission(permission: string): boolean{
         let role = Role.GetRole(this.role);

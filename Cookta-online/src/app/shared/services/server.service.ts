@@ -1,9 +1,7 @@
-import {Routes} from '../routes';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {CookieService} from 'ngx-cookie-service';
-import {Food} from '../models/grocery/food.model';
 
 @Injectable()
 export class ServerService {

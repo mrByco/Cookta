@@ -10,7 +10,7 @@
     "generate": "tsoa routes && tsoa swagger",
     "watch": "nodemon -x ts-node",
     "tsc": "rmdir dist /Q /S  && tsc",
-    "build": "tsc"
+    "build": "tsc --build tsconfig.json"
   },
   "author": "",
   "license": "ISC",
@@ -45,6 +45,6 @@
     "mocha": "^7.1.1",
     "nodemon": "^1.19.4",
     "nyc": "^15.0.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.8.3"
   }
 }

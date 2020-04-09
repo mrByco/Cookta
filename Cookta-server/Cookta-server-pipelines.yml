@@ -1,5 +1,5 @@
-# Node.js with Angular
-# Build a Node.js project that uses Angular.
+# Node.js
+# Build a Node.js project
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
@@ -31,3 +31,20 @@ steps:
     command: 'custom'
     workingDir: 'Cookta-server'
     customCommand: 'test'
+  displayName: 'Unit Test'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+  
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Pay-As-You-Go (9fd6c1a9-9825-4d62-a68c-0907996e5a5c)'
+    appType: 'webApp'
+    WebAppName: 'cooktaservices'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
