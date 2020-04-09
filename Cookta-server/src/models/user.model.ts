@@ -4,7 +4,6 @@ import {Family, SendFamily} from "./family.model";
 import {Food} from "./food/food.model";
 import {Subscription} from "./subscription.model";
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
-import {IStoreService} from "atomik/lib/store-service/store-service-interface";
 import {Services} from "../Services";
 import {ExtendedUser} from "./extendedUser";
 

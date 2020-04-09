@@ -4,7 +4,6 @@ import * as bodyParser from "body-parser";
 import * as swaggerUi from 'swagger-ui-express';
 import {RegisterRoutes} from "./routes";
 import {requestLoggerMiddleware} from "./request.logger.middleware";
-import './controllers/food.controller';
 import './controllers/ingredient-type.controller';
 import './controllers/unit.controller';
 import './controllers/essentialsController';
@@ -16,6 +15,7 @@ import './controllers/subscription.controller';
 import './controllers/family.controller';
 import './controllers/ping.controller';
 import './controllers/shopping-list.controller';
+import './controllers/food.controller';
 
 const fileUpload = require('express-fileupload');
 
