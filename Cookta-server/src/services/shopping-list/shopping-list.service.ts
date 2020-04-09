@@ -27,6 +27,7 @@ export class ShoppingListService extends StoreService<ShoppingList> implements I
         let foodIngredients: ICompleteIngredient[] = IngredientHelper.ToCompleteIngredientList(
             ShoppingListService.GetFoodIngredientsFromMealings(fixedMealings)
         );
+        foodIngredients = IngredientHelper.MergeIngredients(foodIngredients);
 
         let sections = Services.StorageService.GetSections(family);
         let ingredientListsAtHome = sections.map(s => IngredientHelper.ToCompleteIngredientList(s.Items));
