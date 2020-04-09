@@ -33,7 +33,11 @@
     </div>
     <div class="col-4">
       <div class="custom-control custom-switch" style="margin-bottom: 2rem">
-        <input type="checkbox" class="custom-control-input" [(ngModel)]="ShowShortUnitNames" id="shortUnitNames">
+        <input type="checkbox"
+               class="custom-control-input"
+               id="shortUnitNames"
+               [(ngModel)]="ShowShortUnitNames"
+               (input)="SaveShortUnitNameSettings()">
         <label class="custom-control-label" for="shortUnitNames">Rövidítések használata</label>
       </div>
       <h2 class="ingredients-title">Hozzávalók</h2>
