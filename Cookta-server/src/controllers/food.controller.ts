@@ -1,8 +1,8 @@
 import {Body, Controller, Delete, Get, Post, Request, Route, Security, Tags} from "tsoa";
 import {IUpdateFoodRequest} from "../requests/create.food.request";
+import {Food} from "../models/food/food.model";
 import {User} from "../models/User.model";
 import {SendableFood} from "../models/food/food-sendable";
-import {Food} from "../models/food/food.model";
 import {Subscription} from "../models/subscription.model";
 
 @Tags("Food")
