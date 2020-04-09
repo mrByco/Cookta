@@ -44,8 +44,8 @@
   color: rgba(0, 0, 0, 0);
   text-align: center;
   position: absolute;
-  bottom: 0;
-  transition: bottom 0.5s, color 0.4s;
+  top: 77%;
+  transition: top 0.5s, color 0.4s;
 }
 
 .meal-panel-overlay .icon {
@@ -89,7 +89,7 @@
 }
 .meal-panel-overlay:hover h5{
   color: white;
-  bottom: 15%;
+  top: 62%;
 }
 
 .unpinned {
