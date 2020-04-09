@@ -22,7 +22,17 @@ export class IngredientHelper {
         for (let ing of ingredients) {
             let addedSameType = merged.find(x => x.ingredientType.guid == ing.ingredientType.guid);
             if (addedSameType) {
-                merged[merged.indexOf(addedSameType)] = IngredientHelper.Add(addedSameType, ing);
+                try {
+                    merged[merged.indexOf(addedSameType)] = IngredientHelper.Add(addedSameType, ing);
+                }
+                catch {
+                    console.log('No common base unit for ingredients.');
+                    console.log('Ingredient 1');
+                    console.log(addedSameType);
+                    console.log('Ingredient 2');
+                    console.log(ing);
+                    merged.push(ing);
+                }
             } else {
                 merged.push(ing);
             }
@@ -35,18 +45,7 @@ export class IngredientHelper {
         let value2: number = ing2.value;
         let unit: IUnit = ing1.unit;
         if (ing1.unit.id != ing2.unit.id) {
-            if (ing1.unit.type != ing2.unit.type) throw Error("Cannot add ingredients with different base");
-            switch (ing1.unit.type) {
-                case EUnitType.MASS:
-                    unit = {name: 'g', type: EUnitType.MASS, id: 'g', shortname: 'g', tobase: 1};
-                    break;
-                case EUnitType.COUNT:
-                    unit = {name: 'db', type: EUnitType.COUNT, id: 'db', shortname: 'db', tobase: 1};
-                    break;
-                case EUnitType.VOLUME:
-                    unit = {name: 'l', type: EUnitType.VOLUME, id: 'l', shortname: 'l', tobase: 1};
-                    break;
-            }
+            unit = this.GetCommonBaseUnit(ing1, ing2);
             value1 = ing1.value * ing1.unit.tobase;
             value2 = ing2.value * ing2.unit.tobase;
         }
@@ -56,7 +55,7 @@ export class IngredientHelper {
     static SubtractList(ingList1: ICompleteIngredient[], ingList2: ICompleteIngredient[]): ICompleteIngredient[] {
         let subtracted = ingList1;
         for (let ing of ingList2) {
-            let containItem: ICompleteIngredient = subtracted.find(s => s.ingredientType.guid === ing.ingredientType.guid);
+            let containItem: ICompleteIngredient = subtracted.find(s => s.ingredientType.guid === ing.ingredientType.guid && s.unit.type === ing.unit.type);
             if (containItem) {
                 subtracted[subtracted.indexOf(containItem)] = this.Subtract(containItem, ing);
             }
@@ -112,5 +111,17 @@ export class IngredientHelper {
             ingredientType: Object.assign({}, type),
             unit: Object.assign({}, unit),
             value: ing.value}
+    }
+
+    private static GetCommonBaseUnit(ing1: ICompleteIngredient, ing2: ICompleteIngredient) {
+        if (ing1.unit.type != ing2.unit.type) throw Error("Cannot add ingredients with different base");
+        switch (ing1.unit.type) {
+            case EUnitType.MASS:
+                return {name: 'g', type: EUnitType.MASS, id: 'g', shortname: 'g', tobase: 1};
+            case EUnitType.COUNT:
+                return {name: 'db', type: EUnitType.COUNT, id: 'db', shortname: 'db', tobase: 1};
+            case EUnitType.VOLUME:
+                return {name: 'l', type: EUnitType.VOLUME, id: 'l', shortname: 'l', tobase: 1};
+        }
     }
 }

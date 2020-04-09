@@ -48,7 +48,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         currentItem.countEnabled = request.countEnabled;
         currentItem.massEnabled = request.massEnabled;
         currentItem.guid = guid.toString();
-        request.options = request.options;
+        currentItem.options = request.options;
         this.SaveItem(currentItem);
         return currentItem;
     }

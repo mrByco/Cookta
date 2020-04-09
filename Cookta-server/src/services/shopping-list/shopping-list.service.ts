@@ -37,7 +37,10 @@ export class ShoppingListService extends StoreService<ShoppingList> implements I
 
         let essentials = IngredientHelper.ToCompleteIngredientList(Services.EssentialsService.GetEssentials(family).Essentials);
 
-        let need = IngredientHelper.MergeLists([foodIngredients, essentials]);
+        let need = IngredientHelper.SubtractList(foodIngredients, essentials);
+        need = need.filter(i => i.value > 0);
+        need = IngredientHelper.MergeLists([need, essentials]);
+
         let buy: IIngredient[] = [];
         IngredientHelper.SubtractList(need, ingredientsAtHome).forEach(i => {
             if (i.value > 0)
