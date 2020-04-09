@@ -1,15 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EMealType} from '../../shared/models/menu/mealtype.enum';
 import {Day} from '../../shared/models/menu/day.model';
-import {DisplayMeal, DisplayMealing} from '../menu-editor/menu-editor.component';
+import {DisplayMeal} from '../menu-editor/menu-editor.component';
 import {IMeal} from '../../shared/models/menu/mealing.interface';
 import {FoodService} from '../../shared/services/food.service';
 import {MenuDayComponent} from '../menu-day/menu-day.component';
 import {Food} from '../../shared/models/grocery/food.model';
 import {Tag} from '../../shared/models/grocery/tag.model';
-import {TagService} from '../../shared/services/tag.service';
 import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
 import {FormBuilder} from '@angular/forms';
+import {TagService} from '../../shared/services/tag.service';
 
 @Component({
   selector: 'app-menu-mealing',
@@ -28,7 +28,7 @@ export class MenuMealingComponent implements OnInit {
     this.Day = day;
     let meals = this.Day.GetMealsOfMealing(this.MealType);
     let newDisplayMeals = [];
-    let knownFoods = this.displayMeals.map(m => m.ObjFood);
+    let knownFoods = this.displayMeals.map(m => m.ObjFood).filter(m => m);
     for (let meal of meals) {
       newDisplayMeals.push(new DisplayMeal(this.foodService, meal, knownFoods));
     }
@@ -40,7 +40,7 @@ export class MenuMealingComponent implements OnInit {
   doseForm;
 
 
-  constructor(public foodService: FoodService, private formBuilder: FormBuilder) {
+  constructor(public foodService: FoodService, private formBuilder: FormBuilder, public tagService: TagService) {
     this.doseForm = this.formBuilder.group({dose: undefined});
   }
 
@@ -50,7 +50,7 @@ export class MenuMealingComponent implements OnInit {
 
   public AddCurrentMealToDay() {
     if (!this.MenuDayComponent.SelectedItem) {
-      return null;
+      return;
     }
 
     let mealToAdd: IMeal;

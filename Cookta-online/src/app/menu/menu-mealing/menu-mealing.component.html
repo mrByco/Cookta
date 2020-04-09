@@ -13,43 +13,60 @@
          'bcg-green': meal.sourceMeal.type == 'final',
          'hover': DoseEdit.displayMeal == meal}">
 
-        <img src="{{GetFoodUrl(meal.ObjFood)}}">
-        <div class="meal-panel-overlay">
-          <h6>{{meal.ObjFood.name}}</h6>
+        <div *ngIf="meal.ObjFood; else loading">
+          <img src="{{GetFoodUrl(meal.ObjFood)}}">
+          <div class="meal-panel-overlay">
 
-          <a *ngIf="meal.sourceMeal.type == 'tag'" (click)="RefreshMeal(meal)">
-            <img class="icon bottom-right" [ngClass]="{'refresh-icon-loading': meal.Refreshing}"
-                 src="assets/refresh-icon.png">
-          </a>
+            <h5>{{meal.ObjFood.name}}</h5>
+            <h6 *ngIf="meal.sourceMeal.type == 'tag'">{{tagService.GetTag(meal.sourceMeal.info.tagId).displayName()}}</h6>
 
-          <a (click)="DeleteMeal(meal)">
-            <img class="icon right-top" src="assets/trash-icon.png">
-          </a>
+            <a *ngIf="meal.sourceMeal.type == 'tag'" (click)="RefreshMeal(meal)">
+              <img class="icon bottom-right" [ngClass]="{'refresh-icon-loading': meal.Refreshing}"
+                   src="assets/refresh-icon.png">
+            </a>
 
-          <a (click)="FinalizeMeal(meal)">
-            <img class="icon left-top"
-                 src="assets/finalize-icon.png"
-                 [ngClass]="{'unpinned': meal.sourceMeal.type != 'final', 'pinned': meal.sourceMeal.type == 'final'}">
-          </a>
+            <a (click)="DeleteMeal(meal)">
+              <img class="icon right-top" src="assets/trash-icon.png">
+            </a>
 
-          <a class="icon bottom-right" style="width: auto; color: white" (click)="EditDoseFor(meal)"
-             *ngIf="meal.sourceMeal.type == 'final'">
-            <p>
-              {{meal.sourceMeal.dose}}
-              <mdb-icon fas class="white-text" icon="user"></mdb-icon>
-            </p>
-          </a>
+            <a (click)="FinalizeMeal(meal)">
+              <img class="icon left-top"
+                   src="assets/finalize-icon.png"
+                   [ngClass]="{'unpinned': meal.sourceMeal.type != 'final', 'pinned': meal.sourceMeal.type == 'final'}">
+            </a>
 
-          <div class="dropdown-menu" [ngClass]="{'show': DoseEdit.displayMeal == meal}"
-               (mouseleave)="DoseEdit.displayMeal = undefined">
-            <form class="px-4 py-3" [formGroup]="doseForm" (ngSubmit)="SetMealDose(doseForm.value, meal)">
-              <div class="form-group">
-                <input type="number" class="form-control" id="dose" formControlName="dose" placeholder="4">
-              </div>
-              <button type="submit" class="btn btn-primary">Beállítás</button>
-            </form>
+            <a class="icon bottom-right" style="width: auto; color: white" (click)="EditDoseFor(meal)"
+               *ngIf="meal.sourceMeal.type == 'final'">
+              <p>
+                {{meal.sourceMeal.dose}}
+                <mdb-icon fas class="white-text" icon="user"></mdb-icon>
+              </p>
+            </a>
+
+            <div class="dropdown-menu" [ngClass]="{'show': DoseEdit.displayMeal == meal}"
+                 (mouseleave)="DoseEdit.displayMeal = undefined">
+              <form class="px-4 py-3" [formGroup]="doseForm" (ngSubmit)="SetMealDose(doseForm.value, meal)">
+                <div class="form-group">
+                  <input type="number" class="form-control" id="dose" formControlName="dose" placeholder="4">
+                </div>
+                <button type="submit" class="btn btn-primary">Beállítás</button>
+              </form>
+            </div>
           </div>
         </div>
+
+        <ng-template #loading>
+          <a *ngIf="!meal.ObjFood" (click)="DeleteMeal(meal)">
+            <img src="https://kuktaimages.blob.core.windows.net/application/dish.png">
+            <div class="d-flex justify-content-center d-flex align-items-center"
+              style="background: rgba(0, 0, 0, 0.5) ;position: absolute; top: 0; height: 100%; width: 100%;">
+              <div class="spinner-border" role="status" >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </a>
+        </ng-template>
+
       </a>
     </div>
 
