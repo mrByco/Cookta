@@ -243,9 +243,14 @@ export class Food {
     }
 
     public static async GetFoodsOfTag(user: User, tagId: string): Promise<Food[]> {
+        let foods = await this.GetCollectionForUser(user);
+        return foods.filter(value => value.tags.includes(tagId));
+    }
+
+    public static async GetCollectionForUser(user: User): Promise<Food[]>{
         let foods = await Subscription.GetSubsFoodsOfUser(user);
         foods = foods.concat(await Food.GetAllOwnFoods(user));
-        return foods.filter(value => value.tags.includes(tagId));
+        return foods.concat(await user.GetCurrentFamily().GetFamilyFoods());
     }
 
 }
