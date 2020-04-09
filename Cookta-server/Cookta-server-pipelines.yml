@@ -31,3 +31,4 @@ steps:
     command: 'custom'
     workingDir: 'Cookta-server'
     customCommand: 'test'
+  displayName: 'Unit Test'
