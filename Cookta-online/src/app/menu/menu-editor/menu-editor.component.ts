@@ -1,6 +1,5 @@
-import {Component, EventEmitter, OnInit, ViewChild} from '@angular/core';
-import {CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {Food} from '../../shared/models/grocery/food.model';
+import {Component, EventEmitter, OnInit} from '@angular/core';
+import {CdkDropList} from '@angular/cdk/drag-drop';
 import {FoodService} from '../../shared/services/food.service';
 import {Day} from '../../shared/models/menu/day.model';
 import {IMeal} from '../../shared/models/menu/mealing.interface';
@@ -42,10 +41,6 @@ export class DisplayMealing {
     }
   }
 
-  public ToMeals(): IMeal[] {
-    //TODO Placeholder
-    return [];
-  }
 }
 
 @Component({
@@ -53,7 +48,7 @@ export class DisplayMealing {
   templateUrl: './menu-editor.component.html',
   styleUrls: ['./menu-editor.component.css']
 })
-export class MenuEditorComponent implements OnInit {
+export class MenuEditorComponent {
 
   public Selected: any;
 
@@ -66,9 +61,6 @@ export class MenuEditorComponent implements OnInit {
 
   constructor(public foodService: FoodService) {
     this.OnSelectedChanged.subscribe(i => this.Selected = i);
-  }
-
-  ngOnInit() {
   }
 
   public SelectItem(item: any) {
