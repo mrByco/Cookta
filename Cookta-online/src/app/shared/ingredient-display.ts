@@ -21,6 +21,15 @@ export class DisplayIngredient {
   public get UnitName(): string {
     return this.unit ? this.unit.name : "MértékID";
   }
+  public get ShortUnitNameSafe(): string {
+    if (!this.unit)
+      return this.UnitName;
+    if (!this.unit.shortname)
+      return this.UnitName;
+    if (this.unit.shortname == "")
+      return this.UnitName;
+    return this.unit.shortname;
+  }
   public get ValueName(): string {
     return this.ingredientSource.value.toString();
   }

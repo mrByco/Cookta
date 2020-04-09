@@ -12,6 +12,7 @@ import {IdentityService} from "../../../shared/services/identity.service";
 export class FoodDetailComponent implements OnInit {
 
   public Food: Food = FoodService.Placeholder;
+  public ShowShortUnitNames: boolean;
   constructor(
     public route: ActivatedRoute,
     public foodService: FoodService,

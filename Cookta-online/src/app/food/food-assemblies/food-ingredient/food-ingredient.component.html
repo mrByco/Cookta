@@ -1,6 +1,6 @@
 
 <div class="row">
-  <p class="ingredients-desc"> - {{displayIngredient.ValueName}} {{displayIngredient.UnitName}} {{displayIngredient.TypeName}}</p>
+  <p class="ingredients-desc"> - {{displayIngredient.ValueName}} {{m_ShowShortUnitNames ? displayIngredient.ShortUnitNameSafe : displayIngredient.UnitName}} {{displayIngredient.TypeName}}</p>
   <div *ngIf="this.edit">
     <a (click)="DeleteThis()"><img src="assets/ingredient-remove-icon.png" class="mini-round-icon" alt=""></a>
   </div>
