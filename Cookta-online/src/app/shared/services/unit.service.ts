@@ -68,8 +68,8 @@ export class UnitService {
 
   }
 
-  public async GetAvailableUnitsFor(CurrentType: IngredientType): Promise<Unit[]> {
-    let units = await this.Units;
+  public GetAvailableUnitsFor(CurrentType: IngredientType): Unit[] {
+    let units = this.LastLoadedUnits;
 
     units = units.filter(unit => unit.type == CurrentType.baseUnitType);
 

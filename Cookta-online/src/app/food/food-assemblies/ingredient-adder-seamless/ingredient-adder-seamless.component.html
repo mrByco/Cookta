@@ -1,0 +1,12 @@
+<div class="row" dropdown #dropdown>
+  <input class="add-ingredient-text"
+         style="height: 2rem;" autocomplete="disabled"
+         type="text"
+         [(ngModel)]="CurrentText"
+         (keydown)="onKeyDown($event)">
+  <button mdbBtn dropdownToggle>Add</button>
+  <div class="mt-2 dropdown-menu">
+    <div *ngFor="let sugg of CurrentSuggestions; let i = index"
+         [ngClass]="{'highlight': SelectedSuggestionIndex == i}"><a class="add-ingredient-text">{{sugg.text}}</a></div>
+  </div>
+</div>

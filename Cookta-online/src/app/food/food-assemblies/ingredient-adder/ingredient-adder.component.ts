@@ -54,7 +54,7 @@ export class IngredientAdderComponent implements OnInit {
       this.AvailableUnits = [];
       return;
     }
-    this.unitService.GetAvailableUnitsFor(this.CurrentType).then((units) => this.AvailableUnits = units);
+    this.AvailableUnits = this.unitService.GetAvailableUnitsFor(this.CurrentType);
   }
 
   public Done: boolean = false;
