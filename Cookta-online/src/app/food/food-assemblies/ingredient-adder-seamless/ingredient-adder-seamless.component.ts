@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, Output, ViewChild} from '@angular/core';
 import {UnitService} from '../../../shared/services/unit.service';
 import {IngredientService} from '../../../shared/services/ingredient.service';
 import {Unit} from '../../../shared/models/unit.interface';
@@ -24,6 +24,7 @@ enum SuggestionType {
   styleUrls: ['./ingredient-adder-seamless.component.css']
 })
 export class IngredientAdderSeamlessComponent {
+
 
   public get CurrentText() {
     return this.m_CurrentText;
@@ -54,7 +55,7 @@ export class IngredientAdderSeamlessComponent {
 
     //ingredient
     let ingredientSuggestion =
-      this.CurrentSuggestionPool.find(s => s.type == SuggestionType.ingredient && this.WordsContainsText(t.split(' '), s.text));
+      this.CurrentSuggestionPool.sort(this.compareISuggestions).find(s => s.type == SuggestionType.ingredient && this.WordsContainsText(t.split(' '), s.text));
     if (ingredientSuggestion) {
       t = t.replace(ingredientSuggestion.text, '');
     }
@@ -91,14 +92,16 @@ export class IngredientAdderSeamlessComponent {
     //value
     let value;
     for (let str of t.split(' ')) {
-      try {
-        let num = +(str.replace(',', '.'));
-        value = num;
-        t = t.replace(str, '');
-        break;
-      } catch {
+      if (str == '') {
         continue;
       }
+      let num = +(str.replace(',', '.'));
+      if (isNaN(num)) {
+        continue;
+      }
+      value = num;
+      t = t.replace(str, '');
+      break;
     }
     //Clean whitespace from start and end
     t = t.trim();
@@ -125,8 +128,8 @@ export class IngredientAdderSeamlessComponent {
       event.preventDefault();
       this.SelectedSuggestionIndex--;
     }
-    if (event.code == 'Enter'){
-      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]){
+    if (event.code == 'Enter') {
+      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
         let ingredient = this.getCurrentIngredient(this.CurrentText);
         this.CurrentText = this.CurrentText.replace(ingredient.textLeft, this.CurrentSuggestions[this.SelectedSuggestionIndex].text);
         this.SelectedSuggestionIndex = -1;
@@ -175,8 +178,8 @@ export class IngredientAdderSeamlessComponent {
       let findWords: string[] = text.split(' ');
       for (let word of words) {
         let index = 0;
-        for (let text of findWords) {
-          if (word != text) {
+        for (let find of findWords) {
+          if (words[words.indexOf(word) + index] != find) {
             break;
           }
           index++;
@@ -189,6 +192,16 @@ export class IngredientAdderSeamlessComponent {
       return words.includes(text);
     }
     return false;
+  }
+
+  private compareISuggestions(a: ISuggestion, b: ISuggestion): number {
+    let aLenght = a.text.split(' ').length;
+    let bLenght = b.text.split(' ').length;
+    if (aLenght == bLenght) {
+      return 0;
+    } else {
+      return aLenght > bLenght ? -1 : 1;
+    }
   }
 
 }
