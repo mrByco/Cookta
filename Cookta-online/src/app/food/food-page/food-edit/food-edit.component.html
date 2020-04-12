@@ -67,7 +67,7 @@
 
       <!--<app-ingredient-adder style="margin: 0; padding: 0; color: white"
                             (OnIngredientAdded)="AddIngredient($event)"></app-ingredient-adder>-->
-      <app-ingredient-adder-seamless></app-ingredient-adder-seamless>
+      <app-ingredient-adder-seamless (OnIngredientAdded)="AddIngredient($event)"></app-ingredient-adder-seamless>
 
       <div style="height: 40px"></div>
 

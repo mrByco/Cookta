@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {UnitService} from '../../../shared/services/unit.service';
 import {IngredientService} from '../../../shared/services/ingredient.service';
 import {Unit} from '../../../shared/models/unit.interface';
@@ -6,14 +6,15 @@ import {IngredientType} from '../../../shared/models/grocery/ingredient-type.mod
 import {BsDropdownDirective} from 'angular-bootstrap-md';
 import {IDisplayable} from '../../../utilities/displayable';
 import {throwError} from 'rxjs';
+import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
 
 interface ISuggestion {
-  type: SuggestionType;
+  type: ESuggestionType;
   text: string;
   value: any;
 }
 
-enum SuggestionType {
+enum ESuggestionType {
   ingredient,
   unit
 }
@@ -25,6 +26,8 @@ enum SuggestionType {
 })
 export class IngredientAdderSeamlessComponent {
 
+  @ViewChild('dropdown', {static: true}) public dropdown: BsDropdownDirective;
+  @Output('OnIngredientAdded') public OnIngredientAdded: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
 
   public get CurrentText() {
     return this.m_CurrentText;
@@ -41,18 +44,20 @@ export class IngredientAdderSeamlessComponent {
 
   public CurrentSuggestionPool: ISuggestion[] = [];
   public CurrentSuggestions: ISuggestion[] = [];
+  public SelectedSuggestionIndex: number = -1;
 
-  @ViewChild('dropdown', {static: true}) public dropdown: BsDropdownDirective;
 
+  constructor(public unitService: UnitService,
+              public ingredientService: IngredientService) {
+  }
 
-  private ValidatedPrefix = '';
 
   private getCurrentIngredient(text: string): { value: number, ingredient: IngredientType, unit: Unit, unitValid: boolean, textLeft: string } {
     let t = text.toLowerCase();
 
     //ingredient
     let ingredientSuggestion =
-      this.CurrentSuggestionPool.find(s => s.type == SuggestionType.ingredient && this.WordsContainsText(t.split(' '), s.text));
+      this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.ingredient && this.WordsContainsText(t.split(' '), s.text));
     if (ingredientSuggestion) {
       t = t.replace(ingredientSuggestion.text, '');
     }
@@ -64,18 +69,18 @@ export class IngredientAdderSeamlessComponent {
       let ValidUnits = this.unitService.GetAvailableUnitsFor(ingredientSuggestion.value as IngredientType);
       for (let unit of ValidUnits ? ValidUnits : []) {
         if (t.includes(unit.name.toLowerCase())) {
-          unitSuggestion = {text: unit.name, type: SuggestionType.unit, value: unit};
+          unitSuggestion = {text: unit.name, type: ESuggestionType.unit, value: unit};
           break;
         }
         if (unit.shortname && t.includes(unit.shortname.toLowerCase())) {
-          unitSuggestion = {text: unit.shortname, type: SuggestionType.unit, value: unit};
+          unitSuggestion = {text: unit.shortname, type: ESuggestionType.unit, value: unit};
           break;
         }
       }
     }
     let unitValid = true;
     if (!unitSuggestion) {
-      unitSuggestion = this.CurrentSuggestionPool.find(s => s.type == SuggestionType.unit && t.split(' ').includes(s.text));
+      unitSuggestion = this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.unit && t.split(' ').includes(s.text));
       if (unitSuggestion) {
         t = t.replace(unitSuggestion.text, '');
         unitValid = false;
@@ -110,13 +115,7 @@ export class IngredientAdderSeamlessComponent {
     };
   }
 
-  public SelectedSuggestionIndex: number = -1;
-
-  constructor(public unitService: UnitService,
-              public ingredientService: IngredientService) {
-  }
-
-  onKeyDown(event: KeyboardEvent) {
+  private onKeyDown(event: KeyboardEvent) {
     if (event.code == 'ArrowDown') {
       event.preventDefault();
       this.SelectedSuggestionIndex++;
@@ -126,10 +125,32 @@ export class IngredientAdderSeamlessComponent {
       this.SelectedSuggestionIndex--;
     }
     if (event.code == 'Enter') {
-      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
-        let ingredient = this.getCurrentIngredient(this.CurrentText);
-        this.CurrentText = this.CurrentText.replace(ingredient.textLeft, this.CurrentSuggestions[this.SelectedSuggestionIndex].text);
+      let currentIngredient = this.getCurrentIngredient(this.CurrentText);
+      let addSuggestionToText = (sugg: ISuggestion) => {
+        this.CurrentText = this.CurrentText.replace(currentIngredient.textLeft, sugg.text);
         this.SelectedSuggestionIndex = -1;
+      };
+      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
+        addSuggestionToText(this.CurrentSuggestions[this.SelectedSuggestionIndex]);
+
+      } else if (currentIngredient.ingredient && currentIngredient.unit && currentIngredient.value) {
+        this.OnIngredientAdded.emit({
+          ingredientID: currentIngredient.ingredient.guid,
+          value: currentIngredient.value,
+          unit: currentIngredient.unit.id
+        });
+        this.CurrentText = '';
+
+      } else if (this.CurrentSuggestions.length > 0) {
+        for (let sugg of this.CurrentSuggestions) {
+          if (!currentIngredient.ingredient && sugg.type == ESuggestionType.ingredient){
+            addSuggestionToText(sugg);
+            break;
+          }else if (!currentIngredient.unit && sugg.type == ESuggestionType.unit){
+            addSuggestionToText(sugg);
+            break;
+          }
+        }
       }
 
     }
@@ -140,15 +161,15 @@ export class IngredientAdderSeamlessComponent {
     let suggestions: ISuggestion[] = [];
 
     for (let type of this.ingredientService.LastLoadedTypes.filter(i => !i['arhived'])) {
-      suggestions.push({type: SuggestionType.ingredient, text: type.displayName().toLowerCase(), value: type});
+      suggestions.push({type: ESuggestionType.ingredient, text: type.displayName().toLowerCase(), value: type});
     }
     for (let unit of this.unitService.LastLoadedUnits.concat()) {
 
       if (!suggestions.find(u => u.text == unit.name)) {
-        suggestions.push({type: SuggestionType.unit, text: unit.name, value: unit});
+        suggestions.push({type: ESuggestionType.unit, text: unit.name, value: unit});
       }
       if (unit.shortname && unit.shortname != '' && !suggestions.find(u => u.text == unit.shortname)) {
-        suggestions.push({type: SuggestionType.unit, text: unit.shortname, value: unit});
+        suggestions.push({type: ESuggestionType.unit, text: unit.shortname, value: unit});
       }
     }
     this.CurrentSuggestionPool = suggestions.sort(this.compareISuggestions);
