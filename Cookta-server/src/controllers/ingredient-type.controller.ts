@@ -11,7 +11,7 @@ export class IngredientTypeController extends Controller {
     @Get()
     public async GetAll(): Promise<IIngredientType[]> {
         try{
-            return Services.IngredientTypeService.GetAllItems();
+            return Services.IngredientTypeService.GetAllNotArhived();
         }catch{
             this.setStatus(500);
         }
