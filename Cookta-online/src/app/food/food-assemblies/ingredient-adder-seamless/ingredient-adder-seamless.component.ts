@@ -1,11 +1,9 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {UnitService} from '../../../shared/services/unit.service';
 import {IngredientService} from '../../../shared/services/ingredient.service';
 import {Unit} from '../../../shared/models/unit.interface';
 import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';
 import {BsDropdownDirective} from 'angular-bootstrap-md';
-import {IDisplayable} from '../../../utilities/displayable';
-import {throwError} from 'rxjs';
 import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
 
 interface ISuggestion {
@@ -57,7 +55,7 @@ export class IngredientAdderSeamlessComponent {
 
     //ingredient
     let ingredientSuggestion =
-      this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.ingredient && this.WordsContainsText(t.split(' '), s.text));
+      this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.ingredient && IngredientAdderSeamlessComponent.wordsContainsText(t, s.text));
     if (ingredientSuggestion) {
       t = t.replace(ingredientSuggestion.text, '');
     }
@@ -68,11 +66,11 @@ export class IngredientAdderSeamlessComponent {
 
       let ValidUnits = this.unitService.GetAvailableUnitsFor(ingredientSuggestion.value as IngredientType);
       for (let unit of ValidUnits ? ValidUnits : []) {
-        if (t.includes(unit.name.toLowerCase())) {
+        if (IngredientAdderSeamlessComponent.wordsContainsText(t, unit.name.toLowerCase())) {
           unitSuggestion = {text: unit.name, type: ESuggestionType.unit, value: unit};
           break;
         }
-        if (unit.shortname && t.includes(unit.shortname.toLowerCase())) {
+        if (unit.shortname && IngredientAdderSeamlessComponent.wordsContainsText(t, unit.shortname.toLowerCase())) {
           unitSuggestion = {text: unit.shortname, type: ESuggestionType.unit, value: unit};
           break;
         }
@@ -80,7 +78,7 @@ export class IngredientAdderSeamlessComponent {
     }
     let unitValid = true;
     if (!unitSuggestion) {
-      unitSuggestion = this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.unit && t.split(' ').includes(s.text));
+      unitSuggestion = this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.unit && IngredientAdderSeamlessComponent.wordsContainsText(t, s.text));
       if (unitSuggestion) {
         t = t.replace(unitSuggestion.text, '');
         unitValid = false;
@@ -127,7 +125,9 @@ export class IngredientAdderSeamlessComponent {
     if (event.code == 'Enter') {
       let currentIngredient = this.getCurrentIngredient(this.CurrentText);
       let addSuggestionToText = (sugg: ISuggestion) => {
-        this.CurrentText = this.CurrentText.replace(currentIngredient.textLeft, sugg.text);
+        currentIngredient.textLeft.length == 0 ?
+          this.CurrentText = (this.CurrentText[this.CurrentText.length - 1] == ' ' ? this.CurrentText + sugg.text : this.CurrentText + ' ' + sugg.text) :
+          this.CurrentText = this.CurrentText.replace(currentIngredient.textLeft, sugg.text);
         this.SelectedSuggestionIndex = -1;
       };
       if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
@@ -143,16 +143,15 @@ export class IngredientAdderSeamlessComponent {
 
       } else if (this.CurrentSuggestions.length > 0) {
         for (let sugg of this.CurrentSuggestions) {
-          if (!currentIngredient.ingredient && sugg.type == ESuggestionType.ingredient){
+          if (!currentIngredient.ingredient && sugg.type == ESuggestionType.ingredient) {
             addSuggestionToText(sugg);
             break;
-          }else if (!currentIngredient.unit && sugg.type == ESuggestionType.unit){
+          } else if (!currentIngredient.unit && sugg.type == ESuggestionType.unit) {
             addSuggestionToText(sugg);
             break;
           }
         }
       }
-
     }
   }
 
@@ -191,7 +190,8 @@ export class IngredientAdderSeamlessComponent {
     this.CurrentSuggestions.length > 0 ? this.dropdown.show() : this.dropdown.hide();
   }
 
-  private WordsContainsText(words: string[], text: string): boolean {
+  private static wordsContainsText(searchIn: string, text: string): boolean {
+    let words = searchIn.split(' ');
     if (text.includes(' ')) {
       let findWords: string[] = text.split(' ');
       for (let word of words) {
