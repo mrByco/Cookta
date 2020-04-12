@@ -32,9 +32,6 @@ export class IngredientAdderSeamlessComponent {
 
   public set CurrentText(value: string) {
     this.m_CurrentText = value;
-    if (value[value.length - 1] == ' ') {
-    }
-    ;
 
     this.RefreshSuggestionPool();
     this.FilterSuggestions();
@@ -55,7 +52,7 @@ export class IngredientAdderSeamlessComponent {
 
     //ingredient
     let ingredientSuggestion =
-      this.CurrentSuggestionPool.sort(this.compareISuggestions).find(s => s.type == SuggestionType.ingredient && this.WordsContainsText(t.split(' '), s.text));
+      this.CurrentSuggestionPool.find(s => s.type == SuggestionType.ingredient && this.WordsContainsText(t.split(' '), s.text));
     if (ingredientSuggestion) {
       t = t.replace(ingredientSuggestion.text, '');
     }
@@ -154,7 +151,7 @@ export class IngredientAdderSeamlessComponent {
         suggestions.push({type: SuggestionType.unit, text: unit.shortname, value: unit});
       }
     }
-    this.CurrentSuggestionPool = suggestions;
+    this.CurrentSuggestionPool = suggestions.sort(this.compareISuggestions);
   }
 
   private FilterSuggestions() {
