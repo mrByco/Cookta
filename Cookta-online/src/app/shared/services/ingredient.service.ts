@@ -98,7 +98,7 @@ export class IngredientService {
       return "Max 35 character";
   }
 
-  public GetLastLoadedCustomUnitNamesLower(): string[] {
+  public GetLastLoadedCustomUnitsFor(): string[] {
     let names: string[] = [];
     for (let ing of this.LastLoadedTypes){
       if (!ing.options || !ing.options.cunits || ing.options.cunits.length == 0)
