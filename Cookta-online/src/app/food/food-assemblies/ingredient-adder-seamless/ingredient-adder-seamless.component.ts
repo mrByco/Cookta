@@ -5,6 +5,7 @@ import {Unit} from '../../../shared/models/unit.interface';
 import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';
 import {BsDropdownDirective} from 'angular-bootstrap-md';
 import {IDisplayable} from '../../../utilities/displayable';
+import {throwError} from 'rxjs';
 
 interface ISuggestion {
   type: SuggestionType;
@@ -22,7 +23,7 @@ enum SuggestionType {
   templateUrl: './ingredient-adder-seamless.component.html',
   styleUrls: ['./ingredient-adder-seamless.component.css']
 })
-export class IngredientAdderSeamlessComponent implements OnInit {
+export class IngredientAdderSeamlessComponent {
 
   public get CurrentText() {
     return this.m_CurrentText;
@@ -115,9 +116,6 @@ export class IngredientAdderSeamlessComponent implements OnInit {
               public ingredientService: IngredientService) {
   }
 
-  ngOnInit() {
-  }
-
   onKeyDown(event: KeyboardEvent) {
     if (event.code == 'ArrowDown') {
       event.preventDefault();
@@ -127,13 +125,21 @@ export class IngredientAdderSeamlessComponent implements OnInit {
       event.preventDefault();
       this.SelectedSuggestionIndex--;
     }
+    if (event.code == 'Enter'){
+      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]){
+        let ingredient = this.getCurrentIngredient(this.CurrentText);
+        this.CurrentText = this.CurrentText.replace(ingredient.textLeft, this.CurrentSuggestions[this.SelectedSuggestionIndex].text);
+        this.SelectedSuggestionIndex = -1;
+      }
+
+    }
   }
 
   private RefreshSuggestionPool() {
 
     let suggestions: ISuggestion[] = [];
 
-    for (let type of this.ingredientService.LastLoadedTypes) {
+    for (let type of this.ingredientService.LastLoadedTypes.filter(i => !i['arhived'])) {
       suggestions.push({type: SuggestionType.ingredient, text: type.displayName().toLowerCase(), value: type});
     }
     for (let unit of this.unitService.LastLoadedUnits.concat()) {
@@ -175,7 +181,7 @@ export class IngredientAdderSeamlessComponent implements OnInit {
           }
           index++;
         }
-        if (index == findWords.length - 1) {
+        if (index == findWords.length) {
           return true;
         }
       }
