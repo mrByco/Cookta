@@ -10,11 +10,18 @@ interface ISuggestion {
   type: ESuggestionType;
   text: string;
   value: any;
+  action?: ESuggestionAction;
 }
 
 enum ESuggestionType {
   ingredient,
   unit
+}
+
+//TODO Refactor rename to Delete previous
+enum ESuggestionAction {
+  add,
+  replace
 }
 
 @Component({
@@ -38,7 +45,9 @@ export class IngredientAdderSeamlessComponent {
     this.FilterSuggestions();
   }
 
-  private m_CurrentText;
+  public CursorPosition: number;
+
+  private m_CurrentText: string;
 
   public CurrentSuggestionPool: ISuggestion[] = [];
   public CurrentSuggestions: ISuggestion[] = [];
@@ -50,12 +59,12 @@ export class IngredientAdderSeamlessComponent {
   }
 
 
-  private getCurrentIngredient(text: string): { value: number, ingredient: IngredientType, unit: Unit, unitValid: boolean, textLeft: string } {
+  private parseCurrentIngredient(text: string): { value: number, ingredient: IngredientType, ingredientSuggestion: ISuggestion, unit: Unit, unitSuggestion: ISuggestion, unitValid: boolean, textLeft: string } {
     let t = text.toLowerCase();
 
     //ingredient
     let ingredientSuggestion =
-      this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.ingredient && IngredientAdderSeamlessComponent.wordsContainsText(t, s.text));
+      this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.ingredient && IngredientAdderSeamlessComponent.wordsIncludesText(t, s.text));
     if (ingredientSuggestion) {
       t = t.replace(ingredientSuggestion.text, '');
     }
@@ -66,11 +75,11 @@ export class IngredientAdderSeamlessComponent {
 
       let ValidUnits = this.unitService.GetAvailableUnitsFor(ingredientSuggestion.value as IngredientType);
       for (let unit of ValidUnits ? ValidUnits : []) {
-        if (IngredientAdderSeamlessComponent.wordsContainsText(t, unit.name.toLowerCase())) {
+        if (IngredientAdderSeamlessComponent.wordsIncludesText(t, unit.name.toLowerCase())) {
           unitSuggestion = {text: unit.name, type: ESuggestionType.unit, value: unit};
           break;
         }
-        if (unit.shortname && IngredientAdderSeamlessComponent.wordsContainsText(t, unit.shortname.toLowerCase())) {
+        if (unit.shortname && IngredientAdderSeamlessComponent.wordsIncludesText(t, unit.shortname.toLowerCase())) {
           unitSuggestion = {text: unit.shortname, type: ESuggestionType.unit, value: unit};
           break;
         }
@@ -78,7 +87,7 @@ export class IngredientAdderSeamlessComponent {
     }
     let unitValid = true;
     if (!unitSuggestion) {
-      unitSuggestion = this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.unit && IngredientAdderSeamlessComponent.wordsContainsText(t, s.text));
+      unitSuggestion = this.CurrentSuggestionPool.find(s => s.type == ESuggestionType.unit && IngredientAdderSeamlessComponent.wordsIncludesText(t, s.text));
       if (unitSuggestion) {
         t = t.replace(unitSuggestion.text, '');
         unitValid = false;
@@ -108,7 +117,9 @@ export class IngredientAdderSeamlessComponent {
     return {
       value: value,
       ingredient: ingredientSuggestion ? ingredientSuggestion.value : undefined,
+      ingredientSuggestion: ingredientSuggestion,
       unit: unitSuggestion ? unitSuggestion.value : undefined,
+      unitSuggestion: unitSuggestion,
       unitValid: unitValid, textLeft: t
     };
   }
@@ -123,16 +134,28 @@ export class IngredientAdderSeamlessComponent {
       this.SelectedSuggestionIndex--;
     }
     if (event.code == 'Enter') {
-      let currentIngredient = this.getCurrentIngredient(this.CurrentText);
+      let currentIngredient = this.parseCurrentIngredient(this.CurrentText);
+
       let addSuggestionToText = (sugg: ISuggestion) => {
+        if (sugg.action == ESuggestionAction.replace) {
+          //Work on private to avoid suggestion updates
+          let prevElementText = sugg.type == ESuggestionType.unit ?
+            currentIngredient.unitSuggestion.text :
+            currentIngredient.ingredientSuggestion.text;
+
+          this.m_CurrentText = this.CurrentText.replace(prevElementText, '');
+          while (this.m_CurrentText.includes('  ')) {
+            this.m_CurrentText.replace('  ', ' ');
+          }
+        }
         currentIngredient.textLeft.length == 0 ?
           this.CurrentText = (this.CurrentText[this.CurrentText.length - 1] == ' ' ? this.CurrentText + sugg.text : this.CurrentText + ' ' + sugg.text) :
           this.CurrentText = this.CurrentText.replace(currentIngredient.textLeft, sugg.text);
         this.SelectedSuggestionIndex = -1;
       };
+
       if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
         addSuggestionToText(this.CurrentSuggestions[this.SelectedSuggestionIndex]);
-
       } else if (currentIngredient.ingredient && currentIngredient.unit && currentIngredient.value) {
         this.OnIngredientAdded.emit({
           ingredientID: currentIngredient.ingredient.guid,
@@ -176,40 +199,91 @@ export class IngredientAdderSeamlessComponent {
 
   private FilterSuggestions() {
 
-    let currentIng = this.getCurrentIngredient(this.CurrentText);
-    console.log(currentIng);
+    let parseResult = this.parseCurrentIngredient(this.CurrentText);
+    console.log(parseResult);
 
-    let current = this.getCurrentIngredient(this.CurrentText);
-    let filterText = current.textLeft;
-    let filtered = [];
+    let filterText = parseResult.textLeft;
+    let filtered: ISuggestion[] = [];
+
     if (this.CurrentSuggestionPool.length > 0) {
-      filtered = (this.CurrentSuggestionPool as ISuggestion[]).filter((sugg) => sugg.text.includes(filterText));
-    }
+      //ingredients
+      if (!parseResult.ingredient) {
+        if (filterText != '') {
+          filtered.push(...this.CurrentSuggestionPool
+            .filter(s => s.text.includes(filterText) && s.type == ESuggestionType.ingredient)
+            .map<ISuggestion>((s) => {
+              return {...s, ...{action: ESuggestionAction.add}};
+            }));
+        }
+      } else {
+        let secondWordIngOption = (s: ISuggestion) =>
+          IngredientAdderSeamlessComponent.wordsIncludesText(s.text, parseResult.ingredientSuggestion.text + ' ' + filterText, true);
 
+        let startsWithCurrent = (s: ISuggestion) =>
+          IngredientAdderSeamlessComponent.startsWith(s.text, parseResult.ingredientSuggestion.text) && this.CurrentText[this.CurrentText.length - 1] != ' ';
+
+        filtered.push(...this.CurrentSuggestionPool
+          .filter(s => s.type == ESuggestionType.ingredient)
+          .filter(s => startsWithCurrent(s) || secondWordIngOption(s))
+          .map<ISuggestion>((s) => {
+            return {...s, ...{action: ESuggestionAction.replace}};
+          }));
+
+        //units
+        if (!parseResult.unit) {
+          if (filterText != '') {
+            filtered.push(...this.CurrentSuggestionPool
+              .filter(s => s.text.includes(filterText) && s.type == ESuggestionType.unit)
+              .map<ISuggestion>((s) => {
+                return {...s, ...{action: ESuggestionAction.add}};
+              }));
+          }
+        } else {
+          let secondWordIngOption = (s: ISuggestion) =>
+            IngredientAdderSeamlessComponent.wordsIncludesText(s.text, parseResult.unitSuggestion.text + ' ' + filterText, true);
+
+          let startsWithCurrent = (s: ISuggestion) =>
+            IngredientAdderSeamlessComponent.startsWith(s.text, parseResult.unitSuggestion.text) && this.CurrentText[this.CurrentText.length - 1] != ' ';
+
+          filtered.push(...this.CurrentSuggestionPool
+            .filter(s => s.type == ESuggestionType.unit)
+            .filter(s => startsWithCurrent(s) || secondWordIngOption(s))
+            .map<ISuggestion>((s) => {
+              return {...s, ...{action: ESuggestionAction.replace}};
+            }));
+        }
+      }
+    }
     this.CurrentSuggestions = filtered.slice(0, 12);
     this.CurrentSuggestions.length > 0 ? this.dropdown.show() : this.dropdown.hide();
   }
 
-  private static wordsContainsText(searchIn: string, text: string): boolean {
+  private static wordsIncludesText(searchIn: string, text: string, partial?: boolean): boolean {
     let words = searchIn.split(' ');
-    if (text.includes(' ')) {
-      let findWords: string[] = text.split(' ');
-      for (let word of words) {
-        let index = 0;
-        for (let find of findWords) {
-          if (words[words.indexOf(word) + index] != find) {
-            break;
-          }
-          index++;
+    let findWords: string[] = text.split(' ');
+    for (let word of words) {
+      let index = 0;
+      for (let find of findWords) {
+        let currentContainerWord = words[words.indexOf(word) + index];
+        //break if no next word
+        if (!currentContainerWord) {
+          break;
         }
-        if (index == findWords.length) {
-          return true;
+        let includes: boolean = partial ? currentContainerWord.includes(find) : currentContainerWord != find;
+        if (includes) {
+          break;
         }
+        index++;
       }
-    } else {
-      return words.includes(text);
+      if (index == findWords.length) {
+        return true;
+      }
     }
     return false;
+  }
+
+  private static startsWith(str: string, startsWith: string) {
+    return str.startsWith(startsWith) && startsWith.length > 0;
   }
 
   private compareISuggestions(a: ISuggestion, b: ISuggestion): number {
@@ -222,4 +296,7 @@ export class IngredientAdderSeamlessComponent {
     }
   }
 
+  SelectionChanged(e: Event) {
+    console.log(e);
+  }
 }
