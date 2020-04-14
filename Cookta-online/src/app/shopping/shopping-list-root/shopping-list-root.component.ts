@@ -66,7 +66,7 @@ export class ShoppingListRootComponent implements OnInit {
 
   }
 
-  private ChangeNextShoppingDay(event: string) {
+  public ChangeNextShoppingDay(event: string) {
     let year = +event.split('-')[0];
     let month = +event.split('-')[1] - 1;
     let date = +event.split('-')[2];

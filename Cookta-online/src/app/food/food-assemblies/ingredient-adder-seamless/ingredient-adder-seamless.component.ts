@@ -190,7 +190,7 @@ export class IngredientAdderSeamlessComponent {
     };
   }
 
-  private onKeyDown(event: KeyboardEvent) {
+  public onKeyDown(event: KeyboardEvent) {
     if (event.code == 'ArrowDown') {
       event.preventDefault();
       this.SelectedSuggestionIndex++;

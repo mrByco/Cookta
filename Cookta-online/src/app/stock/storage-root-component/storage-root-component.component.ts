@@ -22,7 +22,7 @@ export class StorageRootComponentComponent implements OnInit {
   @ViewChild('AddIngModal', {static: true}) public AddIngModal: ModalDirective;
 
   constructor(public stockService: StorageService,
-              private unitService: UnitService) {
+              public unitService: UnitService) {
   }
 
   async ngOnInit() {
