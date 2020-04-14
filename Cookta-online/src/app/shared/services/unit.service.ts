@@ -65,7 +65,13 @@ export class UnitService {
 
       return u;
     }
-
+  }
+  public GetDisplayName(id: string){
+    let unit = this.GetUnit(id);
+    if (!unit){
+      return 'U:' + id;
+    }
+    return unit.shortname && unit.shortname != '' ? unit.shortname : unit.name;
   }
 
   public GetAvailableUnitsFor(CurrentType: IngredientType): Unit[] {

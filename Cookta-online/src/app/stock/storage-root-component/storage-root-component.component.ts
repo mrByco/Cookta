@@ -1,8 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
 import {StorageService} from '../../shared/services/storage.service';
-import {StorageSection} from "../../shared/models/storage/storage-section.model";
-import {ModalDirective} from "angular-bootstrap-md";
+import {StorageSection} from '../../shared/models/storage/storage-section.model';
+import {ModalDirective} from 'angular-bootstrap-md';
+import {IIngredientType} from '../../shared/models/grocery/ingredient-type.interface';
+import {IngredientType} from '../../shared/models/grocery/ingredient-type.model';
+import {UnitService} from '../../shared/services/unit.service';
 
 @Component({
   selector: 'app-storage-root-component',
@@ -16,9 +19,10 @@ export class StorageRootComponentComponent implements OnInit {
   public ButtonLoading: boolean;
   public SelectedSection: StorageSection;
 
-  @ViewChild("AddIngModal", {static: true}) public AddIngModal: ModalDirective;
+  @ViewChild('AddIngModal', {static: true}) public AddIngModal: ModalDirective;
 
-  constructor(public stockService: StorageService) {
+  constructor(public stockService: StorageService,
+              private unitService: UnitService) {
   }
 
   async ngOnInit() {
@@ -35,13 +39,23 @@ export class StorageRootComponentComponent implements OnInit {
     this.stockService.AddIngredientToSection(ingredient, this.SelectedSection, true);
   }
 
-  public ShowModal() {
-    if (this.stockService.Sections.length > 0)
+  public ShowAddModal() {
+    if (this.stockService.Sections.length > 0) {
       this.SelectedSection = this.stockService.Sections[0];
-     else
+    } else {
       this.SelectedSection = this.stockService.CreateStorageSection();
+    }
 
     this.AddIngModal.show();
   }
 
+  public findStorageSectionsByType(typeId: string): StorageSection[] {
+    return this.stockService.FindStoragesByIngredientType(typeId);
+  }
+
+  CloseIfIngredientIsZero(ingredient: IIngredient, removeIngModal: ModalDirective) {
+    if (ingredient.value <= 0){
+      removeIngModal.hide();
+    }
+  }
 }
