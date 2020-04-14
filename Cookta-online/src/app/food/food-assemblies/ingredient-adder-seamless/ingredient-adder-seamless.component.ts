@@ -34,6 +34,18 @@ export class IngredientAdderSeamlessComponent {
   @ViewChild('dropdown', {static: true}) public dropdown: BsDropdownDirective;
   @Output('OnIngredientAdded') public OnIngredientAdded: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
 
+  public CurrentSuggestionPool: ISuggestion[] = [];
+  public CurrentSuggestions: ISuggestion[] = [];
+  public SelectedSuggestionIndex: number = -1;
+  public CurrentUnitInvalid: boolean;
+  public EverythinkOk: boolean;
+
+  private m_CurrentText: string = '';
+
+  constructor(public unitService: UnitService,
+              public ingredientService: IngredientService) {
+  }
+
   public get CurrentText() {
     return this.m_CurrentText;
   }
@@ -44,20 +56,59 @@ export class IngredientAdderSeamlessComponent {
     this.FilterSuggestions();
   }
 
-  private m_CurrentText: string = '';
-
-  public CurrentSuggestionPool: ISuggestion[] = [];
-  public CurrentSuggestions: ISuggestion[] = [];
-  public SelectedSuggestionIndex: number = -1;
-
-
-  constructor(public unitService: UnitService,
-              public ingredientService: IngredientService) {
+  private static wordsIncludesText(searchIn: string, text: string, partial?: boolean, endWorld?: number): boolean {
+    let words = searchIn.split(' ');
+    let findWords: string[] = text.split(' ');
+    let wordIndex = 0;
+    for (let word of words) {
+      if (wordIndex >= endWorld) {
+        return false;
+      }
+      let index = 0;
+      for (let find of findWords) {
+        let currentContainerWord = words[words.indexOf(word) + index];
+        //break if no next word
+        if (!currentContainerWord) {
+          break;
+        }
+        let includes: boolean = partial ? currentContainerWord.includes(find) : currentContainerWord != find;
+        if (includes) {
+          break;
+        }
+        index++;
+      }
+      if (index == findWords.length) {
+        return true;
+      }
+      wordIndex++;
+    }
+    return false;
   }
 
-  public CurrentUnitInvalid: boolean;
-  public EverythinkOk: boolean;
+  private static startsWith(str: string, startsWith: string) {
+    return str.startsWith(startsWith) && startsWith.length > 0 && str != startsWith;
+  }
 
+  public AddCurrentSelectedOrDefaultSuggestionToText(sugg: ISuggestion, parseResult?: any) {
+    parseResult = parseResult ? parseResult : this.parseCurrentIngredient(this.CurrentText);
+    if (sugg.action == ESuggestionAction.replace) {
+      //Work on private to avoid suggestion updates
+      let prevElementText = sugg.type == ESuggestionType.unit ?
+        parseResult.unitSuggestion.text :
+        parseResult.ingredientSuggestion.text;
+
+      this.m_CurrentText = this.CurrentText.replace(prevElementText, sugg.text);
+      while (this.m_CurrentText.includes('  ')) {
+        this.m_CurrentText.replace('  ', ' ');
+      }
+      this.CurrentText = this.CurrentText.replace(parseResult.textLeft, '');
+      return;
+    }
+    parseResult.textLeft.length == 0 ?
+      this.CurrentText = (this.CurrentText[this.CurrentText.length - 1] == ' ' ? this.CurrentText + sugg.text : this.CurrentText + ' ' + sugg.text) :
+      this.CurrentText = this.CurrentText.replace(parseResult.textLeft, sugg.text);
+    this.SelectedSuggestionIndex = -1;
+  }
 
   private parseCurrentIngredient(text: string): { value: number, ingredient: IngredientType, ingredientSuggestion: ISuggestion, unit: Unit, unitSuggestion: ISuggestion, unitValid: boolean, textLeft: string } {
     let t = text.toLowerCase();
@@ -286,60 +337,6 @@ export class IngredientAdderSeamlessComponent {
       this.CurrentSuggestions = filtered.slice(0, 12);
     }
     this.CurrentSuggestions.length > 0 ? this.dropdown.show() : this.dropdown.hide();
-  }
-
-  public AddCurrentSelectedOrDefaultSuggestionToText(sugg: ISuggestion, parseResult?: any) {
-    parseResult = parseResult ? parseResult : this.parseCurrentIngredient(this.CurrentText);
-    if (sugg.action == ESuggestionAction.replace) {
-      //Work on private to avoid suggestion updates
-      let prevElementText = sugg.type == ESuggestionType.unit ?
-        parseResult.unitSuggestion.text :
-        parseResult.ingredientSuggestion.text;
-
-      this.m_CurrentText = this.CurrentText.replace(prevElementText, sugg.text);
-      while (this.m_CurrentText.includes('  ')) {
-        this.m_CurrentText.replace('  ', ' ');
-      }
-      this.CurrentText = this.CurrentText.replace(parseResult.textLeft, '');
-      return;
-    }
-    parseResult.textLeft.length == 0 ?
-      this.CurrentText = (this.CurrentText[this.CurrentText.length - 1] == ' ' ? this.CurrentText + sugg.text : this.CurrentText + ' ' + sugg.text) :
-      this.CurrentText = this.CurrentText.replace(parseResult.textLeft, sugg.text);
-    this.SelectedSuggestionIndex = -1;
-  }
-
-  private static wordsIncludesText(searchIn: string, text: string, partial?: boolean, endWorld?: number): boolean {
-    let words = searchIn.split(' ');
-    let findWords: string[] = text.split(' ');
-    let wordIndex = 0;
-    for (let word of words) {
-      if (wordIndex >= endWorld) {
-        return false;
-      }
-      let index = 0;
-      for (let find of findWords) {
-        let currentContainerWord = words[words.indexOf(word) + index];
-        //break if no next word
-        if (!currentContainerWord) {
-          break;
-        }
-        let includes: boolean = partial ? currentContainerWord.includes(find) : currentContainerWord != find;
-        if (includes) {
-          break;
-        }
-        index++;
-      }
-      if (index == findWords.length) {
-        return true;
-      }
-      wordIndex++;
-    }
-    return false;
-  }
-
-  private static startsWith(str: string, startsWith: string) {
-    return str.startsWith(startsWith) && startsWith.length > 0 && str != startsWith;
   }
 
   private compareISuggestions(a: ISuggestion, b: ISuggestion): number {
