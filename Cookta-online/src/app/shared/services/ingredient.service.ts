@@ -6,6 +6,7 @@ import {EventEmitter, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {delay} from "rxjs/operators";
 import {DisplayIngredient} from "../ingredient-display";
+import {Unit} from '../models/unit.interface';
 
 @Injectable()
 export class IngredientService {
@@ -97,4 +98,20 @@ export class IngredientService {
       return "Max 35 character";
   }
 
+  public GetLastLoadedCustomUnitsFor(): string[] {
+    let names: string[] = [];
+    for (let ing of this.LastLoadedTypes){
+      if (!ing.options || !ing.options.cunits || ing.options.cunits.length == 0)
+        continue;
+      for (let unit of ing.options.cunits){
+        if  (!names.includes(unit.name.toLowerCase())){
+          names.push(unit.name);
+        }
+        if (unit.shortname && unit.shortname != '' && !names.includes(unit.shortname.toLowerCase())){
+          names.push(unit.shortname);
+        }
+      }
+    }
+    return names;
+  }
 }

@@ -57,6 +57,7 @@ import { EssentialsListComponent } from './stock/essentials-list/essentials-list
 import {EssentialsService} from "./shared/services/essentials.service";
 import { ShoppingListRootComponent } from './shopping/shopping-list-root/shopping-list-root.component';
 import { ShoppingListPanelComponent } from './shopping/shopping-list-panel/shopping-list-panel.component';
+import { IngredientAdderSeamlessComponent } from './food/food-assemblies/ingredient-adder-seamless/ingredient-adder-seamless.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -109,6 +110,7 @@ const appRoutes: Routes = [
     EssentialsListComponent,
     ShoppingListRootComponent,
     ShoppingListPanelComponent,
+    IngredientAdderSeamlessComponent,
   ],
     imports: [
         BrowserModule,
