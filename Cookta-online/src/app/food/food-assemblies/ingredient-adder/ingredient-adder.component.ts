@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
-import {UnitService} from '../../../shared/services/unit.service';
+import {UnitService} from '../../../shared/services/unit-service/unit.service';
 import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
 import {AutoCompleteComponent} from '../../../utilities/auto-complete/auto-complete.component';
 import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';

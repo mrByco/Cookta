@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {IngredientType} from "../../../shared/models/grocery/ingredient-type.model";
-import {ModalDirective} from "angular-bootstrap-md";
-import {IngredientService} from "../../../shared/services/ingredient-service/ingredient.service";
-import {Guid} from "guid-typescript";
-import {EUnitType} from "../../../shared/models/grocery/unit-type.enum";
-import {Unit} from "../../../shared/models/unit.interface";
-import {UnitService} from "../../../shared/services/unit.service";
+import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';
+import {ModalDirective} from 'angular-bootstrap-md';
+import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
+import {Guid} from 'guid-typescript';
+import {EUnitType} from '../../../shared/models/grocery/unit-type.enum';
+import {Unit} from '../../../shared/models/unit.interface';
+import {UnitService} from '../../../shared/services/unit-service/unit.service';
 
 @Component({
   selector: 'app-ingredient-item-popup',
@@ -46,8 +46,8 @@ export class IngredientItemPopupComponent implements OnInit {
   @ViewChild('basicModal', {static: true}) public modal: ModalDirective;
 
 
-  constructor(private IngredientService: IngredientService,
-              private UnitService: UnitService) { }
+  constructor(public IngredientService: IngredientService) {
+  }
 
   ngOnInit() {
   }

@@ -1,10 +1,10 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {IIngredient} from "../../shared/models/grocery/ingredient.interface";
-import {DisplayIngredient} from "../../shared/ingredient-display";
-import {IngredientService} from "../../shared/services/ingredient-service/ingredient.service";
-import {UnitService} from "../../shared/services/unit.service";
-import {EssentialsService} from "../../shared/services/essentials.service";
-import {ModalDirective} from "angular-bootstrap-md";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
+import {DisplayIngredient} from '../../shared/ingredient-display';
+import {IngredientService} from '../../shared/services/ingredient-service/ingredient.service';
+import {UnitService} from '../../shared/services/unit-service/unit.service';
+import {EssentialsService} from '../../shared/services/essentials.service';
+import {ModalDirective} from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-essentials-list',
@@ -18,7 +18,7 @@ export class EssentialsListComponent implements OnInit, OnDestroy {
   constructor(public ingredientService: IngredientService,
               public unitService: UnitService,
               public essentialsService: EssentialsService) {
-    essentialsService.OnEssentialsChanged.subscribe(i => this.displays = essentialsService.GetDisplays())
+    essentialsService.OnEssentialsChanged.subscribe(() => this.displays = essentialsService.GetDisplays());
   }
 
   ngOnInit() {

@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import {UnitService} from '../../../shared/services/unit.service';
-import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
 import {Unit} from '../../../shared/models/unit.interface';
 import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';
 import {BsDropdownDirective} from 'angular-bootstrap-md';
 import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
+import {UnitService} from '../../../shared/services/unit-service/unit.service';
+import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
 
 interface ISuggestion {
   type: ESuggestionType;
@@ -38,12 +38,12 @@ export class IngredientAdderSeamlessComponent {
   public CurrentSuggestions: ISuggestion[] = [];
   public SelectedSuggestionIndex: number = -1;
   public CurrentUnitInvalid: boolean;
-  public EverythinkOk: boolean;
+  public EverythingOk: boolean;
 
   private m_CurrentText: string = '';
 
   constructor(public unitService: UnitService,
-              public ingredientService: IIngredientService) {
+              public ingredientService: IngredientService) {
   }
 
   public get CurrentText() {
@@ -89,6 +89,16 @@ export class IngredientAdderSeamlessComponent {
     return str.startsWith(startsWith) && startsWith.length > 0 && str != startsWith;
   }
 
+  private static compareSuggestions(a: ISuggestion, b: ISuggestion): number {
+    let aLenght = a.text.split(' ').length;
+    let bLenght = b.text.split(' ').length;
+    if (aLenght == bLenght) {
+      return 0;
+    } else {
+      return aLenght > bLenght ? -1 : 1;
+    }
+  }
+
   public AddCurrentSelectedOrDefaultSuggestionToText(sugg: ISuggestion, parseResult?: any) {
     parseResult = parseResult ? parseResult : this.parseCurrentIngredient(this.CurrentText);
     if (sugg.action == ESuggestionAction.replace) {
@@ -108,6 +118,51 @@ export class IngredientAdderSeamlessComponent {
       this.CurrentText = (this.CurrentText[this.CurrentText.length - 1] == ' ' ? this.CurrentText + sugg.text : this.CurrentText + ' ' + sugg.text) :
       this.CurrentText = this.CurrentText.replace(parseResult.textLeft, sugg.text);
     this.SelectedSuggestionIndex = -1;
+  }
+
+  public onKeyDown(event: KeyboardEvent) {
+    if (event.code == 'ArrowDown') {
+      event.preventDefault();
+      this.SelectedSuggestionIndex++;
+    }
+    if (event.code == 'ArrowUp') {
+      event.preventDefault();
+      this.SelectedSuggestionIndex--;
+    }
+    if (event.code == 'Enter') {
+      let parseResult = this.parseCurrentIngredient(this.CurrentText);
+
+      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
+        this.AddCurrentSelectedOrDefaultSuggestionToText(this.CurrentSuggestions[this.SelectedSuggestionIndex], parseResult);
+      } else if (this.EverythingOk) {
+        this.OnIngredientAdded.emit({
+          ingredientID: parseResult.ingredient.guid,
+          value: parseResult.value,
+          unit: parseResult.unit.id
+        });
+        this.CurrentText = '';
+
+      } else if (this.CurrentSuggestions.length > 0) {
+        for (let sugg of this.CurrentSuggestions) {
+          if (!parseResult.ingredient && sugg.type == ESuggestionType.ingredient) {
+            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
+            break;
+          } else if (!parseResult.unit && sugg.type == ESuggestionType.unit) {
+            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
+            break;
+          }
+        }
+        for (let sugg of this.CurrentSuggestions) {
+          if (sugg.type == ESuggestionType.ingredient) {
+            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
+            break;
+          } else if (sugg.type == ESuggestionType.unit) {
+            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
+            break;
+          }
+        }
+      }
+    }
   }
 
   private parseCurrentIngredient(text: string): { value: number, ingredient: IngredientType, ingredientSuggestion: ISuggestion, unit: Unit, unitSuggestion: ISuggestion, unitValid: boolean, textLeft: string } {
@@ -154,7 +209,7 @@ export class IngredientAdderSeamlessComponent {
       }
       if (unitSuggestion) {
         t = t.replace(unitSuggestion.text, '');
-        unitValid = false || ingredientSuggestion == undefined;
+        unitValid = ingredientSuggestion == undefined;
       }
     }
 
@@ -177,7 +232,7 @@ export class IngredientAdderSeamlessComponent {
       break;
     }
     this.CurrentUnitInvalid = !unitValid;
-    this.EverythinkOk = value && ingredientSuggestion && unitSuggestion && unitValid;
+    this.EverythingOk = value && ingredientSuggestion && unitSuggestion && unitValid;
     //Clean whitespace from start and end
     t = t.trim();
     return {
@@ -188,51 +243,6 @@ export class IngredientAdderSeamlessComponent {
       unitSuggestion: unitSuggestion,
       unitValid: unitValid, textLeft: t
     };
-  }
-
-  public onKeyDown(event: KeyboardEvent) {
-    if (event.code == 'ArrowDown') {
-      event.preventDefault();
-      this.SelectedSuggestionIndex++;
-    }
-    if (event.code == 'ArrowUp') {
-      event.preventDefault();
-      this.SelectedSuggestionIndex--;
-    }
-    if (event.code == 'Enter') {
-      let parseResult = this.parseCurrentIngredient(this.CurrentText);
-
-      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
-        this.AddCurrentSelectedOrDefaultSuggestionToText(this.CurrentSuggestions[this.SelectedSuggestionIndex], parseResult);
-      } else if (this.EverythinkOk) {
-        this.OnIngredientAdded.emit({
-          ingredientID: parseResult.ingredient.guid,
-          value: parseResult.value,
-          unit: parseResult.unit.id
-        });
-        this.CurrentText = '';
-
-      } else if (this.CurrentSuggestions.length > 0) {
-        for (let sugg of this.CurrentSuggestions) {
-          if (!parseResult.ingredient && sugg.type == ESuggestionType.ingredient) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          } else if (!parseResult.unit && sugg.type == ESuggestionType.unit) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          }
-        }
-        for (let sugg of this.CurrentSuggestions) {
-          if (sugg.type == ESuggestionType.ingredient) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          } else if (sugg.type == ESuggestionType.unit) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          }
-        }
-      }
-    }
   }
 
   private RefreshSuggestionPool() {
@@ -248,7 +258,7 @@ export class IngredientAdderSeamlessComponent {
       }
     }
 
-    let parseResult = this.parseCurrentIngredient(this.CurrentText);
+    this.parseCurrentIngredient(this.CurrentText);
     //units
     for (let unit of this.unitService.LastLoadedUnits.concat(customUnits)) {
 
@@ -259,14 +269,14 @@ export class IngredientAdderSeamlessComponent {
         suggestions.push({type: ESuggestionType.unit, text: unit.shortname, value: unit});
       }
     }
-    this.CurrentSuggestionPool = suggestions.sort(this.compareISuggestions);
+    this.CurrentSuggestionPool = suggestions.sort(IngredientAdderSeamlessComponent.compareSuggestions);
   }
 
   private FilterSuggestions() {
     let parseResult = this.parseCurrentIngredient(this.CurrentText);
     console.log(parseResult);
 
-    if (this.EverythinkOk) {
+    if (this.EverythingOk) {
       this.CurrentSuggestions = [];
     } else {
       let filterText = parseResult.textLeft;
@@ -283,9 +293,6 @@ export class IngredientAdderSeamlessComponent {
               }));
           }
         } else {
-          //TODO Report secondword ing option not working
-          let secondWordIngOption = (s: ISuggestion) =>
-            IngredientAdderSeamlessComponent.wordsIncludesText(s.text, parseResult.ingredientSuggestion.text + ' ' + filterText, true);
 
           let startsWithCurrent = (s: ISuggestion) =>
             IngredientAdderSeamlessComponent.startsWith(s.text, parseResult.ingredientSuggestion.text + filterText) && this.CurrentText[this.CurrentText.length - 1] != ' ';
@@ -312,9 +319,6 @@ export class IngredientAdderSeamlessComponent {
               }));
           }
         } else if (!this.CurrentUnitInvalid) {
-          //TODO Report secondword ing option not working
-          let secondWordIngOption = (s: ISuggestion) =>
-            IngredientAdderSeamlessComponent.wordsIncludesText(s.text, parseResult.unitSuggestion.text + ' ' + filterText, true);
 
           let startsWithCurrent = (s: ISuggestion) =>
             IngredientAdderSeamlessComponent.startsWith(s.text, parseResult.unitSuggestion.text + filterText) &&
@@ -337,15 +341,5 @@ export class IngredientAdderSeamlessComponent {
       this.CurrentSuggestions = filtered.slice(0, 12);
     }
     this.CurrentSuggestions.length > 0 ? this.dropdown.show() : this.dropdown.hide();
-  }
-
-  private compareISuggestions(a: ISuggestion, b: ISuggestion): number {
-    let aLenght = a.text.split(' ').length;
-    let bLenght = b.text.split(' ').length;
-    if (aLenght == bLenght) {
-      return 0;
-    } else {
-      return aLenght > bLenght ? -1 : 1;
-    }
   }
 }

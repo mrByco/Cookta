@@ -1,11 +1,9 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
 import {StorageService} from '../../shared/services/storage.service';
 import {StorageSection} from '../../shared/models/storage/storage-section.model';
 import {ModalDirective} from 'angular-bootstrap-md';
-import {IIngredientType} from '../../shared/models/grocery/ingredient-type.interface';
-import {IngredientType} from '../../shared/models/grocery/ingredient-type.model';
-import {UnitService} from '../../shared/services/unit.service';
+import {UnitService} from '../../shared/services/unit-service/unit.service';
 
 @Component({
   selector: 'app-storage-root-component',

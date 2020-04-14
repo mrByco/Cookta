@@ -1,10 +1,9 @@
-import {IngredientType} from '../models/grocery/ingredient-type.model';
-import {Routes} from "../routes";
-import {ServerService} from "./server.service";
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Unit} from "../models/unit.interface";
-import {EUnitType} from "../models/grocery/unit-type.enum";
+import {IngredientType} from '../../models/grocery/ingredient-type.model';
+import {Routes} from '../../routes';
+import {ServerService} from '../server.service';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Unit} from '../../models/unit.interface';
 
 @Injectable()
 export class UnitService {
@@ -19,9 +18,23 @@ export class UnitService {
     this.Units = this.LoadUnits();
   }
 
-  public async LoadUnits(): Promise<Unit[]> {
+  public static IsValidUnitName(name: string): string | undefined {
+    if (name.length < 2) {
+      return 'Minimum 2 character';
+    }
+    if (name.length > 20) {
+      return 'Max 20 character';
+    }
+  }
 
-    return new Promise(async (resolve, reject) => {
+  public static IsValidToBase(toBase: number): string | undefined {
+    if (toBase <= 0) {
+      return 'Must larger than 0';
+    }
+  }
+
+  public async LoadUnits(): Promise<Unit[]> {
+    return new Promise(async (resolve) => {
       let response = await this.http.get(this.serverService.GetBase() + Routes.Unit.GetAll);
       let units: Unit[] = [];
       response.subscribe(data => {
@@ -29,13 +42,13 @@ export class UnitService {
           units.push(d);
         }
         this.LastLoadedUnits = units;
-        console.log( units.length + ' units loaded')
+        console.log(units.length + ' units loaded');
         resolve(units);
       }, error => {
+        console.log(`Error on loading: ${error}`);
         resolve([]);
       });
     });
-
   }
 
   public async GetUnitAsync(id: string, ofType?: IngredientType): Promise<Unit> {
@@ -44,10 +57,10 @@ export class UnitService {
 
     try {
       units = units.concat(ofType.options.cunits);
-    } finally {
-      return units.find(type => type.id == id);
+    } catch {
     }
 
+    return units.find(type => type.id == id);
   }
 
   public GetUnit(id: string, ofType?: IngredientType): Unit {
@@ -56,19 +69,19 @@ export class UnitService {
 
     try {
       units = units.concat(ofType.options.cunits);
-    } finally {
-      let u = units.find(type => type.id == id);
-      if (!u) {
-        console.error('Cannot find unit of: ' + id + '  From: ');
-        console.error(units);
-      }
-
-      return u;
+    } catch {
     }
+    let u = units.find(type => type.id == id);
+    if (!u) {
+      console.error('Cannot find unit of: ' + id + '  From: ');
+      console.error(units);
+    }
+    return u;
   }
-  public GetDisplayName(id: string){
+
+  public GetDisplayName(id: string) {
     let unit = this.GetUnit(id);
-    if (!unit){
+    if (!unit) {
       return 'U:' + id;
     }
     return unit.shortname && unit.shortname != '' ? unit.shortname : unit.name;
@@ -81,21 +94,10 @@ export class UnitService {
 
     try {
       units = units.concat(CurrentType.options.cunits);
-    } finally {
-      return units;
+    } catch {
     }
-  }
 
-  public static IsValidUnitName(name: string): string | undefined {
-    if (name.length < 2)
-      return "Minimum 2 character"
-    if (name.length > 20)
-      return "Max 20 character"
-  }
-
-  public static IsValidToBase(toBase: number): string | undefined {
-    if (toBase <= 0)
-      return "Must larger than 0";
+    return units;
   }
 
 }
