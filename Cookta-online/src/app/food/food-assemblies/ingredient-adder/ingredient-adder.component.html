@@ -6,9 +6,9 @@
   </div>
   <div class="col-3 fillHeight">
     <div class="md-form norounding">
-      <input style="color: inherit" autocomplete="off" type="number" class="form-control" id="numberInputEx" mdbInput
+      <input style="color: inherit" autocomplete="off" type="number" class="form-control" [id]="Id + 'numberInput'" mdbInput
              [(ngModel)]="CurrentValue">
-      <label for="numberInputEx" style="color: inherit">Mennyiség</label>
+      <label [for]="Id + 'numberInput'" style="color: inherit">Mennyiség</label>
     </div>
   </div>
   <div class="col-3 fillHeight norounding">
@@ -24,6 +24,6 @@
       </div>
     </div>
   </div>
-  <a><img src="assets/ingredient-add-icon.png" class="mini-round-icon" (click)="AddIngredient()"
+  <a *ngIf="ShowAddButton"><img src="assets/ingredient-add-icon.png" class="mini-round-icon" (click)="AddIngredient()"
           [ngClass]="{'mini-round-icon-disabled': !Done}"></a>
 </div>

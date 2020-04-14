@@ -3,10 +3,10 @@ import {ServerService} from './server.service';
 import {IStorageItemChangeRequest, StorageSection} from '../models/storage/storage-section.model';
 import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
-import {IIngredient} from "../models/grocery/ingredient.interface";
-import {ICompleteIngredient, IngredientHelper} from "../../utilities/ingredient-helper/ingredient.helper";
-import {UnitService} from "./unit.service";
-import {IngredientService} from "./ingredient.service";
+import {IIngredient} from '../models/grocery/ingredient.interface';
+import {ICompleteIngredient, IngredientHelper} from '../../utilities/ingredient-helper/ingredient.helper';
+import {UnitService} from './unit.service';
+import {IngredientService} from './ingredient.service';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class StorageService {
         resolve();
         this.IsBusy = false;
       });
-    })
+    });
   }
 
   public CreateStorageSection(): StorageSection {
@@ -75,7 +75,7 @@ export class StorageService {
         resolve();
         this.IsBusy = false;
       });
-    })
+    });
   }
 
   public DeleteStorageSection(sectionId: string): Promise<void> {
@@ -93,19 +93,22 @@ export class StorageService {
         resolve();
         this.IsBusy = false;
       });
-    })
+    });
   }
 
   public static UpdateSection(sectionToUpdate: StorageSection, info: any) {
     for (let key of Object.keys(sectionToUpdate)) {
-      if (info[key])
+      if (info[key]) {
         sectionToUpdate[key] = info[key];
+      }
     }
   }
 
   public AddIngredientToSection(ing: IIngredient, section: StorageSection, save?: boolean) {
 
-    if (!section.Items) section.Items = [];
+    if (!section.Items) {
+      section.Items = [];
+    }
     let existingSameType: IIngredient = section.Items.find(i => i.ingredientID == ing.ingredientID);
 
     if (existingSameType) {
@@ -119,16 +122,56 @@ export class StorageService {
           unit: completeAdded.unit.id,
           value: completeAdded.value,
         };
-    } else
+    } else {
       section.Items.push(ing);
+    }
 
     if (save) {
       this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items});
     }
   }
 
+  //returns the remnant
+  public SubtractIngredientFromSection(ing: IIngredient, section: StorageSection, save?: boolean): IIngredient {
+
+    if (!section.Items) {
+      return ing;
+    }
+    let existing: IIngredient = section.Items.find(i => i.ingredientID == ing.ingredientID);
+    if (!existing) {
+      return ing;
+    }
+
+    let existComplete: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(existing, this.unitService, this.ingredientService);
+
+    let completeToSubtract: ICompleteIngredient = IngredientHelper.ToCompleteIngredient(ing, this.unitService, this.ingredientService);
+    console.log(existComplete);
+    console.log(completeToSubtract);
+
+    IngredientHelper.Subtract(existComplete, completeToSubtract);
+
+    console.log(existComplete);
+    console.log(completeToSubtract);
+
+    section.Items[section.Items.indexOf(existing)] =
+      {
+        ingredientID: existComplete.ingredientType.guid,
+        unit: existComplete.unit.id,
+        value: existComplete.value,
+      };
+
+    if (save) {
+      this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items});
+    }
+    return {ingredientID: completeToSubtract.ingredientType.guid, unit: completeToSubtract.unit.id, value: completeToSubtract.value}
+  }
+
   public FindStorageByIngredientType(ingredientId: string) {
     return this.Sections.find(s => s.Items ? s.Items.find((s) => s.ingredientID == ingredientId) : false);
+  }
+
+  public FindStoragesByIngredientType(ingredientId: string): StorageSection[] {
+    return this.Sections.filter(s => s.Items ? s.Items.find((s) => s.ingredientID == ingredientId) : false);
   }
 
   private SectionFromData(d: any): StorageSection {

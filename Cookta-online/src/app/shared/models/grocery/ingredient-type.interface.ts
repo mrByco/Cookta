@@ -5,9 +5,7 @@ export interface IIngredientType {
 
   category: string,
   name: string,
-  baseUnit: string,
   baseUnitType: EUnitType,
-  inshopping: string,
   guid: string,
   options: {
     cunits: Unit[],

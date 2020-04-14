@@ -24,6 +24,7 @@ export class AutoCompleteComponent implements OnInit {
   @Input() MaxItemsToShow: number = 10;
   @Input() PlaceholderText: string = "";
   @Input() MustMatchToPool: boolean = true;
+  @Input() SuggestionsPrefix: string = "";
 
   @ViewChild('input', {static: true}) InputTextElement: MdbInputDirective;
   @ViewChild('dropdown', {static: true}) DropDown: BsDropdownDirective;
@@ -53,7 +54,7 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   OnFocus() {
-    if (this.Suggestions.length > 0){
+    if (this.Suggestions && this.Suggestions.length > 0){
       this.DropDown.show();
     }
   }
