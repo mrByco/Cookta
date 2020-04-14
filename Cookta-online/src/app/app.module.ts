@@ -118,10 +118,6 @@ const appRoutes: Routes = [
         ImageCropperModule,
         MDBBootstrapModule.forRoot(),
         RouterModule.forRoot(appRoutes),
-        /*AdsenseModule.forRoot({
-          adClient: 'ca-pub-8068476996237937',
-          adSlot: 1393101782,
-        }),*/
         FormsModule,
         IconsModule,
         BrowserAnimationsModule,
