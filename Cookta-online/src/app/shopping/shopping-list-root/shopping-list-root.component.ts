@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ShoppingService} from "../../shared/services/shopping-service/shopping.service";
-import {IngredientService} from "../../shared/services/ingredient.service";
+import {IngredientService} from "../../shared/services/ingredient-service/ingredient.service";
 import {StorageService} from "../../shared/services/storage.service";
 import {StorageSection} from "../../shared/models/storage/storage-section.model";
 import {UnitService} from "../../shared/services/unit.service";

@@ -6,7 +6,7 @@ import {Food} from '../models/grocery/food.model';
 import {IIngredient} from '../models/grocery/ingredient.interface';
 import {ICompleteIngredient, IngredientHelper} from '../../utilities/ingredient-helper/ingredient.helper';
 import {UnitService} from './unit.service';
-import {IngredientService} from './ingredient.service';
+import {IngredientService} from './ingredient-service/ingredient.service';
 
 @Injectable({
   providedIn: 'root'

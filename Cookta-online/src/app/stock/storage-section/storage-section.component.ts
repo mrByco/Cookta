@@ -5,7 +5,7 @@ import {StorageService} from 'src/app/shared/services/storage.service';
 import {GenericTwoButtonDialogComponent} from '../../utilities/generic-two-button-dialog/generic-two-button-dialog.component';
 import {MDBModalService} from 'angular-bootstrap-md';
 import {UnitService} from '../../shared/services/unit.service';
-import {IngredientService} from '../../shared/services/ingredient.service';
+import {IngredientService} from '../../shared/services/ingredient-service/ingredient.service';
 
 @Component({
   selector: 'app-storage-section',

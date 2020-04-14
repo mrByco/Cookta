@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {IngredientType} from "../../../shared/models/grocery/ingredient-type.model";
 import {ModalDirective} from "angular-bootstrap-md";
-import {IngredientService} from "../../../shared/services/ingredient.service";
+import {IngredientService} from "../../../shared/services/ingredient-service/ingredient.service";
 import {Guid} from "guid-typescript";
 import {EUnitType} from "../../../shared/models/grocery/unit-type.enum";
 import {Unit} from "../../../shared/models/unit.interface";

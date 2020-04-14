@@ -3,7 +3,7 @@ import {IIngredient} from "../models/grocery/ingredient.interface";
 import {Routes} from "../routes";
 import {ServerService} from "./server.service";
 import {DisplayIngredient} from "../ingredient-display";
-import {IngredientService} from "./ingredient.service";
+import {IngredientService} from "./ingredient-service/ingredient.service";
 import {UnitService} from "./unit.service";
 
 @Injectable({

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {UnitService} from '../../../shared/services/unit.service';
-import {IngredientService} from '../../../shared/services/ingredient.service';
+import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
 import {Unit} from '../../../shared/models/unit.interface';
 import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';
 import {BsDropdownDirective} from 'angular-bootstrap-md';
@@ -43,7 +43,7 @@ export class IngredientAdderSeamlessComponent {
   private m_CurrentText: string = '';
 
   constructor(public unitService: UnitService,
-              public ingredientService: IngredientService) {
+              public ingredientService: IIngredientService) {
   }
 
   public get CurrentText() {

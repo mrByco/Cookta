@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
-import {IngredientService} from "../../../shared/services/ingredient.service";
+import {IngredientService} from "../../../shared/services/ingredient-service/ingredient.service";
 import {UnitService} from "../../../shared/services/unit.service";
 import {DisplayIngredient} from "../../../shared/ingredient-display";
 

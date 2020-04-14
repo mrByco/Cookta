@@ -1,12 +1,12 @@
-import {IngredientType} from '../models/grocery/ingredient-type.model';
-import {Food} from "../models/grocery/food.model";
-import {Routes} from "../routes";
-import {ServerService} from "./server.service";
+import {IngredientType} from '../../models/grocery/ingredient-type.model';
+import {Food} from "../../models/grocery/food.model";
+import {Routes} from "../../routes";
+import {ServerService} from "../server.service";
 import {EventEmitter, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {delay} from "rxjs/operators";
-import {DisplayIngredient} from "../ingredient-display";
-import {Unit} from '../models/unit.interface';
+import {DisplayIngredient} from "../../ingredient-display";
+import {Unit} from '../../models/unit.interface';
 
 @Injectable()
 export class IngredientService {

@@ -13,7 +13,7 @@ import {IdentityService} from './shared/services/identity.service';
 import {FoodService} from './shared/services/food.service';
 import {ServerService} from './shared/services/server.service';
 import {RouterModule, Routes} from '@angular/router';
-import {IngredientService} from './shared/services/ingredient.service';
+import {IngredientService} from './shared/services/ingredient-service/ingredient.service';
 import {FoodIngredientComponent} from './food/food-assemblies/food-ingredient/food-ingredient.component';
 import {UnitService} from './shared/services/unit.service';
 import {AuthService} from './shared/services/auth.service';

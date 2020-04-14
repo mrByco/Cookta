@@ -1,5 +1,5 @@
 import {IIngredient} from "./models/grocery/ingredient.interface";
-import {IngredientService} from "./services/ingredient.service";
+import {IngredientService} from "./services/ingredient-service/ingredient.service";
 import {UnitService} from "./services/unit.service";
 import {IngredientType} from "./models/grocery/ingredient-type.model";
 import {Unit} from "./models/unit.interface";
