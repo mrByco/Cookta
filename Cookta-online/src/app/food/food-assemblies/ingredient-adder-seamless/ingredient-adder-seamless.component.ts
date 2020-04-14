@@ -18,10 +18,9 @@ enum ESuggestionType {
   unit
 }
 
-//TODO Refactor rename to Delete previous
 enum ESuggestionAction {
-  add,
-  replace
+  addToEnd,
+  replaceOld
 }
 
 @Component({
@@ -100,8 +99,8 @@ export class IngredientAdderSeamlessComponent {
   }
 
   public AddCurrentSelectedOrDefaultSuggestionToText(sugg: ISuggestion, parseResult?: any) {
-    parseResult = parseResult ? parseResult : this.parseCurrentIngredient(this.CurrentText);
-    if (sugg.action == ESuggestionAction.replace) {
+    parseResult = parseResult ? parseResult : this.ParseText(this.CurrentText);
+    if (sugg.action == ESuggestionAction.replaceOld) {
       //Work on private to avoid suggestion updates
       let prevElementText = sugg.type == ESuggestionType.unit ?
         parseResult.unitSuggestion.text :
@@ -130,7 +129,7 @@ export class IngredientAdderSeamlessComponent {
       this.SelectedSuggestionIndex--;
     }
     if (event.code == 'Enter') {
-      let parseResult = this.parseCurrentIngredient(this.CurrentText);
+      let parseResult = this.ParseText(this.CurrentText);
 
       if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
         this.AddCurrentSelectedOrDefaultSuggestionToText(this.CurrentSuggestions[this.SelectedSuggestionIndex], parseResult);
@@ -165,7 +164,7 @@ export class IngredientAdderSeamlessComponent {
     }
   }
 
-  private parseCurrentIngredient(text: string): { value: number, ingredient: IngredientType, ingredientSuggestion: ISuggestion, unit: Unit, unitSuggestion: ISuggestion, unitValid: boolean, textLeft: string } {
+  public ParseText(text: string): { value: number, ingredient: IngredientType, ingredientSuggestion: ISuggestion, unit: Unit, unitSuggestion: ISuggestion, unitValid: boolean, textLeft: string } {
     let t = text.toLowerCase();
 
     //ingredient
@@ -258,7 +257,7 @@ export class IngredientAdderSeamlessComponent {
       }
     }
 
-    this.parseCurrentIngredient(this.CurrentText);
+    this.ParseText(this.CurrentText);
     //units
     for (let unit of this.unitService.LastLoadedUnits.concat(customUnits)) {
 
@@ -273,7 +272,7 @@ export class IngredientAdderSeamlessComponent {
   }
 
   private FilterSuggestions() {
-    let parseResult = this.parseCurrentIngredient(this.CurrentText);
+    let parseResult = this.ParseText(this.CurrentText);
     console.log(parseResult);
 
     if (this.EverythingOk) {
@@ -289,7 +288,7 @@ export class IngredientAdderSeamlessComponent {
             filtered.push(...this.CurrentSuggestionPool
               .filter(s => s.text.includes(filterText) && s.type == ESuggestionType.ingredient)
               .map<ISuggestion>((s) => {
-                return {...s, ...{action: ESuggestionAction.add}};
+                return {...s, ...{action: ESuggestionAction.addToEnd}};
               }));
           }
         } else {
@@ -301,7 +300,7 @@ export class IngredientAdderSeamlessComponent {
             .filter(s => s.type == ESuggestionType.ingredient)
             .filter(s => startsWithCurrent(s))
             .map<ISuggestion>((s) => {
-              return {...s, ...{action: ESuggestionAction.replace}};
+              return {...s, ...{action: ESuggestionAction.replaceOld}};
             }));
         }
         //units
@@ -315,7 +314,7 @@ export class IngredientAdderSeamlessComponent {
               .filter(validUnitFilter)
               .filter(s => s.text.includes(filterText) && s.type == ESuggestionType.unit)
               .map<ISuggestion>((s) => {
-                return {...s, ...{action: ESuggestionAction.add}};
+                return {...s, ...{action: ESuggestionAction.addToEnd}};
               }));
           }
         } else if (!this.CurrentUnitInvalid) {
@@ -328,13 +327,13 @@ export class IngredientAdderSeamlessComponent {
             .filter(s => s.type == ESuggestionType.unit)
             .filter(s => startsWithCurrent(s))
             .map<ISuggestion>((s) => {
-              return {...s, ...{action: ESuggestionAction.replace}};
+              return {...s, ...{action: ESuggestionAction.replaceOld}};
             }));
         } else {
           filtered.push(...this.CurrentSuggestionPool
             .filter(s => validUnitFilter(s))
             .map<ISuggestion>((s) => {
-              return {...s, ...{action: ESuggestionAction.replace}};
+              return {...s, ...{action: ESuggestionAction.replaceOld}};
             }));
         }
       }

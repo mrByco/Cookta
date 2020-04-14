@@ -3,6 +3,7 @@ import {IIngredientType} from '../../models/grocery/ingredient-type.interface';
 import {Guid} from 'guid-typescript';
 import {UnitService} from './unit.service';
 import {EUnitType} from '../../models/grocery/unit-type.enum';
+import {IngredientType} from '../../models/grocery/ingredient-type.model';
 
 export class MockUnitService extends UnitService {
 
@@ -55,6 +56,11 @@ export class MockUnitService extends UnitService {
 
   public GetRandomUnit(): Unit {
     return this.LastLoadedUnits[Math.floor(Math.random() * Math.floor(this.LastLoadedUnits.length))];
+  }
+
+  public GetRandomUnitOfIngredient(type: IngredientType): Unit {
+    let units = this.GetAvailableUnitsFor(type);
+    return units[Math.floor(Math.random() * Math.floor(units.length))];
   }
 
 

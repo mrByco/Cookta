@@ -26,7 +26,7 @@ export class MockIngredientService extends IngredientService {
       for (let i = 0; i < 400; i++) {
         let mockJson = {};
         mockJson['category'] = categories[getRandomInt(categories.length)];
-        mockJson['name'] = Guid.create().toString();
+        mockJson['name'] = Guid.create().toString().replace('-', ' ');
         mockJson['baseUnit'] = undefined;
         mockJson['volumeEnabled'] = false;
         mockJson['massEnabled'] = false;
@@ -47,7 +47,7 @@ export class MockIngredientService extends IngredientService {
             break;
         }
         mockJson['inshopping'] = undefined;
-        mockJson['guid'] = mockJson[name];
+        mockJson['guid'] = Guid.create().toString();
         let customUnits = MockUnitService.GenerateRandomUnits(getRandomInt(5), unitType);
         mockJson['options'] = {cunits: customUnits};
         types.push(IngredientType.FromJson(mockJson));
@@ -62,5 +62,10 @@ export class MockIngredientService extends IngredientService {
 
   public async SaveIngredient(type: IngredientType): Promise<IngredientType> {
     throw new Error('ingredient.service.mock.ts - SaveIngredient(type: IngredientType) is not integrated in mock service.');
+  }
+
+
+  public GetRandomType(): IngredientType {
+    return this.LastLoadedTypes[Math.floor(Math.random() * Math.floor(this.LastLoadedTypes.length))];
   }
 }
