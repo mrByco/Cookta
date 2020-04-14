@@ -98,7 +98,9 @@ export class IngredientAdderSeamlessComponent {
     }
   }
 
-  public AddCurrentSelectedOrDefaultSuggestionToText(sugg: ISuggestion, parseResult?: any) {
+  public AddCurrentSelectedOrDefaultSuggestionToText(parseResult?: any) {
+    let sugg = this.CurrentSuggestions[this.SelectedSuggestionIndex < 0 ? 0 : this.SelectedSuggestionIndex];
+
     parseResult = parseResult ? parseResult : this.ParseText(this.CurrentText);
     if (sugg.action == ESuggestionAction.replaceOld) {
       //Work on private to avoid suggestion updates
@@ -131,35 +133,15 @@ export class IngredientAdderSeamlessComponent {
     if (event.code == 'Enter') {
       let parseResult = this.ParseText(this.CurrentText);
 
-      if (this.SelectedSuggestionIndex != -1 && this.CurrentSuggestions[this.SelectedSuggestionIndex]) {
-        this.AddCurrentSelectedOrDefaultSuggestionToText(this.CurrentSuggestions[this.SelectedSuggestionIndex], parseResult);
-      } else if (this.EverythingOk) {
+      if (this.EverythingOk) {
         this.OnIngredientAdded.emit({
           ingredientID: parseResult.ingredient.guid,
           value: parseResult.value,
           unit: parseResult.unit.id
         });
         this.CurrentText = '';
-
-      } else if (this.CurrentSuggestions.length > 0) {
-        for (let sugg of this.CurrentSuggestions) {
-          if (!parseResult.ingredient && sugg.type == ESuggestionType.ingredient) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          } else if (!parseResult.unit && sugg.type == ESuggestionType.unit) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          }
-        }
-        for (let sugg of this.CurrentSuggestions) {
-          if (sugg.type == ESuggestionType.ingredient) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          } else if (sugg.type == ESuggestionType.unit) {
-            this.AddCurrentSelectedOrDefaultSuggestionToText(sugg, parseResult);
-            break;
-          }
-        }
+      } else {
+        this.AddCurrentSelectedOrDefaultSuggestionToText(parseResult);
       }
     }
   }

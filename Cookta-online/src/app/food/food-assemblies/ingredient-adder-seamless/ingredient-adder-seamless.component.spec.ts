@@ -7,11 +7,12 @@ import {IngredientService} from '../../../shared/services/ingredient-service/ing
 import {UnitService} from '../../../shared/services/unit-service/unit.service';
 import {FormsModule} from '@angular/forms';
 import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
+import {Unit} from '../../../shared/models/unit.interface';
 
 
 describe('IngredientAdderSeamlessComponent', () => {
   // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
-  const KeypressEventEnter = {
+  const KeypressEventBasic = {
     AT_TARGET: 0,
     BUBBLING_PHASE: 0,
     CAPTURING_PHASE: 0,
@@ -61,14 +62,15 @@ describe('IngredientAdderSeamlessComponent', () => {
     },
     stopPropagation(): void {
     },
-    code: 'Enter'
+    code: ''
   };
+
   let component: IngredientAdderSeamlessComponent;
   let mockUnitService: MockUnitService = new MockUnitService();
   let mockIngredientService: MockIngredientService = new MockIngredientService();
   let fixture: ComponentFixture<IngredientAdderSeamlessComponent>;
 
-  const DropdownChild = jasmine.createSpyObj('dropdown', ['hide']);
+  const DropdownChild = jasmine.createSpyObj('dropdown', ['hide', 'show']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -79,10 +81,12 @@ describe('IngredientAdderSeamlessComponent', () => {
         {provide: UnitService, useValue: mockUnitService}]
     })
       .compileComponents();
+
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IngredientAdderSeamlessComponent);
+
 
     component = fixture.componentInstance;
     component.dropdown = DropdownChild;
@@ -110,7 +114,7 @@ describe('IngredientAdderSeamlessComponent', () => {
     let ingredient: IIngredient;
     component.OnIngredientAdded.subscribe(i => ingredient = i);
 
-    component.onKeyDown(KeypressEventEnter);
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'Enter'}});
     // noinspection JSUnusedAssignment
     expect(ingredient).toBeTruthy();
     // noinspection JSUnusedAssignment
@@ -121,4 +125,81 @@ describe('IngredientAdderSeamlessComponent', () => {
     expect(ingredient.unit).toBe(unit.id);
   });
 
+  it('Check it shows the an ingredient corrently by name (with complete unit)', () => {
+    let ingredientType = mockIngredientService.GetRandomType();
+    let unit = mockUnitService.GetRandomUnitOfIngredient(ingredientType);
+    component.CurrentText = `${30} ${unit.name} ${ingredientType.name.slice(0, -1)}`;
+
+    let suggestionOfIngredient = component.CurrentSuggestions.find(i => i.value == ingredientType);
+    expect(suggestionOfIngredient).toBeTruthy();
+  });
+
+  it('Check it shows the an ingredient corrently by name (without unit)', () => {
+    let ingredientType = mockIngredientService.GetRandomType();
+    component.CurrentText = `${30} ${ingredientType.name.slice(0, -1)}`;
+
+    let suggestionOfIngredient = component.CurrentSuggestions.find(i => i.value == ingredientType);
+    expect(suggestionOfIngredient).toBeTruthy();
+  });
+
+  it('Complete suggestion if not selected', () => {
+    let ingredientType = mockIngredientService.GetRandomType();
+    component.CurrentText = `${30} ${ingredientType.name.slice(0, 1)}`;
+
+    let expectedSuggestion = component.CurrentSuggestions[0];
+
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'Enter'}});
+
+    expect(component.CurrentText).toBe(`30 ${expectedSuggestion.text}`);
+  });
+
+  it('Complete suggestion selected second by keypress', () => {
+    let ingredientType = mockIngredientService.GetRandomType();
+    component.CurrentText = `${30} ${ingredientType.name.slice(0, 1)}`;
+
+    let expectedSuggestion = component.CurrentSuggestions[1];
+
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'ArrowDown'}});
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'ArrowDown'}});
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'ArrowDown'}});
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'ArrowUp'}});
+
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'Enter'}});
+
+    expect(component.CurrentText).toBe(`30 ${expectedSuggestion.text}`);
+  });
+
+  it('Check invalid unit state', () => {
+    let ingredientType = mockIngredientService.GetRandomType();
+    let availableUnits = mockUnitService.GetAvailableUnitsFor(ingredientType);
+    let invalidUnit = mockUnitService.LastLoadedUnits.find(i => !availableUnits.includes(i));
+    component.CurrentText = `${30} ${invalidUnit.name} ${ingredientType.name}`;
+
+    expect(component.ParseText(component.CurrentText).unitValid).toBeFalsy();
+  });
+
+  it('Should suggest only valid ingredients', () => {
+    let ingredientType = mockIngredientService.GetRandomType();
+    let availableUnits = mockUnitService.GetAvailableUnitsFor(ingredientType);
+    let invalidUnit = mockUnitService.LastLoadedUnits.find(i => !availableUnits.includes(i));
+    component.CurrentText = `${30} ${invalidUnit.name} ${ingredientType.name}`;
+
+    let invalidSuggestion = component.CurrentSuggestions.find(s => !availableUnits.includes(s.value));
+    expect(invalidSuggestion).toBeFalsy();
+  });
+
+  it('Select a suggestion for replace', () => {
+    let ingredientType = mockIngredientService.GetRandomType();
+    let availableUnits = mockUnitService.GetAvailableUnitsFor(ingredientType);
+    let invalidUnit = mockUnitService.LastLoadedUnits.find(i => !availableUnits.includes(i));
+
+    component.CurrentText = `${30} ${invalidUnit.name} ${ingredientType.name}`;
+
+    let SelectedSuggestionUnit = component.CurrentSuggestions[0].value as Unit;
+
+
+    component.onKeyDown({...KeypressEventBasic, ...{code: 'Enter'}});
+
+    expect(component.CurrentText).toBe(`${30} ${SelectedSuggestionUnit.name} ${ingredientType.name}`);
+  });
 });
