@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LoadingState} from '../shared/app-loading-state';
-import {IngredientService} from "../shared/services/ingredient.service";
+import {IngredientService} from "../shared/services/ingredient-service/ingredient.service";
 import {TagService} from "../shared/services/tag.service";
 
 

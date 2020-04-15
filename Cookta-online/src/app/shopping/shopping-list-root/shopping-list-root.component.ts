@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ShoppingService} from "../../shared/services/shopping-service/shopping.service";
-import {IngredientService} from "../../shared/services/ingredient.service";
-import {StorageService} from "../../shared/services/storage.service";
-import {StorageSection} from "../../shared/models/storage/storage-section.model";
-import {UnitService} from "../../shared/services/unit.service";
+import {ShoppingService} from '../../shared/services/shopping-service/shopping.service';
+import {IngredientService} from '../../shared/services/ingredient-service/ingredient.service';
+import {StorageService} from '../../shared/services/storage.service';
+import {StorageSection} from '../../shared/models/storage/storage-section.model';
+import {UnitService} from '../../shared/services/unit-service/unit.service';
 
 @Component({
   selector: 'app-shopping-list-root',
@@ -38,18 +38,7 @@ export class ShoppingListRootComponent implements OnInit {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + days).toISOString().slice(0, 10);
   }
 
-  public async CopyListToClipboard() {
-    let foodStrings = await Promise.all(this.shoppingService.ShoppingItems.map(async (item) => {
-      let ing = await this.ingredientService.GetIngredient(item.ingredientID);
-      let unit = this.unitService.GetUnit(item.unit, ing).name;
-      return `${item.value} ${unit ? unit : item.unit}  ${ing.name ? ing.name : `Ismeretlen: ${item.ingredientID}`}`;
-    }));
-    this.copyStringToClipboard(
-      `Bevásárló lista: ${this.shoppingService.GetSelectedShoppingDate.toISOString().slice(0, 10)}-ig\n` + foodStrings.join('\n'));
-    alert('Lista másolva');
-  }
-
-  private copyStringToClipboard(str) {
+  private static copyStringToClipboard(str) {
     // Create new element
     var el = document.createElement('textarea');
     // Set value (string to be copied)
@@ -66,7 +55,18 @@ export class ShoppingListRootComponent implements OnInit {
 
   }
 
-  private ChangeNextShoppingDay(event: string) {
+  public async CopyListToClipboard() {
+    let foodStrings = await Promise.all(this.shoppingService.ShoppingItems.map(async (item) => {
+      let ing = await this.ingredientService.GetIngredient(item.ingredientID);
+      let unit = this.unitService.GetUnit(item.unit, ing).name;
+      return `${item.value} ${unit ? unit : item.unit}  ${ing.name ? ing.name : `Ismeretlen: ${item.ingredientID}`}`;
+    }));
+    ShoppingListRootComponent.copyStringToClipboard(
+      `Bevásárló lista: ${this.shoppingService.GetSelectedShoppingDate.toISOString().slice(0, 10)}-ig\n` + foodStrings.join('\n'));
+    alert('Lista másolva');
+  }
+
+  public ChangeNextShoppingDay(event: string) {
     let year = +event.split('-')[0];
     let month = +event.split('-')[1] - 1;
     let date = +event.split('-')[2];

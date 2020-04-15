@@ -2,8 +2,8 @@ import {IngredientType} from '../../shared/models/grocery/ingredient-type.model'
 import {Unit} from '../../shared/models/unit.interface';
 import {EUnitType} from '../../shared/models/grocery/unit-type.enum';
 import {IIngredient} from '../../shared/models/grocery/ingredient.interface';
-import {UnitService} from '../../shared/services/unit.service';
-import {IngredientService} from '../../shared/services/ingredient.service';
+import {UnitService} from '../../shared/services/unit-service/unit.service';
+import {IngredientService} from '../../shared/services/ingredient-service/ingredient.service';
 import {IIngredientType} from '../../shared/models/grocery/ingredient-type.interface';
 
 export interface ICompleteIngredient {

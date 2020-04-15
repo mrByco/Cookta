@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {ServerService} from './server.service';
 import {IStorageItemChangeRequest, StorageSection} from '../models/storage/storage-section.model';
 import {Routes} from '../routes';
-import {Food} from '../models/grocery/food.model';
 import {IIngredient} from '../models/grocery/ingredient.interface';
 import {ICompleteIngredient, IngredientHelper} from '../../utilities/ingredient-helper/ingredient.helper';
-import {UnitService} from './unit.service';
-import {IngredientService} from './ingredient.service';
+import {UnitService} from './unit-service/unit.service';
+import {IngredientService} from './ingredient-service/ingredient.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +22,12 @@ export class StorageService {
 
   }
 
+  private static SectionFromData(d: any): StorageSection {
+    let section = new StorageSection();
+    section = Object.assign(section, d);
+    return section;
+  }
+
   public RefreshStorageSections(): Promise<void> {
     this.Sections.splice(0, this.Sections.length);
 
@@ -32,7 +37,7 @@ export class StorageService {
       let response = await this.serverService.GetRequest(Routes.Storage.GetSections);
       response.subscribe(data => {
         for (const d of (data as any)) {
-          this.Sections.push(this.SectionFromData(d));
+          this.Sections.push(StorageService.SectionFromData(d));
         }
         resolve();
         this.IsBusy = false;
@@ -41,25 +46,6 @@ export class StorageService {
         this.IsBusy = false;
       });
     });
-  }
-
-  public CreateStorageSection(): StorageSection {
-    let createdSection = new StorageSection();
-
-    this.IsBusy = true;
-    let task = new Promise(async (resolve) => {
-      let response = await this.serverService.PostRequest(Routes.Storage.CreateSection, {});
-      response.subscribe(data => {
-        StorageService.UpdateSection(createdSection, data);
-        this.Sections.push(createdSection);
-        resolve();
-        this.IsBusy = false;
-      }, () => {
-        resolve();
-        this.IsBusy = false;
-      });
-    });
-    return createdSection;
   }
 
   public SetStorageSectionOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void> {
@@ -78,22 +64,23 @@ export class StorageService {
     });
   }
 
-  public DeleteStorageSection(sectionId: string): Promise<void> {
-    this.Sections.splice(0, this.Sections.length);
+  public CreateStorageSection(): StorageSection {
+    let createdSection = new StorageSection();
 
     this.IsBusy = true;
-    return new Promise(async (resolve) => {
-      let response = await this.serverService.DeleteRequest(Routes.Storage.DeleteSection.replace('{storageSectionIdString}', sectionId));
+    new Promise(async (resolve) => {
+      let response = await this.serverService.PostRequest(Routes.Storage.CreateSection, {});
       response.subscribe(data => {
-        for (const d of (data as any)) {
-          this.Sections.push(this.SectionFromData(d));
-        }
+        StorageService.UpdateSection(createdSection, data);
+        this.Sections.push(createdSection);
+        resolve();
         this.IsBusy = false;
       }, () => {
         resolve();
         this.IsBusy = false;
       });
     });
+    return createdSection;
   }
 
   public static UpdateSection(sectionToUpdate: StorageSection, info: any) {
@@ -174,9 +161,21 @@ export class StorageService {
     return this.Sections.filter(s => s.Items ? s.Items.find((s) => s.ingredientID == ingredientId) : false);
   }
 
-  private SectionFromData(d: any): StorageSection {
-    let section = new StorageSection();
-    section = Object.assign(section, d);
-    return section;
+  public DeleteStorageSection(sectionId: string): Promise<void> {
+    this.Sections.splice(0, this.Sections.length);
+
+    this.IsBusy = true;
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.DeleteRequest(Routes.Storage.DeleteSection.replace('{storageSectionIdString}', sectionId));
+      response.subscribe(data => {
+        for (const d of (data as any)) {
+          this.Sections.push(StorageService.SectionFromData(d));
+        }
+        this.IsBusy = false;
+      }, () => {
+        resolve();
+        this.IsBusy = false;
+      });
+    });
   }
 }

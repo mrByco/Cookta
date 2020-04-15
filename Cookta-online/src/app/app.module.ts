@@ -13,9 +13,9 @@ import {IdentityService} from './shared/services/identity.service';
 import {FoodService} from './shared/services/food.service';
 import {ServerService} from './shared/services/server.service';
 import {RouterModule, Routes} from '@angular/router';
-import {IngredientService} from './shared/services/ingredient.service';
+import {IngredientService} from './shared/services/ingredient-service/ingredient.service';
 import {FoodIngredientComponent} from './food/food-assemblies/food-ingredient/food-ingredient.component';
-import {UnitService} from './shared/services/unit.service';
+import {UnitService} from './shared/services/unit-service/unit.service';
 import {AuthService} from './shared/services/auth.service';
 import {FoodCollectionListComponent} from './food/food-other/food-collection-list/food-collection-list.component';
 import {LoginModalComponent} from './identity/login-modal/login-modal.component';
@@ -52,12 +52,11 @@ import {FamilyEditPageComponent} from './profile/family/family-edit-page/family-
 import {FamilyDetailsPageComponent} from './profile/family/family-details-page/family-details-page.component';
 import {StorageRootComponentComponent} from './stock/storage-root-component/storage-root-component.component';
 import {StorageSectionComponent} from './stock/storage-section/storage-section.component';
-import { EssentialsRootComponent } from './stock/essentials-root/essentials-root.component';
-import { EssentialsListComponent } from './stock/essentials-list/essentials-list.component';
-import {EssentialsService} from "./shared/services/essentials.service";
-import { ShoppingListRootComponent } from './shopping/shopping-list-root/shopping-list-root.component';
-import { ShoppingListPanelComponent } from './shopping/shopping-list-panel/shopping-list-panel.component';
-import { IngredientAdderSeamlessComponent } from './food/food-assemblies/ingredient-adder-seamless/ingredient-adder-seamless.component';
+import {EssentialsRootComponent} from './stock/essentials-root/essentials-root.component';
+import {EssentialsListComponent} from './stock/essentials-list/essentials-list.component';
+import {ShoppingListRootComponent} from './shopping/shopping-list-root/shopping-list-root.component';
+import {ShoppingListPanelComponent} from './shopping/shopping-list-panel/shopping-list-panel.component';
+import {IngredientAdderSeamlessComponent} from './food/food-assemblies/ingredient-adder-seamless/ingredient-adder-seamless.component';
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -118,10 +117,6 @@ const appRoutes: Routes = [
         ImageCropperModule,
         MDBBootstrapModule.forRoot(),
         RouterModule.forRoot(appRoutes),
-        /*AdsenseModule.forRoot({
-          adClient: 'ca-pub-8068476996237937',
-          adSlot: 1393101782,
-        }),*/
         FormsModule,
         IconsModule,
         BrowserAnimationsModule,
