@@ -1,27 +1,22 @@
 <div class="col">
-  <div class="row">
-    <p *ngIf="CurrentText.length == 0" style="color: darkblue; font-style: italic">
-      Hozzávaló pl: 85 dkg liszt
-    </p>
-    <p style="color: darkred" *ngIf="CurrentUnitInvalid">
-      A választott hozzávaló nem nem használható ennél a hozzávalónál válassz másikat.</p>
-    <p *ngIf="EverythingOk" style="color: darkgreen">
-      Minden jónak tűnik, Enter megnyomásával Hozzáadhatod a listához
-    </p>
-  </div>
   <div class="row" dropdown #dropdown>
-    <label>
+    <label style="height: 2rem; width: 100%;">
       <input (keydown)="onKeyDown($event)"
              [(ngModel)]="CurrentText"
+             (focusin)="dropdown.show()"
+             (focusout)="dropdown.hide()"
              autocomplete="disabled"
              class="form-control add-ingredient-text"
-             style="height: 2rem; width: 100%; background: rgba(255, 255, 255, .6)"
+             style=" background: rgba(255, 255, 255, .6)"
              type="text">
     </label>
-    <div class="mt-2 dropdown-menu">
+    <div class="mt-3 dropdown-menu p-2" style="width: 100%">
+      <h6 class="hintText" *ngIf="this.CurrentState == 0" style="color: #0000ca">{{LetsStartText}}</h6>
+      <h6 class="hintText" *ngIf="this.CurrentState == 1" style="color: #aa0000">{{ErrorUnitInvalid}}</h6>
+      <h6 class="hintText" *ngIf="this.CurrentState == 2" style="color: #009a00">{{SuccessText}}</h6>
       <div *ngFor="let sugg of CurrentSuggestions; let i = index"
            [ngClass]="{'highlight': SelectedSuggestionIndex == i}">
-        <a class="add-ingredient-text" (click)="AddCurrentSelectedOrDefaultSuggestionToText(sugg)">{{sugg.text}}</a>
+        <a class="add-ingredient-text" (click)="AddCurrentSelectedOrDefaultSuggestionToText(undefined, sugg)">{{sugg.text}}</a>
       </div>
     </div>
   </div>
