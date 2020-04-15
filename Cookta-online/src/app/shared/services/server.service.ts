@@ -45,7 +45,7 @@ export class ServerService {
   }
 
   public async GetRequest(route: string): Promise<any> {
-    let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
+    let loggedIn: boolean = await this.authService.IsAuthenticated;
     if (!loggedIn) {
       return this.http.get(this.GetBase() + route);
     } else {
@@ -60,7 +60,7 @@ export class ServerService {
   }
 
   public async PostRequest(route: string, body: any, file?: boolean): Promise<any> {
-    let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
+    let loggedIn: boolean = await this.authService.IsAuthenticated;
     let options = {headers: new HttpHeaders()};
     if (loggedIn) {
       let token = await this.authService.getTokenSilently$().toPromise();
@@ -77,7 +77,7 @@ export class ServerService {
   }
 
   public async PutRequest(route: string, body: any, file?: boolean): Promise<any> {
-    let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
+    let loggedIn: boolean = await this.authService.IsAuthenticated;
     let options = {headers: new HttpHeaders()};
     if (loggedIn) {
       let token = await this.authService.getTokenSilently$().toPromise();
@@ -94,7 +94,7 @@ export class ServerService {
   }
 
   public async DeleteRequest(route: string): Promise<any> {
-    let loggedIn: boolean = await this.authService.isAuthenticated$.toPromise();
+    let loggedIn: boolean = await this.authService.IsAuthenticated;
     if (!loggedIn) {
       return this.http.delete(this.GetBase() + route);
     } else {
