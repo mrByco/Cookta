@@ -1,8 +1,8 @@
-import {IIngredient} from "./models/grocery/ingredient.interface";
-import {IngredientService} from "./services/ingredient.service";
-import {UnitService} from "./services/unit.service";
-import {IngredientType} from "./models/grocery/ingredient-type.model";
-import {Unit} from "./models/unit.interface";
+import {IIngredient} from './models/grocery/ingredient.interface';
+import {IngredientService} from './services/ingredient-service/ingredient.service';
+import {UnitService} from './services/unit-service/unit.service';
+import {IngredientType} from './models/grocery/ingredient-type.model';
+import {Unit} from './models/unit.interface';
 
 export class DisplayIngredient {
   constructor(

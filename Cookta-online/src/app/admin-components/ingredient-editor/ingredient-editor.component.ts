@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {IngredientService} from "../../shared/services/ingredient.service";
+import {IngredientService} from "../../shared/services/ingredient-service/ingredient.service";
 import {IngredientType} from "../../shared/models/grocery/ingredient-type.model";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
