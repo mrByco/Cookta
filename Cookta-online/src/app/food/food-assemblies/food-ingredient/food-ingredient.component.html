@@ -1,7 +1,16 @@
-
 <div class="row">
-  <p class="ingredients-desc"> - {{displayIngredient.ValueName}} {{m_ShowShortUnitNames ? displayIngredient.ShortUnitNameSafe : displayIngredient.UnitName}} {{displayIngredient.TypeName}}</p>
-  <div *ngIf="this.edit">
-    <a (click)="DeleteThis()"><img src="assets/ingredient-remove-icon.png" class="mini-round-icon" alt=""></a>
-  </div>
+    <h6 class="ingredients-desc">- </h6>
+    <h6 *ngIf="!this.edit; else ValueInput" class="ingredients-desc">{{displayIngredient.ingredientSource.value}}</h6>
+    <ng-template #ValueInput>
+    <span
+            [(ngModel)]="displayIngredient.Value"
+            class="input ingredients-desc-value-input"
+            contenteditable="true"
+            role="textbox"></span>
+    </ng-template>
+    <h6 class="ingredients-desc">{{m_ShowShortUnitNames ? displayIngredient.ShortUnitNameSafe : displayIngredient.UnitName}}</h6>
+    <h6 class="ingredients-desc">{{displayIngredient.TypeName}}</h6>
+    <div *ngIf="this.edit">
+        <a (click)="DeleteThis()"><img alt="" class="mini-round-icon" src="assets/ingredient-remove-icon.png"></a>
+    </div>
 </div>

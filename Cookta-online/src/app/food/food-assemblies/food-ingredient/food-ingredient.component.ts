@@ -23,8 +23,8 @@ export class FoodIngredientComponent implements OnInit {
   public displayIngredient: DisplayIngredient;
 
   constructor(
-    public ingredientService: IngredientService,
-    public unitService: UnitService) {
+      public ingredientService: IngredientService,
+      public unitService: UnitService) {
   }
 
   ngOnInit() {
@@ -32,6 +32,10 @@ export class FoodIngredientComponent implements OnInit {
   }
 
   DeleteThis() {
-     this.OnDeleted.emit(this.ingredient);
+    this.OnDeleted.emit(this.ingredient);
+  }
+
+  ValidateInputValue() {
+    this.displayIngredient.Value = this.displayIngredient.Value;
   }
 }

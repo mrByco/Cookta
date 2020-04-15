@@ -57,6 +57,7 @@ import {EssentialsListComponent} from './stock/essentials-list/essentials-list.c
 import {ShoppingListRootComponent} from './shopping/shopping-list-root/shopping-list-root.component';
 import {ShoppingListPanelComponent} from './shopping/shopping-list-panel/shopping-list-panel.component';
 import {IngredientAdderSeamlessComponent} from './food/food-assemblies/ingredient-adder-seamless/ingredient-adder-seamless.component';
+import {ContenteditableModule} from "@ng-stack/contenteditable";
 
 const appRoutes: Routes = [
   {path: '', component: FoodListComponent},
@@ -127,6 +128,7 @@ const appRoutes: Routes = [
         MatAutocompleteModule,
         DragDropModule,
         ReactiveFormsModule,
+        ContenteditableModule,
     ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard],
