@@ -5,17 +5,19 @@
     </p>
     <p style="color: darkred" *ngIf="CurrentUnitInvalid">
       A választott hozzávaló nem nem használható ennél a hozzávalónál válassz másikat.</p>
-    <p style="color: darkgreen" *ngIf="EverythinkOk">
+    <p *ngIf="EverythingOk" style="color: darkgreen">
       Minden jónak tűnik, Enter megnyomásával Hozzáadhatod a listához
     </p>
   </div>
   <div class="row" dropdown #dropdown>
-    <input class="form-control add-ingredient-text"
-           style="height: 2rem; width: 100%; background: rgba(255, 255, 255, .6)"
-           autocomplete="disabled"
-           type="text"
-           [(ngModel)]="CurrentText"
-           (keydown)="onKeyDown($event)">
+    <label>
+      <input (keydown)="onKeyDown($event)"
+             [(ngModel)]="CurrentText"
+             autocomplete="disabled"
+             class="form-control add-ingredient-text"
+             style="height: 2rem; width: 100%; background: rgba(255, 255, 255, .6)"
+             type="text">
+    </label>
     <div class="mt-2 dropdown-menu">
       <div *ngFor="let sugg of CurrentSuggestions; let i = index"
            [ngClass]="{'highlight': SelectedSuggestionIndex == i}">
