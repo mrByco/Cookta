@@ -89,16 +89,16 @@
       <div class="modal-body">
         <app-ingredient-adder
           [ShowAddButton]="false"
-          #ingredientAdder
+          #IngredientRemover
           (OnIngredientChangedProgrammatically)="CloseIfIngredientIsZero($event, RemoveIngModal)"
           (OnIngredientAdded)="AddIngredientToSection($event)">
         </app-ingredient-adder>
         <hr>
         <div
-          *ngIf="ingredientAdder.Done">
-          <div *ngFor="let section of findStorageSectionsByType(ingredientAdder.CurrentType.guid)"
+          *ngIf="IngredientRemover.Done">
+          <div *ngFor="let section of findStorageSectionsByType(IngredientRemover.CurrentType.guid)"
                style="position: static">
-            <div class="row" *ngFor="let ing of section.filterItemsByIngId(ingredientAdder.CurrentType)"
+            <div class="row" *ngFor="let ing of section.filterItemsByIngId(IngredientRemover.CurrentType)"
                  style="position: static">
               <div class="col-8">
                 {{section.GetDisplayName()}}
@@ -110,7 +110,7 @@
                 {{unitService.GetDisplayName(ing.unit)}}
               </div>
               <div class="col-2 mr-3">
-                <a (click)="ingredientAdder.Ingredient = stockService.SubtractIngredientFromSection(ingredientAdder.Ingredient, section, true)"
+                <a (click)="IngredientRemover.Ingredient = stockService.SubtractIngredientFromSection(IngredientRemover.Ingredient, section, true)"
                    class="take-off">Levon</a>
               </div>
             </div>
