@@ -5,3 +5,8 @@
 .highlight {
   background: lightskyblue;
 }
+
+.hintText {
+  font-weight: bolder;
+  font-family: "Comic Sans MS", serif;
+}

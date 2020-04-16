@@ -10,9 +10,17 @@ import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
 import {Unit} from '../../../shared/models/unit.interface';
 
 
+
+
 describe('IngredientAdderSeamlessComponent', () => {
   // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
-  const KeypressEventBasic = {
+  const KeypressEventBasic: KeyboardEvent = {
+    DOM_KEY_LOCATION_JOYSTICK: 0,
+    DOM_KEY_LOCATION_MOBILE: 0,
+    initKeyboardEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, viewArg: Window, keyArg: string, locationArg: number, modifiersListArg: string, repeat: boolean, locale: string): void {
+    },
+    initUIEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, viewArg: Window, detailArg: number): void {
+    },
     AT_TARGET: 0,
     BUBBLING_PHASE: 0,
     CAPTURING_PHASE: 0,
@@ -41,7 +49,6 @@ describe('IngredientAdderSeamlessComponent', () => {
     },
     initEvent(type: string, bubbles: boolean | undefined, cancelable: boolean | undefined): void {
     },
-    isComposing: false,
     isTrusted: false,
     key: '',
     keyCode: 0,
@@ -179,12 +186,15 @@ describe('IngredientAdderSeamlessComponent', () => {
   });
 
   it('Should suggest only valid ingredients', () => {
-    let ingredientType = mockIngredientService.GetRandomType();
-    let availableUnits = mockUnitService.GetAvailableUnitsFor(ingredientType);
-    let invalidUnit = mockUnitService.LastLoadedUnits.find(i => !availableUnits.includes(i));
-    component.CurrentText = `${30} ${invalidUnit.name} ${ingredientType.name}`;
 
-    let invalidSuggestion = component.CurrentSuggestions.find(s => !availableUnits.includes(s.value));
+    component.CurrentText = '30 liter liszt';
+    let parseResult = component.ParseText(component.CurrentText);
+    expect(parseResult.ingredient).toBeTruthy();
+
+    let validUnits = mockUnitService.GetAvailableUnitsFor(parseResult.ingredient);
+    let invalidUnits = mockUnitService.LastLoadedUnits.filter(u => !validUnits.includes(u));
+
+    let invalidSuggestion = component.CurrentSuggestions.find(s => invalidUnits.find(u => u == s.value));
     expect(invalidSuggestion).toBeFalsy();
   });
 
@@ -201,5 +211,34 @@ describe('IngredientAdderSeamlessComponent', () => {
     component.onKeyDown({...KeypressEventBasic, ...{code: 'Enter'}});
 
     expect(component.CurrentText).toBe(`${30} ${SelectedSuggestionUnit.name} ${ingredientType.name}`);
+  });
+
+  it('Display helper text if ingredient complete but unit invalid', () => {
+    component.CurrentText = '30 liter liszt';
+
+    fixture.detectChanges();
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.textContent).toContain(component.ErrorUnitInvalid);
+  });
+
+  it('Display ok text if ingredient complete & valid', () => {
+    component.CurrentText = `30 dkg liszt`;
+
+    fixture.detectChanges();
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.textContent).toContain(component.SuccessText);
+  });
+
+  it('Display start on start', () => {
+    fixture.detectChanges();
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.textContent).toContain(component.LetsStartText);
+  });
+
+  it('Display start if set empty', () => {
+    component.CurrentText = ``;
+    fixture.detectChanges();
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.textContent).toContain(component.LetsStartText);
   });
 });
