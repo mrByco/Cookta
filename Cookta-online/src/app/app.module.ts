@@ -58,13 +58,14 @@ import {ShoppingListRootComponent} from './shopping/shopping-list-root/shopping-
 import {ShoppingListPanelComponent} from './shopping/shopping-list-panel/shopping-list-panel.component';
 import {IngredientAdderSeamlessComponent} from './food/food-assemblies/ingredient-adder-seamless/ingredient-adder-seamless.component';
 import {ContenteditableModule} from "@ng-stack/contenteditable";
+import {CanActivateLoggedInGuard} from "./guards/can-activate-logged-in.guard";
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
     {path: 'foods', component: FoodListComponent},
     {path: 'ingredient-editor', component: IngredientEditorComponent},
     {path: 'debug-options', component: DebugOptionsComponent},
-    {path: 'foods/collection', component: FoodCollectionListComponent},
+    {path: 'foods/collection', component: FoodCollectionListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent},
     {path: 'foods/:id', component: FoodDetailComponent},
     {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
@@ -131,10 +132,10 @@ const appRoutes: Routes = [
         ReactiveFormsModule,
         ContenteditableModule,
     ],
-  schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard],
-  entryComponents: [GenericTwoButtonDialogComponent],
-  bootstrap: [AppComponent]
+    schemas: [NO_ERRORS_SCHEMA],
+    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard, CanActivateLoggedInGuard],
+    entryComponents: [GenericTwoButtonDialogComponent],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

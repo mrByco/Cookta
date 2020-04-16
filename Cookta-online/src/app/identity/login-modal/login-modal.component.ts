@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MDBModalRef, ModalDirective} from "angular-bootstrap-md";
+import {ModalDirective} from "angular-bootstrap-md";
 import {IdentityService} from "../../shared/services/identity.service";
-import {identity} from "rxjs";
 
 
 @Component({
@@ -15,11 +14,23 @@ export class LoginModalComponent implements OnInit {
 
   @ViewChild('basicModal', {static: true}) public modal: ModalDirective;
 
-  constructor(public identityService: IdentityService) { }
+  public Callback: (loggedIn: boolean) => void;
+  public RedirectUrl: string = '/';
+
+  constructor(public identityService: IdentityService) {
+  }
 
   ngOnInit() {
-    this.identityService.OnLoginRequired.subscribe( () => {
-      this.modal.show();
-    });
+    this.identityService.OnLoginRequired.subscribe(
+        (generator: { modalCallback: (loggedIn: boolean) => void, redirect: string }) => {
+          this.modal.show();
+          this.Callback = generator.modalCallback;
+          this.RedirectUrl = generator.redirect;
+        });
+  }
+
+  Cancel() {
+    this.modal.hide();
+    if (this.Callback) this.Callback(false);
   }
 }
