@@ -69,6 +69,7 @@
           <a class="dropdown-item waves-light" mdbWavesEffect href="#">Fiókom</a>
           <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/foods/new/edit">Étel feltöltése</a>
           <div class="dropdown-divider"></div>
+          <a class="dropdown-item waves-light" mdbWavesEffect (click)="changName.Show()">Felhasználó név</a>
           <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/family-manager">Család</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item waves-light" mdbWavesEffect (click)="identityService.Logout()">Kijelentkezés</a>
@@ -83,3 +84,4 @@
 
 
 
+<app-rename-modal #changName></app-rename-modal>

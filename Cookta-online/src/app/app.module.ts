@@ -59,6 +59,7 @@ import {ShoppingListPanelComponent} from './shopping/shopping-list-panel/shoppin
 import {IngredientAdderSeamlessComponent} from './food/food-assemblies/ingredient-adder-seamless/ingredient-adder-seamless.component';
 import {ContenteditableModule} from "@ng-stack/contenteditable";
 import {CanActivateLoggedInGuard} from "./guards/can-activate-logged-in.guard";
+import { RenameModalComponent } from './identity/rename-modal/rename-modal.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -113,6 +114,7 @@ const appRoutes: Routes = [
     ShoppingListRootComponent,
     ShoppingListPanelComponent,
     IngredientAdderSeamlessComponent,
+    RenameModalComponent,
   ],
     imports: [
         BrowserModule,
