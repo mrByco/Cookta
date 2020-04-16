@@ -25,7 +25,7 @@ export class IdentityService {
     }
 
     public get LoggedIn(): Promise<boolean> | boolean {
-        return this.authService.IsAuthenticated;
+        return this.authService.loggedIn;
     }
 
     public async Login(redirect?: string) {
