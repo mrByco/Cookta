@@ -14,10 +14,14 @@ export class FoodIngredientComponent implements OnInit {
 
   @Input('ingredient') private ingredient: IIngredient;
   @Input('edit') public edit: boolean = false;
-  @Output('OnDeleted')  OnDeleted: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
-  @Input('ShortUnitNames') public set ShowShortUnitNames(value) {
+  @Input('ingredientDisplayMultiplier') public displayMultiplier = 1
+  @Output('OnDeleted') OnDeleted: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
+
+  @Input('ShortUnitNames')
+  public set ShowShortUnitNames(value) {
     this.m_ShowShortUnitNames = value;
   }
+
   public m_ShowShortUnitNames: boolean;
 
   public displayIngredient: DisplayIngredient;

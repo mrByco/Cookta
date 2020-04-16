@@ -1,12 +1,13 @@
 <div class="row">
     <h6 class="ingredients-desc">- </h6>
-    <h6 *ngIf="!this.edit; else ValueInput" class="ingredients-desc">{{displayIngredient.ingredientSource.value}}</h6>
+    <h6 *ngIf="!this.edit; else ValueInput"
+        class="ingredients-desc">{{displayIngredient.ingredientSource.value * displayMultiplier}}</h6>
     <ng-template #ValueInput>
-    <span
-            [(ngModel)]="displayIngredient.Value"
-            class="input ingredients-desc-value-input"
-            contenteditable="true"
-            role="textbox"></span>
+        <span
+                [(ngModel)]="displayIngredient.Value"
+                class="input ingredients-desc-value-input"
+                contenteditable="true"
+                role="textbox"></span>
     </ng-template>
     <h6 class="ingredients-desc">{{m_ShowShortUnitNames ? displayIngredient.ShortUnitNameSafe : displayIngredient.UnitName}}</h6>
     <h6 class="ingredients-desc">{{displayIngredient.TypeName}}</h6>

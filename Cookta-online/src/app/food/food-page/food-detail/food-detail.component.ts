@@ -19,6 +19,7 @@ export class FoodDetailComponent implements OnInit {
     public Food: ISendableFood;
 
     public ShowShortUnitNames: boolean;
+    public ScaleToDose: number;
 
     constructor(
         public route: ActivatedRoute,
@@ -46,8 +47,10 @@ export class FoodDetailComponent implements OnInit {
                 return;
             }
             this.Food = mealing.info.finalFood as ISendableFood;
+            this.ScaleToDose = mealing.dose;
         } else {
             this.Food = await this.foodService.GetFood(Id);
+            this.ScaleToDose = this.Food.dose;
         }
 
     }
@@ -57,7 +60,7 @@ export class FoodDetailComponent implements OnInit {
             this.identityService.PleaseLogin();
             return;
         }
-        let response = await this.foodService.SetSubscription(this.Food.foodId, state);
+        await this.foodService.SetSubscription(this.Food.foodId, state);
         this.Food.SubscribedFor = state;
     }
 
