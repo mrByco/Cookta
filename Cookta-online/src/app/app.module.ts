@@ -60,18 +60,18 @@ import {IngredientAdderSeamlessComponent} from './food/food-assemblies/ingredien
 import {ContenteditableModule} from "@ng-stack/contenteditable";
 
 const appRoutes: Routes = [
-  {path: '', component: FoodListComponent},
-  {path: 'foods', component: FoodListComponent},
-  {path: 'ingredient-editor', component: IngredientEditorComponent},
-  {path: 'debug-options', component: DebugOptionsComponent},
-  {path: 'foods/collection', component: FoodCollectionListComponent},
-  {path: 'foods/:id', component: FoodDetailComponent},
-  {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
-  {path: 'family-manager', component: FamilyManagementComponent},
-  {path: 'essentials', component: EssentialsRootComponent},
-  {path: 'calendar', component: MenuEditorComponent},
-  {path: 'storage', component: StorageRootComponentComponent},
-  {path: 'shopping', component: ShoppingListRootComponent}
+    {path: '', component: FoodListComponent},
+    {path: 'foods', component: FoodListComponent},
+    {path: 'ingredient-editor', component: IngredientEditorComponent},
+    {path: 'debug-options', component: DebugOptionsComponent},
+    {path: 'foods/collection', component: FoodCollectionListComponent},
+    {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent},
+    {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
+    {path: 'family-manager', component: FamilyManagementComponent},
+    {path: 'essentials', component: EssentialsRootComponent},
+    {path: 'calendar', component: MenuEditorComponent},
+    {path: 'storage', component: StorageRootComponentComponent},
+    {path: 'shopping', component: ShoppingListRootComponent}
 
 ];
 
