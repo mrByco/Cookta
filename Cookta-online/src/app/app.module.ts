@@ -66,6 +66,7 @@ const appRoutes: Routes = [
     {path: 'debug-options', component: DebugOptionsComponent},
     {path: 'foods/collection', component: FoodCollectionListComponent},
     {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent},
+    {path: 'foods/:id', component: FoodDetailComponent},
     {path: 'foods/:id/edit', component: FoodEditComponent, canDeactivate: [CanDeactivateGuard]},
     {path: 'family-manager', component: FamilyManagementComponent},
     {path: 'essentials', component: EssentialsRootComponent},

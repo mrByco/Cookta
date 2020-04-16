@@ -1,11 +1,12 @@
-<div class="container-fluid no-padding" style="padding: 0px;">
+<div class="container-fluid no-padding" style="padding: 0;">
   <div class="row">
     <div class="col-2">
     </div>
     <div class="col-6" style="padding: 20px">
-      <img [src]="Food ? Food.ImageUrl : ''" style="width: 70%">
+      <img [alt]="Food.name" [src]="GetFoodUrl(Food)" style="width: 70%">
 
-      <ul class="list-group list-group-horizontal" style="background-color: transparent; margin-left: fill; width: 100%">
+      <ul class="list-group list-group-horizontal"
+          style="background-color: transparent; margin-left: fill; width: 100%">
         <li class="list-group-item-2" *ngIf="!Food.SubscribedFor && !Food.OwnFood">
           <button class="btn btn-primary" (click)="Subscribe(true)">Feliratkozás</button>
         </li>
@@ -57,7 +58,7 @@
       <div>
         <h3>Tagek</h3>
         <div class="masonry-with-columns-2">
-          <app-food-tag *ngFor="let tag of Food.tags.concat(Food.autoTags)" [TagId]="tag.guid"></app-food-tag>
+          <app-food-tag *ngFor="let tag of GetFoodTags()" [TagId]="tag.guid"></app-food-tag>
         </div>
       </div>
 

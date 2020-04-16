@@ -6,6 +6,8 @@ import {IdentityService} from "../../../shared/services/identity.service";
 import {CookieService} from 'ngx-cookie-service';
 import {MealingService} from "../../../shared/services/mealing.service";
 import {Day} from "../../../shared/models/menu/day.model";
+import {ISendableFood} from "../../../shared/models/grocery/food.isendable.interface";
+import {Tag} from "../../../shared/models/grocery/tag.model";
 
 @Component({
     selector: 'app-food-detail',
@@ -14,7 +16,7 @@ import {Day} from "../../../shared/models/menu/day.model";
 })
 export class FoodDetailComponent implements OnInit {
 
-    public Food: Food = FoodService.Placeholder;
+    public Food: ISendableFood;
 
     public ShowShortUnitNames: boolean;
 
@@ -43,7 +45,7 @@ export class FoodDetailComponent implements OnInit {
                 this.router.navigate(["foods", Id ?? '']);
                 return;
             }
-            this.Food = mealing.info.finalFood;
+            this.Food = mealing.info.finalFood as ISendableFood;
         } else {
             this.Food = await this.foodService.GetFood(Id);
         }
@@ -67,5 +69,15 @@ export class FoodDetailComponent implements OnInit {
 
     public GoEdit() {
         this.router.navigate(["foods", this.Food.foodId, "edit"]);
+    }
+
+    GetFoodTags(): Tag[] {
+        let origianls = Food['autoTags'] ?? [];
+        let autoTags = Food['autoTags'] ?? [];
+        return origianls.concat(autoTags);
+    }
+
+    GetFoodUrl(ObjFood: ISendableFood): string {
+        return Food.GetImageForFood(ObjFood);
     }
 }
