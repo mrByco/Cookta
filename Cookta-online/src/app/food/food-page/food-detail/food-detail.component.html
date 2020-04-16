@@ -15,7 +15,7 @@
         <li class="list-group-item-2">
           <button class="btn btn-primary">Feltöltő</button>
         </li>
-        <li class="list-group-item-2" *ngIf="identityService.LastKnownUserInfo && identityService.LastKnownUserInfo['sub'] == this.Food.owner">
+        <li *ngIf="Food.OwnFood" class="list-group-item-2">
           <button class="btn btn-primary" (click)="GoEdit()">Szerkesztés</button>
         </li>
       </ul>
