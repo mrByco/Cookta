@@ -18,10 +18,11 @@
                         *ngIf="renameUser.invalid && (renameUser.dirty || renameUser.touched)">
 
                         <span *ngIf="renameUser.errors.maxlength">Maximum 30 karakter.<br/></span>
-                        <span *ngIf="renameUser.errors.minLength">Minimum 4 karakter.<br/></span>
+                        <span *ngIf="renameUser.errors.minlength">Minimum 4 karakter.<br/></span>
                         <span *ngIf="renameUser.errors.pattern">Nem tartalmazhat spacet, vagy üres karaktert.<br/></span>
                         <span *ngIf="renameUser.errors.required">Nem lehet üres.<br/></span>
                 </mdb-error>
+                  <span *ngIf="renameUser.pending">Név ellenörzése...</span>
                     <mdb-success
                             *ngIf="renameUser.valid && (renameUser.dirty || renameUser.touched)">Ok
                     </mdb-success>
@@ -29,15 +30,16 @@
 
 
             </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button mdbBtn color="default"
-                        [disabled]="renameUser.errors != null"
-                        class="waves-light"
-                        (click)="ProcessUsername()"
-                        mdbWavesEffect>Váltás
+          <div class="modal-footer d-flex justify-content-center">
+            <button (click)="ProcessUsername()" [disabled]="renameUser.errors != null || renameUser.pending"
+                    class="waves-light"
+                    color="default"
+                    mdbBtn
+                    mdbWavesEffect>Váltás
 
-                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="Loading" ></span></button>
-            </div>
+              <span *ngIf="renameUser.pending" aria-hidden="true" class="spinner-border spinner-border-sm"
+                    role="status"></span></button>
+          </div>
         </div>
     </div>
 </div>
