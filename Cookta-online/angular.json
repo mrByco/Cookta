@@ -128,6 +128,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "cookta"
+    }
+  },
+  "defaultProject": "cookta",
+  "cli": {
+    "analytics": false
+  }
 }

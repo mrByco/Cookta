@@ -1,82 +1,82 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {ServerService} from './server.service';
 import {AuthService} from './auth.service';
-import {augmentIndexHtml} from '@angular-devkit/build-angular/src/angular-cli-files/utilities/index-file/augment-index-html';
 import {Routes} from '../routes';
 import {User} from '../models/identity/User';
-import {Food} from '../models/grocery/food.model';
-import {Family} from '../models/family.model';
-import {FamilyService} from './family.service';
 
 @Injectable()
 export class IdentityService {
-  constructor(private serverService: ServerService,
-              private authService: AuthService) {
-    authService.OnUserChanged.subscribe(user => this.OnUserChanged.emit(user));
-    authService.OnUserChanged.subscribe(user => this.LastKnownUserInfo = user);
-    authService.OnUserChanged.subscribe(user => this.RefreshUser());
-  }
+    public static Instance: IdentityService;
+    public OnLoginRequired = new EventEmitter<{
+        modalCallback: (loggedIn: boolean) => void,
+        redirect: string
+    }>();
+    public LastKnownUserInfo: any = {};
+    public Identity: User;
+    public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
+    public OnIdentityChanged: EventEmitter<User> = new EventEmitter<User>();
 
-  public get LoggedIn(): boolean {
-    return this.authService.loggedIn;
-  }
+    constructor(private serverService: ServerService,
+                private authService: AuthService) {
+        authService.OnUserChanged.subscribe(user => this.OnUserChanged.emit(user));
+        authService.OnUserChanged.subscribe(user => this.LastKnownUserInfo = user);
+        authService.OnUserChanged.subscribe(() => this.RefreshUser());
+        if (!IdentityService.Instance) IdentityService.Instance = this;
+    }
 
-  public async Login() {
-    this.authService.login();
-  }
+    public get LoggedIn(): Promise<boolean> | boolean {
+        return this.authService.loggedIn;
+    }
 
-  public async Logout() {
-    this.authService.logout();
-  }
+    public async Login(redirect?: string) {
+        this.authService.login(redirect);
+    }
 
-  public OnLoginRequired = new EventEmitter();
+    public async Logout() {
+        this.authService.logout();
+    }
 
-  public LastKnownUserInfo: any = {};
+    public PleaseLogin(redirect: string = '/'): Promise<boolean> {
 
-  public Identity: User;
+        return new Promise<boolean>(resolve => {
+            this.OnLoginRequired.emit({modalCallback: resolve, redirect: redirect});
+        });
+    }
 
-  public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
-  public OnIdentityChanged: EventEmitter<User> = new EventEmitter<User>();
-  public PleaseLogin() {
-    this.OnLoginRequired.emit();
-  }
+    public async HasPermission(permission: string): Promise<boolean> {
+        let response = await this.serverService.GetRequest(Routes.User.HasPermission.replace('{permission}', permission));
+        return new Promise<boolean>(async (resolve) => {
+            response.subscribe(data => {
+                resolve(JSON.parse(data));
+            }, () => {
+                resolve(false);
+            });
+        });
+    }
 
-  public async HasPermission(permission: string): Promise<boolean> {
-    let response = await this.serverService.GetRequest(Routes.User.HasPermission.replace('{permission}', permission));
-    return new Promise<boolean>(async (resolve) => {
-      response.subscribe(data => {
-        resolve(JSON.parse(data));
-      }, error => {
-        resolve(false);
-      });
-    });
-  }
-
-  public async RefreshUser(): Promise<void> {
-    return new Promise(async (resolve) => {
-      let response = await this.serverService.GetRequest(Routes.User.GetUser);
-      let foods: Food[] = [];
-      response.subscribe(data => {
-        this.Identity = data as User;
-        console.log(this.Identity);
-        this.OnIdentityChanged.emit(this.Identity);
-        resolve();
-      }, () => {
-        resolve();
-      });
-    });
-  }
+    public async RefreshUser(): Promise<void> {
+        return new Promise(async (resolve) => {
+            let response = await this.serverService.GetRequest(Routes.User.GetUser);
+            response.subscribe(data => {
+                this.Identity = data as User;
+                this.OnIdentityChanged.emit(this.Identity);
+                resolve();
+            }, () => {
+                resolve();
+            });
+        });
+    }
 
 
-  public PleaseAccessToken(): Promise<string> {
-    return new Promise(async (resolve) => {
-      if (!this.LoggedIn) {
-        await this.Login();
-      }
-      let user = await this.authService.getUser$().toPromise();
-      return '';
-    });
-  }
+    public PleaseAccessToken(): Promise<string> {
+        return new Promise(async () => {
+            if (!this.LoggedIn) {
+                await this.Login();
+            }
+            await this.authService.getUser$().toPromise();
+            return '';
+        });
+    }
 
 
 }

@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+        <button (click)="Cancel()" aria-label="Close" class="close pull-right" type="button">
           <span aria-hidden="true">×</span>
         </button>
         <h4 class="modal-title w-100" id="myModalLabel">Jelentkezz be</h4>
@@ -11,8 +11,12 @@
         <p>A bejelentkezésnek számos előnye van, ennek az egy funkciónak a használatán kívül.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
-        <button type="button" mdbBtn color="primary" class="relative waves-light" (click)="identityService.Login()" mdbWavesEffect>Bejelentkezés</button>
+        <button (click)="Cancel()" aria-label="Close" class="waves-light" color="secondary" mdbBtn mdbWavesEffect
+                type="button">Mégse
+        </button>
+        <button (click)="identityService.Login(RedirectUrl)" class="relative waves-light" color="primary" mdbBtn
+                mdbWavesEffect type="button">Bejelentkezés
+        </button>
       </div>
     </div>
   </div>
