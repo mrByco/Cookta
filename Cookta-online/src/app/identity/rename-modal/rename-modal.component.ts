@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ModalDirective} from "angular-bootstrap-md";
+import {IdentityService} from '../../shared/services/identity.service';
 
 @Component({
   selector: 'app-rename-modal',
@@ -12,13 +13,17 @@ export class RenameModalComponent implements OnInit {
   usernameForm: FormGroup;
   @ViewChild('frame') public modal: ModalDirective;
 
-  constructor() { }
+
+  public Loading: boolean = false;
+
+
+  constructor(public identityService: IdentityService) { }
 
   ngOnInit(): void {
     this.usernameForm = new FormGroup({
       usernameControl: new FormControl('', [
           Validators.maxLength(30),
-          Validators.minLength(5),
+          Validators.minLength(4),
           Validators.pattern('^[^< >]+$'),
           Validators.required,
       ])
@@ -35,6 +40,16 @@ export class RenameModalComponent implements OnInit {
 
   get renameUser() {
     return this.usernameForm.get('usernameControl');
+  }
+
+  public async ProcessUsername(){
+    this.Loading = true;
+    try {
+      await this.identityService.ChangeUsername(this.renameUser.value);
+    }finally {
+      this.modal.hide();
+      this.Loading = false;
+    }
   }
 
 }

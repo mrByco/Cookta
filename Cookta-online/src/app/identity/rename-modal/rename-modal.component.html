@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                <h4 class="modal-title w-100 font-weight-bold">Névváltás</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,7 +18,7 @@
                         *ngIf="renameUser.invalid && (renameUser.dirty || renameUser.touched)">
 
                         <span *ngIf="renameUser.errors.maxlength">Maximum 30 karakter.<br/></span>
-                        <span *ngIf="renameUser.errors.minLength">Minimum 5 karakter.<br/></span>
+                        <span *ngIf="renameUser.errors.minLength">Minimum 4 karakter.<br/></span>
                         <span *ngIf="renameUser.errors.pattern">Nem tartalmazhat spacet, vagy üres karaktert.<br/></span>
                         <span *ngIf="renameUser.errors.required">Nem lehet üres.<br/></span>
                 </mdb-error>
@@ -30,7 +30,13 @@
 
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button mdbBtn color="default" [disabled]="renameUser.errors != null" class="waves-light" mdbWavesEffect>Váltás</button>
+                <button mdbBtn color="default"
+                        [disabled]="renameUser.errors != null"
+                        class="waves-light"
+                        (click)="ProcessUsername()"
+                        mdbWavesEffect>Váltás
+
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="Loading" ></span></button>
             </div>
         </div>
     </div>
