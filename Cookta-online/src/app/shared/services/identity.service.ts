@@ -66,6 +66,14 @@ export class IdentityService {
             });
         });
     }
+    public async
+  public async ChangeUsername(name: string): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      let response = await this.serverService.GetRequest(Routes.User.GetUser.replace('{name}', name));
+      console.log(response);
+
+    });
+  }
 
 
     public PleaseAccessToken(): Promise<string> {
