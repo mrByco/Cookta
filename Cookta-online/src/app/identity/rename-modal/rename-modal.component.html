@@ -21,7 +21,9 @@
             <span *ngIf="renameUser.errors.minlength">Minimum 4 karakter.<br/></span>
             <span *ngIf="renameUser.errors.pattern">Nem tartalmazhat spacet, vagy üres karaktert.<br/></span>
             <span *ngIf="renameUser.errors.required">Nem lehet üres.<br/></span>
-            <span *ngIf="renameUser.errors.nameexist">Valki már használja ezt a nevet<br/></span>
+            <span *ngIf="renameUser.errors.nameexist">Valaki már használja ezt a nevet<br/></span>
+            <span *ngIf="renameUser.errors.cantcheckname">HIBA: nem tudtuk ellenőrizni a nevet<br/></span>
+
           </mdb-error>
           <span *ngIf="renameUser.pending">Név ellenörzése...</span>
           <mdb-success

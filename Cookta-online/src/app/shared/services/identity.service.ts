@@ -88,14 +88,12 @@ export class IdentityService {
   }
 
   public async UsernameExist(name: string): Promise<boolean> {
-    console.log('username exist');
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
       let response = await this.serverService.GetRequest(Routes.User.CheckUsername.replace('{name}', name));
       response.subscribe(data => {
         resolve(data as boolean);
       }, (error: HttpErrorResponse) => {
-        console.log('error: ' + error.message);
-        resolve(false);
+        reject(error);
       });
     });
   }
