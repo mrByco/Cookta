@@ -18,9 +18,22 @@ export class DisplayIngredient {
   public get TypeName(): string {
     return this.type ? this.type.name : this.ingredientSource.ingredientID;
   }
+
   public get UnitName(): string {
     return this.unit ? this.unit.name : "MértékID";
   }
+
+  public get Value(): string {
+    return this.ingredientSource.value.toString();
+  }
+
+  public set Value(value) {
+    if (!isNaN(+value))
+      this.ingredientSource.value = +value;
+    else
+      this.Value = this.ingredientSource.value.toString();
+  }
+
   public get ShortUnitNameSafe(): string {
     if (!this.unit)
       return this.UnitName;
@@ -29,9 +42,6 @@ export class DisplayIngredient {
     if (this.unit.shortname == "")
       return this.UnitName;
     return this.unit.shortname;
-  }
-  public get ValueName(): string {
-    return this.ingredientSource.value.toString();
   }
 
   private type: IngredientType;

@@ -31,12 +31,12 @@ body{
   filter: brightness(1.5);
 }
 .mini-round-icon-disabled {
-  margin: 0px  3px  3px 10px;
+  margin: 0 3px 3px 10px;
   width: 24px;
   filter: grayscale(100%);;
 }
 .mini-round-icon-disabled:hover {
-  margin: 0px  3px  3px 10px;
+  margin: 0 3px 3px 10px;
   width: 24px;
   filter: grayscale(100%);
 }
@@ -57,8 +57,9 @@ body{
 
   transition: opacity 0.2s, box-shadow 0.2s;
 }
-.icon:hover{
-  box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.4);
+
+.icon:hover {
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
   opacity: 1;
   background: rgba(255, 255, 255, 0.4);
 }
@@ -92,16 +93,50 @@ body{
   padding-left: 0.3rem;
   cursor: pointer;
 }
+
 .rounded-panel-item:hover {
   background: rgba(0, 210, 255, 0.5);
 }
+
 .rounded-panel-item label {
   font-size: 20px;
   cursor: pointer;
 }
 
+.span-input-growing {
+  margin: -3px 5px 5px;
+  padding-top: 0;
+  font-size: 20px;
+  color: inherit;
+  background: rgba(0, 0, 0, 0);
+  min-width: 10px;
+  max-width: 100px;
+  border: 0 solid rgba(0, 0, 0, 0);
+  transition: border .3s, margin .3s;
+}
+
+.span-input-growing:hover {
+  margin: -5px 3px 3px;
+  border: 2px solid rgba(100, 100, 100, 0.7);
+}
+
+.span-input-growing:focus {
+  margin: -5px 5px 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid gray;
+  padding-right: 10px;
+}
+
+[contenteditable] {
+  outline: 0 solid transparent;
+}
 
 
+html, body {
+  height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

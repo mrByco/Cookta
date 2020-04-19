@@ -1,8 +1,7 @@
-
-import {Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
-import {User} from "../models/user.model";
-import {ExtendedUser} from "../models/extendedUser";
-import {Services} from "../Services";
+import {Controller, Get, Put, Request, Route, Security, Tags} from 'tsoa';
+import {User} from '../models/user.model';
+import {ExtendedUser} from '../models/extendedUser';
+import {Services} from '../Services';
 
 @Tags('User')
 @Route('/user')
@@ -30,11 +29,17 @@ export class UserController extends Controller {
             this.setStatus(500);
         }
     }
+
+    @Get('/{name}')
+    public async GetNameAlreadyUsed(@Request() request, name: string): Promise<boolean> {
+        return (Services.UserService.FindOne(u => u.username && u.username.toLocaleLowerCase() == name.toLocaleLowerCase()) != undefined);
+    }
+
     @Security('Bearer')
     @Get('/permission/{permission}')
-    public async HasPermission(@Request() request, permission: string): Promise<boolean>{
+    public async HasPermission(@Request() request, permission: string): Promise<boolean> {
         try {
-            if (permission == undefined){
+            if (permission == undefined) {
                 this.setStatus(400);
                 return;
             }

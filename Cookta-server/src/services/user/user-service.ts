@@ -27,6 +27,12 @@ export class UserService extends StoreService<User> {
             user = this.CreateItem(new ObjectId());
             user.sub = data.sub;
             user.email = data.email;
+            user.username = data.username ?? data.nickname;
+            while (!user.username) {
+                let t = 'user' + Math.floor(Math.random() * 90000) + 9999;
+                if (this.FindOne(u => u.username == t)) continue;
+                user.username = t;
+            }
             user.role = 'default';
             user.profilpic = data.picture;
             user.logs = [];
@@ -57,5 +63,6 @@ export class UserService extends StoreService<User> {
             })
         });
     }
+
 
 }

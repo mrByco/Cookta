@@ -1677,6 +1677,32 @@
 						"type": "string"
 					}
 				]
+			},
+			"get": {
+				"operationId": "GetNameAlreadyUsed",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "name",
+						"required": true,
+						"type": "string"
+					}
+				]
 			}
 		},
 		"/user/permission/{permission}": {

@@ -10,6 +10,7 @@ import {Tag} from '../../shared/models/grocery/tag.model';
 import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
 import {FormBuilder} from '@angular/forms';
 import {TagService} from '../../shared/services/tag.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-menu-mealing',
@@ -23,6 +24,13 @@ export class MenuMealingComponent implements OnInit {
   @Input() Day: Day = Day.PlaceHolder;
   @Input() MenuDayComponent: MenuDayComponent = null;
   @Output() AddMealToDay: EventEmitter<IMeal> = new EventEmitter<IMeal>();
+  public displayMeals: DisplayMeal[] = [];
+  DoseEdit: { displayMeal: DisplayMeal, dose: number } = {displayMeal: undefined, dose: undefined}
+  doseForm;
+
+  constructor(public foodService: FoodService, private formBuilder: FormBuilder, public tagService: TagService, public router: Router) {
+    this.doseForm = this.formBuilder.group({dose: undefined});
+  }
 
   public async setDay(day: Day): Promise<void> {
     this.Day = day;
@@ -33,15 +41,6 @@ export class MenuMealingComponent implements OnInit {
       newDisplayMeals.push(new DisplayMeal(this.foodService, meal, knownFoods));
     }
     this.displayMeals = newDisplayMeals;
-  }
-
-  public displayMeals: DisplayMeal[] = [];
-  DoseEdit: {displayMeal: DisplayMeal, dose: number } = {displayMeal: undefined, dose: undefined}
-  doseForm;
-
-
-  constructor(public foodService: FoodService, private formBuilder: FormBuilder, public tagService: TagService) {
-    this.doseForm = this.formBuilder.group({dose: undefined});
   }
 
   ngOnInit() {
@@ -115,5 +114,13 @@ export class MenuMealingComponent implements OnInit {
     meal.sourceMeal.dose = data['dose'];
     this.DoseEdit.displayMeal = undefined;
     this.MenuDayComponent.SaveDay();
+  }
+
+  OpenFoodForMeal(meal: DisplayMeal) {
+    if (meal.sourceMeal.type == 'final') {
+      this.router.navigate(['/foods', meal.sourceMeal.foodId, this.Day.date, this.Day.mealings.indexOf(meal.sourceMeal)]);
+    } else {
+      this.router.navigate(['/foods', meal.sourceMeal.foodId]);
+    }
   }
 }
