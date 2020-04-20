@@ -1,0 +1,64 @@
+<div mdbModal #basicModal class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true"
+     [config]="{ignoreBackdropClick: true}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="CurrentUnit && CurrentType">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" >{{CurrentUnit.id ? CurrentUnit.id : "Új, még nincs azonosító"}}</h4>
+      </div>
+      <div class="modal-body">
+
+        <h6>Törlendő unit: {{CurrentUnit.name}}</h6>
+        <h5>Rövid: {{CurrentUnit.shortname ? CurrentUnit.shortname : 'Unknown'}}</h5>
+
+
+        <p class="start-paragraph">Utód</p>
+        <select class="browser-default custom-select" [(ngModel)]="Descendent">
+          <option [ngValue]="undefined" selected>csere: alapmértékegység</option>
+          <option *ngFor="let unit of GetDescentUnits()" [ngValue]="unit.id">csere: {{unit.name}}</option>
+        </select>
+        <label for="nameText">
+          Megerősítésként írd be a mértékegység nevét.
+        </label>
+        <input type="text" id="nameText" class="form-control"
+               [ngClass]="{'is-valid': CheckTextOk, 'is-invalid': !CheckTextOk}"
+               [(ngModel)]="CheckText">
+        <h6>Referenciák</h6>
+        <div class="row m-4">
+          <h4 *ngIf="!ReferenceCheck; else ReferenceCheckTable">Checking references...</h4>
+          <ng-template #ReferenceCheckTable>
+            <div class="col-3">
+              <h5>Összesen</h5>
+              <h5>{{ReferenceCheck.totalRefs}}</h5>
+            </div>
+            <div class="col-3">
+              <h5>Receptek</h5>
+              <h5>{{ReferenceCheck.foodRefs}}</h5>
+            </div>
+            <div class="col-3">
+              <h5>Raktárak</h5>
+              <h5>{{ReferenceCheck.storageRefs}}</h5>
+            </div>
+            <div class="col-3">
+              <h5>Alaplista</h5>
+              <h5>{{ReferenceCheck.essentialsRefs}}</h5>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()"
+                mdbWavesEffect>Mégse
+        </button>
+        <button (click)="Process()" [disabled]="!ReferenceCheck || !CheckTextOk || Processing"
+                class="relative waves-light" color="green"
+                mdbBtn
+                mdbWavesEffect
+                type="button">Csináld
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

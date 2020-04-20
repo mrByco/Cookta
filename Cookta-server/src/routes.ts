@@ -37,16 +37,16 @@ const models: TsoaRoute.Models = {
         'properties': {
             'ingredientID': {'dataType': 'string', 'required': true},
             'unit': {'dataType': 'string', 'required': true},
-            'value': {'dataType': 'double', 'required': true},
+            "value": { "dataType": "double", "required": true },
         },
-        'additionalProperties': false,
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    'Tag': {
-        'dataType': 'refObject',
-        'properties': {
-            'guid': {'dataType': 'string', 'required': true},
-            'name': {'dataType': 'string', 'required': true},
+    "Tag": {
+        "dataType": "refObject",
+        "properties": {
+            "guid": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
             "parentId": { "dataType": "string", "required": true },
             "ischildonly": { "dataType": "boolean", "required": true },
         },
@@ -137,12 +137,34 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "SetTagRequest": {
-        "dataType": "refObject",
-        "properties": {
-            "guid": { "dataType": "string" },
-            "name": { "dataType": "string", "required": true },
-            "parent": { "dataType": "string" },
+    'CheckUnitRefResponse': {
+        'dataType': 'refObject',
+        'properties': {
+            'unitId': {'dataType': 'string', 'required': true},
+            'totalRefs': {'dataType': 'double', 'required': true},
+            'foodRefs': {'dataType': 'double', 'required': true},
+            'essentialsRefs': {'dataType': 'double', 'required': true},
+            'storageRefs': {'dataType': 'double', 'required': true},
+        },
+        'additionalProperties': false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    'DeleteCustomUnitRequest': {
+        'dataType': 'refObject',
+        'properties': {
+            'unitToDeleteId': {'dataType': 'string', 'required': true},
+            'ingredientTypeId': {'dataType': 'string', 'required': true},
+            'descendent': {'dataType': 'string'},
+        },
+        'additionalProperties': false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    'SetTagRequest': {
+        'dataType': 'refObject',
+        'properties': {
+            'guid': {'dataType': 'string'},
+            'name': {'dataType': 'string', 'required': true},
+            'parent': {'dataType': 'string'},
         },
         "additionalProperties": false,
     },
@@ -658,10 +680,55 @@ export function RegisterRoutes(app: express.Express) {
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/unit',
+    app.get('/ingredientType/check/unit/:unitId',
+        authenticateMiddleware([{ "Bearer": ["advanced-ingredients"] }]),
         function(request: any, response: any, next: any) {
             const args = {
+                unitId: { "in": "path", "name": "unitId", "required": true, "dataType": "string" },
             };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new IngredientTypeController();
+
+
+            const promise = controller.GetUnitRefs.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/ingredientType/delete/unit',
+        authenticateMiddleware([{'Bearer': ['advanced-ingredients']}]),
+        function(request: any, response: any, next: any) {
+            const args = {
+                body: {'in': 'body', 'name': 'body', 'required': true, 'ref': 'DeleteCustomUnitRequest'},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new IngredientTypeController();
+
+
+            const promise = controller.DeleteCustomUnit.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/unit',
+        function(request: any, response: any, next: any) {
+            const args = {};
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -935,8 +1002,8 @@ export function RegisterRoutes(app: express.Express) {
     app.get('/user/:name',
         function(request: any, response: any, next: any) {
             const args = {
-                request: {'in': 'request', 'name': 'request', 'required': true, 'dataType': 'object'},
-                name: {'in': 'path', 'name': 'name', 'required': true, 'dataType': 'string'},
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                name: { "in": "path", "name": "name", "required": true, "dataType": "string" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -956,11 +1023,11 @@ export function RegisterRoutes(app: express.Express) {
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.get('/user/permission/:permission',
-        authenticateMiddleware([{'Bearer': []}]),
+        authenticateMiddleware([{ "Bearer": [] }]),
         function(request: any, response: any, next: any) {
             const args = {
-                request: {'in': 'request', 'name': 'request', 'required': true, 'dataType': 'object'},
-                permission: {'in': 'path', 'name': 'permission', 'required': true, 'dataType': 'string'},
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                permission: { "in": "path", "name": "permission", "required": true, "dataType": "string" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

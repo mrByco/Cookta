@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {CookieService} from 'ngx-cookie-service';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class ServerService {
@@ -44,7 +45,7 @@ export class ServerService {
       ? 'http://localhost:8080' : 'https://cooktaservices.azurewebsites.net';
   }
 
-  public async GetRequest(route: string): Promise<any> {
+  public async GetRequest(route: string): Promise<Observable<any>> {
     let loggedIn: boolean = await this.authService.IsAuthenticated;
     if (!loggedIn) {
       return this.http.get(this.GetBase() + route);
@@ -59,7 +60,7 @@ export class ServerService {
     }
   }
 
-  public async PostRequest(route: string, body: any, file?: boolean): Promise<any> {
+  public async PostRequest(route: string, body: any, file?: boolean): Promise<Observable<any>> {
     let loggedIn: boolean = await this.authService.IsAuthenticated;
     let options = {headers: new HttpHeaders()};
     if (loggedIn) {
@@ -76,7 +77,7 @@ export class ServerService {
       options);
   }
 
-  public async PutRequest(route: string, body: any, file?: boolean): Promise<any> {
+  public async PutRequest(route: string, body: any, file?: boolean): Promise<Observable<any>> {
     let loggedIn: boolean = await this.authService.IsAuthenticated;
     let options = {headers: new HttpHeaders()};
     if (loggedIn) {
@@ -93,7 +94,7 @@ export class ServerService {
       options);
   }
 
-  public async DeleteRequest(route: string): Promise<any> {
+  public async DeleteRequest(route: string): Promise<Observable<any>> {
     let loggedIn: boolean = await this.authService.IsAuthenticated;
     if (!loggedIn) {
       return this.http.delete(this.GetBase() + route);

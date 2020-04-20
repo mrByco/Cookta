@@ -318,23 +318,75 @@
 				}
 			},
 			"required": [
-				"category",
-				"name",
-				"volumeEnabled",
-				"countEnabled",
-				"massEnabled",
-				"options"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"SetTagRequest": {
-			"properties": {
-				"guid": {
-					"type": "string",
-					"x-nullable": true
+              "category",
+              "name",
+              "volumeEnabled",
+              "countEnabled",
+              "massEnabled",
+              "options"
+            ],
+          "type": "object",
+          "additionalProperties": false
+        },
+      "CheckUnitRefResponse": {
+        "properties": {
+          "unitId": {
+            "type": "string"
+          },
+          "totalRefs": {
+            "type": "number",
+            "format": "double"
+          },
+          "foodRefs": {
+            "type": "number",
+					"format": "double"
 				},
-				"name": {
+				"essentialsRefs": {
+					"type": "number",
+					"format": "double"
+				},
+				"storageRefs": {
+					"type": "number",
+                  "format": "double"
+                }
+        },
+        "required": [
+          "unitId",
+          "totalRefs",
+          "foodRefs",
+          "essentialsRefs",
+          "storageRefs"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "DeleteCustomUnitRequest": {
+        "properties": {
+          "unitToDeleteId": {
+            "type": "string"
+          },
+          "ingredientTypeId": {
+            "type": "string"
+          },
+          "descendent": {
+            "type": "string",
+            "x-nullable": true
+          }
+        },
+        "required": [
+          "unitToDeleteId",
+          "ingredientTypeId"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "SetTagRequest": {
+        "properties": {
+          "guid": {
+            "type": "string",
+            "x-nullable": true
+          },
+          "name": {
 					"type": "string"
 				},
 				"parent": {
@@ -866,7 +918,7 @@
 	},
 	"info": {
 		"title": "cookta-server",
-		"version": "1.0.0",
+		"version": "1.0.3",
 		"license": {
 			"name": "ISC"
 		}
@@ -1330,9 +1382,9 @@
 				]
 			}
 		},
-		"/unit": {
+		"/ingredientType/check/unit/{unitId}": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "GetUnitRefs",
 				"produces": [
 					"application/json"
 				],
@@ -1340,6 +1392,76 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
+                          "$ref": "#/definitions/CheckUnitRefResponse"
+                        }
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"advanced-ingredients"
+						]
+					}
+				],
+              "parameters": [
+                {
+                  "in": "path",
+                  "name": "unitId",
+                  "required": true,
+                  "type": "string"
+                }
+              ]
+            }
+        },
+      "/ingredientType/delete/unit": {
+        "put": {
+          "operationId": "DeleteCustomUnit",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok",
+              "schema": {
+                "type": "boolean"
+              }
+            }
+          },
+          "tags": [
+            "IngredientType"
+          ],
+          "security": [
+            {
+              "Bearer": [
+                "advanced-ingredients"
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/DeleteCustomUnitRequest"
+              }
+            }
+          ]
+        }
+      },
+      "/unit": {
+        "get": {
+          "operationId": "GetAll",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok",
+              "schema": {
 							"items": {
 								"$ref": "#/definitions/IUnit"
 							},
