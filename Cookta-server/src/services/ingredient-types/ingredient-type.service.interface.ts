@@ -4,13 +4,13 @@ import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.requ
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
 
 export interface IIngredientTypeService extends IStoreService<IIngredientType> {
-
     GetAllNotArhived(): IIngredientType[];
 
     SetIngredientType(request: ISetIngredientTypeRequest): IngredientType;
 
     DeleteIngredientType(guid: string): boolean;
 
-
     CheckUnitReferences(unitId: string): Promise<{ foods: number, essentials: number, storage: number }>;
+
+    DeleteCustomUnit(ingredientId: string, unitId: string, descendentId?: string): Promise<void>;
 }
