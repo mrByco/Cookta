@@ -22,11 +22,34 @@
         <label for="nameText">
           Megerősítésként írd be a mértékegység nevét.
         </label>
-        <input type="text" id="nameText" class="form-control is-invalid" [(ngModel)]="CheckText">
+        <input type="text" id="nameText" class="form-control"
+               [ngClass]="{'is-valid': CheckTextOk, 'is-invalid': !CheckTextOk}"
+               [(ngModel)]="CheckText">
+        <div class="row m-4">
+          <h4 *ngIf="!ReferenceCheck; else ReferenceCheckTable">Checking references...</h4>
+          <ng-template #ReferenceCheckTable>
+            <div class="col-3">
+              <h4>Összesen</h4>
+              <h4>{{ReferenceCheck.totalRefs}}</h4>
+            </div>
+            <div class="col-3">
+              <h4>Receptek</h4>
+              <h4>{{ReferenceCheck.foodRefs}}</h4>
+            </div>
+            <div class="col-3">
+              <h4>Raktárak</h4>
+              <h4>{{ReferenceCheck.storageRefs}}</h4>
+            </div>
+            <div class="col-3">
+              <h4>Alaplista</h4>
+              <h4>{{ReferenceCheck.essentialsRefs}}</h4>
+            </div>
+          </ng-template>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
-        <button type="button" mdbBtn color="green" class="relative waves-light" [disabled]="!ReferenceCheck || CheckTextOk"  mdbWavesEffect>Csináld</button>
+        <button type="button" mdbBtn color="green" class="relative waves-light" [disabled]="!ReferenceCheck || !CheckTextOk"  mdbWavesEffect>Csináld</button>
       </div>
     </div>
   </div>

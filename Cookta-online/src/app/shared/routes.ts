@@ -21,7 +21,8 @@ export class Routes {
 
   public static readonly IngredientType = {
     GetAll: "/ingredientType",
-    SaveIngredient: "/ingredientType"
+    SaveIngredient: "/ingredientType",
+    CheckUnit: '/ingredientType/check/unit/{unitId}',
   };
 
   public static readonly Unit = {

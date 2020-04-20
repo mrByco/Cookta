@@ -7,6 +7,7 @@ import {HttpClient} from "@angular/common/http";
 import {delay} from "rxjs/operators";
 import {DisplayIngredient} from "../../ingredient-display";
 import {Unit} from '../../models/unit.interface';
+import {CheckUnitRefResponse} from '../../../../../../Cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats';
 
 @Injectable()
 export class IngredientService {
@@ -113,5 +114,19 @@ export class IngredientService {
       }
     }
     return names;
+  }
+
+  //Return response on Ok, on error returns null
+  public async GetUsageOfCustomUnit(unit: Unit): Promise<CheckUnitRefResponse> {
+    let response = await this.serverService.GetRequest(Routes.IngredientType.CheckUnit.replace('{unitId}', unit.id));
+    return new Promise(resolve => {
+      response.subscribe(s => {
+        resolve(s);
+      }, error => {
+        console.error('Cannot get references of unit.');
+        console.error(error);
+        resolve(null);
+      });
+    });
   }
 }

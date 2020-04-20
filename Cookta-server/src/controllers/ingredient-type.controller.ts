@@ -3,7 +3,7 @@ import {IngredientType} from "../models/ingredient-type/ingredient-type.model";
 import {ISetIngredientTypeRequest} from "../requests/set.ingredient-type.request";
 import {Services} from "../Services";
 import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
-import {CheckIngredientRefResponse} from "../../../Cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats"
+import {CheckUnitRefResponse} from '../../../Cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats'
 
 @Route('/ingredientType')
 @Tags('IngredientType')
@@ -42,7 +42,7 @@ export class IngredientTypeController extends Controller {
 
     @Security('Bearer', ['advanced-ingredients'])
     @Get('/check/unit/{unitId}')
-    public async GetUnitRefs(unitId: string): Promise<CheckIngredientRefResponse>{
+    public async GetUnitRefs(unitId: string): Promise<CheckUnitRefResponse>{
         let refs = await Services.IngredientTypeService.CheckUnitReferences(unitId);
         return {
             totalRefs: refs.essentials + refs.storage + refs.foods,

@@ -1,4 +1,4 @@
-export interface CheckIngredientRefResponse {
+export interface CheckUnitRefResponse {
     unitId: string;
     totalRefs: number;
     foodRefs: number;

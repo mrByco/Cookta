@@ -6,7 +6,8 @@
     "module": "commonjs",
     "experimentalDecorators": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "importHelpers": true
   },
   "references": [
     {"path": "../cookta-shared"}
