@@ -866,7 +866,7 @@
 	},
 	"info": {
 		"title": "cookta-server",
-		"version": "1.0.0",
+		"version": "1.0.3",
 		"license": {
 			"name": "ISC"
 		}
@@ -1218,6 +1218,76 @@
 						"type": "string"
 					}
 				]
+			}
+		},
+		"/ingredientType/asd": {
+			"get": {
+				"operationId": "GetString",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "string"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/ingredientType/asdasd": {
+			"get": {
+				"operationId": "GetReferenceslsdfak",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"totalRefs": {
+									"type": "number",
+									"format": "double"
+								},
+								"essentialsRefs": {
+									"type": "number",
+									"format": "double"
+								},
+								"foodRefs": {
+									"type": "number",
+									"format": "double"
+								},
+								"storageRefs": {
+									"type": "number",
+									"format": "double"
+								},
+								"unitId": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"unitId",
+								"storageRefs",
+								"foodRefs",
+								"essentialsRefs",
+								"totalRefs"
+							],
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [],
+				"parameters": []
 			}
 		},
 		"/ingredientType": {

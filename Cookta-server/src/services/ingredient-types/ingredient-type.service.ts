@@ -1,22 +1,25 @@
-import {IngredientType} from "../../models/ingredient-type/ingredient-type.model";
-import {IIngredientTypeService} from "./ingredient-type.service.interface";
-import {IIngredientType} from "../../models/ingredient-type/ingredient-type.interface";
-import {ISetIngredientTypeRequest} from "../../requests/set.ingredient-type.request";
-import {MongoHelper} from "../../helpers/mongo.helper";
-import {Guid} from "guid-typescript";
-import { ObjectId } from "mongodb";
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {IFieldConverter} from "atomik/lib/store-item/field.converter.interface";
+import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
+import {IIngredientTypeService} from './ingredient-type.service.interface';
+import {IIngredientType} from '../../models/ingredient-type/ingredient-type.interface';
+import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
+import {Guid} from 'guid-typescript';
+import {ObjectId} from 'mongodb';
+import {StoreService} from 'atomik/lib/store-service/store-service';
+import {IFieldConverter} from 'atomik/lib/store-item/field.converter.interface';
+import {Food} from '../../models/food/food.model';
+import {Services} from '../../Services';
+import {EssentialList} from '../../models/essential-list.model';
+import {StorageSection} from '../../models/storage-section.model';
 
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
 
     private readonly returnSame: (any) => any = (d) => d;
 
     public Converters: IFieldConverter[] = [
-        { DatabaseFieldName: "volume-enabled", ClassFieldName: 'volumeEnabled', Convert: this.returnSame, ConvertBack: this.returnSame },
-        { DatabaseFieldName: "mass-enabled", ClassFieldName: 'massEnabled', Convert: this.returnSame, ConvertBack: this.returnSame },
-        { DatabaseFieldName: "count-enabled", ClassFieldName: 'countEnabled', Convert: this.returnSame, ConvertBack: this.returnSame },
-    ]
+        {DatabaseFieldName: 'volume-enabled', ClassFieldName: 'volumeEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
+        {DatabaseFieldName: 'mass-enabled', ClassFieldName: 'massEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
+        {DatabaseFieldName: 'count-enabled', ClassFieldName: 'countEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
+    ];
 
     DeleteIngredientType(guid: string): boolean {
         let item = this.Items.find(i => i.guid);
@@ -53,17 +56,29 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         return currentItem;
     }
 
-    public async Start(): Promise<void> {
-        let collection = MongoHelper.getCollection("Ingredients");
-        let FindFood;
-        let start = await super.Start();
-    }
 
     protected FromSaveJson(doc: any): IngredientType {
         let ingType = super.FromSaveJson(doc);
-        if (ingType.options == null) ingType.options = {cunits: []};
+        if (ingType.options == null) {
+            ingType.options = {cunits: []};
+        }
         return ingType;
 
+    }
+
+    public async CheckUnitReferences(unitId: string): Promise<{ foods: number; essentials: number; storage: number }> {
+        let ref = await this.GetReferencesOfUnit(unitId);
+        return {essentials: ref.essentials.length, foods: ref.foods.length, storage: ref.storage.length};
+    }
+
+    private async GetReferencesOfUnit(unitId: string): Promise<{ foods: Food[], essentials: EssentialList[], storage: StorageSection[] }> {
+        let foods = (await Food.GetAllFoods({}))
+            .filter(f => f.ingredients.find(i => i.unit == unitId));
+        let essentials = Services.EssentialsService.GetAllItems()
+            .filter(e => e.Essentials.find(i => i.unit == unitId));
+        let storage = Services.StorageService.GetAllItems()
+            .filter(s => s.Items.find(i => i.unit == unitId));
+        return {foods: foods, essentials: essentials, storage: storage};
     }
 
 }

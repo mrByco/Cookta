@@ -47,16 +47,16 @@ const models: TsoaRoute.Models = {
         'properties': {
             'guid': {'dataType': 'string', 'required': true},
             'name': {'dataType': 'string', 'required': true},
-            "parentId": { "dataType": "string", "required": true },
-            "ischildonly": { "dataType": "boolean", "required": true },
+            'parentId': {'dataType': 'string', 'required': true},
+            'ischildonly': {'dataType': 'boolean', 'required': true},
         },
-        "additionalProperties": false,
+        'additionalProperties': false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "SendableFood": {
-        "dataType": "refObject",
-        "properties": {
-            "owner": { "dataType": "string", "required": true },
+    'SendableFood': {
+        'dataType': 'refObject',
+        'properties': {
+            'owner': {'dataType': 'string', 'required': true},
             "name": { "dataType": "string", "default": "" },
             "desc": { "dataType": "string", "default": "" },
             "published": { "dataType": "boolean", "default": false },
@@ -591,10 +591,49 @@ export function RegisterRoutes(app: express.Express) {
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/ingredientType/asd',
+        function(request: any, response: any, next: any) {
+            const args = {};
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new IngredientTypeController();
+
+
+            const promise = controller.GetString.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/ingredientType/asdasd',
+        function(request: any, response: any, next: any) {
+            const args = {};
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new IngredientTypeController();
+
+
+            const promise = controller.GetReferenceslsdfak.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.get('/ingredientType',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
+            const args = {};
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
