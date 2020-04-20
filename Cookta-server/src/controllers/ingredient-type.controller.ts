@@ -4,6 +4,7 @@ import {ISetIngredientTypeRequest} from '../requests/set.ingredient-type.request
 import {Services} from '../Services';
 import {IIngredientType} from '../models/ingredient-type/ingredient-type.interface';
 import {CheckUnitRefResponse} from '../../../Cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats';
+import {DeleteCustomUnitRequest} from '../../../Cookta-shared/src/contracts/ingredient-type/delete-custom-unit';
 
 @Route('/ingredientType')
 @Tags('IngredientType')
@@ -57,15 +58,18 @@ export class IngredientTypeController extends Controller {
     }
 
     @Security('Bearer', ['advanced-ingredients'])
-    @Put('/delete/unit/{ingredientId}/{unitId}/{descendentId}')
-    public async DeleteCustomUnit(ingredientId: string, unitId: string, descendentId?: string): Promise<boolean> {
+    @Put('/delete/unit')
+    public async DeleteCustomUnit(@Body() body: DeleteCustomUnitRequest): Promise<boolean> {
         try {
-            return Services.IngredientTypeService.DeleteCustomUnit(ingredientId, unitId, descendentId);
+            await Services.IngredientTypeService.DeleteCustomUnit(body.ingredientTypeId, body.unitToDeleteId, body.descendent);
+            return true;
         } catch (error) {
             if (error.name == 'NOT_EXIST') {
+                console.error(error);
                 this.setStatus(404);
                 return false;
             } else {
+                console.error(error);
                 this.setStatus(500);
                 return false;
             }

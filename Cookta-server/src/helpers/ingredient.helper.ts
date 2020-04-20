@@ -1,8 +1,9 @@
-import {ICompleteIngredient, IIngredient} from "../interfaces/IIngredient";
-import {IUnit} from "../models/unit/unit.interface";
-import {EUnitType} from "../enums/unit-type.enum";
-import {Services} from "../Services";
-import {IngredientType} from "../models/ingredient-type/ingredient-type.model";
+import {ICompleteIngredient, IIngredient} from '../interfaces/IIngredient';
+import {IUnit} from '../models/unit/unit.interface';
+import {EUnitType} from '../enums/unit-type.enum';
+import {Services} from '../Services';
+import {IngredientType} from '../models/ingredient-type/ingredient-type.model';
+import {Unit} from '../models/unit/unit.model';
 
 export class IngredientHelper {
 
@@ -45,7 +46,7 @@ export class IngredientHelper {
         let value2: number = ing2.value;
         let unit: IUnit = ing1.unit;
         if (ing1.unit.id != ing2.unit.id) {
-            unit = this.GetCommonBaseUnit(ing1, ing2);
+            unit = Unit.GetCommonBaseUnit(ing1, ing2);
             value1 = ing1.value * ing1.unit.tobase;
             value2 = ing2.value * ing2.unit.tobase;
         }
@@ -113,15 +114,4 @@ export class IngredientHelper {
             value: ing.value}
     }
 
-    private static GetCommonBaseUnit(ing1: ICompleteIngredient, ing2: ICompleteIngredient) {
-        if (ing1.unit.type != ing2.unit.type) throw Error("Cannot add ingredients with different base");
-        switch (ing1.unit.type) {
-            case EUnitType.MASS:
-                return {name: 'g', type: EUnitType.MASS, id: 'g', shortname: 'g', tobase: 1};
-            case EUnitType.COUNT:
-                return {name: 'db', type: EUnitType.COUNT, id: 'db', shortname: 'db', tobase: 1};
-            case EUnitType.VOLUME:
-                return {name: 'l', type: EUnitType.VOLUME, id: 'l', shortname: 'l', tobase: 1};
-        }
-    }
 }

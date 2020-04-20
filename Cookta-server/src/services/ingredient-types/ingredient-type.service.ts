@@ -12,6 +12,7 @@ import {EssentialList} from '../../models/essential-list.model';
 import {StorageSection} from '../../models/storage-section.model';
 import {IIngredient} from '../../interfaces/IIngredient';
 import {Unit} from '../../models/unit/unit.model';
+import {IUnit} from '../../models/unit/unit.interface';
 
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
 
@@ -33,11 +34,12 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         let guid: Guid = request.guid ? Guid.parse(request.guid) : undefined;
         while (!guid) {
             guid = Guid.create();
-            if (this.Items.find(e => e.guid == guid.toString()))
+            if (this.Items.find(e => e.guid == guid.toString())) {
                 guid = undefined;
+            }
         }
         let currentItem = this.FindOne(i => i.guid == guid.toString());
-        if (!currentItem){
+        if (!currentItem) {
             currentItem = this.CreateItem(new ObjectId());
         }
         currentItem.category = request.category;
@@ -62,28 +64,40 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         if (!ingredientType) {
             throw new Error('Ingredient type not exist.').name = 'NOT_EXIST';
         }
+        let unitToDelete = ingredientType.options.cunits.find(i => i.id == unitId);
+        if (!unitToDelete) {
+            throw new Error(`Unit: ${Unit} not found in ${ingredientType.options.cunits}.`).name = 'NOT_EXIST';
+        }
         let descendentUnit = undefined;
         if (descendentUnitId) {
             descendentUnit = Services.UnitService.GetAvailableUnitsForType(ingredientType)
-                .find(d => d.id == unitId);
+                .find(d => d.id == descendentUnitId);
             if (!descendentUnit) {
                 throw new Error(`Unit ${unitId} no exist on type: ${ingredientType}`).name = 'NOT_EXIST';
             }
+        } else {
+            descendentUnit = Unit.GetBaseUnitOf(unitToDelete.type);
         }
         let references = await this.GetReferencesOfUnit(unitId);
-
         for (let food of references.foods) {
-            this.ReplaceOrDeleteUnitOnList(food.ingredients, descendentUnit);
+            this.ReplaceOrDeleteUnitOnList(food.ingredients, unitId, descendentUnit);
             await food.Save();
         }
         for (let essentials of references.essentials) {
-            this.ReplaceOrDeleteUnitOnList(essentials.Essentials, descendentUnit);
+            this.ReplaceOrDeleteUnitOnList(essentials.Essentials, unitId, descendentUnit);
             await Services.EssentialsService.SaveItem(essentials);
         }
         for (let storageSection of references.storage) {
-            this.ReplaceOrDeleteUnitOnList(storageSection.Items, descendentUnit);
+            this.ReplaceOrDeleteUnitOnList(storageSection.Items, unitId, descendentUnit);
             await Services.StorageService.SaveItem(storageSection);
         }
+
+        references = await this.GetReferencesOfUnit(unitId);
+        if ((references.essentials.length + references.storage.length + references.foods.length) != 0) {
+            throw new Error('Can not solve unit references! Deletion canceled...');
+        }
+        ingredientType.options.cunits.splice(ingredientType.options.cunits.findIndex(u => u.id == unitId), 1);
+        await this.SaveItem(ingredientType);
         return;
     }
 
@@ -96,10 +110,22 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
 
     }
 
-    private ReplaceOrDeleteUnitOnList(ingredients: IIngredient[], descendent?: Unit) {
-        throw new Error('Not implemented');
-        //TODO Implement this.
-        //TODO Work on original list!!
+    private ReplaceOrDeleteUnitOnList(ingredients: IIngredient[], unitToChange: string, descendent: Unit) {
+        if (!ingredients) {
+            return;
+        }
+        for (let ing of ingredients) {
+            if (ing.unit != unitToChange) {
+                continue;
+            }
+            let type = Services.IngredientTypeService.FindOne(i => i.guid == ing.ingredientID);
+            let oldUnit: IUnit = Services.UnitService.GetAvailableUnitsForType(type).find(i => i.id == ing.unit);
+            ingredients[ingredients.indexOf(ing)] = {
+                ingredientID: ing.ingredientID,
+                unit: descendent.id,
+                value: ing.value * oldUnit.tobase / descendent.tobase,
+            };
+        }
     }
 
     private readonly returnSame: (any) => any = (d) => d;

@@ -16,7 +16,7 @@
 
         <p class="start-paragraph">Utód</p>
         <select class="browser-default custom-select" [(ngModel)]="Descendent">
-          <option selected [ngValue]="undefined">Referenciák törlése</option>
+          <option [ngValue]="undefined" selected>csere: alapmértékegység</option>
           <option *ngFor="let unit of GetDescentUnits()" [ngValue]="unit.id">csere: {{unit.name}}</option>
         </select>
         <label for="nameText">
@@ -25,31 +25,39 @@
         <input type="text" id="nameText" class="form-control"
                [ngClass]="{'is-valid': CheckTextOk, 'is-invalid': !CheckTextOk}"
                [(ngModel)]="CheckText">
+        <h6>Referenciák</h6>
         <div class="row m-4">
           <h4 *ngIf="!ReferenceCheck; else ReferenceCheckTable">Checking references...</h4>
           <ng-template #ReferenceCheckTable>
             <div class="col-3">
-              <h4>Összesen</h4>
-              <h4>{{ReferenceCheck.totalRefs}}</h4>
+              <h5>Összesen</h5>
+              <h5>{{ReferenceCheck.totalRefs}}</h5>
             </div>
             <div class="col-3">
-              <h4>Receptek</h4>
-              <h4>{{ReferenceCheck.foodRefs}}</h4>
+              <h5>Receptek</h5>
+              <h5>{{ReferenceCheck.foodRefs}}</h5>
             </div>
             <div class="col-3">
-              <h4>Raktárak</h4>
-              <h4>{{ReferenceCheck.storageRefs}}</h4>
+              <h5>Raktárak</h5>
+              <h5>{{ReferenceCheck.storageRefs}}</h5>
             </div>
             <div class="col-3">
-              <h4>Alaplista</h4>
-              <h4>{{ReferenceCheck.essentialsRefs}}</h4>
+              <h5>Alaplista</h5>
+              <h5>{{ReferenceCheck.essentialsRefs}}</h5>
             </div>
           </ng-template>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
-        <button type="button" mdbBtn color="green" class="relative waves-light" [disabled]="!ReferenceCheck || !CheckTextOk"  mdbWavesEffect>Csináld</button>
+        <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()"
+                mdbWavesEffect>Mégse
+        </button>
+        <button (click)="Process()" [disabled]="!ReferenceCheck || !CheckTextOk || Processing"
+                class="relative waves-light" color="green"
+                mdbBtn
+                mdbWavesEffect
+                type="button">Csináld
+        </button>
       </div>
     </div>
   </div>

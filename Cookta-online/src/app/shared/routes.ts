@@ -23,7 +23,7 @@ export class Routes {
     GetAll: "/ingredientType",
     SaveIngredient: "/ingredientType",
     CheckUnit: '/ingredientType/check/unit/{unitId}',
-    DeleteCustomUnit: '/delete/unit/{ingredientId}/{unitId}'
+    DeleteCustomUnit: '/ingredientType/delete/unit'
   };
 
   public static readonly Unit = {
