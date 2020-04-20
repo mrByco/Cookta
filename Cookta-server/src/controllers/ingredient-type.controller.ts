@@ -1,41 +1,21 @@
-import {Body, Controller, Delete, Get, Post, Route, Security, Tags} from 'tsoa';
-import {IngredientType} from '../models/ingredient-type/ingredient-type.model';
-import {ISetIngredientTypeRequest} from '../requests/set.ingredient-type.request';
-import {Services} from '../Services';
-import {IIngredientType} from '../models/ingredient-type/ingredient-type.interface';
+import {Body, Controller, Delete, Get, Post, Route, Security, Tags} from "tsoa";
+import {IngredientType} from "../models/ingredient-type/ingredient-type.model";
+import {ISetIngredientTypeRequest} from "../requests/set.ingredient-type.request";
+import {Services} from "../Services";
+import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
+import {CheckIngredientRefResponse} from "../../../Cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats"
 
 @Route('/ingredientType')
 @Tags('IngredientType')
 export class IngredientTypeController extends Controller {
-
-    @Get('asd')
-    async GetString(): Promise<string> {
-        return 'Yeahhhh';
-    }
-
-    @Get('asdasd')
-    public async GetReferenceslsdfak(): Promise<{ totalRefs: number, essentialsRefs: number, foodRefs: number, storageRefs: number, unitId: string }> {
-        let unitId = 'ml';
-        let refs = await Services.IngredientTypeService.CheckUnitReferences(unitId);
-        return {
-            totalRefs: refs.essentials + refs.storage + refs.foods,
-            essentialsRefs: refs.essentials,
-            foodRefs: refs.foods,
-            storageRefs: refs.storage,
-            unitId: unitId
-
-        };
-    }
-
     @Get()
     public async GetAll(): Promise<IIngredientType[]> {
-        try {
+        try{
             return Services.IngredientTypeService.GetAllNotArhived();
-        } catch {
+        }catch{
             this.setStatus(500);
         }
     }
-
     @Security('Bearer', ['edit-ingredients'])
     @Post()
     public async SetIngredient(@Body() request: ISetIngredientTypeRequest): Promise<{all: IIngredientType[], created: IIngredientType}> {
@@ -60,4 +40,17 @@ export class IngredientTypeController extends Controller {
     }
 
 
+    @Security('Bearer', ['advanced-ingredients'])
+    @Get('/check/unit/{unitId}')
+    public async GetUnitRefs(unitId: string): Promise<CheckIngredientRefResponse>{
+        let refs = await Services.IngredientTypeService.CheckUnitReferences(unitId);
+        return {
+            totalRefs: refs.essentials + refs.storage + refs.foods,
+            essentialsRefs: refs.essentials,
+            foodRefs: refs.foods,
+            storageRefs: refs.storage,
+            unitId: unitId
+
+        }
+    }
 }

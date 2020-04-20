@@ -47,43 +47,14 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="headElements"></tr>
-      <tr mat-row *matRowDef="let row; columns: headElements;">
-      </tr>
+      <tr mat-row *matRowDef="let row; columns: headElements;"></tr>
     </table>
 
     <mat-paginator [pageSizeOptions]="[10, 25, 100, 150, 200]"></mat-paginator>
 
   </div>
-<app-ingredient-item-popup [Ingredient]="CurrentIngredient"></app-ingredient-item-popup>
+<app-ingredient-item-popup (OnDeleteCustomUnit)="DeleteCustomUnit($event)" [Ingredient]="CurrentIngredient"></app-ingredient-item-popup>
+<app-delete-custom-unit-popup></app-delete-custom-unit-popup>
 
 
-
-
-
-
-<!--  <table mdbTable #tableEl="mdbTable" class="z-depth-1" style="background-color: white">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--      <th *ngFor="let head of headElements; let i = index" scope="col" [mdbTableSort]="elements" [sortBy]="headElements[i]">{{head}}-->
-<!--        <mdb-icon fas icon="sort-down"></mdb-icon>-->
-<!--      </th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr *ngFor="let el of elements; let i = index">-->
-<!--      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.category}}</td>-->
-<!--      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.name}}</td>-->
-<!--      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.massEnabled}}</td>-->
-<!--      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.options && el.options.cunits ? el.options.cunits.length : 0}}</td>-->
-<!--      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" size="sm" color="orange">edit</button></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--    <tfoot class="grey lighten-5 w-100">-->
-<!--    <tr>-->
-<!--      <td colspan="4">-->
-<!--        <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="elements"></mdb-table-pagination>-->
-<!--      </td>-->
-<!--    </tr>-->
-<!--    </tfoot>-->
-<!--  </table>-->
 </div>

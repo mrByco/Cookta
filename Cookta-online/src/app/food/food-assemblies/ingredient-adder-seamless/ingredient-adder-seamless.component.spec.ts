@@ -14,7 +14,7 @@ import {Unit} from '../../../shared/models/unit.interface';
 
 describe('IngredientAdderSeamlessComponent', () => {
   // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
-  const KeypressEventBasic: KeyboardEvent = {
+  const KeypressEventBasic: any = {
     DOM_KEY_LOCATION_JOYSTICK: 0,
     DOM_KEY_LOCATION_MOBILE: 0,
     initKeyboardEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, viewArg: Window, keyArg: string, locationArg: number, modifiersListArg: string, repeat: boolean, locale: string): void {

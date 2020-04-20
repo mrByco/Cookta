@@ -7,6 +7,8 @@ import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {Guid} from "guid-typescript";
 import {IngredientItemPopupComponent} from "./ingredient-item-popup/ingredient-item-popup.component";
 import {EUnitType} from "../../shared/models/grocery/unit-type.enum";
+import {DeleteCustomUnitPopupComponent} from './delete-custom-unit-popup/delete-custom-unit-popup.component';
+import {Unit} from '../../shared/models/unit.interface';
 
 @Component({
   selector: 'app-ingredient-editor',
@@ -23,7 +25,8 @@ export class IngredientEditorComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild("table", {static: true}) table: MatTable<IngredientType>;
-  @ViewChild(IngredientItemPopupComponent, {static: true}) popup: IngredientItemPopupComponent;
+  @ViewChild(IngredientItemPopupComponent, {static: true}) editPopup: IngredientItemPopupComponent;
+  @ViewChild(DeleteCustomUnitPopupComponent, {static: true}) deletePupop: DeleteCustomUnitPopupComponent;
 
   public set Filter(value: string){
     let filterValue = value;
@@ -56,7 +59,10 @@ export class IngredientEditorComponent implements OnInit {
 
   OpenModalWith(row: IngredientType) {
     this.CurrentIngredient = row;
-    this.popup.Open();
+    this.editPopup.Open();
   }
 
+  DeleteCustomUnit(unit: Unit){
+    this.deletePupop.OpenUnit(unit, this.CurrentIngredient)
+  }
 }

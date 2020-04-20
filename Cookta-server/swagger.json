@@ -328,6 +328,38 @@
 			"type": "object",
 			"additionalProperties": false
 		},
+		"CheckIngredientRefResponse": {
+			"properties": {
+				"unitId": {
+					"type": "string"
+				},
+				"totalRefs": {
+					"type": "number",
+					"format": "double"
+				},
+				"foodRefs": {
+					"type": "number",
+					"format": "double"
+				},
+				"essentialsRefs": {
+					"type": "number",
+					"format": "double"
+				},
+				"storageRefs": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"unitId",
+				"totalRefs",
+				"foodRefs",
+				"essentialsRefs",
+				"storageRefs"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
 		"SetTagRequest": {
 			"properties": {
 				"guid": {
@@ -1220,76 +1252,6 @@
 				]
 			}
 		},
-		"/ingredientType/asd": {
-			"get": {
-				"operationId": "GetString",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"type": "string"
-						}
-					}
-				},
-				"tags": [
-					"IngredientType"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/ingredientType/asdasd": {
-			"get": {
-				"operationId": "GetReferenceslsdfak",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"properties": {
-								"totalRefs": {
-									"type": "number",
-									"format": "double"
-								},
-								"essentialsRefs": {
-									"type": "number",
-									"format": "double"
-								},
-								"foodRefs": {
-									"type": "number",
-									"format": "double"
-								},
-								"storageRefs": {
-									"type": "number",
-									"format": "double"
-								},
-								"unitId": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"unitId",
-								"storageRefs",
-								"foodRefs",
-								"essentialsRefs",
-								"totalRefs"
-							],
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"IngredientType"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
 		"/ingredientType": {
 			"get": {
 				"operationId": "GetAll",
@@ -1394,6 +1356,40 @@
 					{
 						"in": "path",
 						"name": "guid",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/ingredientType/check/unit/{unitId}": {
+			"get": {
+				"operationId": "GetUnitRefs",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/CheckIngredientRefResponse"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"advanced-ingredients"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "unitId",
 						"required": true,
 						"type": "string"
 					}

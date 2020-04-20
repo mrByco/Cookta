@@ -1,0 +1,33 @@
+<div mdbModal #basicModal class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true"
+     [config]="{ignoreBackdropClick: true}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="CurrentUnit && CurrentType">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" >{{CurrentUnit.id ? CurrentUnit.id : "Új, még nincs azonosító"}}</h4>
+      </div>
+      <div class="modal-body">
+
+        <h6>Törlendő unit: {{CurrentUnit.name}}</h6>
+        <h5>Rövid: {{CurrentUnit.shortname ? CurrentUnit.shortname : 'Unknown'}}</h5>
+
+
+        <p class="start-paragraph">Utód</p>
+        <select class="browser-default custom-select" [(ngModel)]="Descendent">
+          <option selected [ngValue]="undefined">Referenciák törlése</option>
+          <option *ngFor="let unit of GetDescentUnits()" [ngValue]="unit.id">csere: {{unit.name}}</option>
+        </select>
+        <label for="nameText">
+          Megerősítésként írd be a mértékegység nevét.
+        </label>
+        <input type="text" id="nameText" class="form-control is-invalid" [(ngModel)]="CheckText">
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
+        <button type="button" mdbBtn color="green" class="relative waves-light" [disabled]="!ReferenceCheck || CheckTextOk"  mdbWavesEffect>Csináld</button>
+      </div>
+    </div>
+  </div>
+</div>

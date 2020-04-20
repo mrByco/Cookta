@@ -77,7 +77,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         let essentials = Services.EssentialsService.GetAllItems()
             .filter(e => e.Essentials.find(i => i.unit == unitId));
         let storage = Services.StorageService.GetAllItems()
-            .filter(s => s.Items.find(i => i.unit == unitId));
+            .filter(s => s.Items?.find(i => i.unit == unitId));
         return {foods: foods, essentials: essentials, storage: storage};
     }
 

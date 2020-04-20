@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';
 import {ModalDirective} from 'angular-bootstrap-md';
 import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
@@ -23,8 +23,8 @@ export class IngredientItemPopupComponent implements OnInit {
     this.CurrentInShopping = value.inshopping;
     this.CurrentCustomUnits = value.options && value.options.cunits ? [...value.options.cunits]: [];
     console.log(value.baseUnitType != undefined);
-
   };
+  @Output('OnDeleteCustomUnit') OnDeleteCustomUnits: EventEmitter<Unit> = new EventEmitter<Unit>();
 
 
   public CurrentGuid: string = "";
@@ -68,9 +68,9 @@ export class IngredientItemPopupComponent implements OnInit {
       type: this.CurrentBaseUnitType
     })
   }
-
   DeleteCustomUnit(unit: Unit) {
-    this.CurrentCustomUnits.splice(this.CurrentCustomUnits.findIndex(u => u == unit), 1);
+    this.Close();
+    this.OnDeleteCustomUnits.emit(unit);
   }
 
   //Check methods
