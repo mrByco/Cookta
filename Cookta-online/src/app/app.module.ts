@@ -60,6 +60,7 @@ import {CanActivateLoggedInGuard} from "./guards/can-activate-logged-in.guard";
 import { DeleteCustomUnitPopupComponent } from './admin-components/ingredient-editor/delete-custom-unit-popup/delete-custom-unit-popup.component';
 import { MenuPoolComponent } from './menu/menu-pool/menu-pool.component';
 import { MenuPoolToolbarComponent } from './menu/menu-pool/menu-pool-toolbar/menu-pool-toolbar.component';
+import { MenuPoolItemComponent } from './menu/menu-pool/menu-pool-item/menu-pool-item.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -120,6 +121,7 @@ const appRoutes: Routes = [
         DeleteCustomUnitPopupComponent,
         MenuPoolComponent,
         MenuPoolToolbarComponent,
+        MenuPoolItemComponent,
     ],
     imports: [
         BrowserModule,

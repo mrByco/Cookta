@@ -1,69 +1,89 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
-import {delay} from "rxjs/operators";
 import * as ResizeDetector from 'element-resize-detector';
+import {animate, state, style, transition, trigger} from "@angular/animations";
+import {delay} from "rxjs/operators";
+
 
 @Component({
-  selector: 'app-menu-pool',
-  templateUrl: './menu-pool.component.html',
-  styleUrls: ['./menu-pool.component.css']
+    selector: 'app-menu-pool',
+    templateUrl: './menu-pool.component.html',
+    styleUrls: ['./menu-pool.component.css'],
 })
 export class MenuPoolComponent implements AfterViewInit {
 
-  @Input('SelectedItem') public Selected: any;
-  @Input('OnSelectionChanged') public OnSelectionChanged: EventEmitter<any> = new EventEmitter<any>();
+    @Input('SelectedItem') public Selected: any;
+    @Input('OnSelectionChanged') public OnSelectionChanged: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('ItemContainer') public ItemContainer: ElementRef;
+    @ViewChild('ItemContainer') public ItemContainer: ElementRef;
 
 
-
-  public readonly MinItemSize = 150;
-  public readonly ItemMargin = this.MinItemSize / 20;
-  public get ItemSize(): number {
-    return this.m_ItemSize;
-  }
-  private m_ItemSize: number = 100;
-
-  public SearchMode = false;
-
-  public Items: any[] = [];
-  private RequestedItemCount: number = 50;
-
-  private resizeDetector: any
-
-  constructor() {
-  }
-
-  ngAfterViewInit(): void {
-    this.ReCalcItemRequest();
-    let getItems = async () => {
-      await delay(0);
-      this.Items = this.GetItems(this.RequestedItemCount);
+    public SearchMode = false;
+    public readonly MinItemSize = 150;
+    public m_CalculatedVerticalMargin: number = 10;
+    public readonly MinMargin = this.MinItemSize / 20;
+    public get ItemMarginVertical(){
+        return this.m_CalculatedVerticalMargin;
     }
-    this.resizeDetector = ResizeDetector({strategy: "scroll"});
-    this.resizeDetector.listenTo(this.ItemContainer.nativeElement, () => this.ReCalcItemRequest());
-    getItems();
-  }
 
-  private GetItems(count: number){
-    let items = [];
-    for (let i = 0; i < count; i++){
-      items.push({});
+    public get ItemSize(): number {
+        return this.m_ItemSize;
     }
-    return items;
-  }
 
-  private ReCalcItemRequest(){
-    let containerWidth = this.ItemContainer.nativeElement.offsetWidth;
-    let containerHeight = this.ItemContainer.nativeElement.offsetHeight;
-    let horizontalItemCount = Math.floor(containerWidth / (this.MinItemSize + 2 * this.ItemMargin));
-    this.m_ItemSize = (containerWidth / horizontalItemCount) - (2 * this.ItemMargin) - 1;
-    console.log(containerWidth);
-    console.log(horizontalItemCount);
-    console.log(this.m_ItemSize);
-  }
+    private m_ItemSize: number = 100;
 
 
-  Changed($event: Event) {
-    console.log($event);
-  }
+    public Items: any[] = [];
+    private RequestedItemCount: number = 50;
+
+    private resizeDetector: any;
+    public ItemState;
+
+    constructor() {
+    }
+
+    ngAfterViewInit(): void {
+        this.ReCalcItemRequest();
+        let getItems = async () => {
+            await delay(0);
+            this.ReloadItems(this.RequestedItemCount);
+        }
+        this.resizeDetector = ResizeDetector({strategy: "scroll"});
+        this.resizeDetector.listenTo(this.ItemContainer.nativeElement, () => this.ReCalcItemRequest());
+        getItems();
+    }
+
+    private async ReloadItems(count: number) {
+        let items = [];
+        for (let i = 0; i < count; i++) {
+            items.push({});
+        }
+        if (this.ItemState == 'in'){
+            this.ItemState = 'void';
+        }
+        await new Promise(r => setTimeout(r, 600));
+        this.Items = items;
+        this.ItemState = 'in';
+    }
+
+    private ReCalcItemRequest() {
+        let containerWidth = this.ItemContainer.nativeElement.offsetWidth;
+        let containerHeight = this.ItemContainer.nativeElement.offsetHeight;
+        let horizontalItemCount = Math.floor(containerWidth / (this.MinItemSize + 2 * this.MinMargin));
+        let verticalItemCount = Math.floor(containerHeight / (this.MinItemSize + 2 * this.MinMargin));
+        this.m_ItemSize = (containerWidth / horizontalItemCount) - (2 * this.MinMargin);
+        this.m_CalculatedVerticalMargin = (containerHeight - (verticalItemCount * this.m_ItemSize)) / verticalItemCount / 2;
+        this.RequestedItemCount = verticalItemCount * horizontalItemCount;
+        console.log(this.m_ItemSize);
+        console.log(verticalItemCount);
+        console.log(this.m_CalculatedVerticalMargin);
+    }
+
+
+    Changed($event: Event) {
+        console.log($event);
+    }
+
+    RandomItems() {
+        this.ReloadItems(this.RequestedItemCount);
+    }
 }

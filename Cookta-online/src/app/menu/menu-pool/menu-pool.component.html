@@ -1,13 +1,16 @@
 <div style="height: var(--MainContentSize); width: 100%; background: wheat">
     <app-menu-pool-toolbar [(switchModel)]="SearchMode"></app-menu-pool-toolbar>
-
     <div class="row m-0"
          (change)="Changed($event)"
          #ItemContainer
          style="height: calc(var(--MainContentSize) - 3rem)"
-    [ngClass]="{'scroll-panel': SearchMode}">
-        <div  *ngFor="let i of Items"
-              style="background: black;"
-              [ngStyle]="{'height.px': ItemSize, 'width.px': ItemSize, 'margin.px': ItemMargin}"></div>
-    </div>
+         [ngClass]="{'scroll-panel': SearchMode}">
+        <app-menu-pool-item *ngFor="let i of Items"
+                            [Height]="ItemSize"
+                            [Width]="ItemSize"
+                            [HorMargin]="this.MinMargin"
+                            [VertMargin]="this.ItemMarginVertical"
+                            [ItemState]="this.ItemState"></app-menu-pool-item>
+    </div><div class="row" style="position: absolute; right: 10px; top: 20px"><a (click)="RandomItems()">Switch state</a></div>
+
 </div>
