@@ -1,14 +1,9 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, ViewChild} from '@angular/core';
 import * as ResizeDetector from 'element-resize-detector';
 import {delay} from "rxjs/operators";
-import {Food} from "../../shared/models/grocery/food.model";
-import {ISendableFood} from "../../shared/models/grocery/food.isendable.interface";
 import {FoodService} from "../../shared/services/food.service";
-import {DisplayMeal} from "../menu-editor/menu-editor.component";
-import {IDisplayable} from "../../utilities/displayable";
 import {IPoolItem} from "./pool-item-interface";
-
-
+import {TagService} from "../../shared/services/tag.service";
 
 
 @Component({
@@ -37,7 +32,7 @@ export class MenuPoolComponent implements AfterViewInit {
     private tagPool: IPoolItem[];
     private readonly tagPercentage = 15;
 
-    constructor(public foodService: FoodService) {
+    constructor(public foodService: FoodService, public tagService: TagService) {
     }
 
     public get ItemMarginVertical() {
@@ -78,18 +73,30 @@ export class MenuPoolComponent implements AfterViewInit {
                 }
             })
         }
+        if (!this.tagPool) {
+            let tags = await this.tagService.LoadTags();
+            this.tagPool = tags.map(t => {
+                return {
+                    original: t,
+                    subtitle: "",
+                    picture: "assets/tag-picture.png",
+                    displayName(): string {
+                        return t.displayName();
+                    }
+                }
+            })
+        }
 
         if (this.foodPool.length == 0) return;
-        let items = [];
-        let indexes = [];
-        while (indexes.length < count) {
-            let randomIndex = Math.floor(Math.random() * (this.foodPool.length - 1));
-            if (!indexes.includes(randomIndex) || this.foodPool.length < count) {
-                indexes.push(randomIndex);
+        let items: IPoolItem[] = [];
+        while (items.length < count) {
+            let percentage = Math.floor(Math.random() * 100);
+            let pool: IPoolItem[] = percentage <= this.tagPercentage ? this.tagPool : this.foodPool;
+            console.log(items);
+            let randomIndex = Math.floor(Math.random() * (pool.length - 1));
+            if (!items.find(i => i.original == pool[randomIndex].original) || pool.length < count) {
+                items.push(pool[randomIndex]);
             }
-        }
-        for (let i of indexes) {
-            items.push(this.foodPool[i]);
         }
         this.ItemState = 'void';
         this.OnSelectionChanged.emit(undefined);
