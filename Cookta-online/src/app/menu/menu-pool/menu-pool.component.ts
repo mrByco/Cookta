@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, ViewChild} from '@angular/core';
 import * as ResizeDetector from 'element-resize-detector';
-import {animate, state, style, transition, trigger} from "@angular/animations";
 import {delay} from "rxjs/operators";
 
 
@@ -21,24 +20,21 @@ export class MenuPoolComponent implements AfterViewInit {
     public readonly MinItemSize = 150;
     public m_CalculatedVerticalMargin: number = 10;
     public readonly MinMargin = this.MinItemSize / 20;
+    public Items: any[] = [];
+    public ItemState;
+    private m_ItemSize: number = 100;
+    private RequestedItemCount: number = 50;
+    private resizeDetector: any;
+
+    constructor() {
+    }
+
     public get ItemMarginVertical(){
         return this.m_CalculatedVerticalMargin;
     }
 
     public get ItemSize(): number {
         return this.m_ItemSize;
-    }
-
-    private m_ItemSize: number = 100;
-
-
-    public Items: any[] = [];
-    private RequestedItemCount: number = 50;
-
-    private resizeDetector: any;
-    public ItemState;
-
-    constructor() {
     }
 
     ngAfterViewInit(): void {
@@ -50,6 +46,14 @@ export class MenuPoolComponent implements AfterViewInit {
         this.resizeDetector = ResizeDetector({strategy: "scroll"});
         this.resizeDetector.listenTo(this.ItemContainer.nativeElement, () => this.ReCalcItemRequest());
         getItems();
+    }
+
+    Changed($event: Event) {
+        console.log($event);
+    }
+
+    RandomItems() {
+        this.ReloadItems(this.RequestedItemCount);
     }
 
     private async ReloadItems(count: number) {
@@ -73,17 +77,5 @@ export class MenuPoolComponent implements AfterViewInit {
         this.m_ItemSize = (containerWidth / horizontalItemCount) - (2 * this.MinMargin);
         this.m_CalculatedVerticalMargin = (containerHeight - (verticalItemCount * this.m_ItemSize)) / verticalItemCount / 2;
         this.RequestedItemCount = verticalItemCount * horizontalItemCount;
-        console.log(this.m_ItemSize);
-        console.log(verticalItemCount);
-        console.log(this.m_CalculatedVerticalMargin);
-    }
-
-
-    Changed($event: Event) {
-        console.log($event);
-    }
-
-    RandomItems() {
-        this.ReloadItems(this.RequestedItemCount);
     }
 }
