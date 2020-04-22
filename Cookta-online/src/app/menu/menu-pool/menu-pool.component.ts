@@ -1,6 +1,14 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import * as ResizeDetector from 'element-resize-detector';
 import {delay} from "rxjs/operators";
+import {Food} from "../../shared/models/grocery/food.model";
+import {ISendableFood} from "../../shared/models/grocery/food.isendable.interface";
+import {FoodService} from "../../shared/services/food.service";
+import {DisplayMeal} from "../menu-editor/menu-editor.component";
+import {IDisplayable} from "../../utilities/displayable";
+import {IPoolItem} from "./pool-item-interface";
+
+
 
 
 @Component({
@@ -20,16 +28,19 @@ export class MenuPoolComponent implements AfterViewInit {
     public readonly MinItemSize = 150;
     public m_CalculatedVerticalMargin: number = 10;
     public readonly MinMargin = this.MinItemSize / 20;
-    public Items: any[] = [];
+    public Items: IPoolItem[] = [];
     public ItemState;
     private m_ItemSize: number = 100;
     private RequestedItemCount: number = 50;
     private resizeDetector: any;
+    private foodPool: IPoolItem[];
+    private tagPool: IPoolItem[];
+    private readonly tagPercentage = 15;
 
-    constructor() {
+    constructor(public foodService: FoodService) {
     }
 
-    public get ItemMarginVertical(){
+    public get ItemMarginVertical() {
         return this.m_CalculatedVerticalMargin;
     }
 
@@ -48,25 +59,44 @@ export class MenuPoolComponent implements AfterViewInit {
         getItems();
     }
 
-    Changed($event: Event) {
-        console.log($event);
-    }
 
     RandomItems() {
         this.ReloadItems(this.RequestedItemCount);
     }
 
     private async ReloadItems(count: number) {
+        if (!this.foodPool) {
+            let foods = await this.foodService.GetCollection();
+            this.foodPool = foods.map(f => {
+                return {
+                    original: f,
+                    subtitle: "",
+                    picture: f.ImageUrl,
+                    displayName(): string {
+                        return f.name;
+                    }
+                }
+            })
+        }
+
+        if (this.foodPool.length == 0) return;
         let items = [];
-        for (let i = 0; i < count; i++) {
-            items.push({});
+        let indexes = [];
+        while (indexes.length < count) {
+            let randomIndex = Math.floor(Math.random() * (this.foodPool.length - 1));
+            if (!indexes.includes(randomIndex) || this.foodPool.length < count) {
+                indexes.push(randomIndex);
+            }
         }
-        if (this.ItemState == 'in'){
-            this.ItemState = 'void';
+        for (let i of indexes) {
+            items.push(this.foodPool[i]);
         }
+        this.ItemState = 'void';
+        this.OnSelectionChanged.emit(undefined);
         await new Promise(r => setTimeout(r, 600));
-        this.Items = items;
+        this.Items.splice(0, this.Items.length);
         this.ItemState = 'in';
+        this.Items.push(...items);
     }
 
     private ReCalcItemRequest() {
