@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TagPoolComponent } from './tag-pool.component';
+import { MenuPoolComponent } from './menu-pool.component';
 
-describe('TagPoolComponent', () => {
-  let component: TagPoolComponent;
-  let fixture: ComponentFixture<TagPoolComponent>;
+describe('MenuPoolComponent', () => {
+  let component: MenuPoolComponent;
+  let fixture: ComponentFixture<MenuPoolComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TagPoolComponent ]
+      declarations: [ MenuPoolComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TagPoolComponent);
+    fixture = TestBed.createComponent(MenuPoolComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

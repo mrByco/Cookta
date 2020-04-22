@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FoodPoolComponent } from './food-pool.component';
+import { MenuPoolToolbarComponent } from './menu-pool-toolbar.component';
 
-describe('FoodPoolComponent', () => {
-  let component: FoodPoolComponent;
-  let fixture: ComponentFixture<FoodPoolComponent>;
+describe('MenuPoolToolbarComponent', () => {
+  let component: MenuPoolToolbarComponent;
+  let fixture: ComponentFixture<MenuPoolToolbarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FoodPoolComponent ]
+      declarations: [ MenuPoolToolbarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FoodPoolComponent);
+    fixture = TestBed.createComponent(MenuPoolToolbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

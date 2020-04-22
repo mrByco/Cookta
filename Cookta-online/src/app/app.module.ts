@@ -41,11 +41,9 @@ import {ImageCropperModule} from 'ngx-image-cropper';
 import {FamilyService} from './shared/services/family.service';
 import {MenuEditorComponent} from './menu/menu-editor/menu-editor.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {FoodPoolComponent} from './food/food-other/food-pool/food-pool.component';
 import {MenuDayComponent} from './menu/menu-day/menu-day.component';
 import {MenuMealingComponent} from './menu/menu-mealing/menu-mealing.component';
 import {MealingService} from './shared/services/mealing.service';
-import {TagPoolComponent} from './menu/tag-pool/tag-pool.component';
 import {DebugOptionsComponent} from './admin-components/debug-options/debug-options.component';
 import {FamilyManagementComponent} from './profile/family/family-management/family-management.component';
 import {FamilyEditPageComponent} from './profile/family/family-edit-page/family-edit-page.component';
@@ -60,6 +58,8 @@ import {IngredientAdderSeamlessComponent} from './food/food-assemblies/ingredien
 import {ContenteditableModule} from "@ng-stack/contenteditable";
 import {CanActivateLoggedInGuard} from "./guards/can-activate-logged-in.guard";
 import { DeleteCustomUnitPopupComponent } from './admin-components/ingredient-editor/delete-custom-unit-popup/delete-custom-unit-popup.component';
+import { MenuPoolComponent } from './menu/menu-pool/menu-pool.component';
+import { MenuPoolToolbarComponent } from './menu/menu-pool/menu-pool-toolbar/menu-pool-toolbar.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -104,10 +104,8 @@ const appRoutes: Routes = [
         GenericTwoButtonDialogComponent,
         FoodImageUploadComponent,
         MenuEditorComponent,
-        FoodPoolComponent,
         MenuDayComponent,
         MenuMealingComponent,
-        TagPoolComponent,
         DebugOptionsComponent,
         FamilyManagementComponent,
         FamilyEditPageComponent,
@@ -120,6 +118,8 @@ const appRoutes: Routes = [
         ShoppingListPanelComponent,
         IngredientAdderSeamlessComponent,
         DeleteCustomUnitPopupComponent,
+        MenuPoolComponent,
+        MenuPoolToolbarComponent,
     ],
     imports: [
         BrowserModule,

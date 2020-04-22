@@ -1,0 +1,13 @@
+<div style="height: var(--MainContentSize); width: 100%; background: wheat">
+    <app-menu-pool-toolbar [(switchModel)]="SearchMode"></app-menu-pool-toolbar>
+
+    <div class="row m-0"
+         (change)="Changed($event)"
+         #ItemContainer
+         style="height: calc(var(--MainContentSize) - 3rem)"
+    [ngClass]="{'scroll-panel': SearchMode}">
+        <div  *ngFor="let i of Items"
+              style="background: black;"
+              [ngStyle]="{'height.px': ItemSize, 'width.px': ItemSize, 'margin.px': ItemMargin}"></div>
+    </div>
+</div>
