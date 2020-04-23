@@ -31,7 +31,7 @@ export class MenuPoolComponent implements AfterViewInit {
     public Items: IPoolItem[] = [];
     private m_SearchType: EPoolSearchType = EPoolSearchType.every;
     private cancelSearch: () => void;
-    private readonly searchTime: number = 1000;
+    private readonly searchTime: number = 800;
     private m_ItemSize: number = 100;
     private RequestedItemCount: number = 50;
     private resizeDetector: any;
@@ -50,8 +50,11 @@ export class MenuPoolComponent implements AfterViewInit {
     }
 
     public set SearchMode(value) {
-        this.m_SearchMode = value;
-        this.ReCalcItemRequest();
+        //To avoid not necessary calculations
+        if (this.m_SearchMode != value) {
+            this.m_SearchMode = value;
+            this.ReCalcItemRequest();
+        }
     }
 
     public get SearchText(): string {
@@ -117,6 +120,8 @@ export class MenuPoolComponent implements AfterViewInit {
             await new Promise(r => setTimeout(r, 600));
             this.SearchMode = false;
             this.Items.splice(0, this.Items.length);
+            //Time for *ngFor directive to remove the old items
+            await new Promise(r => setTimeout(r, 10));
         }
         this.animator.Open();
         this.Items.push(...items);

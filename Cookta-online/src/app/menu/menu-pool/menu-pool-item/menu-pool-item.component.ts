@@ -41,9 +41,7 @@ export class MenuPoolItemComponent {
         this.ChangeState(poolAnimationService.ChangeOnInit);
         poolAnimationService.OnStateChange.subscribe(c => {
             this.ChangeState(c);
-            console.log(c.target);
         })
-        console.log(this.State);
     }
 
 

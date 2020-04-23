@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {EPoolSearchType} from "../pool-search-type-enum";
 
 @Component({
@@ -6,7 +6,7 @@ import {EPoolSearchType} from "../pool-search-type-enum";
     templateUrl: './menu-pool-toolbar.component.html',
     styleUrls: ['./menu-pool-toolbar.component.css']
 })
-export class MenuPoolToolbarComponent implements OnInit {
+export class MenuPoolToolbarComponent {
 
 
     @Input() SearchText: string = '';
@@ -15,10 +15,4 @@ export class MenuPoolToolbarComponent implements OnInit {
     @Output() SearchModeChange = new EventEmitter<EPoolSearchType>();
     @Output() OnRefreshRandom = new EventEmitter();
 
-
-    constructor() {
-    }
-
-    ngOnInit(): void {
-    }
 }
