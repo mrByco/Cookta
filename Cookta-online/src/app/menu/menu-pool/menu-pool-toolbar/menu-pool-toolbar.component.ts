@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {EPoolSearchType} from "../pool-search-type-enum";
 
 @Component({
     selector: 'app-menu-pool-toolbar',
@@ -8,16 +9,16 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class MenuPoolToolbarComponent implements OnInit {
 
 
-    @Input() switchModel: boolean;
-    @Output() switchModelChange = new EventEmitter<boolean>();
+    @Input() SearchText: string = '';
+    @Output() SearchTextChange = new EventEmitter<string>();
+    @Input() SearchMode: EPoolSearchType = EPoolSearchType.every;
+    @Output() SearchModeChange = new EventEmitter<EPoolSearchType>();
+    @Output() OnRefreshRandom = new EventEmitter();
+
 
     constructor() {
     }
 
     ngOnInit(): void {
-    }
-
-    OnSearchModeChanged(event: Event) {
-        this.switchModelChange.emit(event.target['checked']);
     }
 }

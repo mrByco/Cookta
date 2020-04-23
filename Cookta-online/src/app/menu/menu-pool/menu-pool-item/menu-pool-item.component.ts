@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {IPoolItem} from "../pool-item-interface";
+import {IStateChanger, PoolItemAnimationService} from "../pool-animation-service";
 
 
 @Component({
@@ -17,12 +18,12 @@ import {IPoolItem} from "../pool-item-interface";
                 transform: 'scale(1)',
                 opacity: '1'
             })),
-            transition('*<=>*', animate('200ms ease-in-out'))
+            transition('*<=>*', animate('200ms ease-in-out')),
         ])
     ]
 })
-export class MenuPoolItemComponent implements OnInit {
-    public m_State = 'void';
+export class MenuPoolItemComponent {
+    public State: string = 'void';
     @Input() public Width: number;
     @Input() public Height: number;
     @Input() public HorMargin: number;
@@ -34,15 +35,35 @@ export class MenuPoolItemComponent implements OnInit {
     @Input() public Selected: boolean;
     @Output() public OnSelected: EventEmitter<IPoolItem> = new EventEmitter<IPoolItem>();
 
-    constructor() {
+    private cancel: () => void;
+
+    constructor(private poolAnimationService: PoolItemAnimationService) {
+        this.ChangeState(poolAnimationService.ChangeOnInit);
+        poolAnimationService.OnStateChange.subscribe(c => {
+            this.ChangeState(c);
+            console.log(c.target);
+        })
+        console.log(this.State);
     }
 
-    @Input()
-    public set ItemState(value) {
-        setTimeout(() => this.m_State = value, (Math.random() * (this.MaxDelay - this.MinDelay)) + this.MinDelay);
+
+    async ChangeState(changer: IStateChanger) {
+        try {
+            if (changer.useDelay)
+                await new Promise((resolve, reject) => {
+                    if (this.cancel) {
+                        this.cancel();
+                    }
+                    this.cancel = () => reject('Operation canceled');
+                    setTimeout(resolve, (Math.random() * (this.MaxDelay - this.MinDelay)) + this.MinDelay);
+                });
+            this.State = changer.target;
+            this.cancel = undefined;
+        } catch (error) {
+            if (error.name != 'Operation canceled')
+                console.error(error);
+        }
     }
 
-    ngOnInit(): void {
-    }
 
 }

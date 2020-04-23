@@ -1,20 +1,18 @@
 <div style="height: var(--MainContentSize); width: 100%; background: wheat">
-    <app-menu-pool-toolbar [(switchModel)]="SearchMode"></app-menu-pool-toolbar>
+    <app-menu-pool-toolbar (OnRefreshRandom)="RandomPick()" [(SearchMode)]="SearchType"
+                           [(SearchText)]="SearchText"></app-menu-pool-toolbar>
     <div class="row m-0"
          #ItemContainer
          style="height: calc(var(--MainContentSize) - 3rem)"
          [ngClass]="{'scroll-panel': SearchMode}">
-        <app-menu-pool-item *ngFor="let i of Items"
+        <app-menu-pool-item *ngFor="let i of Items; index as index; trackBy: trackByItem"
                             [Height]="ItemSize"
                             [Width]="ItemSize"
                             [HorMargin]="this.MinMargin"
                             [VertMargin]="this.ItemMarginVertical"
-                            [ItemState]="this.ItemState"
                             [Item]="i"
                             [Selected]="this.Selected == i.original"
-        (OnSelected)="this.OnSelectionChanged.emit($event)"></app-menu-pool-item>
-    </div>
-    <div class="row" style="position: absolute; right: 10px; top: 20px"><a (click)="RandomItems()">Switch state</a>
+                            (OnSelected)="this.OnSelectionChanged.emit($event)"></app-menu-pool-item>
     </div>
 
 </div>
