@@ -1,0 +1,45 @@
+@import '../../menu-shared.css';
+
+
+.h5d h5.select-text{
+    top: 15%;
+    color: rgba(124, 255, 124, 0);
+    transition: top 400ms, color 400ms;
+}
+.h5d h5.select-text:hover {
+    top: 15%;
+    color: rgba(124, 255, 124, 0) ;
+    transition: top 400ms, color 400ms;
+}
+
+/*
+Override menu-overlay h5
+ */
+.h5down h5 {
+    color: rgba(0, 0, 0, 0);
+    top: 77%;
+}
+.h5down:hover h5 {
+    color: rgba(0, 0, 0, 0);
+    top: 77%;
+}
+
+
+.h5down {
+    background: rgba(0, 0, 0, 0.5);
+}
+.h5down h5.select-text {
+    position: absolute;
+    top: 30%;
+    text-align: center;
+    font-size: 20px;
+    font-family: Times New Roman;
+    color: rgba(124, 255, 124, 1);
+    z-index: 10;
+    width: 100%;
+    font-weight: bold;
+}
+.h5down h5.select-text:hover {
+    top: 30%;
+    color: rgba(124, 255, 124, 1);
+}
