@@ -58,7 +58,7 @@ export class MenuPoolItemComponent {
             this.State = changer.target;
             this.cancel = undefined;
         } catch (error) {
-            if (error.name != 'Operation canceled')
+            if (error != 'Operation canceled')
                 console.error(error);
         }
     }

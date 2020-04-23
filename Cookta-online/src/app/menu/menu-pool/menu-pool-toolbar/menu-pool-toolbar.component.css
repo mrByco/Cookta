@@ -1,0 +1,18 @@
+.refresh-button {
+    border: 1px solid #ced4da;
+    background: #FFF;
+    width: 3rem;
+    margin-bottom: 2px;
+    transition: background 150ms, border 150ms;
+}
+.refresh-button:active {
+    border: 1px solid #27d100;
+    background: #d4ffbe;
+}
+
+.no-outline {
+    outline: 0;
+}
+.no-outline:focus {
+    outline: 0;
+}
