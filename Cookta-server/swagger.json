@@ -318,27 +318,27 @@
 				}
 			},
 			"required": [
-              "category",
-              "name",
-              "volumeEnabled",
-              "countEnabled",
-              "massEnabled",
-              "options"
-            ],
-          "type": "object",
-          "additionalProperties": false
-        },
-      "CheckUnitRefResponse": {
-        "properties": {
-          "unitId": {
-            "type": "string"
-          },
-          "totalRefs": {
-            "type": "number",
-            "format": "double"
-          },
-          "foodRefs": {
-            "type": "number",
+				"category",
+				"name",
+				"volumeEnabled",
+				"countEnabled",
+				"massEnabled",
+				"options"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"CheckUnitRefResponse": {
+			"properties": {
+				"unitId": {
+					"type": "string"
+				},
+				"totalRefs": {
+					"type": "number",
+					"format": "double"
+				},
+				"foodRefs": {
+					"type": "number",
 					"format": "double"
 				},
 				"essentialsRefs": {
@@ -347,46 +347,74 @@
 				},
 				"storageRefs": {
 					"type": "number",
-                  "format": "double"
-                }
-        },
-        "required": [
-          "unitId",
-          "totalRefs",
-          "foodRefs",
-          "essentialsRefs",
-          "storageRefs"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "DeleteCustomUnitRequest": {
-        "properties": {
-          "unitToDeleteId": {
-            "type": "string"
-          },
-          "ingredientTypeId": {
-            "type": "string"
-          },
-          "descendent": {
-            "type": "string",
-            "x-nullable": true
-          }
-        },
-        "required": [
-          "unitToDeleteId",
-          "ingredientTypeId"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "SetTagRequest": {
-        "properties": {
-          "guid": {
-            "type": "string",
-            "x-nullable": true
-          },
-          "name": {
+					"format": "double"
+				}
+			},
+			"required": [
+				"unitId",
+				"totalRefs",
+				"foodRefs",
+				"essentialsRefs",
+				"storageRefs"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"DeleteCustomUnitRequest": {
+			"properties": {
+				"unitToDeleteId": {
+					"type": "string"
+				},
+				"ingredientTypeId": {
+					"type": "string"
+				},
+				"descendent": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"unitToDeleteId",
+				"ingredientTypeId"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"GetBadUnitResponse": {
+			"properties": {
+				"badUnits": {
+					"items": {
+						"properties": {
+							"unit": {
+								"$ref": "#/definitions/IUnit"
+							},
+							"count": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"count",
+							"unit"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"badUnits"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"SetTagRequest": {
+			"properties": {
+				"guid": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"name": {
 					"type": "string"
 				},
 				"parent": {
@@ -918,7 +946,7 @@
 	},
 	"info": {
 		"title": "cookta-server",
-		"version": "1.0.3",
+		"version": "1.0.4",
 		"license": {
 			"name": "ISC"
 		}
@@ -1392,8 +1420,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-                          "$ref": "#/definitions/CheckUnitRefResponse"
-                        }
+							"$ref": "#/definitions/CheckUnitRefResponse"
+						}
 					}
 				},
 				"tags": [
@@ -1406,62 +1434,62 @@
 						]
 					}
 				],
-              "parameters": [
-                {
-                  "in": "path",
-                  "name": "unitId",
-                  "required": true,
-                  "type": "string"
-                }
-              ]
-            }
-        },
-      "/ingredientType/delete/unit": {
-        "put": {
-          "operationId": "DeleteCustomUnit",
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "Ok",
-              "schema": {
-                "type": "boolean"
-              }
-            }
-          },
-          "tags": [
-            "IngredientType"
-          ],
-          "security": [
-            {
-              "Bearer": [
-                "advanced-ingredients"
-              ]
-            }
-          ],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/DeleteCustomUnitRequest"
-              }
-            }
-          ]
-        }
-      },
-      "/unit": {
-        "get": {
-          "operationId": "GetAll",
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "Ok",
-              "schema": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "unitId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/ingredientType/delete/unit": {
+			"put": {
+				"operationId": "DeleteCustomUnit",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				},
+				"tags": [
+					"IngredientType"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"advanced-ingredients"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/DeleteCustomUnitRequest"
+						}
+					}
+				]
+			}
+		},
+		"/unit": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
 							"items": {
 								"$ref": "#/definitions/IUnit"
 							},
@@ -1473,6 +1501,33 @@
 					"Unit"
 				],
 				"security": [],
+				"parameters": []
+			}
+		},
+		"/unit/bad-units": {
+			"get": {
+				"operationId": "GetBedUnits",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/GetBadUnitResponse"
+						}
+					}
+				},
+				"tags": [
+					"Unit"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"advanced-ingredients"
+						]
+					}
+				],
 				"parameters": []
 			}
 		},

@@ -1,42 +1,42 @@
 /* tslint:disable */
 /* eslint-disable */
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {Controller, FieldErrors, TsoaRoute, ValidateError, ValidationService} from 'tsoa';
+import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {FoodController} from './controllers/food.controller';
+import { FoodController } from './controllers/food.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {IngredientTypeController} from './controllers/ingredient-type.controller';
+import { IngredientTypeController } from './controllers/ingredient-type.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {UnitController} from './controllers/unit.controller';
+import { UnitController } from './controllers/unit.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {EssentialsController} from './controllers/essentialsController';
+import { EssentialsController } from './controllers/essentialsController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {TagController} from './controllers/tag.controller';
+import { TagController } from './controllers/tag.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {StockController} from './controllers/stock.controller';
+import { StockController } from './controllers/stock.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {UserController} from './controllers/user.controller';
+import { UserController } from './controllers/user.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {DayController} from './controllers/day.controller';
+import { DayController } from './controllers/day.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {SubscriptionController} from './controllers/subscription.controller';
+import { SubscriptionController } from './controllers/subscription.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {FamilyController} from './controllers/family.controller';
+import { FamilyController } from './controllers/family.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {PingController} from './controllers/ping.controller';
+import { PingController } from './controllers/ping.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import {ShoppingListController} from './controllers/shopping-list.controller';
-import {expressAuthentication} from './authentication';
+import { ShoppingListController } from './controllers/shopping-list.controller';
+import { expressAuthentication } from './authentication';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    'IIngredient': {
-        'dataType': 'refObject',
-        'properties': {
-            'ingredientID': {'dataType': 'string', 'required': true},
-            'unit': {'dataType': 'string', 'required': true},
+    "IIngredient": {
+        "dataType": "refObject",
+        "properties": {
+            "ingredientID": { "dataType": "string", "required": true },
+            "unit": { "dataType": "string", "required": true },
             "value": { "dataType": "double", "required": true },
         },
         "additionalProperties": false,
@@ -137,34 +137,42 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    'CheckUnitRefResponse': {
-        'dataType': 'refObject',
-        'properties': {
-            'unitId': {'dataType': 'string', 'required': true},
-            'totalRefs': {'dataType': 'double', 'required': true},
-            'foodRefs': {'dataType': 'double', 'required': true},
-            'essentialsRefs': {'dataType': 'double', 'required': true},
-            'storageRefs': {'dataType': 'double', 'required': true},
+    "CheckUnitRefResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "unitId": { "dataType": "string", "required": true },
+            "totalRefs": { "dataType": "double", "required": true },
+            "foodRefs": { "dataType": "double", "required": true },
+            "essentialsRefs": { "dataType": "double", "required": true },
+            "storageRefs": { "dataType": "double", "required": true },
         },
-        'additionalProperties': false,
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    'DeleteCustomUnitRequest': {
-        'dataType': 'refObject',
-        'properties': {
-            'unitToDeleteId': {'dataType': 'string', 'required': true},
-            'ingredientTypeId': {'dataType': 'string', 'required': true},
-            'descendent': {'dataType': 'string'},
+    "DeleteCustomUnitRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "unitToDeleteId": { "dataType": "string", "required": true },
+            "ingredientTypeId": { "dataType": "string", "required": true },
+            "descendent": { "dataType": "string" },
         },
-        'additionalProperties': false,
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    'SetTagRequest': {
-        'dataType': 'refObject',
-        'properties': {
-            'guid': {'dataType': 'string'},
-            'name': {'dataType': 'string', 'required': true},
-            'parent': {'dataType': 'string'},
+    "GetBadUnitResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "badUnits": { "dataType": "array", "array": { "dataType": "nestedObjectLiteral", "nestedProperties": { "count": { "dataType": "double", "required": true }, "unit": { "ref": "IUnit", "required": true } } }, "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SetTagRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "guid": { "dataType": "string" },
+            "name": { "dataType": "string", "required": true },
+            "parent": { "dataType": "string" },
         },
         "additionalProperties": false,
     },
@@ -704,10 +712,10 @@ export function RegisterRoutes(app: express.Express) {
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.put('/ingredientType/delete/unit',
-        authenticateMiddleware([{'Bearer': ['advanced-ingredients']}]),
+        authenticateMiddleware([{ "Bearer": ["advanced-ingredients"] }]),
         function(request: any, response: any, next: any) {
             const args = {
-                body: {'in': 'body', 'name': 'body', 'required': true, 'ref': 'DeleteCustomUnitRequest'},
+                body: { "in": "body", "name": "body", "required": true, "ref": "DeleteCustomUnitRequest" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -728,7 +736,8 @@ export function RegisterRoutes(app: express.Express) {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.get('/unit',
         function(request: any, response: any, next: any) {
-            const args = {};
+            const args = {
+            };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -743,6 +752,28 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.GetAll.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/unit/bad-units',
+        authenticateMiddleware([{ "Bearer": ["advanced-ingredients"] }]),
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UnitController();
+
+
+            const promise = controller.GetBedUnits.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

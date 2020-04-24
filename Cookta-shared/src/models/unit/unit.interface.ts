@@ -1,4 +1,4 @@
-import {EUnitType} from "../../enums/unit-type.enum";
+import {EUnitType} from "./unit-type.enum";
 
 export interface IUnit {
     type: EUnitType,
