@@ -1,32 +1,32 @@
 /* tslint:disable */
 /* eslint-disable */
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+import {Controller, FieldErrors, TsoaRoute, ValidateError, ValidationService} from 'tsoa';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { FoodController } from './controllers/food.controller';
+import {FoodController} from './controllers/food.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { IngredientTypeController } from './controllers/ingredient-type.controller';
+import {IngredientTypeController} from './controllers/ingredient-type.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { UnitController } from './controllers/unit.controller';
+import {UnitController} from './controllers/unit.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { EssentialsController } from './controllers/essentialsController';
+import {EssentialsController} from './controllers/essentialsController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { TagController } from './controllers/tag.controller';
+import {TagController} from './controllers/tag.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { StockController } from './controllers/stock.controller';
+import {StockController} from './controllers/stock.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { UserController } from './controllers/user.controller';
+import {UserController} from './controllers/user.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DayController } from './controllers/day.controller';
+import {DayController} from './controllers/day.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { SubscriptionController } from './controllers/subscription.controller';
+import {SubscriptionController} from './controllers/subscription.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { FamilyController } from './controllers/family.controller';
+import {FamilyController} from './controllers/family.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { PingController } from './controllers/ping.controller';
+import {PingController} from './controllers/ping.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { ShoppingListController } from './controllers/shopping-list.controller';
-import { expressAuthentication } from './authentication';
+import {ShoppingListController} from './controllers/shopping-list.controller';
+import {expressAuthentication} from './authentication';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -35,8 +35,8 @@ const models: TsoaRoute.Models = {
     "IIngredient": {
         "dataType": "refObject",
         "properties": {
-            "ingredientID": { "dataType": "string", "required": true },
-            "unit": { "dataType": "string", "required": true },
+            "ingredientID": {"dataType": "string", "required": true},
+            "unit": {"dataType": "string", "required": true},
             "value": { "dataType": "double", "required": true },
         },
         "additionalProperties": false,
@@ -152,9 +152,21 @@ const models: TsoaRoute.Models = {
     "DeleteCustomUnitRequest": {
         "dataType": "refObject",
         "properties": {
-            "unitToDeleteId": { "dataType": "string", "required": true },
-            "ingredientTypeId": { "dataType": "string", "required": true },
-            "descendent": { "dataType": "string" },
+            "unitToDeleteId": {"dataType": "string", "required": true},
+            "ingredientTypeId": {"dataType": "string", "required": true},
+            "descendent": {"dataType": "string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IBadUnit": {
+        "dataType": "refObject",
+        "properties": {
+            "IngredientId": {"dataType": "string", "required": true},
+            "UnitId": {"dataType": "string", "required": true},
+            "Count": {"dataType": "double", "required": true},
+            "Fix": {"dataType": "double"},
+            "FixUnit": {"dataType": "string"},
         },
         "additionalProperties": false,
     },
@@ -162,7 +174,7 @@ const models: TsoaRoute.Models = {
     "GetBadUnitResponse": {
         "dataType": "refObject",
         "properties": {
-            "badUnits": { "dataType": "array", "array": { "dataType": "nestedObjectLiteral", "nestedProperties": { "count": { "dataType": "double", "required": true }, "unit": { "ref": "IUnit", "required": true } } }, "required": true },
+            "badUnits": {"dataType": "array", "array": {"ref": "IBadUnit"}, "required": true},
         },
         "additionalProperties": false,
     },

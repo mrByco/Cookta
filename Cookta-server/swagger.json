@@ -370,39 +370,56 @@
 				},
 				"descendent": {
 					"type": "string",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"unitToDeleteId",
-				"ingredientTypeId"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"GetBadUnitResponse": {
-			"properties": {
-				"badUnits": {
-					"items": {
-						"properties": {
-							"unit": {
-								"$ref": "#/definitions/IUnit"
-							},
-							"count": {
-								"type": "number",
-								"format": "double"
-							}
-						},
-						"required": [
-							"count",
-							"unit"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				}
-			},
-			"required": [
+                  "x-nullable": true
+                }
+            },
+          "required": [
+            "unitToDeleteId",
+            "ingredientTypeId"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+      "IBadUnit": {
+        "properties": {
+          "IngredientId": {
+            "type": "string"
+          },
+          "UnitId": {
+            "type": "string"
+          },
+          "Count": {
+            "type": "number",
+            "format": "double"
+          },
+          "Fix": {
+            "type": "number",
+            "format": "double",
+            "x-nullable": true
+          },
+          "FixUnit": {
+            "type": "string",
+            "x-nullable": true
+          }
+        },
+        "required": [
+          "IngredientId",
+          "UnitId",
+          "Count"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "GetBadUnitResponse": {
+        "properties": {
+          "badUnits": {
+            "items": {
+              "$ref": "#/definitions/IBadUnit"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
 				"badUnits"
 			],
 			"type": "object",

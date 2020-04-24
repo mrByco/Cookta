@@ -4,7 +4,6 @@ import {Unit} from "../../models/unit/unit.model";
 import {IUnit} from "../../../../Cookta-shared/src/models/unit/unit.interface";
 import {ObjectId} from 'mongodb';
 import * as chai from 'chai';
-import {IIngredientType} from "../../models/ingredient-type/ingredient-type.interface";
 import {CIng, SampleEssentials, SampleStorage, SIngType, SUnit} from "../../sample.data";
 import {IngredientTypeService} from "../ingredient-types/ingredient-type.service";
 import {IngredientType} from "../../models/ingredient-type/ingredient-type.model";
@@ -12,8 +11,6 @@ import {IBadUnit} from "../../../../Cookta-shared/src/models/unit/bad-unit.inter
 
 const sampleUnits: IUnit[] = SUnit.All;
 
-
-const sampleIngredientType: IIngredientType = SIngType.bread;
 
 
 function AddUnitToUnitService(unitService: UnitService, unit: IUnit){
@@ -89,6 +86,26 @@ describe('Unit service', function () {
 
         let badUnits = await service.GetBadUnitReferences([essentials], [SampleStorage.Storage], []);
         let badUnitsExpected: IBadUnit[] = [{IngredientId: SIngType.bread.guid, UnitId: SUnit.l.id, Count: 1}]
+        chai.expect(badUnits).to.deep.equal(badUnitsExpected);
+    });
+    it('should return count bad units', async function () {
+        service = new UnitService(i => new Unit(i), 'empty');
+        Services.UnitService = service;
+
+        // @ts-ignore
+        IngredientTypeService.prototype.Items = [];
+        let ingService = new IngredientTypeService(i => new IngredientType(i), 'empty');
+        Services.IngredientTypeService = ingService;
+        CreateSampleIngredients(ingService);
+
+        let essentials1 = SampleEssentials.Essentials;
+        essentials1.Essentials.push(CIng(4, SUnit.l, SIngType.bread));
+        let essentials2 = SampleEssentials.Essentials;
+        essentials2.Essentials.push(CIng(1, SUnit.l, SIngType.bread));
+
+        let badUnits = await service.GetBadUnitReferences([essentials1, essentials2], [SampleStorage.Storage], []);
+
+        let badUnitsExpected: IBadUnit[] = [{IngredientId: SIngType.bread.guid, UnitId: SUnit.l.id, Count: 2}]
         chai.expect(badUnits).to.deep.equal(badUnitsExpected);
     });
 });

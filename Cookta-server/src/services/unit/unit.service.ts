@@ -31,27 +31,32 @@ export class UnitService extends StoreService<Unit> implements IUnitService {
 
         let badUnits: IBadUnit[] = [];
 
-        for (let food of references.foods){
-            for (let ing of food.ingredients){
-                this.IncrementUnitInBadUnits(badUnits, ing);
+        for (let food of references.foods) {
+            for (let ing of food.ingredients) {
+                if (this.IsIngredientInInvalidUnit(ing))
+                    this.IncrementUnitInBadUnits(badUnits, ing);
             }
         }
-        for (let essentialSection of references.essentials){
-            for (let ing of essentialSection.Essentials){
-                this.IncrementUnitInBadUnits(badUnits, ing);
+        for (let essentialSection of references.essentials) {
+            for (let ing of essentialSection.Essentials) {
+                if (this.IsIngredientInInvalidUnit(ing))
+                    this.IncrementUnitInBadUnits(badUnits, ing);
             }
         }
-        for (let storageSection of references.storageSections){
-            for (let ing of storageSection.Items){
-                this.IncrementUnitInBadUnits(badUnits, ing);
+        for (let storageSection of references.storageSections) {
+            for (let ing of storageSection.Items) {
+                if (this.IsIngredientInInvalidUnit(ing))
+                    this.IncrementUnitInBadUnits(badUnits, ing);
             }
         }
         return badUnits;
     }
 
-    private async GetBadUnitObjects(essentials: IEssentialSection[], storages: IStorageSection[], foods: Food[]): Promise<{ foods: Food[], storageSections: IStorageSection[], essentials: IEssentialSection[] }>{
+    private async GetBadUnitObjects(essentials: IEssentialSection[], storages: IStorageSection[], foods: Food[]): Promise<{ foods: Food[], storageSections: IStorageSection[], essentials: IEssentialSection[] }> {
 
-        let foodRefs = foods.filter(f => {f.ingredients.find(i => this.IsIngredientInInvalidUnit(i))});
+        let foodRefs = foods.filter(f => {
+            f.ingredients.find(i => this.IsIngredientInInvalidUnit(i))
+        });
 
         let essentialRefs = essentials.filter(e => e.Essentials.find(i => this.IsIngredientInInvalidUnit(i)));
 
@@ -60,17 +65,17 @@ export class UnitService extends StoreService<Unit> implements IUnitService {
         return {essentials: essentialRefs, foods: foodRefs, storageSections: storageRefs}
     }
 
-    private IncrementUnitInBadUnits(badUnits: IBadUnit[], ingredient: IIngredient){
-        if (badUnits.find(bu => bu.UnitId == ingredient.unit && bu.IngredientId == ingredient.ingredientID)){
-            badUnits.find(bu => bu.UnitId == ingredient.unit).Count++;
-        }else{
+    private IncrementUnitInBadUnits(badUnits: IBadUnit[], ingredient: IIngredient) {
+        if (badUnits.find(bu => bu.UnitId == ingredient.unit && bu.IngredientId == ingredient.ingredientID)) {
+            badUnits.find(bu => bu.UnitId == ingredient.unit && bu.IngredientId == ingredient.ingredientID).Count++;
+        } else {
             let unit = this.FindOne(u => u.id == ingredient.unit);
             if (!unit) return;
             badUnits.push({Count: 1, IngredientId: ingredient.ingredientID, UnitId: unit.id});
         }
     }
 
-    private IsIngredientInInvalidUnit(ingredient: IIngredient){
+    private IsIngredientInInvalidUnit(ingredient: IIngredient) {
         let type = Services.IngredientTypeService.FindOne(t => t.guid == ingredient.ingredientID);
         let available = this.GetAvailableUnitsForType(type);
         return available.find(u => u.id == ingredient.unit) == undefined;

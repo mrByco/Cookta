@@ -4,9 +4,9 @@ import {IUnit} from "../../Cookta-shared/src/models/unit/unit.interface";
 import {IEssentialSection} from "./models/essentials/essential-list.interface";
 import {IIngredient} from "./interfaces/IIngredient";
 import {IStorageSection} from "./interfaces/IStorageSectionRequest";
-import { ObjectId } from 'mongodb';
+import {ObjectId} from 'mongodb';
 
-export function CIng(quantity: number, unit: IUnit, type: IIngredientType): IIngredient{
+export function CIng(quantity: number, unit: IUnit, type: IIngredientType): IIngredient {
     return {ingredientID: type.guid, unit: unit.id, value: quantity};
 }
 
@@ -95,27 +95,32 @@ export class SUnit {
 }
 
 export class SampleEssentials {
-    public static Essentials: IEssentialSection = {
-        Essentials: [
-            CIng(3, SUnit.kg, SIngType.bread),
-            CIng(5, SUnit.l, SIngType.milk),
-            CIng(15, SUnit.g, SIngType.spice),
-            CIng(2, SUnit.db, SIngType.chocolate),
-        ],
-        FamilyId: "5ea2affb842c39ad59a8bb8b"
+    public static get Essentials(): IEssentialSection {
+        return Object.assign({}, {
+            Essentials: [
+                CIng(3, SUnit.kg, SIngType.bread),
+                CIng(5, SUnit.l, SIngType.milk),
+                CIng(15, SUnit.g, SIngType.spice),
+                CIng(2, SUnit.db, SIngType.chocolate),
+            ],
+            FamilyId: "5ea2affb842c39ad59a8bb8b"
+        })
     }
 }
+
 export class SampleStorage {
-    public static Storage: IStorageSection = {
-        FamilyId: "5ea2affb842c39ad59a8bb8b",
-        Id: new ObjectId('5ea2b2721fc94eaf5955ebf6'),
-        IsDefaultList: false,
-        Items: [
-            CIng(3, SUnit.kg, SIngType.bread),
-            CIng(5, SUnit.l, SIngType.milk),
-            CIng(15, SUnit.g, SIngType.spice),
-            CIng(2, SUnit.db, SIngType.chocolate),
-        ],
-        Name: "Fridge"
+    public static get Storage(): IStorageSection {
+        return Object.assign({}, {
+            FamilyId: "5ea2affb842c39ad59a8bb8b",
+            Id: new ObjectId('5ea2b2721fc94eaf5955ebf6'),
+            IsDefaultList: false,
+            Items: [
+                CIng(3, SUnit.kg, SIngType.bread),
+                CIng(5, SUnit.l, SIngType.milk),
+                CIng(15, SUnit.g, SIngType.spice),
+                CIng(2, SUnit.db, SIngType.chocolate),
+            ],
+            Name: "Fridge"
+        });
     }
 }
