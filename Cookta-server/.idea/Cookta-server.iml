@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Cookta-online" />
     <orderEntry type="module" module-name="Cookta-shared" />
+    <orderEntry type="module" module-name="Cookta-online" />
   </component>
 </module>

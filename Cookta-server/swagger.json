@@ -360,26 +360,26 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"DeleteCustomUnitRequest": {
-			"properties": {
-				"unitToDeleteId": {
-					"type": "string"
-				},
-				"ingredientTypeId": {
-					"type": "string"
-				},
-				"descendent": {
-					"type": "string",
-                  "x-nullable": true
-                }
-            },
-          "required": [
-            "unitToDeleteId",
-            "ingredientTypeId"
-          ],
-          "type": "object",
-          "additionalProperties": false
+      "DeleteCustomUnitRequest": {
+        "properties": {
+          "unitToDeleteId": {
+            "type": "string"
+          },
+          "ingredientTypeId": {
+            "type": "string"
+          },
+          "descendent": {
+            "type": "string",
+            "x-nullable": true
+          }
         },
+        "required": [
+          "unitToDeleteId",
+          "ingredientTypeId"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
       "IBadUnit": {
         "properties": {
           "IngredientId": {
@@ -420,16 +420,16 @@
           }
         },
         "required": [
-				"badUnits"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"SetTagRequest": {
-			"properties": {
-				"guid": {
-					"type": "string",
-					"x-nullable": true
+          "badUnits"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "SetTagRequest": {
+        "properties": {
+          "guid": {
+            "type": "string",
+            "x-nullable": true
 				},
 				"name": {
 					"type": "string"

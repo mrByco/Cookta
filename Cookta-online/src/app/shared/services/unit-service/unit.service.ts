@@ -4,6 +4,8 @@ import {ServerService} from '../server.service';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Unit} from '../../models/unit.interface';
+import {IBadUnit} from "../../../../../../Cookta-shared/src/models/unit/bad-unit.interface";
+import {GetBadUnitResponse} from "../../../../../../Cookta-shared/src/contracts/unit-route/get-bad-units";
 
 @Injectable()
 export class UnitService {
@@ -12,8 +14,8 @@ export class UnitService {
 
 
   constructor(
-    private serverService: ServerService,
-    private http: HttpClient
+      private serverService: ServerService,
+      private http: HttpClient
   ) {
     this.Units = this.LoadUnits();
   }
@@ -47,6 +49,24 @@ export class UnitService {
       }, error => {
         console.log(`Error on loading: ${error}`);
         resolve([]);
+      });
+    });
+  }
+
+
+  public async GetBadUnits(): Promise<IBadUnit[] | null> {
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.GetRequest(Routes.Unit.GetBads);
+      console.log('Loading bad units: ' + Routes.Unit.GetBads);
+      console.log(Routes);
+      response.subscribe(data => {
+        let respData = data as GetBadUnitResponse;
+        resolve(respData.badUnits);
+      }, error => {
+        console.log(`Error on loading: ${error}`);
+        console.error(error);
+        console.error(error);
+        resolve(null);
       });
     });
   }

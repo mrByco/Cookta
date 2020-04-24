@@ -37,7 +37,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "ingredientID": {"dataType": "string", "required": true},
             "unit": {"dataType": "string", "required": true},
-            "value": { "dataType": "double", "required": true },
+            "value": {"dataType": "double", "required": true},
         },
         "additionalProperties": false,
     },
