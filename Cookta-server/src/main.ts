@@ -11,7 +11,7 @@ import {FamilyService} from "./services/family/family-service";
 import {UserService} from "./services/user/user-service";
 import {Family} from "./models/family.model";
 import {EssentialsService} from "./services/essentials/essentials-service";
-import {EssentialList} from "./models/essential-list.model";
+import {EssentialSection} from "./models/essentials/essential-list.model";
 import {UnitService} from "./services/unit/unit.service";
 import {Unit} from "./models/unit/unit.model";
 import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
@@ -43,7 +43,7 @@ try{
 
         let userService = new UserService((id) => {return new User(id)}, 'Users');
 
-        let essentialsService = new EssentialsService((id) => {return new EssentialList(id)}, 'Essentials');
+        let essentialsService = new EssentialsService((id) => {return new EssentialSection(id)}, 'Essentials');
 
         let unitService = new UnitService((id) => {return new Unit(id)}, 'Units');
 

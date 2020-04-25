@@ -8,11 +8,11 @@ import {StoreService} from 'atomik/lib/store-service/store-service';
 import {IFieldConverter} from 'atomik/lib/store-item/field.converter.interface';
 import {Food} from '../../models/food/food.model';
 import {Services} from '../../Services';
-import {EssentialList} from '../../models/essential-list.model';
+import {EssentialSection} from '../../models/essentials/essential-list.model';
 import {StorageSection} from '../../models/storage-section.model';
 import {IIngredient} from '../../interfaces/IIngredient';
 import {Unit} from '../../models/unit/unit.model';
-import {IUnit} from '../../models/unit/unit.interface';
+import {IUnit} from "../../../../Cookta-shared/src/models/unit/unit.interface";
 
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
 
@@ -136,7 +136,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         {DatabaseFieldName: 'count-enabled', ClassFieldName: 'countEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
     ];
 
-    private async GetReferencesOfUnit(unitId: string): Promise<{ foods: Food[], essentials: EssentialList[], storage: StorageSection[] }> {
+    private async GetReferencesOfUnit(unitId: string): Promise<{ foods: Food[], essentials: EssentialSection[], storage: StorageSection[] }> {
         let foods = (await Food.GetAllFoods({}))
             .filter(f => f.ingredients.find(i => i.unit == unitId));
         let essentials = Services.EssentialsService.GetAllItems()

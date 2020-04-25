@@ -1,9 +1,9 @@
 import {ICompleteIngredient} from "../interfaces/IIngredient";
 import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
-import {EUnitType} from "../enums/unit-type.enum";
-import {IUnit} from "../models/unit/unit.interface";
 import {expect} from "chai";
 import {IngredientHelper} from "./ingredient.helper";
+import {EUnitType} from "../../../Cookta-shared/src/models/unit/unit-type.enum";
+import {IUnit} from "../../../Cookta-shared/src/models/unit/unit.interface";
 
 // DEFINE WORKING INFO
 let bread: IIngredientType = {
