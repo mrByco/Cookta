@@ -1,0 +1,18 @@
+<div style="height: calc(var(--MainContentSize) - 5px); width: 100%; background: wheat">
+    <app-menu-pool-toolbar (OnRefreshRandom)="RandomPick()" [(SearchMode)]="SearchType"
+                           [(SearchText)]="SearchText"></app-menu-pool-toolbar>
+    <div class="row m-0"
+         #ItemContainer
+         style="height: calc(var(--MainContentSize) - 3rem)"
+         [ngClass]="{'scroll-panel': SearchMode}">
+        <app-menu-pool-item *ngFor="let i of Items; index as index; trackBy: trackByItem"
+                            [Height]="ItemSize"
+                            [Width]="ItemSize"
+                            [HorMargin]="this.MinMargin"
+                            [VertMargin]="this.ItemMarginVertical"
+                            [Item]="i"
+                            [Selected]="this.Selected == i.original"
+                            (OnSelected)="this.OnSelectionChanged.emit($event)"></app-menu-pool-item>
+    </div>
+
+</div>

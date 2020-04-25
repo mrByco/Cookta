@@ -27,6 +27,10 @@ export class IdentityService {
     }
   }
 
+  public get IsAuthenticated(): Promise<boolean> | boolean {
+    return this.authService.IsAuthenticated;
+  }
+
   public get LoggedIn(): Promise<boolean> | boolean {
     return this.authService.loggedIn;
   }

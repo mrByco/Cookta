@@ -74,6 +74,10 @@ body{
   padding-bottom: 10px;
 }
 
+.rounded-panel.error {
+  background: rgb(255, 96, 96);
+}
+
 .small-number-field {
   background: rgba(255, 255, 255, .2);
   margin: 0 .5rem .5rem;

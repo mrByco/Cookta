@@ -1,0 +1,20 @@
+<div class="ph-5 mh-0 d-flex" style="background: mintcream; height: 3rem; width: 100%">
+    <div class="input-group m-1 ml-3 mr-3">
+        <div class="input-group-prepend">
+            <select class="no-outline" (ngModelChange)="this.SearchModeChange.emit($event)" [ngModel]="this.SearchMode"
+                    class="custom-select">
+                <option [ngValue]="0" selected>Minden</option>
+                <option [ngValue]="2">Ételek</option>
+                <option [ngValue]="1">Cimkék</option>
+            </select>
+        </div>
+        <input (ngModelChange)="SearchTextChange.emit($event)" [ngModel]="SearchText"
+               aria-describedby="inputGroup-sizing-default"
+               aria-label="Sizing example input"
+               class="flex-grow-1 form-control"
+               type="text">
+        <button (click)="OnRefreshRandom.emit()" class="refresh-button no-outline" type="button">
+            <i class="fas fa-random"></i>
+        </button>
+    </div>
+</div>

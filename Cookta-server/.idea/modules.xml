@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Cookta-online/.idea/Cookta-online.iml" filepath="$PROJECT_DIR$/../Cookta-online/.idea/Cookta-online.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Cookta-server.iml" filepath="$PROJECT_DIR$/.idea/Cookta-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Cookta-shared/.idea/Cookta-shared.iml" filepath="$PROJECT_DIR$/../Cookta-shared/.idea/Cookta-shared.iml" />
     </modules>
   </component>
 </project>

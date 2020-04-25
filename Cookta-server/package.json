@@ -1,6 +1,6 @@
 {
   "name": "cookta-server",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -42,6 +42,7 @@
     "@types/node": "^12.11.7",
     "@types/request": "^2.48.3",
     "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
     "mocha": "^7.1.1",
     "nodemon": "^1.19.4",
     "nyc": "^15.0.0",
