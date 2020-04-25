@@ -8,3 +8,4 @@ IngredientUpdater/bin/
 IngredientUpdater/obj/
 Kukta/bin/
 Kukta/obj/
+**/dist
