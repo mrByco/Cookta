@@ -2,16 +2,16 @@ import {StoreService} from 'atomik/lib/store-service/store-service';
 import {IUnitService} from './unit.service.interface';
 import {Unit} from '../../models/unit/unit.model';
 import {IIngredientType} from '../../models/ingredient-type/ingredient-type.interface';
-import {IUnit} from "../../../../Cookta-shared/src/models/unit/unit.interface";
-import {EUnitType} from "../../../../Cookta-shared/src/models/unit/unit-type.enum";
+import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
+import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
 import {Food} from "../../models/food/food.model";
 import {IStorageSection} from "../../interfaces/IStorageSectionRequest";
 import {Services} from "../../Services";
 import {IIngredient} from "../../interfaces/IIngredient";
 import {IEssentialSection} from "../../models/essentials/essential-list.interface";
-import {IBadUnit} from "../../../../Cookta-shared/src/models/unit/bad-unit.interface";
 import {EssentialSection} from "../../models/essentials/essential-list.model";
 import {StorageSection} from "../../models/storage-section.model";
+import {IBadUnit} from "cookta-shared/dist/models/unit/bad-unit.interface";
 
 
 export class UnitService extends StoreService<Unit> implements IUnitService {

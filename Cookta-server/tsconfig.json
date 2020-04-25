@@ -8,8 +8,5 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "importHelpers": true
-  },
-  "references": [
-    {"path": "../cookta-shared"}
-  ]
+  }
 }

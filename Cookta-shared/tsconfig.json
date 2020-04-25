@@ -4,8 +4,8 @@
     "module": "commonjs",
     "declaration": true,
     "experimentalDecorators": true,
-    "outDir": "./lib",
-    "composite": true
+    "outDir": "./dist",
+    "rootDir": "./src",
   },
   "exclude": [
     "node_modules",
