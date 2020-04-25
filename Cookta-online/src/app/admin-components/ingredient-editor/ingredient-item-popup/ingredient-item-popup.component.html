@@ -20,7 +20,11 @@
         </div>
 
         <p class="start-paragraph">Alap mértékegység</p>
-        <select class="browser-default custom-select" [(ngModel)]="CurrentBaseUnitType">
+        <p *ngIf="CurrentCustomUnits.length > 0" class="font-italic">Csak akkor engedélyezett a változtatás ha
+          nicnsennek egyéni mértékegységek</p>
+        <select [(ngModel)]="CurrentBaseUnitType"
+                [disabled]="CurrentCustomUnits.length > 0"
+                class="browser-default custom-select">
           <option value="0">Térfogat (l)</option>
           <option value="1">Szám (darab)</option>
           <option value="2">Súly (g)</option>
@@ -28,7 +32,7 @@
 
 
         <p class="start-paragraph">Egyéni mértékegységek</p>
-<!--        HEADER-->
+        <!--        HEADER-->
         <div class="container">
           <div class="row">
             <div class="col-4">Név</div>

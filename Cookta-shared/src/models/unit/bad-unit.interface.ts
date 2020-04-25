@@ -1,4 +1,4 @@
-export class IBadUnit {
+export interface IBadUnit {
     IngredientId: string;
     UnitId: string;
     Count: number;

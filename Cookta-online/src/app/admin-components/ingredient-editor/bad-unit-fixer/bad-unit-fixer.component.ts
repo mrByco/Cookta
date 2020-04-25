@@ -18,4 +18,9 @@ export class BadUnitFixerComponent {
     })
   }
 
+  FixBadUnit(badUnit: IBadUnit) {
+    this.BadUnits = undefined;
+    this.unitService.FixBadUnit(badUnit).then(bu => this.BadUnits = bu);
+  }
+
 }

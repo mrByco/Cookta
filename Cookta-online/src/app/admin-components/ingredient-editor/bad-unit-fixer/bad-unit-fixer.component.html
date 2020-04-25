@@ -1,3 +1,7 @@
+<p *ngIf="BadUnits == []" class="font-italic" style="color: green">Nincsennek hibás mértékegység referenciák!</p>
+<p *ngIf="BadUnits === undefined" class="font-italic">Hibás mértékegység referenciák betöltése...</p>
+<p *ngIf="BadUnits === null" class="font-italic" style="color: darkred;">Nem lehetett a mértékegység referenciákat
+    ellenőrizni!</p>
 <div *ngIf="BadUnits && BadUnits.length > 0"
      class="rounded-panel error d-flex flex-column justify-content-left m-2 mr-5"
      style="width: 100%">
@@ -15,14 +19,15 @@
                 <select [(ngModel)]="bUnit.FixUnit" class="flex-fill">
                     <option *ngFor="let u of unitService.GetAvailableUnitsFor(ingredientService.GetIngredient(bUnit.IngredientId)); index as i"
                             [ngValue]="u.id">{{u.name}}</option>
-                </select>
-                <h5 class="flex-fill">{{ingredientService.GetIngredient(bUnit.IngredientId).name}}}</h5>
+                </select>ł
+                <h5 class="flex-fill"> {{ingredientService.GetIngredient(bUnit.IngredientId).name}}</h5>
             </div>
             <div class="d-flex flex-row font-italic ml-4">
                 {{bUnit.Count}} referencia
             </div>
         </div>
-        <button [disabled]="bUnit.Fix == undefined || bUnit.Fix <= 0 || !(bUnit.FixUnit?.length > 0)" color="orange"
+        <button (click)="FixBadUnit(bUnit)"
+                [disabled]="bUnit.Fix == undefined || bUnit.Fix <= 0 || !(bUnit.FixUnit?.length > 0)" color="orange"
                 mdbBtn>Átváltás
         </button>
     </div>

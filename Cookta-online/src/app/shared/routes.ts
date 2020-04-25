@@ -28,7 +28,8 @@ export class Routes {
 
   public static readonly Unit = {
     GetAll: "/unit",
-    GetBads: "/unit/bad-units"
+    GetBads: "/unit/bad-units",
+    FixBad: "/unit/bad-units"
   };
 
   public static readonly Tag = {

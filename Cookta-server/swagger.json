@@ -350,16 +350,16 @@
 					"format": "double"
 				}
 			},
-			"required": [
-				"unitId",
-				"totalRefs",
-				"foodRefs",
-				"essentialsRefs",
-				"storageRefs"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
+          "required": [
+            "unitId",
+            "totalRefs",
+            "foodRefs",
+            "essentialsRefs",
+            "storageRefs"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
       "DeleteCustomUnitRequest": {
         "properties": {
           "unitToDeleteId": {
@@ -425,21 +425,33 @@
         "type": "object",
         "additionalProperties": false
       },
+      "FixBadUnitRequest": {
+        "properties": {
+          "badUnit": {
+            "$ref": "#/definitions/IBadUnit"
+          }
+        },
+        "required": [
+          "badUnit"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
       "SetTagRequest": {
         "properties": {
           "guid": {
             "type": "string",
             "x-nullable": true
-				},
-				"name": {
-					"type": "string"
-				},
-				"parent": {
-					"type": "string",
-					"x-nullable": true
-				}
-			},
-			"required": [
+          },
+          "name": {
+            "type": "string"
+          },
+          "parent": {
+            "type": "string",
+            "x-nullable": true
+          }
+        },
+        "required": [
 				"name"
 			],
 			"type": "object",
@@ -1536,18 +1548,52 @@
 					}
 				},
 				"tags": [
-					"Unit"
-				],
-				"security": [
-					{
-						"Bearer": [
-							"advanced-ingredients"
-						]
-					}
-				],
-				"parameters": []
-			}
-		},
+                  "Unit"
+                ],
+              "security": [
+                {
+                  "Bearer": [
+                    "advanced-ingredients"
+                  ]
+                }
+              ],
+              "parameters": []
+            },
+          "post": {
+            "operationId": "FixBedUnit",
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "200": {
+                "description": "Ok",
+                "schema": {
+                  "$ref": "#/definitions/GetBadUnitResponse"
+                }
+              }
+            },
+            "tags": [
+              "Unit"
+            ],
+            "security": [
+              {
+                "Bearer": [
+                  "advanced-ingredients"
+                ]
+              }
+            ],
+            "parameters": [
+              {
+                "in": "body",
+                "name": "reqBody",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/FixBadUnitRequest"
+                }
+              }
+            ]
+          }
+        },
 		"/Baselist": {
 			"get": {
 				"operationId": "GetCurrentBaseList",

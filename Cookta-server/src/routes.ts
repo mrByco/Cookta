@@ -179,12 +179,20 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FixBadUnitRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "badUnit": {"ref": "IBadUnit", "required": true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "SetTagRequest": {
         "dataType": "refObject",
         "properties": {
-            "guid": { "dataType": "string" },
-            "name": { "dataType": "string", "required": true },
-            "parent": { "dataType": "string" },
+            "guid": {"dataType": "string"},
+            "name": {"dataType": "string", "required": true},
+            "parent": {"dataType": "string"},
         },
         "additionalProperties": false,
     },
@@ -789,11 +797,34 @@ export function RegisterRoutes(app: express.Express) {
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/Baselist',
-        authenticateMiddleware([{ "Bearer": [] }]),
-        function(request: any, response: any, next: any) {
+    app.post('/unit/bad-units',
+        authenticateMiddleware([{"Bearer": ["advanced-ingredients"]}]),
+        function (request: any, response: any, next: any) {
             const args = {
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                reqBody: {"in": "body", "name": "reqBody", "required": true, "ref": "FixBadUnitRequest"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UnitController();
+
+
+            const promise = controller.FixBedUnit.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/Baselist',
+        authenticateMiddleware([{"Bearer": []}]),
+        function (request: any, response: any, next: any) {
+            const args = {
+                request: {"in": "request", "name": "request", "required": true, "dataType": "object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
