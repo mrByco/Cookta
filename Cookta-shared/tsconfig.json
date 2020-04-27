@@ -1,5 +1,4 @@
 {
-  "compileOnSave": true,
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
@@ -9,8 +8,6 @@
     "rootDir": "./src"
   },
   "exclude": [
-    "./dist",
-    "node_modules",
     "**.spec.*"
   ]
 }
