@@ -5,6 +5,13 @@ import {Services} from '../Services';
 import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
 import {CheckUnitRefResponse} from "cookta-shared/dist/contracts/ingredient-type/check-ingredient.contrats";
 import {DeleteCustomUnitRequest} from "cookta-shared/dist/contracts/ingredient-type/delete-custom-unit";
+import {
+    IDeleteIngredientTypeRequest,
+    IDeleteIngredientTypeResponse
+} from "cookta-shared/dist/contracts/ingredient-type/delete-ingredient-type";
+import {IIngredientDependencyObject} from "../interfaces/ingredient-dependency-object.interface";
+import {Service} from "@azure/storage-blob/typings/src/generated/src/operations";
+import {Food} from "../models/food/food.model";
 
 @Route('/ingredientType')
 @Tags('IngredientType')
@@ -32,11 +39,27 @@ export class IngredientTypeController extends Controller {
     }
 
     @Security('Bearer', ['delete-ingredients'])
-    @Delete('/{guid}')
-    public async DeleteIngredient(guid: string): Promise<IIngredientType[]> {
+    @Delete('/')
+    public async DeleteIngredient(@Body() deleteBody: IDeleteIngredientTypeRequest): Promise<IDeleteIngredientTypeResponse> {
         try {
-            await Services.IngredientTypeService.DeleteIngredientType(guid);
-            return Services.IngredientTypeService.GetAllItems();
+            let dependencies: IIngredientDependencyObject =
+                {
+                    essentials: Services.EssentialsService.GetAllItems(),
+                    storages: Services.StorageService.GetAllItems(),
+                    foods: await Food.GetAllFoods({})
+                }
+
+            let success = await Services.IngredientTypeService.DeleteIngredientType(deleteBody.ingredientTypeId, deleteBody.forced, deleteBody.descendentId, dependencies);
+
+
+            let descendent = Services.IngredientTypeService.FindOne(i => i.guid == deleteBody.descendentId);
+            if (success){
+                return {success: true, descendent: descendent, ingredientTypeId: deleteBody.ingredientTypeId, references: undefined}
+            }else{
+                let references =
+                    await Services.IngredientTypeService.GetIngredientReferenceCount(deleteBody.ingredientTypeId, dependencies)
+                return {success: false, descendent: descendent, ingredientTypeId: deleteBody.ingredientTypeId, references: references}
+            }
         } catch {
             this.setStatus(500);
         }
