@@ -1,6 +1,6 @@
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
 import {IIngredientTypeService} from './ingredient-type.service.interface';
-import {IIngredientType} from '../../models/ingredient-type/ingredient-type.interface';
+import {IIngredientType} from 'cookta-shared/dist/models/ingredient-type.interface';
 import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
 import {Guid} from 'guid-typescript';
 import {ObjectId} from 'mongodb';

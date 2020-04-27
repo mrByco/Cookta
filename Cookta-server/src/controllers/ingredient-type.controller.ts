@@ -2,7 +2,7 @@ import {Body, Controller, Delete, Get, Post, Put, Route, Security, Tags} from 't
 import {IngredientType} from '../models/ingredient-type/ingredient-type.model';
 import {ISetIngredientTypeRequest} from '../requests/set.ingredient-type.request';
 import {Services} from '../Services';
-import {IIngredientType} from '../models/ingredient-type/ingredient-type.interface';
+import {IIngredientType} from 'cookta-shared/dist/models/ingredient-type.interface';
 import {CheckUnitRefResponse} from '../../../Cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats';
 import {DeleteCustomUnitRequest} from '../../../Cookta-shared/src/contracts/ingredient-type/delete-custom-unit';
 

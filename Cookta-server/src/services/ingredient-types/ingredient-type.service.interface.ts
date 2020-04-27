@@ -1,5 +1,5 @@
 import {IStoreService} from 'atomik/lib/store-service/store-service-interface';
-import {IIngredientType} from '../../models/ingredient-type/ingredient-type.interface';
+import {IIngredientType} from 'cookta-shared/dist/models/ingredient-type.interface';
 import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
 

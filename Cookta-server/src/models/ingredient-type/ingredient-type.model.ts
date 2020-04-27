@@ -1,5 +1,4 @@
-
-import {IIngredientType} from "./ingredient-type.interface";
+import {IIngredientType} from "cookta-shared/dist/models/ingredient-type.interface";
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 import {IUnit} from "../../../../Cookta-shared/src/models/unit/unit.interface";
 

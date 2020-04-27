@@ -1,6 +1,5 @@
 import {IStoreService} from 'atomik/lib/store-service/store-service-interface';
 import {Unit} from '../../models/unit/unit.model';
-import {IIngredientType} from '../../models/ingredient-type/ingredient-type.interface';
 import {IUnit} from "../../../../Cookta-shared/src/models/unit/unit.interface";
 import {IEssentialSection} from "../../models/essentials/essential-list.interface";
 import {IStorageSection} from "../../interfaces/IStorageSectionRequest";

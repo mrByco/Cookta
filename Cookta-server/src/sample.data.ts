@@ -1,4 +1,4 @@
-import {IIngredientType} from "./models/ingredient-type/ingredient-type.interface";
+import {IIngredientType} from "cookta-shared/dist/models/ingredient-type.interface";
 import {EUnitType} from "../../Cookta-shared/src/models/unit/unit-type.enum";
 import {IUnit} from "../../Cookta-shared/src/models/unit/unit.interface";
 import {IEssentialSection} from "./models/essentials/essential-list.interface";

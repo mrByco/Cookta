@@ -1,13 +1,15 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
     "declaration": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./src"
   },
   "exclude": [
+    "./dist",
     "node_modules",
     "**.spec.*"
   ]

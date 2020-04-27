@@ -1,5 +1,5 @@
 import {ICompleteIngredient} from "../interfaces/IIngredient";
-import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
+import {IIngredientType} from "cookta-shared/dist/models/ingredient-type.interface";
 import {expect} from "chai";
 import {IngredientHelper} from "./ingredient.helper";
 import {EUnitType} from "../../../Cookta-shared/src/models/unit/unit-type.enum";
