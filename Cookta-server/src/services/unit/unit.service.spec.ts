@@ -11,39 +11,20 @@ import {IBadUnit} from "../../../../Cookta-shared/src/models/unit/bad-unit.inter
 
 chai.use(require('chai-spies'));
 
-const sampleUnits: IUnit[] = SUnit.All;
 
-
-function AddUnitToUnitService(unitService: UnitService, unit: IUnit) {
-    let fresh = unitService.CreateItem(new ObjectId(unit.id));
-    fresh.name = unit.name;
-    fresh.shortname = unit.shortname;
-    fresh.tobase = unit.tobase;
-    fresh.type = unit.type;
-    fresh.id = unit.id;
-}
-function CreateSampleUnits(unitService: UnitService){
-    for (let u of sampleUnits){
-        AddUnitToUnitService(unitService, u);
-    }
-}
 
 
 
 describe('Unit service', function () {
     let service: UnitService;
     beforeEach(() => {
-        // @ts-ignore
-        UnitService.prototype.Items = [];
-        service = new UnitService(i => new Unit(i), 'empty');
-        Services.UnitService = service;
-        CreateSampleUnits(service);
+        service = SampleFunctions.SetupTestUnitService();
     });
 
     it('should return units', function () {
         let items = JSON.parse(JSON.stringify(service.GetAllItems()));
         items.forEach(i => delete(i._id));
-        chai.expect(items).to.have.deep.members(sampleUnits);
+        chai.expect(items).to.have.deep.members(SUnit.All);
     });
 
     it('should return empty if no bad units', async function () {

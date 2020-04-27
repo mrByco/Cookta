@@ -5,6 +5,7 @@ import {IngredientType} from "../../models/ingredient-type/ingredient-type.model
 import {CIng, SampleEssentials, SampleFunctions, SampleStorage, SIngType, SUnit} from "../../sample.data";
 import {Services} from "../../Services";
 import {ObjectID} from 'mongodb';
+import {UnitService} from "../unit/unit.service";
 
 chai.use(require('chai-spies'));
 
@@ -88,6 +89,7 @@ describe('Ingredient type service', function () {
 
     it('should replace dependents if there is descendent', function () {
         let sampleEssentials = SampleEssentials.Essentials;
+        SampleFunctions.SetupTestUnitService();
 
         Services.EssentialsService = {SaveItem: () => console.log('Cool function')} as any;
 
@@ -96,12 +98,40 @@ describe('Ingredient type service', function () {
         let newBread = service.CreateItem(new ObjectID());
         const guid = '4656c73e-ac13-461e-9710-2f8b893c6be2';
         newBread.guid = guid;
+        newBread.massEnabled = true;
 
         service.DeleteIngredientType(SIngType.bread.guid, true, guid, {
             essentials: [sampleEssentials],
             storages: [],
             foods: []
         })
-        expect(sampleEssentials[breadIndex].ingredientID).to.be(newBread.guid);
+        console.log(breadIndex)
+        console.log(sampleEssentials);
+        expect(sampleEssentials.Essentials[breadIndex].ingredientID).to.be.equal(newBread.guid);
+    });
+
+
+    it('should throw error not same type ingredients', async function () {
+        let sampleEssentials = SampleEssentials.Essentials;
+        SampleFunctions.SetupTestUnitService();
+
+        Services.EssentialsService = {SaveItem: () => console.log('Cool function')} as any;
+
+        let newBread = service.CreateItem(new ObjectID());
+        const guid = '4656c73e-ac13-461e-9710-2f8b893c6be2';
+        newBread.guid = guid;
+        newBread.countEnabled = true;
+
+        let thrown = false;
+        try {
+            await service.DeleteIngredientType(SIngType.bread.guid, true, guid, {
+                essentials: [sampleEssentials],
+                storages: [],
+                foods: []
+            });
+        }catch {
+            thrown = true;
+        }
+        expect(thrown).to.be.equal(true);
     });
 });

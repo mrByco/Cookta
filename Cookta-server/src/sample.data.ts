@@ -6,6 +6,25 @@ import {ObjectId} from 'mongodb';
 import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
 import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
+import {UnitService} from "./services/unit/unit.service";
+import {Unit} from "./models/unit/unit.model";
+import {Services} from "./Services";
+
+
+function AddUnitToUnitService(unitService: UnitService, unit: IUnit) {
+    let fresh = unitService.CreateItem(new ObjectId(unit.id));
+    fresh.name = unit.name;
+    fresh.shortname = unit.shortname;
+    fresh.tobase = unit.tobase;
+    fresh.type = unit.type;
+    fresh.id = unit.id;
+}
+
+function CreateSampleUnits(unitService: UnitService) {
+    for (let u of SUnit.All) {
+        AddUnitToUnitService(unitService, u);
+    }
+}
 
 export function CIng(quantity: number, unit: IUnit, type: IIngredientType): IIngredient {
     return {ingredientID: type.guid, unit: unit.id, value: quantity};
@@ -140,5 +159,14 @@ export const SampleFunctions = {
             fresh.guid = i.guid;
             fresh.options = i.options;
         }
+    },
+    SetupTestUnitService: () => {
+        // @ts-ignore
+        UnitService.prototype.Items = [];
+        let service = new UnitService(i => new Unit(i), 'empty');
+        Services.UnitService = service;
+        CreateSampleUnits(service);
+        return service;
     }
 }
+

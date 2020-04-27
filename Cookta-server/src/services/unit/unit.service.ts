@@ -25,7 +25,7 @@ export class UnitService extends StoreService<Unit> implements IUnitService {
                 case EUnitType.MASS:
                     return type.massEnabled;
             }
-        }).map(u => u as IUnit).concat(...type.options.cunits);
+        }).map(u => u as IUnit).concat(...(type.options?.cunits ? type.options.cunits : []));
     }
 
     async GetBadUnitReferences(essentials: IEssentialSection[], storages: IStorageSection[], foods: Food[]): Promise<IBadUnit[]> {

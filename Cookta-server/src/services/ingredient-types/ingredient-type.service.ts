@@ -14,12 +14,14 @@ import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
 import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
 import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 import {IIngredientDependendentObject} from "../../interfaces/ingredient-dependency-object.interface";
+import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
 
 
 const NO_DESCENDENT = 'NO_DESCENDENT_OR_FORCED';
 
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
 
+    private readonly returnSame: (any) => any = (d) => d;
     public Converters: IFieldConverter[] = [
         {
             DatabaseFieldName: 'volume-enabled',
@@ -143,7 +145,6 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
 
     async DeleteIngredientType(guid: string, forced: boolean, descendentId: string, ingredientDependents: IIngredientDependendentObject): Promise<boolean> {
         let descendent = descendentId ? this.FindOne(i => i.guid == descendentId) : undefined;
-
         try {
             for (let essentialSection of ingredientDependents.essentials) {
                 let modified = this.ProcessDeleteOnList(essentialSection.Essentials, descendent, guid, forced);
@@ -167,6 +168,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
             if (error.name == NO_DESCENDENT) {
                 return false;
             } else {
+                console.log('Errorororo');
                 throw error;
             }
         }
@@ -193,7 +195,6 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         }
     }
 
-    private readonly returnSame: (any) => any = (d) => d;
 
     //throw error if ingredient not deletable
     private ProcessDeleteOnList(ingredients: IIngredient[], descendent: IIngredientType, searchIngredientId: string, forced: boolean): boolean {
@@ -204,16 +205,25 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
 
             if (descendent) {
                 let availableUnits = Services.UnitService.GetAvailableUnitsForType(descendent);
-                if (availableUnits.find(u => u.id != ing.unit)) {
+                if (availableUnits.find(u => u.id == ing.unit)) {
+                    ing.ingredientID = descendent.guid;
                     modified = true;
                     continue;
                 }
-                let currentUnit: IUnit = Services.UnitService.FindOne(u => u.id == ing.unit);
-                //Check if they has same ingredient type and they switch to common base unit
-                if (currentUnit.type == descendent.)
-                    ingredients.splice(ingredients.indexOf(ing), 1);
 
-                //After all if no solution throw error
+                let currentUnit: IUnit = Services.UnitService.FindOne(u => u.id == ing.unit);
+                let descendentUnitType = descendent.massEnabled ? EUnitType.MASS : descendent.volumeEnabled ? EUnitType.VOLUME : EUnitType.COUNT;
+                //Check if they has same ingredient type and they switch to common base unit
+                if (currentUnit.type == descendentUnitType) {
+                    ingredients[ingredients.indexOf(ing)] =
+                        {
+                            ingredientID: descendent.guid,
+                            unit: Unit.GetBaseUnitOf(currentUnit.type).id,
+                            value: ing.value * currentUnit.tobase
+                        };
+                    continue;
+                }
+                throw new Error('Descendent is not in same base unit');
             } else if (!forced) {
                 let error = new Error('Ingredient has no descendent');
                 error.name = NO_DESCENDENT;
