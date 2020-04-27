@@ -15,11 +15,31 @@ import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredi
 import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 import {IIngredientDependendentObject} from "../../interfaces/ingredient-dependency-object.interface";
 
+
+const NO_DESCENDENT = 'NO_DESCENDENT_OR_FORCED';
+
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
 
-    DeleteIngredientType(guid: string, forced: boolean, descendent: string, ingredientDependencies: IIngredientDependendentObject): boolean {
-        throw new Error('Delete ingredient not implemented!');
-    }
+    public Converters: IFieldConverter[] = [
+        {
+            DatabaseFieldName: 'volume-enabled',
+            ClassFieldName: 'volumeEnabled',
+            Convert: this.returnSame,
+            ConvertBack: this.returnSame
+        },
+        {
+            DatabaseFieldName: 'mass-enabled',
+            ClassFieldName: 'massEnabled',
+            Convert: this.returnSame,
+            ConvertBack: this.returnSame
+        },
+        {
+            DatabaseFieldName: 'count-enabled',
+            ClassFieldName: 'countEnabled',
+            Convert: this.returnSame,
+            ConvertBack: this.returnSame
+        },
+    ];
 
     GetIngredientReferenceCount(id: string, ingredientDependendents: IIngredientDependendentObject): Promise<number> {
         let referenceCount = 0;
@@ -119,6 +139,42 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
 
     }
 
+    //returns if the list has been modified
+
+    async DeleteIngredientType(guid: string, forced: boolean, descendentId: string, ingredientDependents: IIngredientDependendentObject): Promise<boolean> {
+        let descendent = descendentId ? this.FindOne(i => i.guid == descendentId) : undefined;
+
+        try {
+            for (let essentialSection of ingredientDependents.essentials) {
+                let modified = this.ProcessDeleteOnList(essentialSection.Essentials, descendent, guid, forced);
+                if (modified) {
+                    await Services.EssentialsService.SaveItem(essentialSection as EssentialSection);
+                }
+            }
+            for (let storageSection of ingredientDependents.storages) {
+                let modified = this.ProcessDeleteOnList(storageSection.Items, descendent, guid, forced);
+                if (modified) {
+                    await Services.StorageService.SaveItem(storageSection as StorageSection);
+                }
+            }
+            for (let food of ingredientDependents.foods) {
+                let modified = this.ProcessDeleteOnList(food.ingredients, descendent, guid, forced);
+                if (modified) {
+                    await food.Save();
+                }
+            }
+        } catch (error) {
+            if (error.name == NO_DESCENDENT) {
+                return false;
+            } else {
+                throw error;
+            }
+        }
+
+        await this.RemoveItemAsync(this.FindOne(i => i.guid == guid));
+        return true;
+    }
+
     private ReplaceOrDeleteUnitOnList(ingredients: IIngredient[], unitToChange: string, descendent: Unit) {
         if (!ingredients) {
             return;
@@ -139,11 +195,36 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
 
     private readonly returnSame: (any) => any = (d) => d;
 
-    public Converters: IFieldConverter[] = [
-        {DatabaseFieldName: 'volume-enabled', ClassFieldName: 'volumeEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
-        {DatabaseFieldName: 'mass-enabled', ClassFieldName: 'massEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
-        {DatabaseFieldName: 'count-enabled', ClassFieldName: 'countEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
-    ];
+    //throw error if ingredient not deletable
+    private ProcessDeleteOnList(ingredients: IIngredient[], descendent: IIngredientType, searchIngredientId: string, forced: boolean): boolean {
+        let modified: boolean;
+        for (let ing of ingredients) {
+            if (ing.ingredientID != searchIngredientId) continue;
+
+
+            if (descendent) {
+                let availableUnits = Services.UnitService.GetAvailableUnitsForType(descendent);
+                if (availableUnits.find(u => u.id != ing.unit)) {
+                    modified = true;
+                    continue;
+                }
+                let currentUnit: IUnit = Services.UnitService.FindOne(u => u.id == ing.unit);
+                //Check if they has same ingredient type and they switch to common base unit
+                if (currentUnit.type == descendent.)
+                    ingredients.splice(ingredients.indexOf(ing), 1);
+
+                //After all if no solution throw error
+            } else if (!forced) {
+                let error = new Error('Ingredient has no descendent');
+                error.name = NO_DESCENDENT;
+                throw error;
+            } else {
+                ingredients.splice(ingredients.indexOf(ing), 1);
+                modified = true;
+            }
+        }
+        return modified;
+    }
 
 
     private async GetReferencesOfUnit(unitId: string): Promise<{ foods: Food[], essentials: EssentialSection[], storage: StorageSection[] }> {

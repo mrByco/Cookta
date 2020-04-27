@@ -9,7 +9,7 @@ export interface IIngredientTypeService extends IStoreService<IIngredientType> {
 
     SetIngredientType(request: ISetIngredientTypeRequest): IngredientType;
 
-    DeleteIngredientType(guid: string, forced: boolean, descendent: string, ingredientDependencies: IIngredientDependendentObject): boolean;
+    DeleteIngredientType(guid: string, forced: boolean, descendent: string, ingredientDependencies: IIngredientDependendentObject): Promise<boolean>;
 
     GetIngredientReferenceCount(id: string, ingredientDependencies: IIngredientDependendentObject): Promise<number>;
 
