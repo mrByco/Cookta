@@ -9,8 +9,7 @@ import {
     IDeleteIngredientTypeRequest,
     IDeleteIngredientTypeResponse
 } from "cookta-shared/dist/contracts/ingredient-type/delete-ingredient-type";
-import {IIngredientDependencyObject} from "../interfaces/ingredient-dependency-object.interface";
-import {Service} from "@azure/storage-blob/typings/src/generated/src/operations";
+import {IIngredientDependendentObject} from "../interfaces/ingredient-dependency-object.interface";
 import {Food} from "../models/food/food.model";
 
 @Route('/ingredientType')
@@ -42,7 +41,7 @@ export class IngredientTypeController extends Controller {
     @Delete('/')
     public async DeleteIngredient(@Body() deleteBody: IDeleteIngredientTypeRequest): Promise<IDeleteIngredientTypeResponse> {
         try {
-            let dependencies: IIngredientDependencyObject =
+            let dependencies: IIngredientDependendentObject =
                 {
                     essentials: Services.EssentialsService.GetAllItems(),
                     storages: Services.StorageService.GetAllItems(),

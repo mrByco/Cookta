@@ -4,7 +4,7 @@ import {Unit} from "../../models/unit/unit.model";
 import {IUnit} from "../../../../Cookta-shared/src/models/unit/unit.interface";
 import {ObjectId} from 'mongodb';
 import * as chai from 'chai';
-import {CIng, SampleEssentials, SampleStorage, SIngType, SUnit} from "../../sample.data";
+import {CIng, SampleEssentials, SampleFunctions, SampleStorage, SIngType, SUnit} from "../../sample.data";
 import {IngredientTypeService} from "../ingredient-types/ingredient-type.service";
 import {IngredientType} from "../../models/ingredient-type/ingredient-type.model";
 import {IBadUnit} from "../../../../Cookta-shared/src/models/unit/bad-unit.interface";
@@ -25,19 +25,6 @@ function AddUnitToUnitService(unitService: UnitService, unit: IUnit) {
 function CreateSampleUnits(unitService: UnitService){
     for (let u of sampleUnits){
         AddUnitToUnitService(unitService, u);
-    }
-}
-function CreateSampleIngredients(ingService: IngredientTypeService){
-    for (let i of SIngType.All){
-        let fresh = ingService.CreateItem(new ObjectId());
-        fresh.name = i.name;
-        fresh.arhived = i.arhived;
-        fresh.category = i.category;
-        fresh.countEnabled = i.countEnabled;
-        fresh.volumeEnabled = i.volumeEnabled;
-        fresh.massEnabled = i.massEnabled;
-        fresh.guid = i.guid;
-        fresh.options = i.options;
     }
 }
 
@@ -67,7 +54,7 @@ describe('Unit service', function () {
         IngredientTypeService.prototype.Items = [];
         let ingService = new IngredientTypeService(i => new IngredientType(i), 'empty');
         Services.IngredientTypeService = ingService;
-        CreateSampleIngredients(ingService);
+        SampleFunctions.CreateSampleIngredients(ingService);
 
         let badUnits = await service.GetBadUnitReferences([SampleEssentials.Essentials], [SampleStorage.Storage], []);
         chai.expect(badUnits).to.deep.equal([]);
@@ -81,7 +68,7 @@ describe('Unit service', function () {
         IngredientTypeService.prototype.Items = [];
         let ingService = new IngredientTypeService(i => new IngredientType(i), 'empty');
         Services.IngredientTypeService = ingService;
-        CreateSampleIngredients(ingService);
+        SampleFunctions.CreateSampleIngredients(ingService);
 
         let essentials = SampleEssentials.Essentials;
         essentials.Essentials.push(CIng(4, SUnit.l, SIngType.bread))
@@ -98,7 +85,7 @@ describe('Unit service', function () {
         IngredientTypeService.prototype.Items = [];
         let ingService = new IngredientTypeService(i => new IngredientType(i), 'empty');
         Services.IngredientTypeService = ingService;
-        CreateSampleIngredients(ingService);
+        SampleFunctions.CreateSampleIngredients(ingService);
 
         let essentials1 = SampleEssentials.Essentials;
         essentials1.Essentials.push(CIng(4, SUnit.l, SIngType.bread));
@@ -119,7 +106,7 @@ describe('Unit service', function () {
         IngredientTypeService.prototype.Items = [];
         let ingService = new IngredientTypeService(i => new IngredientType(i), 'empty');
         Services.IngredientTypeService = ingService;
-        CreateSampleIngredients(ingService);
+        SampleFunctions.CreateSampleIngredients(ingService);
 
         Services.EssentialsService = {SaveItem: () => console.log('Cool function')} as any;
         let essentialsServiceSpy = chai.spy.on(Services.EssentialsService, 'SaveItem');

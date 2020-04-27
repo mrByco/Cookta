@@ -5,6 +5,7 @@ import {IStorageSection} from "./interfaces/IStorageSectionRequest";
 import {ObjectId} from 'mongodb';
 import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
 import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
 
 export function CIng(quantity: number, unit: IUnit, type: IIngredientType): IIngredient {
     return {ingredientID: type.guid, unit: unit.id, value: quantity};
@@ -122,5 +123,22 @@ export class SampleStorage {
             ],
             Name: "Fridge"
         });
+    }
+}
+
+export const SampleFunctions = {
+
+    CreateSampleIngredients: (ingService: IngredientTypeService) => {
+        for (let i of SIngType.All) {
+            let fresh = ingService.CreateItem(new ObjectId());
+            fresh.name = i.name;
+            fresh.arhived = i.arhived;
+            fresh.category = i.category;
+            fresh.countEnabled = i.countEnabled;
+            fresh.volumeEnabled = i.volumeEnabled;
+            fresh.massEnabled = i.massEnabled;
+            fresh.guid = i.guid;
+            fresh.options = i.options;
+        }
     }
 }

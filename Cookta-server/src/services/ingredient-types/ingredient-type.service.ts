@@ -13,17 +13,26 @@ import {Unit} from '../../models/unit/unit.model';
 import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
 import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
 import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {IIngredientDependendentObject} from "../../interfaces/ingredient-dependency-object.interface";
 
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
 
-    DeleteIngredientType(guid: string): boolean {
-        let item = this.Items.find(i => i.guid);
-        if (!item) {
-            return false;
+    DeleteIngredientType(guid: string, forced: boolean, descendent: string, ingredientDependencies: IIngredientDependendentObject): boolean {
+        throw new Error('Delete ingredient not implemented!');
+    }
+
+    GetIngredientReferenceCount(id: string, ingredientDependendents: IIngredientDependendentObject): Promise<number> {
+        let referenceCount = 0;
+        for (let essentialSection of ingredientDependendents.essentials) {
+            referenceCount += essentialSection.Essentials.filter(i => i.ingredientID == id).length;
         }
-        item.arhived = true;
-        this.SaveItem(item);
-        return true;
+        for (let storageSection of ingredientDependendents.storages) {
+            referenceCount += storageSection.Items.filter(i => i.ingredientID == id).length;
+        }
+        for (let food of ingredientDependendents.foods) {
+            referenceCount += food.ingredients.filter(i => i.ingredientID == id).length;
+        }
+        return Promise.resolve(referenceCount);
     }
 
     GetAllNotArhived(): IIngredientType[] {
@@ -135,6 +144,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         {DatabaseFieldName: 'mass-enabled', ClassFieldName: 'massEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
         {DatabaseFieldName: 'count-enabled', ClassFieldName: 'countEnabled', Convert: this.returnSame, ConvertBack: this.returnSame},
     ];
+
 
     private async GetReferencesOfUnit(unitId: string): Promise<{ foods: Food[], essentials: EssentialSection[], storage: StorageSection[] }> {
         let foods = (await Food.GetAllFoods({}))
