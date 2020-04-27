@@ -1,9 +1,10 @@
-import {ICompleteIngredient, IIngredient} from '../interfaces/IIngredient';
+
 import {Services} from '../Services';
 import {IngredientType} from '../models/ingredient-type/ingredient-type.model';
 import {Unit} from '../models/unit/unit.model';
-import {IUnit} from "../../../Cookta-shared/src/models/unit/unit.interface";
-import {EUnitType} from "../../../Cookta-shared/src/models/unit/unit-type.enum";
+import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
+import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
+import {ICompleteIngredient, IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 
 export class IngredientHelper {
 

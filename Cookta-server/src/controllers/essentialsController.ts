@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Post, Request, Route, Security, Tags} from "tsoa";
-import {IIngredient} from "../interfaces/IIngredient";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
+import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 
 @Route("/Baselist")
 @Tags('Essentials')

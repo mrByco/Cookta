@@ -1,6 +1,5 @@
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
 import {IIngredientTypeService} from './ingredient-type.service.interface';
-import {IIngredientType} from 'cookta-shared/dist/models/ingredient-type.interface';
 import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
 import {Guid} from 'guid-typescript';
 import {ObjectId} from 'mongodb';
@@ -10,9 +9,10 @@ import {Food} from '../../models/food/food.model';
 import {Services} from '../../Services';
 import {EssentialSection} from '../../models/essentials/essential-list.model';
 import {StorageSection} from '../../models/storage-section.model';
-import {IIngredient} from '../../interfaces/IIngredient';
 import {Unit} from '../../models/unit/unit.model';
-import {IUnit} from "../../../../Cookta-shared/src/models/unit/unit.interface";
+import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
+import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
+import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 
 export class IngredientTypeService extends StoreService<IngredientType> implements IIngredientTypeService {
 

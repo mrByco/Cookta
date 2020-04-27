@@ -1,10 +1,10 @@
-import {IIngredientType} from "cookta-shared/dist/models/ingredient-type.interface";
-import {EUnitType} from "../../Cookta-shared/src/models/unit/unit-type.enum";
-import {IUnit} from "../../Cookta-shared/src/models/unit/unit.interface";
+import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
+import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
 import {IEssentialSection} from "./models/essentials/essential-list.interface";
-import {IIngredient} from "./interfaces/IIngredient";
 import {IStorageSection} from "./interfaces/IStorageSectionRequest";
 import {ObjectId} from 'mongodb';
+import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
+import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 
 export function CIng(quantity: number, unit: IUnit, type: IIngredientType): IIngredient {
     return {ingredientID: type.guid, unit: unit.id, value: quantity};
