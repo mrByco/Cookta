@@ -9,7 +9,7 @@ export class EssentialsController extends Controller {
 
     @Security('Bearer', [])
     @Get('/')
-    public async GetCurrentBaseList(@Request() request: any): Promise<IIngredient[]> {
+    public async GetCurrentBaseList(@Request() request: any): Promise<any[]> {
         let User = request.user as User;
         let essentials = Services.EssentialsService.GetEssentials(User.GetCurrentFamily());
         if (!essentials){
@@ -19,7 +19,7 @@ export class EssentialsController extends Controller {
     }
     @Security('Bearer', [])
     @Post('/')
-    public async SetBaseList(@Request() request: any, @Body() data: IIngredient[]): Promise<IIngredient[]> {
+    public async SetBaseList(@Request() request: any, @Body() data: any[]): Promise<any[]> {
         let User = request.user as User;
         let essentialItem = Services.EssentialsService.GetEssentials(User.GetCurrentFamily());
         if (!essentialItem)

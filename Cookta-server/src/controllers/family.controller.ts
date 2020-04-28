@@ -10,7 +10,7 @@ import {EFamilyRole} from "../interfaces/ifamilyMember";
 export class FamilyController extends Controller {
     @Security('Bearer', [])
     @Get("/{familyId}")
-    public async GetFamily(@Request() request, familyId: string): Promise<SendFamily> {
+    public async GetFamily(@Request() request, familyId: string): Promise<any> {
         try {
             let user = request.user as User;
             return Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId).ToSendFamily();
@@ -20,7 +20,7 @@ export class FamilyController extends Controller {
     }
     @Security('Bearer', [])
     @Put("/{newId}")
-    public async SwitchFamily(@Request() request, newId: string): Promise<SendFamily> {
+    public async SwitchFamily(@Request() request, newId: string): Promise<any> {
         let user = request.user as User;
         let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == newId);
         if (!family){
@@ -36,7 +36,7 @@ export class FamilyController extends Controller {
     }
     @Security('Bearer', [])
     @Delete("/{deleteId}")
-    public async DeleteFamily(@Request() request, deleteId: string): Promise<SendFamily> {
+    public async DeleteFamily(@Request() request, deleteId: string): Promise<any> {
         try {
             let user = request.user as User;
             let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == deleteId);
@@ -49,7 +49,7 @@ export class FamilyController extends Controller {
 
     @Security('Bearer', [])
     @Post("/{name}")
-    public async CreateFamily(@Request() request, name: string): Promise<SendFamily> {
+    public async CreateFamily(@Request() request, name: string): Promise<any> {
         let user = request.user as User;
         let newFamily = Services.FamilyService.CreateFamily(user, name);
         user.SwitchCurrentFamily(newFamily);
@@ -62,7 +62,7 @@ export class FamilyController extends Controller {
 
     @Security('Bearer', [])
     @Put('/{familyId}/invite')
-    public async InviteByUserNameEmail(@Request() request, @Body() inv: InviteFamilyRequest, familyId: string): Promise<SendFamily> {
+    public async InviteByUserNameEmail(@Request() request, @Body() inv: any, familyId: string): Promise<any> {
         let user = request.user as User;
         let familyToInvite = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
         let invited = Services.UserService.FindOne(u => u.email == inv.invitedEmail && u.username == inv.invitedUsername);
@@ -81,7 +81,7 @@ export class FamilyController extends Controller {
 
     @Security('Bearer', [])
     @Delete('/{familyId}/leave/{removeUserSub}')
-    public async LeaveFamily(@Request() request, familyId: string, removeUserSub: string): Promise<SendFamily> {
+    public async LeaveFamily(@Request() request, familyId: string, removeUserSub: string): Promise<any> {
         let user = request.user as User;
         let userToLeave = await Services.UserService.FindOne(u => u.sub == removeUserSub);
         let family = await Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);

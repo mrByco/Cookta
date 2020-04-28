@@ -4,27 +4,6 @@
 		"application/json"
 	],
 	"definitions": {
-		"IIngredient": {
-			"properties": {
-				"ingredientID": {
-					"type": "string"
-				},
-				"unit": {
-					"type": "string"
-				},
-				"value": {
-					"type": "number",
-					"format": "double"
-				}
-			},
-			"required": [
-				"ingredientID",
-				"unit",
-				"value"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
 		"Tag": {
 			"properties": {
 				"guid": {
@@ -49,524 +28,22 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"SendableFood": {
+		"SetTagRequest": {
 			"properties": {
-				"owner": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string",
-					"default": "",
-					"x-nullable": true
-				},
-				"desc": {
-					"type": "string",
-					"default": "",
-					"x-nullable": true
-				},
-				"published": {
-					"type": "boolean",
-					"default": false,
-					"x-nullable": true
-				},
-				"ingredients": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array",
-					"default": [],
-					"x-nullable": true
-				},
-				"imageUploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"uploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"dose": {
-					"type": "number",
-					"format": "double",
-					"default": 4,
-					"x-nullable": true
-				},
-				"lastModified": {
-					"type": "number",
-					"format": "double"
-				},
-				"subscriptions": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"foodId": {
-					"type": "string"
-				},
-				"SubscribedFor": {
-					"type": "boolean"
-				},
-				"OwnFood": {
-					"type": "boolean"
-				},
-				"tags": {
-					"items": {
-						"$ref": "#/definitions/Tag"
-					},
-					"type": "array"
-				},
-				"autoTags": {
-					"items": {
-						"$ref": "#/definitions/Tag"
-					},
-					"type": "array"
-				}
-			},
-			"required": [
-				"owner",
-				"name",
-				"desc",
-				"published",
-				"ingredients",
-				"imageUploaded",
-				"uploaded",
-				"dose",
-				"lastModified",
-				"subscriptions",
-				"id",
-				"foodId",
-				"SubscribedFor",
-				"OwnFood",
-				"tags",
-				"autoTags"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IUpdateFoodRequest": {
-			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"desc": {
-					"type": "string"
-				},
-				"isPrivate": {
-					"type": "boolean"
-				},
-				"published": {
-					"type": "boolean"
-				},
-				"ingredients": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array"
-				},
-				"dose": {
-					"type": "number",
-					"format": "double"
-				},
-				"tags": {
-					"items": {
-						"type": "string"
-					},
-					"type": "array"
-				},
-				"foodId": {
-					"type": "string",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"name",
-				"desc",
-				"isPrivate",
-				"published",
-				"ingredients",
-				"dose",
-				"tags"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"EUnitType": {
-			"enum": [
-				0,
-				1,
-				2
-			],
-			"type": "integer"
-		},
-		"IUnit": {
-			"properties": {
-				"type": {
-					"$ref": "#/definitions/EUnitType"
-				},
-				"name": {
-					"type": "string"
-				},
-				"shortname": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"tobase": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"type",
-				"name",
-				"tobase",
-				"id"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IIngredientType": {
-			"properties": {
-				"category": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string"
-				},
-				"volumeEnabled": {
-					"type": "boolean"
-				},
-				"countEnabled": {
-					"type": "boolean"
-				},
-				"massEnabled": {
-					"type": "boolean"
-				},
-				"guid": {
-					"type": "string"
-				},
-				"options": {
-					"properties": {
-						"cunits": {
-							"items": {
-								"$ref": "#/definitions/IUnit"
-							},
-							"type": "array"
-						}
-					},
-					"required": [
-						"cunits"
-					],
-					"type": "object"
-				},
-				"arhived": {
-					"type": "boolean",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"category",
-				"name",
-				"volumeEnabled",
-				"countEnabled",
-				"massEnabled",
-				"guid",
-				"options"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"ISetIngredientTypeRequest": {
-			"properties": {
-				"category": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string"
-				},
 				"guid": {
 					"type": "string",
 					"x-nullable": true
 				},
-				"volumeEnabled": {
-					"type": "boolean"
+				"name": {
+					"type": "string"
 				},
-				"countEnabled": {
-					"type": "boolean"
-				},
-				"massEnabled": {
-					"type": "boolean"
-				},
-				"options": {
-					"properties": {
-						"cunits": {
-							"items": {
-								"$ref": "#/definitions/IUnit"
-							},
-							"type": "array"
-						}
-					},
-					"required": [
-						"cunits"
-					],
-					"type": "object"
+				"parent": {
+					"type": "string",
+					"x-nullable": true
 				}
 			},
 			"required": [
-				"category",
-				"name",
-				"volumeEnabled",
-				"countEnabled",
-				"massEnabled",
-				"options"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"CheckUnitRefResponse": {
-			"properties": {
-				"unitId": {
-					"type": "string"
-				},
-				"totalRefs": {
-					"type": "number",
-					"format": "double"
-				},
-				"foodRefs": {
-					"type": "number",
-					"format": "double"
-				},
-				"essentialsRefs": {
-					"type": "number",
-					"format": "double"
-				},
-				"storageRefs": {
-					"type": "number",
-					"format": "double"
-				}
-			},
-          "required": [
-            "unitId",
-            "totalRefs",
-            "foodRefs",
-            "essentialsRefs",
-            "storageRefs"
-          ],
-          "type": "object",
-          "additionalProperties": false
-        },
-      "DeleteCustomUnitRequest": {
-        "properties": {
-          "unitToDeleteId": {
-            "type": "string"
-          },
-          "ingredientTypeId": {
-            "type": "string"
-          },
-          "descendent": {
-            "type": "string",
-            "x-nullable": true
-          }
-        },
-        "required": [
-          "unitToDeleteId",
-          "ingredientTypeId"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "IBadUnit": {
-        "properties": {
-          "IngredientId": {
-            "type": "string"
-          },
-          "UnitId": {
-            "type": "string"
-          },
-          "Count": {
-            "type": "number",
-            "format": "double"
-          },
-          "Fix": {
-            "type": "number",
-            "format": "double",
-            "x-nullable": true
-          },
-          "FixUnit": {
-            "type": "string",
-            "x-nullable": true
-          }
-        },
-        "required": [
-          "IngredientId",
-          "UnitId",
-          "Count"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "GetBadUnitResponse": {
-        "properties": {
-          "badUnits": {
-            "items": {
-              "$ref": "#/definitions/IBadUnit"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "badUnits"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "FixBadUnitRequest": {
-        "properties": {
-          "badUnit": {
-            "$ref": "#/definitions/IBadUnit"
-          }
-        },
-        "required": [
-          "badUnit"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "SetTagRequest": {
-        "properties": {
-          "guid": {
-            "type": "string",
-            "x-nullable": true
-          },
-          "name": {
-            "type": "string"
-          },
-          "parent": {
-            "type": "string",
-            "x-nullable": true
-          }
-        },
-        "required": [
 				"name"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"ObjectId": {
-			"description": "A class representation of the BSON ObjectId type.",
-			"properties": {
-				"generationTime": {
-					"type": "number",
-					"format": "double",
-					"description": "The generation time of this ObjectId instance"
-				},
-				"cacheHexString": {
-					"type": "boolean",
-					"description": "If true cache the hex string representation of ObjectId",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"generationTime"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IStorageSection": {
-			"properties": {
-				"Id": {
-					"$ref": "#/definitions/ObjectId"
-				},
-				"FamilyId": {
-					"type": "string"
-				},
-				"Name": {
-					"type": "string"
-				},
-				"Items": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array"
-				},
-				"IsDefaultList": {
-					"type": "boolean"
-				}
-			},
-			"required": [
-				"Id",
-				"FamilyId",
-				"Name",
-				"Items",
-				"IsDefaultList"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IStorageSectionRequest": {
-			"properties": {
-				"Id": {
-					"$ref": "#/definitions/ObjectId",
-					"x-nullable": true
-				},
-				"FamilyId": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"Name": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"Items": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array",
-					"x-nullable": true
-				},
-				"IsDefaultList": {
-					"type": "boolean",
-					"x-nullable": true
-				}
-			},
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IStorageItemChangeRequest": {
-			"properties": {
-				"Id": {
-					"type": "string"
-				},
-				"Name": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"Items": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array",
-					"x-nullable": true
-				},
-				"GeneralList": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array",
-					"x-nullable": true
-				},
-				"IsDefaultList": {
-					"type": "boolean",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"Id"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -696,286 +173,11 @@
 			],
 			"type": "object",
 			"additionalProperties": false
-		},
-		"ISendableFood": {
-			"properties": {
-				"owner": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string"
-				},
-				"desc": {
-					"type": "string"
-				},
-				"published": {
-					"type": "boolean"
-				},
-				"ingredients": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array"
-				},
-				"imageUploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"uploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"dose": {
-					"type": "number",
-					"format": "double"
-				},
-				"lastModified": {
-					"type": "number",
-					"format": "double"
-				},
-				"subscriptions": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string"
-				},
-				"foodId": {
-					"type": "string"
-				},
-				"SubscribedFor": {
-					"type": "boolean"
-				},
-				"OwnFood": {
-					"type": "boolean"
-				}
-			},
-			"required": [
-				"owner",
-				"name",
-				"desc",
-				"published",
-				"ingredients",
-				"imageUploaded",
-				"uploaded",
-				"dose",
-				"lastModified",
-				"subscriptions",
-				"id",
-				"foodId",
-				"SubscribedFor",
-				"OwnFood"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IMealing": {
-			"properties": {
-				"type": {
-					"type": "string"
-				},
-				"mealIndex": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"foodId": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"info": {
-					"properties": {
-						"finalFood": {
-							"$ref": "#/definitions/ISendableFood"
-						},
-						"tagId": {
-							"type": "string"
-						}
-					},
-					"type": "object",
-					"x-nullable": true
-				},
-				"dose": {
-					"type": "number",
-					"format": "double",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"type",
-				"mealIndex"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"Day": {
-			"properties": {
-				"date": {
-					"type": "string"
-				},
-				"mealings": {
-					"items": {
-						"$ref": "#/definitions/IMealing"
-					},
-					"type": "array"
-				},
-				"familyId": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"date",
-				"mealings",
-				"familyId"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"Food": {
-			"properties": {
-				"CollectionName": {
-					"type": "string",
-					"enum": [
-						"Foods"
-					],
-					"default": "Foods",
-					"x-nullable": true
-				},
-				"owner": {
-					"type": "string"
-				},
-				"name": {
-					"type": "string",
-					"default": "",
-					"x-nullable": true
-				},
-				"desc": {
-					"type": "string",
-					"default": "",
-					"x-nullable": true
-				},
-				"isPrivate": {
-					"type": "boolean",
-					"default": true,
-					"x-nullable": true
-				},
-				"published": {
-					"type": "boolean",
-					"default": false,
-					"x-nullable": true
-				},
-				"ingredients": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array",
-					"default": [],
-					"x-nullable": true
-				},
-				"imageUploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"uploaded": {
-					"type": "number",
-					"format": "double"
-				},
-				"dose": {
-					"type": "number",
-					"format": "double",
-					"default": 4,
-					"x-nullable": true
-				},
-				"tags": {
-					"items": {
-						"type": "string"
-					},
-					"type": "array",
-					"default": [],
-					"x-nullable": true
-				},
-				"lastModified": {
-					"type": "number",
-					"format": "double"
-				},
-				"generated": {
-					"additionalProperties": true,
-					"type": "object",
-					"default": {},
-					"x-nullable": true
-				},
-				"subscriptions": {
-					"type": "number",
-					"format": "double"
-				},
-				"id": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"foodId": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"owner",
-				"imageUploaded",
-				"uploaded",
-				"lastModified",
-				"subscriptions",
-				"foodId"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"InviteFamilyRequest": {
-			"properties": {
-				"invitedUsername": {
-					"type": "string"
-				},
-				"invitedEmail": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"invitedUsername",
-				"invitedEmail"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IShoppingList": {
-			"properties": {
-				"IngredientsToBuy": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array"
-				},
-				"IngredientsCompleted": {
-					"items": {
-						"$ref": "#/definitions/IIngredient"
-					},
-					"type": "array"
-				},
-				"FamilyId": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"IngredientsToBuy",
-				"IngredientsCompleted",
-				"FamilyId"
-			],
-			"type": "object",
-			"additionalProperties": false
 		}
 	},
 	"info": {
 		"title": "cookta-server",
-		"version": "1.0.4",
+		"version": "1.0.5",
 		"license": {
 			"name": "ISC"
 		}
@@ -992,7 +194,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/SendableFood"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1019,7 +222,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendableFood"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1037,7 +241,7 @@
 						"name": "updateFoodRequest",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/IUpdateFoodRequest"
+							"type": "object"
 						}
 					}
 				]
@@ -1054,7 +258,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/SendableFood"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1082,7 +287,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/SendableFood"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1110,7 +316,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/SendableFood"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1138,7 +345,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/SendableFood"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1165,7 +373,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendableFood"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1200,7 +409,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/SendableFood"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1242,7 +452,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendableFood"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1340,7 +551,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IIngredientType"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1364,12 +576,14 @@
 							"properties": {
 								"all": {
 									"items": {
-										"$ref": "#/definitions/IIngredientType"
+										"additionalProperties": true,
+										"type": "object"
 									},
 									"type": "array"
 								},
 								"created": {
-									"$ref": "#/definitions/IIngredientType"
+									"additionalProperties": true,
+									"type": "object"
 								}
 							},
 							"required": [
@@ -1396,13 +610,11 @@
 						"name": "request",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/ISetIngredientTypeRequest"
+							"type": "object"
 						}
 					}
 				]
-			}
-		},
-		"/ingredientType/{guid}": {
+			},
 			"delete": {
 				"operationId": "DeleteIngredient",
 				"produces": [
@@ -1412,10 +624,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"items": {
-								"$ref": "#/definitions/IIngredientType"
-							},
-							"type": "array"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1431,10 +641,12 @@
 				],
 				"parameters": [
 					{
-						"in": "path",
-						"name": "guid",
+						"in": "body",
+						"name": "deleteBody",
 						"required": true,
-						"type": "string"
+						"schema": {
+							"type": "object"
+						}
 					}
 				]
 			}
@@ -1449,7 +661,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/CheckUnitRefResponse"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1503,7 +716,7 @@
 						"name": "body",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/DeleteCustomUnitRequest"
+							"type": "object"
 						}
 					}
 				]
@@ -1520,7 +733,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IUnit"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1543,57 +757,59 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/GetBadUnitResponse"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
 				"tags": [
-                  "Unit"
-                ],
-              "security": [
-                {
-                  "Bearer": [
-                    "advanced-ingredients"
-                  ]
-                }
-              ],
-              "parameters": []
-            },
-          "post": {
-            "operationId": "FixBedUnit",
-            "produces": [
-              "application/json"
-            ],
-            "responses": {
-              "200": {
-                "description": "Ok",
-                "schema": {
-                  "$ref": "#/definitions/GetBadUnitResponse"
-                }
-              }
-            },
-            "tags": [
-              "Unit"
-            ],
-            "security": [
-              {
-                "Bearer": [
-                  "advanced-ingredients"
-                ]
-              }
-            ],
-            "parameters": [
-              {
-                "in": "body",
-                "name": "reqBody",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/FixBadUnitRequest"
-                }
-              }
-            ]
-          }
-        },
+					"Unit"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"advanced-ingredients"
+						]
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "FixBedUnit",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"additionalProperties": true,
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Unit"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"advanced-ingredients"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "reqBody",
+						"required": true,
+						"schema": {
+							"type": "object"
+						}
+					}
+				]
+			}
+		},
 		"/Baselist": {
 			"get": {
 				"operationId": "GetCurrentBaseList",
@@ -1605,7 +821,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IIngredient"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1631,7 +848,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IIngredient"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1652,7 +870,8 @@
 						"required": true,
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IIngredient"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1671,7 +890,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/Tag"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1780,7 +1000,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IStorageSection"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1803,7 +1024,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IStorageSectionRequest"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -1821,7 +1043,7 @@
 						"name": "changeRequest",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/IStorageItemChangeRequest"
+							"type": "object"
 						}
 					}
 				]
@@ -1838,7 +1060,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/IStorageSection"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -1987,7 +1210,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Day"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2017,7 +1241,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Day"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2061,7 +1286,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Day"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2100,7 +1326,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Day"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2140,7 +1367,8 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/Food"
+								"additionalProperties": true,
+								"type": "object"
 							},
 							"type": "array"
 						}
@@ -2194,7 +1422,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendFamily"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2226,7 +1455,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendFamily"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2258,7 +1488,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendFamily"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2290,7 +1521,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendFamily"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2322,7 +1554,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendFamily"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2340,7 +1573,7 @@
 						"name": "inv",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/InviteFamilyRequest"
+							"type": "object"
 						}
 					},
 					{
@@ -2362,7 +1595,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/SendFamily"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},
@@ -2421,7 +1655,8 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IShoppingList"
+							"additionalProperties": true,
+							"type": "object"
 						}
 					}
 				},

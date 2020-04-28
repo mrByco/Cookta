@@ -16,7 +16,7 @@ import {Food} from "../models/food/food.model";
 @Tags('IngredientType')
 export class IngredientTypeController extends Controller {
     @Get()
-    public async GetAll(): Promise<IIngredientType[]> {
+    public async GetAll(): Promise<any[]> {
         try {
             return Services.IngredientTypeService.GetAllNotArhived();
         } catch {
@@ -26,7 +26,7 @@ export class IngredientTypeController extends Controller {
 
     @Security('Bearer', ['edit-ingredients'])
     @Post()
-    public async SetIngredient(@Body() request: ISetIngredientTypeRequest): Promise<{ all: IIngredientType[], created: IIngredientType }> {
+    public async SetIngredient(@Body() request: any): Promise<{ all: any[], created: any }> {
         let result = {all: undefined, created: undefined};
         result.created = Services.IngredientTypeService.SetIngredientType(request);
         result.all = await this.GetAll();
@@ -39,7 +39,7 @@ export class IngredientTypeController extends Controller {
 
     @Security('Bearer', ['delete-ingredients'])
     @Delete('/')
-    public async DeleteIngredient(@Body() deleteBody: IDeleteIngredientTypeRequest): Promise<IDeleteIngredientTypeResponse> {
+    public async DeleteIngredient(@Body() deleteBody: any): Promise<any> {
         try {
             let dependencies: IIngredientDependendentObject =
                 {
@@ -67,7 +67,7 @@ export class IngredientTypeController extends Controller {
 
     @Security('Bearer', ['advanced-ingredients'])
     @Get('/check/unit/{unitId}')
-    public async GetUnitRefs(unitId: string): Promise<CheckUnitRefResponse> {
+    public async GetUnitRefs(unitId: string): Promise<any> {
         let refs = await Services.IngredientTypeService.CheckUnitReferences(unitId);
         return {
             totalRefs: refs.essentials + refs.storage + refs.foods,
@@ -81,7 +81,7 @@ export class IngredientTypeController extends Controller {
 
     @Security('Bearer', ['advanced-ingredients'])
     @Put('/delete/unit')
-    public async DeleteCustomUnit(@Body() body: DeleteCustomUnitRequest): Promise<boolean> {
+    public async DeleteCustomUnit(@Body() body: any): Promise<boolean> {
         try {
             await Services.IngredientTypeService.DeleteCustomUnit(body.ingredientTypeId, body.unitToDeleteId, body.descendent);
             return true;
