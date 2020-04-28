@@ -614,8 +614,10 @@
 						}
 					}
 				]
-			},
-			"delete": {
+			}
+		},
+		"/ingredientType/delete": {
+			"put": {
 				"operationId": "DeleteIngredient",
 				"produces": [
 					"application/json"

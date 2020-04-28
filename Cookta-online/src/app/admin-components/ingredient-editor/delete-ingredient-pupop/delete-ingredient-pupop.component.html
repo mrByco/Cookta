@@ -1,0 +1,51 @@
+<div mdbModal #basicModal class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true"
+     [config]="{ignoreBackdropClick: true}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="IngredientToDelete">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" >{{IngredientToDelete.guid}}</h4>
+      </div>
+      <div class="modal-body" *ngIf="LastResponse; else Loading">
+
+        <h6>Törlendő: {{IngredientToDelete.name}}</h6>
+
+
+
+        <p class="start-paragraph">Utód</p>
+        <app-auto-complete [MustMatchToPool]="true"
+                           [MaxItemsToShow]="15"
+                           [PlaceholderText]="'Utód: törlés'"
+                           [SuggestionPool]="AvailableDescendents"
+                           style="background: gray"
+                           (OnSelectedChanged)="SelectDescendent($event)"
+        ></app-auto-complete>
+        <h6>Referenciák</h6>
+        <div class="row m-4">
+          <h4>{{LastResponse.references}}</h4>
+        </div>
+      </div>
+      <ng-template #Loading>
+        <div class="modal-body">
+          <p>Törlési kérelem feldolgozása.....</p>
+        </div>
+      </ng-template>
+      <div class="modal-footer">
+        <p *ngIf="CurrentSelectedDescendent == null">A HOZZÁVALÓ ÉS REFERENCIÁI TÖRÖLVE LESZNEK</p>
+        <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()"
+                mdbWavesEffect>Mégse
+        </button>
+        <button (click)="DeleteIngredient(IngredientToDelete, CurrentSelectedDescendent, true)"
+                [disabled]="!(AvailableDescendents.includes(CurrentSelectedDescendent) || CurrentSelectedDescendent == null)
+                || LastResponse == null"
+                class="relative waves-light" color="green"
+                mdbBtn
+                mdbWavesEffect
+                type="button">Csináld
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

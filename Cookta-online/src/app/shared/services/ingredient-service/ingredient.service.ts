@@ -6,6 +6,10 @@ import {HttpClient} from '@angular/common/http';
 import {Unit} from '../../models/unit.interface';
 import {CheckUnitRefResponse} from '../../../../../../Cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats';
 import {DeleteCustomUnitRequest} from '../../../../../../Cookta-shared/src/contracts/ingredient-type/delete-custom-unit';
+import {
+  IDeleteIngredientTypeRequest,
+  IDeleteIngredientTypeResponse
+} from '../../../../../../Cookta-shared/src/contracts/ingredient-type/delete-ingredient-type';
 
 @Injectable()
 export class IngredientService {
@@ -136,6 +140,24 @@ export class IngredientService {
     return new Promise(resolve => {
       response.subscribe(s => {
         this.LoadIngredients().then(() => resolve());
+      }, error => {
+        console.error('Cannot delete unit.');
+        console.error(error);
+        resolve();
+      });
+    });
+  }
+
+
+  public async DeleteIngredientType(request: IDeleteIngredientTypeRequest): Promise<IDeleteIngredientTypeResponse>{
+    let response = await this.serverService.PutRequest(Routes.IngredientType.DeleteIngredientType, request)
+
+    return new Promise(resolve => {
+      response.subscribe(s => {
+        let resp = s as IDeleteIngredientTypeResponse;
+        if (resp.success)
+          location.reload();
+        resolve(s);
       }, error => {
         console.error('Cannot delete unit.');
         console.error(error);

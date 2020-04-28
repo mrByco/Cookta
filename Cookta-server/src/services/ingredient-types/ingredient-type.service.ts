@@ -10,11 +10,11 @@ import {Services} from '../../Services';
 import {EssentialSection} from '../../models/essentials/essential-list.model';
 import {StorageSection} from '../../models/storage-section.model';
 import {Unit} from '../../models/unit/unit.model';
-import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
-import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
-import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
-import {IIngredientDependendentObject} from "../../interfaces/ingredient-dependency-object.interface";
-import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
+import {IUnit} from 'cookta-shared/dist/models/unit/unit.interface';
+import {IIngredientType} from 'cookta-shared/dist/models/ingredient-type/ingredient-type.interface';
+import {IIngredient} from 'cookta-shared/dist/models/ingredient/ingredient.interface';
+import {IIngredientDependendentObject} from '../../interfaces/ingredient-dependency-object.interface';
+import {EUnitType} from 'cookta-shared/dist/models/unit/unit-type.enum';
 
 
 const NO_DESCENDENT = 'NO_DESCENDENT_OR_FORCED';
@@ -49,7 +49,9 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
             referenceCount += essentialSection.Essentials.filter(i => i.ingredientID == id).length;
         }
         for (let storageSection of ingredientDependendents.storages) {
-            referenceCount += storageSection.Items.filter(i => i.ingredientID == id).length;
+            if (storageSection.Items) {
+                referenceCount += storageSection.Items.filter(i => i.ingredientID == id).length;
+            }
         }
         for (let food of ingredientDependendents.foods) {
             referenceCount += food.ingredients.filter(i => i.ingredientID == id).length;
@@ -153,7 +155,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
                 }
             }
             for (let storageSection of ingredientDependents.storages) {
-                let modified = this.ProcessDeleteOnList(storageSection.Items, descendent, guid, forced);
+                let modified = this.ProcessDeleteOnList(storageSection.Items ? storageSection.Items : [], descendent, guid, forced);
                 if (modified) {
                     await Services.StorageService.SaveItem(storageSection as StorageSection);
                 }
@@ -168,12 +170,15 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
             if (error.name == NO_DESCENDENT) {
                 return false;
             } else {
-                console.log('Errorororo');
+                console.error(error);
                 throw error;
             }
         }
 
-        await this.RemoveItemAsync(this.FindOne(i => i.guid == guid));
+        let item = this.Items.find(i => i.guid == guid);
+
+        if (item)
+        await this.RemoveItemAsync(item);
         return true;
     }
 
@@ -200,7 +205,9 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
     private ProcessDeleteOnList(ingredients: IIngredient[], descendent: IIngredientType, searchIngredientId: string, forced: boolean): boolean {
         let modified: boolean;
         for (let ing of ingredients) {
-            if (ing.ingredientID != searchIngredientId) continue;
+            if (ing.ingredientID != searchIngredientId) {
+                continue;
+            }
 
 
             if (descendent) {

@@ -23,7 +23,6 @@ export class IngredientTypeController extends Controller {
             this.setStatus(500);
         }
     }
-
     @Security('Bearer', ['edit-ingredients'])
     @Post()
     public async SetIngredient(@Body() request: any): Promise<{ all: any[], created: any }> {
@@ -36,9 +35,8 @@ export class IngredientTypeController extends Controller {
             this.setStatus(500);
         }
     }
-
     @Security('Bearer', ['delete-ingredients'])
-    @Delete('/')
+    @Put('/delete')
     public async DeleteIngredient(@Body() deleteBody: any): Promise<any> {
         try {
             let dependencies: IIngredientDependendentObject =
@@ -59,12 +57,11 @@ export class IngredientTypeController extends Controller {
                     await Services.IngredientTypeService.GetIngredientReferenceCount(deleteBody.ingredientTypeId, dependencies)
                 return {success: false, descendent: descendent, ingredientTypeId: deleteBody.ingredientTypeId, references: references}
             }
-        } catch {
+        } catch (error) {
+            console.error(error);
             this.setStatus(500);
         }
     }
-
-
     @Security('Bearer', ['advanced-ingredients'])
     @Get('/check/unit/{unitId}')
     public async GetUnitRefs(unitId: string): Promise<any> {
@@ -78,7 +75,6 @@ export class IngredientTypeController extends Controller {
 
         };
     }
-
     @Security('Bearer', ['advanced-ingredients'])
     @Put('/delete/unit')
     public async DeleteCustomUnit(@Body() body: any): Promise<boolean> {
