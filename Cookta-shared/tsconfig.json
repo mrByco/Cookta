@@ -5,10 +5,10 @@
     "declaration": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./src"
   },
   "exclude": [
-    "node_modules",
+    "./dist",
     "**.spec.*"
   ]
 }

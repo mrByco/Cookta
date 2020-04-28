@@ -6,7 +6,7 @@ import {SetTagRequest} from "../requests/set.tag.request";
 @Tags('Tag')
 export class TagController extends Controller {
     @Get()
-    public async GetAll(): Promise<Tag[]> {
+    public async GetAll(): Promise<any[]> {
         try{
             return await Tag.GetAll();
         }

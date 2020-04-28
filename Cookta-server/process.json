@@ -1,6 +1,6 @@
 {
     "name"        : "worker",
-    "script"      : "./dist/main.js",
+    "script"      : "./dist/Cookta-server/src/main.js",
     "instances"   : 1,
     "merge_logs"  : true,
     "log_date_format" : "YYYY-MM-DD HH:mm Z",

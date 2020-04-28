@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha --recursive --require ts-node/register ./src/**/*.spec.ts",
     "watch": "nodemon -x ts-node",
-    "build": "rmdir /Q /S dist && tsc && npm pack"
+    "build": "tsc -d"
   },
   "author": "",
   "license": "ISC",

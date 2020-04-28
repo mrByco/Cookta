@@ -10,7 +10,7 @@ import {User} from "../models/user.model";
 export class DayController extends Controller {
     @Security('Bearer', [])
     @Get('/{date}')
-    public async GetDay(@Request() request, date: string): Promise<Day> {
+    public async GetDay(@Request() request, date: string): Promise<any> {
         try {
             let user = request.user as User;
             return await Day.GetDay(date, user.GetCurrentFamily());
@@ -22,7 +22,7 @@ export class DayController extends Controller {
 
     @Security('Bearer', [])
     @Put('/{date}')
-    public async SetDay(@Request() request, date: string, @Body() mealings: any[]): Promise<Day> {
+    public async SetDay(@Request() request, date: string, @Body() mealings: any[]): Promise<any> {
         //try {
             let user = request.user as User;
             for (let mealing of mealings as IMealing[]){
@@ -42,7 +42,7 @@ export class DayController extends Controller {
 
     @Security('Bearer', [])
     @Get('/{date}/{mealingIdentity}')
-    public async RefreshDay(@Request() request, date: string, mealingIdentity: number): Promise<Day> {
+    public async RefreshDay(@Request() request, date: string, mealingIdentity: number): Promise<any> {
         try {
             let user = request.user as User;
             let day = await Day.GetDay(date, user.GetCurrentFamily());
@@ -55,7 +55,7 @@ export class DayController extends Controller {
     }
     @Security('Bearer', [])
     @Get('/finalize/{date}/{mealingIdentity}')
-    public async FinalizeMealing(@Request() request, date: string, mealingIdentity: number): Promise<Day> {
+    public async FinalizeMealing(@Request() request, date: string, mealingIdentity: number): Promise<any> {
         try {
             let user = request.user as User;
             let day = await Day.GetDay(date, user.GetCurrentFamily());

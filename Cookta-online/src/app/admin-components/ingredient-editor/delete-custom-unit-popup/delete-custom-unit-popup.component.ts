@@ -51,4 +51,5 @@ export class DeleteCustomUnitPopupComponent {
     await delay(100);
     location.reload();
   }
+
 }

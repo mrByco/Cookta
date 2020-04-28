@@ -43,7 +43,10 @@
       <!-- ID Column -->
       <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-        <td mat-cell *matCellDef="let row"><button mdbBtn type="button" size="sm" (click)="OpenModalWith(row)" color="orange">edit</button></td>
+        <td mat-cell *matCellDef="let row">
+          <button mdbBtn type="button" size="sm" (click)="OpenModalWith(row)" color="orange">edit</button>
+          <button mdbBtn type="button" size="sm" (click)="OpenDeletePopup(row)" color="red">delete</button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="headElements"></tr>
@@ -55,6 +58,7 @@
   </div>
 <app-ingredient-item-popup (OnDeleteCustomUnit)="DeleteCustomUnit($event)" [Ingredient]="CurrentIngredient"></app-ingredient-item-popup>
 <app-delete-custom-unit-popup></app-delete-custom-unit-popup>
+<app-delete-ingredient-pupop></app-delete-ingredient-pupop>
 
 
 </div>

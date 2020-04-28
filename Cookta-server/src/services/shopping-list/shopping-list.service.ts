@@ -3,13 +3,13 @@ import {ShoppingList} from "../../models/shopping-list.model";
 import {Family} from "../../models/family.model";
 import {IMealing} from "../../models/Days/IMealing.interface";
 import {Day} from "../../models/Days/day.model";
-import {ICompleteIngredient, IIngredient} from "../../interfaces/IIngredient";
 import {Services} from "../../Services";
 import {IngredientHelper} from "../../helpers/ingredient.helper";
 import {IShoppingListService} from "./shopping-list.service.interface";
 import {IShoppingList} from "../../models/shopping-list.interface";
 import "../../extensions/string-extensions"
 import "../../extensions/date-extensions"
+import {ICompleteIngredient, IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 
 export class ShoppingListService extends StoreService<ShoppingList> implements IShoppingListService {
 
