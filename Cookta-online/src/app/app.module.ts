@@ -62,6 +62,7 @@ import {MenuPoolComponent} from './menu/menu-pool/menu-pool.component';
 import {MenuPoolToolbarComponent} from './menu/menu-pool/menu-pool-toolbar/menu-pool-toolbar.component';
 import {MenuPoolItemComponent} from './menu/menu-pool/menu-pool-item/menu-pool-item.component';
 import {BadUnitFixerComponent} from './admin-components/ingredient-editor/bad-unit-fixer/bad-unit-fixer.component';
+import { DeleteIngredientPupopComponent } from './admin-components/ingredient-editor/delete-ingredient-pupop/delete-ingredient-pupop.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -124,6 +125,7 @@ const appRoutes: Routes = [
         MenuPoolToolbarComponent,
         MenuPoolItemComponent,
         BadUnitFixerComponent,
+        DeleteIngredientPupopComponent,
     ],
     imports: [
         BrowserModule,

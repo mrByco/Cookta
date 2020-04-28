@@ -1,11 +1,12 @@
-import {IIngredientType} from "../models/ingredient-type/ingredient-type.interface";
-import {IUnit} from "../../../Cookta-shared/src/models/unit/unit.interface";
+import {IUnit} from "../unit/unit.interface";
+import {IIngredientType} from "../ingredient-type/ingredient-type.interface";
 
 export interface IIngredient {
     ingredientID: string,
     unit: string,
     value: number
 }
+
 export interface ICompleteIngredient {
     ingredientType: IIngredientType;
     unit: IUnit;

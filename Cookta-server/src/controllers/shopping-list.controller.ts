@@ -8,7 +8,7 @@ import {IShoppingList} from "../models/shopping-list.interface";
 export class ShoppingListController extends Controller {
     @Security('Bearer', [])
     @Get("/{nextShopping}")
-    public async GetShoppingList(@Request() request: any, nextShopping: string): Promise<IShoppingList> {
+    public async GetShoppingList(@Request() request: any, nextShopping: string): Promise<any> {
         try{
             let user = request.user as User;
             let family = user.GetCurrentFamily();

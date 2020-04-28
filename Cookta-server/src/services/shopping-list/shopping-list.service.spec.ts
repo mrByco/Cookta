@@ -1,11 +1,7 @@
 import {IMealing} from "../../models/Days/IMealing.interface";
 import {expect} from "chai";
-import {Food} from "../../models/food/food.model";
 import {ShoppingListService} from "./shopping-list.service";
-import {SendableFood} from "../../models/food/food-sendable";
 import {ISendableFood} from "../../models/food/food-sendable.interface";
-import {IIngredient} from "../../interfaces/IIngredient";
-import {extractConnectionStringParts} from "@azure/storage-blob/typings/src/utils/utils.common";
 
 const placeholderFood: ISendableFood = {
     owner: 'owner',
@@ -18,7 +14,7 @@ const placeholderFood: ISendableFood = {
     dose: 4,
     lastModified: 0,
     subscriptions: 0,
-    id: 'strieng',
+    id: 'string',
     foodId: 'string',
     SubscribedFor: false,
     OwnFood: true

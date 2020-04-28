@@ -1,8 +1,7 @@
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
-import {ObjectId} from "mongodb";
-import {IIngredient} from "../interfaces/IIngredient";
 import {IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
 import {Services} from "../Services";
+import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 
 export class StorageSection extends StoreItemBase implements IStorageSectionRequest {
 

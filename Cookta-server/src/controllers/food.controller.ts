@@ -10,7 +10,7 @@ import {User} from "../models/user.model";
 export class FoodController extends Controller {
     @Security("Bearer", ['noauth'])
     @Get()
-    public async GetPublicFoods(@Request() request: any): Promise<SendableFood[]> {
+    public async GetPublicFoods(@Request() request: any): Promise<any[]> {
         try{
             let User = request.user as User;
             return (await Food.ToSendableAll(await Food.GetAllPublicFoods(), User));
@@ -23,7 +23,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Get("/collection")
-    public async GetCollectionFoods(@Request() request: any): Promise<SendableFood[]> {
+    public async GetCollectionFoods(@Request() request: any): Promise<any[]> {
         try{
             let User = request.user as User;
             let foods = await Food.GetCollectionForUser(User);
@@ -36,7 +36,7 @@ export class FoodController extends Controller {
     }
     @Security("Bearer", [])
     @Get("/own")
-    public async GetOwnFoods(@Request() request: any): Promise<SendableFood[]> {
+    public async GetOwnFoods(@Request() request: any): Promise<any[]> {
         try{
             let User = request.user as User;
             let foods = await Food.GetAllOwnFoods(User);
@@ -49,7 +49,7 @@ export class FoodController extends Controller {
     }
     @Security("Bearer", [])
     @Get("/family")
-    public async GetFamilyFoods(@Request() request: any): Promise<SendableFood[]> {
+    public async GetFamilyFoods(@Request() request: any): Promise<any[]> {
         try{
             let User = request.user as User;
             let currentFamily = User.GetCurrentFamily();
@@ -63,7 +63,7 @@ export class FoodController extends Controller {
     }
     @Security("Bearer", [])
     @Get("/subscription")
-    public async GetSubscriptionFoods(@Request() request: any): Promise<SendableFood[]> {
+    public async GetSubscriptionFoods(@Request() request: any): Promise<any[]> {
         try{
             let User = request.user as User;
             let foods = await Subscription.GetSubsFoodsOfUser(User);
@@ -77,7 +77,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", ['noauth'])
     @Get('/{id}')
-    public async GetFoodById(@Request() request: any, id: string): Promise<SendableFood> {
+    public async GetFoodById(@Request() request: any, id: string): Promise<any> {
         let User = request.user as User;
         let food = await Food.GetFoodForUser(id, User);
         if (!food)
@@ -92,7 +92,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Get('/{from}/{count}')
-    public async GetPublicFoodsIncremental(@Request() request: any, from: number, count: number): Promise<SendableFood[]> {
+    public async GetPublicFoodsIncremental(@Request() request: any, from: number, count: number): Promise<any[]> {
         try{
             let User = request.user as User;
             return await Food.ToSendableAll(await Food.GetIncremental(from, count, {published: true}), User);
@@ -103,7 +103,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Post("/")
-    public async AddOrUpdateFood(@Body() updateFoodRequest: IUpdateFoodRequest, @Request() request: any): Promise<SendableFood> {
+    public async AddOrUpdateFood(@Body() updateFoodRequest: any, @Request() request: any): Promise<any> {
         let User = request.user as User;
         return await (await Food.UpdateFood(updateFoodRequest, User)).ToSendable(User);
         try{
@@ -115,7 +115,7 @@ export class FoodController extends Controller {
 
     @Security("Bearer", [])
     @Delete('/{foodId}')
-    public async DeleteFood(@Request() request: any, foodId: string): Promise<SendableFood> {
+    public async DeleteFood(@Request() request: any, foodId: string): Promise<any> {
         try{
             let User = request.user as User;
             if ((await Food.GetFoodForUser(foodId, User)).owner == User.sub) {

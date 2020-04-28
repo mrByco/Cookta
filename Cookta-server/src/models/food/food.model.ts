@@ -1,11 +1,11 @@
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {ObjectID} from "mongodb";
-import {IIngredient} from "../../interfaces/IIngredient";
 import {IUpdateFoodRequest} from "../../requests/create.food.request";
 import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
 import {Subscription} from "../subscription.model";
 import {Services} from "../../Services";
+import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
 
 const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
 const ContainerName = 'foodimages';

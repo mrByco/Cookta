@@ -10,7 +10,7 @@ import {IBadUnit} from "../../../Cookta-shared/src/models/unit/bad-unit.interfac
 @Tags('Unit')
 export class UnitController extends Controller {
     @Get()
-    public async GetAll(): Promise<IUnit[]> {
+    public async GetAll(): Promise<any[]> {
         try{
             return Services.UnitService.GetAllItems();
         }catch{
@@ -21,7 +21,7 @@ export class UnitController extends Controller {
 
     @Security('Bearer', ['advanced-ingredients'])
     @Get('bad-units')
-    public async GetBedUnits(): Promise<GetBadUnitResponse> {
+    public async GetBedUnits(): Promise<any> {
         try {
             let foods = await Food.GetAllFoods({});
             let unitRefs: IBadUnit[] = await Services.UnitService.GetBadUnitReferences(
@@ -38,7 +38,7 @@ export class UnitController extends Controller {
     //Should return the remaining unit list.
     @Security('Bearer', ['advanced-ingredients'])
     @Post('bad-units')
-    public async FixBedUnit(@Body() reqBody: FixBadUnitRequest): Promise<GetBadUnitResponse> {
+    public async FixBedUnit(@Body() reqBody: any): Promise<any> {
         let foods: Food[] = [];
         try {
             foods = await Food.GetAllFoods({});

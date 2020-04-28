@@ -1,11 +1,8 @@
 import {Body, Controller, Delete, Get, Post, Put, Request, Route, Security, Tags} from "tsoa";
-import {ISetStockItemRequest} from "../requests/set-stock-item.request";
-import {StorageSection} from "../models/storage-section.model";
 import {RequestHelper} from "../helpers/request.helper";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
 import {ObjectId} from "mongodb";
-import {IIngredient} from "../interfaces/IIngredient";
 import {IStorageSection, IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
 import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
 
@@ -24,7 +21,7 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Post('/')
-    public async CreateSection(@Request() request: any): Promise<IStorageSection> {
+    public async CreateSection(@Request() request: any): Promise<any> {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
             return Services.StorageService.CreateSection(user).ToSendJson();
@@ -32,7 +29,7 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Put('/')
-    public async EditSection(@Request() request: any, @Body() changeRequest: IStorageItemChangeRequest): Promise<IStorageSectionRequest> {
+    public async EditSection(@Request() request: any, @Body() changeRequest: any): Promise<any> {
         let user = request.user as User;
         return await RequestHelper.ExecuteRequest(this, () => {
             return Services.StorageService.SetSection(user, changeRequest).ToSendJson();
@@ -40,7 +37,7 @@ export class StockController extends Controller {
     }
     @Security("Bearer", [])
     @Delete('/{sectionIdString}')
-    public async DeleteSection(@Request() request: any, sectionIdString: string): Promise<IStorageSection[]> {
+    public async DeleteSection(@Request() request: any, sectionIdString: string): Promise<any[]> {
         let sectionId;
         try{
             sectionId = new ObjectId(sectionIdString);

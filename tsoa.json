@@ -1,0 +1,68 @@
+{
+  "swagger": {
+    "outputDirectory": "./Cookta-server",
+    "entryFile": "./Cookta-server/src/app.ts",
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+
+    "specMerging": "recursive",
+    "spec": {
+      "paths": {
+        "/food/image/{foodVersionId}": {
+          "post": {
+            "consumes": [
+              "multipart/from-data"
+            ],
+            "operationId": "UploadImage",
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "204": {
+                "description": "No content"
+              }
+            },
+            "tags": [
+              "Food"
+            ],
+            "security": [
+              {
+                "Bearer": []
+              }
+            ],
+            "parameters": [
+              {
+                "in": "path",
+                "name": "foodVersionId",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "in": "formData",
+                "name": "image",
+                "required": true,
+                "type": "file"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "noImplicitAdditionalProperties": "silently-remove-extras"
+  },
+  "routes": {
+    "authenticationModule": "./Cookta-server/src/authentication.ts",
+    "basePath": "/",
+    "entryFile": "./Cookta-server/src/app.ts",
+    "routesDir": "./Cookta-server/src"
+  },
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**"
+  ]
+}

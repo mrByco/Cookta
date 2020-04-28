@@ -8,7 +8,7 @@ import {Subscription} from "../models/subscription.model";
 export class  SubscriptionController extends Controller {
     @Get()
     @Security('Bearer', [])
-    public async GetSubscribedFoods(@Request() request: any): Promise<Food[]>{
+    public async GetSubscribedFoods(@Request() request: any): Promise<any[]>{
         let user = request.user as User;
         return await Subscription.GetSubsFoodsOfUser(user);
     }

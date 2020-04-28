@@ -9,6 +9,7 @@ import {IngredientItemPopupComponent} from "./ingredient-item-popup/ingredient-i
 import {EUnitType} from "../../shared/models/grocery/unit-type.enum";
 import {DeleteCustomUnitPopupComponent} from './delete-custom-unit-popup/delete-custom-unit-popup.component';
 import {Unit} from '../../shared/models/unit.interface';
+import {DeleteIngredientPupopComponent} from './delete-ingredient-pupop/delete-ingredient-pupop.component';
 
 @Component({
   selector: 'app-ingredient-editor',
@@ -26,7 +27,8 @@ export class IngredientEditorComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild("table", {static: true}) table: MatTable<IngredientType>;
   @ViewChild(IngredientItemPopupComponent, {static: true}) editPopup: IngredientItemPopupComponent;
-  @ViewChild(DeleteCustomUnitPopupComponent, {static: true}) deletePupop: DeleteCustomUnitPopupComponent;
+  @ViewChild(DeleteCustomUnitPopupComponent, {static: true}) deleteUnitPupop: DeleteCustomUnitPopupComponent;
+  @ViewChild(DeleteIngredientPupopComponent, {static: true}) deletePupop: DeleteIngredientPupopComponent;
 
   public set Filter(value: string){
     let filterValue = value;
@@ -63,6 +65,10 @@ export class IngredientEditorComponent implements OnInit {
   }
 
   DeleteCustomUnit(unit: Unit){
-    this.deletePupop.OpenUnit(unit, this.CurrentIngredient)
+    this.deleteUnitPupop.OpenUnit(unit, this.CurrentIngredient)
+  }
+
+  OpenDeletePopup(type: IngredientType) {
+    this.deletePupop.DeleteIngredient(type);
   }
 }

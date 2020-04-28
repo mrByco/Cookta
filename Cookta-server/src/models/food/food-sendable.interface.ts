@@ -1,5 +1,5 @@
-import {IIngredient} from "../../interfaces/IIngredient";
-import {ObjectID} from "bson";
+import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+
 
 export interface ISendableFood {
 
