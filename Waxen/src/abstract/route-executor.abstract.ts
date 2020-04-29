@@ -1,3 +1,3 @@
-export abstract class ARouteExecutor<RQ, RS> {
-    constructor (execute: (rq: RQ) => Promise<RS>){}
+export abstract class ARouteExecutor<RQ, RS, P> {
+    constructor (execute: (rq: RQ, p: P) => Promise<RS>){}
 }
