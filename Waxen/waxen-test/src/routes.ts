@@ -8,5 +8,5 @@ const SetTodo: IRoute<{ id: string, name: string }, { id: string, name: string }
 const Todos: Controller = {name: "Todos", basepath: 'todo', routes: [GetTodos, SetTodo]}
 
 export const Routes = {
-    Todos: name,
+    todos: Todos,
 }
