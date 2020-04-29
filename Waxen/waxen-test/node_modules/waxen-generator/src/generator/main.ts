@@ -1,4 +1,12 @@
-import {ClassDeclaration, Project, ScriptTarget, SourceFile} from "ts-morph";
+import {
+    ClassDeclaration, Identifier,
+    LiteralExpression,
+    ObjectLiteralExpression,
+    Project, PropertyAccessExpression,
+    ScriptTarget,
+    SourceFile
+} from "ts-morph";
+import {ControllerData} from "waxen/dist/abstract/controller.interface";
 
 const GetProject: (tsConfigPath?: string) => Project = (tsConfigPath?: string) => {
     return tsConfigPath ?
@@ -22,6 +30,28 @@ function GetControllerFiles(files: SourceFile[]): ClassDeclaration[]{
     return classes;
 }
 
+function FixController(controller: ClassDeclaration){
+    console.log('Generating ' + controller.getName() + '....');
+    let controllerInfo;
+    try {
+        let firstArg: PropertyAccessExpression = controller.getDecorator('Controller')?.getArguments()[0] as PropertyAccessExpression;
+        console.log((firstArg.getChildren()));
+        firstArg.getChildren().forEach((p) => {
+            if (p instanceof Identifier){
+                let identifier: Identifier = p as Identifier;
+                console.log(identifier.getText());
+            }
+        })
+    }
+    catch (error){
+        console.error(error);
+        console.log(controller.getName() + ' is not valid.');
+    }
+    throw new Error()
+    console.log(controllerInfo);
+
+}
+
 export function GenerateControllers(tsConfigPath: string) {
     console.log(`Reading tsconfig at: ${tsConfigPath}`)
     const project = GetProject();
@@ -30,4 +60,5 @@ export function GenerateControllers(tsConfigPath: string) {
     console.log('Controller files: ')
     let controllerClasses = GetControllerFiles(files);
     controllerClasses.forEach(c => console.log('   - ' + c.getName()));
+    controllerClasses.forEach(c => FixController(c));
 };
