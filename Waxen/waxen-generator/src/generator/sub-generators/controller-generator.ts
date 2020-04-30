@@ -1,5 +1,6 @@
 import {ClassDeclaration, Scope} from "ts-morph";
 import {IGeneratorController} from "../../extensions/generator-controller.interface";
+import {ControllerData} from "waxen/dist/abstract/controller.interface";
 
 
 function GenerateRouteFunctions(controllerInfo: IGeneratorController, controller: ClassDeclaration){
@@ -34,12 +35,14 @@ function GenerateRouteFunctions(controllerInfo: IGeneratorController, controller
     }
 }
 
-export function GenerateController(controller: ClassDeclaration, controllerInfo: IGeneratorController) {
+export function GenerateController(controller: ClassDeclaration, controllerInfo: IGeneratorController): IGeneratorController {
     console.log('Generating ' + controller.getName() + '....');
     try {
+        controllerInfo.className = controller.getName();
         GenerateRouteFunctions(controllerInfo, controller);
         controller.formatText();
         controller.getSourceFile().saveSync();
+        return controllerInfo;
     } catch (error) {
         console.error(error);
         console.log(controller.getName() + ' could not be generated.');

@@ -1,4 +1,4 @@
-import {ControllerData} from "waxen/dist/abstract/controller.interface";
+import {ControllerData} from "../abstract/controller.interface";
 
 export function Controller (controller: ControllerData){
     return function (constructor: Function) {

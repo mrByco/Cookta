@@ -19,8 +19,8 @@ export function waxen(args: any[]) {
         return;
     }
     if (args[2] == 'generate'){
-        GenerateControllers(process.cwd() + "/tsconfig.json");
-        GenerateRouter();
+        let data = GenerateControllers(process.cwd() + "/tsconfig.json");
+        GenerateRouter(process.cwd() + "/tsconfig.json", data);
     }
     if (args[2] == 'swagger'){
         console.log('Hello friend this feature not implemented :(');

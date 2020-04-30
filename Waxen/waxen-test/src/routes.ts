@@ -3,7 +3,7 @@ import {ERouteMethod} from "waxen/dist/route-method.enum";
 import {ControllerData} from "waxen/dist/abstract/controller.interface";
 
 
-const GetTodos: IRoute<void, { id: string, name: string }, {}> = {path: 'asd', method: ERouteMethod.GET}
+const GetTodos: IRoute<void, string, void> = {path: 'asd', method: ERouteMethod.GET}
 const SetTodo: IRoute<{ id: string, name: string }, number, { firstParam: string, secondNumber: number }> = {
     path: '',
     method: ERouteMethod.POST

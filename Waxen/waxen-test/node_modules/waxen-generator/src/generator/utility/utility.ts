@@ -63,9 +63,12 @@ function ParamDefListFromLast(statement: VariableDeclaration): { key: string, ty
             }
             items.push({key: key, type: type});
         })
-    } else {
+    } else if (KindToTypeString(t) == 'void'){
+        return [];
+    }
+    else {
         console.error('Cannot read parameters from:', t.getText(), '\nSingle empty list..');
-        console.warn("It need to be a type object like: {firstParam: string, secondNumber: number}");
+        console.warn("It need to be a type object like: {firstParam: string, secondNumber: number} or void");
     }
     return items;
 }
