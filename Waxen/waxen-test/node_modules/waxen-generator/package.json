@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "index.js",
   "bin": {
-    "generate-controllers": "./bin/generate-controllers.js"
+    "waxen": "bin/waxen.js"
   },
   "scripts": {
     "test": "echo \\\"Error: no src/test specified\\\" && exit 1",
