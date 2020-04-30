@@ -1,6 +1,6 @@
 import { IRoute } from "./route.interface";
 
-export interface Controller {
+export interface ControllerData {
     basepath: string,
     name: string,
     routes: IRoute<unknown, unknown, unknown>[],

@@ -5,7 +5,7 @@ import {
     ObjectLiteralExpression,
     Project, PropertyAccessExpression, PropertyAssignment,
     ScriptTarget,
-    SourceFile, StringLiteral, SyntaxList, VariableDeclaration, VariableStatement
+    SourceFile, StringLiteral, SyntaxList, TypeLiteralNode, VariableDeclaration, VariableStatement
 } from "ts-morph";
 import {ControllerData} from "waxen/dist/abstract/controller.interface";
 import {IRoute} from "waxen/dist/abstract/route.interface";
@@ -21,12 +21,13 @@ const GetProject: (tsConfigPath?: string) => Project = (tsConfigPath?: string) =
             }
         })
 }
-function GetControllerFiles(files: SourceFile[]): ClassDeclaration[]{
+
+function GetControllerFiles(files: SourceFile[]): ClassDeclaration[] {
     let classes = [];
     for (let file of files) {
         if (file.getClasses().length > 0)
-            for (let c of file.getClasses()){
-                if(c.getDecorator('Controller')){
+            for (let c of file.getClasses()) {
+                if (c.getDecorator('Controller')) {
                     classes.push(c);
                 }
             }
@@ -34,18 +35,44 @@ function GetControllerFiles(files: SourceFile[]): ClassDeclaration[]{
     return classes;
 }
 
-function GetGenericTypeByIndex(index: number, statement: VariableDeclaration): string{
+function KindToTypeString(node: any): string | null {
+    if (node instanceof TypeLiteralNode) {
+        return node.getText();
+    }
+    if (node.getKind() == 110 || node.getKind() == 100 || node.getKind() == 146) {
+        return 'void';
+    }
+    if (node.getKind() == 143) {
+        return 'string';
+    }
+    if (node.getKind() == 140) {
+        return 'number';
+    }
+    if (node.getKind() == 169) {
+        return node.getText();
+    }
+    if (node.getKind() == 27) {
+        //Ignore colons
+        return null;
+    }
+    console.error('Unknown kind: ' + node.getKind());
+    console.log('Using text: ' + node.getText());
+    return node.getText();
+}
+
+function GetTypeParameters(statement: VariableDeclaration): string[] {
+    let types = [];
     //+1 ve have pluss one child in the beginning
-    let syntaxList = statement.getChildAtIndex(2).getChildAtIndex(index + 2) as SyntaxList;
+    let syntaxList = statement.getChildAtIndex(2).getChildAtIndex(2) as SyntaxList;
     syntaxList.getChildren().forEach(t => {
-        console.log(t.getText());
+        if (KindToTypeString(t))
+            types.push(KindToTypeString(t));
     });
-   // console.log(statement.getFirstChild().getChildAtIndex(index + 1).getText());
-    return '';
+    return types;
 }
 
 
-function FixController(controller: ClassDeclaration){
+function FixController(controller: ClassDeclaration) {
     console.log('Generating ' + controller.getName() + '....');
     let controllerInfo: ControllerData;
     try {
@@ -60,29 +87,33 @@ function FixController(controller: ClassDeclaration){
         let routes = [];
         let listPropAssigment = objectLiteralExpression.getProperty('routes') as PropertyAssignment;
         let routeArrayDeclaration = listPropAssigment.getInitializer() as ArrayLiteralExpression;
+        console.log(name);
         //Getting routes
-        for (let element of routeArrayDeclaration.getElements()){
+        for (let element of routeArrayDeclaration.getElements()) {
             let elementIdentifier: Identifier = element as Identifier;
             let routeDeclaration = elementIdentifier.getSymbol().getValueDeclaration() as VariableDeclaration;
             let routeLiteralExpression = routeDeclaration.getInitializer() as ObjectLiteralExpression;
+            let routeName = routeDeclaration.getFirstChild().getText();
             let path: string = routeLiteralExpression.getProperty('path').getChildAtIndex(2).getText();
             let method = (routeLiteralExpression.getProperty('method').getChildAtIndex(2).getChildAtIndex(2).getSymbol().getValueDeclaration() as EnumMember).getValue() as ERouteMethod;
-            console.log(method);
-            console.log(path);
+
+            console.log(routeName);
+            console.log((`${basepath}/${path}`).split("'").join(''));
+
 
             //let resposeClass =
 
 
-
-           let responseName: string = GetGenericTypeByIndex(0, routeDeclaration);
-            /*let requestName: string;
-            let paramsName: string;*/
+            let types = GetTypeParameters(routeDeclaration);
+            let responseName: string = types[0];
+            let requestName: string = types[1];
+            let paramsName: string = types[2];
+            let paramDefText: [{ key: string, type: string }];
 
         }
 
 
-    }
-    catch (error){
+    } catch (error) {
         console.error(error);
         console.log(controller.getName() + ' is not valid.');
     }
