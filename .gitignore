@@ -10,3 +10,4 @@ Kukta/bin/
 Kukta/obj/
 **/dist
 Waxen/waxen-test/node_modules/
+Waxen/node_modules/
