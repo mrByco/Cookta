@@ -4,7 +4,7 @@ import {Unit} from '../../models/unit/unit.model';
 import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
 import {EUnitType} from "cookta-shared/src/models/unit/unit-type.enum";
 import {Food} from "../../models/food/food.model";
-import {IStorageSection} from "../../interfaces/IStorageSectionRequest";
+import {IStorageSection} from "cookta-shared/contracts/stock/IStorageSectionRequest";
 import {Services} from "../../Services";
 import {IEssentialSection} from "../../models/essentials/essential-list.interface";
 import {EssentialSection} from "../../models/essentials/essential-list.model";

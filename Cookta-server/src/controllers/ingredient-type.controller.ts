@@ -1,6 +1,6 @@
 import {Body, Controller, Delete, Get, Post, Put, Route, Security, Tags} from 'tsoa';
 import {IngredientType} from '../models/ingredient-type/ingredient-type.model';
-import {ISetIngredientTypeRequest} from '../requests/set.ingredient-type.request';
+import {ISetIngredientTypeRequest} from 'cookta-shared/contracts/ingredient-type/set.ingredient-type.request';
 import {Services} from '../Services';
 import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
 import {CheckUnitRefResponse} from "cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats";

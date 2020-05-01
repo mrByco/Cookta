@@ -1,6 +1,6 @@
 import {User} from "../../models/user.model";
 import {StorageSection} from "../../models/storage-section.model";
-import {IStorageItemChangeRequest} from "../../interfaces/StorageItemChange.request";
+import {IStorageItemChangeRequest} from "cookta-shared/contracts/stock/StorageItemChange.request";
 
 export interface IStorageService extends IStorageItemChangeRequest{
     GetSections(user: User): StorageSection[];

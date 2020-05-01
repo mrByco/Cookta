@@ -1,8 +1,6 @@
-import {SendFamily} from "./family.model";
+import {ISendFamily} from "../family/family.interface";
 
 export interface ExtendedUser {
-
-
     sub: string;
     subs: string[];
     username: string;
@@ -12,7 +10,7 @@ export interface ExtendedUser {
     profilpic: string;
     currentFamilyId: string;
 
-    ActiveFamily: SendFamily;
-    Families: SendFamily[];
+    ActiveFamily: ISendFamily;
+    Families: ISendFamily[];
 
 }

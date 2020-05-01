@@ -1,6 +1,6 @@
 import {Controller, Get, Put, Request, Route, Security, Tags} from 'tsoa';
 import {User} from '../models/user.model';
-import {ExtendedUser} from '../models/extendedUser';
+import {ExtendedUser} from 'cookta-shared/models/user/extendedUser';
 import {Services} from '../Services';
 
 @Tags('User')

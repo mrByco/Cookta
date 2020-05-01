@@ -1,6 +1,6 @@
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
 import {IIngredientTypeService} from './ingredient-type.service.interface';
-import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
+import {ISetIngredientTypeRequest} from 'cookta-shared/contracts/ingredient-type/set.ingredient-type.request';
 import {Guid} from 'guid-typescript';
 import {ObjectId} from 'mongodb';
 import {StoreService} from 'atomik/lib/store-service/store-service';

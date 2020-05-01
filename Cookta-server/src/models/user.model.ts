@@ -1,11 +1,11 @@
 import {ObjectId} from "mongodb";
 import {Role} from "./role.model";
-import {Family, SendFamily} from "./family.model";
+import {Family, ISendFamily} from "./family.model";
 import {Food} from "./food/food.model";
 import {Subscription} from "./subscription.model";
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 import {Services} from "../Services";
-import {ExtendedUser} from "./extendedUser";
+import {ExtendedUser} from "cookta-shared/models/user/extendedUser";
 
 
 export class User extends StoreItemBase {

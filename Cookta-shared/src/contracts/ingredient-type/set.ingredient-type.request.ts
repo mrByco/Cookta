@@ -1,4 +1,4 @@
-import {IUnit} from "../../../Cookta-shared/src/models/unit/unit.interface";
+import {IUnit} from "../../models/unit/unit.interface";
 
 
 export interface ISetIngredientTypeRequest {

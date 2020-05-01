@@ -1,5 +1,5 @@
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
-import {IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
+import {IStorageSectionRequest} from "cookta-shared/contracts/stock/IStorageSectionRequest";
 import {Services} from "../Services";
 import { IIngredient } from 'cookta-shared/src/models/ingredient/ingredient.interface';
 

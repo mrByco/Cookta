@@ -1,4 +1,4 @@
-import {IShoppingList} from "../../models/shopping-list.interface";
+import {IShoppingList} from "cookta-shared/models/shopping-list.interface";
 import {Family} from "../../models/family.model";
 
 export interface IShoppingListService {

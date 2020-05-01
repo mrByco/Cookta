@@ -1,5 +1,5 @@
 import {IEssentialSection} from "../models/essentials/essential-list.interface";
-import {IStorageSection} from "./IStorageSectionRequest";
+import {IStorageSection} from "cookta-shared/contracts/stock/IStorageSectionRequest";
 import {Food} from "../models/food/food.model";
 
 export interface IIngredientDependendentObject {

@@ -3,8 +3,8 @@ import {RequestHelper} from "../helpers/request.helper";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
 import {ObjectId} from "mongodb";
-import {IStorageSection, IStorageSectionRequest} from "../interfaces/IStorageSectionRequest";
-import {IStorageItemChangeRequest} from "../interfaces/StorageItemChange.request";
+import {IStorageSection, IStorageSectionRequest} from "cookta-shared/contracts/stock/IStorageSectionRequest";
+import {IStorageItemChangeRequest} from "cookta-shared/contracts/stock/StorageItemChange.request";
 
 @Route('/stock')
 @Tags('Stock')

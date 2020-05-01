@@ -1,7 +1,7 @@
 import {Body, Controller, Delete, Get, Post, Put, Request, Route, Security, Tags} from "tsoa";
 import {User} from "../models/user.model";
-import {Family, SendFamily} from "../models/family.model";
-import {InviteFamilyRequest} from "../requests/invite.family.request";
+import {Family, ISendFamily} from "../models/family.model";
+import {InviteFamilyRequest} from "cookta-shared/contracts/family/invite.family.request";
 import {Services} from "../Services";
 import {EFamilyRole} from "../interfaces/ifamilyMember";
 

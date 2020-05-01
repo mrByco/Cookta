@@ -6,7 +6,7 @@ import {Day} from "../../models/Days/day.model";
 import {Services} from "../../Services";
 import {IngredientHelper} from "../../helpers/ingredient.helper";
 import {IShoppingListService} from "./shopping-list.service.interface";
-import {IShoppingList} from "../../models/shopping-list.interface";
+import {IShoppingList} from "cookta-shared/models/shopping-list.interface";
 import "../../extensions/string-extensions"
 import "../../extensions/date-extensions"
 import {ICompleteIngredient, IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";

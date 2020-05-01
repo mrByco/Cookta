@@ -2,7 +2,7 @@ import {Controller, Get, Request, Route, Security} from "tsoa";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
 import {ShoppingList} from "../models/shopping-list.model";
-import {IShoppingList} from "../models/shopping-list.interface";
+import {IShoppingList} from "cookta-shared/models/shopping-list.interface";
 
 @Route('ShoppingList')
 export class ShoppingListController extends Controller {

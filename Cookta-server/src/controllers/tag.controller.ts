@@ -1,6 +1,6 @@
 import {Body, Controller, Delete, Get, Post, Route, Tags} from "tsoa";
 import {Tag} from "../models/tag.model";
-import {SetTagRequest} from "../requests/set.tag.request";
+import {SetTagRequest} from "cookta-shared/contracts/tags/set.tag.request";
 
 @Route('/tag')
 @Tags('Tag')

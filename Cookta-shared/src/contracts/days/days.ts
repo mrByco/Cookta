@@ -4,10 +4,10 @@ import {ERouteMethod} from "waxen/dist/route-method.enum";
 import {IDay} from "../../models/days/day.interface";
 
 
-export const GetDay: IRoute<void, IDay, {date: string}> = {method: ERouteMethod.GET, path: ''}
-export const SetDay: IRoute<void, IDay, {date: string}> = {method: ERouteMethod.PUT, path: ''}
-export const RefreshMeal: IRoute<void, IDay, {date: string, mealingIndex: number}> = {method: ERouteMethod.GET, path: ''}
-export const FinalizeMealing: IRoute<void, IDay, {date: string, mealingIdentity: number}> = {method: ERouteMethod.GET, path: 'finalize'}
+const GetDay: IRoute<void, IDay, {date: string}> = {method: ERouteMethod.GET, path: ''}
+const SetDay: IRoute<void, IDay, {date: string}> = {method: ERouteMethod.PUT, path: ''}
+const RefreshMeal: IRoute<void, IDay, {date: string, mealingIndex: number}> = {method: ERouteMethod.GET, path: ''}
+const FinalizeMealing: IRoute<void, IDay, {date: string, mealingIdentity: number}> = {method: ERouteMethod.GET, path: 'finalize'}
 
 
 export const DayControllerData: ControllerData = {
