@@ -1,6 +1,6 @@
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {ObjectID} from "mongodb";
-import {IUpdateFoodRequest} from "../../requests/create.food.request";
+import {IUpdateFoodRequest} from "cookta-shared/dist/contracts/foods/create.food.request";
 import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
 import {Subscription} from "../subscription.model";

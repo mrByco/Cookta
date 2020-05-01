@@ -1,4 +1,4 @@
-import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {IIngredient} from "../ingredient/ingredient.interface";
 
 
 export interface ISendableFood {

@@ -1,0 +1,7 @@
+{
+  "routeDir": "./src/server",
+  "authentication": {
+    "authenticationModule": "./src/server/authentication.ts",
+    "UserType": "User"
+  }
+}
