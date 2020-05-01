@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "experimentalDecorators": true,
+    "declaration": true,
     "outDir": "./dist",
     "importHelpers": true
   }

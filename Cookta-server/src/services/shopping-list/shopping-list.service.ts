@@ -9,7 +9,7 @@ import {IShoppingListService} from "./shopping-list.service.interface";
 import {IShoppingList} from "../../models/shopping-list.interface";
 import "../../extensions/string-extensions"
 import "../../extensions/date-extensions"
-import {ICompleteIngredient, IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {ICompleteIngredient, IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
 
 export class ShoppingListService extends StoreService<ShoppingList> implements IShoppingListService {
 

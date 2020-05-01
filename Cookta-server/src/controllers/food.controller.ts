@@ -6,7 +6,6 @@ import {Controller} from "waxen/dist/deorators/controller";
 import {Contracts} from "cookta-shared/src/contracts/contracts";
 import {Security} from "waxen/dist/deorators/security";
 import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
-import {request} from "http";
 import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
 import {SendableFood} from "../models/food/food-sendable";
 import {ProvideRequest} from "waxen/dist/deorators/provide-request";

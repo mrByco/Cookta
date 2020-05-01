@@ -2,10 +2,10 @@
 
 import {expect} from "chai";
 import {IngredientHelper} from "./ingredient.helper";
-import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
-import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
-import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
-import {ICompleteIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {EUnitType} from "cookta-shared/src/models/unit/unit-type.enum";
+import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
+import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
+import {ICompleteIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
 
 // DEFINE WORKING INFO
 let bread: IIngredientType = {

@@ -3,7 +3,7 @@ import { ProcessPromiseResponse } from 'waxen/dist/server/request-promise-handle
 import { authenticationReqMiddleware } from 'waxen/dist/server/request-promise-handler';
 import { defaultAuthentication } from "./authentication";
 import { FoodController } from "../controllers/food.controller";
-import { IUpdateFoodRequest } from "cookta-shared/dist/contracts/foods/update-food.request";
+import { IUpdateFoodRequest } from "cookta-shared/src/contracts/foods/update-food.request";
 
 export function RegisterRoutes(app: express.Express) {
     // <<=======-FOODCONTROLLER-======>>

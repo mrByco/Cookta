@@ -2,11 +2,13 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "declaration": true,
     "experimentalDecorators": true,
-    "outDir": "./dist",
+    "declaration": true,
     "rootDir": "./src"
   },
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [
     "./dist",
     "**.spec.*"

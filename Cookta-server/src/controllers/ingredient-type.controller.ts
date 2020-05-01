@@ -2,13 +2,13 @@ import {Body, Controller, Delete, Get, Post, Put, Route, Security, Tags} from 't
 import {IngredientType} from '../models/ingredient-type/ingredient-type.model';
 import {ISetIngredientTypeRequest} from '../requests/set.ingredient-type.request';
 import {Services} from '../Services';
-import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
-import {CheckUnitRefResponse} from "cookta-shared/dist/contracts/ingredient-type/check-ingredient.contrats";
-import {DeleteCustomUnitRequest} from "cookta-shared/dist/contracts/ingredient-type/delete-custom-unit";
+import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
+import {CheckUnitRefResponse} from "cookta-shared/src/contracts/ingredient-type/check-ingredient.contrats";
+import {DeleteCustomUnitRequest} from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
 import {
     IDeleteIngredientTypeRequest,
     IDeleteIngredientTypeResponse
-} from "cookta-shared/dist/contracts/ingredient-type/delete-ingredient-type";
+} from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
 import {IIngredientDependendentObject} from "../interfaces/ingredient-dependency-object.interface";
 import {Food} from "../models/food/food.model";
 
