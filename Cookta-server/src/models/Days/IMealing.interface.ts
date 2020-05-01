@@ -1,5 +1,5 @@
-import {SendableFood} from "../food/food-sendable";
-import {ISendableFood} from "cookta-shared/dist/models/food-sendable.interface";
+import {ISendableFood} from "cookta-shared/dist/models/food/food-sendable.interface";
+
 
 export interface IMealing {
     type: string,
