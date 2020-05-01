@@ -1,5 +1,3 @@
-import {IRoute} from "waxen/dist/abstract/route.interface";
-import {EnumDeclaration} from "ts-morph";
 import {ERouteMethod} from "waxen/dist/route-method.enum";
 
 export interface IGeneratorRoute {
