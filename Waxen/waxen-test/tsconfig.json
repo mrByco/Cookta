@@ -1,0 +1,9 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "ES6",
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "experimentalDecorators": true
+  }
+}
