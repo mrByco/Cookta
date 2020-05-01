@@ -132,7 +132,7 @@ export function GetStatementsForController(controller: IGeneratorController): st
         statements.push(...[
             '};\n',
             `const controller = new ${controller.className}();`,
-            `const promise = controller.${route.routeName}(request.body as ${route.requestTypeName}${userParam}, ${route.paramTypeOrder.map(p => `args.${p.key}`).join(', ')});`,
+            `const promise = controller.${route.routeName}(request.body as ${route.requestTypeName}${userParam}, ${route.provideRequest ? 'request, ' : ''}${route.paramTypeOrder.map(p => `args.${p.key}`).join(', ')});`,
             `ProcessPromiseResponse(controller, promise, response, next, (error) => {});`,
         ])
         if (route.authentication && Config.c.authMethodName){

@@ -22,11 +22,15 @@ function GenerateRouteFunctions(controllerInfo: IGeneratorController, controller
             }
             routeInfo.authentication = {anoEnabled: anoEnabled, permissions: permissions};
         };
+        routeInfo.provideRequest = method?.getDecorator('ProvideRequest') != undefined;
 
         let parameters = [
             {name: 'reqBody', type: routeInfo.requestTypeName}]
             .concat(routeInfo.authentication ?
                 {name: 'user', type: Config.c.authentication?.UserType ? Config.c.authentication?.UserType : 'any'} :
+                [])
+            .concat(routeInfo.provideRequest ?
+                {name: 'request', type: 'any'} :
                 [])
             .concat(routeInfo.paramTypeOrder.map((p) => {
                 return {name: p.key, type: p.type}

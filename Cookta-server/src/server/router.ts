@@ -173,14 +173,14 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.post('/food/:foodVersionId',
+    app.post('/food/image/:foodVersionId',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
                     foodVersionId: request.params['foodVersionId']
                 };
                 const controller = new FoodController();
-                const promise = controller.UploadImage(request.body as void, user, args.foodVersionId);
+                const promise = controller.UploadImage(request.body as void, user, request, args.foodVersionId);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -192,7 +192,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.delete('/food/:foodVersionId',
+    app.delete('/food/image/:foodVersionId',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {

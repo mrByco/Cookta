@@ -21,8 +21,8 @@ export const AddOrUpdateFood: IRoute<IUpdateFoodRequest, ISendableFood, void> = 
 export const DeleteFood: IRoute<void, ISendableFood, {foodId: string}> = {method: ERouteMethod.DELETE, path: ''}
 
 //Image
-export const UploadImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.POST, path: ''}
-export const DeleteImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.DELETE, path: ''}
+export const UploadImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.POST, path: 'image'}
+export const DeleteImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.DELETE, path: 'image'}
 
 
 export const FoodControllerData: ControllerData = {basepath: "food", name: "FoodController", routes: [GetPublicFoods, GetPublicFoodsIncremental, GetOwnFoods, GetSubscriptionFoods, GetFamilyFoods, GetCollectionFoods, GetFoodById, AddOrUpdateFood, DeleteFood, UploadImage, DeleteImage]}
