@@ -1,6 +1,6 @@
 
 import { ObjectId } from "mongodb";
-import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import { IIngredient } from 'cookta-shared/src/models/ingredient/ingredient.interface';
 
 export interface IStorageSectionRequest {
 

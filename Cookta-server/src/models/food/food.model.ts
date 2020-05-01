@@ -4,8 +4,8 @@ import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
 import {Subscription} from "../subscription.model";
 import {Services} from "../../Services";
-import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
-import {IUpdateFoodRequest} from "cookta-shared/dist/contracts/foods/update-food.request";
+import { IIngredient } from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
 
 const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
 const ContainerName = 'foodimages';

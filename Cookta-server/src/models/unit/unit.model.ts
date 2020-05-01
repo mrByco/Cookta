@@ -1,8 +1,8 @@
 
 import {StoreItemBase} from 'atomik/lib/store-item/store-item-base';
-import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
-import {ICompleteIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
-import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
+import {EUnitType} from "cookta-shared/src/models/unit/unit-type.enum";
+import {ICompleteIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
+import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
 
 export class Unit extends StoreItemBase implements IUnit {
 
