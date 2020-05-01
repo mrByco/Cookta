@@ -1,12 +1,11 @@
 {
   "compilerOptions":
   {
-    "target": "ES5",
+    "target": "ES6",
     "moduleResolution": "node",
     "module": "commonjs",
     "experimentalDecorators": true,
     "outDir": "./dist",
-    "baseUrl": "./",
     "importHelpers": true
   }
 }

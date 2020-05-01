@@ -177,369 +177,12 @@
 	},
 	"info": {
 		"title": "cookta-server",
-		"version": "1.0.5",
+		"version": "1.0.6",
 		"license": {
 			"name": "ISC"
 		}
 	},
 	"paths": {
-		"/food": {
-			"get": {
-				"operationId": "GetPublicFoods",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"additionalProperties": true,
-								"type": "object"
-							},
-							"type": "array"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": [
-							"noauth"
-						]
-					}
-				],
-				"parameters": []
-			},
-			"post": {
-				"operationId": "AddOrUpdateFood",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"additionalProperties": true,
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "body",
-						"name": "updateFoodRequest",
-						"required": true,
-						"schema": {
-							"type": "object"
-						}
-					}
-				]
-			}
-		},
-		"/food/collection": {
-			"get": {
-				"operationId": "GetCollectionFoods",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"additionalProperties": true,
-								"type": "object"
-							},
-							"type": "array"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/food/own": {
-			"get": {
-				"operationId": "GetOwnFoods",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"additionalProperties": true,
-								"type": "object"
-							},
-							"type": "array"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/food/family": {
-			"get": {
-				"operationId": "GetFamilyFoods",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"additionalProperties": true,
-								"type": "object"
-							},
-							"type": "array"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/food/subscription": {
-			"get": {
-				"operationId": "GetSubscriptionFoods",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"additionalProperties": true,
-								"type": "object"
-							},
-							"type": "array"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/food/{id}": {
-			"get": {
-				"operationId": "GetFoodById",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"additionalProperties": true,
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": [
-							"noauth"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"type": "string"
-					}
-				]
-			}
-		},
-		"/food/{from}/{count}": {
-			"get": {
-				"operationId": "GetPublicFoodsIncremental",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"additionalProperties": true,
-								"type": "object"
-							},
-							"type": "array"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "from",
-						"required": true,
-						"format": "double",
-						"type": "number"
-					},
-					{
-						"in": "path",
-						"name": "count",
-						"required": true,
-						"format": "double",
-						"type": "number"
-					}
-				]
-			}
-		},
-		"/food/{foodId}": {
-			"delete": {
-				"operationId": "DeleteFood",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"additionalProperties": true,
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "foodId",
-						"required": true,
-						"type": "string"
-					}
-				]
-			}
-		},
-		"/food/image/{foodVersionId}": {
-			"post": {
-				"operationId": "UploadImage",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "foodVersionId",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"in": "formData",
-						"name": "image",
-						"required": true,
-						"type": "file"
-					}
-				],
-				"consumes": [
-					"multipart/from-data"
-				]
-			},
-			"delete": {
-				"operationId": "DeleteImage",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"Food"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "foodVersionId",
-						"required": true,
-						"type": "string"
-					}
-				]
-			}
-		},
 		"/ingredientType": {
 			"get": {
 				"operationId": "GetAll",
@@ -1673,6 +1316,44 @@
 						"name": "nextShopping",
 						"required": true,
 						"type": "string"
+					}
+				]
+			}
+		},
+		"/food/image/{foodVersionId}": {
+			"post": {
+				"consumes": [
+					"multipart/from-data"
+				],
+				"operationId": "UploadImage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "foodVersionId",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "formData",
+						"name": "image",
+						"required": true,
+						"type": "file"
 					}
 				]
 			}

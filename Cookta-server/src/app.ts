@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as bodyParser from "body-parser";
 import * as swaggerUi from 'swagger-ui-express';
 import {RegisterRoutes} from "./routes";
+import * as router from './server/router';
 import {requestLoggerMiddleware} from "./request.logger.middleware";
 import './controllers/ingredient-type.controller';
 import './controllers/unit.controller';
@@ -15,7 +16,6 @@ import './controllers/subscription.controller';
 import './controllers/family.controller';
 import './controllers/ping.controller';
 import './controllers/shopping-list.controller';
-import './controllers/food.controller';
 
 const fileUpload = require('express-fileupload');
 
@@ -31,6 +31,8 @@ app.use(fileUpload(
         preserveExtension: true,
     }));
 RegisterRoutes(app);
+router.RegisterRoutes(app);
+
 
 app.get('/', (req, res) => {
     res.send('Hello friend! :)');

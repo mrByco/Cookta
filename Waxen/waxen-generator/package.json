@@ -1,0 +1,26 @@
+{
+  "name": "waxen-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "types": "index.js",
+  "bin": {
+    "waxen": "bin/waxen.js"
+  },
+  "scripts": {
+    "test": "echo \\\"Error: no src/test specified\\\" && exit 1",
+    "build": "tsc -d",
+    "watch": "tsc --watch -d"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.9.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/node": "^13.13.4",
+    "ts-morph": "^7.0.3"
+  }
+}

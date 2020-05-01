@@ -1,7 +1,7 @@
-import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {IIngredient} from "../../models/ingredient/ingredient.interface";
+
 
 export interface IUpdateFoodRequest {
-
     name: string,
     desc: string,
     isPrivate: boolean,
