@@ -9,7 +9,7 @@ export function waxen(args: any[]) {
         return;
     }
 
-    if (!InitWaxen()){
+    if (!InitWaxen(process.cwd() + "/tsconfig.json")){
         console.log('Please create wconfig.json file.');
         return;
     }

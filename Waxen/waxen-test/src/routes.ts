@@ -1,19 +1,20 @@
 import {IRoute} from "waxen/dist/abstract/route.interface"
 import {ERouteMethod} from "waxen/dist/route-method.enum";
 import {ControllerData} from "waxen/dist/abstract/controller.interface";
+import {User} from "./models/user.model";
 
 
-const GetTodos: IRoute<void, string, void> = {path: 'asd', method: ERouteMethod.GET}
-const SetTodo: IRoute<{ id: string, name: string }, number, { firstParam: string, secondNumber: number }> = {
-    path: '',
-    method: ERouteMethod.POST
+const Secured: IRoute<void, User, void> = {path: 'secured', method: ERouteMethod.GET}
+const Fail: IRoute<{ id: string, name: string }, User, void> = {
+    path: 'fail',
+    method: ERouteMethod.GET
 }
-const DeleteTodo: IRoute<{}, { deleted: {id: string}}, {deleteId: string}> = {
-    path: '',
-    method: ERouteMethod.DELETE
+const InternalFail: IRoute<void, User, void> = {
+    path: 'optional',
+    method: ERouteMethod.GET
 }
 
-const Todos: ControllerData = {name: "Todos", basepath: 'todo', routes: [GetTodos, SetTodo, DeleteTodo]}
+const Todos: ControllerData = {name: "Todos", basepath: '', routes: [Secured, Fail, InternalFail]}
 
 export const Routes = {
     todos: Todos,

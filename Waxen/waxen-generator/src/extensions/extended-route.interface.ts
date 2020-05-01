@@ -11,4 +11,5 @@ export interface IGeneratorRoute {
     responseTypeName: string;
     paramTypeName: string;
     paramTypeOrder: { key: string, type: string }[];
+    authentication?: {anoEnabled: boolean, permissions: string[]};
 }

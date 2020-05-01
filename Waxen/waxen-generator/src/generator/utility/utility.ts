@@ -10,7 +10,7 @@ import {
 import {IGeneratorRoute} from "../../extensions/extended-route.interface";
 import {ERouteMethod} from "waxen/dist/route-method.enum";
 
-function cleanStr(str: string): string {
+export function cleanStr(str: string): string {
     return str.split("'").join('').split('"').join('');
 }
 
