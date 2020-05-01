@@ -1,4 +1,4 @@
-import {IMealing} from "../../models/Days/IMealing.interface";
+import {IMealing} from "cookta-shared/models/days/IMealing.interface";
 import {expect} from "chai";
 import {ShoppingListService} from "./shopping-list.service";
 import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";

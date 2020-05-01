@@ -1,7 +1,7 @@
 import {User} from "../user.model";
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {Food} from "../food/food.model";
-import {IMealing} from "./IMealing.interface";
+import {IMealing} from "cookta-shared/models/days/IMealing.interface";
 import {Family} from "../family.model";
 
 

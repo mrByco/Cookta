@@ -1,4 +1,4 @@
-import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
+import {ISendableFood} from "../food/food-sendable.interface";
 
 
 export interface IMealing {
