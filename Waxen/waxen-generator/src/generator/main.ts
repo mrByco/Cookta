@@ -115,7 +115,7 @@ export function GetStatementsForController(controller: IGeneratorController): st
         statements.push('function(request: any, response: any, next: any) {')
         if (route.authentication && Config.c.authMethodName){
             statements.push(...[
-                `authenticationReqMiddleware(${Config.c.authMethodName}, request, response, ${route.authentication.anoEnabled}, ['${route.authentication.permissions.join("', '")}'], (error) => {}).then((user) => {`
+                `authenticationReqMiddleware(${Config.c.authMethodName}, request, response, ${route.authentication.anoEnabled}, ${route.authentication.permissions.length > 0 ? `['${route.authentication.permissions.join("', '")}']` : '[]'}, (error) => {}).then((user) => {`
             ]);
         } else if (route.authentication){
             console.warn('Authentication not configured.')
@@ -123,9 +123,9 @@ export function GetStatementsForController(controller: IGeneratorController): st
         statements.push('const args = {')
         for (let param of route.paramTypeOrder){
             if (route.paramTypeOrder.indexOf(param) == route.paramTypeOrder.length - 1){
-                statements.push(`${param.key}: request.query['${param.key}']`);
+                statements.push(`${param.key}: request.params['${param.key}']`);
             }else{
-                statements.push(`${param.key}: request.query['${param.key}'],`);
+                statements.push(`${param.key}: request.params['${param.key}'],`);
             }
         };
         let userParam = route.authentication ? `, ${Config.c.authMethodName ? 'user' : 'undefined'}` : '';

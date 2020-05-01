@@ -1,5 +1,7 @@
-import {FoodController} from "./foods/foods";
+import {FoodControllerData} from "./foods/foods";
+
+
 
 export const Contracts = {
-    Foods: FoodController,
+    Foods: FoodControllerData,
 }

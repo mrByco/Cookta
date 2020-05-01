@@ -14,14 +14,13 @@ const client = jwksClient({
 const debugTokenAdminByc0 = 'admin';
 
 
-//Anonim callable route: "noauth"
-export async function expressAuthentication(request: express.Request, securityName: string, permissions?: string[]): Promise<any> {
+export async function defaultAuthentication(request: any, anonymousEnabled: boolean, permissions: string[]): Promise<any> {
     let authHeader = request.headers["authorization"];
     if (process.env.NODE_ENV == "debug " && authHeader == "admin"){
         return Services.UserService.FindOne(u => u.sub == "XRKPJAl2CKioPj6WrX4ZjXcrkRkO9xzW@clients");
     }
 
-    if (permissions[0] == "noauth" && !authHeader) {
+    if (anonymousEnabled && !authHeader) {
         return null;
     }
 
@@ -60,8 +59,6 @@ export async function expressAuthentication(request: express.Request, securityNa
                         if (!user)
                             reject(new Error("Cant get or create user."));
                         for (let permission of permissions){
-                            if (permission == "noauth")
-                                continue;
                             if (!user.HasPermission(permission)){
                                 reject(new Error("Not all the permissions covered."));
                             }

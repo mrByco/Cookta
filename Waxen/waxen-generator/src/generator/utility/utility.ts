@@ -15,7 +15,8 @@ export function cleanStr(str: string): string {
 }
 
 function KindToTypeString(node: any): string | null {
-    if (node instanceof TypeLiteralNode) {
+    //if type or array
+    if (node instanceof TypeLiteralNode || node.getKind() == 174) {
         return node.getText();
     }
     if (node.getKind() == 110 || node.getKind() == 100 || node.getKind() == 146) {
@@ -78,7 +79,11 @@ export function GetControllerData(controller: ClassDeclaration) {
     let firstArg: PropertyAccessExpression = controller.getDecorator('Controller')?.getArguments()[0] as PropertyAccessExpression;
     //Get the Controller data
     let propertyAssignment = firstArg.getSymbol().getValueDeclaration() as PropertyAssignment;
-    let varDeclaration = propertyAssignment.getInitializer().getSymbol().getValueDeclaration() as VariableDeclaration;
+    controller.getProject().addSourceFilesAtPaths(propertyAssignment.getSourceFile().getDirectoryPath() + '/**/*.ts');
+
+    let definition = (propertyAssignment.getInitializer() as Identifier).getDefinitions()[0].getDeclarationNode()
+    //console.log((propertyAssignment.getDescendants()[2] as Identifier).getDefinitions()[0].getDeclarationNode().getChildAtIndex(2));
+    let varDeclaration = definition.getSymbol().getValueDeclaration() as VariableDeclaration;
     let objectLiteralExpression = varDeclaration.getInitializer() as ObjectLiteralExpression;
     let name: string = objectLiteralExpression.getProperty('name').getChildAtIndex(2).getText();
     let basepath: string = objectLiteralExpression.getProperty('basepath').getChildAtIndex(2).getText();
