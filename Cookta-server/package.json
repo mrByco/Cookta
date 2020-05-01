@@ -33,7 +33,7 @@
     "swagger-ui-express": "^4.1.2",
     "ts-node": "^8.4.1",
     "tsoa": "^2.5.7",
-    "waxen": "file:../packages/waxen-1.0.0.tgz"
+    "waxen": "file:packages/waxen-1.0.0.tgz"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
@@ -49,6 +49,6 @@
     "nodemon": "^1.19.4",
     "nyc": "^15.0.0",
     "typescript": "^3.8.3",
-    "waxen-generator": "file:../packages/waxen-generator-1.0.0.tgz"
+    "waxen-generator": "file:./packages/waxen-generator-1.0.0.tgz"
   }
 }
