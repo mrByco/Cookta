@@ -170,6 +170,7 @@ export class Food {
             throw new Error("No permission to modify the food.");
 
         let response = await listContainers();
+        console.log('Uploading image');
         response = await uploadLocalJPEGImage(Food.BlobContainerName, path, foodVersionName);
         console.log(response.message);
         let collection = await MongoHelper.getCollection(this.CollectionName);
