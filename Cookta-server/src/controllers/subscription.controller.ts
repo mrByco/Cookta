@@ -1,30 +1,29 @@
-import {Body, Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
 import {Food} from "../models/food/food.model";
 import {User} from "../models/user.model";
 import {Subscription} from "../models/subscription.model";
+import { Contracts } from 'cookta-shared/src/contracts/contracts';
+import {Controller} from "waxen/dist/deorators/controller";
+import {Security} from "waxen/dist/deorators/security";
+import { ISendableFood } from "cookta-shared/src/models/food/food-sendable.interface";
 
-@Route('/subscription')
-@Tags('Subscription')
-export class  SubscriptionController extends Controller {
-    @Get()
-    @Security('Bearer', [])
-    public async GetSubscribedFoods(@Request() request: any): Promise<any[]>{
-        let user = request.user as User;
-        return await Subscription.GetSubsFoodsOfUser(user);
+
+@Controller(Contracts.Subscription)
+export class SubscriptionController {
+
+    @Security(false)
+    public async GetSubscribedFoods(reqBody: void, user: User): Promise<ISendableFood[]> {
+        return Food.ToSendableAll(await Subscription.GetSubsFoodsOfUser(user), user);
     }
 
-    @Put()
-    @Security('Bearer', [])
-    public async SetSubscriptionState(@Request() request: any, @Body() body: {foodId: string, state: boolean}){
-        let user = request.user as User;
-        if (!body.state){
-            await Subscription.SetUserSubState(user, body.foodId, body.state);
-            this.setStatus(200);
+    @Security(false)
+    public async SetSubscriptionState(reqBody: { foodId: string, state: boolean }, user: User): Promise<void> {
+        if (!reqBody.state) {
+            await Subscription.SetUserSubState(user, reqBody.foodId, reqBody.state);
             return;
-        }else{
-            let food = Food.GetFoodForUser(body.foodId, user);
-            if (food != null){
-                await Subscription.SetUserSubState(user, body.foodId, body.state);
+        } else {
+            let food = Food.GetFoodForUser(reqBody.foodId, user);
+            if (food != null) {
+                await Subscription.SetUserSubState(user, reqBody.foodId, reqBody.state);
             }
         }
     }

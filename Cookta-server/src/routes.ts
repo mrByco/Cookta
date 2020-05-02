@@ -15,8 +15,6 @@ import { StockController } from './controllers/stock.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UserController } from './controllers/user.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DayController } from './controllers/day.controller';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { SubscriptionController } from './controllers/subscription.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { FamilyController } from './controllers/family.controller';
@@ -67,7 +65,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "SendFamily": {
+    "ISendFamily": {
         "dataType": "refObject",
         "properties": {
             "id": { "dataType": "string", "required": true },
@@ -88,8 +86,8 @@ const models: TsoaRoute.Models = {
             "logs": { "dataType": "array", "array": { "dataType": "nestedObjectLiteral", "nestedProperties": { "text": { "dataType": "string", "required": true }, "time": { "dataType": "double", "required": true } } }, "required": true },
             "profilpic": { "dataType": "string", "required": true },
             "currentFamilyId": { "dataType": "string", "required": true },
-            "ActiveFamily": { "ref": "SendFamily", "required": true },
-            "Families": { "dataType": "array", "array": { "ref": "SendFamily" }, "required": true },
+            "ActiveFamily": { "ref": "ISendFamily", "required": true },
+            "Families": { "dataType": "array", "array": { "ref": "ISendFamily" }, "required": true },
         },
         "additionalProperties": false,
     },
@@ -583,105 +581,6 @@ export function RegisterRoutes(app: express.Express) {
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/day/:date',
-        authenticateMiddleware([{ "Bearer": [] }]),
-        function(request: any, response: any, next: any) {
-            const args = {
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-                date: { "in": "path", "name": "date", "required": true, "dataType": "string" },
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new DayController();
-
-
-            const promise = controller.GetDay.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.put('/day/:date',
-        authenticateMiddleware([{ "Bearer": [] }]),
-        function(request: any, response: any, next: any) {
-            const args = {
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-                date: { "in": "path", "name": "date", "required": true, "dataType": "string" },
-                mealings: { "in": "body", "name": "mealings", "required": true, "dataType": "array", "array": { "dataType": "any" } },
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new DayController();
-
-
-            const promise = controller.SetDay.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/day/:date/:mealingIdentity',
-        authenticateMiddleware([{ "Bearer": [] }]),
-        function(request: any, response: any, next: any) {
-            const args = {
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-                date: { "in": "path", "name": "date", "required": true, "dataType": "string" },
-                mealingIdentity: { "in": "path", "name": "mealingIdentity", "required": true, "dataType": "double" },
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new DayController();
-
-
-            const promise = controller.RefreshDay.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/day/finalize/:date/:mealingIdentity',
-        authenticateMiddleware([{ "Bearer": [] }]),
-        function(request: any, response: any, next: any) {
-            const args = {
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-                date: { "in": "path", "name": "date", "required": true, "dataType": "string" },
-                mealingIdentity: { "in": "path", "name": "mealingIdentity", "required": true, "dataType": "double" },
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new DayController();
-
-
-            const promise = controller.FinalizeMealing.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.get('/subscription',
         authenticateMiddleware([{ "Bearer": [] }]),
         function(request: any, response: any, next: any) {
@@ -992,7 +891,9 @@ export function RegisterRoutes(app: express.Express) {
 
                 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-                if (data || data === false) { // === false allows boolean result
+                if (data && typeof data.pipe === 'function' && data.readable && typeof data._read === 'function') {
+                    data.pipe(response);
+                } else if (data || data === false) { // === false allows boolean result
                     response.status(statusCode || 200).json(data);
                 } else {
                     response.status(statusCode || 204).end();

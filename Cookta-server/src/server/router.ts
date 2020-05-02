@@ -2,10 +2,262 @@ import * as express from 'express';
 import { ProcessPromiseResponse } from 'waxen/dist/server/request-promise-handler';
 import { authenticationReqMiddleware } from 'waxen/dist/server/request-promise-handler';
 import { defaultAuthentication } from "./authentication";
+import { DayController } from "../controllers/day.controller";
+import { IMealing } from "cookta-shared/src/models/days/mealing.interface";
+import { EssentialsController } from "../controllers/essentialsController";
+import { IIngredient } from "cookta-shared/src/models/ingredient/ingredient.interface";
+import { FamilyController } from "../controllers/family.controller";
+import { InviteFamilyRequest } from "cookta-shared/src/contracts/family/invite.family.request";
 import { FoodController } from "../controllers/food.controller";
 import { IUpdateFoodRequest } from "cookta-shared/src/contracts/foods/update-food.request";
+import { IngredientTypeController } from "../controllers/ingredient-type.controller";
+import { ISetIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
+import { IDeleteIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
+import { DeleteCustomUnitRequest } from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
+import { PingController } from "../controllers/ping.controller";
+import { ShoppingListController } from "../controllers/shopping-list.controller";
+import { StockController } from "../controllers/stock.controller";
+import { IStorageItemChangeRequest } from "cookta-shared/src/contracts/stock/StorageItemChange.request";
+import { SubscriptionController } from "../controllers/subscription.controller";
+import { TagController } from "../controllers/tag.controller";
+import { SetTagRequest } from "cookta-shared/src/contracts/tags/set.tag.request";
+import { UnitController } from "../controllers/unit.controller";
+import { FixBadUnitRequest } from "cookta-shared/src/contracts/unit-route/get-bad-units";
+import { UserController } from "../controllers/user.controller";
 
 export function RegisterRoutes(app: express.Express) {
+    // <<=======-DAYS-======>>
+    app.get('/day/:date',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    date: request.params['date']
+                };
+                const controller = new DayController();
+                const promise = controller.GetDay(request.body as void, user, args.date);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/day/:date',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    date: request.params['date']
+                };
+                const controller = new DayController();
+                const promise = controller.SetDay(request.body as IMealing[], user, args.date);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.get('/day/:date/:mealingIndex',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    date: request.params['date'],
+                    mealingIndex: request.params['mealingIndex']
+                };
+                const controller = new DayController();
+                const promise = controller.RefreshMeal(request.body as void, user, args.date, args.mealingIndex);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.get('/day/finalize/:date/:mealingIdentity',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    date: request.params['date'],
+                    mealingIdentity: request.params['mealingIdentity']
+                };
+                const controller = new DayController();
+                const promise = controller.FinalizeMealing(request.body as void, user, args.date, args.mealingIdentity);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-ESSENTIALS-======>>
+    app.get('/essentials/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new EssentialsController();
+                const promise = controller.GetCurrentBaseList(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.post('/essentials/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new EssentialsController();
+                const promise = controller.SetBaseList(request.body as IIngredient[], user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-FAMILIES-======>>
+    app.get('/family/:familyId',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    familyId: request.params['familyId']
+                };
+                const controller = new FamilyController();
+                const promise = controller.GetFamily(request.body as void, user, args.familyId);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/family/:newId',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    newId: request.params['newId']
+                };
+                const controller = new FamilyController();
+                const promise = controller.SwitchFamily(request.body as void, user, args.newId);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.delete('/family/:deleteId',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    deleteId: request.params['deleteId']
+                };
+                const controller = new FamilyController();
+                const promise = controller.DeleteFamily(request.body as void, user, args.deleteId);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.post('/family/:name',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    name: request.params['name']
+                };
+                const controller = new FamilyController();
+                const promise = controller.CreateFamily(request.body as void, user, args.name);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.get('/family/invite/:familyId',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    familyId: request.params['familyId']
+                };
+                const controller = new FamilyController();
+                const promise = controller.InviteByUserNameEmail(request.body as InviteFamilyRequest, user, args.familyId);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.delete('/family/leave/:familyId/:removeUserSub',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    familyId: request.params['familyId'],
+                    removeUserSub: request.params['removeUserSub']
+                };
+                const controller = new FamilyController();
+                const promise = controller.LeaveFamily(request.body as void, user, args.familyId, args.removeUserSub);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
     // <<=======-FOODCONTROLLER-======>>
     app.get('/food/',
         function(request: any, response: any, next: any) {
@@ -200,6 +452,393 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new FoodController();
                 const promise = controller.DeleteImage(request.body as void, user, args.foodVersionId);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-INGREDIENTTYPES-======>>
+    app.get('/ingredientType/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new IngredientTypeController();
+            const promise = controller.GetAll(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    app.post('/ingredientType/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['edit-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new IngredientTypeController();
+                const promise = controller.SetIngredient(request.body as ISetIngredientTypeRequest, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.delete('/ingredientType/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['delete-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new IngredientTypeController();
+                const promise = controller.DeleteIngredient(request.body as IDeleteIngredientTypeRequest, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.get('/ingredientType/check/:unitId',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['advanced-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                    unitId: request.params['unitId']
+                };
+                const controller = new IngredientTypeController();
+                const promise = controller.GetUnitRefs(request.body as void, user, args.unitId);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/ingredientType/delete/unit/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['advanced-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new IngredientTypeController();
+                const promise = controller.DeleteCustomUnit(request.body as DeleteCustomUnitRequest, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-PING-======>>
+    app.get('/ping/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new PingController();
+            const promise = controller.Ping(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    // <<=======-SHOPPINGLIST-======>>
+    app.get('/ShoppingList/:nextShopping',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    nextShopping: request.params['nextShopping']
+                };
+                const controller = new ShoppingListController();
+                const promise = controller.GetShoppingList(request.body as void, user, args.nextShopping);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-STOCK-======>>
+    app.get('/stock/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new StockController();
+                const promise = controller.GetAll(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.post('/stock/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new StockController();
+                const promise = controller.CreateSection(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/stock/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new StockController();
+                const promise = controller.EditSection(request.body as IStorageItemChangeRequest, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/stock/:sectionIdString',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    sectionIdString: request.params['sectionIdString']
+                };
+                const controller = new StockController();
+                const promise = controller.DeleteSection(request.body as void, user, args.sectionIdString);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-SUBSCRIPTION-======>>
+    app.get('/subscription/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new SubscriptionController();
+                const promise = controller.GetSubscribedFoods(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/subscription/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new SubscriptionController();
+                const promise = controller.SetSubscriptionState(request.body as { foodId: string, state: boolean }, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-TAGS-======>>
+    app.get('/tag/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new TagController();
+            const promise = controller.GetAll(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    app.post('/tag/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['manage-tags'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new TagController();
+                const promise = controller.SetTag(request.body as SetTagRequest, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.delete('/tag/:id',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['manage-tags'], (error) => { }).then((user) => {
+                const args = {
+                    id: request.params['id']
+                };
+                const controller = new TagController();
+                const promise = controller.Delete(request.body as void, user, args.id);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-UNIT-======>>
+    app.get('/unit/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new UnitController();
+            const promise = controller.GetAll(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    app.get('/unit/bad-units/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new UnitController();
+            const promise = controller.GetBadUnits(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    app.post('/unit/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new UnitController();
+            const promise = controller.FixBadUnit(request.body as FixBadUnitRequest);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    // <<=======-USER-======>>
+    app.get('/user/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new UserController();
+                const promise = controller.User(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/user/:name',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    name: request.params['name']
+                };
+                const controller = new UserController();
+                const promise = controller.SetUserName(request.body as void, user, args.name);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.get('/user/:name',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    name: request.params['name']
+                };
+                const controller = new UserController();
+                const promise = controller.GetNameAlreadyUsed(request.body as void, user, args.name);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.get('/user/permission/:permission',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    permission: request.params['permission']
+                };
+                const controller = new UserController();
+                const promise = controller.HasPermission(request.body as void, user, args.permission);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);

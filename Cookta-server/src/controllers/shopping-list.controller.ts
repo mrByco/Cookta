@@ -1,22 +1,17 @@
-import {Controller, Get, Request, Route, Security} from "tsoa";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
-import {ShoppingList} from "../models/shopping-list.model";
-import {IShoppingList} from "cookta-shared/models/shopping-list.interface";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Security} from "waxen/dist/deorators/security";
+import { IShoppingList } from "cookta-shared/src/models/shopping-list/shopping-list.interface";
+import { request } from "http";
 
-@Route('ShoppingList')
-export class ShoppingListController extends Controller {
-    @Security('Bearer', [])
-    @Get("/{nextShopping}")
-    public async GetShoppingList(@Request() request: any, nextShopping: string): Promise<any> {
-        try{
-            let user = request.user as User;
-            let family = user.GetCurrentFamily();
-            return Services.ShoppingListService.GetShoppingList(family, nextShopping);
-        }
-        catch (exception){
-            console.log(exception);
-            this.setStatus(500);
-        }
+
+@Controller(Contracts.ShoppingList)
+export class ShoppingListController {
+    @Security(false)
+    public async GetShoppingList(reqBody: void, user: User, nextShopping: string): Promise<IShoppingList> {
+        let family = user.GetCurrentFamily();
+        return Services.ShoppingListService.GetShoppingList(family, nextShopping);
     }
 }

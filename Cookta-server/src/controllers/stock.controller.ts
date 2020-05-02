@@ -1,55 +1,43 @@
-import {Body, Controller, Delete, Get, Post, Put, Request, Route, Security, Tags} from "tsoa";
-import {RequestHelper} from "../helpers/request.helper";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
 import {ObjectId} from "mongodb";
-import {IStorageSection, IStorageSectionRequest} from "cookta-shared/contracts/stock/IStorageSectionRequest";
-import {IStorageItemChangeRequest} from "cookta-shared/contracts/stock/StorageItemChange.request";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from 'cookta-shared/src/contracts/contracts';
+import {Security} from 'waxen/dist/deorators/security';
+import {NotFoundError} from "../helpers/error.helper";
+import {IStorageSection} from "cookta-shared/src/models/storage-sections/storage-section.interface";
+import {IStorageItemChangeRequest} from "cookta-shared/src/contracts/stock/StorageItemChange.request";
+import {IStorageSectionRequest} from "cookta-shared/src/contracts/stock/IStorageSectionRequest";
 
-@Route('/stock')
-@Tags('Stock')
-export class StockController extends Controller {
-    @Security("Bearer", [])
-    @Get('/')
-    public async GetAll(@Request() request: any): Promise<any> {
-        let user = request.user as User;
-        let items = await RequestHelper.ExecuteRequest(this, () => {
-            let i =  Services.StorageService.GetSections(user.GetCurrentFamily());
-            return i;
-        });
+@Controller(Contracts.Storage)
+export class StockController {
+
+    @Security(false)
+    public async GetAll(reqBody: void, user: User): Promise<any> {
+        let items = await Services.StorageService.GetSections(user.GetCurrentFamily());
         return Services.ToSendableList(items);
     }
-    @Security("Bearer", [])
-    @Post('/')
-    public async CreateSection(@Request() request: any): Promise<any> {
-        let user = request.user as User;
-        return await RequestHelper.ExecuteRequest(this, () => {
-            return Services.StorageService.CreateSection(user).ToSendJson();
-        });
+
+    @Security(false)
+    public async CreateSection(reqBody: void, user: User): Promise<IStorageSection> {
+        return await Services.StorageService.CreateSection(user).ToSendJson();
     }
-    @Security("Bearer", [])
-    @Put('/')
-    public async EditSection(@Request() request: any, @Body() changeRequest: any): Promise<any> {
-        let user = request.user as User;
-        return await RequestHelper.ExecuteRequest(this, () => {
-            return Services.StorageService.SetSection(user, changeRequest).ToSendJson();
-        });
+
+    @Security(false)
+    public async EditSection(reqBody: IStorageItemChangeRequest, user: User): Promise<IStorageSectionRequest> {
+        return Services.StorageService.SetSection(user, reqBody).ToSendJson();
     }
-    @Security("Bearer", [])
-    @Delete('/{sectionIdString}')
-    public async DeleteSection(@Request() request: any, sectionIdString: string): Promise<any[]> {
+
+    @Security(false)
+    public async DeleteSection(reqBody: void, user: User, sectionIdString: string): Promise<IStorageSection[]> {
         let sectionId;
-        try{
+        try {
             sectionId = new ObjectId(sectionIdString);
-        }catch{
-            this.setStatus(404);
-            return;
+        } catch{
+            throw NotFoundError();
         }
-        let user = request.user as User;
-        return await RequestHelper.ExecuteRequest(this, () => {
-            Services.StorageService.DeleteSection(user, sectionId);
-            return Services.ToSendableList(Services.StorageService.GetSections(user.GetCurrentFamily()));
-        });
+        await Services.StorageService.DeleteSection(user, sectionId);
+        return Services.ToSendableList(Services.StorageService.GetSections(user.GetCurrentFamily()));
     }
 }
 

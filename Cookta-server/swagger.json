@@ -81,7 +81,7 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"SendFamily": {
+		"ISendFamily": {
 			"properties": {
 				"id": {
 					"type": "string"
@@ -150,11 +150,11 @@
 					"type": "string"
 				},
 				"ActiveFamily": {
-					"$ref": "#/definitions/SendFamily"
+					"$ref": "#/definitions/ISendFamily"
 				},
 				"Families": {
 					"items": {
-						"$ref": "#/definitions/SendFamily"
+						"$ref": "#/definitions/ISendFamily"
 					},
 					"type": "array"
 				}
@@ -841,162 +841,6 @@
 						"name": "permission",
 						"required": true,
 						"type": "string"
-					}
-				]
-			}
-		},
-		"/day/{date}": {
-			"get": {
-				"operationId": "GetDay",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"additionalProperties": true,
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Days"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "date",
-						"required": true,
-						"type": "string"
-					}
-				]
-			},
-			"put": {
-				"operationId": "SetDay",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"additionalProperties": true,
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Days"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "date",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"in": "body",
-						"name": "mealings",
-						"required": true,
-						"schema": {
-							"items": {
-								"additionalProperties": true,
-								"type": "object"
-							},
-							"type": "array"
-						}
-					}
-				]
-			}
-		},
-		"/day/{date}/{mealingIdentity}": {
-			"get": {
-				"operationId": "RefreshDay",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"additionalProperties": true,
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Days"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "date",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"in": "path",
-						"name": "mealingIdentity",
-						"required": true,
-						"format": "double",
-						"type": "number"
-					}
-				]
-			}
-		},
-		"/day/finalize/{date}/{mealingIdentity}": {
-			"get": {
-				"operationId": "FinalizeMealing",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"additionalProperties": true,
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"Days"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "date",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"in": "path",
-						"name": "mealingIdentity",
-						"required": true,
-						"format": "double",
-						"type": "number"
 					}
 				]
 			}
