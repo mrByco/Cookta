@@ -1,13 +1,11 @@
-import {Unit} from "../models/unit/unit.model";
 import {Services} from "../Services";
 import {Food} from "../models/food/food.model";
 import {IBadUnit} from "cookta-shared/src/models/unit/bad-unit.interface";
 import {Controller} from "waxen/dist/deorators/controller";
-import { Contracts } from 'cookta-shared/src/contracts/contracts';
+import {Contracts} from 'cookta-shared/src/contracts/contracts';
 import {Security} from "waxen/dist/deorators/security";
-import { IUnit } from "cookta-shared/src/models/unit/unit.interface";
-import { Body } from "tsoa";
-import { GetBadUnitResponse, FixBadUnitRequest } from "cookta-shared/src/contracts/unit-route/get-bad-units";
+import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
+import {FixBadUnitRequest, GetBadUnitResponse} from "cookta-shared/src/contracts/unit-route/get-bad-units";
 
 @Controller(Contracts.Units)
 export class UnitController {
@@ -28,7 +26,7 @@ export class UnitController {
 
     //Should return the remaining unit list.
     @Security(false, 'advanced-ingredients')
-    public async FixBedUnit(@Body() reqBody: any): Promise<any> {
+    public async FixBedUnit(reqBody: any): Promise<any> {
         let foods: Food[] = [];
         foods = await Food.GetAllFoods({});
         if (reqBody.badUnit.Fix && reqBody.badUnit.FixUnit) {

@@ -8,7 +8,6 @@ import {Security} from 'waxen/dist/deorators/security';
 import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
 import {ISetIngredientTypeRequest} from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
 import {User} from "../models/user.model";
-import {request} from "http";
 import {
     IDeleteIngredientTypeRequest,
     IDeleteIngredientTypeResponse
@@ -26,7 +25,7 @@ export class IngredientTypeController {
     @Security(false, 'edit-ingredients')
     public async SetIngredient(reqBody: ISetIngredientTypeRequest, user: User): Promise<{ all: IIngredientType[], created: IIngredientType }> {
         let result = { all: undefined, created: undefined };
-        result.created = Services.IngredientTypeService.SetIngredientType(request);
+        result.created = Services.IngredientTypeService.SetIngredientType(reqBody);
         result.all = await this.GetAll();
         return result;
     }

@@ -1,21 +1,8 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyParser from "body-parser";
-import * as swaggerUi from 'swagger-ui-express';
-import {RegisterRoutes} from "./routes";
 import * as router from './server/router';
 import {requestLoggerMiddleware} from "./request.logger.middleware";
-import './controllers/ingredient-type.controller';
-import './controllers/unit.controller';
-import './controllers/essentialsController';
-import './controllers/tag.controller';
-import './controllers/stock.controller';
-import './controllers/user.controller';
-import './controllers/day.controller';
-import './controllers/subscription.controller';
-import './controllers/family.controller';
-import './controllers/ping.controller';
-import './controllers/shopping-list.controller';
 
 const fileUpload = require('express-fileupload');
 
@@ -30,7 +17,6 @@ app.use(fileUpload(
         tempFileDir: '/tmp/',
         preserveExtension: true,
     }));
-RegisterRoutes(app);
 router.RegisterRoutes(app);
 
 
@@ -39,14 +25,14 @@ app.get('/', (req, res) => {
 });
 
 
-if (process.env.NODE_ENV == "debug ") {
+/*if (process.env.NODE_ENV == "debug ") {
     try {
         const swaggerDocument = require('../swagger.json');
         app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     } catch (err) {
         console.error(err);
     }
-}
+}*/
 
 
 export {app};

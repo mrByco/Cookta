@@ -1,4 +1,3 @@
-import {Delete, Get, Post} from "tsoa";
 import {Food} from "../models/food/food.model";
 import {Subscription} from "../models/subscription.model";
 import {User} from "../models/user.model";
@@ -10,7 +9,6 @@ import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.
 import {SendableFood} from "../models/food/food-sendable";
 import {ProvideRequest} from "waxen/dist/deorators/provide-request";
 import {NotFoundError} from "../helpers/error.helper";
-import { request } from "http";
 
 @Controller(Contracts.Foods)
 export class FoodController {

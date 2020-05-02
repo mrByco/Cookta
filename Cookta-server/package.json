@@ -7,7 +7,7 @@
     "test": "mocha --recursive --require ts-node/register ./src/**/*.spec.ts",
     "start": "set NODE_ENV=debug && nodemon -x ts-node src/main.ts",
     "start-backup": "nodemon -x ts-node src/database-command-tool/main.ts",
-    "generate": "tsoa routes && tsoa swagger && waxen generate",
+    "generate": "waxen generate",
     "watch": "nodemon -x ts-node",
     "tsc": "rmdir dist /Q /S  && tsc",
     "build": "tsc -d"
@@ -32,7 +32,6 @@
     "request": "^2.88.0",
     "swagger-ui-express": "^4.1.2",
     "ts-node": "^8.4.1",
-    "tsoa": "^2.5.7",
     "waxen": "file:../packages/waxen-1.0.0.tgz",
     "waxen-generator": "file:../packages/waxen-generator-1.0.0.tgz"
   },

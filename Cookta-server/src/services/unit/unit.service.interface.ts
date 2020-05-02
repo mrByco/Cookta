@@ -2,12 +2,12 @@ import {IStoreService} from 'atomik/lib/store-service/store-service-interface';
 import {Unit} from '../../models/unit/unit.model';
 import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
 import {IEssentialSection} from "../../models/essentials/essential-list.interface";
-import {IStorageSection} from "cookta-shared/contracts/stock/IStorageSectionRequest";
 import {Food} from "../../models/food/food.model";
 import {EssentialSection} from "../../models/essentials/essential-list.model";
 import {StorageSection} from "../../models/storage-section.model";
 import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
 import {IBadUnit} from "cookta-shared/src/models/unit/bad-unit.interface";
+import { IStorageSection } from 'cookta-shared/src/models/storage-sections/storage-section.interface';
 
 export interface IUnitService extends IStoreService<Unit> {
 

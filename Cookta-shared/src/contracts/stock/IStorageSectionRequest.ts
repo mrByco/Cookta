@@ -1,6 +1,6 @@
 
 import { ObjectId } from "mongodb";
-import { IIngredient } from 'src/models/ingredient/ingredient.interface';
+import { IIngredient } from "../../models/ingredient/ingredient.interface";
 
 export interface IStorageSectionRequest {
 
