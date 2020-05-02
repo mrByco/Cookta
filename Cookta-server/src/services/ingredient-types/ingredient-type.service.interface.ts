@@ -1,8 +1,8 @@
 import {IStoreService} from 'atomik/lib/store-service/store-service-interface';
-import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
-import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
+import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
 import {IIngredientDependendentObject} from "../../interfaces/ingredient-dependency-object.interface";
+import { ISetIngredientTypeRequest } from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
 
 export interface IIngredientTypeService extends IStoreService<IIngredientType> {
     GetAllNotArhived(): IIngredientType[];

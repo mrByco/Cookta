@@ -6,13 +6,14 @@ import { TodoController } from "../controllers/task.controller";
 
 export function RegisterRoutes(app: express.Express) {
     // <<=======-TODOS-======>>
-    app.get('/secured/',
+    app.get('/secured/:param1',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(authenticate, request, response, false, ['ok'], (error) => { }).then((user) => {
                 const args = {
+                    param1: request.params['param1']
                 };
                 const controller = new TodoController();
-                const promise = controller.Secured(request.body as void, user);
+                const promise = controller.Secured(request.body as void, user, request, args.param1);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);

@@ -1,15 +1,15 @@
 import {StoreService} from "atomik/lib/store-service/store-service";
 import {ShoppingList} from "../../models/shopping-list.model";
 import {Family} from "../../models/family.model";
-import {IMealing} from "../../models/Days/IMealing.interface";
 import {Day} from "../../models/Days/day.model";
 import {Services} from "../../Services";
 import {IngredientHelper} from "../../helpers/ingredient.helper";
 import {IShoppingListService} from "./shopping-list.service.interface";
-import {IShoppingList} from "../../models/shopping-list.interface";
 import "../../extensions/string-extensions"
 import "../../extensions/date-extensions"
-import {ICompleteIngredient, IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {ICompleteIngredient, IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
+import { IShoppingList } from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
 
 export class ShoppingListService extends StoreService<ShoppingList> implements IShoppingListService {
 

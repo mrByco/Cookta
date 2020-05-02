@@ -4,7 +4,7 @@ import {ControllerData} from "waxen/dist/abstract/controller.interface";
 import {User} from "./models/user.model";
 
 
-const Secured: IRoute<void, User, void> = {path: 'secured', method: ERouteMethod.GET}
+const Secured: IRoute<void, User, { param1: string }> = {path: 'secured', method: ERouteMethod.GET}
 const Fail: IRoute<{ id: string, name: string }, User, void> = {
     path: 'fail',
     method: ERouteMethod.GET

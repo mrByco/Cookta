@@ -1,11 +1,11 @@
-import {ObjectId} from "mongodb";
 import {Role} from "./role.model";
-import {Family, SendFamily} from "./family.model";
 import {Food} from "./food/food.model";
 import {Subscription} from "./subscription.model";
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 import {Services} from "../Services";
-import {ExtendedUser} from "./extendedUser";
+import { Family } from './family.model';
+import { ExtendedUser } from 'cookta-shared/src/models/user/extendedUser';
+import { ISendFamily } from 'cookta-shared/src/models/family/family.interface';
 
 
 export class User extends StoreItemBase {
@@ -84,8 +84,8 @@ export class User extends StoreItemBase {
     }
 
     public ToExtendedUser(): ExtendedUser{
-        let activeFamily: SendFamily = this.GetCurrentFamily().ToSendFamily();
-        let families: SendFamily[] = Services.FamilyService.GetUserFamilies(this).map(f => f.ToSendFamily());
+        let activeFamily: ISendFamily = this.GetCurrentFamily().ToSendFamily();
+        let families: ISendFamily[] = Services.FamilyService.GetUserFamilies(this).map(f => f.ToSendFamily());
 
         return {
             ActiveFamily: activeFamily,

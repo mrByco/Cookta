@@ -1,14 +1,14 @@
-import {EUnitType} from "cookta-shared/dist/models/unit/unit-type.enum";
-import {IUnit} from "cookta-shared/dist/models/unit/unit.interface";
+import {EUnitType} from "cookta-shared/src/models/unit/unit-type.enum";
+import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
 import {IEssentialSection} from "./models/essentials/essential-list.interface";
-import {IStorageSection} from "./interfaces/IStorageSectionRequest";
 import {ObjectId} from 'mongodb';
-import {IIngredientType} from "cookta-shared/dist/models/ingredient-type/ingredient-type.interface";
-import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
+import {IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
 import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
 import {UnitService} from "./services/unit/unit.service";
 import {Unit} from "./models/unit/unit.model";
 import {Services} from "./Services";
+import {IStorageSection} from "cookta-shared/src/models/storage-sections/storage-section.interface";
 
 
 function AddUnitToUnitService(unitService: UnitService, unit: IUnit) {

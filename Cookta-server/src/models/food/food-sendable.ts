@@ -3,8 +3,8 @@ import {ObjectID} from "bson";
 import {Tag} from "../tag.model";
 import {User} from "../user.model";
 import {Subscription} from "../subscription.model";
-import {ISendableFood} from "./food-sendable.interface";
-import {IIngredient} from "cookta-shared/dist/models/ingredient/ingredient.interface";
+import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
+import {IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
 
 export class SendableFood implements ISendableFood {
 

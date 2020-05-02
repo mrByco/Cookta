@@ -1,53 +1,42 @@
-import {Body, Controller, Delete, Get, Post, Route, Tags} from "tsoa";
 import {Tag} from "../models/tag.model";
-import {SetTagRequest} from "../requests/set.tag.request";
+import {SetTagRequest} from "cookta-shared/src/contracts/tags/set.tag.request";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Security} from "waxen/dist/deorators/security";
+import {NotFoundError} from "../helpers/error.helper";
+import {ITag} from "cookta-shared/src/models/tag/tag.interface";
+import {User} from "../models/user.model";
 
-@Route('/tag')
-@Tags('Tag')
-export class TagController extends Controller {
-    @Get()
-    public async GetAll(): Promise<any[]> {
-        try{
-            return await Tag.GetAll();
-        }
-        catch{
-            this.setStatus(500);
-        }
+@Controller(Contracts.Tags)
+export class TagController {
+
+    public async GetAll(reqBody: void): Promise<ITag[]> {
+        return await Tag.GetAll();
     }
-    @Post()
-    public async SetTag(@Body() request: SetTagRequest): Promise<Tag[]> {
-        try{
-            let tag;
-            if (!request.guid){
-                tag = await Tag.Add(request.name, request.parent);
-            }else{
-                tag = await Tag.GetTagById(request.guid);
-                if (!tag) {
-                    this.setStatus(404);
-                    return;
-                }
-                tag = await tag.Update(request.name, request.parent);
+
+    @Security(false, 'manage-tags')
+    public async SetTag(reqBody: SetTagRequest, user: User): Promise<ITag[]> {
+        let tag;
+        if (!reqBody.guid) {
+            await Tag.Add(reqBody.name, reqBody.parent);
+        } else {
+            tag = await Tag.GetTagById(reqBody.guid);
+            if (!tag) {
+                throw NotFoundError();
             }
-            return await Tag.GetAll();
+            await tag.Update(reqBody.name, reqBody.parent);
         }
-        catch{
-            this.setStatus(500);
-        }
+        return await Tag.GetAll();
     }
-    @Delete('/{id}')
-    public async Delete(id: string): Promise<Tag[]> {
-        try{
-            let tag = await Tag.GetTagById(id);
-            if (!tag){
-                this.setStatus(404);
-                return;
-            }
-            await tag.Delete();
-            return await Tag.GetAll();
+
+    @Security(false, 'manage-tags')
+    public async Delete(reqBody: void, user: User, id: string): Promise<ITag[]> {
+        let tag = await Tag.GetTagById(id);
+        if (!tag) {
+            throw NotFoundError();
         }
-        catch{
-            this.setStatus(500);
-        }
+        await tag.Delete();
+        return await Tag.GetAll();
     }
 
 }

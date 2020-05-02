@@ -2,13 +2,15 @@
 import {Routes} from "../routes";
 import { Controller } from "waxen/dist/deorators/controller";
 import { Security } from "waxen/dist/deorators/security";
+import { ProvideRequest } from "waxen/dist/deorators/provide-request";
 import { User } from "../models/user.model";
 
 @Controller(Routes.todos)
 export class TodoController {
 
+    @ProvideRequest()
     @Security(false, 'ok')
-    public async Secured(reqBody: void, user: User): Promise<User> {
+    public async Secured(reqBody: void, user: User, request: any, param1: string): Promise<User> {
         return user;
     }
 

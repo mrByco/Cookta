@@ -1,152 +1,111 @@
-import {Body, Controller, Delete, Get, Post, Request, Route, Security, Tags} from "tsoa";
-import {IUpdateFoodRequest} from "../requests/create.food.request";
 import {Food} from "../models/food/food.model";
-import {SendableFood} from "../models/food/food-sendable";
 import {Subscription} from "../models/subscription.model";
 import {User} from "../models/user.model";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Security} from "waxen/dist/deorators/security";
+import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
+import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
+import {SendableFood} from "../models/food/food-sendable";
+import {ProvideRequest} from "waxen/dist/deorators/provide-request";
+import {NotFoundError} from "../helpers/error.helper";
 
-@Tags("Food")
-@Route("/food")
-export class FoodController extends Controller {
-    @Security("Bearer", ['noauth'])
-    @Get()
-    public async GetPublicFoods(@Request() request: any): Promise<any[]> {
-        try{
-            let User = request.user as User;
-            return (await Food.ToSendableAll(await Food.GetAllPublicFoods(), User));
+@Controller(Contracts.Foods)
+export class FoodController {
+
+
+
+    @Security(true)
+    public async GetPublicFoods(reqBody: void, user: User): Promise<ISendableFood[]> {
+        try {
+            return (await Food.ToSendableAll(await Food.GetAllPublicFoods(), user));
         }
-        catch (error){
-            this.setStatus(500);
+        catch (error) {
             console.error("An error caught: " + error.message);
         }
     }
 
-    @Security("Bearer", [])
-    @Get("/collection")
-    public async GetCollectionFoods(@Request() request: any): Promise<any[]> {
-        try{
-            let User = request.user as User;
-            let foods = await Food.GetCollectionForUser(User);
-            return (await Food.ToSendableAll(foods, User));
+    @Security(true)
+    public async GetCollectionFoods(reqBody: void, user: User): Promise<ISendableFood[]> {
+        try {
+            let foods = await Food.GetCollectionForUser(user);
+            return (await Food.ToSendableAll(foods, user));
         }
-        catch (error){
-            this.setStatus(500);
+        catch (error) {
             console.error("An error caught: " + error.message);
         }
     }
-    @Security("Bearer", [])
-    @Get("/own")
-    public async GetOwnFoods(@Request() request: any): Promise<any[]> {
-        try{
-            let User = request.user as User;
-            let foods = await Food.GetAllOwnFoods(User);
-            return await Food.ToSendableAll(foods, User);
+    @Security(false)
+    public async GetOwnFoods(reqBody: void, user: User): Promise<ISendableFood[]> {
+        try {
+            let foods = await Food.GetAllOwnFoods(user);
+            return await Food.ToSendableAll(foods, user);
         }
-        catch (error){
-            this.setStatus(500);
+        catch (error) {
             console.error("An error caught: " + error.message);
         }
     }
-    @Security("Bearer", [])
-    @Get("/family")
-    public async GetFamilyFoods(@Request() request: any): Promise<any[]> {
-        try{
-            let User = request.user as User;
-            let currentFamily = User.GetCurrentFamily();
+    @Security(false)
+    public async GetFamilyFoods(reqBody: void, user: User): Promise<ISendableFood[]> {
+        try {
+            let currentFamily = user.GetCurrentFamily();
             let familyFoods = await currentFamily.GetFamilyFoods();
-            return (await Food.ToSendableAll(familyFoods, User));
+            return (await Food.ToSendableAll(familyFoods, user));
         }
-        catch (error){
-            this.setStatus(500);
+        catch (error) {
             console.error("An error caught: " + error.message);
         }
     }
-    @Security("Bearer", [])
-    @Get("/subscription")
-    public async GetSubscriptionFoods(@Request() request: any): Promise<any[]> {
-        try{
-            let User = request.user as User;
-            let foods = await Subscription.GetSubsFoodsOfUser(User);
-            return (await Food.ToSendableAll(foods, User));
-        }
-        catch (error){
-            this.setStatus(500);
-            console.error("An error caught: " + error.message);
-        }
+    @Security(false)
+    public async GetSubscriptionFoods(reqBody: void, user: User): Promise<ISendableFood[]> {
+        let foods = await Subscription.GetSubsFoodsOfUser(user);
+        return (await Food.ToSendableAll(foods, user));
     }
 
-    @Security("Bearer", ['noauth'])
-    @Get('/{id}')
-    public async GetFoodById(@Request() request: any, id: string): Promise<any> {
-        let User = request.user as User;
-        let food = await Food.GetFoodForUser(id, User);
+    @Security(true)
+    public async GetFoodById(reqBody: void, user: User, id: string): Promise<ISendableFood> {
+        let food = await Food.GetFoodForUser(id, user);
         if (!food)
-            this.setStatus(404);
+            throw NotFoundError();
         else
-            return await food.ToSendable(User);
-        try{
+            return SendableFood.Create(food, user);
+    }
+
+    @Security(true)
+    public async GetPublicFoodsIncremental(reqBody: void, user: User, from: number, count: number): Promise<ISendableFood[]> {
+        try {
+            return await Food.ToSendableAll(await Food.GetIncremental(from, count, { published: true }), user);
         } catch{
-            this.setStatus(500);
+
         }
     }
 
-    @Security("Bearer", [])
-    @Get('/{from}/{count}')
-    public async GetPublicFoodsIncremental(@Request() request: any, from: number, count: number): Promise<any[]> {
-        try{
-            let User = request.user as User;
-            return await Food.ToSendableAll(await Food.GetIncremental(from, count, {published: true}), User);
-        } catch{
-            this.setStatus(500);
-        }
+    @Security(false)
+    public async AddOrUpdateFood(reqBody: IUpdateFoodRequest, user: User): Promise<ISendableFood> {
+        return await (await Food.UpdateFood(reqBody, user)).ToSendable(user);
     }
 
-    @Security("Bearer", [])
-    @Post("/")
-    public async AddOrUpdateFood(@Body() updateFoodRequest: any, @Request() request: any): Promise<any> {
-        let User = request.user as User;
-        return await (await Food.UpdateFood(updateFoodRequest, User)).ToSendable(User);
-        try{
-        }
-        catch{
-            this.setStatus(500)
-        }
-    }
-
-    @Security("Bearer", [])
-    @Delete('/{foodId}')
-    public async DeleteFood(@Request() request: any, foodId: string): Promise<any> {
-        try{
-            let User = request.user as User;
-            if ((await Food.GetFoodForUser(foodId, User)).owner == User.sub) {
-                return await (await Food.Delete(foodId, User)).ToSendable(User);
-            } else {
-                this.setStatus(401);
-                return;
-            }
-        }catch{
-            this.setStatus(500);
-        }
-    }
-
-
-    @Security('Bearer', [])
-    @Post('/image/{foodVersionId}')
-    public async UploadImage(@Request() request: any, foodVersionId: string){
-        if (!request.files['image']) {
-            this.setStatus(400);
+    @Security(false)
+    public async DeleteFood(reqBody: void, user: User, foodId: string): Promise<ISendableFood> {
+        if ((await Food.GetFoodForUser(foodId, user)).owner == user.sub) {
+            return await (await Food.Delete(foodId, user)).ToSendable(user);
+        } else {
             return;
         }
-        let User = request.user as User;
-        await Food.UploadImage(foodVersionId, request.files['image'].tempFilePath, User);
     }
 
-    @Security('Bearer', [])
-    @Delete('/image/{foodVersionId}')
-    public async DeleteImage(@Request() request: any, foodVersionId: string){
-        let User = request.user as User;
-        let success = await Food.DeleteImage(foodVersionId, User);
-        success ? this.setStatus(200) : this.setStatus(403);
-        return;
+
+    @ProvideRequest()
+    @Security(false)
+    public async UploadImage(reqBody: void, user: User, request: any, foodVersionId: string): Promise<void> {
+        if (!request.files['image']) {
+            return;
+        }
+        await Food.UploadImage(foodVersionId, request.files['image'].tempFilePath, user);
+    }
+
+    @Security(false)
+    public async DeleteImage(reqBody: void, user: User, foodVersionId: string): Promise<void> {
+        await Food.DeleteImage(foodVersionId, user);
     }
 }

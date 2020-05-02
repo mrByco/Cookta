@@ -1,6 +1,5 @@
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
 import {IIngredientTypeService} from './ingredient-type.service.interface';
-import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
 import {Guid} from 'guid-typescript';
 import {ObjectId} from 'mongodb';
 import {StoreService} from 'atomik/lib/store-service/store-service';
@@ -10,11 +9,12 @@ import {Services} from '../../Services';
 import {EssentialSection} from '../../models/essentials/essential-list.model';
 import {StorageSection} from '../../models/storage-section.model';
 import {Unit} from '../../models/unit/unit.model';
-import {IUnit} from 'cookta-shared/dist/models/unit/unit.interface';
-import {IIngredientType} from 'cookta-shared/dist/models/ingredient-type/ingredient-type.interface';
-import {IIngredient} from 'cookta-shared/dist/models/ingredient/ingredient.interface';
+import {IUnit} from 'cookta-shared/src/models/unit/unit.interface';
+import {IIngredientType} from 'cookta-shared/src/models/ingredient-type/ingredient-type.interface';
+import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IIngredientDependendentObject} from '../../interfaces/ingredient-dependency-object.interface';
-import {EUnitType} from 'cookta-shared/dist/models/unit/unit-type.enum';
+import {EUnitType} from 'cookta-shared/src/models/unit/unit-type.enum';
+import { ISetIngredientTypeRequest } from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
 
 
 const NO_DESCENDENT = 'NO_DESCENDENT_OR_FORCED';

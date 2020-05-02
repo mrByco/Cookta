@@ -1,4 +1,5 @@
 *.spec.ts
 *.spec.js
 *.tgz
-./src
+node_modules
+./package-lock.json

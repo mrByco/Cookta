@@ -2,7 +2,7 @@ import {StorageSection} from "../../models/storage-section.model";
 import {ObjectId} from "mongodb";
 import {User} from "../../models/user.model";
 import {StoreService} from "atomik/lib/store-service/store-service";
-import {IStorageItemChangeRequest} from "../../interfaces/StorageItemChange.request";
+import {IStorageItemChangeRequest} from "cookta-shared/src/contracts/stock/StorageItemChange.request";
 import {Family} from "../../models/family.model";
 
 export class StorageService extends StoreService<StorageSection> {

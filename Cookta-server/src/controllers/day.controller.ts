@@ -1,70 +1,52 @@
-import {Body, Controller, Get, Put, Request, Route, Security, Tags} from "tsoa";
+
 import {Day} from "../models/Days/day.model";
-import {IMealing} from "../models/Days/IMealing.interface";
-import { ObjectID } from "mongodb";
+import {ObjectID} from "mongodb";
 import {Food} from "../models/food/food.model";
 import {User} from "../models/user.model";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Security} from "waxen/dist/deorators/security";
+import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
+import {IDay} from "cookta-shared/src/models/days/day.interface";
 
-@Route("/day")
-@Tags("Days")
-export class DayController extends Controller {
-    @Security('Bearer', [])
-    @Get('/{date}')
-    public async GetDay(@Request() request, date: string): Promise<any> {
-        try {
-            let user = request.user as User;
-            return await Day.GetDay(date, user.GetCurrentFamily());
-        } catch {
-            this.setStatus(500);
-            return;
-        }
+
+@Controller(Contracts.Days)
+export class DayController {
+    @Security(false)
+    public async GetDay(reqBody: void, user: User, date: string): Promise<IDay> {
+        return await Day.GetDay(date, user.GetCurrentFamily());
     }
 
-    @Security('Bearer', [])
-    @Put('/{date}')
-    public async SetDay(@Request() request, date: string, @Body() mealings: any[]): Promise<any> {
-        //try {
-            let user = request.user as User;
-            for (let mealing of mealings as IMealing[]){
-                if (!mealing.id){
-                    mealing.id = new ObjectID().toHexString();
-                }
-                if (!mealing.foodId){
-                    let foods = await Food.GetFoodsOfTag(user, mealing.info.tagId);
-                    let food = foods[Math.floor(Math.random() * foods.length)];
-                    mealing.foodId = food ? food.foodId : undefined;
-                }
+    @Security(false)
+    public async SetDay(reqBody: IMealing[], user: User, date: string): Promise<IDay> {
+        for (let mealing of reqBody) {
+            if (!mealing.id) {
+                mealing.id = new ObjectID().toHexString();
             }
-            let day = await Day.GetDay(date, user.GetCurrentFamily());
-            await day.SetDay(mealings);
-            return day;
+            if (!mealing.foodId) {
+                let foods = await Food.GetFoodsOfTag(user, mealing.info.tagId);
+                let food = foods[Math.floor(Math.random() * foods.length)];
+                mealing.foodId = food ? food.foodId : undefined;
+            }
+        }
+        let day = await Day.GetDay(date, user.GetCurrentFamily());
+        await day.SetDay(reqBody);
+        return day;
     }
 
-    @Security('Bearer', [])
-    @Get('/{date}/{mealingIdentity}')
-    public async RefreshDay(@Request() request, date: string, mealingIdentity: number): Promise<any> {
-        try {
-            let user = request.user as User;
-            let day = await Day.GetDay(date, user.GetCurrentFamily());
-            await day.RefreshTagMealing(+mealingIdentity, user);
-            return day;
-        } catch {
-            this.setStatus(500);
-            return;
-        }
+    @Security(false)
+    public async RefreshMeal(reqBody: void, user: User, date: string, mealingIndex: number): Promise<IDay> {
+        let day = await Day.GetDay(date, user.GetCurrentFamily());
+        await day.RefreshTagMealing(+mealingIndex, user);
+        return day
     }
-    @Security('Bearer', [])
-    @Get('/finalize/{date}/{mealingIdentity}')
-    public async FinalizeMealing(@Request() request, date: string, mealingIdentity: number): Promise<any> {
-        try {
-            let user = request.user as User;
-            let day = await Day.GetDay(date, user.GetCurrentFamily());
-            await day.FinalizeMealing(+mealingIdentity, user);
-            return day;
-        } catch {
-            this.setStatus(500);
-            return;
-        }
+
+    @Security(false)
+    public async FinalizeMealing(reqBody: void, user: User, date: string, mealingIdentity: number): Promise<IDay> {
+
+        let day = await Day.GetDay(date, user.GetCurrentFamily());
+        await day.FinalizeMealing(+mealingIdentity, user);
+        return day;
     }
 
 }

@@ -1,20 +1,9 @@
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
-import {EFamilyRole, ifamilyMember} from "../interfaces/ifamilyMember";
 import {Services} from "../Services";
 import {Food} from "./food/food.model";
+import {ISendFamily} from "cookta-shared/src/models/family/family.interface";
+import { ifamilyMember, SendFamilyMember } from 'cookta-shared/src/models/family-member/family.member';
 
-export interface SendFamilyMember {
-    sub: string;
-    role: EFamilyRole;
-    username: string;
-    profilpic: string;
-}
-
-export interface SendFamily {
-    id: string;
-    name: string;
-    members: SendFamilyMember[];
-}
 
 export class Family extends StoreItemBase {
 
@@ -23,7 +12,7 @@ export class Family extends StoreItemBase {
     public members: ifamilyMember[] = null;
 
 
-    public ToSendFamily(): SendFamily {
+    public ToSendFamily(): ISendFamily {
         let members: SendFamilyMember[] = [];
         for (let member of this.members) {
             let user = Services.UserService.FindOne(u => u.sub == member.sub);
@@ -34,7 +23,7 @@ export class Family extends StoreItemBase {
             }
         }
 
-        let sendFamily: SendFamily = {id: this.Id.toHexString(), members: members, name: this.name}
+        let sendFamily: ISendFamily = {id: this.Id.toHexString(), members: members, name: this.name}
         return sendFamily;
     }
 
