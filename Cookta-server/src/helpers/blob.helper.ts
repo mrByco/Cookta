@@ -2,7 +2,6 @@ import {BlobClient, BlobServiceClient, BlockBlobParallelUploadOptions} from "@az
 
 const path = require('path');
 
-const blobConnectionString = process.env.IMAGES_CONNECT;
 
 export class BlobHelper {
 
@@ -11,6 +10,7 @@ export class BlobHelper {
 
 
     public static async GetBlobService(){
+        console.log('Starting bloob');
         if (this.BlobClient == null){
             BlobHelper.BlobClient = await this.StartBlobService();
         }
@@ -18,7 +18,8 @@ export class BlobHelper {
     }
 
     private static async StartBlobService(){
-        return new BlobServiceClient(blobConnectionString);
+        console.log(process.env.IMAGES_CONNECT);
+        return new BlobServiceClient(process.env.IMAGES_CONNECT);
     }
 
     public static async DeleteBlob(containerName: string, blobName: string){
