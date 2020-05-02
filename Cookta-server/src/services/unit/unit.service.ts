@@ -4,7 +4,6 @@ import {Unit} from '../../models/unit/unit.model';
 import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
 import {EUnitType} from "cookta-shared/src/models/unit/unit-type.enum";
 import {Food} from "../../models/food/food.model";
-import {IStorageSection} from "../../interfaces/IStorageSectionRequest";
 import {Services} from "../../Services";
 import {IEssentialSection} from "../../models/essentials/essential-list.interface";
 import {EssentialSection} from "../../models/essentials/essential-list.model";
@@ -12,6 +11,7 @@ import {StorageSection} from "../../models/storage-section.model";
 import {IBadUnit} from "cookta-shared/src/models/unit/bad-unit.interface";
 import {IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
 import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
+import { IStorageSection } from 'cookta-shared/src/models/storage-sections/storage-section.interface';
 
 
 export class UnitService extends StoreService<Unit> implements IUnitService {

@@ -1,7 +1,8 @@
-import {IMealing} from "../../models/Days/IMealing.interface";
+
 import {expect} from "chai";
 import {ShoppingListService} from "./shopping-list.service";
 import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
+import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
 
 const placeholderFood: ISendableFood = {
     owner: 'owner',

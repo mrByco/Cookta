@@ -1,6 +1,5 @@
 import {IngredientType} from '../../models/ingredient-type/ingredient-type.model';
 import {IIngredientTypeService} from './ingredient-type.service.interface';
-import {ISetIngredientTypeRequest} from '../../requests/set.ingredient-type.request';
 import {Guid} from 'guid-typescript';
 import {ObjectId} from 'mongodb';
 import {StoreService} from 'atomik/lib/store-service/store-service';
@@ -15,6 +14,7 @@ import {IIngredientType} from 'cookta-shared/src/models/ingredient-type/ingredie
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IIngredientDependendentObject} from '../../interfaces/ingredient-dependency-object.interface';
 import {EUnitType} from 'cookta-shared/src/models/unit/unit-type.enum';
+import { ISetIngredientTypeRequest } from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
 
 
 const NO_DESCENDENT = 'NO_DESCENDENT_OR_FORCED';

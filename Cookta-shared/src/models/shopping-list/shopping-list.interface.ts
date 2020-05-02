@@ -1,4 +1,4 @@
-import {IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
+import {IIngredient} from "../ingredient/ingredient.interface";
 
 export interface IShoppingList {
     IngredientsToBuy: IIngredient[];

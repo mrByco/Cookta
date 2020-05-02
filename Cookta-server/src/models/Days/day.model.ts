@@ -1,8 +1,8 @@
 import {User} from "../user.model";
 import {MongoHelper} from "../../helpers/mongo.helper";
 import {Food} from "../food/food.model";
-import {IMealing} from "./IMealing.interface";
 import {Family} from "../family.model";
+import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
 
 
 export class Day {

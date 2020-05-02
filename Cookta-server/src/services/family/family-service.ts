@@ -2,8 +2,8 @@ import {Family} from "../../models/family.model";
 import {StoreService} from "atomik/lib/store-service/store-service";
 import {User} from "../../models/user.model";
 import {ObjectId} from "mongodb";
-import {EFamilyRole} from "../../interfaces/ifamilyMember";
 import {Services} from "../../Services";
+import {EFamilyRole} from "cookta-shared/src/models/family-member/family.member";
 
 export class FamilyService extends StoreService<Family> {
 

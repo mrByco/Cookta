@@ -1,10 +1,8 @@
-import {Controller, Get, Route, Tags} from "tsoa";
+import { Controller } from 'waxen/dist/deorators/controller';
+import { Contracts } from 'cookta-shared/src/contracts/contracts';
 
-@Route("/ping")
-@Tags('Ping')
-export class PingController extends Controller {
-    @Get('/')
-    public async Ping(): Promise<string> {
-        return 'OK';
+@Controller(Contracts.Ping)
+export class PingController {
+    public async Ping(reqBody: void): Promise<void> {
     }
 }

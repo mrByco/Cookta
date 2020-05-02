@@ -1,7 +1,8 @@
 import {MongoHelper} from "../helpers/mongo.helper";
 import {Guid} from "guid-typescript";
+import {ITag} from "cookta-shared/src/models/tag/tag.interface";
 
-export class Tag {
+export class Tag implements ITag {
     private static m_cache: Tag[];
     private static readonly CollectionName: string = "Tags";
     private static async GetCached(): Promise<Tag[]> {

@@ -1,30 +1,28 @@
-import {Body, Controller, Get, Post, Request, Route, Security, Tags} from "tsoa";
 import {User} from "../models/user.model";
 import {Services} from "../Services";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Security} from 'waxen/dist/deorators/security';
 import {IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
 
-@Route("/Baselist")
-@Tags('Essentials')
-export class EssentialsController extends Controller {
 
-    @Security('Bearer', [])
-    @Get('/')
-    public async GetCurrentBaseList(@Request() request: any): Promise<any[]> {
-        let User = request.user as User;
-        let essentials = Services.EssentialsService.GetEssentials(User.GetCurrentFamily());
-        if (!essentials){
-            essentials = Services.EssentialsService.CreateEssentials(User.GetCurrentFamily());
+@Controller(Contracts.Essentials)
+export class EssentialsController {
+
+    @Security(false)
+    public async GetCurrentBaseList(reqBody: void, user: User): Promise<IIngredient[]> {
+        let essentials = Services.EssentialsService.GetEssentials(user.GetCurrentFamily());
+        if (!essentials) {
+            essentials = Services.EssentialsService.CreateEssentials(user.GetCurrentFamily());
         }
         return essentials.Essentials;
     }
-    @Security('Bearer', [])
-    @Post('/')
-    public async SetBaseList(@Request() request: any, @Body() data: any[]): Promise<any[]> {
-        let User = request.user as User;
-        let essentialItem = Services.EssentialsService.GetEssentials(User.GetCurrentFamily());
+    @Security(false)
+    public async SetBaseList(reqBody: IIngredient[], user: User): Promise<IIngredient[]> {
+        let essentialItem = Services.EssentialsService.GetEssentials(user.GetCurrentFamily());
         if (!essentialItem)
-            essentialItem = Services.EssentialsService.CreateEssentials(User.GetCurrentFamily());
-        essentialItem.Essentials = data;
+            essentialItem = Services.EssentialsService.CreateEssentials(user.GetCurrentFamily());
+        essentialItem.Essentials = reqBody;
         Services.EssentialsService.SaveItem(essentialItem);
         return essentialItem.Essentials;
     }
