@@ -21,7 +21,7 @@ import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 export class FoodEditComponent implements OnInit, ICanDeactivate {
 
 
-  public SourceFood: Food = FoodService.Placeholder;
+  public SavedFoodVersion: Food = FoodService.Placeholder;
   public CurrentFood: Food = FoodService.Placeholder;
 
   @ViewChild(FoodImageUploadComponent, {static: true}) public ImageCropper: FoodImageUploadComponent;
@@ -37,29 +37,11 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
   async ngOnInit() {
     let Id = this.route.snapshot.params['id'];
     if (Id == "new"){
-      this.SourceFood = new Food(undefined, "", "", true, false, [], undefined, undefined, 4, undefined, undefined, undefined, undefined, [], [], false, true);
+      this.SavedFoodVersion = new Food(undefined, "", "", true, false, [], undefined, undefined, 4, undefined, undefined, undefined, undefined, [], [], false, true);
     }else{
-      this.SourceFood = await this.foodService.GetFood(Id);
+      this.SavedFoodVersion = await this.foodService.GetFood(Id);
     }
-    this.CurrentFood = new Food(
-      this.SourceFood.owner,
-      this.SourceFood.name,
-      this.SourceFood.desc,
-      this.SourceFood.isPrivate,
-      this.SourceFood.published,
-      [...this.SourceFood.ingredients],
-      this.SourceFood.imageUploaded,
-      this.SourceFood.uploaded,
-      this.SourceFood.dose,
-      this.SourceFood.lastModified,
-      this.SourceFood.subscriptions,
-      this.SourceFood.id,
-      this.SourceFood.foodId,
-      [...this.SourceFood.tags],
-      [...this.SourceFood.autoTags],
-      this.SourceFood.SubscribedFor,
-      this.SourceFood.OwnFood
-    );
+    this.CreateWorkingFoodFrom(this.SavedFoodVersion);
   }
 
   DeleteIngredient(ingredient: IIngredient) {
@@ -78,19 +60,21 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
 
 
   public async SaveFoodAndExit() {
-    let food = await this.foodService.UpdateFood(this.CurrentFood, this.ImageCropper.CroppedImage ? this.ImageCropper.CroppedImage : undefined);
-    await this.router.navigate(['/foods', food.foodId]);
+    this.SavedFoodVersion = await this.foodService.UpdateFood(this.CurrentFood, this.ImageCropper.CroppedImage ? this.ImageCropper.CroppedImage : undefined);
+    this.CreateWorkingFoodFrom(this.SavedFoodVersion);
+    await this.router.navigate(['/foods', this.SavedFoodVersion.foodId]);
   }
-  public CancelEdit() {
-
+  public async CancelEdit() {
+    this.CreateWorkingFoodFrom(this.SavedFoodVersion);
+    await this.router.navigate(['/foods', this.SavedFoodVersion.foodId]);
   }
   public async DeleteFood() {
     await this.foodService.DeleteFood(this.CurrentFood.foodId);
-    await this.router.navigate(['/foods', this.CurrentFood.foodId]);
+    await this.router.navigate(['foods','collection']);
   }
 
   public CanDeactivate(): Promise<boolean> | boolean {
-    if (JSON.stringify(this.CurrentFood.ToJson()) == JSON.stringify(this.SourceFood.ToJson())){
+    if (JSON.stringify(this.CurrentFood.ToJson()) == JSON.stringify(this.SavedFoodVersion.ToJson())){
       return true;
     }
 
@@ -109,6 +93,28 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
         });
       });
     });
+  }
+
+  private CreateWorkingFoodFrom(food: Food){
+    this.CurrentFood = new Food(
+        food.owner,
+        food.name,
+        food.desc,
+        this.SavedFoodVersion.isPrivate,
+        food.published,
+        [...food.ingredients],
+        food.imageUploaded,
+        food.uploaded,
+        food.dose,
+        this.SavedFoodVersion.lastModified,
+        food.subscriptions,
+        food.id,
+        this.SavedFoodVersion.foodId,
+        [...food.tags],
+        [...food.autoTags],
+        food.SubscribedFor,
+        food.OwnFood
+    );
   }
 
 }
