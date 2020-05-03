@@ -7,10 +7,10 @@ import {FoodService} from '../../shared/services/food.service';
 import {MenuDayComponent} from '../menu-day/menu-day.component';
 import {Food} from '../../shared/models/grocery/food.model';
 import {Tag} from '../../shared/models/grocery/tag.model';
-import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
 import {FormBuilder} from '@angular/forms';
 import {TagService} from '../../shared/services/tag.service';
 import {Router} from "@angular/router";
+import { ISendableFood } from '../../../../../Cookta-shared/src/models/food/food-sendable.interface';
 
 @Component({
   selector: 'app-menu-mealing',

@@ -63,6 +63,8 @@ import {MenuPoolToolbarComponent} from './menu/menu-pool/menu-pool-toolbar/menu-
 import {MenuPoolItemComponent} from './menu/menu-pool/menu-pool-item/menu-pool-item.component';
 import {BadUnitFixerComponent} from './admin-components/ingredient-editor/bad-unit-fixer/bad-unit-fixer.component';
 import { DeleteIngredientPupopComponent } from './admin-components/ingredient-editor/delete-ingredient-pupop/delete-ingredient-pupop.component';
+import { SearchInputComponent } from './food/search/search-input/search-input.component';
+import { SearchComponent } from './food/search/search.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -78,6 +80,7 @@ const appRoutes: Routes = [
         canDeactivate: [CanDeactivateGuard],
         canActivate: [CanActivateLoggedInGuard]
     },
+    {path: 'search/:text', component: SearchComponent},
     {path: 'family-manager', component: FamilyManagementComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'essentials', component: EssentialsRootComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'calendar', component: MenuEditorComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -126,6 +129,8 @@ const appRoutes: Routes = [
         MenuPoolItemComponent,
         BadUnitFixerComponent,
         DeleteIngredientPupopComponent,
+        SearchInputComponent,
+        SearchComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,10 +1,10 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {CdkDropList} from '@angular/cdk/drag-drop';
 import {FoodService} from '../../shared/services/food.service';
 import {Day} from '../../shared/models/menu/day.model';
 import {IMeal} from '../../shared/models/menu/mealing.interface';
 import {EMealType} from '../../shared/models/menu/mealtype.enum';
-import {ISendableFood} from '../../shared/models/grocery/food.isendable.interface';
+import {ISendableFood} from "../../../../../Cookta-shared/src/models/food/food-sendable.interface";
 
 export class DisplayMeal {
   public ObjFood: ISendableFood = FoodService.Placeholder;
