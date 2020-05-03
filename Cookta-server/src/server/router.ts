@@ -463,6 +463,26 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
+    app.get('/food/search/:text/:count',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, true, [], (error) => { }).then((user) => {
+                const args = {
+                    text: request.params['text'],
+                    count: request.params['count']
+                };
+                const controller = new FoodController();
+                const promise = controller.SearchFoods(request.body as void, user, args.text, args.count);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
     // <<=======-INGREDIENTTYPES-======>>
     app.get('/ingredientType/',
         function(request: any, response: any, next: any) {
