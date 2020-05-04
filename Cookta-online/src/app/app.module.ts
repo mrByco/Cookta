@@ -65,6 +65,7 @@ import {BadUnitFixerComponent} from './admin-components/ingredient-editor/bad-un
 import { DeleteIngredientPupopComponent } from './admin-components/ingredient-editor/delete-ingredient-pupop/delete-ingredient-pupop.component';
 import { SearchInputComponent } from './food/search/search-input/search-input.component';
 import { SearchComponent } from './food/search/search.component';
+import {RenameModalComponent} from "./identity/rename-modal/rename-modal.component";
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -131,6 +132,7 @@ const appRoutes: Routes = [
         DeleteIngredientPupopComponent,
         SearchInputComponent,
         SearchComponent,
+        RenameModalComponent,
     ],
     imports: [
         BrowserModule,
