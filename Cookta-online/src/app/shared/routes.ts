@@ -49,8 +49,8 @@ export class Routes {
     SwitchFamily: "/family/{newId}",
     DeleteFamily: "/family/{deleteId}",
     CreateFamily: "/family/{familyName}",
-    InviteToFamily: "/family/{familyId}/invite",
-    KickUserFromFamily: "/family/{familyId}/leave/{removeUserSub}",
+    InviteToFamily: "/family/invite/{familyId}",
+    KickUserFromFamily: "/family/leave/{familyId}/{removeUserSub}",
   };
 
   public static readonly Menu = {

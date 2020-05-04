@@ -2,3 +2,14 @@
   padding-right: 0;
   padding-left: 0;
 }
+
+:host html {
+  height: var(--MainContentSize);
+  max-height: var(--MainContentSize);
+  overflow: hidden;
+}
+:host-context html {
+  height: var(--MainContentSize);
+  max-height: var(--MainContentSize);
+  overflow: hidden;
+}
