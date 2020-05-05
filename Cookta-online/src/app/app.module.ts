@@ -66,6 +66,8 @@ import { DeleteIngredientPupopComponent } from './admin-components/ingredient-ed
 import { SearchInputComponent } from './food/search/search-input/search-input.component';
 import { SearchComponent } from './food/search/search.component';
 import {RenameModalComponent} from "./identity/rename-modal/rename-modal.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatSliderModule} from "@angular/material/slider";
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -151,6 +153,8 @@ const appRoutes: Routes = [
         DragDropModule,
         ReactiveFormsModule,
         ContenteditableModule,
+        MatProgressSpinnerModule,
+        MatSliderModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard, CanActivateLoggedInGuard],

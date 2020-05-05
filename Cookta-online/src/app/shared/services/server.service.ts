@@ -6,14 +6,14 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class ServerService {
+
   constructor(private http: HttpClient, private authService: AuthService, private cookieService: CookieService) {
     this.m_UseDebugServer = cookieService.get('use-debug-server') == 'true';
-    if (this.m_UseDebugServer) {
-      this.CheckServerAvailable();
-    }
   }
 
-  public async CheckServerAvailable() {
+  public async CheckServerAvailable(): Promise<void> {
+
+    console.log(this.GetBase());
     return new Promise(async (resolve) => {
       let response = await this.http.get(this.GetBase() + '/ping');
       response.subscribe(() => {
@@ -21,9 +21,13 @@ export class ServerService {
         resolve();
       }, async ()  => {
         console.log('Server ping failed!');
-        let confirmed = await confirm('Debug server not available on \'http://localhost:8080/ping\'. Switching to production server...');
-        this.UseDebugServer = false;
-        location = location;
+        let confirmed = await confirm('Debug server not available on ' + this.GetBase() + '. Switching to production server...');
+        if (confirmed){
+          this.UseDebugServer = false;
+          location.reload();
+        }else{
+          location.reload();
+        }
         resolve();
       });
     });
@@ -34,7 +38,7 @@ export class ServerService {
   }
 
   public set UseDebugServer(value: boolean) {
-    this.cookieService.set('use-debug-server', value + '', 6000);
+    this.cookieService.set('use-debug-server', value + '', 6000, '/');
     this.m_UseDebugServer = value;
   }
 
