@@ -774,22 +774,36 @@ export function RegisterRoutes(app: express.Express) {
 
     app.get('/unit/bad-units/',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
-            const controller = new UnitController();
-            const promise = controller.GetBadUnits(request.body as void);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['advanced-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new UnitController();
+                const promise = controller.GetBadUnits(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 
 
     app.post('/unit/',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
-            const controller = new UnitController();
-            const promise = controller.FixBadUnit(request.body as FixBadUnitRequest);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['advanced-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new UnitController();
+                const promise = controller.FixBadUnit(request.body as FixBadUnitRequest, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 
