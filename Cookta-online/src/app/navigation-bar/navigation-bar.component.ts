@@ -26,6 +26,7 @@ export class NavigationBarComponent implements OnInit {
       identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
       console.log(user);
     });
+    this.PictureUrl = identityService?.LastKnownUserInfo?.picture;
   }
 
   ngOnInit() {

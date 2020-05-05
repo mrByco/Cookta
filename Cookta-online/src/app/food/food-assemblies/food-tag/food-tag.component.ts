@@ -20,10 +20,7 @@ export class FoodTagComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.TagId);
-    this.tagService.GetTagAsync(this.TagId).then(tag => {
-      this.Tag = tag;
-    });
+    this.Tag = this.tagService.GetTag(this.TagId);
   }
 
 }

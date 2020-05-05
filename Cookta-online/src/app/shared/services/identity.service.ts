@@ -27,6 +27,11 @@ export class IdentityService {
     }
   }
 
+  public async LoadIdentity(): Promise<any>{
+    this.authService.LoadIdentity();
+    await this.IsAuthenticated;
+  }
+
   public get IsAuthenticated(): Promise<boolean> | boolean {
     return this.authService.IsAuthenticated;
   }
