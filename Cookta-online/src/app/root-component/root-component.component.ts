@@ -4,6 +4,7 @@ import {TagService} from "../shared/services/tag.service";
 import {ServerService} from "../shared/services/server.service";
 import {UnitService} from "../shared/services/unit-service/unit.service";
 import {IdentityService} from "../shared/services/identity.service";
+import {AppComponent} from "../app.component";
 
 interface ILoadTask {
     Name: string,
@@ -48,6 +49,7 @@ export class RootComponentComponent implements OnInit {
             await task.AsyncFunction();
         }
         this.LoadingText = null;
+        AppComponent.instance.DisplayLoading = false;
     }
 
     async ngOnInit() {
