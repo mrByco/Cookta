@@ -106,7 +106,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
     // <<=======-ESSENTIALS-======>>
-    app.get('/essentials/',
+    app.get('/baselist/',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
@@ -124,7 +124,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.post('/essentials/',
+    app.post('/baselist/',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {

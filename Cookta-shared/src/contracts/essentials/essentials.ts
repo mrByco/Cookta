@@ -8,5 +8,5 @@ const SetBaseList: IRoute<IIngredient[], IIngredient[], void> = {method: ERouteM
 
 
 export const EssentialControllerData: ControllerData = {
-    basepath: "essentials", name: "Essentials", routes: [GetCurrentBaseList, SetBaseList]
+    basepath: "baselist", name: "Essentials", routes: [GetCurrentBaseList, SetBaseList]
 }
