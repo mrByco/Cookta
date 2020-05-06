@@ -5,6 +5,9 @@ import {ServerService} from "../shared/services/server.service";
 import {UnitService} from "../shared/services/unit-service/unit.service";
 import {IdentityService} from "../shared/services/identity.service";
 import {AppComponent} from "../app.component";
+import {NeedCheckPermission} from "../../main";
+import {GenericTwoButtonDialogComponent} from "../utilities/generic-two-button-dialog/generic-two-button-dialog.component";
+import {MDBModalService} from "angular-bootstrap-md";
 
 interface ILoadTask {
     Name: string,
@@ -29,7 +32,14 @@ export class RootComponentComponent implements OnInit {
     //It blocks the components that uses dependencies
     public LoadingScreen: boolean = true;
 
-    public LoadTasks: ILoadTask[];
+    public readonly LoadTasks: ILoadTask[] = [
+        {Name: 'Csatlakozás a szerverhez', AsyncFunction: async () => await this.serverService.CheckServerAvailable()},
+        {Name: 'Identitás indítása', AsyncFunction: async () => await this.identityService.LoadIdentity()},
+        {Name: 'Tesztelői jogosultság ellenörzése', AsyncFunction: async () => await this.RequireCheckTestPermission()},
+        {Name: 'Egységek betöltése', AsyncFunction: async () => await this.unitService.LoadUnits()},
+        {Name: 'Hozzávalók betöltése', AsyncFunction: async () => await this.ingredientService.LoadIngredients()},
+        {Name: 'Cimkék betöltése', AsyncFunction: async () => await this.tagService.LoadTags()}
+    ];
 
 
     constructor(private ingredientService: IngredientService,
@@ -37,7 +47,8 @@ export class RootComponentComponent implements OnInit {
                 private unitService: UnitService,
                 private userService: IdentityService,
                 private serverService: ServerService,
-                private identityService: IdentityService) {
+                private identityService: IdentityService,
+                private modalService: MDBModalService) {
 
         console.log('Init app')
     }
@@ -53,14 +64,67 @@ export class RootComponentComponent implements OnInit {
     }
 
     async ngOnInit() {
-
-        this.LoadTasks = [
-            {Name: 'Csatlakozás a szerverhez', AsyncFunction: async () => {await this.serverService.CheckServerAvailable()}},
-            {Name: 'Egységek betöltése', AsyncFunction: async () => await  this.unitService.LoadUnits()},
-            {Name: 'Hozzávalók betöltése', AsyncFunction: async () => await this.ingredientService.LoadIngredients()},
-            {Name: 'Cimkék betöltése', AsyncFunction: async () => await this.tagService.LoadTags()},
-            {Name: 'Identitás indítása', AsyncFunction: async () => await this.identityService.LoadIdentity() }
-        ];
         await this.InitApplication();
+    }
+
+    async RequireCheckTestPermission(): Promise<boolean> {
+
+
+        if (!NeedCheckPermission){
+            return true;
+        }
+
+
+
+
+        return new Promise(async resolve => {
+            if (!await this.identityService.LoggedIn){
+                this.ShowPleaseLoginForTestModal();
+            }else{
+                this.identityService.HasPermission('user-test').then((b) => {
+                    if (b){
+                        resolve(b);
+                    }else {
+                        //Placeholder: we have no tester code system jet
+                        this.ShowNoPermissionModal();
+                        //this.ShowTesterDialog()
+                    }
+                });
+            }
+        });
+    }
+
+    private ShowNoPermissionModal() {
+        let component = this.modalService.show(GenericTwoButtonDialogComponent);
+        let dialog = component.content as GenericTwoButtonDialogComponent;
+        dialog.Cancelable = false;
+        dialog.Title = 'Privát tesztelés';
+        dialog.Desc = 'Be vagy jelentkezve azonban az email-címedhez nem tartozik tesztelői jogosultság, ha meghívott vagy lépj kapcsolatba a meghívóddal. Fiókod email címe: ' + this.identityService.Identity.email + '\n Fiókváltáshoz először jelentkezz ki.';
+        dialog.FailText = 'Kijelentkezés';
+        dialog.OnFail.subscribe(() => this.identityService.Logout());
+    }
+    private ShowPleaseLoginForTestModal(){
+        let component = this.modalService.show(GenericTwoButtonDialogComponent);
+        let dialog = component.content as GenericTwoButtonDialogComponent;
+        dialog.Cancelable = false;
+        dialog.Title = 'Privát tesztelés';
+        dialog.Desc = 'Nem vagy bejelentkezve, így nem tudtuk ellenőrizni hogy tesztelői jogosultságod. A belépéshez rendelkezned kell tesztelői fiókkal, amennyiben nem vagy tesztelő a bejelentkezés után sem fogsz tudni belépni.';
+        dialog.SuccessText = 'Bejelentkezés';
+        dialog.OnSuccess.subscribe(() => {
+            console.log('Redirect to: ' + location.pathname);
+           this.identityService.Login(location.pathname);
+        });
+    }
+    private async ShowTesterDialog() {
+
+        let component = this.modalService.show(GenericTwoButtonDialogComponent);
+        let dialog = component.content as GenericTwoButtonDialogComponent;
+        dialog.Cancelable = false;
+        dialog.Title = 'Tesztelő';
+        dialog.Desc = 'Úgy tűnik nincs tesztelői fiókod. Ha meghívott tesztelő vagy, a teszt-kódoddal aktiválhatod fiókodat.';
+        dialog.SuccessText = 'Tovább a cookta.online-ra';
+        dialog.OnSuccess.subscribe(() => {window.location.href = 'https://cookta.online/'});
+        dialog.FailText = 'Kód használata'
+        dialog.OnFail.subscribe(() => {});
     }
 }
