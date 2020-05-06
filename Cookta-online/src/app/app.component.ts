@@ -6,4 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  public DisplayLoading: boolean = true;
+  public static instance: AppComponent;
+
+  constructor() {
+    AppComponent.instance = this;
+  }
 }

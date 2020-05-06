@@ -13,6 +13,8 @@ const placeholderFood: ISendableFood = {
     imageUploaded: 0,
     uploaded: 0,
     dose: 4,
+    tags: [],
+    autoTags: [],
     lastModified: 0,
     subscriptions: 0,
     id: 'string',

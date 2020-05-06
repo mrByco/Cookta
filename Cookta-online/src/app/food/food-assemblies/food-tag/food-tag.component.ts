@@ -16,12 +16,11 @@ export class FoodTagComponent implements OnInit {
 
   public Tag: Tag = new Tag(null, "Betöltés alatt", null, null);
 
-  constructor(public tagService: TagService) { }
+  constructor(public tagService: TagService) {
+  }
 
   ngOnInit() {
-    this.tagService.GetTagAsync(this.TagId).then(tag => {
-      this.Tag = tag;
-    });
+    this.Tag = this.tagService.GetTag(this.TagId);
   }
 
 }

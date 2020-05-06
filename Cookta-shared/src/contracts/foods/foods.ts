@@ -6,24 +6,25 @@ import {ControllerData} from "waxen/dist/abstract/controller.interface";
 
 
 //Unsecured
-export const GetPublicFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: ''}
-export const GetPublicFoodsIncremental: IRoute<void, ISendableFood[], {from: number, count: number}> = {method: ERouteMethod.GET, path: ''}
+const GetPublicFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: ''}
+const GetPublicFoodsIncremental: IRoute<void, ISendableFood[], {from: number, count: number}> = {method: ERouteMethod.GET, path: ''}
 
 //Stuff
-export const GetOwnFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'own'}
-export const GetSubscriptionFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'subscription'}
-export const GetFamilyFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'family'}
-export const GetCollectionFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'collection'}
+const GetOwnFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'own'}
+const GetSubscriptionFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'subscription'}
+const GetFamilyFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'family'}
+const GetCollectionFoods: IRoute<void, ISendableFood[], void> = {method: ERouteMethod.GET, path: 'collection'}
+const SearchFoods: IRoute<void, {results: ISendableFood[]}, {text: string, count: number}> = {method: ERouteMethod.GET, path: 'search'}
 
 //Get, set, delete
-export const GetFoodById: IRoute<void, ISendableFood, { id: string}> = {method: ERouteMethod.GET, path: ''}
-export const AddOrUpdateFood: IRoute<IUpdateFoodRequest, ISendableFood, void> = {method: ERouteMethod.POST, path: ''}
-export const DeleteFood: IRoute<void, ISendableFood, {foodId: string}> = {method: ERouteMethod.DELETE, path: ''}
+const GetFoodById: IRoute<void, ISendableFood, { id: string}> = {method: ERouteMethod.GET, path: ''}
+const AddOrUpdateFood: IRoute<IUpdateFoodRequest, ISendableFood, void> = {method: ERouteMethod.POST, path: ''}
+const DeleteFood: IRoute<void, ISendableFood, {foodId: string}> = {method: ERouteMethod.DELETE, path: ''}
 
 //Image
-export const UploadImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.POST, path: 'image'}
-export const DeleteImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.DELETE, path: 'image'}
+const UploadImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.POST, path: 'image'}
+const DeleteImage: IRoute<void, void, {foodVersionId: string}> = {method: ERouteMethod.DELETE, path: 'image'}
 
 
-export const FoodControllerData: ControllerData = {basepath: "food", name: "FoodController", routes: [GetPublicFoods, GetPublicFoodsIncremental, GetOwnFoods, GetSubscriptionFoods, GetFamilyFoods, GetCollectionFoods, GetFoodById, AddOrUpdateFood, DeleteFood, UploadImage, DeleteImage]}
+export const FoodControllerData: ControllerData = {basepath: "food", name: "FoodController", routes: [GetPublicFoods, GetPublicFoodsIncremental, GetOwnFoods, GetSubscriptionFoods, GetFamilyFoods, GetCollectionFoods, GetFoodById, AddOrUpdateFood, DeleteFood, UploadImage, DeleteImage, SearchFoods]}
 

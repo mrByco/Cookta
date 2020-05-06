@@ -1,4 +1,5 @@
 import {IIngredient} from "../ingredient/ingredient.interface";
+import {ITag} from "../tag/tag.interface";
 
 
 export interface ISendableFood {
@@ -13,6 +14,8 @@ export interface ISendableFood {
     dose: number;
     lastModified: number;
     subscriptions: number;
+    tags: ITag[];
+    autoTags: ITag[];
     id: string;
     foodId: string;
     SubscribedFor: boolean;

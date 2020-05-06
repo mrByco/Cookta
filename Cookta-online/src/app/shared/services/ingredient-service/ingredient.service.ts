@@ -32,12 +32,11 @@ export class IngredientService {
     private serverService: ServerService,
     private http: HttpClient
   ) {
-    this.IngredientTypes = this.LoadIngredients();
   }
 
   public async LoadIngredients(): Promise<IngredientType[]>{
 
-    return new Promise(async resolve => {
+    this.IngredientTypes = new Promise<IngredientType[]>(async resolve => {
 
       let response = await this.http.get(this.serverService.GetBase() + Routes.IngredientType.GetAll);
 
@@ -52,6 +51,7 @@ export class IngredientService {
         resolve([]);
       });
     });
+    return this.IngredientTypes;
   }
 
   public async GetIngredientAsync(id: string): Promise<IngredientType>{

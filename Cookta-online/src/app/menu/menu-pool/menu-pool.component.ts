@@ -226,13 +226,16 @@ export class MenuPoolComponent implements AfterViewInit {
     }
 
     private ReCalcItemRequest() {
-        let containerWidth = this.ItemContainer.nativeElement.offsetWidth;
+        // -3 few correction (rows or something)
+        let containerWidth = this.ItemContainer.nativeElement.offsetWidth - 3;
         containerWidth -= this.SearchMode ? 25 : 0;
         let containerHeight = this.ItemContainer.nativeElement.offsetHeight;
         let horizontalItemCount = Math.floor(containerWidth / (this.MinItemSize + 2 * this.MinMargin));
-        let verticalItemCount = Math.floor(containerHeight / (this.MinItemSize + 2 * this.MinMargin));
         this.m_ItemSize = (containerWidth / horizontalItemCount) - (2 * this.MinMargin);
+        let verticalItemCount = Math.floor(containerHeight / (this.m_ItemSize + 2 * this.MinMargin));
         this.m_CalculatedVerticalMargin = (containerHeight - (verticalItemCount * this.m_ItemSize)) / verticalItemCount / 2;
         this.RequestedItemCount = verticalItemCount * horizontalItemCount;
+        console.log('Container: ' + containerWidth);
+        console.log('Search: ' + this.SearchMode);
     }
 }

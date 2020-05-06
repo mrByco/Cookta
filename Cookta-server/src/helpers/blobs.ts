@@ -2,9 +2,9 @@ const azure = require('azure-storage');
 const path = require('path');
 
 let blobService = null;
-const blobConnectionString = "DefaultEndpointsProtocol=https;AccountName=kuktaimages;AccountKey=rSH0ihAd90+qMKyeg0FXb1wNzWNtdzjv2Ly3HeA8TViLMhYfLBJuh3ixkvdl+zDkfP9CrvZC8r73oCUgu7rJOQ==;EndpointSuffix=core.windows.net";
 
 function StartBlobService(){
+    const blobConnectionString = process.env.IMAGES_CONNECT;
     blobService = azure.createBlobService(blobConnectionString);
     return blobService;
 }

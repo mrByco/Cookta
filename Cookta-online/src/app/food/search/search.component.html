@@ -1,0 +1,16 @@
+<div class="container d-flex flex-column justify-content-center">
+    <app-search-input class="flex-grow-1"></app-search-input>
+    <div *ngIf="!searchService.IsSearching">
+        <div *ngFor="let result of searchService.Results" class="row m-3 search-result-food" style="height: 270px">
+            <img [src]="GetImageForFood(result)" [alt]="result.name">
+            <div class="col text-content">
+                <div routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a class="waves-light" mdbWavesEffect [routerLink]="'/foods/' + result.foodId">{{result.name}}</a>
+                </div>
+                <div>{{result.desc}}</div>
+            </div>
+        </div>
+        <div *ngIf="searchService.Results?.length  == 0;">
+            <p>Sajnos a keresés nem hozott találatot.</p></div>
+    </div>
+</div>

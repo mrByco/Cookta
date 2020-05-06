@@ -6,8 +6,9 @@ import {IdentityService} from "../../../shared/services/identity.service";
 import {CookieService} from 'ngx-cookie-service';
 import {MealingService} from "../../../shared/services/mealing.service";
 import {Day} from "../../../shared/models/menu/day.model";
-import {ISendableFood} from "../../../shared/models/grocery/food.isendable.interface";
 import {Tag} from "../../../shared/models/grocery/tag.model";
+import { ISendableFood } from '../../../../../../Cookta-shared/src/models/food/food-sendable.interface';
+import {ITag} from "../../../../../../Cookta-shared/src/models/tag/tag.interface";
 
 @Component({
     selector: 'app-food-detail',
@@ -74,9 +75,9 @@ export class FoodDetailComponent implements OnInit {
         this.router.navigate(["foods", this.Food.foodId, "edit"]);
     }
 
-    GetFoodTags(): Tag[] {
-        let origianls = Food['autoTags'] ?? [];
-        let autoTags = Food['autoTags'] ?? [];
+    GetFoodTags(): ITag[] {
+        let origianls = this.Food.tags ? this.Food.tags : [];
+        let autoTags = this.Food.autoTags ? this.Food.tags : [];
         return origianls.concat(autoTags);
     }
 

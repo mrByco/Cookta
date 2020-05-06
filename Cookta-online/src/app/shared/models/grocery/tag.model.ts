@@ -1,11 +1,12 @@
 import {IDisplayable} from "../../../utilities/displayable";
+import {ITag} from "../../../../../../Cookta-shared/src/models/tag/tag.interface";
 
-export class Tag implements IDisplayable {
+export class Tag implements IDisplayable, ITag {
   constructor (
     public guid: string,
     public name: string,
     public parentId: string,
-    public isChildOnly: boolean){
+    public ischildonly: boolean){
   }
 
   displayName(): string {

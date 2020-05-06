@@ -25,6 +25,17 @@ export class IdentityService {
     if (!IdentityService.Instance) {
       IdentityService.Instance = this;
     }
+    this.IdentityInitTask = new Promise(resolve => this.OnIdentityInit = resolve);
+  }
+
+  //For can activate logged in route
+  public OnIdentityInit = () => {};
+  public IdentityInitTask: Promise<void>;
+
+  public async LoadIdentity(): Promise<any>{
+    this.authService.LoadIdentity();
+    await this.IsAuthenticated;
+    this.OnIdentityInit();
   }
 
   public get IsAuthenticated(): Promise<boolean> | boolean {

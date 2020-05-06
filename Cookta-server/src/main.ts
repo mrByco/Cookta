@@ -18,12 +18,13 @@ import {IngredientTypeService} from "./services/ingredient-types/ingredient-type
 import {IngredientType} from "./models/ingredient-type/ingredient-type.model";
 import {ShoppingListService} from "./services/shopping-list/shopping-list.service";
 import {ShoppingList} from "./models/shopping-list.model";
+require('dotenv').config();
 
 const PORT = process.env.PORT || 8080;
 
 const ServiceManager = new ItemStore();
 const server = http.createServer(app);
-const MongoConnectionString = "mongodb+srv://cooktaservices:ZoIRbuJisN2fkePYO14D1itt7D0DImNQH6lmCpDgEEzfuO8iPd7So2VIPuSX9YccnoTUY6uMm4Tz15irHXTDYvKfg6I1cjlyVFR6EUXmhiktVTwMc6dclAeWSv2eFdtrZUYcHypxDc5Sf4CBo1Jb2l1F3ZVpetemn3Nag2kLmhNaJ2XEO23fkSeqwFjDjjgKmWeySnnpI5v0aO83vKb2xaueSSmHNMOxOnipe1JXrBnAOzmBz7J1XXZCCTaF3i4Q@kukta1-nfeff.azure.mongodb.net/Kuktadb";
+const MongoConnectionString = process.env.MONGO_CONNECT;
 
 server.on("listening", async () => {
     console.info('Listening on ' + PORT);

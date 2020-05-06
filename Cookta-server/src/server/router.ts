@@ -106,7 +106,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
     // <<=======-ESSENTIALS-======>>
-    app.get('/essentials/',
+    app.get('/baselist/',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
@@ -124,7 +124,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.post('/essentials/',
+    app.post('/baselist/',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
@@ -463,6 +463,26 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
+    app.get('/food/search/:text/:count',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, true, [], (error) => { }).then((user) => {
+                const args = {
+                    text: request.params['text'],
+                    count: request.params['count']
+                };
+                const controller = new FoodController();
+                const promise = controller.SearchFoods(request.body as void, user, args.text, args.count);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
     // <<=======-INGREDIENTTYPES-======>>
     app.get('/ingredientType/',
         function(request: any, response: any, next: any) {
@@ -754,22 +774,36 @@ export function RegisterRoutes(app: express.Express) {
 
     app.get('/unit/bad-units/',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
-            const controller = new UnitController();
-            const promise = controller.GetBadUnits(request.body as void);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['advanced-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new UnitController();
+                const promise = controller.GetBadUnits(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 
 
     app.post('/unit/',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
-            const controller = new UnitController();
-            const promise = controller.FixBadUnit(request.body as FixBadUnitRequest);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['advanced-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new UnitController();
+                const promise = controller.FixBadUnit(request.body as FixBadUnitRequest, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 

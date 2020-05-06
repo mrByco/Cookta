@@ -4,7 +4,7 @@ import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
 import {Subscription} from "../subscription.model";
 import {Services} from "../../Services";
-import { IIngredient } from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
 
 const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
@@ -78,6 +78,29 @@ export class Food {
         }
 
         return food;
+    }
+
+    public static async FoodSearch(text: string, count: number): Promise<Food[]> {
+        let foods: Food[] = [];
+
+        let collection = await MongoHelper.getCollection(this.CollectionName);
+        let aggregationResult = await collection.aggregate([
+                {
+                    $searchBeta: {
+                        index: 'test',
+                        search: {
+                            path: ['name', 'desc'],
+                            query: text,
+                            score: {boost: {"value": 1}}
+                        },
+                    }
+                },
+            {$match: {published: true}},
+            {$limit: count}
+            ]);
+        let documents = await aggregationResult.toArray();
+        foods = documents.map(d => this.FromDocument(d))
+        return foods;
     }
 
     public static async GetFood(foodId?: string, versionId?: string) {
@@ -170,6 +193,7 @@ export class Food {
             throw new Error("No permission to modify the food.");
 
         let response = await listContainers();
+        console.log('Uploading image');
         response = await uploadLocalJPEGImage(Food.BlobContainerName, path, foodVersionName);
         console.log(response.message);
         let collection = await MongoHelper.getCollection(this.CollectionName);
@@ -247,7 +271,7 @@ export class Food {
         return foods.filter(value => value.tags.includes(tagId));
     }
 
-    public static async GetCollectionForUser(user: User): Promise<Food[]>{
+    public static async GetCollectionForUser(user: User): Promise<Food[]> {
         let foods = await Subscription.GetSubsFoodsOfUser(user);
         foods = foods.concat(await Food.GetAllOwnFoods(user));
         return foods.concat(await user.GetCurrentFamily().GetFamilyFoods());
