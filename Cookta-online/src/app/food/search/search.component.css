@@ -1,0 +1,23 @@
+
+.search-result-food {
+    overflow: hidden;
+}
+
+.search-result-food div {
+    font-size: 18px;
+}
+
+.search-result-food img {
+    height: 256px;
+    width: 256px;
+}
+
+.search-result-food .text-content {
+    margin-left: 2rem;
+    overflow: hidden;
+}
+
+.search-result-food a {
+    font-size: 26px;
+    font-weight: bolder;
+}

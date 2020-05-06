@@ -1,17 +1,14 @@
-import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FoodService} from "../../../shared/services/food.service";
 import {IdentityService} from "../../../shared/services/identity.service";
 import {Food} from "../../../shared/models/grocery/food.model";
-import {IngredientAdderComponent} from "../../food-assemblies/ingredient-adder/ingredient-adder.component";
 import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
 import {Tag} from "../../../shared/models/grocery/tag.model";
 import {ICanDeactivate} from "../../../guards/can-deactivate-guard";
 import {MDBModalService} from "angular-bootstrap-md";
 import {GenericTwoButtonDialogComponent} from "../../../utilities/generic-two-button-dialog/generic-two-button-dialog.component";
-import {ImageCropperComponent} from "ngx-image-cropper";
 import {FoodImageUploadComponent} from "../../food-assemblies/food-image-upload/food-image-upload.component";
-import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 
 @Component({
   selector: 'app-food-edit',

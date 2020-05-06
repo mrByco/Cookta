@@ -1,6 +1,6 @@
 import {IIngredient} from './ingredient.interface';
-import {Tag} from './tag.model';
-import {ISendableFood} from './food.isendable.interface';
+import {ISendableFood} from "../../../../../../Cookta-shared/src/models/food/food-sendable.interface";
+import {ITag} from "../../../../../../Cookta-shared/src/models/tag/tag.interface";
 
 export class Food implements ISendableFood{
 
@@ -22,8 +22,8 @@ export class Food implements ISendableFood{
     public subscriptions: number,
     public id: string,
     public foodId: string,
-    public tags: Tag[],
-    public autoTags: Tag[],
+    public tags: ITag[],
+    public autoTags: ITag[],
     public SubscribedFor: boolean,
     public OwnFood: boolean
   ) {
@@ -80,6 +80,8 @@ export class Food implements ISendableFood{
       imageUploaded: this.imageUploaded,
       uploaded: this.uploaded,
       dose: this.dose,
+      autoTags: this.autoTags,
+      tags: this.tags,
       lastModified: this.lastModified,
       subscriptions: this.subscriptions,
       id: this.id,

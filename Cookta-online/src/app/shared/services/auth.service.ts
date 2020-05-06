@@ -43,6 +43,9 @@ export class AuthService {
     loggedIn: boolean = null;
 
     constructor(private router: Router) {
+    }
+    
+    public LoadIdentity(): void{
         this.IsAuthenticated = new Promise(async resolve => {
             // On initial load, check authentication state with authorization server
             // Set up local auth streams if user is already authenticated

@@ -108,4 +108,10 @@ export class FoodController {
     public async DeleteImage(reqBody: void, user: User, foodVersionId: string): Promise<void> {
         await Food.DeleteImage(foodVersionId, user);
     }
+
+    @Security(true)
+    public async SearchFoods(reqBody: void, user: User, text: string, count: number): Promise<{ results: ISendableFood[] }> {
+        if (count < 1) return { results: [] };
+        return { results: await Food.ToSendableAll(await Food.FoodSearch(text, +count), user) };
+    }
 }

@@ -20,7 +20,7 @@ export class UnitService {
         private serverService: ServerService,
         private http: HttpClient
     ) {
-        this.Units = this.LoadUnits();
+        //this.Units = this.LoadUnits();
     }
 
     public static IsValidUnitName(name: string): string | undefined {
@@ -39,7 +39,7 @@ export class UnitService {
     }
 
     public async LoadUnits(): Promise<Unit[]> {
-        return new Promise(async (resolve) => {
+        this.Units = new Promise(async (resolve) => {
             let response = await this.http.get(this.serverService.GetBase() + Routes.Unit.GetAll);
             let units: Unit[] = [];
             response.subscribe(data => {
@@ -54,6 +54,7 @@ export class UnitService {
                 resolve([]);
             });
         });
+        return this.Units;
     }
 
 

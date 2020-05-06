@@ -1,87 +1,93 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark red darken-2" [containerInside]="false">
 
-  <!-- Navbar brand -->
-  <mdb-navbar-brand><a class="navbar-brand" routerLink="/foods">Cookta</a></mdb-navbar-brand>
+    <!-- Navbar brand -->
+    <mdb-navbar-brand><a class="navbar-brand" routerLink="/foods">Cookta</a></mdb-navbar-brand>
 
-  <!-- Collapsible content -->
-  <links>
+    <!-- Collapsible content -->
+    <links>
 
-    <!-- Links -->
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods">Böngészés<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods/collection">Gyűjtemény</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/calendar">Menüszerkesztő</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/storage">Kamra</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/essentials">Alaplista</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink="/shopping">Bevásárló lista</a>
-      </li>
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto" style="padding: 0px">
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods">Receptek<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods/collection">Gyűjtemény</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/calendar">Menüszerkesztő</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/storage">Kamra</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/essentials">Alaplista</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link waves-light" mdbWavesEffect routerLink="/shopping">Bevásárló lista</a>
+            </li>
 
-      <!-- Dropdown -->
-      <li class="nav-item dropdown" dropdown routerLinkActive="active" *ngIf="ShowIngredientEditor">
-        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-          Admin felületek<span class="caret"></span></a>
-        <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/ingredient-editor" *ngIf="ShowIngredientEditor">Hozzávaló szerkesztő</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Tag szerkesztő</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Étel érvényesítő</a>
-          <div class="divider dropdown-divider"></div>
-          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/debug-options" *ngIf="ShowDebugOptions" href="#">Debug options</a>
-        </div>
-      </li>
+            <!-- Dropdown -->
+            <li class="nav-item dropdown" dropdown routerLinkActive="active" *ngIf="ShowIngredientEditor">
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
+                   mdbWavesEffect>
+                    Admin felületek<span class="caret"></span></a>
+                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/ingredient-editor"
+                       *ngIf="ShowIngredientEditor">Hozzávaló szerkesztő</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Tag szerkesztő</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Étel érvényesítő</a>
+                    <div class="divider dropdown-divider"></div>
+                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/debug-options"
+                       *ngIf="ShowDebugOptions" href="#">Debug options</a>
+                </div>
+            </li>
 
-    </ul>
-    <!-- Links -->
+        </ul>
+        <!-- Links -->
 
 
-    <ul class="navbar-nav ml-auto nav-flex-icons">
-      <li class="nav-item" *ngIf="!identityService.LoggedIn">
-        <a class="nav-link waves-light" mdbWavesEffect (click)="identityService.Login()">Bejelentkezés</a>
-      </li>
-    </ul>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item" *ngIf="!identityService.LoggedIn">
+                <a class="nav-link waves-light" mdbWavesEffect (click)="identityService.Login()">Bejelentkezés</a>
+            </li>
+        </ul>
 
-    <ul class="navbar-nav ml-auto nav-flex-icons" *ngIf="identityService.LoggedIn">
-      <li class="nav-item">
-        <a class="nav-link pd-tp-13">😁</a>
-      </li>
-      <li class="nav-item avatar dropdown" dropdown>
-        <a dropdownToggle mdbWavesEffect type="button"
-           class="nav-link dropdown-toggle waves-light pd-tp-13">{{familyService.currentFamily ? familyService.currentFamily.name : "CURRENTCSALÁD"}}</a>
-        <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-          <a *ngFor="let family of familyService.families"
-            class="dropdown-item waves-light" mdbWavesEffect (click)="familyService.SwitchFamily(family)">{{family.name}}</a>
-        </div>
-      </li>
-      <li class="nav-item avatar dropdown" dropdown>
-        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-          <img [src]="PictureUrl"  alt="" class="img-fluid rounded-circle z-depth-0" style="height: 35px"></a>
-        <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#">Fiókom</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/foods/new/edit">Étel feltöltése</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="changName.Show()">Felhasználó név</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/family-manager">Család</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="identityService.Logout()">Kijelentkezés</a>
-        </div>
-      </li>
-    </ul>
-  </links>
-  <!-- Collapsible content -->
+        <ul class="navbar-nav ml-auto nav-flex-icons" *ngIf="identityService.LoggedIn">
+            <li class="nav-item">
+                <a class="nav-link wawes-light">😁</a>
+            </li>
+            <li class="nav-item dropdown" dropdown>
+                <a dropdownToggle mdbWavesEffect type="button"
+                   class="nav-link dropdown-toggle waves-light">{{familyService.currentFamily ? familyService.currentFamily.name : "CURRENTCSALÁD"}}</a>
+                <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+                    <a *ngFor="let family of familyService.families"
+                       class="dropdown-item waves-light" mdbWavesEffect
+                       (click)="familyService.SwitchFamily(family)">{{family.name}}</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav nav-flex-icons" *ngIf="identityService.LoggedIn">
+            <li class="nav-item avatar dropdown" dropdown>
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light p-0"
+                   mdbWavesEffect>
+                    <img [src]="PictureUrl" alt="" class="img-fluid rounded-circle z-depth-0" style="height: 35px"></a>
+                <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Fiókom</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/foods/new/edit">Étel feltöltése</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item waves-light" mdbWavesEffect (click)="changName.Show()">Felhasználó név</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/family-manager">Család</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item waves-light" mdbWavesEffect
+                       (click)="identityService.Logout()">Kijelentkezés</a>
+                </div>
+            </li>
+        </ul>
+    </links>
+    <!-- Collapsible content -->
 
 </mdb-navbar>
-
-
 
 
 <app-rename-modal #changName></app-rename-modal>

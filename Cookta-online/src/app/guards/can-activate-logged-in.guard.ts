@@ -11,6 +11,7 @@ export class CanActivateLoggedInGuard implements CanActivate {
       next: ActivatedRouteSnapshot,
       state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return new Promise(async resolve => {
+      await IdentityService.Instance.IdentityInitTask;
       let loggedIn = await IdentityService.Instance.IsAuthenticated;
       if (loggedIn) {
         resolve(true);

@@ -21,11 +21,12 @@ export class NavigationBarComponent implements OnInit {
       if (!user)
         return;
       this.PictureUrl = user['picture'];
-
       identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
       identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
-      console.log(user);
     });
+    this.PictureUrl = identityService?.LastKnownUserInfo?.picture;
+    identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
+    identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
   }
 
   ngOnInit() {

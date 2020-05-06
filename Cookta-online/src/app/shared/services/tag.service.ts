@@ -4,7 +4,6 @@ import {Routes} from "../routes";
 import {ServerService} from "./server.service";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {delay} from "rxjs/operators";
 import {Tag} from "../models/grocery/tag.model";
 
 @Injectable()
@@ -17,10 +16,16 @@ export class TagService {
     private serverService: ServerService,
     private http: HttpClient
   ) {
-    this.TagsAsync = this.LoadTags().then(t => this.Tags = t);
+    //this.TagsAsync = this.LoadTags().then(t => this.Tags = t);
   }
 
-  public async LoadTags(): Promise<Tag[]>{
+
+  public async LoadTags(): Promise<Tag[]> {
+    this.Tags = await this.LoadTagRequest();
+    return this.Tags;
+  }
+
+  private async LoadTagRequest(): Promise<Tag[]>{
 
     return new Promise(async resolve => {
 
@@ -38,13 +43,7 @@ export class TagService {
     });
   }
 
-  public async GetTagAsync(id: string): Promise<Tag>{
-    let tags = await this.TagsAsync;
-    return tags.find(tag => tag.guid == id);
-  }
   public GetTag(id: string): Tag{
-    if (!this.TagsAsync) return new Tag('', 'NoTags', '', true);
-    let tags = this.Tags;
-    return tags.find(tag => tag.guid == id);
+    return this.Tags.find(tag => tag.guid == id);
   }
 }

@@ -22,7 +22,7 @@ export class TagAdderComponent implements OnInit {
 
   constructor(private tagService: TagService)
   {
-    tagService.TagsAsync.then((tags) => { this.Tags = tags.filter(t =>  t.isChildOnly) });
+    this.Tags = tagService.Tags.filter(t =>  t.ischildonly)
   }
 
   ngOnInit() {

@@ -9,6 +9,11 @@
   margin-bottom: 3px;
  }
 
+.work-ground {
+    height: 100%;
+    background-color: #f09a00 ;
+}
+
 .no-padding {
   padding: 0px;
 }
