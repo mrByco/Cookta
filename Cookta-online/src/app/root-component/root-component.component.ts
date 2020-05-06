@@ -108,7 +108,7 @@ export class RootComponentComponent implements OnInit {
         let dialog = component.content as GenericTwoButtonDialogComponent;
         dialog.Cancelable = false;
         dialog.Title = 'Privát tesztelés';
-        dialog.Desc = 'Nem vagy bejelentkezve, így nem tudtuk ellenőrizni hogy tesztelői jogosultságod. A belépéshez rendelkezned kell tesztelői fiókkal, amennyiben nem vagy tesztelő a bejelentkezés után sem fogsz tudni belépni.';
+        dialog.Desc = 'Nem vagy bejelentkezve, így nem tudtuk ellenőrizni hogy van e tesztelői jogosultságod. A belépéshez rendelkezned kell tesztelői fiókkal, amennyiben nem vagy tesztelő a bejelentkezés után sem fogsz tudni belépni.';
         dialog.SuccessText = 'Bejelentkezés';
         dialog.OnSuccess.subscribe(() => {
             console.log('Redirect to: ' + location.pathname);
