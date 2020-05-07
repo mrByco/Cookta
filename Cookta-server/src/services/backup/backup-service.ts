@@ -5,6 +5,10 @@ export class BackupService {
     };
 
     async start(cron: any): Promise<void> {
-        cron.schedule('00 02 * * *');
+        //cron.schedule('00 02 * * *');
+
+        console.log('Creating \\ backup!')
+        let shell = require('shelljs');
+        shell.exec('exe\\mongodump.exe');
     }
 }

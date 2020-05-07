@@ -18,6 +18,7 @@ import {IngredientTypeService} from "./services/ingredient-types/ingredient-type
 import {IngredientType} from "./models/ingredient-type/ingredient-type.model";
 import {ShoppingListService} from "./services/shopping-list/shopping-list.service";
 import {ShoppingList} from "./models/shopping-list.model";
+import {BackupService} from "./services/backup/backup-service";
 require('dotenv').config();
 
 const PORT = process.env.PORT || 8080;
@@ -71,6 +72,8 @@ try{
 
         console.info("Starting server...");
         server.listen(PORT);
+
+        let backup = new BackupService('').start('');
     });
 }catch (err){
     console.error(err);
