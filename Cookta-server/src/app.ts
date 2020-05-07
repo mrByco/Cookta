@@ -1,11 +1,12 @@
-import * as express from 'express';
-import * as cors from 'cors';
-import * as bodyParser from "body-parser";
+import express from 'express';
+import cors from 'cors';
+import bodyParser from "body-parser";
 import * as router from './server/router';
 import {requestLoggerMiddleware} from "./request.logger.middleware";
 
 const fileUpload = require('express-fileupload');
 
+console.log(express);
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());

@@ -73,7 +73,7 @@ try{
         console.info("Starting server...");
         server.listen(PORT);
 
-        let backup = new BackupService('').start('');
+        let backup = new BackupService('').start('', MongoConnectionString);
     });
 }catch (err){
     console.error(err);

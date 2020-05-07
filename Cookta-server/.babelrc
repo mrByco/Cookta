@@ -1,0 +1,11 @@
+{
+  "presets": [["@babel/preset-env", {
+        "targets": {
+          "node": 8
+        }
+      }
+    ], "@babel/preset-typescript"],
+  "plugins": ["@babel/plugin-transform-runtime", ["@babel/plugin-proposal-decorators", {
+    "legacy": true
+  }]]
+}
