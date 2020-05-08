@@ -1,14 +1,26 @@
 export class ReadlineHelper {
 
-    public static readonly readline = require('readline').createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
 
-    public static async Question(question: string): Promise<string> {
-        return await new Promise((resolve, reject) => {
-            this.readline.question(question, (answer) => {
+    public static async Question(question: string, password?: boolean): Promise<string> {
+
+        let readline = require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        console.log(readline.stdoutMuted)
+        readline.stdoutMuted = password;
+        readline.writeToOutput = function _writeToOutput(stringToWrite) {
+            if (password) {
+                readline.output.write("*");
+            } else {
+                readline.output.write(stringToWrite);
+            }
+        };
+
+        return await new Promise((resolve) => {
+            readline.question(question, (answer) => {
                 resolve(answer);
+                readline.close();
             })
         })
     }
