@@ -8,7 +8,7 @@ const Run = async () => {
     let loggedIn = false;
     while (!loggedIn) {
         let username = await ReadlineHelper.Question('Enter a mongo username.\n');
-        let password = await ReadlineHelper.Question('Enter your mongo password.\n');
+        let password = await ReadlineHelper.Question('Enter your mongo password.\n', true);
         const MongoConnectionString = `mongodb+srv://${username}:${password}@kukta1-nfeff.azure.mongodb.net/`;
         try {
             await MongoHelper.connect(MongoConnectionString);

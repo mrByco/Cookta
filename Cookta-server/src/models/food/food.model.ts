@@ -6,9 +6,8 @@ import {Subscription} from "../subscription.model";
 import {Services} from "../../Services";
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
+import { uploadLocalJPEGImage, listContainers } from '../../helpers/blobs';
 
-const {GetBlobService, createContainer, listContainers, uploadLocalJPEGImage, deleteBlob} = require('../../helpers/blobs');
-const ContainerName = 'foodimages';
 
 
 export class Food {
@@ -192,10 +191,8 @@ export class Food {
         if (food.owner != user.sub)
             throw new Error("No permission to modify the food.");
 
-        let response = await listContainers();
         console.log('Uploading image');
-        response = await uploadLocalJPEGImage(Food.BlobContainerName, path, foodVersionName);
-        console.log(response.message);
+        let response = await uploadLocalJPEGImage(Food.BlobContainerName, path, foodVersionName);
         let collection = await MongoHelper.getCollection(this.CollectionName);
 
         food.imageUploaded = Date.now();

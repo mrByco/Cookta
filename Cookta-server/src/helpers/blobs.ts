@@ -1,73 +1,101 @@
-const azure = require('azure-storage');
+import {createBlobService, BlobService} from 'azure-storage';
+import * as azurestorage from "azure-storage";
+import ListContainerResult = azurestorage.services.blob.blobservice.BlobService.ListContainerResult;
+import ContinuationToken = azurestorage.common.ContinuationToken;
+import ListBlobsResult = azurestorage.services.blob.blobservice.BlobService.ListBlobsResult;
+
 const path = require('path');
 
-let blobService = null;
+let blobService: BlobService = null;
 
-function StartBlobService(){
+function StartBlobService() {
     const blobConnectionString = process.env.IMAGES_CONNECT;
-    blobService = azure.createBlobService(blobConnectionString);
+    blobService = createBlobService(blobConnectionString);
+
     return blobService;
 }
-function GetBlobService(){
-    if (blobService == null){
+
+function GetBlobService(): BlobService {
+    if (blobService == null) {
         StartBlobService();
     }
     return blobService;
 }
 
-const listContainers = async () => {
-    return new Promise((resolve, reject) => {
-        GetBlobService().listContainersSegmented(null, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({ message: `${data.entries.length} containers`, containers: data.entries });
-            }
-        });
-    });
-};
 const createContainer = async (containerName) => {
     return new Promise((resolve, reject) => {
-        GetBlobService().createContainerIfNotExists(containerName, { publicAccessLevel: 'blob' }, err => {
+        GetBlobService().createContainerIfNotExists(containerName, {publicAccessLevel: 'blob'}, err => {
             if (err) {
                 reject(err);
             } else {
-                resolve({ message: `Container '${containerName}' created` });
+                resolve({message: `Container '${containerName}' created`});
             }
         });
     });
 };
-const uploadLocalJPEGImage = async (containerName, filePath, BlobName) => {
-    return new Promise((resolve, reject) => {
-        const fullPath = path.resolve(filePath);
-        const blobName = BlobName + '.jpg';
-        var options = {contentSettings:{contentType:'image/jpeg'}};
-        GetBlobService().createBlockBlobFromLocalFile(containerName, blobName, fullPath, options, err => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({ message: `Local file "${filePath}" is uploaded` });
-            }
-        });
-    });
-};
+
 const deleteBlob = async (containerName, blobName) => {
     return new Promise((resolve, reject) => {
         GetBlobService().deleteBlobIfExists(containerName, blobName, err => {
             if (err) {
                 reject(err);
             } else {
-                resolve({ message: `Block blob '${blobName}' deleted` });
+                resolve({message: `Block blob '${blobName}' deleted`});
             }
         });
     });
 };
 
+export const listContainers = async () => {
+    return new Promise<ListContainerResult>((resolve, reject) => {
+        GetBlobService().listContainersSegmented(null, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
 
-module.exports ={
-    GetBlobService,
-    listContainers,
-    createContainer,
-    uploadLocalJPEGImage,
-    deleteBlob,
+export async function uploadLocalFile(containerName, filePath, BlobName) {
+    return new Promise((resolve, reject) => {
+        const fullPath = path.resolve(filePath);
+        const blobName = BlobName;
+        var options = {};
+        GetBlobService().createBlockBlobFromLocalFile(containerName, blobName, fullPath, options, err => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({message: `Local file "${filePath}" is uploaded`});
+            }
+        });
+    });
+};
+
+export async function getBlobsInContainer(containerName: string): Promise<ListBlobsResult> {
+    return new Promise<ListBlobsResult>((resolve) => {
+        GetBlobService().listBlobsSegmented(containerName, null, (error, data) => {
+            if (data)
+                resolve(data)
+            else
+                throw error;
+        });
+    });
+}
+
+
+export const uploadLocalJPEGImage = async (containerName, filePath, BlobName) => {
+    return new Promise((resolve, reject) => {
+        const fullPath = path.resolve(filePath);
+        const blobName = BlobName + '.jpg';
+        var options = {contentSettings: {contentType: 'image/jpeg'}};
+        GetBlobService().createBlockBlobFromLocalFile(containerName, blobName, fullPath, options, err => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({message: `Local file "${filePath}" is uploaded`});
+            }
+        });
+    });
 };
