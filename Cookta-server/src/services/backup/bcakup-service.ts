@@ -4,6 +4,8 @@ import * as fs from 'fs';
 import * as os from 'os';
 import {Guid} from "guid-typescript";
 import {getBlobsInContainer, uploadLocalFile} from "../../helpers/blobs";
+import {CronJob} from "cron";
+import {MongoHelper} from "../../helpers/mongo.helper";
 require('../../extensions/date-extensions')
 require('../../extensions/string-extensions')
 
@@ -12,7 +14,10 @@ export class BackupService {
     public readonly containerName = 'backups';
 
     public async Schedule(){
-
+        let job = new CronJob("0 2,8,14,20 * * *", () => {
+            this.CreateBackup(MongoHelper.Client, 'Kuktadb')
+        }, null, null, 'Europe/Budapest');
+        job.start();
     }
 
 

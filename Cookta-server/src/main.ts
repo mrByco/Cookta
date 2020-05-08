@@ -73,7 +73,9 @@ try{
         console.info("Starting server...");
         server.listen(PORT);
 
-        new BackupService().CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
+        let backupService = new BackupService();
+        backupService.Schedule();
+        backupService.CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
 
     });
 }catch (err){
