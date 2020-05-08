@@ -1,10 +1,14 @@
 interface Date {
     ToYYYYMMDDString(): string;
+    ToYYYYMMDDhhmmString(): string;
     Today(): Date;
 }
 
 Date.prototype.ToYYYYMMDDString = function (){
     return `${this.getFullYear()}-${pad(this.getMonth() + 1)}-${pad(this.getDate())}`;
+};
+Date.prototype.ToYYYYMMDDhhmmString = function (){
+    return `${this.getFullYear()}-${pad(this.getMonth() + 1)}-${pad(this.getDate())}_${pad(this.getHours())}-${pad(this.getMinutes())}`;
 };
 
 Date.prototype.Today = function (){
