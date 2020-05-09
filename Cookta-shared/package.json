@@ -23,6 +23,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "tslib": "^1.11.2",
     "waxen": "file:../packages/waxen-1.0.0.tgz"
   }
 }
