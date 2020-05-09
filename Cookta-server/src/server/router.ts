@@ -15,6 +15,8 @@ import { ISetIngredientTypeRequest } from "cookta-shared/src/contracts/ingredien
 import { IDeleteIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
 import { DeleteCustomUnitRequest } from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
 import { PingController } from "../controllers/ping.controller";
+import { RoleController } from "../controllers/role.controller";
+import { IRole } from "cookta-shared/src/models/roles/role.interface";
 import { ShoppingListController } from "../controllers/shopping-list.controller";
 import { StockController } from "../controllers/stock.controller";
 import { IStorageItemChangeRequest } from "cookta-shared/src/contracts/stock/StorageItemChange.request";
@@ -575,6 +577,53 @@ export function RegisterRoutes(app: express.Express) {
             };
             const controller = new PingController();
             const promise = controller.Ping(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    // <<=======-ROLE-======>>
+    app.get('/role/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new RoleController();
+            const promise = controller.GetRoles(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    app.put('/role/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new RoleController();
+            const promise = controller.SetRole(request.body as IRole);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    app.post('/role/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new RoleController();
+            const promise = controller.CreateRole(request.body as IRole);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
+    app.delete('/role/:roleId/:changeRoleTo',
+        function(request: any, response: any, next: any) {
+            const args = {
+                roleId: request.params['roleId'],
+                changeRoleTo: request.params['changeRoleTo']
+            };
+            const controller = new RoleController();
+            const promise = controller.DeleteRole(request.body as void, args.roleId, args.changeRoleTo);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 

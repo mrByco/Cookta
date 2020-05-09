@@ -9,5 +9,5 @@ const CreateRole: IRoute<IRole, {created: IRole}, void> = {method: ERouteMethod.
 const DeleteRole: IRoute<void, {changed: string}, {roleId: string, changeRoleTo: string}> = {method: ERouteMethod.DELETE, path: ''};
 
 export const RoleControllerData: ControllerData = {
-    basepath: "role", name: "Role", routes: [GetRoles]
+    basepath: "role", name: "Role", routes: [GetRoles, SetRole, CreateRole, DeleteRole]
 }
