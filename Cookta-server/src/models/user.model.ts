@@ -20,7 +20,7 @@ export class User extends StoreItemBase {
     public currentFamilyId: string = null;
 
     public HasPermission(permission: string): boolean{
-        let role = Role.GetRole(this.role);
+        let role = Services.RoleService.GetRole(this.role);
         return role.permissions.includes(permission);
     }
 

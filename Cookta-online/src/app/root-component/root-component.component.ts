@@ -5,7 +5,6 @@ import {ServerService} from "../shared/services/server.service";
 import {UnitService} from "../shared/services/unit-service/unit.service";
 import {IdentityService} from "../shared/services/identity.service";
 import {AppComponent} from "../app.component";
-import {NeedCheckPermission} from "../../main";
 import {GenericTwoButtonDialogComponent} from "../utilities/generic-two-button-dialog/generic-two-button-dialog.component";
 import {MDBModalService} from "angular-bootstrap-md";
 
@@ -70,7 +69,7 @@ export class RootComponentComponent implements OnInit {
     async RequireCheckTestPermission(): Promise<boolean> {
 
 
-        if (!NeedCheckPermission){
+        if (!require('../../main').NeedCheckPermission){
             return true;
         }
 

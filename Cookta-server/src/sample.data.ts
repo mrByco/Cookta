@@ -9,6 +9,8 @@ import {UnitService} from "./services/unit/unit.service";
 import {Unit} from "./models/unit/unit.model";
 import {Services} from "./Services";
 import {IStorageSection} from "cookta-shared/src/models/storage-sections/storage-section.interface";
+import {IRole} from "cookta-shared/src/models/roles/role.interface";
+import {Role} from "./models/role.model";
 
 
 function AddUnitToUnitService(unitService: UnitService, unit: IUnit) {
@@ -168,5 +170,18 @@ export const SampleFunctions = {
         CreateSampleUnits(service);
         return service;
     }
+}
+
+export function GetSampleRoles(): Role[]{
+    let role1 = new Role(new ObjectId('5d3ed1eb25ca2527b0afb016'));
+    [role1.displayName, role1.permissions, role1.roleID] = ['role1', ['permission1', 'permission2', "permission3"], 'id1']
+
+    let role2 = new Role(new ObjectId('5d3ed1eb25ca2527b0afb017'));
+    [role2.displayName, role2.permissions, role2.roleID] = ['role2', ['permission2', "permission3"], 'id2']
+
+    let role3 = new Role(new ObjectId('5d3ed1eb25ca2527b0afb018'));
+    [role3.displayName, role3.permissions, role3.roleID] = ['role3', [], 'id3'];
+
+    return [role1, role2, role3];
 }
 
