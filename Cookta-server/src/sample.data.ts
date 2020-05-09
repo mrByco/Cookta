@@ -9,6 +9,7 @@ import {UnitService} from "./services/unit/unit.service";
 import {Unit} from "./models/unit/unit.model";
 import {Services} from "./Services";
 import {IStorageSection} from "cookta-shared/src/models/storage-sections/storage-section.interface";
+import {IRole} from "cookta-shared/src/models/roles/role.interface";
 
 
 function AddUnitToUnitService(unitService: UnitService, unit: IUnit) {
@@ -168,5 +169,14 @@ export const SampleFunctions = {
         CreateSampleUnits(service);
         return service;
     }
+}
+
+export function GetSampleRoles(): IRole[]{
+    return [
+        {displayName: 'role1', permissions: ['permission1', 'permission2', "permission3"], roleID: 'id1'},
+        {displayName: 'role1', permissions: ['permission2', "permission3"], roleID: 'id2'},
+        {displayName: 'role3', permissions: ['permission1'], roleID: 'id3'},
+        {displayName: 'role4', permissions: [], roleID: 'id4'},
+    ]
 }
 

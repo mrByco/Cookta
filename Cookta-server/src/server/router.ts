@@ -15,7 +15,7 @@ import { ISetIngredientTypeRequest } from "cookta-shared/src/contracts/ingredien
 import { IDeleteIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
 import { DeleteCustomUnitRequest } from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
 import { PingController } from "../controllers/ping.controller";
-import { RoleController } from "../controllers/role.controller";
+import { RoleController } from "../controllers/role/role.controller";
 import { IRole } from "cookta-shared/src/models/roles/role.interface";
 import { ShoppingListController } from "../controllers/shopping-list.controller";
 import { StockController } from "../controllers/stock.controller";
