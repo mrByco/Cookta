@@ -1,6 +1,7 @@
 import {MongoHelper} from "../helpers/mongo.helper";
+import {IRole} from "cookta-shared/src/models/roles/role.interface";
 
-export class Role {
+export class Role implements IRole {
     private static readonly CollectionName = 'Roles';
     public static roles;
 
