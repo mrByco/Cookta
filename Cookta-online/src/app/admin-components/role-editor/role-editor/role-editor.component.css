@@ -1,0 +1,12 @@
+.role-item {
+    font-size: 24px;
+    padding: 3px;
+    color: darkgray;
+    width: 100%;
+    font-weight: bold;
+    transition: background-color 200ms;
+}
+
+.role-item:hover {
+    background: rgba(255, 255, 255, 0.5);
+}

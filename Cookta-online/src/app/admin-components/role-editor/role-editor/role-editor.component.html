@@ -1,10 +1,14 @@
 <div class="container" *ngIf="roleService.roles; else loading">
-    <div class="col-8" id="roleList">
-        <a *ngFor="let role of roleService.roles" (click)="SelectRole(role)">{{role.displayName}}</a>
-    </div>
-    <div class="col-4" *ngIf="SelectedRole" id="roleProperties">
-        <h3>{{SelectedRole.displayName}}</h3>
-        <p *ngFor="let permission of SelectedRole.permissions">{{permission}}</p>
+    <div class="row">
+        <div  class="rounded-panel col-7 align-self-start"  id="roleList">
+            <div class="row ml-3 mr-3" *ngFor="let role of roleService.roles" >
+                <a class="role-item " (click)="SelectRole(role)">{{role.displayName}}</a>
+            </div>
+        </div>
+        <div  class="rounded-panel col-4 align-self-start" *ngIf="SelectedRole" id="roleProperties">
+            <h3>{{SelectedRole.displayName}}</h3>
+            <p *ngFor="let permission of SelectedRole.permissions">{{permission}}</p>
+        </div>
     </div>
 </div>
 <ng-template class="container" #loading>
