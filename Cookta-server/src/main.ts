@@ -60,6 +60,7 @@ try{
         Services.UserService = userService;
         Services.EssentialsService = essentialsService;
         Services.UnitService = unitService;
+        Services.RoleService = roleService;
         Services.IngredientTypeService = ingredientTypeService;
         Services.ShoppingListService = shoppingListService;
         await ServiceManager.AddService(storageService);
@@ -67,6 +68,7 @@ try{
         await ServiceManager.AddService(userService);
         await ServiceManager.AddService(essentialsService);
         await ServiceManager.AddService(unitService);
+        await ServiceManager.AddService(roleService);
         await ServiceManager.AddService(ingredientTypeService);
         await ServiceManager.AddService(shoppingListService);
         await ServiceManager.Start(MongoConnectionString);

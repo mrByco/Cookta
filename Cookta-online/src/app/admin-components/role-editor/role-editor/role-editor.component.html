@@ -1,0 +1,14 @@
+<div class="container" *ngIf="roleService.roles; else loading">
+    <div class="col-8" id="roleList">
+        <a *ngFor="let role of roleService.roles" (click)="SelectRole(role)">{{role.displayName}}</a>
+    </div>
+    <div class="col-4" *ngIf="SelectedRole" id="roleProperties">
+        <h3>{{SelectedRole.displayName}}</h3>
+        <p *ngFor="let permission of SelectedRole.permissions">{{permission}}</p>
+    </div>
+</div>
+<ng-template class="container" #loading>
+    <div class="container">
+        <mat-progress-bar mode="indeterminate" id="loading"></mat-progress-bar>
+    </div>
+</ng-template>

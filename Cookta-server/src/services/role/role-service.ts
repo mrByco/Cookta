@@ -5,7 +5,7 @@ import {IRole} from "cookta-shared/src/models/roles/role.interface";
 
 export class RoleService extends StoreService<Role> implements IRoleService{
     GetRole(id: string) {
-        this.FindOne(r => r.roleID === id);
+        return this.FindOne(r => r.roleID == id);
     }
 
     GetRoles(): IRole[] {

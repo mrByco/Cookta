@@ -68,11 +68,14 @@ import { SearchComponent } from './food/search/search.component';
 import {RenameModalComponent} from "./identity/rename-modal/rename-modal.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSliderModule} from "@angular/material/slider";
+import { RoleEditorComponent } from './admin-components/role-editor/role-editor/role-editor.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
     {path: 'foods', component: FoodListComponent},
     {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'debug-options', component: DebugOptionsComponent},
     {path: 'foods/collection', component: FoodCollectionListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -135,6 +138,7 @@ const appRoutes: Routes = [
         SearchInputComponent,
         SearchComponent,
         RenameModalComponent,
+        RoleEditorComponent,
     ],
     imports: [
         BrowserModule,
@@ -155,6 +159,7 @@ const appRoutes: Routes = [
         ContenteditableModule,
         MatProgressSpinnerModule,
         MatSliderModule,
+        MatProgressBarModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard, CanActivateLoggedInGuard],
