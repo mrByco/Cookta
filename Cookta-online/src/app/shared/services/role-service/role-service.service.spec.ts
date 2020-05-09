@@ -63,8 +63,4 @@ describe('RoleService', () => {
       expect(error).toBeFalsy();
     });
   });
-
-
-
-
 });
