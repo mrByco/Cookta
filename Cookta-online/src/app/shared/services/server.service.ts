@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 export class ServerService {
 
   constructor(private http: HttpClient, private authService: AuthService, private cookieService: CookieService) {
-    this.m_UseDebugServer = cookieService.get('use-debug-server') == 'true';
+    this.m_UseDebugServer = cookieService?.get('use-debug-server') == 'true';
   }
 
   public async CheckServerAvailable(): Promise<void> {
