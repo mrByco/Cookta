@@ -9,9 +9,7 @@ const SwitchFamily: IRoute<void, ISendFamily, {newId: string}> = {method: ERoute
 const DeleteFamily: IRoute<void, ISendFamily, {deleteId: string}> = {method: ERouteMethod.DELETE, path: ''}
 const CreateFamily: IRoute<void, ISendFamily, {name: string}> = {method: ERouteMethod.POST, path: ''}
 
-//TODO Client side invalid
-const InviteByUserNameEmail: IRoute<InviteFamilyRequest, ISendFamily, {familyId: string}> = {method: ERouteMethod.GET, path: 'invite'}
-//TODO Client side invalid
+const InviteByUserNameEmail: IRoute<InviteFamilyRequest, ISendFamily, {familyId: string}> = {method: ERouteMethod.PUT, path: 'invite'}
 const LeaveFamily: IRoute<void, ISendFamily, {familyId: string, removeUserSub: string}> = {method: ERouteMethod.DELETE, path: 'leave'}
 
 

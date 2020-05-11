@@ -4,6 +4,7 @@ import {EFamilyRole, Family, IFamilyMember} from '../models/family.model';
 import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
 import {IdentityService} from './identity.service';
+import {InviteFamilyRequest} from "../../../../../Cookta-shared/src/contracts/family/invite.family.request";
 
 @Injectable()
 export class FamilyService {
@@ -72,7 +73,7 @@ export class FamilyService {
 
         this.onActiveFamilyChanged.emit(this.currentFamily);
         resolve(newFamily);
-        location = location;
+        location.reload();
       }, () => {
         resolve();
       });
@@ -100,9 +101,10 @@ export class FamilyService {
     });
   }
   public async InviteMemberToFamily(family: Family, request: {invitedUsername: string, invitedEmail: string}): Promise<Family>{
+    let body: InviteFamilyRequest = request;
     return new Promise(async (resolve) => {
       let response = await this.serverService.PutRequest(Routes.Family.InviteToFamily
-        .replace('{familyId}', family.id), request);
+        .replace('{familyId}', family.id), body);
 
       response.subscribe(data => {
 
