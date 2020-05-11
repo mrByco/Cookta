@@ -219,7 +219,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.get('/family/invite/:familyId',
+    app.put('/family/invite/:familyId',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
