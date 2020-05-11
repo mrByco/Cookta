@@ -77,6 +77,7 @@ const appRoutes: Routes = [
     {path: 'foods', component: FoodListComponent},
     {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'user-editor', component: UserListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'debug-options', component: DebugOptionsComponent},
     {path: 'foods/collection', component: FoodCollectionListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -170,3 +171,4 @@ const appRoutes: Routes = [
 })
 export class AppModule {
 }
+

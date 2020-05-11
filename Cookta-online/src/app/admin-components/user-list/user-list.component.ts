@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../shared/services/user-service/user.service";
+import {ExtendedUser} from "../../../../../Cookta-shared/src/models/user/extendedUser";
+import { RoleService } from 'src/app/shared/services/role-service/role.service';
 
 @Component({
   selector: 'app-user-list',
@@ -6,10 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+  SelectedUser: ExtendedUser;
 
-  constructor() { }
+  constructor(public userService: UserService, public roleService: RoleService) {
 
-  ngOnInit(): void {
   }
 
+  ngOnInit(): void {
+    this.userService.ReloadUsers();
+    this.roleService.ReloadRoles();
+  }
+
+
+  SelectUser(user: ExtendedUser) {
+    this.SelectedUser = user;
+  }
 }

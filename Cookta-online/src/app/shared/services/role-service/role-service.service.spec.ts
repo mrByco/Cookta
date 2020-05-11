@@ -37,15 +37,15 @@ describe('RoleService', () => {
       expect(service.roles).toBeTruthy();
     });
 
-    it('should have roles null until load', async function () {
+    it('should have roles undefined until load', async function () {
       expect(service.roles).toBeUndefined();
 
       let task = service.ReloadRoles();
       expect(service.roles).toBeUndefined();
       await task;
       expect(service.roles).not.toBeUndefined();
-
     });
+
   });
 
   describe('Throw error on load roles', () => {

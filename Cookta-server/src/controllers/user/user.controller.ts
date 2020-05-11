@@ -34,9 +34,10 @@ export class UserController {
     }
 
     @Security(false, 'manage-users')
-    public async GetAllUser(reqBody: void): Promise<ExtendedUser[]> {
+    public async GetAllUser(reqBody: void, user: User): Promise<ExtendedUser[]> {
         let users = Services.UserService.GetAllItems();
         let extended = users.map(u => u.ToExtendedUser());
+        console.log(extended)
         return extended;
     }
 }
