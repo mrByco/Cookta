@@ -23,7 +23,7 @@ import { TagController } from "../controllers/tag.controller";
 import { SetTagRequest } from "cookta-shared/src/contracts/tags/set.tag.request";
 import { UnitController } from "../controllers/unit.controller";
 import { FixBadUnitRequest } from "cookta-shared/src/contracts/unit-route/get-bad-units";
-import { UserController } from "../controllers/user.controller";
+import { UserController } from "../controllers/user/user.controller";
 import { RoleController } from "../controllers/role/role.controller";
 import { IRole } from "cookta-shared/src/models/roles/role.interface";
 
@@ -882,6 +882,17 @@ export function RegisterRoutes(app: express.Express) {
                 response.status(error.status || 401);
                 next(error)
             });
+        });
+
+
+
+    app.get('/user/all/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new UserController();
+            const promise = controller.GetAllUser(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
 

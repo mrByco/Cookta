@@ -1,8 +1,6 @@
 import {RoleController} from "./role.controller";
 import {expect} from 'chai';
 import {Services} from "../../Services";
-import {IRoleService} from "../../services/role/role-service.interface";
-import {IRole} from "cookta-shared/src/models/roles/role.interface";
 import {GetSampleRoles} from "../../sample.data";
 import {RoleService} from "../../services/role/role-service";
 import { Role } from '../../models/role.model';
