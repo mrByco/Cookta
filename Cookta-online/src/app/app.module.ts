@@ -70,6 +70,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSliderModule} from "@angular/material/slider";
 import { RoleEditorComponent } from './admin-components/role-editor/role-editor/role-editor.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { UserListComponent } from './admin-components/user-list/user-list.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -139,6 +140,7 @@ const appRoutes: Routes = [
         SearchComponent,
         RenameModalComponent,
         RoleEditorComponent,
+        UserListComponent,
     ],
     imports: [
         BrowserModule,
