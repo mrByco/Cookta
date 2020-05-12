@@ -7,7 +7,8 @@ const User: IRoute<void, ExtendedUser, void> = {method: ERouteMethod.GET, path: 
 const SetUserName: IRoute<void, ExtendedUser, { name: string }> = {method: ERouteMethod.PUT, path: ''};
 const GetNameAlreadyUsed: IRoute<void, boolean, { name: string }> = {method: ERouteMethod.GET, path: ''};
 const HasPermission: IRoute<void, boolean, { permission: string }> = {method: ERouteMethod.GET, path: 'permission'};
+const GetAllUser: IRoute<void, ExtendedUser[], void> = {method: ERouteMethod.GET, path: 'manage/all'};
 
 export const UserControllerData: ControllerData = {
-    basepath: "user", name: "User", routes: [User, SetUserName, GetNameAlreadyUsed, HasPermission]
+    basepath: "user", name: "User", routes: [User, SetUserName, GetNameAlreadyUsed, HasPermission, GetAllUser]
 }

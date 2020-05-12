@@ -70,12 +70,14 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSliderModule} from "@angular/material/slider";
 import { RoleEditorComponent } from './admin-components/role-editor/role-editor/role-editor.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { UserListComponent } from './admin-components/user-list/user-list.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
     {path: 'foods', component: FoodListComponent},
     {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'user-editor', component: UserListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'debug-options', component: DebugOptionsComponent},
     {path: 'foods/collection', component: FoodCollectionListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -139,6 +141,7 @@ const appRoutes: Routes = [
         SearchComponent,
         RenameModalComponent,
         RoleEditorComponent,
+        UserListComponent,
     ],
     imports: [
         BrowserModule,
@@ -168,3 +171,4 @@ const appRoutes: Routes = [
 })
 export class AppModule {
 }
+

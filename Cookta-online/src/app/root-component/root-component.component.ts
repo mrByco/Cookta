@@ -69,12 +69,9 @@ export class RootComponentComponent implements OnInit {
     async RequireCheckTestPermission(): Promise<boolean> {
 
 
-        if (!require('../../main').NeedCheckPermission){
+        if (!require('../app.component').AppComponent.instance.NeedCheckPermission){
             return true;
         }
-
-
-
 
         return new Promise(async resolve => {
             if (!await this.identityService.LoggedIn){

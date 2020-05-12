@@ -1,5 +1,5 @@
-import {User} from '../models/user.model';
-import {Services} from '../Services';
+import {User} from '../../models/user.model';
+import {Services} from '../../Services';
 import {Controller} from "waxen/dist/deorators/controller";
 import { Security } from 'waxen/dist/deorators/security';
 import {Contracts} from "cookta-shared/src/contracts/contracts";
@@ -33,5 +33,11 @@ export class UserController {
         return user.HasPermission(permission);
     }
 
-
+    @Security(false, 'manage-users')
+    public async GetAllUser(reqBody: void, user: User): Promise<ExtendedUser[]> {
+        let users = Services.UserService.GetAllItems();
+        let extended = users.map(u => u.ToExtendedUser());
+        console.log(extended)
+        return extended;
+    }
 }

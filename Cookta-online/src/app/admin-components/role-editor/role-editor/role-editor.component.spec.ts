@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RoleEditorComponent } from './role-editor.component';
 import {IRole} from "../../../../../../Cookta-shared/src/models/roles/role.interface";
 import {RoleService} from "../../../shared/services/role-service/role.service";
-import {By} from "@angular/platform-browser";
 
 class MockRoleService {
   roles: IRole[];

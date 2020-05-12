@@ -12,6 +12,8 @@ export class RoleService {
 
   public OnError = new EventEmitter<any>();
 
+  private promisedRoles: IRole[] = [];
+
   public async ReloadRoles(): Promise<void> {
     this.roles = undefined;
     let response = await this.serverService.GetRequest('/role/')
@@ -26,5 +28,9 @@ export class RoleService {
         resolve();
       });
     })
+  }
+
+  public GetRoleById(id: string){
+    return this.roles.find(r => r.roleID == id);
   }
 }
