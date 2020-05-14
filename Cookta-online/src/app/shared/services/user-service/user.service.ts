@@ -30,4 +30,22 @@ export class UserService {
     });
   }
 
+  async ChangeUserRole(userSub: string, targetRoleId: string): Promise<ExtendedUser> {
+    let changedUser = this.Users.find(u => u.sub == userSub);
+    changedUser.role = null;
+
+    let response = await this.serverService.PutRequest(Routes.User.EditUserRole, {primarySub: userSub, roleId: targetRoleId});
+    return new Promise(resolve => {
+      response.subscribe((s) => {
+        let user = s as ExtendedUser;
+        console.log(user)
+        Object.assign(changedUser, user);
+        resolve(user);
+      }, (e) => {
+        console.error(e);
+        resolve();
+      });
+    });
+  }
+
 }

@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+
 import {UserService} from "./user.service";
 import {ServerService} from "../server.service";
 import {Observable} from "rxjs";
-import {sample} from "rxjs/operators";
 
 
 describe('User.ServiceService', () => {
@@ -12,6 +11,7 @@ describe('User.ServiceService', () => {
   beforeEach(() => {
     FakeServerService = {
       GetRequest: () => {},
+      PutRequest: () => {},
     }
     service = new UserService(FakeServerService as any as ServerService);
   });
@@ -42,6 +42,43 @@ describe('User.ServiceService', () => {
       await service.ReloadUsers();
       expect(service.Users).toBe(null);
     });
+
+    describe('Change user role', function () {
+      beforeEach(function() {
+        service.Users = [{sub: 'userSub1', role: 'roleId1'} as any]
+        spyOn(FakeServerService, 'PutRequest').and
+            .returnValue(Promise.resolve(new Observable(o => o.next({role: 'roleId2'}))));
+      });
+
+      it('should make put request on change role', async function () {
+
+        await service.ChangeUserRole('userSub1', 'roleId1');
+
+        expect(FakeServerService.PutRequest).toHaveBeenCalled();
+      });
+
+      it('should return information in the same object if user is already loaded', async function() {
+        let user = service.Users.find(u => u.sub == 'userSub1');
+
+        await service.ChangeUserRole('userSub1', 'roleId2');
+
+        expect(user.role).toEqual('roleId2');
+      });
+
+      it('should make user null during loading', async function() {
+        let user = service.Users.find(u => u.sub == 'userSub1');
+
+        let task = service.ChangeUserRole('userSub1', 'roleId2');
+
+        expect(user.role).toBeNull();
+
+        await task;
+
+        expect(user.role).toBeTruthy();
+      });
+
+    });
+
   })
 
 });
