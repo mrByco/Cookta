@@ -64,5 +64,11 @@ export class UserService extends StoreService<User> {
         });
     }
 
+    public ChangeRole(sub: string, roleId: string){
+        let user = this.FindOne(u => u.sub == sub);
+        user.role = roleId;
+        this.SaveItem(user);
+    }
+
 
 }
