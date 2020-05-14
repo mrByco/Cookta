@@ -84,7 +84,7 @@ export class FamilyService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.DeleteRequest(Routes.Family.KickUserFromFamily
         .replace('{familyId}', currentFamily.id)
-        .replace('{removeUserSub}', member ? member.sub : this.identityService.LastKnownUserInfo.sub));
+        .replace('{removeUserSub}', member ? member.sub : this.identityService.Identity.sub));
 
       response.subscribe(data => {
         let newFamily = data as Family;

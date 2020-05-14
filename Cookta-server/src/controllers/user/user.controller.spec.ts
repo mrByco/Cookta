@@ -21,7 +21,7 @@ describe('User controller', () => {
         // @ts-ignore
         Services.UserService.GetAllItems = () => exampleUsers;
 
-        let response = await controller.GetAllUser();
+        let response = await controller.GetAllUser(null, null);
 
         expect(response).to.be.eql([{extendedUser: true}]);
     });
