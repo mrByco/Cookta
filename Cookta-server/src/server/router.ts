@@ -958,7 +958,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.put('/user/manage/all/',
+    app.put('/user/manage/editrole/',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, ['manage-users'], (error) => { }).then((user) => {
                 const args = {

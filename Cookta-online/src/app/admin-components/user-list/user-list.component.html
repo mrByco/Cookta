@@ -18,7 +18,13 @@
         <div  class="rounded-panel col-4 align-self-start" *ngIf="SelectedUser" id="userproperties">
             <div class="row"><h4>Felhasznállónév: {{SelectedUser.username}}</h4></div>
             <div class="row"><h4>Email: {{SelectedUser.email}}</h4></div>
-            <div class="row"><h4>Szerep: {{roleService.roles ? roleService.GetRoleById(SelectedUser.role).displayName : "Betöltés.."}}</h4></div>
+            <div class="row" >
+                <h4>Szerep:</h4>
+                <select name="Role" id="roleSelect" [selectedIndex]="GetCurrentRoleIndex()" (change)="OnRoleChange($event.target['value'])">
+                    <option *ngFor="let role of roleService.roles"
+                            [value]="role.roleID">{{role.displayName}}</option>
+                </select>
+            </div>
 
         </div>
     </div>
