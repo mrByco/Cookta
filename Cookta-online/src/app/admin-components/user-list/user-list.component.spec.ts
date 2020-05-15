@@ -34,52 +34,54 @@ describe('UserListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call reload users', function () {
-    expect(component.userService.ReloadUsers).toHaveBeenCalled();
-  });
+  describe('List users', function() {
+    it('should call reload users', function () {
+      expect(component.userService.ReloadUsers).toHaveBeenCalled();
+    });
 
-  it('should display loading unil the service load', function () {
-    component.userService.Users = undefined;
+    it('should display loading unil the service load', function () {
+      component.userService.Users = undefined;
 
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('#loading')).toBeTruthy();
-  });
-
-
-  describe('On filled with data', () => {
-    beforeEach(() => {
-      component.userService.Users = [{username: 'SampleUser', email: 'matyi', role: 'testrole'}] as any[];
       fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('#loading')).toBeTruthy();
     });
-
-    it('should display roles if they loaded', function () {
-      let users = fixture.nativeElement.querySelector('#userlist');
-      expect(users).toBeTruthy();
-      expect(users.textContent).toContain('matyi');
-      expect(users.textContent).toContain('SampleUser');
-    });
-
-    describe('On item selected', () => {
-      beforeEach(async () => {
-        let users = fixture.nativeElement.querySelector('#userlist');
-        let user = users.querySelector('a');
-        user.click();
-        await fixture.whenStable();
+    
+    describe('On filled with data', () => {
+      beforeEach(() => {
+        component.userService.Users = [{username: 'SampleUser', email: 'matyi', role: 'testrole'}] as any[];
         fixture.detectChanges();
-      })
-
-      it('should display username if we click in it', function () {
-        expect(fixture.nativeElement.querySelector('#userproperties').textContent).toContain('matyi')
       });
 
-      it('should display role email', function () {
-        expect(fixture.nativeElement.querySelector('#userproperties').textContent).toContain('SampleUser')
+      it('should display roles if they loaded', function () {
+        let users = fixture.nativeElement.querySelector('#userlist');
+        expect(users).toBeTruthy();
+        expect(users.textContent).toContain('matyi');
+        expect(users.textContent).toContain('SampleUser');
       });
 
-      it('should display role name', function () {
-        expect(fixture.nativeElement.querySelector('#userproperties').textContent).toContain('testRole');
+      describe('On item selected', () => {
+        beforeEach(async () => {
+          let users = fixture.nativeElement.querySelector('#userlist');
+          let user = users.querySelector('a');
+          user.click();
+          await fixture.whenStable();
+          fixture.detectChanges();
+        })
+
+        it('should display username if we click in it', function () {
+          expect(fixture.nativeElement.querySelector('#userproperties').textContent).toContain('matyi')
+        });
+
+        it('should display role email', function () {
+          expect(fixture.nativeElement.querySelector('#userproperties').textContent).toContain('SampleUser')
+        });
+
+        it('should display role name', function () {
+          expect(fixture.nativeElement.querySelector('#userproperties').textContent).toContain('testRole');
+        });
       });
     });
   });
+
 
 });
