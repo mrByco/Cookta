@@ -958,4 +958,22 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
+    app.put('/user/manage/editrole/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['manage-users'], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new UserController();
+                const promise = controller.EditUser(request.body as { primarySub: string, roleId: string }, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
 }

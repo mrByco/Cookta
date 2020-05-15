@@ -9,6 +9,9 @@ const GetNameAlreadyUsed: IRoute<void, boolean, { name: string }> = {method: ERo
 const HasPermission: IRoute<void, boolean, { permission: string }> = {method: ERouteMethod.GET, path: 'permission'};
 const GetAllUser: IRoute<void, ExtendedUser[], void> = {method: ERouteMethod.GET, path: 'manage/all'};
 
+//Change the role of user to the given role and returns the changed user
+const EditUser: IRoute<{primarySub: string, roleId: string}, ExtendedUser, void> = {method: ERouteMethod.PUT, path: 'manage/editrole'};
+
 export const UserControllerData: ControllerData = {
-    basepath: "user", name: "User", routes: [User, SetUserName, GetNameAlreadyUsed, HasPermission, GetAllUser]
+    basepath: "user", name: "User", routes: [User, SetUserName, GetNameAlreadyUsed, HasPermission, GetAllUser, EditUser]
 }
