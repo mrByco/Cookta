@@ -16,9 +16,10 @@
             </a>
         </div>
         <div  class="rounded-panel col-4 align-self-start" *ngIf="SelectedUser" id="userproperties">
-            <h4>Felhasznállónév: {{SelectedUser.username}}</h4>
-            <h4>Email: {{SelectedUser.email}}</h4>
-            <h4>Szerep: {{roleService.roles ? roleService.GetRoleById(SelectedUser.role).displayName : "Betöltés.."}}</h4>
+            <div class="row"><h4>Felhasznállónév: {{SelectedUser.username}}</h4></div>
+            <div class="row"><h4>Email: {{SelectedUser.email}}</h4></div>
+            <div class="row"><h4>Szerep: {{roleService.roles ? roleService.GetRoleById(SelectedUser.role).displayName : "Betöltés.."}}</h4></div>
+            
         </div>
     </div>
 </div>
