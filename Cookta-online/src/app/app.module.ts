@@ -68,11 +68,16 @@ import { SearchComponent } from './food/search/search.component';
 import {RenameModalComponent} from "./identity/rename-modal/rename-modal.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSliderModule} from "@angular/material/slider";
+import { RoleEditorComponent } from './admin-components/role-editor/role-editor/role-editor.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { UserListComponent } from './admin-components/user-list/user-list.component';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
     {path: 'foods', component: FoodListComponent},
     {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'user-editor', component: UserListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'debug-options', component: DebugOptionsComponent},
     {path: 'foods/collection', component: FoodCollectionListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -135,6 +140,8 @@ const appRoutes: Routes = [
         SearchInputComponent,
         SearchComponent,
         RenameModalComponent,
+        RoleEditorComponent,
+        UserListComponent,
     ],
     imports: [
         BrowserModule,
@@ -155,6 +162,7 @@ const appRoutes: Routes = [
         ContenteditableModule,
         MatProgressSpinnerModule,
         MatSliderModule,
+        MatProgressBarModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard, CanActivateLoggedInGuard],
@@ -163,3 +171,4 @@ const appRoutes: Routes = [
 })
 export class AppModule {
 }
+

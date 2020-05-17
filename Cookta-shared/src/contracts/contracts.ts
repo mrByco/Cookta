@@ -10,6 +10,7 @@ import {SubscriptionControllerData} from "./subscription/subscription";
 import {TagControllerData} from "./tags/tags";
 import {UnitControllerData} from "./units/units";
 import {UserControllerData} from "./users/users";
+import {RoleControllerData} from "./roles/roles";
 
 
 
@@ -25,6 +26,7 @@ export const Contracts = {
     Subscription: SubscriptionControllerData,
     Tags: TagControllerData,
     Units: UnitControllerData,
-    Users: UserControllerData
+    Users: UserControllerData,
+    Roles: RoleControllerData
 
 }

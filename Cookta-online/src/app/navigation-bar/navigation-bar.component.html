@@ -36,7 +36,12 @@
                     <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/ingredient-editor"
                        *ngIf="ShowIngredientEditor">Hozzávaló szerkesztő</a>
                     <a class="dropdown-item waves-light" mdbWavesEffect href="#">Tag szerkesztő</a>
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Étel érvényesítő</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect href="#"
+                       routerLink="/role-editor"
+                       *ngIf="ShowRoleEditor">Szerepkörök</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect href="#"
+                       routerLink="/user-editor"
+                       *ngIf="ShowRoleEditor">Felhasznállók</a>
                     <div class="divider dropdown-divider"></div>
                     <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/debug-options"
                        *ngIf="ShowDebugOptions" href="#">Debug options</a>

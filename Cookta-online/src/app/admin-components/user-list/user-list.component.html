@@ -1,0 +1,37 @@
+<div class="container-fluid" *ngIf="userService.Users; else loading">
+    <div class="row">
+        <div  class="rounded-panel col-7 align-self-start"  id="userlist">
+            <a class="row ml-3 mr-3 user-item"
+               *ngFor="let user of userService.Users"
+               (click)="SelectUser(user)" >
+              <div class="col-md-3">
+                <h5>{{user.username}}</h5>
+              </div>
+              <div class="col-md-5 d-flex justify-content-start">
+                <h5>{{user.email}}</h5>
+              </div>
+              <div class="col-4 d-flex justify-content-start">
+                <h5>{{roleService.roles ? roleService.GetRoleById(user.role).displayName : "Betöltés.."}}</h5>
+              </div>
+            </a>
+        </div>
+        <div  class="rounded-panel col-4 align-self-start" *ngIf="SelectedUser" id="userproperties">
+            <div class="row"><h4>Felhasznállónév: {{SelectedUser.username}}</h4></div>
+            <div class="row"><h4>Email: {{SelectedUser.email}}</h4></div>
+            <div class="row" >
+                <h4>Szerep:</h4>
+                <select name="Role" id="roleSelect" [selectedIndex]="GetCurrentRoleIndex()" (change)="OnRoleChange($event.target['value'])">
+                    <option *ngFor="let role of roleService.roles"
+                            [value]="role.roleID">{{role.displayName}}</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<ng-template class="container" #loading>
+    <div class="container">
+        <mat-progress-bar mode="indeterminate" id="loading"></mat-progress-bar>
+    </div>
+</ng-template>

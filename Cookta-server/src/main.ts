@@ -18,6 +18,8 @@ import {IngredientTypeService} from "./services/ingredient-types/ingredient-type
 import {IngredientType} from "./models/ingredient-type/ingredient-type.model";
 import {ShoppingListService} from "./services/shopping-list/shopping-list.service";
 import {ShoppingList} from "./models/shopping-list.model";
+import {BackupService} from "./services/backup/bcakup-service";
+import {RoleService} from "./services/role/role-service";
 require('dotenv').config();
 
 const PORT = process.env.PORT || 8080;
@@ -34,7 +36,6 @@ try{
     console.info("Connecting to Mongo...");
     MongoHelper.connect(MongoConnectionString).then(async () => {
         console.info("Initialize roles");
-        await Role.init();
 
         console.log("Start atomik services...");
 
@@ -48,6 +49,8 @@ try{
 
         let unitService = new UnitService((id) => {return new Unit(id)}, 'Units');
 
+        let roleService = new RoleService(id => new Role(id), 'Roles');
+
         let ingredientTypeService = new IngredientTypeService((id) => {return new IngredientType(id)}, 'Ingredients');
 
         let shoppingListService = new ShoppingListService(id => new ShoppingList(id), 'ShoppingLists');
@@ -57,6 +60,7 @@ try{
         Services.UserService = userService;
         Services.EssentialsService = essentialsService;
         Services.UnitService = unitService;
+        Services.RoleService = roleService;
         Services.IngredientTypeService = ingredientTypeService;
         Services.ShoppingListService = shoppingListService;
         await ServiceManager.AddService(storageService);
@@ -64,6 +68,7 @@ try{
         await ServiceManager.AddService(userService);
         await ServiceManager.AddService(essentialsService);
         await ServiceManager.AddService(unitService);
+        await ServiceManager.AddService(roleService);
         await ServiceManager.AddService(ingredientTypeService);
         await ServiceManager.AddService(shoppingListService);
         await ServiceManager.Start(MongoConnectionString);
@@ -71,6 +76,16 @@ try{
 
         console.info("Starting server...");
         server.listen(PORT);
+
+        try {
+            let backupService = new BackupService();
+            backupService.Schedule();
+            await backupService.CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
+        }
+        catch (err) {
+            console.log('Creating backup was unsuccessful');
+        }
+
     });
 }catch (err){
     console.error(err);

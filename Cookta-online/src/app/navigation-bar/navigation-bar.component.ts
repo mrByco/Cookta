@@ -13,20 +13,26 @@ export class NavigationBarComponent implements OnInit {
   public PictureUrl: string = "";
 
   public ShowIngredientEditor: boolean = false;
+  public ShowRoleEditor: boolean = false;
   public ShowDebugOptions: boolean = false;
+  public ShowUserEditor: boolean = false;
 
   constructor(public identityService: IdentityService,
               public familyService: FamilyService) {
     this.identityService.OnUserChanged.subscribe((user) => {
       if (!user)
         return;
-      this.PictureUrl = user['picture'];
-      identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
-      identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
+      this.updateState();
     });
-    this.PictureUrl = identityService?.LastKnownUserInfo?.picture;
-    identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
-    identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
+    this.updateState();
+  }
+
+  private updateState() {
+    this.PictureUrl = this.identityService?.LastKnownUserInfo?.picture;
+    this.identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
+    this.identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
+    this.identityService.HasPermission('manage-roles').then(b => this.ShowRoleEditor = b);
+    this.identityService.HasPermission('manage-users').then(b => this.ShowUserEditor = b);
   }
 
   ngOnInit() {

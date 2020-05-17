@@ -6,6 +6,7 @@ import {EssentialsService} from "./services/essentials/essentials-service";
 import {IUnitService} from "./services/unit/unit.service.interface";
 import {IIngredientTypeService} from "./services/ingredient-types/ingredient-type.service.interface";
 import {IShoppingListService} from "./services/shopping-list/shopping-list.service.interface";
+import {IRoleService} from "./services/role/role-service.interface";
 
 export class Services {
     static StorageService: StorageService;
@@ -15,6 +16,7 @@ export class Services {
     static UnitService: IUnitService;
     static IngredientTypeService: IIngredientTypeService;
     static ShoppingListService: IShoppingListService;
+    static RoleService: IRoleService;
 
     static ToSendableList(items: StoreItemBase[]): any[]{
         let sendItems: any[] = [];
