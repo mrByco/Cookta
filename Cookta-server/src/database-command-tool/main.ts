@@ -1,7 +1,6 @@
-import {MongoHelper} from "../helpers/mongo.helper";
-import {ReadlineHelper} from "./readline.helper";
-import {Role} from "../models/role.model";
-import {CommandExecutor} from "./command-executor";
+import { MongoHelper } from "../helpers/mongo.helper";
+import { ReadlineHelper } from "./readline.helper";
+import { CommandExecutor } from "./command-executor";
 
 
 const Run = async () => {
@@ -19,8 +18,6 @@ const Run = async () => {
         }
     }
     console.log('Connected to mongo');
-    await Role.init();
-    console.log('Roles initialized');
 
     while (true) {
         let fullCommand = (await ReadlineHelper.Question("")).split(' ');
