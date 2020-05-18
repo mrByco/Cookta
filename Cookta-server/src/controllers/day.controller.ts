@@ -8,6 +8,7 @@ import {Contracts} from "cookta-shared/src/contracts/contracts";
 import {Security} from "waxen/dist/deorators/security";
 import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
 import {IDay} from "cookta-shared/src/models/days/day.interface";
+import {Services} from "../Services";
 
 
 @Controller(Contracts.Days)
@@ -24,7 +25,8 @@ export class DayController {
                 mealing.id = new ObjectID().toHexString();
             }
             if (!mealing.foodId) {
-                let foods = await Food.GetFoodsOfTag(user, mealing.info.tagId);
+                let foodCollection = await Services.FoodService.GetCollectionForUser(user.sub, user.GetCurrentFamily())
+                let foods = await Services.FoodService.FilterByTags(foodCollection, mealing.info.tagId);
                 let food = foods[Math.floor(Math.random() * foods.length)];
                 mealing.foodId = food ? food.foodId : undefined;
             }

@@ -2,6 +2,7 @@ import {Food} from "./food/food.model";
 import {User} from "./user.model";
 import {ObjectID} from "bson";
 import {MongoHelper} from "../helpers/mongo.helper";
+import {Services} from "../Services";
 
 export class Subscription {
 
@@ -18,9 +19,9 @@ export class Subscription {
     ) {}
 
 
-    public static async GetSubsFoodsOfUser(user: User): Promise<Food[]> {
+    public static async GetSubsFoodsOfUser(userSub: string): Promise<Food[]> {
         let collection = await MongoHelper.getCollection(this.CollectionName);
-        let subDocs = await collection.find({sub: user.sub}).toArray();
+        let subDocs = await collection.find({sub: userSub}).toArray();
         let subs: Subscription[] = [];
         for (let doc of subDocs){
             let subscription = await this.FromDocument(doc);
@@ -31,7 +32,7 @@ export class Subscription {
         }
         let foods: Food[] = [];
         for (let sub of subs){
-            foods.push(await Food.GetFood(sub.foodId, sub.foodVersionId));
+            foods.push(Services.FoodService.GetFood(sub.foodId, sub.foodVersionId));
         }
         return foods;
     }
@@ -52,7 +53,7 @@ export class Subscription {
             //if already has subscription
             let doc = await collection.findOne({sub: user.sub, foodID: foodId});
             if (!doc){
-                let food = await Food.GetFoodForUser(foodId, user);
+                let food = await Services.FoodService.GetFoodForUser(foodId, user.sub);
                 let newSubscription = new Subscription(user.sub, food.id, food.foodId, new ObjectID().toHexString());
                 await collection.insertOne(newSubscription.ToDocument());
                 return newSubscription;
@@ -69,7 +70,7 @@ export class Subscription {
         );
         try{
             if (sub.foodId == null){
-                sub.foodId = (await Food.GetFood(null, sub.foodVersionId)).foodId;
+                sub.foodId = (await Services.FoodService.GetFood(null, sub.foodVersionId)).foodId;
             }
         }
         catch{

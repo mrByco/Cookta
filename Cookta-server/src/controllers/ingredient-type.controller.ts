@@ -36,7 +36,7 @@ export class IngredientTypeController {
         {
             essentials: Services.EssentialsService.GetAllItems(),
             storages: Services.StorageService.GetAllItems(),
-            foods: await Food.GetAllFoods({})
+            foods: await Services.FoodService.GetAllFoods({})
         }
 
         let success = await Services.IngredientTypeService.DeleteIngredientType(reqBody.ingredientTypeId, reqBody.forced, reqBody.descendentId, dependencies);
