@@ -7,11 +7,13 @@ import {IUnitService} from "./services/unit/unit.service.interface";
 import {IIngredientTypeService} from "./services/ingredient-types/ingredient-type.service.interface";
 import {IShoppingListService} from "./services/shopping-list/shopping-list.service.interface";
 import {IRoleService} from "./services/role/role-service.interface";
+import {IFoodService} from "./services/food/food.service.interface";
 
 export class Services {
     static StorageService: StorageService;
     static FamilyService: FamilyService;
     static UserService: UserService;
+    static FoodService: IFoodService;
     static EssentialsService: EssentialsService;
     static UnitService: IUnitService;
     static IngredientTypeService: IIngredientTypeService;

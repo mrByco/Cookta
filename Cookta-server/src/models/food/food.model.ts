@@ -7,30 +7,33 @@ import {Services} from "../../Services";
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
 import { uploadLocalJPEGImage, listContainers } from '../../helpers/blobs';
+import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 
 
 
-export class Food {
+export class Food extends StoreItemBase {
     public static readonly CollectionName = "Foods";
     private static readonly BlobContainerName = "foodimages";
 
-    constructor(
-        public owner: string,
-        public name: string = "",
-        public desc: string = "",
-        public isPrivate: boolean = true,
-        public published: boolean = false,
-        public ingredients: IIngredient[] = [],
-        public imageUploaded: number,
-        public uploaded: number,
-        public dose: number = 4,
-        public tags: string[] = [],
-        public lastModified: number,
-        public generated: any = {},
-        public subscriptions: number,
-        public id: string = new ObjectID().toHexString(),
-        public foodId: string
+    public owner: string,
+    public name: string = "",
+    public desc: string = "",
+    public isPrivate: boolean = true,
+    public published: boolean = false,
+    public ingredients: IIngredient[] = [],
+    public imageUploaded: number,
+    public uploaded: number,
+    public dose: number = 4,
+    public tags: string[] = [],
+    public lastModified: number,
+    public generated: any = {},
+    public subscriptions: number,
+    public id: string = new ObjectID().toHexString(),
+    public foodId: string
+
+    constructor(id
     ) {
+        super(id)
         let addId = async function (food: Food) {
             food.foodId = new ObjectID().toHexString();
             await food.Save();
@@ -50,10 +53,6 @@ export class Food {
             foods.push(this.FromDocument(doc));
         }
         return foods;
-    }
-
-    public static async GetAllPublicFoods(): Promise<Food[]> {
-        return await Food.GetAllFoods({published: true, private: false});
     }
 
     public static async GetAllOwnFoods(user: User): Promise<Food[]> {
@@ -180,9 +179,6 @@ export class Food {
         return send;
     }
 
-    public async ToSendable(sendFor?: User, cachedSubFoods?: Food[]) {
-        return await SendableFood.Create(this, sendFor, cachedSubFoods);
-    }
 
     public static async UploadImage(foodVersionName: string, path: string, user: User) {
         let food = await Food.GetFood(undefined, foodVersionName);
@@ -213,8 +209,11 @@ export class Food {
         await food.Save();
         return true;
     }
+    public async ToSendable(sendFor?: User, cachedSubFoods?: Food[]) {
+        return await SendableFood.Create(this, sendFor, cachedSubFoods);
+    }
 
-
+/*
     public static FromDocument(doc: any): Food {
         return new Food(
             doc['owner'],
@@ -233,8 +232,8 @@ export class Food {
             typeof (doc['_id']) != 'string' ? (doc['_id'] as ObjectID).toHexString() : doc['_id'], //need to handle either ObjectID and string
             doc['foodId']
         )
-    }
-
+    }*/
+/*
     public ToDocument(): any {
         return {
             owner: this.owner,
@@ -253,15 +252,7 @@ export class Food {
             _id: new ObjectID(this.id),
             foodId: this.foodId
         }
-    }
-
-    public async Save(): Promise<void> {
-        let document = this.ToDocument();
-        let id = this.id;
-        let collection = await MongoHelper.getCollection(Food.CollectionName);
-        await collection.replaceOne({_id: new ObjectID(id)}, document);
-        return;
-    }
+    }*/
 
     public static async GetFoodsOfTag(user: User, tagId: string): Promise<Food[]> {
         let foods = await this.GetCollectionForUser(user);
@@ -273,5 +264,14 @@ export class Food {
         foods = foods.concat(await Food.GetAllOwnFoods(user));
         return foods.concat(await user.GetCurrentFamily().GetFamilyFoods());
     }
+
+    public async Save(): Promise<void> {
+        let document = this.ToDocument();
+        let id = this.id;
+        let collection = await MongoHelper.getCollection(Food.CollectionName);
+        await collection.replaceOne({_id: new ObjectID(id)}, document);
+        return;
+    }
+
 
 }
