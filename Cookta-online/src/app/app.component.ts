@@ -30,10 +30,8 @@ export class AppComponent {
       console.log('Prod cookta running normal mode');
       this.NeedCheckPermission = false;
     }else {
-      //Turned of until the domain not works
-      //TODO Turn it on when the domain works
       console.log('Not valid url redirect to cookta.online')
-      //window.location.href = 'https://cookta.online/';
+      window.location.href = 'https://cookta.online/';
     }
     AppComponent.instance = this;
   }
