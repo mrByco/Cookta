@@ -83,7 +83,9 @@ export class FoodController {
 
     @Security(false)
     public async AddOrUpdateFood(reqBody: IUpdateFoodRequest, user: User): Promise<ISendableFood> {
-        return await (await Services.FoodService.UpdateFood(reqBody, user.sub)).ToSendable(user);
+        let food = await Services.FoodService.UpdateFood(reqBody, user.sub);
+        let sendFood = await food.ToSendable(user)
+        return sendFood;
     }
 
     @Security(false)

@@ -11,7 +11,7 @@ export class Food extends StoreItemBase {
     public owner: string = null;
     public name: string = null;
     public desc: string = null;
-    public isPrivate: boolean = null;
+    public private: boolean = null;
     public published: boolean = null;
     public ingredients: IIngredient[] = null;
     public imageUploaded: number = null;
@@ -21,7 +21,7 @@ export class Food extends StoreItemBase {
     public lastModified: number = null;
     public generated: { tags: Tag[] } = null;
     public subscriptions: number = null;
-    public foodId: string;
+    public foodId: string = null;
 
     constructor(id) {
         super(id)

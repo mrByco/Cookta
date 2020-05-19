@@ -41,7 +41,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         let food = this.Items.find(f => f.foodId == foodId);
         if (food == null) return null;
         if (userSub == food.owner) return food;
-        if (!food.isPrivate) return food;
+        if (!food.private) return food;
         let relatives = Services.FamilyService.GetUserFamilies(userSub)
         if (relatives.find(f => f.members.find(m => m.sub == food.owner))) return food;
         return null;
@@ -154,17 +154,19 @@ export class FoodService extends StoreService<Food> implements IFoodService {
     }
 
     private async GetGenerateDataForFood(food: Food): Promise<{ tags: Tag[] }> {
-        let tags = [];
+        let tags: Tag[] = [];
         let tagsToCheck: Tag[] = await Promise.all(food.tags.map(async (t) => await Tag.GetTagById(t)));
         while (tagsToCheck.length > 0) {
             let current = tagsToCheck[0];
 
             //Includes means its parents already added
-            if (tags.includes(current)) continue;
-
-            if (!food.tags.includes(current.guid)) tags.push(current.guid);
-            let parent: Tag = current.parentId ? await Tag.GetTagById(current.parentId) : undefined;
-            if (parent) tagsToCheck.push(parent);
+            if (!tags.includes(current)){
+                if (!food.tags.includes(current.guid))
+                    tags.push(current);
+                let parent: Tag = current.parentId ? await Tag.GetTagById(current.parentId) : undefined;
+                if (parent) tagsToCheck.push(parent);
+            }
+            tagsToCheck.shift();
         }
         return {tags: tags};
     }
