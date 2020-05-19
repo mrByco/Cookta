@@ -6,8 +6,7 @@ import {IdentityService} from "../../../shared/services/identity.service";
 import {CookieService} from 'ngx-cookie-service';
 import {MealingService} from "../../../shared/services/mealing.service";
 import {Day} from "../../../shared/models/menu/day.model";
-import {Tag} from "../../../shared/models/grocery/tag.model";
-import { ISendableFood } from '../../../../../../Cookta-shared/src/models/food/food-sendable.interface';
+import {ISendableFood} from '../../../../../../Cookta-shared/src/models/food/food-sendable.interface';
 import {ITag} from "../../../../../../Cookta-shared/src/models/tag/tag.interface";
 
 @Component({
@@ -30,7 +29,6 @@ export class FoodDetailComponent implements OnInit {
         public mealingService: MealingService,
         public cookieService: CookieService) {
     }
-
 
     public async ngOnInit() {
         this.ShowShortUnitNames = this.cookieService.get('short-units') == 't';
@@ -70,14 +68,13 @@ export class FoodDetailComponent implements OnInit {
         this.cookieService.set('short-units', !this.ShowShortUnitNames ? 't' : 'f')
     }
 
-
     public GoEdit() {
         this.router.navigate(["foods", this.Food.foodId, "edit"]);
     }
 
     GetFoodTags(): ITag[] {
         let origianls = this.Food.tags ? this.Food.tags : [];
-        let autoTags = this.Food.autoTags ? this.Food.tags : [];
+        let autoTags = this.Food.autoTags ? this.Food.autoTags : [];
         return origianls.concat(autoTags);
     }
 

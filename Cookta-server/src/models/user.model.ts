@@ -6,6 +6,7 @@ import {Services} from "../Services";
 import { Family } from './family.model';
 import { ExtendedUser } from 'cookta-shared/src/models/user/extendedUser';
 import { ISendFamily } from 'cookta-shared/src/models/family/family.interface';
+import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
 
 
 export class User extends StoreItemBase {
@@ -53,11 +54,10 @@ export class User extends StoreItemBase {
         let subs = this.subs;
         let primary = this.sub;
 
-        let foods = await Food.GetAllFoods({});
+        let foods = await Services.FoodService.GetAllFoods({});
         for (let sub of subs){
             for (let food of foods.filter(f => f.owner == sub)){
                 food.owner = primary;
-                await food.Save();
             }
 
             let subscriptions = await Subscription.GetAll();

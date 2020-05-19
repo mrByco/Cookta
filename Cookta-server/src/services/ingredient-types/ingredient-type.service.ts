@@ -114,7 +114,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         let references = await this.GetReferencesOfUnit(unitId);
         for (let food of references.foods) {
             this.ReplaceOrDeleteUnitOnList(food.ingredients, unitId, descendentUnit);
-            await food.Save();
+            await Services.FoodService.SaveFood(food);
         }
         for (let essentials of references.essentials) {
             this.ReplaceOrDeleteUnitOnList(essentials.Essentials, unitId, descendentUnit);
@@ -163,7 +163,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
             for (let food of ingredientDependents.foods) {
                 let modified = this.ProcessDeleteOnList(food.ingredients, descendent, guid, forced);
                 if (modified) {
-                    await food.Save();
+                    await Services.FoodService.SaveFood(food);
                 }
             }
         } catch (error) {
@@ -245,7 +245,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
 
 
     private async GetReferencesOfUnit(unitId: string): Promise<{ foods: Food[], essentials: EssentialSection[], storage: StorageSection[] }> {
-        let foods = (await Food.GetAllFoods({}))
+        let foods = (await Services.FoodService.GetAllFoods({}))
             .filter(f => f.ingredients.find(i => i.unit == unitId));
         let essentials = Services.EssentialsService.GetAllItems()
             .filter(e => e.Essentials.find(i => i.unit == unitId));

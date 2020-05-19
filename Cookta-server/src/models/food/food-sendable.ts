@@ -66,4 +66,13 @@ export class SendableFood implements ISendableFood {
 
         return new SendableFood(food, tags, autoTags, subscribedFor, ownFood);
     }
+
+    public static async ToSendableAll(foods: Food[], sendFor?: User) {
+        let send = [];
+        let subFoods = sendFor ? await Subscription.GetSubsFoodsOfUser(sendFor.sub) : undefined;
+        for (let food of foods) {
+            send.push(await food.ToSendable(sendFor, subFoods));
+        }
+        return send;
+    }
 }

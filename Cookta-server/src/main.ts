@@ -20,6 +20,8 @@ import {ShoppingListService} from "./services/shopping-list/shopping-list.servic
 import {ShoppingList} from "./models/shopping-list.model";
 import {BackupService} from "./services/backup/bcakup-service";
 import {RoleService} from "./services/role/role-service";
+import {FoodService} from './services/food/food.service';
+
 require('dotenv').config();
 
 const PORT = process.env.PORT || 8080;
@@ -55,6 +57,8 @@ try{
 
         let shoppingListService = new ShoppingListService(id => new ShoppingList(id), 'ShoppingLists');
 
+        let foodService = new FoodService('Foods');
+
         Services.StorageService = storageService;
         Services.FamilyService = familyService;
         Services.UserService = userService;
@@ -63,6 +67,7 @@ try{
         Services.RoleService = roleService;
         Services.IngredientTypeService = ingredientTypeService;
         Services.ShoppingListService = shoppingListService;
+        Services.FoodService = foodService;
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
@@ -71,6 +76,7 @@ try{
         await ServiceManager.AddService(roleService);
         await ServiceManager.AddService(ingredientTypeService);
         await ServiceManager.AddService(shoppingListService);
+        await ServiceManager.AddService(foodService);
         await ServiceManager.Start(MongoConnectionString);
 
 

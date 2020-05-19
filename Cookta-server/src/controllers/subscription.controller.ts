@@ -5,6 +5,8 @@ import { Contracts } from 'cookta-shared/src/contracts/contracts';
 import {Controller} from "waxen/dist/deorators/controller";
 import {Security} from "waxen/dist/deorators/security";
 import { ISendableFood } from "cookta-shared/src/models/food/food-sendable.interface";
+import {SendableFood} from "../models/food/food-sendable";
+import {Services} from "../Services";
 
 
 @Controller(Contracts.Subscription)
@@ -12,7 +14,7 @@ export class SubscriptionController {
 
     @Security(false)
     public async GetSubscribedFoods(reqBody: void, user: User): Promise<ISendableFood[]> {
-        return Food.ToSendableAll(await Subscription.GetSubsFoodsOfUser(user), user);
+        return SendableFood.ToSendableAll(await Subscription.GetSubsFoodsOfUser(user.sub), user);
     }
 
     @Security(false)
@@ -21,7 +23,7 @@ export class SubscriptionController {
             await Subscription.SetUserSubState(user, reqBody.foodId, reqBody.state);
             return;
         } else {
-            let food = Food.GetFoodForUser(reqBody.foodId, user);
+            let food = Services.FoodService.GetFoodForUser(reqBody.foodId, user.sub);
             if (food != null) {
                 await Subscription.SetUserSubState(user, reqBody.foodId, reqBody.state);
             }

@@ -17,7 +17,7 @@ export class UnitController {
 
     @Security(false, 'advanced-ingredients')
     public async GetBadUnits(reqBody: void, user: User): Promise<GetBadUnitResponse> {
-        let foods = await Food.GetAllFoods({});
+        let foods = await Services.FoodService.GetAllFoods({});
         let unitRefs: IBadUnit[] = await Services.UnitService.GetBadUnitReferences(
             Services.EssentialsService.GetAllItems(),
             Services.StorageService.GetAllItems(),
@@ -29,7 +29,7 @@ export class UnitController {
     @Security(false, 'advanced-ingredients')
     public async FixBadUnit(reqBody: FixBadUnitRequest, user: User): Promise<GetBadUnitResponse> {
         let foods: Food[] = [];
-        foods = await Food.GetAllFoods({});
+        foods = await Services.FoodService.GetAllFoods({});
         if (reqBody.badUnit.Fix && reqBody.badUnit.FixUnit) {
             let ingredientType = Services.IngredientTypeService.FindOne(i => i.guid == reqBody.badUnit.IngredientId);
             let fixUnit = Services.UnitService.GetAvailableUnitsForType(ingredientType).find(u => u.id == reqBody.badUnit.FixUnit);

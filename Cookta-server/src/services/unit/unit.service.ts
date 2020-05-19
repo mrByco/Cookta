@@ -66,7 +66,7 @@ export class UnitService extends StoreService<Unit> implements IUnitService {
         }
         for (let food of foods) {
             this.FixItemsInIngArray(food.ingredients, ingredientId, unitId, fixUnit, fixMultiplier);
-            await food.Save();
+            await Services.FoodService.SaveFood(food);
         }
         return true;
     }
