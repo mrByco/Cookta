@@ -17,8 +17,9 @@ export class FamilyService extends StoreService<Family> {
         return family;
     }
 
-    public GetUserFamilies(user: User): Family[] {
-        return this.FindAll(f => (f.members.find(u => u.sub == user.sub) != null))
+    public GetUserFamilies(user: User | string): Family[] {
+        let sub = user instanceof User ? user.sub : user;
+        return this.FindAll(f => (f.members.find(u => u.sub == sub) != null))
     }
 
     //TODO Override remove item method to delete dependencies

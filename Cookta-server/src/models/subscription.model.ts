@@ -2,6 +2,7 @@ import {Food} from "./food/food.model";
 import {User} from "./user.model";
 import {ObjectID} from "bson";
 import {MongoHelper} from "../helpers/mongo.helper";
+import {Services} from "../Services";
 
 export class Subscription {
 
@@ -18,20 +19,21 @@ export class Subscription {
     ) {}
 
 
-    public static async GetSubsFoodsOfUser(user: User): Promise<Food[]> {
+    public static async GetSubsFoodsOfUser(userSub: string): Promise<Food[]> {
         let collection = await MongoHelper.getCollection(this.CollectionName);
-        let subDocs = await collection.find({sub: user.sub}).toArray();
+        let subDocs = await collection.find({sub: userSub}).toArray();
         let subs: Subscription[] = [];
         for (let doc of subDocs){
             let subscription = await this.FromDocument(doc);
             if (subscription == null){
-                console.log("ERROROROROR");
+                console.error("Subscription parsed but null.");
+                continue;
             }
             subs.push(subscription);
         }
         let foods: Food[] = [];
         for (let sub of subs){
-            foods.push(await Food.GetFood(sub.foodId, sub.foodVersionId));
+            foods.push(Services.FoodService.GetFood(sub.foodId, sub.foodVersionId));
         }
         return foods;
     }
@@ -52,7 +54,7 @@ export class Subscription {
             //if already has subscription
             let doc = await collection.findOne({sub: user.sub, foodID: foodId});
             if (!doc){
-                let food = await Food.GetFoodForUser(foodId, user);
+                let food = await Services.FoodService.GetFoodForUser(foodId, user.sub);
                 let newSubscription = new Subscription(user.sub, food.id, food.foodId, new ObjectID().toHexString());
                 await collection.insertOne(newSubscription.ToDocument());
                 return newSubscription;
@@ -63,18 +65,14 @@ export class Subscription {
     public static async FromDocument(doc: any): Promise<Subscription>{
         let sub =  new Subscription(
             doc['sub'],
-            doc['foodID'], //used by legacy server (food version)
+            doc['foodID'], //bad naming legacy db (its food version)
             doc[''] ? doc['foodTypeId'] : null, //food type id
             doc['_id']
         );
-        try{
-            if (sub.foodId == null){
-                sub.foodId = (await Food.GetFood(null, sub.foodVersionId)).foodId;
-            }
-        }
-        catch{
-            return null;
-        }
+        let refFood = sub.getReferencingFood();
+        if (!refFood) return null;
+        if (sub.foodVersionId != refFood.id || sub.foodId != refFood.foodId)
+            [sub.foodVersionId, sub.foodId] = [refFood.id, refFood.foodId];
         return sub;
     }
     public ToDocument(): any{
@@ -103,5 +101,9 @@ export class Subscription {
     async Save(): Promise<void> {
         let collection = await MongoHelper.getCollection(Subscription.CollectionName);
         await collection.replaceOne({_id: new ObjectID(this._id)}, this.ToDocument(), {upsert: true});
+    }
+
+    getReferencingFood(){
+        return Services.FoodService.GetFood(this.foodId, this.foodVersionId);
     }
 }

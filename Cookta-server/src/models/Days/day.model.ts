@@ -3,6 +3,7 @@ import {MongoHelper} from "../../helpers/mongo.helper";
 import {Food} from "../food/food.model";
 import {Family} from "../family.model";
 import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
+import {Services} from "../../Services";
 
 
 export class Day {
@@ -46,7 +47,8 @@ export class Day {
         let mealing = await this.mealings[index];
         if (!mealing) return null;
         if (this.mealings[index].type == "tag") {
-            let foods = await Food.GetFoodsOfTag(user, mealing.info.tagId);
+            let foodCollection = await Services.FoodService.GetCollectionForUser(user.sub, user.GetCurrentFamily());
+            let foods = Services.FoodService.FilterByTags(foodCollection, mealing.info.tagId);
             let food = await foods[Math.floor(Math.random() * foods.length)];
             mealing.foodId = food ? food.foodId : undefined;
         }
@@ -56,7 +58,7 @@ export class Day {
     public async FinalizeMealing(index: number, user: User): Promise<IMealing> {
         let mealing = await this.mealings[index];
         if (!mealing) return null;
-        let food: Food = await Food.GetFoodForUser(mealing.foodId, user);
+        let food: Food = await Services.FoodService.GetFoodForUser(mealing.foodId, user.sub);
         if (!food) {
             return null;
         }
@@ -72,9 +74,5 @@ export class Day {
             mealings: this.mealings,
             familyId: this.familyId,
         }
-    }
-
-    public ToSendDay(){
-
     }
 }
