@@ -72,6 +72,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         }
         if (!request.foodId) request.foodId = new ObjectID().toHexString();
         food = this.CreateItem(new ObjectID());
+
         food.ingredients = [];
         food.tags = [];
         food.owner = changerSub;

@@ -3,6 +3,7 @@ import {SendableFood} from "./food-sendable";
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 import {Tag} from "../tag.model";
+import { ObjectID } from 'mongodb';
 
 
 export class Food extends StoreItemBase {
@@ -23,8 +24,9 @@ export class Food extends StoreItemBase {
     public subscriptions: number = null;
     public foodId: string = null;
 
-    constructor(id) {
-        super(id)
+    constructor(id: ObjectID) {
+        super(id);
+        this.foodId = id.toHexString();
     }
 
     public get id(): string {
