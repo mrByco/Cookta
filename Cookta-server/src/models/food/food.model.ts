@@ -2,6 +2,7 @@ import {User} from "../user.model";
 import {SendableFood} from "./food-sendable";
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
+import {Tag} from "../tag.model";
 
 
 export class Food extends StoreItemBase {
@@ -18,7 +19,7 @@ export class Food extends StoreItemBase {
     public dose: number = null;
     public tags: string[] = null;
     public lastModified: number = null;
-    public generated: any = null;
+    public generated: { tags: Tag[] } = null;
     public subscriptions: number = null;
     public foodId: string;
 

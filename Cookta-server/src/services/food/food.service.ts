@@ -8,6 +8,8 @@ import {MongoHelper} from "../../helpers/mongo.helper";
 import {Subscription} from "../../models/subscription.model";
 import {Family} from "../../models/family.model";
 import {uploadLocalJPEGImage} from "../../helpers/blobs";
+import {Tag} from '../../models/tag.model';
+import {TagService} from "../../../../Cookta-online/src/app/shared/services/tag.service";
 
 const BlobContainerName = "foodimages";
 
@@ -65,7 +67,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         if (food) {
             food.uploaded = Date.now();
             Object.keys(k => this[k] = request[k]);
-            this.SaveItem(food);
+            this.SaveFood(food);
             return this.GetFoodForUser(food.foodId, changerSub);
         }
         if (!request.foodId) request.foodId = new ObjectID().toHexString();
@@ -73,10 +75,9 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         food.ingredients = [];
         food.tags = [];
         food.owner = changerSub;
-        food.generated = {};
         food.uploaded = Date.now();
         food.lastModified = Date.now();
-        this.SaveItem(food);
+        this.SaveFood(food);
         return food;
     }
 
@@ -87,8 +88,9 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         this.RemoveItem(food);
     }
 
-    SaveFood(food: Food) {
-        this.SaveItem(food);
+    async SaveFood(food: Food, generate: boolean = true) {
+        if (generate) food.generated = await this.GetGenerateDataForFood(food);
+        await this.SaveItem(food);
     }
 
     async FoodSearch(text: string, count: number): Promise<Food[]> {
@@ -149,6 +151,22 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         food.imageUploaded = null;
         await this.SaveItem(food);
         return true;
+    }
+
+    private async GetGenerateDataForFood(food: Food): Promise<{ tags: Tag[] }> {
+        let tags = [];
+        let tagsToCheck: Tag[] = await Promise.all(food.tags.map(async (t) => await Tag.GetTagById(t)));
+        while (tagsToCheck.length > 0) {
+            let current = tagsToCheck[0];
+
+            //Includes means its parents already added
+            if (tags.includes(current)) continue;
+
+            if (!food.tags.includes(current.guid)) tags.push(current.guid);
+            let parent: Tag = current.parentId ? await Tag.GetTagById(current.parentId) : undefined;
+            if (parent) tagsToCheck.push(parent);
+        }
+        return {tags: tags};
     }
 
 

@@ -22,7 +22,7 @@ export interface IFoodService {
 
     Delete(id: string, deleterSub: string)
 
-    SaveFood(food: Food)
+    SaveFood(food: Food, generate?: boolean)
 
 
     UploadImage(foodVersionName: string, path: string, userSub: string)

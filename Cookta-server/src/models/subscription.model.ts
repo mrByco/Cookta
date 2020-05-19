@@ -26,7 +26,8 @@ export class Subscription {
         for (let doc of subDocs){
             let subscription = await this.FromDocument(doc);
             if (subscription == null){
-                console.log("ERROROROROR");
+                console.error("Subscription parsed but null.");
+                continue;
             }
             subs.push(subscription);
         }
@@ -64,7 +65,7 @@ export class Subscription {
     public static async FromDocument(doc: any): Promise<Subscription>{
         let sub =  new Subscription(
             doc['sub'],
-            doc['foodID'], //used by legacy server (food version)
+            doc['foodID'], //bad naming legacy db (its food version)
             doc[''] ? doc['foodTypeId'] : null, //food type id
             doc['_id']
         );
