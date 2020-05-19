@@ -69,10 +69,14 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             food.tags = [];
             food.generated = {tags: []};
             food.owner = changerSub;
+            food.dose = 4;
+            [food.desc, food.name] = ['', ''];
+            food.private = true;
+            food.published = false;
             food.lastModified = Date.now();
         }
         food.uploaded = Date.now();
-        Object.keys(k => this[k] = request[k]);
+        Object.keys(request).forEach(k => food[k] = request[k]);
         this.SaveFood(food);
         return this.GetFoodForUser(food.foodId, changerSub);
     }
