@@ -122,13 +122,12 @@ export class FoodService extends StoreService<Food> implements IFoodService {
     }
 
 
-    FilterByTags = (foods: Food[], tagId: string): Food[] => {
-        return foods
-            .filter(value => {
+    FilterByTags(foods: Food[], tagId: string): Food[] {
+        return foods.filter(value => {
                 let generatedContains = value.generated?.tags ? value.generated.tags.find(t => t.guid == tagId) != null : false;
                 return value.tags.includes(tagId) || generatedContains;
             });
-    };
+    }
 
     GetIncremental(start: number, count: number, filter?: any): Promise<Food[]> {
         throw new Error('Not imeplemented function');
