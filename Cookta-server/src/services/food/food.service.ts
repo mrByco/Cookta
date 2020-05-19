@@ -61,25 +61,20 @@ export class FoodService extends StoreService<Food> implements IFoodService {
     }
 
     UpdateFood(request: IUpdateFoodRequest, changerSub: string) {
-        let food: Food;
-        if (request.foodId) food = this.GetFoodForUser(request.foodId, changerSub);
-
-        if (food) {
-            food.uploaded = Date.now();
-            Object.keys(k => this[k] = request[k]);
-            this.SaveFood(food);
-            return this.GetFoodForUser(food.foodId, changerSub);
+        let food: Food = request.foodId? this.GetFoodForUser(request.foodId, changerSub) : undefined;
+        if (!food) {
+            if (!request.foodId) request.foodId = new ObjectID().toHexString();
+            food = this.CreateItem(new ObjectID());
+            food.ingredients = [];
+            food.tags = [];
+            food.generated = {tags: []};
+            food.owner = changerSub;
+            food.lastModified = Date.now();
         }
-        if (!request.foodId) request.foodId = new ObjectID().toHexString();
-        food = this.CreateItem(new ObjectID());
-
-        food.ingredients = [];
-        food.tags = [];
-        food.owner = changerSub;
         food.uploaded = Date.now();
-        food.lastModified = Date.now();
+        Object.keys(k => this[k] = request[k]);
         this.SaveFood(food);
-        return food;
+        return this.GetFoodForUser(food.foodId, changerSub);
     }
 
     Delete(id: string, deleterSub: string) {

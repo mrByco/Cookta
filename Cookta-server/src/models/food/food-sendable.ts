@@ -47,7 +47,7 @@ export class SendableFood implements ISendableFood {
         let autoTags: Tag[] = [];
         let tags: Tag[] = [];
 
-        for (let tag of food.generated.tags ? food.generated.tags : []) {
+        for (let tag of food.generated?.tags ? food.generated.tags : []) {
             autoTags.push(await Tag.GetTagById(tag.guid));
         }
         for (let tag of food.tags) {
