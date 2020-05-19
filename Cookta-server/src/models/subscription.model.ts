@@ -69,14 +69,10 @@ export class Subscription {
             doc[''] ? doc['foodTypeId'] : null, //food type id
             doc['_id']
         );
-        try{
-            if (sub.foodId == null){
-                sub.foodId = (await Services.FoodService.GetFood(null, sub.foodVersionId)).foodId;
-            }
-        }
-        catch{
-            return null;
-        }
+        let refFood = sub.getReferencingFood();
+        if (!refFood) return null;
+        if (sub.foodVersionId != refFood.id || sub.foodId != refFood.foodId)
+            [sub.foodVersionId, sub.foodId] = [refFood.id, refFood.foodId];
         return sub;
     }
     public ToDocument(): any{
@@ -105,5 +101,9 @@ export class Subscription {
     async Save(): Promise<void> {
         let collection = await MongoHelper.getCollection(Subscription.CollectionName);
         await collection.replaceOne({_id: new ObjectID(this._id)}, this.ToDocument(), {upsert: true});
+    }
+
+    getReferencingFood(){
+        return Services.FoodService.GetFood(this.foodId, this.foodVersionId);
     }
 }

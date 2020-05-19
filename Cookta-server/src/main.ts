@@ -76,7 +76,7 @@ try{
         await ServiceManager.AddService(roleService);
         await ServiceManager.AddService(ingredientTypeService);
         await ServiceManager.AddService(shoppingListService);
-        await ServiceManager.AddService(shoppingListService);
+        await ServiceManager.AddService(foodService);
         await ServiceManager.Start(MongoConnectionString);
 
 
