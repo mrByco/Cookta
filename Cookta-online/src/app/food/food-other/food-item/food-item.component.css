@@ -5,34 +5,48 @@ h3 {
 }
 
 .highlight {
-  padding: 10px;
-  transition: padding 0.3s;
+  background-color: #ffbebe;
+  margin: 10px 1px 10px 1px;
+  width: 300px;
+  height: 350px;
+  position: relative;
+  border: 1px solid #7b7b7b;
+  border-radius: 15px;
 }
-.highlight:hover {
-  padding: 0px;
-}
-.highlightBackground {
-  background-color: inherit;
-  transition: background-color 0.3s;
-}
-.highlightBackground:hover {
-  background-color: #9B1B30;
+.highlight .food-image {
+  margin: 10px 10px 0 10px;
+  height: 280px;
+  width: 280px;
 }
 
-.outer {
+.highlight .food-title {
+  position: absolute;
+  height: 60px;
+  margin: 0 10px 0 10px;
+  font-weight: bolder;
+
   display: flex;
-  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  color: #565656;
+  transition: color 0.2s;
+}
+.highlight:hover .food-title {
+  color: white;
+}
+
+.highlight .overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
   height: 100%;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.0);
+  transition: background-color 0.4s;
 }
 
-.inner_fixed {
-  height: auto;
-  background-color: grey;
-  margin: auto;
-}
-
-.inner_remaining {
-  flex-grow : 1;
+.highlight:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .more-options-icon-frame {
