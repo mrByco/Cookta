@@ -9,7 +9,6 @@ import {Subscription} from "../../models/subscription.model";
 import {Family} from "../../models/family.model";
 import {uploadLocalJPEGImage} from "../../helpers/blobs";
 import {Tag} from '../../models/tag.model';
-import {TagService} from "../../../../Cookta-online/src/app/shared/services/tag.service";
 
 const BlobContainerName = "foodimages";
 
