@@ -6,6 +6,7 @@ import {IPoolItem} from "./pool-item-interface";
 import {TagService} from "../../shared/services/tag.service";
 import {EPoolSearchType} from "./pool-search-type-enum";
 import {PoolItemAnimationService} from "./pool-animation-service";
+import {NavigationEnd, Router} from "@angular/router";
 
 
 @Component({
@@ -39,7 +40,28 @@ export class MenuPoolComponent implements AfterViewInit {
     private tagPool: IPoolItem[];
     private onPoolsFilled: () => void;
 
-    constructor(public foodService: FoodService, public tagService: TagService, public animator: PoolItemAnimationService) {
+    constructor(public foodService: FoodService, public tagService: TagService, public animator: PoolItemAnimationService, private router: Router) {
+        router.events.subscribe(e => {
+            if (e instanceof NavigationEnd){
+                let extras = router.getCurrentNavigation().extras
+                switch (extras?.queryParams?.search) {
+                    case 'tag':
+                        this.SearchType = EPoolSearchType.tags;
+                        break;
+                    case 'food':
+                        this.SearchType = EPoolSearchType.foods;
+                        break;
+                    case 'every':
+                        this.SearchType = EPoolSearchType.every;
+                        break;
+                    default:
+                        this.SearchType = EPoolSearchType.every;
+                        break;
+                }
+                this.SearchText = extras?.queryParams?.text ? extras.queryParams['text'] : '';
+
+            }
+        })
         this.FillPools();
     }
 

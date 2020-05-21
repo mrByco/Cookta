@@ -2,6 +2,9 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {IPoolItem} from "../pool-item-interface";
 import {IStateChanger, PoolItemAnimationService} from "../pool-animation-service";
+import {Food} from "../../../shared/models/grocery/food.model";
+import { Tag } from 'src/app/shared/models/grocery/tag.model';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -37,13 +40,13 @@ export class MenuPoolItemComponent {
 
     private cancel: () => void;
 
-    constructor(private poolAnimationService: PoolItemAnimationService) {
+    constructor(private poolAnimationService: PoolItemAnimationService,
+                private router: Router) {
         this.ChangeState(poolAnimationService.ChangeOnInit);
         poolAnimationService.OnStateChange.subscribe(c => {
             this.ChangeState(c);
         })
     }
-
 
     async ChangeState(changer: IStateChanger) {
         try {
@@ -63,5 +66,16 @@ export class MenuPoolItemComponent {
         }
     }
 
+    Open() {
+        if (this.IsFood()) this.router.navigate(['foods', (this.Item.original as Food).foodId]);
+        if (this.IsTag()) this.router.navigate(['calendar'],
+            {queryParams: {search: 'tag', text: this.Item.original.displayName()}});
+    }
 
+    IsFood(){
+        return this.Item.original instanceof Food;
+    }
+    IsTag(){
+        return this.Item.original instanceof Tag;
+    }
 }
