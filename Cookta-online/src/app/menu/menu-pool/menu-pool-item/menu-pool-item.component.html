@@ -10,7 +10,17 @@
     <div class="meal-panel-overlay h5d" [ngClass]="{'h5down': Selected}">
         <h5>{{Item.displayName()}}</h5>
         <h5 class="select-text">Kiválasztva</h5>
-        <a style="position: absolute; height: 100%; width: 100%; z-index: 11"
+        <a style="position: absolute; height: 100%; width: 100%; z-index: 1"
            (click)="OnSelected.emit(this.Selected ? undefined : Item.original)"></a>
+        <div class="icon left-top" (click)="Open()" *ngIf="IsTag()"
+             style="cursor: pointer; position: absolute; z-index: 2">
+            <img alt="send-search" style="width: inherit; height: inherit" src="assets/send-search-icon.png">
+        </div>
+        <div class="icon left-top" (click)="Open()" *ngIf="IsFood()"
+             style="cursor: pointer; position: absolute; z-index: 2">
+            <img alt="send-search" style="width: inherit; height: inherit" src="assets/open-food-doc-icon.png">
+        </div>
+
+
     </div>
 </div>

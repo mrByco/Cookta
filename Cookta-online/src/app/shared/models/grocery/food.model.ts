@@ -1,11 +1,15 @@
 import {IIngredient} from './ingredient.interface';
 import {ISendableFood} from "../../../../../../Cookta-shared/src/models/food/food-sendable.interface";
 import {ITag} from "../../../../../../Cookta-shared/src/models/tag/tag.interface";
+import {Tag} from "./tag.model";
 
 export class Food implements ISendableFood{
 
   public get ImageUrl(): string {
     return Food.GetImageForFood(this);
+  }
+  public get AllTags(): ITag[] {
+    return this.tags.concat(this.autoTags);
   }
 
   constructor(
