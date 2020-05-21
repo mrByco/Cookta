@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, ViewChild} from '@angular/core';
 import * as ResizeDetector from 'element-resize-detector';
 import {delay} from "rxjs/operators";
 import {FoodService} from "../../shared/services/food.service";
@@ -6,7 +6,9 @@ import {IPoolItem} from "./pool-item-interface";
 import {TagService} from "../../shared/services/tag.service";
 import {EPoolSearchType} from "./pool-search-type-enum";
 import {PoolItemAnimationService} from "./pool-animation-service";
-import {NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Params, Router} from "@angular/router";
+import {Food} from "../../shared/models/grocery/food.model";
+import {parseMappings} from "@angular/compiler-cli/ngcc/src/sourcemaps/source_file";
 
 
 @Component({
@@ -15,21 +17,19 @@ import {NavigationEnd, Router} from "@angular/router";
     styleUrls: ['./menu-pool.component.css'],
     providers: [PoolItemAnimationService]
 })
-export class MenuPoolComponent implements AfterViewInit {
+export class MenuPoolComponent implements AfterViewInit, OnDestroy {
 
     @Input('SelectedItem') public Selected: any;
     @Input('OnSelectionChanged') public OnSelectionChanged: EventEmitter<any> = new EventEmitter<any>();
 
     @ViewChild('ItemContainer') public ItemContainer: ElementRef;
-
-
-    private m_SearchMode: boolean;
-    private Searching: boolean;
-    private m_SearchText: string = '';
     public readonly MinItemSize = 150;
     public m_CalculatedVerticalMargin: number = 10;
     public readonly MinMargin = this.MinItemSize / 20;
     public Items: IPoolItem[] = [];
+    private m_SearchMode: boolean;
+    private Searching: boolean;
+    private m_SearchText: string = '';
     private m_SearchType: EPoolSearchType = EPoolSearchType.every;
     private cancelSearch: () => void;
     private readonly searchTime: number = 800;
@@ -39,33 +39,20 @@ export class MenuPoolComponent implements AfterViewInit {
     private foodPool: IPoolItem[];
     private tagPool: IPoolItem[];
     private onPoolsFilled: () => void;
+    private readonly tagPercentage = 15;
 
-    constructor(public foodService: FoodService, public tagService: TagService, public animator: PoolItemAnimationService, private router: Router) {
-        router.events.subscribe(e => {
-            if (e instanceof NavigationEnd){
-                let extras = router.getCurrentNavigation().extras
-                switch (extras?.queryParams?.search) {
-                    case 'tag':
-                        this.SearchType = EPoolSearchType.tags;
-                        break;
-                    case 'food':
-                        this.SearchType = EPoolSearchType.foods;
-                        break;
-                    case 'every':
-                        this.SearchType = EPoolSearchType.every;
-                        break;
-                    default:
-                        this.SearchType = EPoolSearchType.every;
-                        break;
-                }
-                this.SearchText = extras?.queryParams?.text ? extras.queryParams['text'] : '';
+    private routeSubscription;
 
+    constructor(public foodService: FoodService, public tagService: TagService, public animator: PoolItemAnimationService, private router: Router, activatedRoute: ActivatedRoute) {
+        this.routeSubscription = router.events.subscribe(e => {
+            if (e instanceof NavigationEnd) {
+                let params = router.getCurrentNavigation().finalUrl.queryParams
+                this.updateSearchByParams(params)
             }
         })
-        this.FillPools();
-    }
+        this.FillPools().then(() => this.updateSearchByParams(activatedRoute.snapshot.queryParams));
 
-    private readonly tagPercentage = 15;
+    }
 
     public get SearchMode(): boolean {
         return this.m_SearchMode;
@@ -84,8 +71,11 @@ export class MenuPoolComponent implements AfterViewInit {
     }
 
     public set SearchText(value) {
-        this.m_SearchText = value;
-        this.DoSearch();
+        //To avoid not necessary calculations
+        if (value != this.m_SearchText){
+            this.m_SearchText = value;
+            this.DoSearch();
+        }
     }
 
     public get SearchType(): EPoolSearchType {
@@ -123,6 +113,10 @@ export class MenuPoolComponent implements AfterViewInit {
         getItems();
     }
 
+    ngOnDestroy() {
+        this.routeSubscription.unsubscribe();
+    }
+
     public async RandomPick() {
         let count = this.RequestedItemCount;
 
@@ -149,10 +143,26 @@ export class MenuPoolComponent implements AfterViewInit {
         this.Items.push(...items);
     }
 
-    private async DoSearch(): Promise<void> {
-        if (!this.tagPool || !this.foodPool) {
-            return;
+    private updateSearchByParams(params: Params) {
+        switch (params?.search) {
+            case 'tag':
+                this.SearchType = EPoolSearchType.tags;
+                break;
+            case 'food':
+                this.SearchType = EPoolSearchType.foods;
+                break;
+            case 'every':
+                this.SearchType = EPoolSearchType.every;
+                break;
+            default:
+                this.SearchType = EPoolSearchType.every;
+                break;
         }
+        this.SearchText = params?.text ? params['text'] : '';
+    }
+
+    private async DoSearch(): Promise<void> {
+        if (!this.tagPool || !this.foodPool) return;
         if (!this.Searching) {
             this.Searching = true;
             this.animator.Hide();
@@ -190,11 +200,30 @@ export class MenuPoolComponent implements AfterViewInit {
         }
         items = items.filter(i => i.displayName().toLowerCase().includes(this.SearchText.toLowerCase()));
         items = items.sort((s1, s2) => this.compareSearchText(s1.displayName(), s2.displayName(), this.SearchText))
+        if (this.SearchType == EPoolSearchType.tags) {
+            let tagSearchResults = this.foodPool
+                .filter(f => (f.original as Food).AllTags.find(t => t.name == this.SearchText));
+            items.push(...tagSearchResults);
+        }
         this.Items.splice(0, this.Items.length);
         this.Items = items.slice(0, items.length < this.RequestedItemCount * 2 ? items.length : this.RequestedItemCount * 2);
 
         this.animator.Open();
         this.Searching = false;
+
+        let typeText = 'every';
+        switch (this.SearchType) {
+            case EPoolSearchType.every:
+                typeText = 'every';
+                break;
+            case EPoolSearchType.tags:
+                typeText = 'tag';
+                break;
+            case EPoolSearchType.foods:
+                typeText = 'food';
+                break;
+        }
+        this.router.navigate(['calendar'], {queryParams: {search: typeText, text: this.SearchText}})
     }
 
     private compareSearchText(t1: string, t2: string, search: string): number {
@@ -257,7 +286,5 @@ export class MenuPoolComponent implements AfterViewInit {
         let verticalItemCount = Math.floor(containerHeight / (this.m_ItemSize + 2 * this.MinMargin));
         this.m_CalculatedVerticalMargin = (containerHeight - (verticalItemCount * this.m_ItemSize)) / verticalItemCount / 2;
         this.RequestedItemCount = verticalItemCount * horizontalItemCount;
-        console.log('Container: ' + containerWidth);
-        console.log('Search: ' + this.SearchMode);
     }
 }
