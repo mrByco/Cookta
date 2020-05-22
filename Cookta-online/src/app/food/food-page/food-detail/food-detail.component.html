@@ -1,38 +1,28 @@
-<div class="container-fluid no-padding" style="padding: 0;">
+<div class="container" style="padding: 0;">
     <div *ngIf="this.Food" class="row">
-        <div class="col-2">
-        </div>
-        <div class="col-6" style="padding: 20px">
-            <img [alt]="Food.name" [src]="GetFoodUrl(Food)" style="width: 70%">
+        <div class="col-md-6 pt-1 ml-2 mr-2">
+            <h1 class="recipe-title">{{Food ? Food.name : "FOODNAME"}}</h1>
+            <img [alt]="Food.name" [src]="GetFoodUrl(Food)" style="width: 60%">
 
-            <ul class="list-group list-group-horizontal"
-                style="background-color: transparent; margin-left: fill; width: 100%">
-                <li *ngIf="!Food.SubscribedFor && !Food.OwnFood" class="list-group-item-2">
-                    <button (click)="Subscribe(true)" class="btn btn-primary">Feliratkozás</button>
-                </li>
-                <li *ngIf="Food.SubscribedFor" class="list-group-item-2">
-                    <button (click)="Subscribe(false)" class="btn btn-primary">Leiratkozás</button>
-                </li>
-                <li class="list-group-item-2">
-                    <button class="btn btn-primary">Feltöltő</button>
-                </li>
-                <li *ngIf="Food.OwnFood" class="list-group-item-2">
-                    <button (click)="GoEdit()" class="btn btn-primary">Szerkesztés</button>
-                </li>
-            </ul>
-
-            <hr>
-
-            <div class="row">
-
+            <div class="masonry-with-columns-2">
+                <app-food-tag *ngFor="let tag of GetFoodTags()" [TagId]="tag.guid"></app-food-tag>
             </div>
 
-            <h1 class="recipe-title">{{Food ? Food.name : "FOODNAME"}}</h1>
-
-
+            <div class="d-flex">
+                <button *ngIf="true" class="mr-auto btn btn-primary">Feltöltő</button>
+                <button *ngIf="!Food.SubscribedFor && !Food.OwnFood"
+                        (click)="Subscribe(true)"
+                        class="btn btn-primary">Feliratkozás</button>
+                <button *ngIf="Food.SubscribedFor"
+                        (click)="Subscribe(false)"
+                        class="btn btn-primary">Leiratkozás</button>
+                <button *ngIf="Food.OwnFood" (click)="GoEdit()" class="btn btn-primary">Szerkesztés</button>
+            </div>
+            <hr>
             <p class="recipe-desc">{{Food ? Food.desc : "FOODDESC"}}</p>
         </div>
-        <div class="col-4">
+
+        <div class="col-md-5 ml-2 mr-2">
             <div class="custom-control custom-switch" style="margin-bottom: 2rem">
                 <input (input)="SaveShortUnitNameSettings()"
                        [(ngModel)]="ShowShortUnitNames"
@@ -47,7 +37,7 @@
                                  [ShortUnitNames]="ShowShortUnitNames"
                                  [ingredientDisplayMultiplier]="ScaleToDose / Food.dose"
                                  [ingredient]="ingredient"
-                                 class="ingredients-desc" style="color: white">
+                                 class="ingredients-desc">
             </app-food-ingredient>
 
             <div style="height: 40px"></div>
@@ -60,15 +50,8 @@
                         class="input span-input-growing"
                         contenteditable="true"
                         role="textbox"></span>
-                <h5>adagra vannak megadva</h5>
+                <h5 style="font-style: italic">adagra vannak megadva</h5>
                 <hr>
-            </div>
-
-            <div>
-                <h3>Tagek</h3>
-                <div class="masonry-with-columns-2">
-                    <app-food-tag *ngFor="let tag of GetFoodTags()" [TagId]="tag.guid"></app-food-tag>
-                </div>
             </div>
 
         </div>
