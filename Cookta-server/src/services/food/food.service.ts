@@ -87,6 +87,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         let food = this.GetFoodForUser(id, deleterSub);
         if (food.owner != deleterSub) throw new Error('Deleter is not owner of food');
         if (!food) return null;
+        Subscription.RemoveFoodReferences(food.foodId);
         this.RemoveItem(food);
     }
 

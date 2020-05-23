@@ -66,6 +66,8 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
     await this.router.navigate(['/foods', this.SavedFoodVersion.foodId]);
   }
   public async DeleteFood() {
+    let conf = await confirm('Ezzel minden ételhez kötött adatod elvész, az ételhez kötött fényképek, hozzávalók, leírás, és feliratkozások. A receptet a feliratkózók is el fogják veszteni. Folytatod?')
+    if (!conf) return;
     await this.foodService.DeleteFood(this.CurrentFood.foodId);
     await this.router.navigate(['foods','collection']);
   }
