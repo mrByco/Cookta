@@ -8,6 +8,7 @@ export interface ISendableFood {
     name: string;
     desc: string;
     published: boolean;
+    private?: boolean;
     ingredients: IIngredient[];
     imageUploaded: number;
     uploaded: number;

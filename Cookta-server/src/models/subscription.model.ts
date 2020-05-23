@@ -62,6 +62,11 @@ export class Subscription {
         }
     }
 
+    public static async RemoveFoodReferences(foodId: string){
+        let collection = await MongoHelper.getCollection(this.CollectionName);
+        await collection.deleteMany({foodTypeId: foodId});
+    }
+
     public static async FromDocument(doc: any): Promise<Subscription>{
         let sub =  new Subscription(
             doc['sub'],
