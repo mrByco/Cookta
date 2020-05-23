@@ -1,8 +1,8 @@
-<div class="rounded-panel">
+<div class="pt-2" style="height: 100%; width: 100%">
   <h2 *ngIf="!CurrentSection">Loading</h2>
   <div *ngIf="CurrentSection">
     <a *ngIf="SelectedItems.length > 0" style="color: blue">Kijelöltek áthelyezése ide</a>
-    <div class="row" style="position: relative">
+    <div class="d-flex" style="position: relative">
       <h2 *ngIf="!ModifiedFields">{{CurrentSection.GetDisplayName()}}</h2>
 
       <input
@@ -19,11 +19,11 @@
       </a>
     </div>
 
+    <hr>
 
     <a *ngFor="let item of CurrentSection.Items; let i = index" [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}"
        class="row rounded-panel-item" (click)="ToggleItemSelect(item)">
 
-      <!-- Default unchecked -->
       <div *ngIf="SelectedItems.length > 0"
            class="custom-control custom-checkbox" style="padding-top: 5px; ">
         <input [ngModel]="SelectedItems.includes(item)" type="checkbox" class="custom-control-input">
