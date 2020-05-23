@@ -12,6 +12,7 @@ export class SendableFood implements ISendableFood {
     public name: string = "";
     public desc: string = "";
     public published: boolean = false; //TODO Replace by checking new certificate system DEP: new certificate system + blockchain food store
+    public private?: boolean;
     public ingredients: IIngredient[] = [];
     public imageUploaded: number;
     public uploaded: number;
@@ -31,6 +32,7 @@ export class SendableFood implements ISendableFood {
         this.name = food.name;
         this.desc = food.desc;
         this.published = food.published;
+        this.private = ownFood ? food.private : undefined;
         this.ingredients = food.ingredients;
         this.imageUploaded = food.imageUploaded;
         this.uploaded = food.uploaded;
