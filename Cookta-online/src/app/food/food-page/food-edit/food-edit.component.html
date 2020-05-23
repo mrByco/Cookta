@@ -103,6 +103,11 @@
     <button mdbBtn type="button" color="danger" rounded="true" mdbWavesEffect (click)="DeleteFood()"
             style="margin: 0 15px;">Törlés
     </button>
+    <button *ngIf="CurrentFood.isPrivate" (click)="ChangeVisibility(true)" class="btn btn-primary">Tedd nyilvánossá</button>
+    <button mdbBtn *ngIf="(CurrentFood.published && !CurrentFood.isPrivate) || !CurrentFood.isPrivate && !CurrentFood.published"
+            (click)="ChangeVisibility(false)" class="btn"
+            [ngClass]="{'btn-blue-grey': !CurrentFood.published, 'btn-danger': CurrentFood.published}">
+      Legyen privát</button>
     <button mdbBtn type="button" color="deep-orange" rounded="true" mdbWavesEffect (click)="CancelEdit()"
             style="margin: 0 15px;">Elvetés
     </button>

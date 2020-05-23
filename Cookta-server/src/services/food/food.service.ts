@@ -74,7 +74,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             food.published = false;
             food.lastModified = Date.now();
         }
-        if (food.published && request.isPrivate) Subscription.RemoveFoodReferences(food.foodId);
+        if (food.published && request.private) Subscription.RemoveFoodReferences(food.foodId);
 
         food.uploaded = Date.now();
         Object.keys(request).forEach(k => food[k] = request[k]);

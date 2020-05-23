@@ -114,4 +114,11 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
     );
   }
 
+
+  async ChangeVisibility(visibility: boolean) {
+    if (!visibility && this.CurrentFood.published){
+      if (!await confirm('Ezzel az akcióval elveszíted a feliratkozóidat, ők pedig téged! Biztos folytatod?\n Ezt a beállítás mentéskor fog érvényesülni addig visszavonhatod')) return;
+    }
+    this.CurrentFood.isPrivate = !visibility;
+  }
 }
