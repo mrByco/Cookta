@@ -12,3 +12,38 @@
 .mat-tab-body-wrapper {
   margin: 10px;
 }
+
+.storage-panel {
+  background: rgba(255, 230, 230, 0.7);
+  height: var(--MainContentSize);
+}
+
+.storage-search {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 3rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.storage-search input {
+  border: none;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+
+}
+.storage-search input:active {
+}
+
+.storage-header-btn {
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: transparent;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  height: 100%;
+}

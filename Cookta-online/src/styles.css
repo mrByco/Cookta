@@ -137,6 +137,10 @@ body{
   outline: 0 solid transparent;
 }
 
+input:focus, textarea:focus, select:focus{
+  outline: none;
+}
+
 
 html, body {
   height: 100%;
