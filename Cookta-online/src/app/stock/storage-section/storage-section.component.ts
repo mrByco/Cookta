@@ -91,7 +91,7 @@ export class StorageSectionComponent implements OnInit {
       this.CurrentSection.Items.find(i => i.ingredientID == ingredient.ingredientID);
     }
     this.AddModifiedField('Items');
-    this.CurrentSection.Items.push({ingredientID: ingredient.ingredientID, unit: ingredient.unit, value: ingredient.value});
+    this.CurrentSection.Items.unshift({ingredientID: ingredient.ingredientID, unit: ingredient.unit, value: ingredient.value});
   }
 
   private async ShowMergeOrCancel(oldIngredient: IIngredient): Promise<boolean> {
