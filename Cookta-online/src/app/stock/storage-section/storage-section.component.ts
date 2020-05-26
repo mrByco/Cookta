@@ -68,7 +68,7 @@ export class StorageSectionComponent implements OnInit {
     let sure = await new Promise<boolean>(resolve => {
       let component = this.modalService.show(GenericTwoButtonDialogComponent);
       let dialog = component.content as GenericTwoButtonDialogComponent;
-      dialog.Title = `Biztos a "${this.CurrentSection.GetDisplayName()}" nevű szekciót`;
+      dialog.Title = `Biztos a "${this.CurrentSection.GetDisplayName()}" nevű szekciót?`;
       dialog.Desc = 'A törölt információkat nem lehet majd visszaállítani.';
       dialog.SuccessText = 'Törlés';
       dialog.FailText = 'Mégse';
@@ -86,23 +86,25 @@ export class StorageSectionComponent implements OnInit {
     if (!this.CurrentSection.Items)
       this.CurrentSection.Items = [];
     if (this.CurrentSection.Items.find(i => i.ingredientID == ingredient.ingredientID)){
-      if (!await this.ShowMergeOrCancel(ingredient))
-        return false;
-      this.CurrentSection.Items.find(i => i.ingredientID == ingredient.ingredientID);
-    }
+      if (!await this.ShowMergeOrCancel(ingredient)) return false;
+
+      let item = this.CurrentSection.Items.find(i => i.ingredientID == ingredient.ingredientID);
+      [item.value, item.unit] = [ingredient.value, ingredient.unit];
+    }else this.CurrentSection.Items.unshift({ingredientID: ingredient.ingredientID, unit: ingredient.unit, value: ingredient.value});
+
     this.AddModifiedField('Items');
-    this.CurrentSection.Items.unshift({ingredientID: ingredient.ingredientID, unit: ingredient.unit, value: ingredient.value});
   }
 
   private async ShowMergeOrCancel(oldIngredient: IIngredient): Promise<boolean> {
     let ingredient = await this.ingredientService.GetIngredientAsync(oldIngredient.ingredientID);
-    await new Promise<boolean>(async resolve => {
+
+    return new Promise<boolean>(async resolve => {
       let component = this.modalService.show(GenericTwoButtonDialogComponent);
       let dialog = component.content as GenericTwoButtonDialogComponent;
       dialog.Title = `Stop ütkozés!`;
       let unitName: string = (await this.unitService.GetUnitAsync(oldIngredient.unit, ingredient)).name;
       dialog.Desc = `Ebből a hozzávalóból már ${oldIngredient.value} ${unitName} van.`;
-      dialog.SuccessText = 'Törlés';
+      dialog.SuccessText = 'Csere';
       dialog.FailText = 'Mégse';
       dialog.OnCancel.subscribe(() => resolve(false));
       dialog.OnFail.subscribe(() => resolve(false));
@@ -110,7 +112,6 @@ export class StorageSectionComponent implements OnInit {
         resolve(true);
       });
     });
-    return false;
   }
 
   public async DeleteItem(item: IIngredient) {
