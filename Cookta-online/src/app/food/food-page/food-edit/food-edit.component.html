@@ -1,6 +1,6 @@
-<div class="container-fluid no-padding" style="padding: 0px;">
-  <div class="row">
-    <div class="col-2">
+<div class="container-fluid" style="padding: 1.5rem 0 0 0; min-height: var(--MainContentSize)">
+  <div class="row m-0">
+    <div class="col">
     </div>
     <div class="col-6" style="padding: 50px">
       <div class="row">
@@ -41,15 +41,15 @@
 
       <div class="md-form form-lg">
         <input mdbInput type="text" id="form1" class="form-control form-control-lg" [(ngModel)]="CurrentFood.name"
-               style="color: white; font-size: 30px">
-        <label for="form1" style="color: white">Recept neve</label>
+               style="color: black; font-size: 30px">
+        <label for="form1" style="color: black">Recept neve</label>
       </div>
 
 
       <div class="md-form">
         <textarea type="text" id="form7" class="md-textarea md-textarea-auto form-control text-justify"
-                  [(ngModel)]="CurrentFood.desc" mdbInput style="color: white; font-size: 20px"></textarea>
-        <label for="form7" style="color: white">Leírás</label>
+                  [(ngModel)]="CurrentFood.desc" mdbInput style=" font-size: 20px"></textarea>
+        <label for="form7" >Leírás</label>
       </div>
 
     </div>
@@ -60,33 +60,30 @@
                            *ngFor="let ingredient of CurrentFood ? CurrentFood.ingredients : []"
                            [ingredient]="ingredient"
                            [edit]="true"
-                           (OnDeleted)="DeleteIngredient($event)"
-      ></app-food-ingredient>
+                           (OnDeleted)="DeleteIngredient($event)"></app-food-ingredient>
 
       <hr style="height: 20px">
 
-      <!--<app-ingredient-adder style="margin: 0; padding: 0; color: white"
-                            (OnIngredientAdded)="AddIngredient($event)"></app-ingredient-adder>-->
       <app-ingredient-adder-seamless (OnIngredientAdded)="AddIngredient($event)"></app-ingredient-adder-seamless>
 
       <div style="height: 40px"></div>
 
       <hr>
 
-      <div class="row">
+      <div class="row m-3">
         <h5>A hozzávalók </h5>
         <input type="number" placeholder="4" [(ngModel)]="CurrentFood.dose" class="small-number-field">
         <h5>adagra elegendőek.</h5>
       </div>
       <hr>
 
-      <div>
-        <h3>Tagek</h3>
+      <div class="mr-3">
+        <h3>Cimkék</h3>
         <div class="masonry-with-columns-2">
           <app-food-tag *ngFor="let tag of CurrentFood.tags" EditMode="true" (OnTagRemoveClick)="DeleteTag($event)"
                         [TagId]="tag.guid"></app-food-tag>
         </div>
-        <app-tag-adder (OnTagAdded)="AddTag($event)"></app-tag-adder>
+        <app-tag-adder  (OnTagAdded)="AddTag($event)"></app-tag-adder>
       </div>
 
     </div>
