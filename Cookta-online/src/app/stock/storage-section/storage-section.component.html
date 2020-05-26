@@ -10,6 +10,7 @@
         style="width: 70%; margin-left: 2rem"
         [(ngModel)]="CurrentSection.Name"
         (focus)="AddModifiedField('Name')"
+        placeholder="Névtelen"
         *ngIf="ModifiedFields">
       <a (click)="ToggleEditSection()">
         <img class="icon icon-edit" src="assets/edit-icon.png">
