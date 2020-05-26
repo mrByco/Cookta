@@ -15,12 +15,15 @@ export class StorageService extends StoreService<StorageSection> {
     public GetSections(family: Family): StorageSection[] {
         return this.Items.filter(i => i.FamilyId == family.Id.toHexString());
     }
+
     public CreateSection(user: User): StorageSection {
         let item = super.CreateItem(new ObjectId()) as StorageSection;
         item.FamilyId = user.currentFamilyId;
+        if (!item.Items) item.Items = [];
         super.SaveItem(item);
         return item;
     }
+
     public SetSection(user: User, sectionModify: IStorageItemChangeRequest): StorageSection {
         let section = super.FindOne(i => i.FamilyId === user.currentFamilyId && i.Id.toHexString() === sectionModify.Id);
         if (!section)
@@ -48,6 +51,7 @@ export class StorageService extends StoreService<StorageSection> {
         section.Save();
         return section;
     }
+
     public DeleteSection(user: User, sectionId: string){
         let section = super.FindOne(s => s.FamilyId == user.currentFamilyId && s.Id.toHexString() == sectionId);
         super.RemoveItem(section);

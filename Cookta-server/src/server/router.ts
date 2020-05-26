@@ -657,7 +657,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.put('/stock/:sectionIdString',
+    app.delete('/stock/:sectionIdString',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {

@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {ServerService} from "./server.service";
 import {Routes} from "../routes";
 import {Food} from "../models/grocery/food.model";
-import {IFoodUpdateRequest} from "../contracts/food-update-request.interface";
+import {IUpdateFoodRequest} from "../../../../../Cookta-shared/src/contracts/foods/update-food.request";
 
 @Injectable()
 export class FoodService {
@@ -114,14 +114,13 @@ export class FoodService {
   }
 
   public async UpdateFood(food: Food, file?: File): Promise<Food> {
-    let body: IFoodUpdateRequest = {
+    let body: IUpdateFoodRequest = {
       desc: food.desc,
       foodId: food.foodId,
       ingredients: food.ingredients,
-      isPrivate: food.isPrivate,
+      private: food.isPrivate,
       dose: food.dose,
       name: food.name,
-      published: food.published,
       tags: food.tags.map(value => value.guid),
     };
     let response = await this.serverService.PostRequest(Routes.Food.PostFood, body);

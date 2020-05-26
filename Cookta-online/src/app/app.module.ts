@@ -71,6 +71,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import { RoleEditorComponent } from './admin-components/role-editor/role-editor/role-editor.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { UserListComponent } from './admin-components/user-list/user-list.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -163,6 +164,7 @@ const appRoutes: Routes = [
         MatProgressSpinnerModule,
         MatSliderModule,
         MatProgressBarModule,
+        MatTabsModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard, CanActivateLoggedInGuard],

@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Unit} from '../../../shared/models/unit.interface';
 import {IngredientType} from '../../../shared/models/grocery/ingredient-type.model';
 import {BsDropdownDirective} from 'angular-bootstrap-md';
 import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
 import {UnitService} from '../../../shared/services/unit-service/unit.service';
 import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
+import {IIngredientType} from "../../../shared/models/grocery/ingredient-type.interface";
 
 interface ISuggestion {
   type: ESuggestionType;
@@ -53,6 +54,8 @@ export class IngredientAdderSeamlessComponent {
   public readonly LetsStartText = 'Hozzávaló pl: 85 dkg liszt';
 
   @ViewChild('dropdown', {static: true}) public dropdown: BsDropdownDirective;
+  @ViewChild('input') public input: ElementRef;
+  @Input('ShowTitleOnReady') public ShowTitleOnReady: boolean = true;
   @Output('OnIngredientAdded') public OnIngredientAdded: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
 
   public CurrentSuggestionPool: ISuggestion[] = [];
@@ -61,6 +64,7 @@ export class IngredientAdderSeamlessComponent {
 
 
   public CurrentState: EIngredientAdderState = EIngredientAdderState.empty;
+  public CurrentType: IIngredientType;
 
   private m_CurrentText: string = '';
 
@@ -78,12 +82,12 @@ export class IngredientAdderSeamlessComponent {
 
 
     let parseResult = this.ParseText(value);
-    console.log(parseResult);
+    this.CurrentType = parseResult.ingredient;
     this.UpdateState(parseResult, value);
 
     this.FilterSuggestions(parseResult);
 
-    this.CurrentSuggestions.length > 0 || this.CurrentState != EIngredientAdderState.wip ? this.dropdown.show() : this.dropdown.hide();
+    this.CurrentSuggestions.length > 0 && (this.CurrentState != EIngredientAdderState.ready || this.ShowTitleOnReady)? this.dropdown.show() : this.dropdown.hide();
   }
 
   private UpdateState(parseResult: IParseResult, currentText: string) {
@@ -143,6 +147,10 @@ export class IngredientAdderSeamlessComponent {
     } else {
       return aLenght > bLenght ? -1 : 1;
     }
+  }
+
+  public Focus(){
+    this.input.nativeElement.focus();
   }
 
   public AddCurrentSelectedOrDefaultSuggestionToText(parseResult?: IParseResult, suggestion?: ISuggestion) {

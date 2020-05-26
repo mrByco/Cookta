@@ -74,8 +74,11 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             food.published = false;
             food.lastModified = Date.now();
         }
+        if (food.published && request.private) Subscription.RemoveFoodReferences(food.foodId);
+
         food.uploaded = Date.now();
         Object.keys(request).forEach(k => food[k] = request[k]);
+        food.published = !food.private;
         this.SaveFood(food);
         return this.GetFoodForUser(food.foodId, changerSub);
     }
@@ -84,6 +87,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         let food = this.GetFoodForUser(id, deleterSub);
         if (food.owner != deleterSub) throw new Error('Deleter is not owner of food');
         if (!food) return null;
+        Subscription.RemoveFoodReferences(food.foodId);
         this.RemoveItem(food);
     }
 

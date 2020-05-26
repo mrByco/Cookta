@@ -1,7 +1,11 @@
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark red darken-2" [containerInside]="false">
 
     <!-- Navbar brand -->
-    <mdb-navbar-brand><a class="navbar-brand" routerLink="/foods">Cookta</a></mdb-navbar-brand>
+    <mdb-navbar-brand>
+        <a class="ml-md-3 mr-md-2" routerLink="/foods">
+            <img src="assets/cookta-logo-white.png" style="height: 30px">
+        </a>
+    </mdb-navbar-brand>
 
     <!-- Collapsible content -->
     <links>
@@ -64,7 +68,7 @@
             </li>
             <li class="nav-item dropdown" dropdown>
                 <a dropdownToggle mdbWavesEffect type="button"
-                   class="nav-link dropdown-toggle waves-light">{{familyService.currentFamily ? familyService.currentFamily.name : "CURRENTCSALÁD"}}</a>
+                   class="nav-link dropdown-toggle waves-light">{{familyService.currentFamily ? familyService.currentFamily.name : "Betöltés"}}</a>
                 <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
                     <a *ngFor="let family of familyService.families"
                        class="dropdown-item waves-light" mdbWavesEffect
@@ -78,7 +82,6 @@
                    mdbWavesEffect>
                     <img [src]="PictureUrl" alt="" class="img-fluid rounded-circle z-depth-0" style="height: 35px"></a>
                 <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Fiókom</a>
                     <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/foods/new/edit">Étel feltöltése</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item waves-light" mdbWavesEffect (click)="changName.Show()">Felhasználó név</a>
