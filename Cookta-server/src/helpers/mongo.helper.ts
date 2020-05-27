@@ -16,7 +16,7 @@ export class MongoHelper{
                 }
             })
         })
-    }
+    }íy
 
     public static async getCollection(name: string, db: string = "Kuktadb") {
         if (!this.Client.isConnected()) {

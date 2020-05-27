@@ -1,14 +1,14 @@
 
-import {Day} from "../models/Days/day.model";
+import {Day} from "../../models/Days/day.model";
 import {ObjectID} from "mongodb";
-import {Food} from "../models/food/food.model";
-import {User} from "../models/user.model";
+import {Food} from "../../models/food/food.model";
+import {User} from "../../models/user.model";
 import {Controller} from "waxen/dist/deorators/controller";
 import {Contracts} from "cookta-shared/src/contracts/contracts";
 import {Security} from "waxen/dist/deorators/security";
 import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
 import {IDay} from "cookta-shared/src/models/days/day.interface";
-import {Services} from "../Services";
+import {Services} from "../../Services";
 
 
 @Controller(Contracts.Days)

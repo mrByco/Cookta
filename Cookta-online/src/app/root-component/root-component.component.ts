@@ -7,6 +7,7 @@ import {IdentityService} from "../shared/services/identity.service";
 import {AppComponent} from "../app.component";
 import {GenericTwoButtonDialogComponent} from "../utilities/generic-two-button-dialog/generic-two-button-dialog.component";
 import {MDBModalService} from "angular-bootstrap-md";
+import {LiveConnectionService} from '../shared/services/live-connect.service/live-connection.service';
 
 interface ILoadTask {
     Name: string,
@@ -47,7 +48,8 @@ export class RootComponentComponent implements OnInit {
                 private userService: IdentityService,
                 private serverService: ServerService,
                 private identityService: IdentityService,
-                private modalService: MDBModalService) {
+                private modalService: MDBModalService,
+                private liveService: LiveConnectionService) {
 
         console.log('Init app')
     }

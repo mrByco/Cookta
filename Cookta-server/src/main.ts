@@ -21,6 +21,8 @@ import {ShoppingList} from "./models/shopping-list.model";
 import {BackupService} from "./services/backup/bcakup-service";
 import {RoleService} from "./services/role/role-service";
 import {FoodService} from './services/food/food.service';
+import { LiveConnect } from './services/live-connection/live.connect';
+import {MetricsService} from './services/metrics/metrics.service';
 
 require('dotenv').config();
 
@@ -41,6 +43,10 @@ try{
         console.info("Initialize roles");
 
         console.log("Start atomik services...");
+
+        let liveConnect = new LiveConnect(server);
+
+        Services.MetricsService = new MetricsService(liveConnect);
 
         let storageService = new StorageService((id) => {return new StorageSection(id)}, 'Stock');
 
