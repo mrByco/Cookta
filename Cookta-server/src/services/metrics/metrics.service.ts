@@ -3,7 +3,6 @@ import {Collection, Db, MongoClient} from 'mongodb';
 import {MetricsRecord} from "./metrics-record.interface";
 import {CAUCollector} from "./collectors/cau.collector";
 
-const TrafficCollectionName = 'Traffic';
 
 require('../../extensions/date-extensions');
 

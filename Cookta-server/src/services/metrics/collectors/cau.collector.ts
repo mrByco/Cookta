@@ -15,8 +15,8 @@ export class CAUCollector extends ACollector {
     private LastSaved: MetricsRecord;
     private UnsavedRecord: MetricsRecord;
     private readonly CAUCollection: Collection;
-    private readonly SaveTime = 15;
-    private readonly CollectTime = 5;
+    private readonly SaveTime = 60;
+    private readonly CollectTime = 10;
     private readonly COLLECTION_NAME = 'CAU';
 
     constructor(metricsService: MetricsService, liveConnect: LiveConnect) {
