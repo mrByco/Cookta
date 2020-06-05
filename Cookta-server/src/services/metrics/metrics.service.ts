@@ -1,16 +1,14 @@
 import {LiveConnect} from '../live-connection/live.connect';
-import {Collection, Db, MongoClient, ObjectId} from 'mongodb';
+import {Collection, Db, MongoClient} from 'mongodb';
 import {MetricsRecord} from "./metrics-record.interface";
 import {CAUCollector} from "./collectors/cau.collector";
 
 const TrafficCollectionName = 'Traffic';
 
+require('../../extensions/date-extensions');
 
 export class MetricsService {
     MetricsDatabase: Db;
-
-    PeriodLength: number = 10000;
-    CurrentActive: number;
 
     public CAUCollector: CAUCollector;
 
@@ -19,32 +17,29 @@ export class MetricsService {
             console.log('Cant start metrics service!')
             return;
         }
-        liveConnect.OnConnection.addListener('Connected', () => {
-            this.CurrentActive = liveConnect.Connections.length;
-        });
-        liveConnect.OnConnection.addListener('Disconnected', () => {
-            this.CurrentActive = liveConnect.Connections.length;
-        });
         if (!MongoClient.isConnected()) {
             throw new Error('Mongo client has to be connected.');
         }
-        this.InitDataCollection(MongoClient);
-
+        this.MetricsDatabase = MongoClient.db('Metrics');
+        this.CAUCollector = new CAUCollector(this, liveConnect);
     }
 
     //Returns the merged, saved data
     async SaveMetricsData(dataToMerge: MetricsRecord, workingCollection: Collection): Promise<MetricsRecord>{
-        let currentHourId = this.GetCurrentHourId();
+        let currentHourId = MetricsService.GetCurrentHourId();
 
-        let record: MetricsRecord = await workingCollection.find({key_id: currentHourId}) as any;
+        let record: MetricsRecord = await workingCollection.findOne({date_hour: currentHourId}) as any;
 
-        if (!record) {
-            record = {_id: new ObjectId(), data: [], key_id: currentHourId, stat_key: 'current_active'};
+        record = dataToMerge;
+        if (record) {
+            record = MetricsService.MergeMetricsData(record, dataToMerge);
+        }else{
+            record = dataToMerge;
         }
 
-        record = MetricsService.MergeMetricsData(record, dataToMerge);
 
-        await workingCollection.replaceOne({key_id: currentHourId}, record, {upsert: true});
+        await workingCollection.replaceOne({date_hour: currentHourId}, record, {upsert: true});
+
 
         return record;
     }
@@ -62,34 +57,18 @@ export class MetricsService {
         return mergeInto;
     }
 
-    async InitDataCollection(MongoClient) {
-        this.MetricsDatabase = MongoClient.db('Metrics');
-        let trafficCollection = await this.MetricsDatabase.collection(TrafficCollectionName);
-        setInterval(async () => {
-            let currentHourId = this.GetCurrentHourId();
-            let record: MetricsRecord = await trafficCollection.find({key_id: currentHourId}) as any;
-
-            if (!record) {
-                record = {_id: new ObjectId(), data: [], key_id: currentHourId, stat_key: 'current_active'};
-            }
-
-            let timecode = this.GetMinutesAndSeconds();
-            if (!record.data[timecode.minutes]) {
-                record.data[timecode.minutes] = record[timecode.minutes] = [];
-            }
-            record.data[timecode.minutes][timecode.seconds] = this.CurrentActive;
-
-            await trafficCollection.replaceOne({key_id: currentHourId}, record, {upsert: true});
-        }, this.PeriodLength);
+    static GetEmptyMetricsRecord(statKey: string): MetricsRecord{
+        return {data: [], date_hour: this.GetCurrentHourId(), stat_key: statKey}
     }
 
-    //Returns data in YYYYMMDD_hh format
-    GetCurrentHourId(): string {
-        throw new Error();
+    //Returns data in YYYYMMDDhh format
+    static GetCurrentHourId(): string {
+        return new Date(Date.now()).ToYYYYMMDDhhmmString().substring(0, 13)
     }
 
-    GetMinutesAndSeconds(): { minutes: number, seconds: number } {
-        throw new Error();
+    static GetMinutesAndSeconds(): { minutes: number, seconds: number } {
+        let now = new Date(Date.now());
+        return {minutes: now.getMinutes(), seconds: now.getSeconds()};
     }
 
 

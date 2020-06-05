@@ -46,7 +46,7 @@ try{
 
         let liveConnect = new LiveConnect(server);
 
-        Services.MetricsService = new MetricsService(liveConnect);
+        Services.MetricsService = new MetricsService(liveConnect, MongoHelper.Client);
 
         let storageService = new StorageService((id) => {return new StorageSection(id)}, 'Stock');
 
@@ -75,6 +75,7 @@ try{
         Services.IngredientTypeService = ingredientTypeService;
         Services.ShoppingListService = shoppingListService;
         Services.FoodService = foodService;
+
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
@@ -90,13 +91,15 @@ try{
         console.info("Starting server...");
         server.listen(PORT);
 
-        try {
-            let backupService = new BackupService();
-            backupService.Schedule();
-            await backupService.CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
-        }
-        catch (err) {
-            console.log('Creating backup was unsuccessful');
+        if (process.env.NODE_ENV != "debug"){
+            try {
+                let backupService = new BackupService();
+                backupService.Schedule();
+                await backupService.CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
+            }
+            catch (err) {
+                console.log('Creating backup was unsuccessful');
+            }
         }
 
     });

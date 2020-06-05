@@ -10,7 +10,6 @@ export class MetricsController extends ALiveController {
 
     constructor(socket: Socket) {
         super(socket);
-        console.log(this.Socket);
         this.interval = setInterval(() => this.RefreshData(), 1000);
     }
 
@@ -19,8 +18,7 @@ export class MetricsController extends ALiveController {
     }
 
     private RefreshData() {
-        let data: MetricsData = {ActiveUsers: Services.MetricsService.CurrentActive};
+        let data: MetricsData = {ActiveUsers: Services.MetricsService.CAUCollector.CurrentActive};
         this.Socket.emit(MetricsData.RefreshEventName, data);
-        console.log(data);
     }
 }

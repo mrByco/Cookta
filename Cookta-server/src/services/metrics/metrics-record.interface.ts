@@ -1,9 +1,8 @@
 import {ObjectId} from "mongodb";
 
 export interface MetricsRecord {
-    _id: ObjectId;
-    //YYYYMMDD_hh
     stat_key: string,
-    key_id: string,
+    //YYYYMMDD_hh
+    date_hour: string,
     data: any[][]
 }

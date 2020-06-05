@@ -23,6 +23,7 @@ export class LiveConnect {
                 this.Connections.splice(connectIndex, 1);
                 this.OnConnection.emit('Disconnected');
             });
+
             let partner = {Socket: socket, Controllers: []};
             this.Connections.push(partner);
             partner.Controllers.push(new MetricsController(socket));
