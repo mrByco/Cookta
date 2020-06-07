@@ -54,7 +54,7 @@ export class MetricsService {
     static MergeMetricsData(mergeInto: MetricsRecord, mergeIt: MetricsRecord): MetricsRecord{
         for (let mIndex in mergeIt.data){
             for (let sIndex in mergeIt.data[mIndex]){
-                if (!mergeIt.data[mIndex][sIndex] && mergeIt.data[mIndex][sIndex] != 0) continue;
+                if (mergeIt.data[mIndex][sIndex] === undefined || mergeIt.data[mIndex][sIndex] === null) continue;
                 if (!mergeInto.data[mIndex]) {
                     mergeInto.data[mIndex] = [];
                 }
