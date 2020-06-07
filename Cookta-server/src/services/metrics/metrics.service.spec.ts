@@ -8,8 +8,8 @@ describe("Metrics service", () => {
     require('../../extensions/date-extensions');
     describe("Merge metrics data", () => {
         it('should keep old data if no overriding data', function () {
-            let record: MetricsRecord = {data: [[], [5,4]], date_hour: "", stat_key: ""}
-            let recordToMerge: MetricsRecord = {data: [], date_hour: "", stat_key: ""}
+            let record: MetricsRecord = {instance_id: 'test_1', data: [[], [5,4]], date_hour: "", stat_key: ""}
+            let recordToMerge: MetricsRecord = {instance_id: 'test_1', data: [], date_hour: "", stat_key: ""}
             recordToMerge.data[1] = [];
             recordToMerge.data[1][2] = 2;
             recordToMerge.data[1][3] = 5;
@@ -21,8 +21,8 @@ describe("Metrics service", () => {
         });
 
         it('should not merge undefined, to override truthy value', function() {
-            let record: MetricsRecord = {data: [[], [5,4]], date_hour: "", stat_key: ""}
-            let recordToMerge: MetricsRecord = {data: [], date_hour: "", stat_key: ""}
+            let record: MetricsRecord = {instance_id: 'test_1', data: [[], [5,4]], date_hour: "", stat_key: ""}
+            let recordToMerge: MetricsRecord = {instance_id: 'test_1', data: [], date_hour: "", stat_key: ""}
             recordToMerge.data[1] = [];
             recordToMerge.data[1][1] = undefined;
 
