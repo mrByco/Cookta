@@ -2,6 +2,8 @@ import {LiveConnect} from '../live-connection/live.connect';
 import {Collection, Db, MongoClient} from 'mongodb';
 import {MetricsRecord} from "./metrics-record.interface";
 import {CAUCollector} from "./collectors/cau.collector";
+import {Guid} from "guid-typescript";
+import {Metrics} from "@azure/storage-blob";
 
 
 require('../../extensions/date-extensions');
@@ -10,6 +12,12 @@ export class MetricsService {
     MetricsDatabase: Db;
 
     public CAUCollector: CAUCollector;
+
+    private static get metrics_instance_id(){
+        if (!this.m_metrics_instance_id)  this.m_metrics_instance_id = process.env.WEBSITE_INSTANCE_ID ? `prod-${process.env.WEBSITE_INSTANCE_ID}` : `debug-${Guid.create().toString()}`;
+        return this.m_metrics_instance_id;
+    }
+    private static m_metrics_instance_id: string;
 
     constructor(liveConnect: LiveConnect, MongoClient: MongoClient) {
         if (!liveConnect || !MongoClient){
@@ -27,7 +35,7 @@ export class MetricsService {
     async SaveMetricsData(dataToMerge: MetricsRecord, workingCollection: Collection): Promise<MetricsRecord>{
         let currentHourId = MetricsService.GetCurrentHourId();
 
-        let record: MetricsRecord = await workingCollection.findOne({date_hour: currentHourId}) as any;
+        let record: MetricsRecord = await workingCollection.findOne({date_hour: currentHourId, instance_id: MetricsService.metrics_instance_id}) as any;
 
         if (record)
             record = MetricsService.MergeMetricsData(record, dataToMerge);
@@ -37,7 +45,7 @@ export class MetricsService {
         console.log('saving');
 
 
-        await workingCollection.replaceOne({date_hour: currentHourId}, record, {upsert: true});
+        await workingCollection.replaceOne({date_hour: currentHourId, instance_id: MetricsService.metrics_instance_id}, record, {upsert: true});
 
 
         return record;
@@ -57,7 +65,7 @@ export class MetricsService {
     }
 
     static GetEmptyMetricsRecord(statKey: string): MetricsRecord{
-        return {data: [], date_hour: this.GetCurrentHourId(), stat_key: statKey}
+        return {instance_id: MetricsService.metrics_instance_id, data: [], date_hour: this.GetCurrentHourId(), stat_key: statKey}
     }
 
     //Returns data in YYYYMMDDhh format
