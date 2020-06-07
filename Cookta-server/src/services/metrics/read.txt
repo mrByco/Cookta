@@ -1,0 +1,3 @@
+Concept:
+    Collectors are used to gather different type of data
+    metrics service is made to manage collectors

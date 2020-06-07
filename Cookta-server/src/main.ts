@@ -21,6 +21,8 @@ import {ShoppingList} from "./models/shopping-list.model";
 import {BackupService} from "./services/backup/bcakup-service";
 import {RoleService} from "./services/role/role-service";
 import {FoodService} from './services/food/food.service';
+import { LiveConnect } from './services/live-connection/live.connect';
+import {MetricsService} from './services/metrics/metrics.service';
 
 require('dotenv').config();
 
@@ -41,6 +43,10 @@ try{
         console.info("Initialize roles");
 
         console.log("Start atomik services...");
+
+        let liveConnect = new LiveConnect(server);
+
+        Services.MetricsService = new MetricsService(liveConnect, MongoHelper.Client);
 
         let storageService = new StorageService((id) => {return new StorageSection(id)}, 'Stock');
 
@@ -69,6 +75,7 @@ try{
         Services.IngredientTypeService = ingredientTypeService;
         Services.ShoppingListService = shoppingListService;
         Services.FoodService = foodService;
+
         await ServiceManager.AddService(storageService);
         await ServiceManager.AddService(familyService);
         await ServiceManager.AddService(userService);
@@ -84,13 +91,15 @@ try{
         console.info("Starting server...");
         server.listen(PORT);
 
-        try {
-            let backupService = new BackupService();
-            backupService.Schedule();
-            await backupService.CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
-        }
-        catch (err) {
-            console.log('Creating backup was unsuccessful');
+        if (process.env.NODE_ENV != "debug"){
+            try {
+                let backupService = new BackupService();
+                backupService.Schedule();
+                await backupService.CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
+            }
+            catch (err) {
+                console.log('Creating backup was unsuccessful');
+            }
         }
 
     });

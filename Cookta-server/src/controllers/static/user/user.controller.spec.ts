@@ -1,5 +1,5 @@
 import {UserController} from "./user.controller";
-import {Services} from "../../Services";
+import {Services} from "../../../Services";
 import {expect} from 'chai';
 
 

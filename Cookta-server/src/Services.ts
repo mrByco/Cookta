@@ -8,6 +8,7 @@ import {IIngredientTypeService} from "./services/ingredient-types/ingredient-typ
 import {IShoppingListService} from "./services/shopping-list/shopping-list.service.interface";
 import {IRoleService} from "./services/role/role-service.interface";
 import {IFoodService} from "./services/food/food.service.interface";
+import { MetricsService } from './services/metrics/metrics.service';
 
 export class Services {
     static StorageService: StorageService;
@@ -19,6 +20,7 @@ export class Services {
     static IngredientTypeService: IIngredientTypeService;
     static ShoppingListService: IShoppingListService;
     static RoleService: IRoleService;
+    static MetricsService: MetricsService;
 
     static ToSendableList(items: StoreItemBase[]): any[]{
         let sendItems: any[] = [];

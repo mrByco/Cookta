@@ -1,13 +1,13 @@
-import {Services} from '../Services';
-import {IIngredientDependendentObject} from "../interfaces/ingredient-dependency-object.interface";
-import {Food} from "../models/food/food.model";
-import {NotFoundError} from "../helpers/error.helper";
+import {Services} from '../../Services';
+import {IIngredientDependendentObject} from "../../interfaces/ingredient-dependency-object.interface";
+import {Food} from "../../models/food/food.model";
+import {NotFoundError} from "../../helpers/error.helper";
 import {Controller} from 'waxen/dist/deorators/controller';
 import {Contracts} from "cookta-shared/src/contracts/contracts";
 import {Security} from 'waxen/dist/deorators/security';
 import {IIngredientType} from "cookta-shared/src/models/ingredient-type/ingredient-type.interface";
 import {ISetIngredientTypeRequest} from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
-import {User} from "../models/user.model";
+import {User} from "../../models/user.model";
 import {
     IDeleteIngredientTypeRequest,
     IDeleteIngredientTypeResponse
