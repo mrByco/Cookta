@@ -29,12 +29,12 @@ export class MetricsService {
 
         let record: MetricsRecord = await workingCollection.findOne({date_hour: currentHourId}) as any;
 
-        record = dataToMerge;
-        if (record) {
+        if (record)
             record = MetricsService.MergeMetricsData(record, dataToMerge);
-        }else{
+        else
             record = dataToMerge;
-        }
+
+        console.log('saving');
 
 
         await workingCollection.replaceOne({date_hour: currentHourId}, record, {upsert: true});

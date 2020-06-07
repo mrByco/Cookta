@@ -8,6 +8,7 @@ export class CAUCollector extends ACollector {
 
     public CurrentActive: number = 0;
     public MaxDuringCollectLoop: number = 0;
+    private LastCollectedCAU: number = null;
 
     private collectLoop;
     private saveLoop;
@@ -15,8 +16,8 @@ export class CAUCollector extends ACollector {
     private LastSaved: MetricsRecord;
     private UnsavedRecord: MetricsRecord;
     private readonly CAUCollection: Collection;
-    private readonly SaveTime = 60;
-    private readonly CollectTime = 10;
+    private readonly SaveTime = 10;
+    private readonly CollectTime = 2;
     private readonly COLLECTION_NAME = 'CAU';
 
     constructor(metricsService: MetricsService, liveConnect: LiveConnect) {
@@ -34,6 +35,8 @@ export class CAUCollector extends ACollector {
         });
 
         this.collectLoop = setInterval(async () => {
+            if (this.CurrentActive == this.LastCollectedCAU) return;
+
             if (!this.UnsavedRecord){
                 this.UnsavedRecord = MetricsService.GetEmptyMetricsRecord("CAU");
             }
@@ -44,16 +47,19 @@ export class CAUCollector extends ACollector {
             }
 
             this.UnsavedRecord.data[time.minutes][time.seconds] = this.MaxDuringCollectLoop;
+            this.LastCollectedCAU = this.MaxDuringCollectLoop;
             this.MaxDuringCollectLoop = this.CurrentActive;
-
 
         }, this.CollectTime * 1000);
 
         this.saveLoop = setInterval(() => {
-            if (!this.UnsavedRecord) return;
+            if (!this.UnsavedRecord){
+                console.log('Save canceled!');
+                return;
+            }
             this.MetricsService.SaveMetricsData(this.UnsavedRecord, this.CAUCollection).then(s => {
-                //this.LastSaved = s;
-                //this.UnsavedRecord = undefined;
+                this.LastSaved = s;
+                this.UnsavedRecord = undefined;
             });
         }, this.SaveTime * 1000);
     }
@@ -62,7 +68,7 @@ export class CAUCollector extends ACollector {
     private CurrentActiveChange(liveConnect: LiveConnect){
         this.CurrentActive = liveConnect.Connections.length;
         if (this.CurrentActive > this.MaxDuringCollectLoop) this.MaxDuringCollectLoop = this.CurrentActive;
-        console.log("Cahgne:: " + this.MaxDuringCollectLoop);
+        console.log("Change: " + this.MaxDuringCollectLoop);
     }
 
     stop() {
