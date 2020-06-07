@@ -72,6 +72,7 @@ import { RoleEditorComponent } from './admin-components/role-editor/role-editor/
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { UserListComponent } from './admin-components/user-list/user-list.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import {LiveConnectionService} from './shared/services/live-connect.service/live-connection.service';
 
 const appRoutes: Routes = [
     {path: '', component: FoodListComponent},
@@ -167,7 +168,7 @@ const appRoutes: Routes = [
         MatTabsModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
-    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, CanDeactivateGuard, CanActivateLoggedInGuard],
+    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
     entryComponents: [GenericTwoButtonDialogComponent],
     bootstrap: [AppComponent]
 })

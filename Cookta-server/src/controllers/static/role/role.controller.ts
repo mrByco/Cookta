@@ -1,10 +1,9 @@
-import {Controller} from "waxen/dist/deorators/controller";
-import {Contracts} from "cookta-shared/src/contracts/contracts";
-import { IRole } from "cookta-shared/src/models/roles/role.interface";
-import {Services} from "../../Services";
-import {Security} from "waxen/dist/deorators/security";
-import {Role} from "../../models/role.model";
-import { User } from "../../models/user.model";
+import {Controller} from 'waxen/dist/deorators/controller';
+import {Contracts} from 'cookta-shared/src/contracts/contracts';
+import {IRole} from 'cookta-shared/src/models/roles/role.interface';
+import {Services} from '../../../Services';
+import {Security} from 'waxen/dist/deorators/security';
+import {User} from '../../../models/user.model';
 
 @Controller(Contracts.Roles)
 export class RoleController {

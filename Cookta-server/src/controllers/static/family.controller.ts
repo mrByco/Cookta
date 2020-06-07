@@ -1,12 +1,12 @@
-import {User} from "../models/user.model";
-import {Services} from "../Services";
+import {User} from "../../models/user.model";
+import {Services} from "../../Services";
 import {Security} from "waxen/dist/deorators/security";
 import {EFamilyRole} from 'cookta-shared/src/models/family-member/family.member';
 import {Controller} from "waxen/dist/deorators/controller";
 import {Contracts} from "cookta-shared/src/contracts/contracts";
 import {ISendFamily} from "cookta-shared/src/models/family/family.interface";
 import {InviteFamilyRequest} from "cookta-shared/src/contracts/family/invite.family.request";
-import {NotFoundError} from "../helpers/error.helper";
+import {NotFoundError} from "../../helpers/error.helper";
 
 @Controller(Contracts.Family)
 export class FamilyController {
