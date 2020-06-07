@@ -30,5 +30,16 @@ describe("Metrics service", () => {
 
             chai.expect(result.data[1][1]).to.be.eql(4);
         });
+
+        it('should add 0', function() {
+            let record: MetricsRecord = {instance_id: 'test_1', data: [[], [5,4]], date_hour: "", stat_key: ""}
+            let recordToMerge: MetricsRecord = {instance_id: 'test_1', data: [[], [5,4, 0]], date_hour: "", stat_key: ""}
+
+
+            let result = MetricsService.MergeMetricsData(record, recordToMerge);
+
+
+            chai.expect(result.data[1][2]).to.be.eql(0);
+        });
     });
 });
