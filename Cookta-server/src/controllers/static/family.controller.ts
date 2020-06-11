@@ -1,12 +1,12 @@
-import {User} from "../../models/user.model";
-import {Services} from "../../Services";
-import {Security} from "waxen/dist/deorators/security";
+import {User} from '../../models/user.model';
+import {Services} from '../../Services';
+import {Security} from 'waxen/dist/deorators/security';
 import {EFamilyRole} from 'cookta-shared/src/models/family-member/family.member';
-import {Controller} from "waxen/dist/deorators/controller";
-import {Contracts} from "cookta-shared/src/contracts/contracts";
-import {ISendFamily} from "cookta-shared/src/models/family/family.interface";
-import {InviteFamilyRequest} from "cookta-shared/src/contracts/family/invite.family.request";
-import {NotFoundError} from "../../helpers/error.helper";
+import {Controller} from 'waxen/dist/deorators/controller';
+import {Contracts} from 'cookta-shared/src/contracts/contracts';
+import {ISendFamily} from 'cookta-shared/src/models/family/family.interface';
+import {InviteFamilyRequest} from 'cookta-shared/src/contracts/family/invite.family.request';
+import {NotFoundError} from '../../helpers/error.helper';
 
 @Controller(Contracts.Family)
 export class FamilyController {
@@ -14,19 +14,22 @@ export class FamilyController {
     public async GetFamily(reqBody: void, user: User, familyId: string): Promise<ISendFamily> {
         return Services.FamilyService.GetUserRelatedFamilies(user).find(f => f.Id.toHexString() == familyId).ToSendFamily();
     }
+
     @Security(false)
     public async SwitchFamily(reqBody: void, user: User, newId: string): Promise<ISendFamily> {
         let family = Services.FamilyService.GetUserRelatedFamilies(user).find(f => f.Id.toHexString() == newId);
-        if (!family) {
-            throw NotFoundError();
-        }
+        if (!family) throw NotFoundError();
+
         user.SwitchCurrentFamily(family);
         return user.GetCurrentFamily().ToSendFamily();
     }
     @Security(false)
     public async DeleteFamily(reqBody: void, user: User, deleteId: string): Promise<ISendFamily> {
-        let family = Services.FamilyService.GetUserRelatedFamilies(user).find(f => f.Id.toHexString() == deleteId);
-        let deleted = await Services.FamilyService.RemoveItem(family);
+        let family = Services.FamilyService.FindOne(f => f.Id.toHexString() == deleteId);
+        if (!family) throw NotFoundError();
+        if (user.sub != family.ownerSub) throw NotFoundError();
+
+        Services.FamilyService.DeleteFamily(deleteId);
         return user.GetCurrentFamily().ToSendFamily();
     }
 
