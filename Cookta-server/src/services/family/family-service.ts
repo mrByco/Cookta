@@ -17,9 +17,21 @@ export class FamilyService extends StoreService<Family> {
         return family;
     }
 
-    public GetUserFamilies(user: User | string): Family[] {
+    public GetUserRelatedFamilies(user: User | string): Family[] {
         let sub = user instanceof User ? user.sub : user;
         return this.FindAll(f => (f.members.find(u => u.sub == sub) != null))
+    }
+
+    public LeaveFamily(operatorUserSub: string, userSub: string, familyId: string){
+        let userToLeave = Services.UserService.FindOne(u => u.sub == userSub);
+        let family = Services.FamilyService.GetUserRelatedFamilies(operatorUserSub).find(f => f.Id.toHexString() == familyId);
+
+        if (family.ownerSub != operatorUserSub && operatorUserSub != userSub) return;
+
+        if (operatorUserSub === userToLeave.sub && family.ownerSub == operatorUserSub) throw new Error('Onwer cannot leave a family');
+
+        family.members.splice(family.members.findIndex(m => m.sub == userToLeave.sub), 1);
+        family.Save();
     }
 
     //TODO Override remove item method to delete dependencies

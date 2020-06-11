@@ -13,7 +13,7 @@ import {UserControllerData} from "./users/users";
 import {RoleControllerData} from "./roles/roles";
 
 
-
+// @ts-ignore
 export const Contracts = {
     Days: DayControllerData,
     Essentials: EssentialControllerData,
@@ -28,5 +28,4 @@ export const Contracts = {
     Units: UnitControllerData,
     Users: UserControllerData,
     Roles: RoleControllerData
-
 }

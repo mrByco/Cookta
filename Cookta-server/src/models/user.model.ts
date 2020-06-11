@@ -66,7 +66,7 @@ export class User extends StoreItemBase {
                 await subscription.Save()
             }
 
-            let families = Services.FamilyService.GetUserFamilies(this);
+            let families = Services.FamilyService.GetUserRelatedFamilies(this);
             for (let family of families){
                 if (family.ownerSub == sub) family.ownerSub = primary;
                 for (let member of family.members){
@@ -85,7 +85,7 @@ export class User extends StoreItemBase {
 
     public ToExtendedUser(): ExtendedUser{
         let activeFamily: ISendFamily = this.GetCurrentFamily().ToSendFamily();
-        let families: ISendFamily[] = Services.FamilyService.GetUserFamilies(this).map(f => f.ToSendFamily());
+        let families: ISendFamily[] = Services.FamilyService.GetUserRelatedFamilies(this).map(f => f.ToSendFamily());
 
         return {
             ActiveFamily: activeFamily,

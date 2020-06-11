@@ -12,11 +12,11 @@ import {NotFoundError} from "../../helpers/error.helper";
 export class FamilyController {
     @Security(false)
     public async GetFamily(reqBody: void, user: User, familyId: string): Promise<ISendFamily> {
-        return Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId).ToSendFamily();
+        return Services.FamilyService.GetUserRelatedFamilies(user).find(f => f.Id.toHexString() == familyId).ToSendFamily();
     }
     @Security(false)
     public async SwitchFamily(reqBody: void, user: User, newId: string): Promise<ISendFamily> {
-        let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == newId);
+        let family = Services.FamilyService.GetUserRelatedFamilies(user).find(f => f.Id.toHexString() == newId);
         if (!family) {
             throw NotFoundError();
         }
@@ -25,7 +25,7 @@ export class FamilyController {
     }
     @Security(false)
     public async DeleteFamily(reqBody: void, user: User, deleteId: string): Promise<ISendFamily> {
-        let family = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == deleteId);
+        let family = Services.FamilyService.GetUserRelatedFamilies(user).find(f => f.Id.toHexString() == deleteId);
         let deleted = await Services.FamilyService.RemoveItem(family);
         return user.GetCurrentFamily().ToSendFamily();
     }
@@ -39,7 +39,7 @@ export class FamilyController {
 
     @Security(false)
     public async InviteByUserNameEmail(reqBody: InviteFamilyRequest, user: User, familyId: string): Promise<ISendFamily> {
-        let familyToInvite = Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
+        let familyToInvite = Services.FamilyService.GetUserRelatedFamilies(user).find(f => f.Id.toHexString() == familyId);
         let invited = Services.UserService.FindOne(u => u.email == reqBody.invitedEmail && u.username == reqBody.invitedUsername);
         if (!familyToInvite || invited == null)
             return null;
@@ -51,15 +51,7 @@ export class FamilyController {
 
     @Security(false)
     public async LeaveFamily(reqBody: void, user: User, familyId: string, removeUserSub: string): Promise<ISendFamily> {
-        let userToLeave = await Services.UserService.FindOne(u => u.sub == removeUserSub);
-        let family = await Services.FamilyService.GetUserFamilies(user).find(f => f.Id.toHexString() == familyId);
-        if (user === userToLeave && family.ownerSub == user.sub) {
-            return null;
-        }
-        if (userToLeave.sub == family.ownerSub)
-            return null;
-        family.members.splice(family.members.findIndex(m => m.sub == userToLeave.sub), 1);
-        family.Save();
+        Services.FamilyService.LeaveFamily(user.sub, removeUserSub, familyId)
         return user.GetCurrentFamily().ToSendFamily();
     }
 
