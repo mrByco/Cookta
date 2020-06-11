@@ -976,4 +976,15 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
+    app.delete('/user/delete/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new UserController();
+            const promise = controller.DeleteProfile(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+        });
+
+
+
 }
