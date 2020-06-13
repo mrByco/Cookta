@@ -4,6 +4,7 @@ import {ObjectId} from 'bson';
 import * as request from 'request';
 import {Family} from '../../models/family.model';
 import {Services} from '../../Services';
+import {Subscription} from '../../models/subscription.model';
 
 
 export class UserService extends StoreService<User> {
@@ -72,10 +73,22 @@ export class UserService extends StoreService<User> {
         this.SaveItem(user);
     }
 
-    public DeleteUser(user: User){
+    public async DeleteUser(user: User) {
         let families: Family[] = Services.FamilyService.GetUserRelatedFamilies(user);
+        for (let family of families) {
+            Services.FamilyService.LeaveFamily(user.sub, user.sub, family.Id.toHexString());
+        }
 
+        let subs = await Subscription.GetAll();
+        subs = subs.filter(s => s.userSub == user.sub);
+        for (let sub of subs) {
+            await Subscription.SetUserSubState(user, sub.foodId, false);
+        }
 
+        let foods = Services.FoodService.GetAllOwnFoods(user.sub);
+        foods.forEach(f => Services.FoodService.Delete(f.foodId, user.sub));
+
+        this.RemoveItem(user);
     }
 
 }

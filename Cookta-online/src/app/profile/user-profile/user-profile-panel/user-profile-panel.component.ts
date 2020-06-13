@@ -61,7 +61,7 @@ export class UserProfilePanelComponent implements OnInit {
         }
         this.onModalOperationEnd.emit();
         await this.identityService.DeleteUser();
-        location.reload();
+        await this.identityService.Logout();
       });
       deleteModal.Show();
     });

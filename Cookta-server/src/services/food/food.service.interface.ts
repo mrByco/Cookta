@@ -1,13 +1,13 @@
 import {Food} from '../../models/food/food.model';
-import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
-import {Family} from "../../models/family.model";
+import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
+import {Family} from '../../models/family.model';
 
 export interface IFoodService {
     GetAllFoods(filter: any): Food[]
 
     GetAllPublicFoods(): Food[]
 
-    GetAllOwnFoods(userSub: string)
+    GetAllOwnFoods(userSub: string): Food[];
 
     GetFoodForUser(foodId: string, userSub: string): Food,
 
@@ -20,7 +20,7 @@ export interface IFoodService {
 
     UpdateFood(request: IUpdateFoodRequest, changerSub: string)
 
-    Delete(id: string, deleterSub: string)
+    Delete(foodId: string, deleterSub: string)
 
     SaveFood(food: Food, generate?: boolean)
 
