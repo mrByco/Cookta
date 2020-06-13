@@ -2,9 +2,6 @@ import {StoreService} from 'atomik/lib/store-service/store-service';
 import {User} from '../../models/user.model';
 import {ObjectId} from 'bson';
 import * as request from 'request';
-import {Family} from '../../models/family.model';
-import {Services} from '../../Services';
-import {Subscription} from '../../models/subscription.model';
 
 
 export class UserService extends StoreService<User> {
@@ -74,7 +71,7 @@ export class UserService extends StoreService<User> {
     }
 
     public async DeleteUser(user: User) {
-        let families: Family[] = Services.FamilyService.GetUserRelatedFamilies(user);
+        /*let families: Family[] = Services.FamilyService.GetUserRelatedFamilies(user);
         for (let family of families) {
             Services.FamilyService.LeaveFamily(user.sub, user.sub, family.Id.toHexString());
         }
@@ -88,7 +85,48 @@ export class UserService extends StoreService<User> {
         let foods = Services.FoodService.GetAllOwnFoods(user.sub);
         foods.forEach(f => Services.FoodService.Delete(f.foodId, user.sub));
 
-        this.RemoveItem(user);
+        this.RemoveItem(user);*/
+        this.DeleteAuth0UsersByEmail(user.email);
+    }
+
+
+    async DeleteAuth0UsersByEmail(email: string) {
+        let request = require('request');
+
+        var options = {
+            method: 'POST',
+            url: 'https://kukta.eu.auth0.com/oauth/token',
+            headers: {'content-type': 'application/x-www-form-urlencoded'},
+            form: {
+                grant_type: 'client_credentials',
+                client_id: 'F4WWdOxBUCTqS1KiEl1uMU07vFigXkOW',
+                client_secret: process.env.AUTH0SECRET,
+                audience: 'https://kukta.eu.auth0.com/api/v2/'
+            }
+        };
+
+        let token = await new Promise((resolve, reject) => {
+            request(options, function(error, response, body) {
+                if (error) reject(error);
+                else resolve(body['access_token']);
+                return;
+            });
+        });
+
+        let userIds = await new Promise(((resolve, reject) => {
+            var options = {
+                method: 'GET',
+                url: 'http://kukta.eu.auth0.com/api/v2/users-by-email',
+                headers: {'content-type': 'application/json', authorization: `Bearer ${token}`}
+            };
+            request(options, function(error, response, body) {
+                if (error) reject();
+                body = body as any[];
+                console.log(body);
+                resolve(body.map(u => u['user_id']));
+            });
+        }));
+        console.log(userIds);
     }
 
 }
