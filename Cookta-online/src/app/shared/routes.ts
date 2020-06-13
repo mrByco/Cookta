@@ -44,6 +44,7 @@ export class Routes {
     CheckUsername: '/user/{name}',
     GetAll: '/user/manage/all',
     EditUserRole: '/user/manage/editrole',
+    DeleteUser: '/user/delete'
   };
 
   public static readonly Family = {

@@ -1,8 +1,8 @@
-import {ACollector} from "./collector.abstract";
-import {MetricsRecord} from "../metrics-record.interface";
-import {Collection, ObjectId} from "mongodb";
-import {MetricsService} from "../metrics.service";
-import {LiveConnect} from "../../live-connection/live.connect";
+import {ACollector} from './collector.abstract';
+import {MetricsRecord} from '../metrics-record.interface';
+import {Collection} from 'mongodb';
+import {MetricsService} from '../metrics.service';
+import {LiveConnect} from '../../live-connection/live.connect';
 
 export class CAUCollector extends ACollector {
 
@@ -53,10 +53,7 @@ export class CAUCollector extends ACollector {
         }, this.CollectTime * 1000);
 
         this.saveLoop = setInterval(() => {
-            if (!this.UnsavedRecord){
-                console.log('Save canceled!');
-                return;
-            }
+            if (!this.UnsavedRecord) return;
             this.MetricsService.SaveMetricsData(this.UnsavedRecord, this.CAUCollection).then(s => {
                 this.LastSaved = s;
                 this.UnsavedRecord = undefined;
