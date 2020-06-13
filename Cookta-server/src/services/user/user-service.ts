@@ -1,7 +1,7 @@
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {User} from "../../models/user.model";
-import {ObjectId} from "bson";
-import * as request from "request";
+import {StoreService} from 'atomik/lib/store-service/store-service';
+import {User} from '../../models/user.model';
+import {ObjectId} from 'bson';
+import * as request from 'request';
 import {Family} from '../../models/family.model';
 import {Services} from '../../Services';
 
@@ -74,8 +74,6 @@ export class UserService extends StoreService<User> {
 
     public DeleteUser(user: User){
         let families: Family[] = Services.FamilyService.GetUserRelatedFamilies(user);
-
-        
 
 
     }

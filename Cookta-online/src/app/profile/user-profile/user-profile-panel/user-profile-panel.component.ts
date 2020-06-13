@@ -54,13 +54,13 @@ export class UserProfilePanelComponent implements OnInit {
 
       let deleteModal = this.outDeleteModal ? this.outDeleteModal : this.deleteModal;
       deleteModal.ConfirmText = this.identityService.Identity.email;
-      deleteModal.OnFinished.subscribe( (res: {delete: boolean}) => {
-        if (!res.delete){
+      deleteModal.OnFinished.subscribe(async (res: { delete: boolean }) => {
+        if (!res.delete) {
           this.onModalOperationEnd.emit();
           return;
         }
         this.onModalOperationEnd.emit();
-        console.log('DELETING ACCOUNT!!!!');
+        await this.identityService.DeleteUser();
         location.reload();
       });
       deleteModal.Show();
