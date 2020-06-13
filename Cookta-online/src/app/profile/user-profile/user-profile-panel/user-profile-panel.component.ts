@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IdentityService} from "../../../shared/services/identity.service";
-import {MDBModalRef, MDBModalService} from "angular-bootstrap-md";
-import {RenameModalComponent} from "../../../identity/rename-modal/rename-modal.component";
-import {GenericTwoButtonDialogComponent} from "../../../utilities/generic-two-button-dialog/generic-two-button-dialog.component";
+import {IdentityService} from '../../../shared/services/identity.service';
+import {MDBModalService} from 'angular-bootstrap-md';
+import {RenameModalComponent} from '../../../identity/rename-modal/rename-modal.component';
+import {GenericTwoButtonDialogComponent} from '../../../utilities/generic-two-button-dialog/generic-two-button-dialog.component';
+import {ConfirmDeleteModalComponent} from '../../../identity/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-user-profile-panel',
@@ -15,9 +16,10 @@ export class UserProfilePanelComponent implements OnInit {
   @Output("ModalOperationEnd") onModalOperationEnd = new EventEmitter();
 
   @Input("OutsideRenameModal") outRenameModal: RenameModalComponent;
-  @Input("OutsideDeleteModal") deleteModal: any;
+  @Input("OutsideDeleteModal") outDeleteModal: ConfirmDeleteModalComponent;
 
   @ViewChild("SetUsernameModal") renameModal: RenameModalComponent;
+  @ViewChild("DeleteModal") deleteModal: ConfirmDeleteModalComponent;
 
   constructor(public identityService: IdentityService, public modalService: MDBModalService) { }
 
@@ -26,8 +28,6 @@ export class UserProfilePanelComponent implements OnInit {
 
   async setUserName() {
     this.onModalOperationStart.emit();
-    //await new Promise(r => setTimeout(r, 5000));
-
     let renameComponent: RenameModalComponent = this.outRenameModal ? this.outRenameModal : this.renameModal;
     renameComponent.Show();
 
@@ -48,6 +48,22 @@ export class UserProfilePanelComponent implements OnInit {
     dialog.FailText = "Törlés"
     dialog.SuccessText = "Mégsem"
 
+    dialog.OnCancel.subscribe(() => this.onModalOperationEnd.emit())
+    dialog.OnSuccess.subscribe(() => this.onModalOperationEnd.emit())
+    dialog.OnFail.subscribe(() => {
 
+      let deleteModal = this.outDeleteModal ? this.outDeleteModal : this.deleteModal;
+      deleteModal.ConfirmText = this.identityService.Identity.email;
+      deleteModal.OnFinished.subscribe( (res: {delete: boolean}) => {
+        if (!res.delete){
+          this.onModalOperationEnd.emit();
+          return;
+        }
+        this.onModalOperationEnd.emit();
+        console.log('DELETING ACCOUNT!!!!');
+        location.reload();
+      });
+      deleteModal.Show();
+    });
   }
 }

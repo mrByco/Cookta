@@ -12,11 +12,13 @@
         <app-user-profile-panel
           (ModalOperationStart)="frame.hide()"
           (ModalOperationEnd)="frame.show()"
-        [OutsideRenameModal]="SetUsernameModal">
+        [OutsideRenameModal]="SetUsernameModal"
+        [OutsideDeleteModal]="DeleteUserModal">
         </app-user-profile-panel>
       </div>
     </div>
   </div>
 </div>
 <app-rename-modal #SetUsernameModal></app-rename-modal>
+<app-confirm-delete-modal #DeleteUserModal></app-confirm-delete-modal>
 
