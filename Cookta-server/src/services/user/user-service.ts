@@ -2,6 +2,9 @@ import {StoreService} from 'atomik/lib/store-service/store-service';
 import {User} from '../../models/user.model';
 import {ObjectId} from 'bson';
 import * as request from 'request';
+import {Family} from '../../models/family.model';
+import {Services} from '../../Services';
+import {Subscription} from '../../models/subscription.model';
 
 
 export class UserService extends StoreService<User> {
@@ -71,7 +74,7 @@ export class UserService extends StoreService<User> {
     }
 
     public async DeleteUser(user: User) {
-        /*let families: Family[] = Services.FamilyService.GetUserRelatedFamilies(user);
+        let families: Family[] = Services.FamilyService.GetUserRelatedFamilies(user);
         for (let family of families) {
             Services.FamilyService.LeaveFamily(user.sub, user.sub, family.Id.toHexString());
         }
@@ -85,7 +88,7 @@ export class UserService extends StoreService<User> {
         let foods = Services.FoodService.GetAllOwnFoods(user.sub);
         foods.forEach(f => Services.FoodService.Delete(f.foodId, user.sub));
 
-        this.RemoveItem(user);*/
+        this.RemoveItem(user);
         this.DeleteAuth0UsersByEmail(user.email);
     }
 
@@ -107,26 +110,48 @@ export class UserService extends StoreService<User> {
 
         let token = await new Promise((resolve, reject) => {
             request(options, function(error, response, body) {
-                if (error) reject(error);
-                else resolve(body['access_token']);
-                return;
+                body = JSON.parse(body);
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(body.access_token);
+                }
             });
         });
 
-        let userIds = await new Promise(((resolve, reject) => {
+        let userIds = await new Promise<string[]>(((resolve, reject) => {
             var options = {
                 method: 'GET',
-                url: 'http://kukta.eu.auth0.com/api/v2/users-by-email',
+                url: 'https://kukta.eu.auth0.com/api/v2/users-by-email',
+                qs: {email: email},
                 headers: {'content-type': 'application/json', authorization: `Bearer ${token}`}
             };
             request(options, function(error, response, body) {
+                body = JSON.parse(body);
                 if (error) reject();
                 body = body as any[];
-                console.log(body);
                 resolve(body.map(u => u['user_id']));
             });
         }));
-        console.log(userIds);
-    }
 
+
+        console.log('Deleteing users: ' + userIds);
+        for (let id of userIds) {
+            try {
+                await new Promise(((resolve, reject) => {
+                    var options = {
+                        method: 'DELETE',
+                        url: `https://kukta.eu.auth0.com/api/v2/users/${id}`,
+                        headers: {'content-type': 'application/json', authorization: `Bearer ${token}`}
+                    };
+                    request(options, function(error, response) {
+                        if (error) reject();
+                        resolve();
+                    });
+                }));
+            } catch (exception) {
+                console.error(exception);
+            }
+        }
+    }
 }
