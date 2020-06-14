@@ -13,9 +13,9 @@
         <span>.</span>
         <div class="md-form mb-5">
           <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-          <input [formControl]="deleteUser" class="form-control" id="form-name" mdbInput
+          <input [formControl]="deleteUser" class="form-control" id="delete-text" mdbInput
                  mdbValidate type="email">
-          <label for="form-name">Új felhasználónév</label>
+          <label for="delete-text">Megerősítő szöveg</label>
           <mdb-error
             *ngIf="deleteUser.invalid && (deleteUser.dirty || deleteUser.touched)">
 

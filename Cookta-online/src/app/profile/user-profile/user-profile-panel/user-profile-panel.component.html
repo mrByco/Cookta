@@ -13,5 +13,5 @@
 </div>
 
 
-<app-rename-modal #SetUsernameModal></app-rename-modal>
-<app-confirm-delete-modal #DeleteModal></app-confirm-delete-modal>
+<app-rename-modal #SetUsernameModal *ngIf="!outRenameModal"></app-rename-modal>
+<app-confirm-delete-modal #DeleteModal *ngIf="!outDeleteModal"></app-confirm-delete-modal>
