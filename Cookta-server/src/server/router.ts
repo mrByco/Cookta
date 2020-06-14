@@ -976,4 +976,22 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
+    app.delete('/user/delete/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new UserController();
+                const promise = controller.DeleteProfile(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
 }

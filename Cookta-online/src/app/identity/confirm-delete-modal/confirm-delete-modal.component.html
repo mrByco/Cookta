@@ -1,0 +1,45 @@
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="deleteModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Fiók törlése</h4>
+        <button (click)="Cancel()" aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <span>Megerősítéshez írt be az email címed </span><span style="font-style: italic">{{ConfirmText}}</span>
+        <span>.</span>
+        <div class="md-form mb-5">
+          <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+          <input [formControl]="deleteUser" class="form-control" id="delete-text" mdbInput
+                 mdbValidate type="email">
+          <label for="delete-text">Megerősítő szöveg</label>
+          <mdb-error
+            *ngIf="deleteUser.invalid && (deleteUser.dirty || deleteUser.touched)">
+
+            <span *ngIf="deleteUser.errors.pattern"><br/></span>
+          </mdb-error>
+          <mdb-success
+            *ngIf="deleteUser.valid && (deleteUser.dirty || deleteUser.touched)">Ok
+          </mdb-success>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button (click)="OnFinished.emit({delete: true})"
+                [disabled]="deleteUser.errors != null || deleteUser.pending"
+                class="waves-light"
+                color="danger"
+                mdbBtn
+                mdbWavesEffect>Végleges törlés</button>
+        <button (click)="Cancel()"
+                class="waves-light"
+                color="blue"
+                mdbBtn
+                mdbWavesEffect>Mégse</button>
+
+      </div>
+    </div>
+  </div>
+</div>

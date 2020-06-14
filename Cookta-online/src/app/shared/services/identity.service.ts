@@ -113,8 +113,19 @@ export class IdentityService {
     });
   }
 
+  public async DeleteUser(): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      let response = await this.serverService.DeleteRequest(Routes.User.DeleteUser);
+      response.subscribe(data => {
+        resolve(data as boolean);
+      }, (error: HttpErrorResponse) => {
+        reject(error);
+      });
+    });
+  }
 
-  public PleaseAccessToken(): Promise<string> {
+
+  public RequireAccessToken(): Promise<string> {
     return new Promise(async () => {
       if (!this.LoggedIn) {
         await this.Login();

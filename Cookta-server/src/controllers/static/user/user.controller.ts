@@ -1,10 +1,11 @@
 import {User} from '../../../models/user.model';
 import {Services} from '../../../Services';
-import {Controller} from "waxen/dist/deorators/controller";
+import {Controller} from 'waxen/dist/deorators/controller';
 import {Security} from 'waxen/dist/deorators/security';
-import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Contracts} from 'cookta-shared/src/contracts/contracts';
 import {ExtendedUser} from 'cookta-shared/src/models/user/extendedUser';
 
+//@ts-ignore
 @Controller(Contracts.Users)
 export class UserController {
 
@@ -37,16 +38,24 @@ export class UserController {
     public async GetAllUser(reqBody: void, user: User): Promise<ExtendedUser[]> {
         let users = Services.UserService.GetAllItems();
         let extended = users.map(u => u.ToExtendedUser());
-        console.log(extended)
+        console.log(extended);
         return extended;
     }
 
     @Security(false, 'manage-users')
     public async EditUser(reqBody: { primarySub: string, roleId: string }, user: User): Promise<ExtendedUser> {
-        if (Services.RoleService.GetRole(reqBody.roleId))
+        if (Services.RoleService.GetRole(reqBody.roleId)) {
             Services.UserService.ChangeRole(reqBody.primarySub, reqBody.roleId);
-        let changedUser = Services.UserService.FindOne(u => u.sub == reqBody.primarySub)
+        }
+        let changedUser = Services.UserService.FindOne(u => u.sub == reqBody.primarySub);
         return changedUser.ToExtendedUser();
 
+    }
+
+    @Security(false)
+    public async DeleteProfile(reqBody: void, user: User): Promise<{ deleted: boolean }> {
+        if (!user) return {deleted: false};
+        Services.UserService.DeleteUser(user);
+        return { deleted: true };
     }
 }

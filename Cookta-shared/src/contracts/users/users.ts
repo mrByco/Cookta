@@ -1,7 +1,7 @@
-import {IRoute} from "waxen/dist/abstract/route.interface";
-import {ERouteMethod} from "waxen/dist/route-method.enum";
-import {ControllerData} from "waxen/dist/abstract/controller.interface";
-import {ExtendedUser} from "../../models/user/extendedUser";
+import {IRoute} from 'waxen/dist/abstract/route.interface';
+import {ERouteMethod} from 'waxen/dist/route-method.enum';
+import {ControllerData} from 'waxen/dist/abstract/controller.interface';
+import {ExtendedUser} from '../../models/user/extendedUser';
 
 const User: IRoute<void, ExtendedUser, void> = {method: ERouteMethod.GET, path: ''};
 const SetUserName: IRoute<void, ExtendedUser, { name: string }> = {method: ERouteMethod.PUT, path: ''};
@@ -10,8 +10,10 @@ const HasPermission: IRoute<void, boolean, { permission: string }> = {method: ER
 const GetAllUser: IRoute<void, ExtendedUser[], void> = {method: ERouteMethod.GET, path: 'manage/all'};
 
 //Change the role of user to the given role and returns the changed user
-const EditUser: IRoute<{primarySub: string, roleId: string}, ExtendedUser, void> = {method: ERouteMethod.PUT, path: 'manage/editrole'};
+const EditUser: IRoute<{ primarySub: string, roleId: string }, ExtendedUser, void> = {method: ERouteMethod.PUT, path: 'manage/editrole'};
+
+const DeleteProfile: IRoute<void, { deleted: boolean }, void> = {method: ERouteMethod.DELETE, path: 'delete'};
 
 export const UserControllerData: ControllerData = {
-    basepath: "user", name: "User", routes: [User, SetUserName, GetNameAlreadyUsed, HasPermission, GetAllUser, EditUser]
-}
+    basepath: 'user', name: 'User', routes: [User, SetUserName, GetNameAlreadyUsed, HasPermission, GetAllUser, EditUser, DeleteProfile]
+};

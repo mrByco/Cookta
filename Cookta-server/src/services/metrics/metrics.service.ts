@@ -1,9 +1,8 @@
 import {LiveConnect} from '../live-connection/live.connect';
 import {Collection, Db, MongoClient} from 'mongodb';
-import {MetricsRecord} from "./metrics-record.interface";
-import {CAUCollector} from "./collectors/cau.collector";
-import {Guid} from "guid-typescript";
-import {Metrics} from "@azure/storage-blob";
+import {MetricsRecord} from './metrics-record.interface';
+import {CAUCollector} from './collectors/cau.collector';
+import {Guid} from 'guid-typescript';
 
 
 require('../../extensions/date-extensions');
@@ -13,7 +12,7 @@ export class MetricsService {
 
     public CAUCollector: CAUCollector;
 
-    private static get metrics_instance_id(){
+    private static get metrics_instance_id() {
         if (!this.m_metrics_instance_id)  this.m_metrics_instance_id = process.env.WEBSITE_INSTANCE_ID ? `prod-${process.env.WEBSITE_INSTANCE_ID}` : `debug-${Guid.create().toString()}`;
         return this.m_metrics_instance_id;
     }
@@ -42,7 +41,6 @@ export class MetricsService {
         else
             record = dataToMerge;
 
-        console.log('saving');
 
 
         await workingCollection.replaceOne({date_hour: currentHourId, instance_id: MetricsService.metrics_instance_id}, record, {upsert: true});

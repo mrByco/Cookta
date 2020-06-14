@@ -64,6 +64,9 @@
 
         <ul class="navbar-nav ml-auto nav-flex-icons" *ngIf="identityService.LoggedIn">
             <li class="nav-item">
+              <a class="nav-link waves-light" mdbWavesEffect routerLink="/foods/new/edit">Recept feltöltése</a>
+            </li>
+          <li class="nav-item">
                 <a class="nav-link wawes-light">😁</a>
             </li>
             <li class="nav-item dropdown" dropdown>
@@ -82,9 +85,7 @@
                    mdbWavesEffect>
                     <img [src]="PictureUrl" alt="" class="img-fluid rounded-circle z-depth-0" style="height: 35px"></a>
                 <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/foods/new/edit">Étel feltöltése</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item waves-light" mdbWavesEffect (click)="changName.Show()">Felhasználó név</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect (click)="UserProfile.Show()">Fiókod</a>
                     <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/family-manager">Család</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item waves-light" mdbWavesEffect
@@ -98,4 +99,5 @@
 </mdb-navbar>
 
 
-<app-rename-modal #changName></app-rename-modal>
+<app-user-profile-modal #UserProfile></app-user-profile-modal>
+
