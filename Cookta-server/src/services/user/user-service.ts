@@ -56,14 +56,14 @@ export class UserService extends StoreService<User> {
                 uri: `${endpoint}?access_token=${accessToken}`,
                 json: true,
             };
-            let req = request(options, (err, res, body) => {
+            request(options, (err, res, body) => {
                 if (err) {
                     console.error(`Error when get user info from auth0: ${err.toString()}`);
                     reject(null);
                     return;
                 }
                 resolve(body);
-            })
+            });
         });
     }
 
@@ -144,7 +144,7 @@ export class UserService extends StoreService<User> {
                         url: `https://kukta.eu.auth0.com/api/v2/users/${id}`,
                         headers: {'content-type': 'application/json', authorization: `Bearer ${token}`}
                     };
-                    request(options, function(error, response) {
+                    request(options, function(error) {
                         if (error) reject();
                         resolve();
                     });
