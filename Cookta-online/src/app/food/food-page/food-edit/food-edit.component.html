@@ -5,7 +5,7 @@
     <div class="col-6" style="padding: 50px">
       <div class="row">
         <div class="col">
-          <app-food-image-upload class="fillCol" #uploadComponent [SourceUrl]="SavedFoodVersion.ImageUrl" [EditMode]="false"
+          <app-food-image-upload #uploadComponent [EditMode]="false" [SourceUrl]="CurrentFood.ImageUrl" class="fillCol"
                                  InputHidden="true"></app-food-image-upload>
         </div>
         <div>
@@ -17,7 +17,8 @@
               </button>
             </li>
             <li class="list-group-item-2">
-              <button mdbBtn type="button" color="mdb-color" class="fillCol">Kép törlése</button>
+              <button (click)="DeleteImage()" class="fillCol" color="mdb-color" mdbBtn type="button">Kép törlése
+              </button>
             </li>
             <li class="list-group-item-2" [hidden]="!uploadComponent.EditMode || !uploadComponent.EditAvailable">
               <button mdbBtn type="button" color="mdb-color" class="fillCol" (click)="uploadComponent.EditMode = false">
@@ -72,7 +73,7 @@
 
       <div class="row m-3">
         <h5>A hozzávalók </h5>
-        <input type="number" placeholder="4" [(ngModel)]="CurrentFood.dose" class="small-number-field">
+        <input [(ngModel)]="CurrentFood.dose" class="small-number-field" label="Adag" placeholder="4" type="number">
         <h5>adagra elegendőek.</h5>
       </div>
       <hr>
@@ -109,7 +110,7 @@
             style="margin: 0 15px;">Elvetés
     </button>
     <button mdbBtn type="button" color="dark-green" rounded="true" mdbWavesEffect (click)="SaveFoodAndExit()"
-            style="margin: 0px 15px;">Mentés
+            style="margin: 0 15px;">Mentés
     </button>
   </div>
 

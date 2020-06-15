@@ -10,8 +10,9 @@
                (imageLoaded)="imageLoaded()"
                (cropperReady)="cropperReady()"
                (loadImageFailed)="loadImageFailed()"
+               #ImageCropper
                style="width: 100%"
 ></image-cropper>
 
 
-<img [src]="CroppedImage ? CroppedImageBase64: SourceUrl" [hidden]="EditMode" style="width: 100%"/>
+<img [hidden]="EditMode" [src]="CroppedImage ? CroppedImageBase64: SourceUrl" alt="Food_image" style="width: 100%"/>
