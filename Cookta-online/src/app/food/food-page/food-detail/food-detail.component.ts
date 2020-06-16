@@ -41,48 +41,48 @@ export class FoodDetailComponent implements OnInit {
 
     if (Day && MealIndex) {
       let day: Day | boolean = await this.mealingService.GetDay(Day) ?? await this.router.navigate(['foods', Id ?? '']);
-            if (!day) return;
-            let mealing = (day as Day).mealings[MealIndex];
-            if (!mealing || mealing.type != 'final') {
-                this.router.navigate(["foods", Id ?? '']);
-                return;
-            }
-            this.Food = mealing.info.finalFood as ISendableFood;
-            this.ScaleToDose = mealing.dose;
-        } else {
+      if (!day) return;
+      let mealing = (day as Day).mealings[MealIndex];
+      if (!mealing || mealing.type != 'final') {
+        this.router.navigate(['foods', Id ?? '']);
+        return;
+      }
+      this.Food = mealing.info.finalFood as ISendableFood;
+      this.ScaleToDose = mealing.dose;
+    } else {
       let data = await this.foodService.GetFoodPage(Id);
       this.Food = data.food;
       this.Recommendations = data.recommendations;
       this.ScaleToDose = this.Food.dose;
     }
 
-    }
+  }
 
-    public async Subscribe(state: boolean) {
-        if (!this.identityService.LoggedIn) {
-            this.identityService.PleaseLogin();
-            return;
-        }
-        await this.foodService.SetSubscription(this.Food.foodId, state);
-        this.Food.SubscribedFor = state;
+  public async Subscribe(state: boolean) {
+    if (!this.identityService.LoggedIn) {
+      this.identityService.PleaseLogin();
+      return;
     }
+    await this.foodService.SetSubscription(this.Food.foodId, state);
+    this.Food.SubscribedFor = state;
+  }
 
-    public SaveShortUnitNameSettings() {
-        //Reversed because (input) called before ngModel changing
-        this.cookieService.set('short-units', !this.ShowShortUnitNames ? 't' : 'f')
-    }
+  public SaveShortUnitNameSettings() {
+    //Reversed because (input) called before ngModel changing
+    this.cookieService.set('short-units', !this.ShowShortUnitNames ? 't' : 'f');
+  }
 
-    public GoEdit() {
-        this.router.navigate(["foods", this.Food.foodId, "edit"]);
-    }
+  public GoEdit() {
+    this.router.navigate(['foods', this.Food.foodId, 'edit']);
+  }
 
-    GetFoodTags(): ITag[] {
-        let origianls = this.Food.tags ? this.Food.tags : [];
-        let autoTags = this.Food.autoTags ? this.Food.autoTags : [];
-        return origianls.concat(autoTags);
-    }
+  GetFoodTags(): ITag[] {
+    let origianls = this.Food.tags ? this.Food.tags : [];
+    let autoTags = this.Food.autoTags ? this.Food.autoTags : [];
+    return origianls.concat(autoTags);
+  }
 
-    GetFoodUrl(ObjFood: ISendableFood): string {
-        return Food.GetImageForFood(ObjFood);
-    }
+  GetFoodUrl(ObjFood: ISendableFood): string {
+    return Food.GetImageForFood(ObjFood);
+  }
 }
