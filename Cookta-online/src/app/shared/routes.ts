@@ -5,16 +5,17 @@ export class Myclass {
 
 export class Routes {
   public static readonly Food = {
-    GetPublicFoods: "/food",
-    PostFood: "/food",
-    GetCollectionFoods: "/food/collection",
-    GetFoodId: "/food/{id}",
-    DeleteFoodId: "/food/{id}",
-    GetFoodFrom: "/food/{from}/{count}",
-    PostFoodImage: "/food/image/{foodVersionId}",
-    DeleteFoodImage: "/food/image/{foodVersionId}",
-    GetOwnFoods: "/food/own",
-    GetFamilyFoods: "/food/family",
+    GetPublicFoods: '/food',
+    PostFood: '/food',
+    GetCollectionFoods: '/food/collection',
+    GetFoodId: '/food/{id}',
+    GetFoodPageById: '/food/page/{id}/{count}',
+    DeleteFoodId: '/food/{id}',
+    GetFoodFrom: '/food/{from}/{count}',
+    PostFoodImage: '/food/image/{foodVersionId}',
+    DeleteFoodImage: '/food/image/{foodVersionId}',
+    GetOwnFoods: '/food/own',
+    GetFamilyFoods: '/food/family',
     GetSubscriptionFoods: '/food/subscription',
     SetSubscription: '/subscription'
   };

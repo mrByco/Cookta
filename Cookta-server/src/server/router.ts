@@ -380,20 +380,42 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new FoodController();
                 const promise = controller.GetFoodById(request.body as void, user, args.id);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => {
+                });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;
                 response.status(error.status || 401);
-                next(error)
+                next(error);
             });
         });
 
 
+    app.get('/food/page/:id/:count',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, true, [], (error) => {
+            }).then((user) => {
+                const args = {
+                    id: request.params['id'],
+                    count: request.params['count']
+                };
+                const controller = new FoodController();
+                const promise = controller.GetFoodPageById(request.body as void, user, args.id, args.count);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => {
+                });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error);
+            });
+        });
+
 
     app.post('/food/',
         function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => {
+            }).then((user) => {
                 const args = {
                 };
                 const controller = new FoodController();

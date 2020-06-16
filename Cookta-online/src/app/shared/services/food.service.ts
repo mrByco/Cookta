@@ -3,6 +3,7 @@ import {ServerService} from './server.service';
 import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
 import {IUpdateFoodRequest} from '../../../../../Cookta-shared/src/contracts/foods/update-food.request';
+import {ISendableFood} from '../../../../../Cookta-shared/src/models/food/food-sendable.interface';
 
 @Injectable()
 export class FoodService {
@@ -94,11 +95,12 @@ export class FoodService {
   }
 
   public async GetFood(id: string): Promise<Food> {
-    let response = await this.serverService.GetRequest(Routes.Food.GetFoodId.replace('{id}', id));
+    let response = await this.serverService.GetRequest(Routes.Food.GetFoodPageById.replace('{id}', id).replace('{count}', '10'));
 
     return new Promise((resolve) => {
-      response.subscribe(data => {
-        resolve(Food.FromJson(data));
+      response.subscribe(d => {
+        let data = d as { food: ISendableFood, recommendations: ISendableFood[] };
+        resolve(Food.FromJson(data.food));
       }, () => {
         return null;
       });

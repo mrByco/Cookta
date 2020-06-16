@@ -18,7 +18,7 @@ const SearchFoods: IRoute<void, {results: ISendableFood[]}, {text: string, count
 
 //Get, set, delete
 const GetFoodById: IRoute<void, ISendableFood, { id: string }> = {method: ERouteMethod.GET, path: ''};
-const GetFoodPageById: IRoute<void, { food: ISendableFood, recommendations: ISendableFood[] }, { id: string }> = {
+const GetFoodPageById: IRoute<void, { food: ISendableFood, recommendations: ISendableFood[] }, { id: string, count: number }> = {
     method: ERouteMethod.GET,
     path: 'page'
 };

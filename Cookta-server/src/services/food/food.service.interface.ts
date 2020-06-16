@@ -1,6 +1,7 @@
 import {Food} from '../../models/food/food.model';
 import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
 import {Family} from '../../models/family.model';
+import {User} from '../../models/user.model';
 
 export interface IFoodService {
     GetAllFoods(filter: any): Food[]
@@ -32,4 +33,6 @@ export interface IFoodService {
     FilterByTags(foods: Food[], tagId: string): Food[]
 
     GetCollectionForUser(userSub: string, currentFamily: Family): Promise<Food[]>
+
+    GetFoodRecommendations(food: Food, count: number, user?: User): Promise<Food[]>;
 }

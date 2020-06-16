@@ -1,16 +1,17 @@
-import {Food} from "../../models/food/food.model";
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {IFoodService} from "./food.service.interface";
+import {Food} from '../../models/food/food.model';
+import {StoreService} from 'atomik/lib/store-service/store-service';
+import {IFoodService} from './food.service.interface';
 import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
-import {Services} from "../../Services";
-import {ObjectID} from "mongodb";
-import {MongoHelper} from "../../helpers/mongo.helper";
-import {Subscription} from "../../models/subscription.model";
-import {Family} from "../../models/family.model";
-import {uploadLocalJPEGImage} from "../../helpers/blobs";
+import {Services} from '../../Services';
+import {ObjectID} from 'mongodb';
+import {MongoHelper} from '../../helpers/mongo.helper';
+import {Subscription} from '../../models/subscription.model';
+import {Family} from '../../models/family.model';
+import {uploadLocalJPEGImage} from '../../helpers/blobs';
 import {Tag} from '../../models/tag.model';
+import {User} from '../../models/user.model';
 
-const BlobContainerName = "foodimages";
+const BlobContainerName = 'foodimages';
 
 export class FoodService extends StoreService<Food> implements IFoodService {
 
@@ -177,6 +178,43 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             tagsToCheck.shift();
         }
         return {tags: tags};
+    }
+
+    async GetFoodRecommendations(food: Food, count: number, user?: User): Promise<Food[]> {
+        let userCollection = await this.GetCollectionForUser(user.sub, user.GetCurrentFamily());
+        let collectionIds = userCollection.map(f => f.id);
+        let recommendations: Food[] = [];
+
+        let publicFoods: Food[] = this.Items.filter(f => !f.private);
+
+        for (let matchTags = food.tags.length;
+             matchTags > 0 && recommendations.length < count;
+             matchTags--) {
+            let unknownFound = publicFoods.filter(i => !collectionIds.includes(i.id) && this.countMatchTags(food, i) == matchTags);
+            recommendations.push(...recommendations.length + unknownFound.length > count
+                ? unknownFound.slice(0, count - recommendations.length)
+                : unknownFound);
+        }
+
+        for (let matchTags = food.tags.length;
+             matchTags > 0 && recommendations.length < count;
+             matchTags--) {
+            let knownFound = userCollection.filter(i =>
+                !recommendations.find(r => r.id == i.id) && this.countMatchTags(food, i) == matchTags);
+            recommendations.push(...recommendations.length + knownFound.length > count ?
+                knownFound.slice(0, count - recommendations.length) :
+                knownFound);
+        }
+
+        return recommendations;
+    }
+
+    countMatchTags(food1: Food, food2: Food): number {
+        let match = 0;
+        food1.generated?.tags?.forEach(t => {
+            food2.generated?.tags?.forEach(t2 => match += t.guid == t2.guid ? 1 : 0);
+        });
+        return match;
     }
 
 

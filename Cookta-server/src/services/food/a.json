@@ -1,0 +1,997 @@
+{
+  "recommendations": [
+    {
+      "tags": [
+        {
+          "guid": "d493dd92-3a63-465c-9197-10d33f8d1ba0",
+          "name": "édes tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Mákos tészta",
+      "desc": "A mákot és a porcukrot összekeverjük (ha a porcukorban vannak darabok szét nyomkodhatjuk villával vagy kanállal). A tésztát sós vízben megfőzzük, majd leszűrjük. Az így megüresedett edényben megolvasztjuk a vajat, és összekeverjük a tésztával. Majd rászórjuk a mákot.",
+      "published": false,
+      "ingredients": [
+        {
+          "ingredientID": "a7190305-b419-48c6-85f5-08dfec255696",
+          "unit": "g",
+          "value": 400
+        },
+        {
+          "ingredientID": "b7f45780-893c-4820-9626-f1d1d9dd0235",
+          "unit": "g",
+          "value": 120
+        },
+        {
+          "ingredientID": "069475dd-4288-4d36-89fa-6f48a5bea113",
+          "unit": "g",
+          "value": 40
+        },
+        {
+          "ingredientID": "9355e05d-f18c-4087-b7de-671c74b5112f",
+          "unit": "g",
+          "value": 160
+        }
+      ],
+      "dose": 4,
+      "id": "5d4c5fba5a87670034d65a1e",
+      "owner": "windowslive|45fb2928f10b632d",
+      "imageUploaded": 1565287054632,
+      "uploaded": 1590179906246,
+      "lastModified": 1565287064152,
+      "subscriptions": 1,
+      "foodId": "5d4c5fba5a87670034d65a1e",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "palacsinta",
+          "name": "palacsinta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        },
+        {
+          "guid": "hus_mentes",
+          "name": "húsmentes",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "d493dd92-3a63-465c-9197-10d33f8d1ba0",
+          "name": "édes tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Palacsinta",
+      "desc": "A tejet a liszttel, tojásokkal, olajjal összekeverjük (botturmixszal is keverhetjük), majd állni hagyjuk 1 órán át a hűtőben. Kiolajozott palacsintasütőben sütjük. A tészta szódavízzel hígítható. Fogyaszthatjuk sós vagy édes töltelékkel. (Túró, lekvár, mogyorókrém, dió, kakaó stb.)",
+      "published": false,
+      "ingredients": [
+        {
+          "ingredientID": "45b0d523-bff3-4c1d-bed1-7461253b3bf0",
+          "unit": "dkg",
+          "value": 40
+        },
+        {
+          "ingredientID": "81e6d431-e190-42c4-b558-e90e680cea50",
+          "unit": "l",
+          "value": 1
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 2
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "164f22d9-5b3c-481d-b3f1-d57e7520e983",
+          "value": 1
+        },
+        {
+          "ingredientID": "aa91eecd-4f7c-4bb6-a87d-d1448db902c7",
+          "unit": "dl",
+          "value": 0.5
+        }
+      ],
+      "dose": 4,
+      "id": "5d43b1c6d56bd500343f69b6",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1564717651574,
+      "uploaded": 1590116643629,
+      "lastModified": 1567358466159,
+      "subscriptions": 3,
+      "foodId": "5d43b1c6d56bd500343f69b6",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "hus_mentes",
+          "name": "húsmentes",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "67e1547b-341c-4b8a-9f7f-50d6994476cc",
+          "name": "hústalan tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Sajtos makaróni",
+      "desc": "A tésztát sós vízben kifőzzük, leszűrjük. A sajtot megreszeljük, a tésztára szórjuk, összekeverjük, és hozzáadjuk a tejfölt.",
+      "published": true,
+      "ingredients": [
+        {
+          "ingredientID": "62adc0ea-9c81-4bfc-8fb3-35925bb3df3e",
+          "unit": "g",
+          "value": 250
+        },
+        {
+          "ingredientID": "6a9a901a-5a0b-477b-8e2e-788d28e10984",
+          "unit": "dkg",
+          "value": 20
+        },
+        {
+          "ingredientID": "b036b2b5-49d2-4f7b-a21e-b904600767e2",
+          "unit": "dkg",
+          "value": 40
+        }
+      ],
+      "dose": 4,
+      "id": "5d52c7dd213534003452d687",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1565706206398,
+      "uploaded": 1565706205729,
+      "lastModified": 1566657234774,
+      "subscriptions": 1,
+      "foodId": "5d52c7dd213534003452d687",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "hus_mentes",
+          "name": "húsmentes",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "67e1547b-341c-4b8a-9f7f-50d6994476cc",
+          "name": "hústalan tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Cukkinis tészta",
+      "desc": "A felforrósított zsiradékra (olaj vagy vaj) halmozzuk a megtisztított cukkinit. Hozzáadjuk a zúzott fokhagymát, fűszereket és pár percig kevergetjük. Aláöntjük a vizet és a cukkini korától függően 20-30 perc alatt megpároljuk. Villával összetörjük, rászórjuk a lisztet, összekeverjük, 5 perc alatt besűrítjük. Beletesszük a tejfölt és öt perc alatt készre főzzük. A recept erősen fokhagymás, mennyisége ízlés szerint csökkenthető, a zöldfúszerek mennyisége növelhető. A mártást spagettitésztávaé vagy szélesmetélttel tálaljuk. Ízlés szerint megszórható parmezánnal.",
+      "published": true,
+      "ingredients": [
+        {
+          "ingredientID": "aa91eecd-4f7c-4bb6-a87d-d1448db902c7",
+          "unit": "tablespoon",
+          "value": 3
+        },
+        {
+          "ingredientID": "2e2e700d-ec92-4d61-b149-f811c5fdfc11",
+          "unit": "dkg",
+          "value": 60
+        },
+        {
+          "ingredientID": "424971a9-74e3-4446-acae-cde805e3fed0",
+          "unit": "27084473-f419-4c6b-951f-cc2c4ccecb5a",
+          "value": 6
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "teaspoon",
+          "value": 1
+        },
+        {
+          "ingredientID": "bc4287c4-1a0b-4d81-b70b-2a3bbee46640",
+          "unit": "e1766de4-6f56-4784-9165-d5c7c66757a5",
+          "value": 0.5
+        },
+        {
+          "ingredientID": "ab2ae0c0-72e9-414a-8048-ebe8778c66f0",
+          "unit": "524f225b-0a78-444b-b22e-a23544097dfd",
+          "value": 1
+        },
+        {
+          "ingredientID": "6626e891-f898-4c6f-9e9a-c2977c6608ff",
+          "unit": "8684e33a-6177-4563-9b0f-a8a412dae508",
+          "value": 1
+        },
+        {
+          "ingredientID": "f3a61bd7-a656-488f-b776-63a2fcee6b3b",
+          "unit": "dl",
+          "value": 1.5
+        },
+        {
+          "ingredientID": "45b0d523-bff3-4c1d-bed1-7461253b3bf0",
+          "unit": "b91857c2-b5cd-4db8-bfa1-e0e131ee280a",
+          "value": 2
+        },
+        {
+          "ingredientID": "b036b2b5-49d2-4f7b-a21e-b904600767e2",
+          "unit": "dkg",
+          "value": 20
+        },
+        {
+          "ingredientID": "a7190305-b419-48c6-85f5-08dfec255696",
+          "unit": "g",
+          "value": 250
+        }
+      ],
+      "dose": 4,
+      "id": "5d4affbeac204000349d7cfc",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1565196224320,
+      "uploaded": 1565196222700,
+      "lastModified": 1566656517436,
+      "subscriptions": 2,
+      "foodId": "5d4affbeac204000349d7cfc",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "daralt_husos",
+          "name": "darált húsos",
+          "parentId": "husetelek",
+          "ischildonly": true
+        },
+        {
+          "guid": "paradicsomos",
+          "name": "paradicsomos",
+          "parentId": "f8407bad-6de8-4b2d-98c7-041dc261fbc2",
+          "ischildonly": true
+        },
+        {
+          "guid": "524f91e7-ee11-4d59-ab64-9e9e6e3dd6c7",
+          "name": "húsos tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "husetelek",
+          "name": "húsételek",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "f8407bad-6de8-4b2d-98c7-041dc261fbc2",
+          "name": "zöldséges",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Bolognai spagetti",
+      "desc": "A zsiradékon a vöröshagymát megdinszteljük, sózzuk, rászórjuk a paprikát, belekeverjük a húst, fehéredésig pirítjuk. Ráöntjük a paradicsomot, ízlés szerint fűszerezzük, főzzük, amíg a hús megpuhul (kb. 40 perc). Kifőzött spagettitésztával tálaljuk, reszelt sajttal megszórhatjuk.",
+      "published": false,
+      "ingredients": [
+        {
+          "ingredientID": "8f03bc9e-9475-4366-bdcf-c2f1829933b6",
+          "unit": "a6f81736-7332-44b0-b291-6240b43d21cc",
+          "value": 3
+        },
+        {
+          "ingredientID": "78ca956a-88fa-453f-b4ed-f924f2f8f8f8",
+          "unit": "head",
+          "value": 1
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "teaspoon",
+          "value": 2
+        },
+        {
+          "ingredientID": "a74bed40-ed12-43a6-acd2-972e2fad2d9f",
+          "unit": "g",
+          "value": 500
+        },
+        {
+          "ingredientID": "d0c4266f-105b-e30f-e9f2-bb8874c72846",
+          "unit": "g",
+          "value": 4
+        },
+        {
+          "ingredientID": "c1946630-7df8-4120-a0a9-5a74f497ee48",
+          "unit": "g",
+          "value": 500
+        },
+        {
+          "ingredientID": "bc4287c4-1a0b-4d81-b70b-2a3bbee46640",
+          "unit": "e1766de4-6f56-4784-9165-d5c7c66757a5",
+          "value": 0.5
+        },
+        {
+          "ingredientID": "ab2ae0c0-72e9-414a-8048-ebe8778c66f0",
+          "unit": "524f225b-0a78-444b-b22e-a23544097dfd",
+          "value": 4
+        },
+        {
+          "ingredientID": "f4ac22fb-0f4f-4235-9b40-8e8b0c2ebe24",
+          "unit": "d29a3180-cb12-4dc9-8333-e371c55c667a",
+          "value": 4
+        },
+        {
+          "ingredientID": "6626e891-f898-4c6f-9e9a-c2977c6608ff",
+          "unit": "8684e33a-6177-4563-9b0f-a8a412dae508",
+          "value": 2
+        },
+        {
+          "ingredientID": "a2c81e73-39b0-4cfa-a67e-9f6319c97c0c",
+          "unit": "kg",
+          "value": 0.5
+        }
+      ],
+      "dose": 4,
+      "id": "5d42da817175860034c36b15",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1564975849346,
+      "uploaded": 1564662401137,
+      "lastModified": 1569412793429,
+      "subscriptions": 3,
+      "foodId": "5d42da817175860034c36b15",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "turos",
+          "name": "túrós",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "palacsinta",
+          "name": "palacsinta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        },
+        {
+          "guid": "d493dd92-3a63-465c-9197-10d33f8d1ba0",
+          "name": "édes tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Sült túrós palacsinta",
+      "desc": "A tejet a liszttel, tojásokkal, olajjal összekeverjük, majd állni hagyjuk 1 órán át a hűtőben. Kiolajozott palacsintasütőben a palacsintákat megsütjük. A túrót az olvasztott vajjal, cukorral, tojássárgákkal, sóval és rumaromával összekeverjük, hozzáadjuk a felvert tojásfehérjét. A keverékkel a palacsintákat megtöltjük, és kétfelé vágva vágott felükkel felfelé kivajazott tűzálló tálba fektetjük. A tejet a tojással és cukorral, vaníliás cukorral összekeverjük, a palacsintákra öntjük. Előmelegített 180 C fokos sütőben 25-30 perc alatt aranybarnára sütjük.",
+      "published": true,
+      "ingredients": [
+        {
+          "ingredientID": "45b0d523-bff3-4c1d-bed1-7461253b3bf0",
+          "unit": "dkg",
+          "value": 40
+        },
+        {
+          "ingredientID": "81e6d431-e190-42c4-b558-e90e680cea50",
+          "unit": "l",
+          "value": 1
+        },
+        {
+          "ingredientID": "aa91eecd-4f7c-4bb6-a87d-d1448db902c7",
+          "unit": "dl",
+          "value": 0.5
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 2
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "164f22d9-5b3c-481d-b3f1-d57e7520e983",
+          "value": 1
+        },
+        {
+          "ingredientID": "198a1863-8a8e-485e-ac70-06471da9fdd1",
+          "unit": "dkg",
+          "value": 35
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 3
+        },
+        {
+          "ingredientID": "ff24aab3-c0ad-4180-8f1a-7cbbb019d0e0",
+          "unit": "dkg",
+          "value": 10
+        },
+        {
+          "ingredientID": "c42f0c04-add6-4f41-b5de-09269b83d2de",
+          "unit": "d0537c59-f4ba-4885-9ee1-8d536c86b190",
+          "value": 1
+        },
+        {
+          "ingredientID": "069475dd-4288-4d36-89fa-6f48a5bea113",
+          "unit": "dkg",
+          "value": 8
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "164f22d9-5b3c-481d-b3f1-d57e7520e983",
+          "value": 1
+        },
+        {
+          "ingredientID": "81e6d431-e190-42c4-b558-e90e680cea50",
+          "unit": "dl",
+          "value": 1
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 1
+        },
+        {
+          "ingredientID": "ff24aab3-c0ad-4180-8f1a-7cbbb019d0e0",
+          "unit": "dkg",
+          "value": 3
+        },
+        {
+          "ingredientID": "364cfe29-9478-7eea-9327-e8e78c36fe47",
+          "unit": "g",
+          "value": 100
+        }
+      ],
+      "dose": 4,
+      "id": "5d43b2d8d56bd500343f69b7",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1564718363055,
+      "uploaded": 1590116683752,
+      "lastModified": 1564718361720,
+      "subscriptions": 1,
+      "foodId": "5d43b2d8d56bd500343f69b7",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "hus_mentes",
+          "name": "húsmentes",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "turos",
+          "name": "túrós",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "sutoben_sult",
+          "name": "sütőben sült",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "d493dd92-3a63-465c-9197-10d33f8d1ba0",
+          "name": "édes tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Stíriai metélt",
+      "desc": "A túróból 1 tojással és a liszttel, kevés sóval, 1 kanál tejföllel gyúrt tésztát készítünk. Kinyújtjuk, csíkokra vágjuk, forró sós vízben kifőzzük. A vajat 3 tojássárgával 2 ek cukorral és tejföllel jól elkeverjük, beletesszük a mazsolát és a tojások felvert habját. Szórhatunk bele citromhéjat is. A tésztával vegyítjük. Zsiradékkal kikent, morzsával meghintett formában kisütjük, kb. 30-35 perc 200 fokon.",
+      "published": true,
+      "ingredients": [
+        {
+          "ingredientID": "198a1863-8a8e-485e-ac70-06471da9fdd1",
+          "unit": "dkg",
+          "value": 50
+        },
+        {
+          "ingredientID": "45b0d523-bff3-4c1d-bed1-7461253b3bf0",
+          "unit": "dkg",
+          "value": 20
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 1
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "164f22d9-5b3c-481d-b3f1-d57e7520e983",
+          "value": 1
+        },
+        {
+          "ingredientID": "b036b2b5-49d2-4f7b-a21e-b904600767e2",
+          "unit": "9313658e-47ae-4ed0-a653-429df68996c2",
+          "value": 1
+        },
+        {
+          "ingredientID": "069475dd-4288-4d36-89fa-6f48a5bea113",
+          "unit": "dkg",
+          "value": 4
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 3
+        },
+        {
+          "ingredientID": "ff24aab3-c0ad-4180-8f1a-7cbbb019d0e0",
+          "unit": "c0b7dea3-3062-4b3e-822a-d68553169ab3",
+          "value": 2
+        },
+        {
+          "ingredientID": "b036b2b5-49d2-4f7b-a21e-b904600767e2",
+          "unit": "dkg",
+          "value": 30
+        },
+        {
+          "ingredientID": "3b21421a-8c8d-4cfe-9f91-280395a51cff",
+          "unit": "dkg",
+          "value": 5
+        },
+        {
+          "ingredientID": "069475dd-4288-4d36-89fa-6f48a5bea113",
+          "unit": "dkg",
+          "value": 1
+        },
+        {
+          "ingredientID": "ea27083b-89df-445f-b555-68749d151360",
+          "unit": "13811d31-2d07-4a81-a677-82b3dfe83527",
+          "value": 1
+        }
+      ],
+      "dose": 4,
+      "id": "5d5633ed6dc30a00340421f9",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1565933700727,
+      "uploaded": 1590220792063,
+      "lastModified": 1565933699574,
+      "subscriptions": 1,
+      "foodId": "5d5633ed6dc30a00340421f9",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "turos",
+          "name": "túrós",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "palacsinta",
+          "name": "palacsinta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        },
+        {
+          "guid": "d493dd92-3a63-465c-9197-10d33f8d1ba0",
+          "name": "édes tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Sült túrós palacsinta",
+      "desc": "A tejet a liszttel, tojásokkal, olajjal összekeverjük, majd állni hagyjuk 1 órán át a hűtőben. Kiolajozott palacsintasütőben a palacsintákat megsütjük. A túrót az olvasztott vajjal, cukorral, tojássárgákkal, sóval és rumaromával összekeverjük, hozzáadjuk a felvert tojásfehérjét. A keverékkel a palacsintákat megtöltjük, és kétfelé vágva vágott felükkel felfelé kivajazott tűzálló tálba fektetjük. A tejet a tojással és cukorral, vaníliás cukorral összekeverjük, a palacsintákra öntjük. Előmelegített 180 C fokos sütőben 25-30 perc alatt aranybarnára sütjük.",
+      "published": true,
+      "ingredients": [
+        {
+          "ingredientID": "45b0d523-bff3-4c1d-bed1-7461253b3bf0",
+          "unit": "dkg",
+          "value": 40
+        },
+        {
+          "ingredientID": "81e6d431-e190-42c4-b558-e90e680cea50",
+          "unit": "l",
+          "value": 1
+        },
+        {
+          "ingredientID": "aa91eecd-4f7c-4bb6-a87d-d1448db902c7",
+          "unit": "dl",
+          "value": 0.5
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 2
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "164f22d9-5b3c-481d-b3f1-d57e7520e983",
+          "value": 1
+        },
+        {
+          "ingredientID": "198a1863-8a8e-485e-ac70-06471da9fdd1",
+          "unit": "dkg",
+          "value": 35
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 3
+        },
+        {
+          "ingredientID": "ff24aab3-c0ad-4180-8f1a-7cbbb019d0e0",
+          "unit": "dkg",
+          "value": 10
+        },
+        {
+          "ingredientID": "c42f0c04-add6-4f41-b5de-09269b83d2de",
+          "unit": "d0537c59-f4ba-4885-9ee1-8d536c86b190",
+          "value": 1
+        },
+        {
+          "ingredientID": "069475dd-4288-4d36-89fa-6f48a5bea113",
+          "unit": "dkg",
+          "value": 8
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "164f22d9-5b3c-481d-b3f1-d57e7520e983",
+          "value": 1
+        },
+        {
+          "ingredientID": "81e6d431-e190-42c4-b558-e90e680cea50",
+          "unit": "dl",
+          "value": 1
+        },
+        {
+          "ingredientID": "995768fb-f3ac-4428-b37f-07ef0bbb6813",
+          "unit": "db",
+          "value": 1
+        },
+        {
+          "ingredientID": "ff24aab3-c0ad-4180-8f1a-7cbbb019d0e0",
+          "unit": "dkg",
+          "value": 3
+        },
+        {
+          "ingredientID": "364cfe29-9478-7eea-9327-e8e78c36fe47",
+          "unit": "g",
+          "value": 100
+        }
+      ],
+      "dose": 4,
+      "id": "5d43b2d8d56bd500343f69b7",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1564718363055,
+      "uploaded": 1590116683752,
+      "lastModified": 1564718361720,
+      "subscriptions": 1,
+      "foodId": "5d43b2d8d56bd500343f69b7",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "daralt_husos",
+          "name": "darált húsos",
+          "parentId": "husetelek",
+          "ischildonly": true
+        },
+        {
+          "guid": "paradicsomos",
+          "name": "paradicsomos",
+          "parentId": "f8407bad-6de8-4b2d-98c7-041dc261fbc2",
+          "ischildonly": true
+        },
+        {
+          "guid": "524f91e7-ee11-4d59-ab64-9e9e6e3dd6c7",
+          "name": "húsos tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "husetelek",
+          "name": "húsételek",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "f8407bad-6de8-4b2d-98c7-041dc261fbc2",
+          "name": "zöldséges",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Bolognai spagetti",
+      "desc": "A zsiradékon a vöröshagymát megdinszteljük, sózzuk, rászórjuk a paprikát, belekeverjük a húst, fehéredésig pirítjuk. Ráöntjük a paradicsomot, ízlés szerint fűszerezzük, főzzük, amíg a hús megpuhul (kb. 40 perc). Kifőzött spagettitésztával tálaljuk, reszelt sajttal megszórhatjuk.",
+      "published": false,
+      "ingredients": [
+        {
+          "ingredientID": "8f03bc9e-9475-4366-bdcf-c2f1829933b6",
+          "unit": "a6f81736-7332-44b0-b291-6240b43d21cc",
+          "value": 3
+        },
+        {
+          "ingredientID": "78ca956a-88fa-453f-b4ed-f924f2f8f8f8",
+          "unit": "head",
+          "value": 1
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "teaspoon",
+          "value": 2
+        },
+        {
+          "ingredientID": "a74bed40-ed12-43a6-acd2-972e2fad2d9f",
+          "unit": "g",
+          "value": 500
+        },
+        {
+          "ingredientID": "d0c4266f-105b-e30f-e9f2-bb8874c72846",
+          "unit": "g",
+          "value": 4
+        },
+        {
+          "ingredientID": "c1946630-7df8-4120-a0a9-5a74f497ee48",
+          "unit": "g",
+          "value": 500
+        },
+        {
+          "ingredientID": "bc4287c4-1a0b-4d81-b70b-2a3bbee46640",
+          "unit": "e1766de4-6f56-4784-9165-d5c7c66757a5",
+          "value": 0.5
+        },
+        {
+          "ingredientID": "ab2ae0c0-72e9-414a-8048-ebe8778c66f0",
+          "unit": "524f225b-0a78-444b-b22e-a23544097dfd",
+          "value": 4
+        },
+        {
+          "ingredientID": "f4ac22fb-0f4f-4235-9b40-8e8b0c2ebe24",
+          "unit": "d29a3180-cb12-4dc9-8333-e371c55c667a",
+          "value": 4
+        },
+        {
+          "ingredientID": "6626e891-f898-4c6f-9e9a-c2977c6608ff",
+          "unit": "8684e33a-6177-4563-9b0f-a8a412dae508",
+          "value": 2
+        },
+        {
+          "ingredientID": "a2c81e73-39b0-4cfa-a67e-9f6319c97c0c",
+          "unit": "kg",
+          "value": 0.5
+        }
+      ],
+      "dose": 4,
+      "id": "5d42da817175860034c36b15",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1564975849346,
+      "uploaded": 1564662401137,
+      "lastModified": 1569412793429,
+      "subscriptions": 3,
+      "foodId": "5d42da817175860034c36b15",
+      "SubscribedFor": false,
+      "OwnFood": false
+    },
+    {
+      "tags": [
+        {
+          "guid": "hus_mentes",
+          "name": "húsmentes",
+          "parentId": null,
+          "ischildonly": true
+        },
+        {
+          "guid": "67e1547b-341c-4b8a-9f7f-50d6994476cc",
+          "name": "hústalan tészta",
+          "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "ischildonly": true
+        }
+      ],
+      "autoTags": [
+        {
+          "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+          "name": "tészta",
+          "parentId": null,
+          "ischildonly": true
+        }
+      ],
+      "name": "Cukkinis tészta",
+      "desc": "A felforrósított zsiradékra (olaj vagy vaj) halmozzuk a megtisztított cukkinit. Hozzáadjuk a zúzott fokhagymát, fűszereket és pár percig kevergetjük. Aláöntjük a vizet és a cukkini korától függően 20-30 perc alatt megpároljuk. Villával összetörjük, rászórjuk a lisztet, összekeverjük, 5 perc alatt besűrítjük. Beletesszük a tejfölt és öt perc alatt készre főzzük. A recept erősen fokhagymás, mennyisége ízlés szerint csökkenthető, a zöldfúszerek mennyisége növelhető. A mártást spagettitésztávaé vagy szélesmetélttel tálaljuk. Ízlés szerint megszórható parmezánnal.",
+      "published": true,
+      "ingredients": [
+        {
+          "ingredientID": "aa91eecd-4f7c-4bb6-a87d-d1448db902c7",
+          "unit": "tablespoon",
+          "value": 3
+        },
+        {
+          "ingredientID": "2e2e700d-ec92-4d61-b149-f811c5fdfc11",
+          "unit": "dkg",
+          "value": 60
+        },
+        {
+          "ingredientID": "424971a9-74e3-4446-acae-cde805e3fed0",
+          "unit": "27084473-f419-4c6b-951f-cc2c4ccecb5a",
+          "value": 6
+        },
+        {
+          "ingredientID": "d133d8f7-4a19-4cda-baeb-62cb519923b0",
+          "unit": "teaspoon",
+          "value": 1
+        },
+        {
+          "ingredientID": "bc4287c4-1a0b-4d81-b70b-2a3bbee46640",
+          "unit": "e1766de4-6f56-4784-9165-d5c7c66757a5",
+          "value": 0.5
+        },
+        {
+          "ingredientID": "ab2ae0c0-72e9-414a-8048-ebe8778c66f0",
+          "unit": "524f225b-0a78-444b-b22e-a23544097dfd",
+          "value": 1
+        },
+        {
+          "ingredientID": "6626e891-f898-4c6f-9e9a-c2977c6608ff",
+          "unit": "8684e33a-6177-4563-9b0f-a8a412dae508",
+          "value": 1
+        },
+        {
+          "ingredientID": "f3a61bd7-a656-488f-b776-63a2fcee6b3b",
+          "unit": "dl",
+          "value": 1.5
+        },
+        {
+          "ingredientID": "45b0d523-bff3-4c1d-bed1-7461253b3bf0",
+          "unit": "b91857c2-b5cd-4db8-bfa1-e0e131ee280a",
+          "value": 2
+        },
+        {
+          "ingredientID": "b036b2b5-49d2-4f7b-a21e-b904600767e2",
+          "unit": "dkg",
+          "value": 20
+        },
+        {
+          "ingredientID": "a7190305-b419-48c6-85f5-08dfec255696",
+          "unit": "g",
+          "value": 250
+        }
+      ],
+      "dose": 4,
+      "id": "5d4affbeac204000349d7cfc",
+      "owner": "windowslive|c8522667fa96a7ff",
+      "imageUploaded": 1565196224320,
+      "uploaded": 1565196222700,
+      "lastModified": 1566656517436,
+      "subscriptions": 2,
+      "foodId": "5d4affbeac204000349d7cfc",
+      "SubscribedFor": false,
+      "OwnFood": false
+    }
+  ],
+  "food": {
+    "tags": [
+      {
+        "guid": "d493dd92-3a63-465c-9197-10d33f8d1ba0",
+        "name": "édes tészta",
+        "parentId": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+        "ischildonly": true
+      }
+    ],
+    "autoTags": [
+      {
+        "guid": "c1d31220-9ec3-435e-9c40-01e834aef98e",
+        "name": "tészta",
+        "parentId": null,
+        "ischildonly": true
+      }
+    ],
+    "name": "Mákos tészta",
+    "desc": "A mákot és a porcukrot összekeverjük (ha a porcukorban vannak darabok szét nyomkodhatjuk villával vagy kanállal). A tésztát sós vízben megfőzzük, majd leszűrjük. Az így megüresedett edényben megolvasztjuk a vajat, és összekeverjük a tésztával. Majd rászórjuk a mákot.",
+    "published": false,
+    "ingredients": [
+      {
+        "ingredientID": "a7190305-b419-48c6-85f5-08dfec255696",
+        "unit": "g",
+        "value": 400
+      },
+      {
+        "ingredientID": "b7f45780-893c-4820-9626-f1d1d9dd0235",
+        "unit": "g",
+        "value": 120
+      },
+      {
+        "ingredientID": "069475dd-4288-4d36-89fa-6f48a5bea113",
+        "unit": "g",
+        "value": 40
+      },
+      {
+        "ingredientID": "9355e05d-f18c-4087-b7de-671c74b5112f",
+        "unit": "g",
+        "value": 160
+      }
+    ],
+    "dose": 4,
+    "id": "5d4c5fba5a87670034d65a1e",
+    "owner": "windowslive|45fb2928f10b632d",
+    "imageUploaded": 1565287054632,
+    "uploaded": 1590179906246,
+    "lastModified": 1565287064152,
+    "subscriptions": 1,
+    "foodId": "5d4c5fba5a87670034d65a1e",
+    "SubscribedFor": true,
+    "OwnFood": false
+  }
+}
