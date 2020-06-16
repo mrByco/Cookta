@@ -21,7 +21,7 @@ export class FoodDetailComponent implements OnInit {
   public ShowShortUnitNames: boolean;
   public ScaleToDose: number;
 
-  public Recommendations: ISendableFood[];
+  public Recommendations: Food[];
 
   constructor(
     public route: ActivatedRoute,
@@ -38,7 +38,21 @@ export class FoodDetailComponent implements OnInit {
     let Id = this.route.snapshot.params['id'];
     let Day = this.route.snapshot.params['day'];
     let MealIndex = this.route.snapshot.params['mealIndex'];
+    this.LoadData(Id, Day, MealIndex);
 
+    this.route.params.subscribe(params => {
+      this.Food = null;
+      this.ScaleToDose = null;
+
+      let Id = this.route.snapshot.params['id'];
+      let Day = this.route.snapshot.params['day'];
+      let MealIndex = this.route.snapshot.params['mealIndex'];
+      this.LoadData(Id, Day, MealIndex);
+    });
+
+  }
+
+  public async LoadData(Id: string, Day: string, MealIndex: string) {
     if (Day && MealIndex) {
       let day: Day | boolean = await this.mealingService.GetDay(Day) ?? await this.router.navigate(['foods', Id ?? '']);
       if (!day) return;
@@ -55,7 +69,6 @@ export class FoodDetailComponent implements OnInit {
       this.Recommendations = data.recommendations;
       this.ScaleToDose = this.Food.dose;
     }
-
   }
 
   public async Subscribe(state: boolean) {

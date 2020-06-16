@@ -12,7 +12,7 @@ export class FoodListComponent implements AfterViewInit {
   public FoodsToDisplay: Food[] = [];
   @Input('Expand') public Expand: boolean;
   public resizeDetector: any;
-  public readonly MinItemSize: number = 250;
+  public readonly MinItemSize: number = 260;
   public readonly MinMargin = this.MinItemSize / 40;
   public RequestedItemCount: number;
   @ViewChild('Container') public FoodContainer: ElementRef;
@@ -67,14 +67,16 @@ export class FoodListComponent implements AfterViewInit {
     this.m_CalculatedVerticalMargin = (containerHeight - (verticalItemCount * this.ItemHeight)) / verticalItemCount / 2;
     this.RequestedItemCount = verticalItemCount * horizontalItemCount;
     console.log(this.RequestedItemCount);
+    this.RefreshDisplayFoods();
   }
 
   private RefreshDisplayFoods() {
-    if (this.Expand) {
-      this.FoodsToDisplay = this.Foods;
-      return;
-    }
-    this.FoodsToDisplay = this.Foods.length > this.RequestedItemCount ? [...this.Foods.slice(0, this.RequestedItemCount)] : [...this.Foods];
+    setTimeout(() => {
+      if (this.Expand) {
+        this.FoodsToDisplay = this.Foods;
+        return;
+      }
+      this.FoodsToDisplay = this.Foods.length > this.RequestedItemCount ? [...this.Foods.slice(0, this.RequestedItemCount)] : [...this.Foods];
+    }, 0);
   }
-
 }
