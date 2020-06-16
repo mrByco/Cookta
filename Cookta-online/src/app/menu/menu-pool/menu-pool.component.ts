@@ -1,21 +1,20 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, ViewChild} from '@angular/core';
 import * as ResizeDetector from 'element-resize-detector';
-import {delay} from "rxjs/operators";
-import {FoodService} from "../../shared/services/food.service";
-import {IPoolItem} from "./pool-item-interface";
-import {TagService} from "../../shared/services/tag.service";
-import {EPoolSearchType} from "./pool-search-type-enum";
-import {PoolItemAnimationService} from "./pool-animation-service";
-import {ActivatedRoute, NavigationEnd, Params, Router} from "@angular/router";
-import {Food} from "../../shared/models/grocery/food.model";
-import {parseMappings} from "@angular/compiler-cli/ngcc/src/sourcemaps/source_file";
+import {delay} from 'rxjs/operators';
+import {FoodService} from '../../shared/services/food.service';
+import {IPoolItem} from './pool-item-interface';
+import {TagService} from '../../shared/services/tag.service';
+import {EPoolSearchType} from './pool-search-type-enum';
+import {PoolItemAnimationService} from './pool-animation-service';
+import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
+import {Food} from '../../shared/models/grocery/food.model';
 
 
 @Component({
-    selector: 'app-menu-pool',
-    templateUrl: './menu-pool.component.html',
-    styleUrls: ['./menu-pool.component.css'],
-    providers: [PoolItemAnimationService]
+  selector: 'app-menu-pool',
+  templateUrl: './menu-pool.component.html',
+  styleUrls: ['./menu-pool.component.css'],
+  providers: [PoolItemAnimationService]
 })
 export class MenuPoolComponent implements AfterViewInit, OnDestroy {
 

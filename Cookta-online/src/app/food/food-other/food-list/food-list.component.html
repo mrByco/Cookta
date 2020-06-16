@@ -1,6 +1,10 @@
 <div class="container-fluid">
-  <div class="row">
-    <app-food-item *ngFor="let food of Foods" [Food]="food"></app-food-item>
+  <div #Container class="row m-0" style="height: 100%; width: 100%">
+    <app-food-item *ngFor="let food of FoodsToDisplay"
+                   [Food]="food"
+                   [Height]="ItemHeight"
+                   [HorMargin]="MinMargin"
+                   [VertMargin]="VerticalMargin" [Width]="ItemWidth"></app-food-item>
   </div>
 </div>
 

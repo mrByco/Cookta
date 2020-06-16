@@ -32,15 +32,15 @@ export class FoodDetailComponent implements OnInit {
     public cookieService: CookieService) {
   }
 
-    public async ngOnInit() {
-        this.ShowShortUnitNames = this.cookieService.get('short-units') == 't';
+  public async ngOnInit() {
+    this.ShowShortUnitNames = this.cookieService.get('short-units') == 't';
 
-        let Id = this.route.snapshot.params['id'];
-        let Day = this.route.snapshot.params['day'];
-        let MealIndex = this.route.snapshot.params['mealIndex'];
+    let Id = this.route.snapshot.params['id'];
+    let Day = this.route.snapshot.params['day'];
+    let MealIndex = this.route.snapshot.params['mealIndex'];
 
-        if (Day && MealIndex) {
-            let day: Day | boolean = await this.mealingService.GetDay(Day) ?? await this.router.navigate(["foods", Id ?? '']);
+    if (Day && MealIndex) {
+      let day: Day | boolean = await this.mealingService.GetDay(Day) ?? await this.router.navigate(['foods', Id ?? '']);
             if (!day) return;
             let mealing = (day as Day).mealings[MealIndex];
             if (!mealing || mealing.type != 'final') {
@@ -50,9 +50,11 @@ export class FoodDetailComponent implements OnInit {
             this.Food = mealing.info.finalFood as ISendableFood;
             this.ScaleToDose = mealing.dose;
         } else {
-            this.Food = await this.foodService.GetFood(Id);
-            this.ScaleToDose = this.Food.dose;
-        }
+      let data = await this.foodService.GetFoodPage(Id);
+      this.Food = data.food;
+      this.Recommendations = data.recommendations;
+      this.ScaleToDose = this.Food.dose;
+    }
 
     }
 
