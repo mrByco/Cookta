@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Food} from '../../../shared/models/grocery/food.model';
 import {FoodService} from '../../../shared/services/food.service';
@@ -8,20 +8,23 @@ import {MealingService} from '../../../shared/services/mealing.service';
 import {Day} from '../../../shared/models/menu/day.model';
 import {ISendableFood} from '../../../../../../Cookta-shared/src/models/food/food-sendable.interface';
 import {ITag} from '../../../../../../Cookta-shared/src/models/tag/tag.interface';
+import {FoodListComponent} from "../../food-other/food-list/food-list.component";
 
 @Component({
   selector: 'app-food-detail',
   templateUrl: './food-detail.component.html',
   styleUrls: ['./food-detail.component.scss']
 })
-export class FoodDetailComponent implements OnInit {
+export class FoodDetailComponent implements AfterViewInit {
 
-  public Food: ISendableFood;
+  public Food: ISendableFood = null;
 
   public ShowShortUnitNames: boolean;
   public ScaleToDose: number;
 
   public Recommendations: Food[];
+
+  @ViewChild("RecommendList", {static: true}) RecommendList: FoodListComponent;
 
   constructor(
     public route: ActivatedRoute,
@@ -32,17 +35,12 @@ export class FoodDetailComponent implements OnInit {
     public cookieService: CookieService) {
   }
 
-  public async ngOnInit() {
+  public async ngAfterViewInit() {
     this.ShowShortUnitNames = this.cookieService.get('short-units') == 't';
 
-    let Id = this.route.snapshot.params['id'];
-    let Day = this.route.snapshot.params['day'];
-    let MealIndex = this.route.snapshot.params['mealIndex'];
-    this.LoadData(Id, Day, MealIndex);
-
     this.route.params.subscribe(params => {
-      this.Food = null;
-      this.ScaleToDose = null;
+      if (this.Food) this.Food = undefined;
+      if (this.ScaleToDose) this.ScaleToDose = undefined;
 
       let Id = this.route.snapshot.params['id'];
       let Day = this.route.snapshot.params['day'];
@@ -64,7 +62,7 @@ export class FoodDetailComponent implements OnInit {
       this.Food = mealing.info.finalFood as ISendableFood;
       this.ScaleToDose = mealing.dose;
     } else {
-      let data = await this.foodService.GetFoodPage(Id);
+      let data = await this.foodService.GetFoodPage(Id, this.RecommendList.RequestedItemCount);
       this.Food = data.food;
       this.Recommendations = data.recommendations;
       this.ScaleToDose = this.Food.dose;

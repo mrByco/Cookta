@@ -25,8 +25,6 @@ export class FoodItemComponent implements OnInit {
   }
 
   async OnCardClick() {
-    console.log('click');
-    console.log(this.Food.foodId);
     await this.router.navigate(['/foods', this.Food.foodId]);
   }
 }

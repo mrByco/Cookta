@@ -106,8 +106,8 @@ export class FoodService {
     });
   }
 
-  public async GetFoodPage(id: string): Promise<{ food: Food, recommendations: Food[] }> {
-    let response = await this.serverService.GetRequest(Routes.Food.GetFoodPageById.replace('{id}', id).replace('{count}', '10'));
+  public async GetFoodPage(id: string, count: number): Promise<{ food: Food, recommendations: Food[] }> {
+    let response = await this.serverService.GetRequest(Routes.Food.GetFoodPageById.replace('{id}', id).replace('{count}', count.toString()));
 
     return new Promise((resolve) => {
       response.subscribe(d => {

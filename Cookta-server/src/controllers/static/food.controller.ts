@@ -114,8 +114,8 @@ export class FoodController {
 
     @Security(true)
     public async SearchFoods(reqBody: void, user: User, text: string, count: number): Promise<{ results: ISendableFood[] }> {
-        if (count < 1) return {results: []};
-        return {results: await SendableFood.ToSendableAll(await Services.FoodService.FoodSearch(text, +count), user)};
+        if (count < 1) return { results: [] };
+        return { results: await SendableFood.ToSendableAll(await Services.FoodService.FoodSearch(text, +count), user) };
     }
 
     @Security(true)
@@ -125,6 +125,6 @@ export class FoodController {
         let recommendations: Food[] = await Services.FoodService.GetFoodRecommendations(food, count, user);
         let sendRecommendations: ISendableFood[] = await SendableFood.ToSendableAll(recommendations);
 
-        return {recommendations: sendRecommendations, food: sendFood};
+        return { recommendations: sendRecommendations, food: sendFood };
     }
 }
