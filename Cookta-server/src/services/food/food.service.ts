@@ -119,9 +119,14 @@ export class FoodService extends StoreService<Food> implements IFoodService {
 
 
     async GetCollectionForUser(userSub: string, currentFamily: Family): Promise<Food[]> {
-        let foods = await Subscription.GetSubsFoodsOfUser(userSub);
-        foods = foods.concat(this.GetAllOwnFoods(userSub));
-        return foods.concat(await currentFamily.GetFamilyFoods());
+        let subFoods = await Subscription.GetSubsFoodsOfUser(userSub);
+        let ownFoods = this.GetAllOwnFoods(userSub);
+        let familyFoods = await currentFamily.GetFamilyFoods();
+        let foods: Food[] = [];
+        foods.push(...subFoods);
+        foods.push(...ownFoods.filter(ownFood => !foods.find(f => f.id == ownFood.id)));
+        foods.push(...familyFoods.filter(familyFood => !foods.find(f => f.id == familyFood.id)));
+        return foods;
     }
 
 
