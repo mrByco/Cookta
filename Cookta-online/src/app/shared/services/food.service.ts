@@ -95,6 +95,18 @@ export class FoodService {
   }
 
   public async GetFood(id: string): Promise<Food> {
+    let response = await this.serverService.GetRequest(Routes.Food.GetFoodById.replace('{id}', id));
+
+    return new Promise((resolve) => {
+      response.subscribe(d => {
+        resolve(Food.FromJson(d));
+      }, () => {
+        return null;
+      });
+    });
+  }
+
+  public async GetFoodPage(id: string): Promise<Food> {
     let response = await this.serverService.GetRequest(Routes.Food.GetFoodPageById.replace('{id}', id).replace('{count}', '10'));
 
     return new Promise((resolve) => {

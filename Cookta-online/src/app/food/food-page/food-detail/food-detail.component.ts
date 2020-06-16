@@ -1,34 +1,36 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {Food} from "../../../shared/models/grocery/food.model";
-import {FoodService} from "../../../shared/services/food.service";
-import {IdentityService} from "../../../shared/services/identity.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {Food} from '../../../shared/models/grocery/food.model';
+import {FoodService} from '../../../shared/services/food.service';
+import {IdentityService} from '../../../shared/services/identity.service';
 import {CookieService} from 'ngx-cookie-service';
-import {MealingService} from "../../../shared/services/mealing.service";
-import {Day} from "../../../shared/models/menu/day.model";
+import {MealingService} from '../../../shared/services/mealing.service';
+import {Day} from '../../../shared/models/menu/day.model';
 import {ISendableFood} from '../../../../../../Cookta-shared/src/models/food/food-sendable.interface';
-import {ITag} from "../../../../../../Cookta-shared/src/models/tag/tag.interface";
+import {ITag} from '../../../../../../Cookta-shared/src/models/tag/tag.interface';
 
 @Component({
-    selector: 'app-food-detail',
-    templateUrl: './food-detail.component.html',
-    styleUrls: ['./food-detail.component.scss']
+  selector: 'app-food-detail',
+  templateUrl: './food-detail.component.html',
+  styleUrls: ['./food-detail.component.scss']
 })
 export class FoodDetailComponent implements OnInit {
 
-    public Food: ISendableFood;
+  public Food: ISendableFood;
 
-    public ShowShortUnitNames: boolean;
-    public ScaleToDose: number;
+  public ShowShortUnitNames: boolean;
+  public ScaleToDose: number;
 
-    constructor(
-        public route: ActivatedRoute,
-        public foodService: FoodService,
-        public identityService: IdentityService,
-        public router: Router,
-        public mealingService: MealingService,
-        public cookieService: CookieService) {
-    }
+  public Recommendations: ISendableFood[];
+
+  constructor(
+    public route: ActivatedRoute,
+    public foodService: FoodService,
+    public identityService: IdentityService,
+    public router: Router,
+    public mealingService: MealingService,
+    public cookieService: CookieService) {
+  }
 
     public async ngOnInit() {
         this.ShowShortUnitNames = this.cookieService.get('short-units') == 't';

@@ -8,7 +8,7 @@ export class Routes {
     GetPublicFoods: '/food',
     PostFood: '/food',
     GetCollectionFoods: '/food/collection',
-    GetFoodId: '/food/{id}',
+    GetFoodById: '/food/{id}',
     GetFoodPageById: '/food/page/{id}/{count}',
     DeleteFoodId: '/food/{id}',
     GetFoodFrom: '/food/{from}/{count}',
