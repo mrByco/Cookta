@@ -77,9 +77,10 @@ import {UserProfileModalComponent} from './profile/user-profile/user-profile-mod
 import {UserProfilePanelComponent} from './profile/user-profile/user-profile-panel/user-profile-panel.component';
 import {ConfirmDeleteModalComponent} from './identity/confirm-delete-modal/confirm-delete-modal.component';
 import {PublicFoodsComponent} from './food/food-other/public-foods/public-foods.component';
+import { HomeComponentComponent } from './home/home-component/home-component.component';
 
 const appRoutes: Routes = [
-  {path: '', component: PublicFoodsComponent},
+  {path: '', component: HomeComponentComponent},
   {path: 'foods', component: PublicFoodsComponent},
   {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
   {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -152,6 +153,7 @@ const appRoutes: Routes = [
     UserProfilePanelComponent,
     ConfirmDeleteModalComponent,
     PublicFoodsComponent,
+    HomeComponentComponent,
   ],
   imports: [
     BrowserModule,
