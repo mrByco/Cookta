@@ -78,6 +78,7 @@ import {UserProfilePanelComponent} from './profile/user-profile/user-profile-pan
 import {ConfirmDeleteModalComponent} from './identity/confirm-delete-modal/confirm-delete-modal.component';
 import {PublicFoodsComponent} from './food/food-other/public-foods/public-foods.component';
 import { HomeComponentComponent } from './home/home-component/home-component.component';
+import { SquareHomeContentComponent } from './home/square-home-content/square-home-content.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponentComponent},
@@ -154,6 +155,7 @@ const appRoutes: Routes = [
     ConfirmDeleteModalComponent,
     PublicFoodsComponent,
     HomeComponentComponent,
+    SquareHomeContentComponent,
   ],
   imports: [
     BrowserModule,

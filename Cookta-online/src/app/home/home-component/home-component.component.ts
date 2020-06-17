@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {IStartPageContent} from "../../../../../Cookta-shared/src/models/start-page/start-page-content.interface";
 
 @Component({
   selector: 'app-home-component',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponentComponent implements OnInit {
 
+  public Content: IStartPageContent;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.Content = {
+      Rows: [],
+      Side1: undefined,
+      Side2: undefined,
+      Square: {
+        images: [
+          "https://kuktaimages.blob.core.windows.net/foodimages/5d43ea207f32c5003453351a.jpg",
+          "https://kuktaimages.blob.core.windows.net/foodimages/5ea840afaf8474561c124666.jpg",
+          "https://kuktaimages.blob.core.windows.net/foodimages/5ec3b99a6edc2b3c64368eae.jpg"],
+        title: "Mai finomságok",
+        clickAction: ""
+      }
+
+    }
   }
 
 }

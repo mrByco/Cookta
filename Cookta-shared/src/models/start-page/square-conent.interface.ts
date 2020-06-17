@@ -1,5 +1,5 @@
 export interface ISquareContent {
-    images: string,
+    images: string[],
     title: string,
     clickAction: string
 }
