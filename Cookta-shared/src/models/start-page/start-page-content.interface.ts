@@ -3,7 +3,7 @@ import {IRowStartContent} from "./row-start-content.interface";
 
 export interface IStartPageContent {
     Square: ISquareContent,
-    Side1: IRowStartContent,
-    Side2: IRowStartContent,
+    SpecRow1: IRowStartContent,
+    SpecRow2: IRowStartContent,
     Rows: IRowStartContent[],
 }

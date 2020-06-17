@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {ISquareContent} from "../../../../../Cookta-shared/src/models/start-page/square-conent.interface";
 
 @Component({
   selector: 'app-square-home-content',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SquareHomeContentComponent implements OnInit {
 
+  @Input("Data") public Content: ISquareContent;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  Click() {
+    console.log("click")
+  }
 }
