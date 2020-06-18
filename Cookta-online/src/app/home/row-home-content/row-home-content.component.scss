@@ -1,0 +1,31 @@
+.row-content-title {
+  background: #922121;
+  color: white;
+  padding: 0.6rem 0 0 0.8rem;
+}
+
+.row-content-title h3 {
+
+  font-weight: 200;
+}
+
+.home-row {
+  position: relative;
+}
+
+.item-holder {
+  position: absolute;
+  height: 100%;
+  background: green;
+  top: 0;
+  bottom: 0;
+}
+
+.row-item {
+  height: 100%;
+}
+
+.row-item img {
+  height: 100%;
+  width: auto;
+}

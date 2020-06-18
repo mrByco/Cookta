@@ -6,23 +6,19 @@
     <div class="col m-0 p-0">
       <div class="row m-0 p-1" style="height: 50%;">
         <div class="" style="background: red; height: 100%; width: 100%">
-
+          <app-row-home-content [Content]="SpecRow1Content"></app-row-home-content>
         </div>
       </div>
       <div class="row m-0 p-1" style="height: 50%;">
         <div class="" style="background: red; height: 100%; width: 100%">
-
+          <app-row-home-content [Content]="SpecRow2Content"></app-row-home-content>
         </div>
       </div>
     </div>
   </div>
   <div class="row m-0 p-0">
-    <div class="big-content-row"></div>
-    <div class="small-content-row m-1"></div>
-
-    <div class="small-content-row m-1"></div>
-    <div class="big-content-row"></div>
-    <div class="small-content-row m-1"></div>
-    <div class="small-content-row m-1"></div>
+    <div [ngClass]="{'small-content-row': !content.big, 'big-content-row': content.big}" *ngFor="let content of Rows">
+      <app-row-home-content [Content]="content"></app-row-home-content>
+    </div>
   </div>
 </div>

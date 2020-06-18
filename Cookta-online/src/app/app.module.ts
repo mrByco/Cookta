@@ -79,6 +79,7 @@ import {ConfirmDeleteModalComponent} from './identity/confirm-delete-modal/confi
 import {PublicFoodsComponent} from './food/food-other/public-foods/public-foods.component';
 import { HomeComponentComponent } from './home/home-component/home-component.component';
 import { SquareHomeContentComponent } from './home/square-home-content/square-home-content.component';
+import { RowHomeContentComponent } from './home/row-home-content/row-home-content.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponentComponent},
@@ -156,6 +157,7 @@ const appRoutes: Routes = [
     PublicFoodsComponent,
     HomeComponentComponent,
     SquareHomeContentComponent,
+    RowHomeContentComponent,
   ],
     imports: [
         BrowserModule,

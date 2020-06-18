@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ISquareContent} from "../../../../../Cookta-shared/src/models/start-page/square-conent.interface";
+import {ISquareContent} from "../../../../../Cookta-shared/src/models/home/square-conent.interface";
 
 @Component({
   selector: 'app-square-home-content',
