@@ -4,7 +4,8 @@ import {Routes} from '../routes';
 import {Food} from '../models/grocery/food.model';
 import {IUpdateFoodRequest} from '../../../../../Cookta-shared/src/contracts/foods/update-food.request';
 import {ISendableFood} from '../../../../../Cookta-shared/src/models/food/food-sendable.interface';
-import {IHomeRowContent} from "../../../../../Cookta-shared/src/models/home/home-row-content.interface";
+import {IHomeRowContent} from '../../../../../Cookta-shared/src/models/home/home-row-content.interface';
+import {IHomeContentRequest} from '../../../../../Cookta-shared/src/contracts/home/home-content.request';
 
 @Injectable()
 export class FoodService {
@@ -187,12 +188,12 @@ export class FoodService {
     });
   }
 
-  public async GetHomeContent(requests: {code: string, args: string, count: number}[]): Promise<IHomeRowContent[]>{
+  public async GetHomeContent(requests: IHomeContentRequest[]): Promise<IHomeRowContent[]> {
     let rowContents: IHomeRowContent[] = [];
-    for (let request of requests){
+    for (let request of requests) {
       let foods = await this.GetFoods();
-      rowContents.push({foods: foods.slice(0, request.count - 1), clickAction: "open", title: "Cimke legfrissebb ételei", other: null})
+      rowContents.push({foods: foods.slice(0, request.count - 1), clickAction: 'open', title: 'Cimke legfrissebb ételei', other: null});
     }
-    return rowContents
+    return rowContents;
   }
 }
