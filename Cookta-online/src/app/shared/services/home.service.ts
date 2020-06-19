@@ -4,27 +4,25 @@ import {IHomeRowContent} from '../../../../../Cookta-shared/src/models/home/home
 import {ServerService} from './server.service';
 import {IHomeContent} from '../../../../../Cookta-shared/src/models/home/home-content.interface';
 import {Routes} from '../routes';
-import {Observable, Subscriber} from 'rxjs';
 
 @Injectable()
 export class HomeService {
 
   public HomeContent: IHomeContent;
-  public Started: Observable<boolean>;
-  private StartedObserver: Subscriber<boolean>;
+  public StartProcess: Promise<void>;
 
   constructor(public serverService: ServerService) {
-    this.Started = new Observable<boolean>(observer => {
-      this.StartedObserver = observer;
-      observer.next(false);
-    });
-
-    this.GetHomeMarkup().then(h => {
+    this.StartProcess = this.GetHomeMarkup().then(h => {
       this.HomeContent = h;
-      this.StartedObserver.next(true);
     });
   }
 
+  public async Start(): Promise<void> {
+    return new Promise(resolve => {
+      if (this.HomeContent) resolve;
+      else this.StartProcess.then(resolve);
+    });
+  }
 
   public async GetHomeMarkup(): Promise<IHomeContent> {
     let response = await this.serverService.GetRequest(Routes.Home.GetHomeMarkup);
