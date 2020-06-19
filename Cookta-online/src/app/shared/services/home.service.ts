@@ -17,10 +17,10 @@ export class HomeService {
     });
   }
 
-  public async Start(): Promise<void> {
+  public async RefreshStartPage(): Promise<void> {
     return new Promise(resolve => {
-      if (this.HomeContent) resolve;
-      else this.StartProcess.then(resolve);
+      if (this.HomeContent) resolve();
+      else this.StartProcess.then(() => resolve());
     });
   }
 
@@ -30,17 +30,21 @@ export class HomeService {
       response.subscribe(d => {
         let data = d as IHomeContent;
         resolve(data);
-      });
+      }, () => resolve(null));
     });
 
   }
 
-  public async GetHomeContent(requests: IHomeContentRequest[]): Promise<IHomeRowContent[]> {
+  public async GetHomeContent(body: IHomeContentRequest[]): Promise<IHomeRowContent[]> {
     let rowContents: IHomeRowContent[] = [];
-    for (let request of requests) {
-      let foods = [];
-      rowContents.push({foods: foods.slice(0, request.count - 1), clickAction: 'open', title: 'Cimke legfrissebb ételei', other: null});
-    }
-    return rowContents;
+    let response = await this.serverService.PutRequest(Routes.Home.GetContent, body);
+    return new Promise<IHomeRowContent[]>(resolve => {
+      response.subscribe(d => {
+        let data = d as IHomeRowContent[];
+        resolve(data);
+      }, () => {
+        resolve(null);
+      });
+    });
   }
 }

@@ -9,6 +9,8 @@ import {Services} from '../../Services';
 import {IHomeRowContentMarkup} from 'cookta-shared/src/models/home/home-row-content-markup.interface';
 import {IHomeContent} from 'cookta-shared/src/models/home/home-content.interface';
 
+require('../../extensions/date-extensions');
+
 @Controller(Contracts.Home)
 export class HomeController {
     private static async GetSquareContent(user: User): Promise<ISquareContent> {
@@ -19,7 +21,7 @@ export class HomeController {
         });
         let images = last5FoodUpload.map(f => {
             return {
-                subtitle: f.name,
+                subtitle: `${f.name} - ${new Date(f.lastModified).ToYYYYMMDDString()}`,
                 url: `https://kuktaimages.blob.core.windows.net/foodimages/${f.foodId}.jpg`
             };
         });

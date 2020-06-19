@@ -94,6 +94,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
 
     async SaveFood(food: Food, generate: boolean = true) {
         if (generate) food.generated = await this.GetGenerateDataForFood(food);
+        food.lastModified = Date.now();
         await this.SaveItem(food);
     }
 

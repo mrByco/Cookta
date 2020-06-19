@@ -34,7 +34,7 @@ export class RootComponentComponent implements OnInit {
     {Name: 'Egységek betöltése', AsyncFunction: async () => await this.unitService.LoadUnits()},
     {Name: 'Hozzávalók betöltése', AsyncFunction: async () => await this.ingredientService.LoadIngredients()},
     {Name: 'Cimkék betöltése', AsyncFunction: async () => await this.tagService.LoadTags()},
-    {Name: 'Kezdőoldal előkészítése', AsyncFunction: async () => await this.homeService.Start()}
+    {Name: 'Kezdőoldal előkészítése', AsyncFunction: async () => await this.homeService.RefreshStartPage()}
   ];
 
   constructor(private ingredientService: IngredientService,

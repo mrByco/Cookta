@@ -79,5 +79,6 @@ export class Routes {
   };
   public static readonly Home = {
     GetHomeMarkup: '/home',
+    GetContent: '/home',
   };
 }
