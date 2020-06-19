@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {IHomeContent} from "../../../../../Cookta-shared/src/models/home/home-content.interface";
-import {IHomeRowContent} from "../../../../../Cookta-shared/src/models/home/home-row-content.interface";
-import {FoodService} from "../../shared/services/food.service";
+import {IHomeContent} from '../../../../../Cookta-shared/src/models/home/home-content.interface';
+import {IHomeRowContent} from '../../../../../Cookta-shared/src/models/home/home-row-content.interface';
+import {HomeService} from '../../shared/services/home.service';
 
 @Component({
   selector: 'app-home-component',
@@ -16,7 +16,7 @@ export class HomeComponentComponent implements OnInit {
   public Rows: IHomeRowContent[];
 
 
-  constructor(public foodService: FoodService) {
+  constructor(public homeService: HomeService) {
   }
 
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export class HomeComponentComponent implements OnInit {
     for (let req of [this.Content.SpecRow1, this.Content.SpecRow2, ...this.Content.Rows]){
       requests.push({code: req.type, args: req.arguments, count: 15})
     }
-    let responses = await this.foodService.GetHomeContent( requests);
+    let responses = await this.homeService.GetHomeContent(requests);
     this.SpecRow1Content = responses[0];
     this.SpecRow2Content = responses[1];
     this.Rows = responses.slice(2);

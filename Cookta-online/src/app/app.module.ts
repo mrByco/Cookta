@@ -77,9 +77,10 @@ import {UserProfileModalComponent} from './profile/user-profile/user-profile-mod
 import {UserProfilePanelComponent} from './profile/user-profile/user-profile-panel/user-profile-panel.component';
 import {ConfirmDeleteModalComponent} from './identity/confirm-delete-modal/confirm-delete-modal.component';
 import {PublicFoodsComponent} from './food/food-other/public-foods/public-foods.component';
-import { HomeComponentComponent } from './home/home-component/home-component.component';
-import { SquareHomeContentComponent } from './home/square-home-content/square-home-content.component';
-import { RowHomeContentComponent } from './home/row-home-content/row-home-content.component';
+import {HomeComponentComponent} from './home/home-component/home-component.component';
+import {SquareHomeContentComponent} from './home/square-home-content/square-home-content.component';
+import {RowHomeContentComponent} from './home/row-home-content/row-home-content.component';
+import {HomeService} from './shared/services/home.service';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponentComponent},
@@ -172,17 +173,17 @@ const appRoutes: Routes = [
         MatPaginatorModule,
         MatTableModule,
         MatSortModule,
-        MatAutocompleteModule,
-        DragDropModule,
-        ReactiveFormsModule,
-        ContenteditableModule,
-        MatProgressSpinnerModule,
-        MatSliderModule,
-        MatProgressBarModule,
-        MatTabsModule,
+      MatAutocompleteModule,
+      DragDropModule,
+      ReactiveFormsModule,
+      ContenteditableModule,
+      MatProgressSpinnerModule,
+      MatSliderModule,
+      MatProgressBarModule,
+      MatTabsModule,
     ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
   entryComponents: [GenericTwoButtonDialogComponent],
   bootstrap: [AppComponent]
 })

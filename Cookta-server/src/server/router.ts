@@ -39,7 +39,8 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new DayController();
                 const promise = controller.GetDay(request.body as void, user, args.date);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => {
+                });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;
@@ -507,6 +508,7 @@ export function RegisterRoutes(app: express.Express) {
         });
 
 
+
     // <<=======-HOME-======>>
     app.get('/home/',
         function(request: any, response: any, next: any) {
@@ -524,6 +526,7 @@ export function RegisterRoutes(app: express.Express) {
                 next(error);
             });
         });
+
 
 
     app.put('/home/',
@@ -550,7 +553,8 @@ export function RegisterRoutes(app: express.Express) {
             const args = {};
             const controller = new IngredientTypeController();
             const promise = controller.GetAll(request.body as void);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            ProcessPromiseResponse(controller, promise, response, next, (error) => {
+            });
         });
 
 
