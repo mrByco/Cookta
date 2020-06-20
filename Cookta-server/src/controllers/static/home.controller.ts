@@ -8,6 +8,7 @@ import {ISquareContent} from 'cookta-shared/src/models/home/square-conent.interf
 import {Services} from '../../Services';
 import {IHomeRowContentMarkup} from 'cookta-shared/src/models/home/home-row-content-markup.interface';
 import {IHomeContent} from 'cookta-shared/src/models/home/home-content.interface';
+import {SendableFood} from '../../models/food/food-sendable';
 
 require('../../extensions/date-extensions');
 
@@ -33,18 +34,41 @@ export class HomeController {
         };
     }
 
+
     private static async GetSpecialRows(): Promise<{ row1: IHomeRowContentMarkup, row2: IHomeRowContentMarkup }> {
-        return {
-            row1: {type: 'special', arguments: 'lastuploads', big: false},
-            row2: {type: 'special', arguments: 'weekly-most-uploaded-tag', big: false}
-        };
+        let row1: IHomeRowContentMarkup = {arguments: 'lastest', big: false, type: 'special'};
+        let row2: IHomeRowContentMarkup = {arguments: 'mostpopulartag-subscription', big: false, type: 'special'};
+        return {row1: row1, row2: row2};
     }
 
-    private static async GetSpecialRowContent(): Promise<{ row1: IHomeRowContentMarkup, row2: IHomeRowContentMarkup }> {
-        /* let row1 = await Services.FoodService.MakeRequest({published: true}, (cursor) => {
-             cursor.sort({uploaded: -1});
-         })*/
-        return null;
+    private static async GetActualRowContent(user: User, req: IHomeContentRequest): Promise<IHomeRowContent> {
+        let resp: IHomeRowContent = {clickAction: 'open', foods: [], other: undefined, title: `NotFound: ${req.code} -  ${req.args}`};
+        switch (req.code) {
+            case 'special':
+                if (req.args == 'lastest') {
+                    resp.foods = await Services.FoodService.MakeRequest({published: true}, cursor => {
+                        cursor.sort({uploaded: -1});
+                        cursor.limit(req.count);
+                        return cursor.toArray();
+                    }).then(f => SendableFood.ToSendableAll(f));
+                    resp.title = 'Utolsó feltöltések';
+                    resp.clickAction = 'open';
+                    break;
+                } else if (req.args == 'mostpopulartag-subscription') {
+                    resp.foods = await Services.FoodService.MakeRequest({published: true}, cursor => {
+                        cursor.sort({subscriptions: -1});
+                        cursor.limit(req.count);
+                        return cursor.toArray();
+                    }).then(f => SendableFood.ToSendableAll(f));
+                    resp.title = 'Legnépszerűbb';
+                    resp.clickAction = 'open';
+                    break;
+                }
+            case 'tag':
+                console.error(Error('Notimplemented - tag'));
+                break;
+        }
+        return resp;
     }
 
     @Security(true)
@@ -62,6 +86,11 @@ export class HomeController {
 
     @Security(true)
     public async GetHomeContent(reqBody: IHomeContentRequest[], user: User): Promise<IHomeRowContent[]> {
-        return null;
+        let responses: IHomeRowContent[] = [];
+        for (let req of reqBody) {
+            responses.push(await HomeController.GetActualRowContent(user, req));
+        }
+
+        return responses;
     }
 }

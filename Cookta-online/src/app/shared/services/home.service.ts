@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {IHomeContentRequest} from '../../../../../Cookta-shared/src/contracts/home/home-content.request';
 import {IHomeRowContent} from '../../../../../Cookta-shared/src/models/home/home-row-content.interface';
 import {ServerService} from './server.service';
@@ -9,22 +9,26 @@ import {Routes} from '../routes';
 export class HomeService {
 
   public HomeContent: IHomeContent;
+  public OnHomeContentChanged: EventEmitter<IHomeContent> = new EventEmitter<IHomeContent>();
   public StartProcess: Promise<void>;
 
   constructor(public serverService: ServerService) {
     this.StartProcess = this.GetHomeMarkup().then(h => {
       this.HomeContent = h;
+      this.OnHomeContentChanged.emit(this.HomeContent);
     });
   }
 
   public async RefreshStartPage(): Promise<void> {
     return new Promise(resolve => {
-      if (this.HomeContent) resolve();
-      else this.StartProcess.then(() => resolve());
+      this.StartProcess.then(() => {
+        resolve();
+        this.OnHomeContentChanged.emit(this.HomeContent);
+      });
     });
   }
 
-  public async GetHomeMarkup(): Promise<IHomeContent> {
+  private async GetHomeMarkup(): Promise<IHomeContent> {
     let response = await this.serverService.GetRequest(Routes.Home.GetHomeMarkup);
     return new Promise<IHomeContent>((resolve) => {
       response.subscribe(d => {
@@ -32,11 +36,9 @@ export class HomeService {
         resolve(data);
       }, () => resolve(null));
     });
-
   }
 
   public async GetHomeContent(body: IHomeContentRequest[]): Promise<IHomeRowContent[]> {
-    let rowContents: IHomeRowContent[] = [];
     let response = await this.serverService.PutRequest(Routes.Home.GetContent, body);
     return new Promise<IHomeRowContent[]>(resolve => {
       response.subscribe(d => {

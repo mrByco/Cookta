@@ -19,7 +19,9 @@ export class HomeComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.GetRealContent();
+    if (this.homeService.HomeContent)
+      this.GetRealContent();
+    this.homeService.OnHomeContentChanged.subscribe(() => this.GetRealContent());
   }
 
   public async GetRealContent() {
@@ -29,6 +31,7 @@ export class HomeComponentComponent implements OnInit {
       requests.push({code: req.type, args: req.arguments, count: 15});
     }
     let responses = await this.homeService.GetHomeContent(requests);
+    if (!responses) return;
     this.SpecRow1Content = responses[0];
     this.SpecRow2Content = responses[1];
     this.Rows = responses.slice(2);
