@@ -1,3 +1,5 @@
+@import '../../food-item-shared.css';
+
 .row-content-title {
   background: #922121;
   color: white;
@@ -23,6 +25,8 @@
 
 .row-item {
   height: 100%;
+  position: relative;
+  cursor: pointer;
 }
 
 .row-item img {

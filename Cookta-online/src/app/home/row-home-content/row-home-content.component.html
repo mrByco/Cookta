@@ -2,8 +2,11 @@
   <div class="flex-item row-content-title"><h4>{{Content.title}}</h4></div>
   <div class="flex-grow-1 d-flex flex-row home-row" style="overflow: hidden;">
     <div class="item-holder d-flex flex-row">
-      <div class="row-item" *ngFor="let food of Content.foods">
+      <div class="row-item" (click)="FoodClick(food)" *ngFor="let food of Content.foods">
         <img [src]="GetFoodImage(food)" [alt]="food.name">
+        <div class="food-item-overlay">
+          <h5>{{food.name}}</h5>
+        </div>
       </div>
     </div>
   </div>

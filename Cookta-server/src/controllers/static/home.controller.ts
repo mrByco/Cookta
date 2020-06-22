@@ -18,8 +18,8 @@ require('../../extensions/string-extensions');
 @Controller(Contracts.Home)
 export class HomeController {
     private static async GetSquareContent(user: User): Promise<ISquareContent> {
-        let last5FoodUpload = await Services.FoodService.MakeRequest({published: true, imageUploaded: {$exists: true}}, (cursor) => {
-            cursor.sort({lastModified: -1});
+        let last5FoodUpload = await Services.FoodService.MakeRequest({ published: true, imageUploaded: { $exists: true } }, (cursor) => {
+            cursor.sort({ lastModified: -1 });
             cursor.limit(5);
             return cursor.toArray();
         });
@@ -39,18 +39,18 @@ export class HomeController {
 
 
     private static async GetSpecialRows(): Promise<{ row1: IHomeRowContentMarkup, row2: IHomeRowContentMarkup }> {
-        let row1: IHomeRowContentMarkup = {arguments: 'lastest', big: false, type: 'special'};
-        let row2: IHomeRowContentMarkup = {arguments: 'mostpopulartag-subscription', big: false, type: 'special'};
-        return {row1: row1, row2: row2};
+        let row1: IHomeRowContentMarkup = { arguments: 'lastest', big: false, type: 'special' };
+        let row2: IHomeRowContentMarkup = { arguments: 'mostpopulartag-subscription', big: false, type: 'special' };
+        return { row1: row1, row2: row2 };
     }
 
     private static async GetActualRowContent(user: User, req: IHomeContentRequest): Promise<IHomeRowContent> {
-        let resp: IHomeRowContent = {clickAction: 'open', foods: [], other: undefined, title: `NotFound: ${req.code} -  ${req.args}`};
+        let resp: IHomeRowContent = { clickAction: 'open', foods: [], other: undefined, title: `NotFound: ${req.code} -  ${req.args}` };
         switch (req.code) {
             case 'special':
                 if (req.args == 'lastest') {
-                    resp.foods = await Services.FoodService.MakeRequest({published: true}, cursor => {
-                        cursor.sort({uploaded: -1});
+                    resp.foods = await Services.FoodService.MakeRequest({ published: true }, cursor => {
+                        cursor.sort({ uploaded: -1 });
                         cursor.limit(req.count);
                         return cursor.toArray();
                     }).then(f => SendableFood.ToSendableAll(f));
@@ -58,8 +58,8 @@ export class HomeController {
                     resp.clickAction = 'open';
                     break;
                 } else if (req.args == 'mostpopulartag-subscription') {
-                    resp.foods = await Services.FoodService.MakeRequest({published: true}, cursor => {
-                        cursor.sort({subscriptions: -1});
+                    resp.foods = await Services.FoodService.MakeRequest({ published: true }, cursor => {
+                        cursor.sort({ subscriptions: -1 });
                         cursor.limit(req.count);
                         return cursor.toArray();
                     }).then(f => SendableFood.ToSendableAll(f));
@@ -79,11 +79,11 @@ export class HomeController {
                 resp.foods = await Services.FoodService.MakeRequest(
                     {
                         $or:
-                            [{'generated.tags.guid': tagId}, {tags: tagId}],
+                            [{ 'generated.tags.guid': tagId }, { tags: tagId }],
                         published: true
                     },
                     cursor => {
-                        cursor.sort({uploaded: -1});
+                        cursor.sort({ uploaded: -1 });
                         cursor.limit(req.count);
                         return cursor.toArray();
                     }).then(d => SendableFood.ToSendableAll(d));
@@ -135,7 +135,7 @@ export class HomeController {
         let rows: IHomeRowContentMarkup[] = [];
         let tags = (await Tag.GetAll()).filter(t => t.ischildonly == false);
         for (let tag of tags) {
-            rows.push({arguments: tag.guid, big: false, type: 'tag'});
+            rows.push({ arguments: tag.guid, big: false, type: 'tag' });
         }
         return rows;
     }
