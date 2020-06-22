@@ -77,7 +77,11 @@ export class HomeController {
                  */
                 let tagId = req.args;
                 resp.foods = await Services.FoodService.MakeRequest(
-                    {'generated.tags.guid': tagId},
+                    {
+                        $or:
+                            [{'generated.tags.guid': tagId}, {tags: tagId}],
+                        published: true
+                    },
                     cursor => {
                         cursor.sort({uploaded: -1});
                         cursor.limit(req.count);
@@ -87,6 +91,7 @@ export class HomeController {
                 resp.clickAction = 'open';
                 break;
         }
+
         return resp;
     }
 
@@ -130,7 +135,7 @@ export class HomeController {
         let rows: IHomeRowContentMarkup[] = [];
         let tags = (await Tag.GetAll()).filter(t => t.ischildonly == false);
         for (let tag of tags) {
-            rows.push({arguments: tag.name, big: false, type: 'tag'});
+            rows.push({arguments: tag.guid, big: false, type: 'tag'});
         }
         return rows;
     }

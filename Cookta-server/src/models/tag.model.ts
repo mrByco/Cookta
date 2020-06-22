@@ -1,16 +1,17 @@
-import {MongoHelper} from "../helpers/mongo.helper";
-import {Guid} from "guid-typescript";
-import {ITag} from "cookta-shared/src/models/tag/tag.interface";
+import {MongoHelper} from '../helpers/mongo.helper';
+import {Guid} from 'guid-typescript';
+import {ITag} from 'cookta-shared/src/models/tag/tag.interface';
 
 export class Tag implements ITag {
     private static m_cache: Tag[];
-    private static readonly CollectionName: string = "Tags";
+    private static readonly CollectionName: string = 'Tags';
+
     private static async GetCached(): Promise<Tag[]> {
-            if (this.m_cache === undefined) {
-                let collection = await MongoHelper.getCollection(this.CollectionName);
-                let documents = await collection.find({}).toArray();
-                this.m_cache = [];
-                for (let doc of documents) {
+        if (this.m_cache === undefined) {
+            let collection = await MongoHelper.getCollection(this.CollectionName);
+            let documents = await collection.find({}).toArray();
+            this.m_cache = [];
+            for (let doc of documents) {
                     this.m_cache.push(this.FromDocument(doc));
                 }
                 await this.RefreshChildStatus()
@@ -68,6 +69,7 @@ export class Tag implements ITag {
         return tags.find(t => t.guid === guid);
     }
 
+
     private ToDocument(): any{
         return {
             guid: this.guid,
@@ -107,6 +109,8 @@ export class Tag implements ITag {
                 }else if (parent.ischildonly) {
                     parent.ischildonly = false;
                     await parent.Save();
+                    childIds.splice(childIds.findIndex(t => t == parent.guid));
+                } else {
                     childIds.splice(childIds.findIndex(t => t == parent.guid));
                 }
             }
