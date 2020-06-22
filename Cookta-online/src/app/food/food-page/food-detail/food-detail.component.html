@@ -63,7 +63,7 @@
 
   <div class="container-fluid">
     <div class="row">
-      <app-food-list #RecommendList [Foods]="this.Recommendations" style="width: 100%; height: 420px"></app-food-list>
+      <app-food-list #RecommendList [Foods]="Food ? this.Recommendations : []" style="width: 100%; height: 420px"></app-food-list>
     </div>
   </div>
 </div>
