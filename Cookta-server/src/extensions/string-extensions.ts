@@ -2,6 +2,7 @@ interface String {
     YYYYMMDDToDate(): Date;
 
     hashCode(): number;
+    ToBeginUpperCase(): string;
 }
 
 String.prototype.YYYYMMDDToDate = function() {
@@ -19,5 +20,12 @@ String.prototype.hashCode = function() {
         hash |= 0; // Convert to 32bit integer
     }
     return hash;
+};
+
+
+String.prototype.ToBeginUpperCase = function() {
+    let string = this as string;
+    if (string.length == 0) return;
+    return string.slice(0, 1).toLocaleUpperCase() + string.slice(1).toLocaleLowerCase();
 };
 

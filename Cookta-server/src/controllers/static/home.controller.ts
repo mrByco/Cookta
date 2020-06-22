@@ -18,8 +18,11 @@ require('../../extensions/string-extensions');
 @Controller(Contracts.Home)
 export class HomeController {
     private static async GetSquareContent(user: User): Promise<ISquareContent> {
-        let last5FoodUpload = await Services.FoodService.MakeRequest({ published: true, imageUploaded: { $exists: true } }, (cursor) => {
-            cursor.sort({ lastModified: -1 });
+        let last5FoodUpload = await Services.FoodService.MakeRequest({
+            published: true,
+            imageUploaded: {$exists: true}
+        }, (cursor) => {
+            cursor.sort({lastModified: -1});
             cursor.limit(5);
             return cursor.toArray();
         });
@@ -39,18 +42,23 @@ export class HomeController {
 
 
     private static async GetSpecialRows(): Promise<{ row1: IHomeRowContentMarkup, row2: IHomeRowContentMarkup }> {
-        let row1: IHomeRowContentMarkup = { arguments: 'lastest', big: false, type: 'special' };
-        let row2: IHomeRowContentMarkup = { arguments: 'mostpopulartag-subscription', big: false, type: 'special' };
-        return { row1: row1, row2: row2 };
+        let row1: IHomeRowContentMarkup = {arguments: 'lastest', big: false, type: 'special'};
+        let row2: IHomeRowContentMarkup = {arguments: 'mostpopulartag-subscription', big: false, type: 'special'};
+        return {row1: row1, row2: row2};
     }
 
     private static async GetActualRowContent(user: User, req: IHomeContentRequest): Promise<IHomeRowContent> {
-        let resp: IHomeRowContent = { clickAction: 'open', foods: [], other: undefined, title: `NotFound: ${req.code} -  ${req.args}` };
+        let resp: IHomeRowContent = {
+            clickAction: 'open',
+            foods: [],
+            other: undefined,
+            title: `NotFound: ${req.code} -  ${req.args}`
+        };
         switch (req.code) {
             case 'special':
                 if (req.args == 'lastest') {
-                    resp.foods = await Services.FoodService.MakeRequest({ published: true }, cursor => {
-                        cursor.sort({ uploaded: -1 });
+                    resp.foods = await Services.FoodService.MakeRequest({published: true}, cursor => {
+                        cursor.sort({uploaded: -1});
                         cursor.limit(req.count);
                         return cursor.toArray();
                     }).then(f => SendableFood.ToSendableAll(f));
@@ -58,8 +66,8 @@ export class HomeController {
                     resp.clickAction = 'open';
                     break;
                 } else if (req.args == 'mostpopulartag-subscription') {
-                    resp.foods = await Services.FoodService.MakeRequest({ published: true }, cursor => {
-                        cursor.sort({ subscriptions: -1 });
+                    resp.foods = await Services.FoodService.MakeRequest({published: true}, cursor => {
+                        cursor.sort({subscriptions: -1});
                         cursor.limit(req.count);
                         return cursor.toArray();
                     }).then(f => SendableFood.ToSendableAll(f));
@@ -68,26 +76,19 @@ export class HomeController {
                     break;
                 }
             case 'tag':
-                /*
-                $and: [{
-                    published: true
-                },
-                    { $or: [{ tags: tagId }, { 'generated.tags.guid': tagId }] }]
-            }
-                 */
                 let tagId = req.args;
                 resp.foods = await Services.FoodService.MakeRequest(
                     {
                         $or:
-                            [{ 'generated.tags.guid': tagId }, { tags: tagId }],
+                            [{'generated.tags.guid': tagId}, {tags: tagId}],
                         published: true
                     },
                     cursor => {
-                        cursor.sort({ uploaded: -1 });
+                        cursor.sort({uploaded: -1});
                         cursor.limit(req.count);
                         return cursor.toArray();
                     }).then(d => SendableFood.ToSendableAll(d));
-                resp.title = await Tag.GetTagById(tagId).then(t => t?.name ?? tagId);
+                resp.title = await Tag.GetTagById(tagId).then(t => t?.name.ToBeginUpperCase() ?? tagId);
                 resp.clickAction = 'open';
                 break;
         }
@@ -113,7 +114,7 @@ export class HomeController {
             rows[rows.length - 1].big = (rows.length - 1) % 3 == 0;
         }
 
-        return await {
+        return {
             Square: squareContnet,
             SpecRow1: specRows.row1,
             SpecRow2: specRows.row2,
@@ -124,10 +125,13 @@ export class HomeController {
     @Security(true)
     public async GetHomeContent(reqBody: IHomeContentRequest[], user: User): Promise<IHomeRowContent[]> {
         let responses: IHomeRowContent[] = [];
-        for (let req of reqBody) {
-            responses.push(await HomeController.GetActualRowContent(user, req));
-        }
-
+        let tasks = reqBody.map(req =>
+            new Promise(r => {
+                HomeController.GetActualRowContent(user, req)
+                    .then(response => responses.push(response))
+                    .then(() => r());
+            }));
+        await Promise.all(tasks);
         return responses;
     }
 
@@ -135,7 +139,7 @@ export class HomeController {
         let rows: IHomeRowContentMarkup[] = [];
         let tags = (await Tag.GetAll()).filter(t => t.ischildonly == false);
         for (let tag of tags) {
-            rows.push({ arguments: tag.guid, big: false, type: 'tag' });
+            rows.push({arguments: tag.guid, big: false, type: 'tag'});
         }
         return rows;
     }
