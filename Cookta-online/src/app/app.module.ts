@@ -55,102 +55,111 @@ import {EssentialsListComponent} from './stock/essentials-list/essentials-list.c
 import {ShoppingListRootComponent} from './shopping/shopping-list-root/shopping-list-root.component';
 import {ShoppingListPanelComponent} from './shopping/shopping-list-panel/shopping-list-panel.component';
 import {IngredientAdderSeamlessComponent} from './food/food-assemblies/ingredient-adder-seamless/ingredient-adder-seamless.component';
-import {ContenteditableModule} from "@ng-stack/contenteditable";
-import {CanActivateLoggedInGuard} from "./guards/can-activate-logged-in.guard";
+import {ContenteditableModule} from '@ng-stack/contenteditable';
+import {CanActivateLoggedInGuard} from './guards/can-activate-logged-in.guard';
 import {DeleteCustomUnitPopupComponent} from './admin-components/ingredient-editor/delete-custom-unit-popup/delete-custom-unit-popup.component';
 import {MenuPoolComponent} from './menu/menu-pool/menu-pool.component';
 import {MenuPoolToolbarComponent} from './menu/menu-pool/menu-pool-toolbar/menu-pool-toolbar.component';
 import {MenuPoolItemComponent} from './menu/menu-pool/menu-pool-item/menu-pool-item.component';
 import {BadUnitFixerComponent} from './admin-components/ingredient-editor/bad-unit-fixer/bad-unit-fixer.component';
-import { DeleteIngredientPupopComponent } from './admin-components/ingredient-editor/delete-ingredient-pupop/delete-ingredient-pupop.component';
-import { SearchInputComponent } from './food/search/search-input/search-input.component';
-import { SearchComponent } from './food/search/search.component';
-import {RenameModalComponent} from "./identity/rename-modal/rename-modal.component";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatSliderModule} from "@angular/material/slider";
-import { RoleEditorComponent } from './admin-components/role-editor/role-editor/role-editor.component';
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import { UserListComponent } from './admin-components/user-list/user-list.component';
-import {MatTabsModule} from "@angular/material/tabs";
+import {DeleteIngredientPupopComponent} from './admin-components/ingredient-editor/delete-ingredient-pupop/delete-ingredient-pupop.component';
+import {SearchInputComponent} from './food/search/search-input/search-input.component';
+import {SearchComponent} from './food/search/search.component';
+import {RenameModalComponent} from './identity/rename-modal/rename-modal.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSliderModule} from '@angular/material/slider';
+import {RoleEditorComponent} from './admin-components/role-editor/role-editor/role-editor.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {UserListComponent} from './admin-components/user-list/user-list.component';
+import {MatTabsModule} from '@angular/material/tabs';
 import {LiveConnectionService} from './shared/services/live-connect.service/live-connection.service';
-import { UserProfileModalComponent } from './profile/user-profile/user-profile-modal/user-profile-modal.component';
-import { UserProfilePanelComponent } from './profile/user-profile/user-profile-panel/user-profile-panel.component';
-import { ConfirmDeleteModalComponent } from './identity/confirm-delete-modal/confirm-delete-modal.component';
+import {UserProfileModalComponent} from './profile/user-profile/user-profile-modal/user-profile-modal.component';
+import {UserProfilePanelComponent} from './profile/user-profile/user-profile-panel/user-profile-panel.component';
+import {ConfirmDeleteModalComponent} from './identity/confirm-delete-modal/confirm-delete-modal.component';
+import {PublicFoodsComponent} from './food/food-other/public-foods/public-foods.component';
+import {HomeComponentComponent} from './home/home-component/home-component.component';
+import {SquareHomeContentComponent} from './home/square-home-content/square-home-content.component';
+import {RowHomeContentComponent} from './home/row-home-content/row-home-content.component';
+import {HomeService} from './shared/services/home.service';
 
 const appRoutes: Routes = [
-    {path: '', component: FoodListComponent},
-    {path: 'foods', component: FoodListComponent},
-    {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'user-editor', component: UserListComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'debug-options', component: DebugOptionsComponent},
-    {path: 'foods/collection', component: FoodCollectionListComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'foods/:id', component: FoodDetailComponent},
-    {
-        path: 'foods/:id/edit',
-        component: FoodEditComponent,
-        canDeactivate: [CanDeactivateGuard],
-        canActivate: [CanActivateLoggedInGuard]
-    },
-    {path: 'search/:text', component: SearchComponent},
-    {path: 'family-manager', component: FamilyManagementComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'essentials', component: EssentialsRootComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'calendar', component: MenuEditorComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'storage', component: StorageRootComponentComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'shopping', component: ShoppingListRootComponent, canActivate: [CanActivateLoggedInGuard]}
+  {path: '', component: HomeComponentComponent},
+  {path: 'foods', component: PublicFoodsComponent},
+  {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'user-editor', component: UserListComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'debug-options', component: DebugOptionsComponent},
+  {path: 'foods/collection', component: FoodCollectionListComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'foods/:id/:day/:mealIndex', component: FoodDetailComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'foods/:id', component: FoodDetailComponent},
+  {
+    path: 'foods/:id/edit',
+    component: FoodEditComponent,
+    canDeactivate: [CanDeactivateGuard],
+    canActivate: [CanActivateLoggedInGuard]
+  },
+  {path: 'search/:text', component: SearchComponent},
+  {path: 'family-manager', component: FamilyManagementComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'essentials', component: EssentialsRootComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'calendar', component: MenuEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'storage', component: StorageRootComponentComponent, canActivate: [CanActivateLoggedInGuard]},
+  {path: 'shopping', component: ShoppingListRootComponent, canActivate: [CanActivateLoggedInGuard]}
 
 ];
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        RootComponentComponent,
-        NavigationBarComponent,
-        FoodItemComponent,
-        FoodDetailComponent,
-        FoodListComponent,
-        FoodIngredientComponent,
-        FoodCollectionListComponent,
-        LoginModalComponent,
-        FoodTagComponent,
-        FoodEditComponent,
-        IngredientAdderComponent,
-        AutoCompleteComponent,
-        TagAdderComponent,
-        IngredientEditorComponent,
-        IngredientItemPopupComponent,
-        GenericTwoButtonDialogComponent,
-        FoodImageUploadComponent,
-        MenuEditorComponent,
-        MenuDayComponent,
-        MenuMealingComponent,
-        DebugOptionsComponent,
-        FamilyManagementComponent,
-        FamilyEditPageComponent,
-        FamilyDetailsPageComponent,
-        StorageRootComponentComponent,
-        StorageSectionComponent,
-        EssentialsRootComponent,
-        EssentialsListComponent,
-        ShoppingListRootComponent,
-        ShoppingListPanelComponent,
-        IngredientAdderSeamlessComponent,
-        DeleteCustomUnitPopupComponent,
-        MenuPoolComponent,
-        MenuPoolToolbarComponent,
-        MenuPoolItemComponent,
-        BadUnitFixerComponent,
-        DeleteIngredientPupopComponent,
-        SearchInputComponent,
-        SearchComponent,
-        RenameModalComponent,
-        RoleEditorComponent,
-        UserListComponent,
-        UserProfileModalComponent,
-        UserProfilePanelComponent,
-        ConfirmDeleteModalComponent,
-    ],
+  declarations: [
+    AppComponent,
+    RootComponentComponent,
+    NavigationBarComponent,
+    FoodItemComponent,
+    FoodDetailComponent,
+    FoodListComponent,
+    FoodIngredientComponent,
+    FoodCollectionListComponent,
+    LoginModalComponent,
+    FoodTagComponent,
+    FoodEditComponent,
+    IngredientAdderComponent,
+    AutoCompleteComponent,
+    TagAdderComponent,
+    IngredientEditorComponent,
+    IngredientItemPopupComponent,
+    GenericTwoButtonDialogComponent,
+    FoodImageUploadComponent,
+    MenuEditorComponent,
+    MenuDayComponent,
+    MenuMealingComponent,
+    DebugOptionsComponent,
+    FamilyManagementComponent,
+    FamilyEditPageComponent,
+    FamilyDetailsPageComponent,
+    StorageRootComponentComponent,
+    StorageSectionComponent,
+    EssentialsRootComponent,
+    EssentialsListComponent,
+    ShoppingListRootComponent,
+    ShoppingListPanelComponent,
+    IngredientAdderSeamlessComponent,
+    DeleteCustomUnitPopupComponent,
+    MenuPoolComponent,
+    MenuPoolToolbarComponent,
+    MenuPoolItemComponent,
+    BadUnitFixerComponent,
+    DeleteIngredientPupopComponent,
+    SearchInputComponent,
+    SearchComponent,
+    RenameModalComponent,
+    RoleEditorComponent,
+    UserListComponent,
+    UserProfileModalComponent,
+    UserProfilePanelComponent,
+    ConfirmDeleteModalComponent,
+    PublicFoodsComponent,
+    HomeComponentComponent,
+    SquareHomeContentComponent,
+    RowHomeContentComponent,
+  ],
     imports: [
         BrowserModule,
         HttpClientModule,
@@ -164,19 +173,19 @@ const appRoutes: Routes = [
         MatPaginatorModule,
         MatTableModule,
         MatSortModule,
-        MatAutocompleteModule,
-        DragDropModule,
-        ReactiveFormsModule,
-        ContenteditableModule,
-        MatProgressSpinnerModule,
-        MatSliderModule,
-        MatProgressBarModule,
-        MatTabsModule,
+      MatAutocompleteModule,
+      DragDropModule,
+      ReactiveFormsModule,
+      ContenteditableModule,
+      MatProgressSpinnerModule,
+      MatSliderModule,
+      MatProgressBarModule,
+      MatTabsModule,
     ],
-    schemas: [NO_ERRORS_SCHEMA],
-    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
-    entryComponents: [GenericTwoButtonDialogComponent],
-    bootstrap: [AppComponent]
+  schemas: [NO_ERRORS_SCHEMA],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
+  entryComponents: [GenericTwoButtonDialogComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

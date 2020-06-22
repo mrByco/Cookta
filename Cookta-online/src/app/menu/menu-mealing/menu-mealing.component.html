@@ -16,7 +16,7 @@
 
                 <div *ngIf="meal.ObjFood; else loading">
                     <img [alt]="meal.ObjFood.name" src="{{GetFoodUrl(meal.ObjFood)}}">
-                    <div class="meal-panel-overlay">
+                    <div class="food-item-overlay">
                         <h5>{{meal.ObjFood.name}}</h5>
                         <h6 *ngIf="meal.sourceMeal.type == 'tag'">{{tagService.GetTag(meal.sourceMeal.info.tagId).displayName()}}</h6>
                         <a style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;" (click)="OpenFoodForMeal(meal)"></a>

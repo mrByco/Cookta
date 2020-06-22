@@ -54,7 +54,7 @@ export class UserController {
 
     @Security(false)
     public async DeleteProfile(reqBody: void, user: User): Promise<{ deleted: boolean }> {
-        if (!user) return {deleted: false};
+        if (!user) return { deleted: false };
         Services.UserService.DeleteUser(user);
         return { deleted: true };
     }

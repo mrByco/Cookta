@@ -1,60 +1,71 @@
-<div class="container" style="padding: 1.5rem 0 0 0; min-height: var(--MainContentSize)">
+<div style="min-height: calc(var(--MainContentSize) + 5px)">
+  <div class="container" style="padding: 1.5rem 0 0 0;">
     <div *ngIf="this.Food" class="row">
-        <div class="col-md-6 pt-1 ml-2 mr-2">
-            <h1 class="recipe-title">{{Food ? Food.name : "FOODNAME"}}</h1>
-            <img [alt]="Food.name" [src]="GetFoodUrl(Food)" style="width: 60%">
+      <div class="col-md-6 pt-1 ml-2 mr-2">
+        <h1 class="recipe-title">{{Food ? Food.name : "FOODNAME"}}</h1>
+        <img [alt]="Food.name" [src]="GetFoodUrl(Food)" style="width: 60%">
 
-            <div class="masonry-with-columns-2">
-                <app-food-tag *ngFor="let tag of GetFoodTags()" [TagId]="tag.guid"></app-food-tag>
-            </div>
-
-            <div class="d-flex">
-                <button *ngIf="true" class="mr-auto btn btn-primary">Feltöltő</button>
-                <button *ngIf="!Food.SubscribedFor && !Food.OwnFood"
-                        (click)="Subscribe(true)"
-                        class="btn btn-primary">Feliratkozás</button>
-                <button *ngIf="Food.SubscribedFor"
-                        (click)="Subscribe(false)"
-                        class="btn btn-primary">Leiratkozás</button>
-                <button *ngIf="Food.OwnFood" (click)="GoEdit()" class="btn btn-primary">Szerkesztés</button>
-            </div>
-            <hr>
-            <p class="recipe-desc">{{Food ? Food.desc : "FOODDESC"}}</p>
+        <div class="masonry-with-columns-2">
+          <app-food-tag *ngFor="let tag of GetFoodTags()" [TagId]="tag.guid"></app-food-tag>
         </div>
 
-        <div class="col-md-5 ml-2 mr-2">
-            <div class="custom-control custom-switch" style="margin-bottom: 2rem">
-                <input (input)="SaveShortUnitNameSettings()"
-                       [(ngModel)]="ShowShortUnitNames"
-                       class="custom-control-input"
-                       id="shortUnitNames"
-                       type="checkbox">
-                <label class="custom-control-label" for="shortUnitNames">Rövidítések használata</label>
-            </div>
-            <h2 class="ingredients-title">Hozzávalók</h2>
-
-            <app-food-ingredient *ngFor="let ingredient of Food ? Food.ingredients : []"
-                                 [ShortUnitNames]="ShowShortUnitNames"
-                                 [ingredientDisplayMultiplier]="ScaleToDose / Food.dose"
-                                 [ingredient]="ingredient"
-                                 class="ingredients-desc">
-            </app-food-ingredient>
-
-            <div style="height: 40px"></div>
-
-            <hr>
-            <div class="row">
-                <h5 style="font-style: italic">Ezek a hozzávalók</h5>
-                <span
-                        [(ngModel)]="ScaleToDose"
-                        class="input span-input-growing"
-                        contenteditable="true"
-                        role="textbox"></span>
-                <h5 style="font-style: italic">adagra vannak megadva</h5>
-                <hr>
-            </div>
-
+        <div class="d-flex">
+          <button *ngIf="false" class="mr-auto btn btn-primary">Feltöltő</button>
+          <button (click)="Subscribe(true)"
+                  *ngIf="!Food.SubscribedFor && !Food.OwnFood"
+                  class="btn btn-primary">Feliratkozás
+          </button>
+          <button (click)="Subscribe(false)"
+                  *ngIf="Food.SubscribedFor"
+                  class="btn btn-primary">Leiratkozás
+          </button>
+          <button (click)="GoEdit()" *ngIf="Food.OwnFood" class="btn btn-primary">Szerkesztés</button>
         </div>
+        <hr>
+        <p class="recipe-desc">{{Food ? Food.desc : "FOODDESC"}}</p>
+      </div>
+
+      <div class="col-md-5 ml-2 mr-2">
+        <div class="custom-control custom-switch" style="margin-bottom: 2rem">
+          <input (input)="SaveShortUnitNameSettings()"
+                 [(ngModel)]="ShowShortUnitNames"
+                 class="custom-control-input"
+                 id="shortUnitNames"
+                 type="checkbox">
+          <label class="custom-control-label" for="shortUnitNames">Rövidítések használata</label>
+        </div>
+        <h2 class="ingredients-title">Hozzávalók</h2>
+
+        <app-food-ingredient *ngFor="let ingredient of Food ? Food.ingredients : []"
+                             [ShortUnitNames]="ShowShortUnitNames"
+                             [ingredientDisplayMultiplier]="ScaleToDose / Food.dose"
+                             [ingredient]="ingredient"
+                             class="ingredients-desc">
+        </app-food-ingredient>
+
+        <div style="height: 40px"></div>
+
+        <hr>
+        <div class="row">
+          <h5 style="font-style: italic">Ezek a hozzávalók</h5>
+          <span
+            [(ngModel)]="ScaleToDose"
+            class="input span-input-growing"
+            contenteditable="true"
+            role="textbox"></span>
+          <h5 style="font-style: italic">adagra vannak megadva</h5>
+          <hr>
+        </div>
+
+      </div>
     </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <app-food-list #RecommendList [Foods]="Food ? this.Recommendations : []" style="width: 100%; height: 420px"></app-food-list>
+    </div>
+  </div>
 </div>
+
 

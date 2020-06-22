@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {ImageCroppedEvent} from "ngx-image-cropper";
+import {ImageCroppedEvent, ImageCropperComponent} from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-food-image-upload',
@@ -11,16 +11,17 @@ export class FoodImageUploadComponent {
   @Input() public InputHidden: boolean = false;
   @Input() public AspectRatio: number = 1;
   @Input() public EditMode: boolean;
-  @Input() public SourceUrl: any = "";
+  @Input() public SourceUrl: any = '';
 
   public EditAvailable = false;
   public ImageChangedEvent: any = '';
   public CroppedImage: any = null;
   public CroppedImageBase64: any = '';
 
-  @ViewChild('fileInput', {static: true}) fileInput:ElementRef;
+  @ViewChild('fileInput', {static: true}) fileInput: ElementRef;
+  @ViewChild('ImageCropper') imageCropper: ImageCropperComponent;
 
-  public OpenInputDialog():void {
+  public OpenInputDialog(): void {
     let event = new MouseEvent('click', {bubbles: false});
     this.fileInput.nativeElement.dispatchEvent(event);
   }
@@ -28,6 +29,7 @@ export class FoodImageUploadComponent {
   public fileChangeEvent(event: any): void {
     this.ImageChangedEvent = event;
   }
+
   public imageCropped(event: ImageCroppedEvent) {
     this.CroppedImage = event.file;
     this.CroppedImageBase64 = event.base64;
@@ -36,11 +38,20 @@ export class FoodImageUploadComponent {
     this.EditMode = true;
     this.EditAvailable = true;
   }
+
   public cropperReady() {
   }
+
   public loadImageFailed() {
-    console.log("failed")
+    console.log('failed');
     // show message
+  }
+
+  public DeleteImage() {
+    this.imageCropper.imageBase64 = null;
+    this.CroppedImage = null;
+    this.CroppedImageBase64 = null;
+    this.EditAvailable = false;
   }
 
   GetCroppedUrl(file: any): string {

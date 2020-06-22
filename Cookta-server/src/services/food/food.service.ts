@@ -1,16 +1,17 @@
-import {Food} from "../../models/food/food.model";
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {IFoodService} from "./food.service.interface";
+import {Food} from '../../models/food/food.model';
+import {StoreService} from 'atomik/lib/store-service/store-service';
+import {IFoodService} from './food.service.interface';
 import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
-import {Services} from "../../Services";
-import {ObjectID} from "mongodb";
-import {MongoHelper} from "../../helpers/mongo.helper";
-import {Subscription} from "../../models/subscription.model";
-import {Family} from "../../models/family.model";
-import {uploadLocalJPEGImage} from "../../helpers/blobs";
+import {Services} from '../../Services';
+import {Collection, Cursor, ObjectID} from 'mongodb';
+import {MongoHelper} from '../../helpers/mongo.helper';
+import {Subscription} from '../../models/subscription.model';
+import {Family} from '../../models/family.model';
+import {uploadLocalJPEGImage} from '../../helpers/blobs';
 import {Tag} from '../../models/tag.model';
+import {User} from '../../models/user.model';
 
-const BlobContainerName = "foodimages";
+const BlobContainerName = 'foodimages';
 
 export class FoodService extends StoreService<Food> implements IFoodService {
 
@@ -93,6 +94,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
 
     async SaveFood(food: Food, generate: boolean = true) {
         if (generate) food.generated = await this.GetGenerateDataForFood(food);
+        food.lastModified = Date.now();
         await this.SaveItem(food);
     }
 
@@ -118,9 +120,14 @@ export class FoodService extends StoreService<Food> implements IFoodService {
 
 
     async GetCollectionForUser(userSub: string, currentFamily: Family): Promise<Food[]> {
-        let foods = await Subscription.GetSubsFoodsOfUser(userSub);
-        foods = foods.concat(this.GetAllOwnFoods(userSub));
-        return foods.concat(await currentFamily.GetFamilyFoods());
+        let subFoods = await Subscription.GetSubsFoodsOfUser(userSub);
+        let ownFoods = this.GetAllOwnFoods(userSub);
+        let familyFoods = await currentFamily.GetFamilyFoods();
+        let foods: Food[] = [];
+        foods.push(...subFoods);
+        foods.push(...ownFoods.filter(ownFood => !foods.find(f => f.id == ownFood.id)));
+        foods.push(...familyFoods.filter(familyFood => !foods.find(f => f.id == familyFood.id)));
+        return foods;
     }
 
 
@@ -161,6 +168,14 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         return true;
     }
 
+    public async MakeRequest(req: any, getDocuments: (cursor: Cursor) => Promise<any[]>): Promise<Food[]> {
+        let collection = this['Collection'] as Collection;
+        let cursor = await collection.find(req);
+        let docuements = await getDocuments(cursor);
+        let foods: Food[] = docuements.map(d => this.FromSaveJson(d));
+        return foods;
+    }
+
     private async GetGenerateDataForFood(food: Food): Promise<{ tags: Tag[] }> {
         let tags: Tag[] = [];
         let tagsToCheck: Tag[] = await Promise.all(food.tags.map(async (t) => await Tag.GetTagById(t)));
@@ -168,7 +183,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             let current = tagsToCheck[0];
 
             //Includes means its parents already added
-            if (!tags.includes(current)){
+            if (!tags.includes(current)) {
                 if (!food.tags.includes(current.guid))
                     tags.push(current);
                 let parent: Tag = current.parentId ? await Tag.GetTagById(current.parentId) : undefined;
@@ -177,6 +192,43 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             tagsToCheck.shift();
         }
         return {tags: tags};
+    }
+
+    async GetFoodRecommendations(food: Food, count: number, user?: User): Promise<Food[]> {
+        let userCollection = await this.GetCollectionForUser(user.sub, user.GetCurrentFamily());
+        let collectionIds = userCollection.map(f => f.id);
+        let recommendations: Food[] = [];
+
+        let publicFoods: Food[] = this.Items.filter(f => !f.private);
+
+        for (let matchTags = food.tags.length;
+             matchTags > 0 && recommendations.length < count;
+             matchTags--) {
+            let unknownFound = publicFoods.filter(i => !collectionIds.includes(i.id) && this.countMatchTags(food, i) == matchTags);
+            recommendations.push(...recommendations.length + unknownFound.length > count
+                ? unknownFound.slice(0, count - recommendations.length)
+                : unknownFound);
+        }
+
+        for (let matchTags = food.tags.length;
+             matchTags > 0 && recommendations.length < count;
+             matchTags--) {
+            let knownFound = userCollection.filter(i =>
+                !recommendations.find(r => r.id == i.id) && this.countMatchTags(food, i) == matchTags);
+            recommendations.push(...recommendations.length + knownFound.length > count ?
+                knownFound.slice(0, count - recommendations.length) :
+                knownFound);
+        }
+
+        return recommendations;
+    }
+
+    countMatchTags(food1: Food, food2: Food): number {
+        let match = 0;
+        food1.generated?.tags?.forEach(t => {
+            food2.generated?.tags?.forEach(t2 => match += t.guid == t2.guid ? 1 : 0);
+        });
+        return match;
     }
 
 

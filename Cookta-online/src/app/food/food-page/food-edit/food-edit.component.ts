@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {FoodService} from "../../../shared/services/food.service";
-import {IdentityService} from "../../../shared/services/identity.service";
-import {Food} from "../../../shared/models/grocery/food.model";
-import {IIngredient} from "../../../shared/models/grocery/ingredient.interface";
-import {Tag} from "../../../shared/models/grocery/tag.model";
-import {ICanDeactivate} from "../../../guards/can-deactivate-guard";
-import {MDBModalService} from "angular-bootstrap-md";
-import {GenericTwoButtonDialogComponent} from "../../../utilities/generic-two-button-dialog/generic-two-button-dialog.component";
-import {FoodImageUploadComponent} from "../../food-assemblies/food-image-upload/food-image-upload.component";
+import {ActivatedRoute, Router} from '@angular/router';
+import {FoodService} from '../../../shared/services/food.service';
+import {IdentityService} from '../../../shared/services/identity.service';
+import {Food} from '../../../shared/models/grocery/food.model';
+import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
+import {Tag} from '../../../shared/models/grocery/tag.model';
+import {ICanDeactivate} from '../../../guards/can-deactivate-guard';
+import {MDBModalService} from 'angular-bootstrap-md';
+import {GenericTwoButtonDialogComponent} from '../../../utilities/generic-two-button-dialog/generic-two-button-dialog.component';
+import {FoodImageUploadComponent} from '../../food-assemblies/food-image-upload/food-image-upload.component';
 
 @Component({
   selector: 'app-food-edit',
@@ -118,9 +118,17 @@ export class FoodEditComponent implements OnInit, ICanDeactivate {
 
 
   async ChangeVisibility(visibility: boolean) {
-    if (!visibility && this.CurrentFood.published){
+    if (!visibility && this.CurrentFood.published) {
       if (!await confirm('Ezzel az akcióval elveszíted a feliratkozóidat, ők pedig téged! Biztos folytatod?\n Ezt a beállítás mentéskor fog érvényesülni addig visszavonhatod')) return;
     }
     this.CurrentFood.isPrivate = !visibility;
+  }
+
+  DeleteImage() {
+    this.ImageCropper.EditMode = false;
+    this.ImageCropper.DeleteImage();
+    this.CurrentFood.imageUploaded = null;
+
+    this.foodService.DeleteImage(this.CurrentFood.id);
   }
 }

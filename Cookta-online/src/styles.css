@@ -42,7 +42,7 @@ body{
 }
 
 :root {
-  --MainContentSize: calc(100vh - 80px);
+  --MainContentSize: calc(100vh - 72px);
 }
 
 

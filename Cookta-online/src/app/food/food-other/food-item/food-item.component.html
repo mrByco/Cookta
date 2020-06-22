@@ -1,16 +1,29 @@
-
-
-<div class="highlight">
-  <a (click)="OnCardClick()" style="width: 100%; height: 100%" >
-    <img class="food-image" [src]="Food.ImageUrl"  alt="Card image cap">
-    <div class="overlay" ></div>
+<div [ngStyle]="{
+     'height.px': Height,
+     'width.px': Width,
+     'margin-left.px': HorMargin,
+     'margin-right.px': HorMargin,
+     'margin-top.px': VertMargin,
+     'margin-bottom.px': VertMargin}"
+     class="highlight p-0">
+  <a (click)="OnCardClick()" style="width: 100%; height: 100%">
+    <img [ngStyle]="{
+           'height.px': Width * 0.93,
+           'width.px': Width * 0.93,
+           'margin-left.px': Width * 0.035,
+           'margin-right.px': Width * 0.035,
+           'margin-top.px': Width * 0.03,
+           'margin-bottom.px': 0}" [src]="Food.ImageUrl" alt="Card image cap"
+         class="food-image">
+    <div class="overlay"></div>
     <h4 class="food-title"><a>{{Food.name}}</a></h4>
   </a>
   <div mdbDropdown style="position: absolute; right: 10px; top: 10px" *ngIf="identityService.LastKnownUserInfo">
     <a mdbDropdownToggle class="more-options-icon-frame" *ngIf="identityService.LastKnownUserInfo['sub'] == Food.owner">
       <img src="assets/more-options-button.png">
     </a>
-    <div class="dropdown-menu dropdown-primary" style="position: absolute; top: -20px; left: -15px">
+    <div class="dropdown-menu dropdown-primary"
+         style="position: absolute; top: -20px; left: -15px">
       <button class="dropdown-item" [routerLink]="'/foods/' + Food.foodId">Megtekintés</button>
       <button class="dropdown-item" [routerLink]="'/foods/' + Food.foodId + '/edit'">Szerkesztés</button>
     </div>

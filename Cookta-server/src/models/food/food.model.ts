@@ -1,13 +1,14 @@
-import {User} from "../user.model";
-import {SendableFood} from "./food-sendable";
+import {User} from '../user.model';
+import {SendableFood} from './food-sendable';
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
-import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
-import {Tag} from "../tag.model";
-import { ObjectID } from 'mongodb';
+import {StoreItemBase} from 'atomik/lib/store-item/store-item-base';
+import {Tag} from '../tag.model';
+import {ObjectID} from 'mongodb';
+import {ISendableFood} from 'cookta-shared/src/models/food/food-sendable.interface';
 
 
 export class Food extends StoreItemBase {
-    public static readonly CollectionName = "Foods";
+    public static readonly CollectionName = 'Foods';
 
     public owner: string = null;
     public name: string = null;
@@ -74,7 +75,7 @@ export class Food extends StoreItemBase {
                 foodId: this.foodId
             }
         }*/
-    public async ToSendable(sendFor?: User, cachedSubFoods?: Food[]) {
+    public async ToSendable(sendFor?: User, cachedSubFoods?: Food[]): Promise<ISendableFood> {
         return await SendableFood.Create(this, sendFor, cachedSubFoods);
     }
 

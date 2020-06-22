@@ -5,16 +5,17 @@ export class Myclass {
 
 export class Routes {
   public static readonly Food = {
-    GetPublicFoods: "/food",
-    PostFood: "/food",
-    GetCollectionFoods: "/food/collection",
-    GetFoodId: "/food/{id}",
-    DeleteFoodId: "/food/{id}",
-    GetFoodFrom: "/food/{from}/{count}",
-    PostFoodImage: "/food/image/{foodVersionId}",
-    DeleteFoodImage: "/food/image/{foodVersionId}",
-    GetOwnFoods: "/food/own",
-    GetFamilyFoods: "/food/family",
+    GetPublicFoods: '/food',
+    PostFood: '/food',
+    GetCollectionFoods: '/food/collection',
+    GetFoodById: '/food/{id}',
+    GetFoodPageById: '/food/page/{id}/{count}',
+    DeleteFoodId: '/food/{id}',
+    GetFoodFrom: '/food/{from}/{count}',
+    PostFoodImage: '/food/image/{foodVersionId}',
+    DeleteFoodImage: '/food/image/{foodVersionId}',
+    GetOwnFoods: '/food/own',
+    GetFamilyFoods: '/food/family',
     GetSubscriptionFoods: '/food/subscription',
     SetSubscription: '/subscription'
   };
@@ -66,14 +67,18 @@ export class Routes {
     GetSections: "/stock",
     CreateSection: "/stock",
     SetSection: "/stock",
-    DeleteSection: "/stock/{storageSectionIdString}",
+    DeleteSection: '/stock/{storageSectionIdString}',
 
   };
   public static readonly Essentials = {
-    GetEssentials: "/baselist",
-    SetEssentials: "/baselist",
+    GetEssentials: '/baselist',
+    SetEssentials: '/baselist',
   };
   public static readonly Shopping = {
-    GetShoppingList: "/ShoppingList/{nextShopping}",
+    GetShoppingList: '/ShoppingList/{nextShopping}',
+  };
+  public static readonly Home = {
+    GetHomeMarkup: '/home',
+    GetContent: '/home',
   };
 }

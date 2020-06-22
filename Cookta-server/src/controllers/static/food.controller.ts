@@ -1,18 +1,18 @@
-import {Subscription} from "../../models/subscription.model";
-import {User} from "../../models/user.model";
-import {Controller} from "waxen/dist/deorators/controller";
-import {Contracts} from "cookta-shared/src/contracts/contracts";
-import {Security} from "waxen/dist/deorators/security";
-import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
-import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
-import {SendableFood} from "../../models/food/food-sendable";
-import {ProvideRequest} from "waxen/dist/deorators/provide-request";
-import {NotFoundError} from "../../helpers/error.helper";
-import {Services} from "../../Services";
+import {Subscription} from '../../models/subscription.model';
+import {User} from '../../models/user.model';
+import {Controller} from 'waxen/dist/deorators/controller';
+import {Contracts} from 'cookta-shared/src/contracts/contracts';
+import {Security} from 'waxen/dist/deorators/security';
+import {ISendableFood} from 'cookta-shared/src/models/food/food-sendable.interface';
+import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
+import {SendableFood} from '../../models/food/food-sendable';
+import {ProvideRequest} from 'waxen/dist/deorators/provide-request';
+import {NotFoundError} from '../../helpers/error.helper';
+import {Services} from '../../Services';
+import {Food} from '../../models/food/food.model';
 
 @Controller(Contracts.Foods)
 export class FoodController {
-
 
 
     @Security(true)
@@ -116,5 +116,15 @@ export class FoodController {
     public async SearchFoods(reqBody: void, user: User, text: string, count: number): Promise<{ results: ISendableFood[] }> {
         if (count < 1) return { results: [] };
         return { results: await SendableFood.ToSendableAll(await Services.FoodService.FoodSearch(text, +count), user) };
+    }
+
+    @Security(true)
+    public async GetFoodPageById(reqBody: void, user: User, id: string, count: number): Promise<{ food: ISendableFood, recommendations: ISendableFood[] }> {
+        let food = Services.FoodService.GetFoodForUser(id, user.sub);
+        let sendFood = await food.ToSendable(user);
+        let recommendations: Food[] = await Services.FoodService.GetFoodRecommendations(food, count, user);
+        let sendRecommendations: ISendableFood[] = await SendableFood.ToSendableAll(recommendations);
+
+        return { recommendations: sendRecommendations, food: sendFood };
     }
 }
