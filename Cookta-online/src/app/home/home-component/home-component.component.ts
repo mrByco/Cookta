@@ -16,6 +16,7 @@ export class HomeComponentComponent implements OnInit {
 
 
   constructor(public homeService: HomeService) {
+    this.homeService.RefreshStartPage();
   }
 
   ngOnInit(): void {

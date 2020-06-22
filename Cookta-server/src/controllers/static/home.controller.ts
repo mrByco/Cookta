@@ -9,8 +9,11 @@ import {Services} from '../../Services';
 import {IHomeRowContentMarkup} from 'cookta-shared/src/models/home/home-row-content-markup.interface';
 import {IHomeContent} from 'cookta-shared/src/models/home/home-content.interface';
 import {SendableFood} from '../../models/food/food-sendable';
+import {Tag} from '../../models/tag.model';
+import {RNG} from '../../random-by-seed';
 
 require('../../extensions/date-extensions');
+require('../../extensions/string-extensions');
 
 @Controller(Contracts.Home)
 export class HomeController {
@@ -65,7 +68,23 @@ export class HomeController {
                     break;
                 }
             case 'tag':
-                console.error(Error('Notimplemented - tag'));
+                /*
+                $and: [{
+                    published: true
+                },
+                    { $or: [{ tags: tagId }, { 'generated.tags.guid': tagId }] }]
+            }
+                 */
+                let tagId = req.args;
+                resp.foods = await Services.FoodService.MakeRequest(
+                    {'generated.tags.guid': tagId},
+                    cursor => {
+                        cursor.sort({uploaded: -1});
+                        cursor.limit(req.count);
+                        return cursor.toArray();
+                    }).then(d => SendableFood.ToSendableAll(d));
+                resp.title = await Tag.GetTagById(tagId).then(t => t?.name ?? tagId);
+                resp.clickAction = 'open';
                 break;
         }
         return resp;
@@ -75,12 +94,25 @@ export class HomeController {
     public async GetHome(reqBody: void, user: User): Promise<IHomeContent> {
         let squareContnet = await HomeController.GetSquareContent(user);
         let specRows = await HomeController.GetSpecialRows();
+        let rowCount = 8;
+        let rows: IHomeRowContentMarkup[] = [];
+        let rowPossibilities: IHomeRowContentMarkup[] = [];
+
+        let rng = new RNG(new Date().ToYYYYMMDDString().hashCode());
+
+        while (rows.length < rowCount) {
+            if (rowPossibilities.length == 0) rowPossibilities = await this.GetRowPossibilities();
+            let choosenIndex = Math.floor(rng.NextFloat() * (rowPossibilities.length + 1));
+            rows.push(rowPossibilities[choosenIndex]);
+            rowPossibilities.splice(choosenIndex, 1);
+            rows[rows.length - 1].big = (rows.length - 1) % 3 == 0;
+        }
 
         return await {
             Square: squareContnet,
             SpecRow1: specRows.row1,
             SpecRow2: specRows.row2,
-            Rows: []
+            Rows: rows
         };
     }
 
@@ -92,5 +124,14 @@ export class HomeController {
         }
 
         return responses;
+    }
+
+    private async GetRowPossibilities(): Promise<IHomeRowContentMarkup[]> {
+        let rows: IHomeRowContentMarkup[] = [];
+        let tags = (await Tag.GetAll()).filter(t => t.ischildonly == false);
+        for (let tag of tags) {
+            rows.push({arguments: tag.name, big: false, type: 'tag'});
+        }
+        return rows;
     }
 }

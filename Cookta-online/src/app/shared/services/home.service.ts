@@ -19,12 +19,10 @@ export class HomeService {
     });
   }
 
-  public async RefreshStartPage(): Promise<void> {
-    return new Promise(resolve => {
-      this.StartProcess.then(() => {
-        resolve();
-        this.OnHomeContentChanged.emit(this.HomeContent);
-      });
+  public RefreshStartPage(): Promise<void> {
+    return this.GetHomeMarkup().then(h => {
+      this.HomeContent = h;
+      this.OnHomeContentChanged.emit(this.HomeContent);
     });
   }
 
