@@ -10,6 +10,8 @@ import { FamilyController } from "../controllers/static/family.controller";
 import { InviteFamilyRequest } from "cookta-shared/src/contracts/family/invite.family.request";
 import { FoodController } from "../controllers/static/food.controller";
 import { IUpdateFoodRequest } from "cookta-shared/src/contracts/foods/update-food.request";
+import { HomeController } from "../controllers/static/home.controller";
+import { IHomeContentRequest } from "cookta-shared/src/contracts/home/home-content.request";
 import { IngredientTypeController } from "../controllers/static/ingredient-type.controller";
 import { ISetIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
 import { IDeleteIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
@@ -494,6 +496,43 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new FoodController();
                 const promise = controller.SearchFoods(request.body as void, user, args.text, args.count);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    // <<=======-HOME-======>>
+    app.get('/home/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, true, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new HomeController();
+                const promise = controller.GetHome(request.body as void, user);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/home/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, true, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new HomeController();
+                const promise = controller.GetHomeContent(request.body as IHomeContentRequest[], user);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);

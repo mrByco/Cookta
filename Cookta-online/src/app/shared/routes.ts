@@ -67,14 +67,18 @@ export class Routes {
     GetSections: "/stock",
     CreateSection: "/stock",
     SetSection: "/stock",
-    DeleteSection: "/stock/{storageSectionIdString}",
+    DeleteSection: '/stock/{storageSectionIdString}',
 
   };
   public static readonly Essentials = {
-    GetEssentials: "/baselist",
-    SetEssentials: "/baselist",
+    GetEssentials: '/baselist',
+    SetEssentials: '/baselist',
   };
   public static readonly Shopping = {
-    GetShoppingList: "/ShoppingList/{nextShopping}",
+    GetShoppingList: '/ShoppingList/{nextShopping}',
+  };
+  public static readonly Home = {
+    GetHomeMarkup: '/home',
+    GetContent: '/home',
   };
 }

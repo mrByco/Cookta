@@ -3,7 +3,7 @@ import {StoreService} from 'atomik/lib/store-service/store-service';
 import {IFoodService} from './food.service.interface';
 import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
 import {Services} from '../../Services';
-import {ObjectID} from 'mongodb';
+import {Collection, Cursor, ObjectID} from 'mongodb';
 import {MongoHelper} from '../../helpers/mongo.helper';
 import {Subscription} from '../../models/subscription.model';
 import {Family} from '../../models/family.model';
@@ -94,6 +94,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
 
     async SaveFood(food: Food, generate: boolean = true) {
         if (generate) food.generated = await this.GetGenerateDataForFood(food);
+        food.lastModified = Date.now();
         await this.SaveItem(food);
     }
 
@@ -167,6 +168,14 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         return true;
     }
 
+    public async MakeRequest(req: any, getDocuments: (cursor: Cursor) => Promise<any[]>): Promise<Food[]> {
+        let collection = this['Collection'] as Collection;
+        let cursor = await collection.find(req);
+        let docuements = await getDocuments(cursor);
+        let foods: Food[] = docuements.map(d => this.FromSaveJson(d));
+        return foods;
+    }
+
     private async GetGenerateDataForFood(food: Food): Promise<{ tags: Tag[] }> {
         let tags: Tag[] = [];
         let tagsToCheck: Tag[] = await Promise.all(food.tags.map(async (t) => await Tag.GetTagById(t)));
@@ -174,7 +183,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             let current = tagsToCheck[0];
 
             //Includes means its parents already added
-            if (!tags.includes(current)){
+            if (!tags.includes(current)) {
                 if (!food.tags.includes(current.guid))
                     tags.push(current);
                 let parent: Tag = current.parentId ? await Tag.GetTagById(current.parentId) : undefined;

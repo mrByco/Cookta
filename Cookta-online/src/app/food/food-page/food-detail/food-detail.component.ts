@@ -67,7 +67,9 @@ export class FoodDetailComponent implements AfterViewInit {
       this.Recommendations = data.recommendations;
       this.ScaleToDose = this.Food.dose;
     }
+    window.scroll(0, 0);
   }
+
 
   public async Subscribe(state: boolean) {
     if (!this.identityService.LoggedIn) {
