@@ -81,10 +81,12 @@ import {HomeComponentComponent} from './home/home-component/home-component.compo
 import {SquareHomeContentComponent} from './home/square-home-content/square-home-content.component';
 import {RowHomeContentComponent} from './home/row-home-content/row-home-content.component';
 import {HomeService} from './shared/services/home.service';
+import { FoodSearchPageComponent } from './food/search/food-search-page/food-search-page.component';
+import {SearchService} from "./food/search/search.service";
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponentComponent},
-  {path: 'foods', component: PublicFoodsComponent},
+  {path: 'foods', component: FoodSearchPageComponent},
   {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
   {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
   {path: 'user-editor', component: UserListComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -159,6 +161,7 @@ const appRoutes: Routes = [
     HomeComponentComponent,
     SquareHomeContentComponent,
     RowHomeContentComponent,
+    FoodSearchPageComponent,
   ],
     imports: [
         BrowserModule,
@@ -183,7 +186,7 @@ const appRoutes: Routes = [
       MatTabsModule,
     ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
+  providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
   entryComponents: [GenericTwoButtonDialogComponent],
   bootstrap: [AppComponent]
 })

@@ -21,7 +21,7 @@ export class FoodListComponent implements AfterViewInit {
   public FoodsToDisplay: Food[] = [];
   @Input('Expand') public Expand: boolean;
   public resizeDetector: any;
-  public readonly MinItemSize: number = 260;
+  @Input('MinItemSize') public MinItemSize: number = 260;
   public readonly MinMargin = this.MinItemSize / 40;
   public RequestedItemCount: number;
   @ViewChild('Container') public FoodContainer: ElementRef;
@@ -41,6 +41,7 @@ export class FoodListComponent implements AfterViewInit {
   public set Foods(value) {
     this.m_Foods = value;
     this.RefreshDisplayFoods();
+    console.log(this);
   }
 
   public get ItemWidth() {
