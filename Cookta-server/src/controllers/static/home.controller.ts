@@ -109,7 +109,6 @@ export class HomeController {
         while (rows.length < rowCount) {
             if (rowPossibilities.length == 0) rowPossibilities = await this.GetRowPossibilities();
             let choosenIndex = Math.floor(rng.NextFloat() * (rowPossibilities.length));
-            console.log(`${choosenIndex} from 0-${rowPossibilities.length}`);
             rows.push(rowPossibilities[choosenIndex]);
             rowPossibilities.splice(choosenIndex, 1);
             rows[rows.length - 1].big = (rows.length - 1) % 3 == 0;
