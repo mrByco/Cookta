@@ -126,10 +126,10 @@ export class HomeController {
     public async GetHomeContent(reqBody: IHomeContentRequest[], user: User): Promise<IHomeRowContent[]> {
         let responses: IHomeRowContent[] = [];
         let tasks = reqBody.map(req =>
-            new Promise(r => {
-                HomeController.GetActualRowContent(user, req)
-                    .then(response => responses.push(response))
-                    .then(() => r());
+            new Promise(async r => {
+                let task = HomeController.GetActualRowContent(user, req);
+                responses[reqBody.indexOf(req)] = await task;
+                r();
             }));
         await Promise.all(tasks);
         return responses;
