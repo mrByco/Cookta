@@ -64,7 +64,7 @@ export class FoodListComponent implements AfterViewInit {
 
   private ReCalcItemRequest() {
     // -3 few correction (rows or something)
-    let containerWidth = this.FoodContainer.nativeElement.offsetWidth;
+    let containerWidth = this.FoodContainer.nativeElement.offsetWidth - 3;
     let containerHeight = this.FoodContainer.nativeElement.offsetHeight;
     let horizontalItemCount = Math.floor(containerWidth / (this.MinItemSize + 2 * this.MinMargin));
     this.m_ItemWidth = (containerWidth / horizontalItemCount) - (2 * this.MinMargin);
