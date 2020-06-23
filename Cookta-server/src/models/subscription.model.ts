@@ -1,17 +1,15 @@
-import {Food} from "./food/food.model";
-import {User} from "./user.model";
-import {ObjectID} from "bson";
-import {MongoHelper} from "../helpers/mongo.helper";
-import {Services} from "../Services";
+import {Food} from './food/food.model';
+import {User} from './user.model';
+import {ObjectID} from 'bson';
+import {MongoHelper} from '../helpers/mongo.helper';
+import {Services} from '../Services';
 
 export class Subscription {
 
     public static readonly CollectionName = 'Subcription';
 
 
-
-
-    constructor (
+    constructor(
         public userSub: string,
         public foodVersionId: string,
         public foodId: string,
@@ -48,6 +46,7 @@ export class Subscription {
         let collection = await MongoHelper.getCollection(this.CollectionName);
         if (!state){
             let deletedResult = await collection.deleteMany({sub: user.sub, foodTypeId: foodId});
+            console.log(deletedResult);
             return null;
         }
         if (state){
@@ -108,7 +107,13 @@ export class Subscription {
         await collection.replaceOne({_id: new ObjectID(this._id)}, this.ToDocument(), {upsert: true});
     }
 
-    getReferencingFood(){
+    getReferencingFood() {
         return Services.FoodService.GetFood(this.foodId, this.foodVersionId);
     }
+
+    static async GetFoodSubscriptions(foodId: string): Promise<number> {
+        let collection = await MongoHelper.getCollection(Subscription.CollectionName);
+        return collection.find({foodTypeId: foodId}).toArray().then(a => a.length);
+    }
+
 }

@@ -29,7 +29,7 @@ export class HomeController {
         let images = last5FoodUpload.map(f => {
             return {
                 subtitle: `${f.name} - ${new Date(f.lastModified).ToYYYYMMDDString()}`,
-                url: `https://kuktaimages.blob.core.windows.net/foodimages/${f.foodId}.jpg`
+                url: `https://kuktaimages.blob.core.windows.net/foodimages/${f.id}.jpg`
             };
         });
 
