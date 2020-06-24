@@ -29,7 +29,7 @@ export class HomeController {
         let images = last5FoodUpload.map(f => {
             return {
                 subtitle: `${f.name} - ${new Date(f.lastModified).ToYYYYMMDDString()}`,
-                url: `https://kuktaimages.blob.core.windows.net/foodimages/${f.foodId}.jpg`
+                url: `https://kuktaimages.blob.core.windows.net/foodimages/${f.id}.jpg`
             };
         });
 
@@ -108,7 +108,7 @@ export class HomeController {
 
         while (rows.length < rowCount) {
             if (rowPossibilities.length == 0) rowPossibilities = await this.GetRowPossibilities();
-            let choosenIndex = Math.floor(rng.NextFloat() * (rowPossibilities.length + 1));
+            let choosenIndex = Math.floor(rng.NextFloat() * (rowPossibilities.length));
             rows.push(rowPossibilities[choosenIndex]);
             rowPossibilities.splice(choosenIndex, 1);
             rows[rows.length - 1].big = (rows.length - 1) % 3 == 0;
@@ -126,10 +126,10 @@ export class HomeController {
     public async GetHomeContent(reqBody: IHomeContentRequest[], user: User): Promise<IHomeRowContent[]> {
         let responses: IHomeRowContent[] = [];
         let tasks = reqBody.map(req =>
-            new Promise(r => {
-                HomeController.GetActualRowContent(user, req)
-                    .then(response => responses.push(response))
-                    .then(() => r());
+            new Promise(async r => {
+                let task = HomeController.GetActualRowContent(user, req);
+                responses[reqBody.indexOf(req)] = await task;
+                r();
             }));
         await Promise.all(tasks);
         return responses;

@@ -74,10 +74,10 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             food.private = true;
             food.published = false;
             food.lastModified = Date.now();
+            food.uploaded = Date.now();
         }
         if (food.published && request.private) Subscription.RemoveFoodReferences(food.foodId);
-
-        food.uploaded = Date.now();
+        food.lastModified = Date.now();
         Object.keys(request).forEach(k => food[k] = request[k]);
         food.published = !food.private;
         this.SaveFood(food);
@@ -94,7 +94,6 @@ export class FoodService extends StoreService<Food> implements IFoodService {
 
     async SaveFood(food: Food, generate: boolean = true) {
         if (generate) food.generated = await this.GetGenerateDataForFood(food);
-        food.lastModified = Date.now();
         await this.SaveItem(food);
     }
 
@@ -229,6 +228,13 @@ export class FoodService extends StoreService<Food> implements IFoodService {
             food2.generated?.tags?.forEach(t2 => match += t.guid == t2.guid ? 1 : 0);
         });
         return match;
+    }
+
+
+    protected FromSaveJson(doc: any): Food {
+        let food = super.FromSaveJson(doc);
+        if (!food.foodId) food.foodId = food.id;
+        return food;
     }
 
 

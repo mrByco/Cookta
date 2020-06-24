@@ -8,7 +8,7 @@ import {MealingService} from '../../../shared/services/mealing.service';
 import {Day} from '../../../shared/models/menu/day.model';
 import {ISendableFood} from '../../../../../../Cookta-shared/src/models/food/food-sendable.interface';
 import {ITag} from '../../../../../../Cookta-shared/src/models/tag/tag.interface';
-import {FoodListComponent} from "../../food-other/food-list/food-list.component";
+import {FoodListComponent} from '../../food-other/food-list/food-list.component';
 
 @Component({
   selector: 'app-food-detail',
@@ -76,6 +76,7 @@ export class FoodDetailComponent implements AfterViewInit {
       this.identityService.PleaseLogin();
       return;
     }
+    console.log(this.Food);
     await this.foodService.SetSubscription(this.Food.foodId, state);
     this.Food.SubscribedFor = state;
   }
