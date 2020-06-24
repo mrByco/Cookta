@@ -21,7 +21,7 @@ export class FoodListComponent implements AfterViewInit {
   public FoodsToDisplay: Food[] = [];
   @Input('Expand') public Expand: boolean;
   public resizeDetector: any;
-  public readonly MinItemSize: number = 260;
+  @Input('MinItemSize') public MinItemSize: number = 260;
   public readonly MinMargin = this.MinItemSize / 40;
   public RequestedItemCount: number;
   @ViewChild('Container') public FoodContainer: ElementRef;
@@ -63,7 +63,7 @@ export class FoodListComponent implements AfterViewInit {
 
   private ReCalcItemRequest() {
     // -3 few correction (rows or something)
-    let containerWidth = this.FoodContainer.nativeElement.offsetWidth;
+    let containerWidth = this.FoodContainer.nativeElement.offsetWidth - 3;
     let containerHeight = this.FoodContainer.nativeElement.offsetHeight;
     let horizontalItemCount = Math.floor(containerWidth / (this.MinItemSize + 2 * this.MinMargin));
     this.m_ItemWidth = (containerWidth / horizontalItemCount) - (2 * this.MinMargin);

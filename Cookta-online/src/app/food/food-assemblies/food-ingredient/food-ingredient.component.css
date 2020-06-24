@@ -1,9 +1,10 @@
 
-.ingredients-desc {
+.ingredients-desc h6 {
   margin-left: 0.2rem;
   margin-right: 0.2rem;
   font-size: 20px;
   color: inherit;
+  font-weight: bolder;
 }
 
 
@@ -15,8 +16,29 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.ing-row {
+  display: block;
+}
+.ing-row h6, div{
+  display: inline-block;
+}
+
+.is-home {
+
+}
+.is-not-home {
+
+}
+
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
 
+.check-tip p {
+  margin: 0;
+}
+.check-tip h6 {
+  font-weight: bold;
+  color: #ff7150;
+}

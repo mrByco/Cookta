@@ -14,7 +14,7 @@ import {IIngredientType} from 'cookta-shared/src/models/ingredient-type/ingredie
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IIngredientDependendentObject} from '../../interfaces/ingredient-dependency-object.interface';
 import {EUnitType} from 'cookta-shared/src/models/unit/unit-type.enum';
-import { ISetIngredientTypeRequest } from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
+import {ISetIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
 
 
 const NO_DESCENDENT = 'NO_DESCENDENT_OR_FORCED';
@@ -42,6 +42,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
             ConvertBack: this.returnSame
         },
     ];
+
 
     GetIngredientReferenceCount(id: string, ingredientDependendents: IIngredientDependendentObject): Promise<number> {
         let referenceCount = 0;
@@ -139,8 +140,12 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         if (ingType.options == null) {
             ingType.options = {cunits: []};
         }
+        for (let cunit of ingType.options.cunits) {
+            if (ingType.countEnabled) cunit.type = EUnitType.COUNT;
+            else if (ingType.massEnabled) cunit.type = EUnitType.MASS;
+            else if (ingType.volumeEnabled) cunit.type = EUnitType.VOLUME;
+        }
         return ingType;
-
     }
 
     //returns if the list has been modified

@@ -186,4 +186,7 @@ export class FoodService {
     });
   }
 
+  public async GetLastFoods(foodCount: number): Promise<Food[]> {
+    return this.GetFoods().then(f => f.splice(f.length - foodCount - 1).reverse());
+  }
 }

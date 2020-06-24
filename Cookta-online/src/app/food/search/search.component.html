@@ -5,7 +5,7 @@
             <img [src]="GetImageForFood(result)" [alt]="result.name">
             <div class="col text-content">
                 <div routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                    <a class="waves-light" mdbWavesEffect [routerLink]="'/foods/' + result.foodId">{{result.name}}</a>
+                    <a class="waves-light search-result-link" mdbWavesEffect [routerLink]="'/foods/' + result.foodId">{{result.name}}</a>
                 </div>
                 <div>{{result.desc}}</div>
             </div>

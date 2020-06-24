@@ -21,3 +21,7 @@
     font-size: 26px;
     font-weight: bolder;
 }
+.search-result-food a:hover {
+  text-decoration: underline;
+ }
+

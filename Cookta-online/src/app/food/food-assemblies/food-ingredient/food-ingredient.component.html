@@ -1,17 +1,37 @@
-<div class="row">
-    <h6 class="ingredients-desc">- </h6>
-    <h6 *ngIf="!this.edit; else ValueInput"
-        class="ingredients-desc">{{displayIngredient.ingredientSource.value * displayMultiplier}}</h6>
+<div class="ing-row">
+  <div [mdbTooltip]="IsAtHomeInfo" placement="right" class="ingredients-desc">
+    <h6>- </h6>
+    <h6 *ngIf="!this.edit; else ValueInput">
+      {{displayIngredient.ingredientSource.value * displayMultiplier}}
+    </h6>
     <ng-template #ValueInput>
         <span
-                [(ngModel)]="displayIngredient.Value"
-                class="input span-input-growing"
-                contenteditable="true"
-                role="textbox"></span>
+          [(ngModel)]="displayIngredient.Value"
+          class="input span-input-growing"
+          contenteditable="true"
+          role="textbox"></span>
     </ng-template>
-    <h6 class="ingredients-desc">{{m_ShowShortUnitNames ? displayIngredient.ShortUnitNameSafe : displayIngredient.UnitName}}</h6>
-    <h6 class="ingredients-desc">{{displayIngredient.TypeName}}</h6>
+    <h6>{{m_ShowShortUnitNames ? displayIngredient.ShortUnitNameSafe : displayIngredient.UnitName}}</h6>
+    <h6>{{displayIngredient.TypeName}}</h6>
     <div *ngIf="this.edit">
-        <a (click)="DeleteThis()"><img alt="" class="mini-round-icon" src="assets/ingredient-remove-icon.png"></a>
+      <a (click)="DeleteThis()"><img alt="" class="mini-round-icon" src="assets/ingredient-remove-icon.png"></a>
     </div>
+    <mdb-icon *ngIf="CheckResult.isOk" class="ml-1" fas icon="check-circle green-text accent-4"></mdb-icon>
+  </div>
 </div>
+
+<ng-template #IsAtHomeInfo>
+  <div class="check-tip" *ngIf="CheckResult; else Loading" >
+    <h6 *ngIf="!CheckResult.isOk">Nincs otthon..</h6>
+    <p *ngIf="CheckResult.sections.length > 1">
+      Összesen: {{CheckResult.sum.Value}} {{CheckResult.sum.UnitName}} {{CheckResult.sum.TypeName}}
+    </p>
+    <p *ngFor="let section of CheckResult.sections">
+      {{section.section.Name}}: {{section.ingredient.Value}} {{section.ingredient.UnitName}} {{section.ingredient.TypeName}}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #Loading>
+  <p>Ellenörzés alatt...</p>
+</ng-template>

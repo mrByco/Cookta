@@ -28,6 +28,10 @@ export class SearchService {
         this.m_Results = (await this.execSearchRequest(text, 10)).results;
         this.IsSearching = false;
     }
+    public ResetTextSilently(){
+      this.m_Text = "";
+    }
+
     private async execSearchRequest(text: string, count: number): Promise<{results: ISendableFood[]}>{
         let request = await this.serverService.GetRequest(`/${Contracts.Foods.basepath}/search/${text}/${count}`);
         return new Promise(resolve => {
