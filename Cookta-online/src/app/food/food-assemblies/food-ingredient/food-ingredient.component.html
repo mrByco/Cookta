@@ -23,7 +23,9 @@
 <ng-template #IsAtHomeInfo>
   <div class="check-tip" *ngIf="CheckResult; else Loading" >
     <h6 *ngIf="!CheckResult.isOk">Nincs otthon..</h6>
-    <p>Otthon: {{CheckResult.sum.Value}} {{CheckResult.sum.UnitName}} {{CheckResult.sum.TypeName}}</p>
+    <p *ngIf="CheckResult.sections.length > 1">
+      Összesen: {{CheckResult.sum.Value}} {{CheckResult.sum.UnitName}} {{CheckResult.sum.TypeName}}
+    </p>
     <p *ngFor="let section of CheckResult.sections">
       {{section.section.Name}}: {{section.ingredient.Value}} {{section.ingredient.UnitName}} {{section.ingredient.TypeName}}
     </p>

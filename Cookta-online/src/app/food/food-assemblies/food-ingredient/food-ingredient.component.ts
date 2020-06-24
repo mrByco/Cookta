@@ -79,7 +79,7 @@ export class FoodIngredientComponent implements OnInit {
       value: -requirement.value,
       unit: requirement.unit
     },
-      ...completeAtHome])[0].value > 0;
+      ...completeAtHome])[0].value >= 0;
 
     let completeSum = IngredientHelper.MergeIngredients(completeAtHome)[0];
     let sum: IIngredient = completeSum ? {ingredientID: completeSum.ingredientType.guid, unit: completeSum.unit.id, value: completeSum.value} : undefined;
