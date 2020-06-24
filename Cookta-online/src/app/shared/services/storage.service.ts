@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {ServerService} from './server.service';
 import {IStorageItemChangeRequest, StorageSection} from '../models/storage/storage-section.model';
 import {Routes} from '../routes';
@@ -13,13 +13,15 @@ import {IngredientService} from './ingredient-service/ingredient.service';
 export class StorageService {
 
   public readonly Sections: StorageSection[] = [];
+  public readonly OnSecrionsRefreshed = new EventEmitter<StorageSection[]>();
 
   public IsBusy: boolean;
 
   constructor(public serverService: ServerService,
               public unitService: UnitService,
               public ingredientService: IngredientService) {
-
+    this.RefreshStorageSections();
+    setInterval(() => this.RefreshStorageSections(), 30 * 60 * 1000);
   }
 
   private static SectionFromData(d: any): StorageSection {
@@ -39,6 +41,7 @@ export class StorageService {
         for (const d of (data as any)) {
           this.Sections.push(StorageService.SectionFromData(d));
         }
+        this.OnSecrionsRefreshed.emit(this.Sections);
         resolve();
         this.IsBusy = false;
       }, () => {

@@ -41,7 +41,6 @@ export class FoodListComponent implements AfterViewInit {
   public set Foods(value) {
     this.m_Foods = value;
     this.RefreshDisplayFoods();
-    console.log(this);
   }
 
   public get ItemWidth() {

@@ -123,6 +123,27 @@ describe('Ingredient utility', () => {
           value: 43
         });
       });
+    it('Merge different unit ingredients negative result (3)', () => {
+
+      let ing1: ICompleteIngredient = {
+        ingredientType: spice,
+        unit: {name: 'big piece', id: 'bp', shortname: 'knife', tobase: 20, type: EUnitType.count},
+        value: -2
+      };
+      let ing2 = {
+        ingredientType: spice,
+        unit: {name: 'small piece', id: 'sp', shortname: 'knife', tobase: 1, type: EUnitType.count},
+        value: 3
+      };
+
+      const result = IngredientHelper.MergeIngredients([ing1, ing2])[0];
+
+      expect(result).toEqual({
+        ingredientType: spice,
+        unit: {name: 'db', type: EUnitType.count, id: 'db', shortname: 'db', tobase: 1},
+        value: -37
+      });
+    });
     }
   );
   describe('subtract tests', () => {
