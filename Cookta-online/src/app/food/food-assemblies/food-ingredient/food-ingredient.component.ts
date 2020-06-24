@@ -95,7 +95,6 @@ export class FoodIngredientComponent implements OnInit {
       }),
       sum: sum ? new DisplayIngredient(sum, this.ingredientService, this.unitService) : undefined
     };
-    console.log(result);
     this.CheckResult = result;
   }
 }
