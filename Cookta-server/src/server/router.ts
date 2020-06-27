@@ -16,6 +16,8 @@ import {ISetIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-
 import {IDeleteIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-ingredient-type';
 import {DeleteCustomUnitRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-custom-unit';
 import {PingController} from '../controllers/static/ping.controller';
+import {ReportController} from '../controllers/static/report.controller';
+import {ICreateReportRequest} from 'cookta-shared/src/contracts/reports/create-report.request.interface';
 import {ShoppingListController} from '../controllers/static/shopping-list.controller';
 import {StockController} from '../controllers/static/stock.controller';
 import {IStorageItemChangeRequest} from 'cookta-shared/src/contracts/stock/StorageItemChange.request';
@@ -39,7 +41,8 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new DayController();
                 const promise = controller.GetDay(request.body as void, user, args.date);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => {
+                });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;
@@ -632,19 +635,64 @@ export function RegisterRoutes(app: express.Express) {
     // <<=======-PING-======>>
     app.get('/ping/',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
+            const args = {};
             const controller = new PingController();
             const promise = controller.Ping(request.body as void);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            ProcessPromiseResponse(controller, promise, response, next, (error) => {
+            });
         });
 
+
+    // <<=======-REPORT-======>>
+    app.get('/report/',
+        function(request: any, response: any, next: any) {
+            const args = {};
+            const controller = new ReportController();
+            const promise = controller.GetReports(request.body as void);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => {
+            });
+        });
+
+
+    app.delete('/report/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: request.params['id']
+            };
+            const controller = new ReportController();
+            const promise = controller.DeleteReport(request.body as void, args.id);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => {
+            });
+        });
+
+
+    app.get('/report/resolve/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: request.params['id']
+            };
+            const controller = new ReportController();
+            const promise = controller.ResolveReport(request.body as void, args.id);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => {
+            });
+        });
+
+
+    app.post('/report/',
+        function(request: any, response: any, next: any) {
+            const args = {};
+            const controller = new ReportController();
+            const promise = controller.CreateReport(request.body as ICreateReportRequest);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => {
+            });
+        });
 
 
     // <<=======-SHOPPINGLIST-======>>
     app.get('/ShoppingList/:nextShopping',
         function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => {
+            }).then((user) => {
                 const args = {
                     nextShopping: request.params['nextShopping']
                 };
