@@ -1,5 +1,5 @@
 <div class="ing-row">
-  <div [mdbTooltip]="IsAtHomeInfo" placement="right" class="ingredients-desc">
+  <div [isDisabled]="!this.CheckResult" [mdbTooltip]="IsAtHomeInfo" placement="right" class="ingredients-desc">
     <h6>- </h6>
     <h6 *ngIf="!this.edit; else ValueInput">
       {{displayIngredient.ingredientSource.value * displayMultiplier}}
@@ -16,7 +16,7 @@
     <div *ngIf="this.edit">
       <a (click)="DeleteThis()"><img alt="" class="mini-round-icon" src="assets/ingredient-remove-icon.png"></a>
     </div>
-    <mdb-icon *ngIf="CheckResult.isOk" class="ml-1" fas icon="check-circle green-text accent-4"></mdb-icon>
+    <mdb-icon *ngIf="CheckResult && CheckResult.isOk" class="ml-1" fas icon="check-circle green-text accent-4"></mdb-icon>
   </div>
 </div>
 
