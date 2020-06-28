@@ -23,7 +23,7 @@ export class FoodIngredientComponent implements OnInit {
 
   @Input('edit') public edit: boolean = false;
   @Input('ingredientDisplayMultiplier') public displayMultiplier = 1;
-  @Input('CheckIngredientAtHome') public CheckIngredientsAtHome: boolean;
+  @Input('CheckIngredientAtHome') public CheckIngredientsAtHome: boolean = false;
   @Output('OnDeleted') OnDeleted: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
   public m_ShowShortUnitNames: boolean;
   public displayIngredient: DisplayIngredient;
