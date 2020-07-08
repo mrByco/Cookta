@@ -1,11 +1,11 @@
-import {IServerReport} from '../../models/report/report.model';
+import {IReport} from 'cookta-shared/src/models/report/report.interface';
 
 export interface IReportService {
-    GetAll(): Promise<IServerReport[]>,
+    GetAll(): Promise<IReport[]>,
 
-    Create(): Promise<IServerReport>,
+    Create(source: string, type: string, data: any, desc?: string): Promise<IReport>,
 
-    ResolveReport(): Promise<void>,
+    ResolveReport(id: string): Promise<void>,
 
-    DeleteReport(): Promise<void>
+    DeleteReport(id: string): Promise<void>
 }

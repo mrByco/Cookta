@@ -631,7 +631,6 @@ export function RegisterRoutes(app: express.Express) {
         });
 
 
-
     // <<=======-PING-======>>
     app.get('/ping/',
         function(request: any, response: any, next: any) {
@@ -698,7 +697,8 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new ShoppingListController();
                 const promise = controller.GetShoppingList(request.body as void, user, args.nextShopping);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => {
+                });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;
