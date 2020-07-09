@@ -4,5 +4,6 @@ export interface IReport {
     source: string,
     desc: string,
     data: any,
-    time: number
+    time: number,
+    count: number,
 }

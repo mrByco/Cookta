@@ -20,6 +20,6 @@ export class ReportController {
     }
 
     public async CreateReport(reqBody: ICreateReportRequest): Promise<void> {
-        await Services.ReportService.Create('client', reqBody.report_type, reqBody.data, reqBody.desc);
+        await Services.ReportService.Report('client', reqBody.report_type, reqBody.data, reqBody.desc);
     }
 }

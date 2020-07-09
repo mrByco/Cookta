@@ -21,8 +21,10 @@ import {ShoppingList} from "./models/shopping-list.model";
 import {BackupService} from "./services/backup/bcakup-service";
 import {RoleService} from "./services/role/role-service";
 import {FoodService} from './services/food/food.service';
-import { LiveConnect } from './services/live-connection/live.connect';
+import {LiveConnect} from './services/live-connection/live.connect';
 import {MetricsService} from './services/metrics/metrics.service';
+import {SetErrorHandler} from "waxen/dist/server/request-promise-handler";
+import {ReportService} from "./services/reports/report.service";
 
 require('dotenv').config();
 
@@ -37,6 +39,7 @@ server.on("listening", async () => {
     console.info('Listening on ' + PORT);
 });
 
+
 try{
     console.info("Connecting to Mongo...");
     MongoHelper.connect(MongoConnectionString).then(async () => {
@@ -45,6 +48,12 @@ try{
         console.log("Start atomik services...");
 
         let liveConnect = new LiveConnect(server);
+
+        Services.ReportService = new ReportService(await MongoHelper.getCollection('Reports'));
+        SetErrorHandler((error) => {
+            let stack = JSON.parse(JSON.stringify(error.stack));
+            Services.ReportService.Report('server', 'auto', {stack: stack});
+        });
 
         Services.MetricsService = new MetricsService(liveConnect, MongoHelper.Client);
 

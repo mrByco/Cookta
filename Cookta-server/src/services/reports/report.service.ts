@@ -9,8 +9,15 @@ export class ReportService implements IReportService {
     }
 
 
-    async Create(source: string, type: string, data: any, desc?: string): Promise<IReport> {
-        let report = new ServerReport(type, source, desc ?? '', data, Date.now(), new ObjectID().toHexString());
+    async Report(source: string, type: string, data: any, desc?: string): Promise<IReport> {
+        desc = desc?? '';
+        let report: ServerReport = await this.collection.findOne({data: data, desc: desc, report_type: type, source: source}).then(d => {
+            return d ? ServerReport.FromStoreReport(d) : undefined;
+        });
+
+        if (!report) report = new ServerReport(type, source, desc, data, Date.now(), new ObjectID().toHexString(), 1);
+        else report.count++;
+
         await this.SaveReport(report);
         return report.ToReport();
     }

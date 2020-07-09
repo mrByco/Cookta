@@ -1,48 +1,47 @@
 import * as express from 'express';
-import {authenticationReqMiddleware, ProcessPromiseResponse} from 'waxen/dist/server/request-promise-handler';
-import {defaultAuthentication} from './authentication';
-import {DayController} from '../controllers/static/day.controller';
-import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
-import {EssentialsController} from '../controllers/static/essentialsController';
-import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
-import {FamilyController} from '../controllers/static/family.controller';
-import {InviteFamilyRequest} from 'cookta-shared/src/contracts/family/invite.family.request';
-import {FoodController} from '../controllers/static/food.controller';
-import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
-import {HomeController} from '../controllers/static/home.controller';
-import {IHomeContentRequest} from 'cookta-shared/src/contracts/home/home-content.request';
-import {IngredientTypeController} from '../controllers/static/ingredient-type.controller';
-import {ISetIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
-import {IDeleteIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-ingredient-type';
-import {DeleteCustomUnitRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-custom-unit';
-import {PingController} from '../controllers/static/ping.controller';
-import {ReportController} from '../controllers/static/report.controller';
-import {ICreateReportRequest} from 'cookta-shared/src/contracts/reports/create-report.request.interface';
-import {ShoppingListController} from '../controllers/static/shopping-list.controller';
-import {StockController} from '../controllers/static/stock.controller';
-import {IStorageItemChangeRequest} from 'cookta-shared/src/contracts/stock/StorageItemChange.request';
-import {SubscriptionController} from '../controllers/static/subscription.controller';
-import {TagController} from '../controllers/static/tag.controller';
-import {SetTagRequest} from 'cookta-shared/src/contracts/tags/set.tag.request';
-import {UnitController} from '../controllers/static/unit.controller';
-import {FixBadUnitRequest} from 'cookta-shared/src/contracts/unit-route/get-bad-units';
-import {RoleController} from '../controllers/static/role/role.controller';
-import {IRole} from 'cookta-shared/src/models/roles/role.interface';
-import {UserController} from '../controllers/static/user/user.controller';
+import { ProcessPromiseResponse } from 'waxen/dist/server/request-promise-handler';
+import { authenticationReqMiddleware } from 'waxen/dist/server/request-promise-handler';
+import { defaultAuthentication } from "./authentication";
+import { DayController } from "../controllers/static/day.controller";
+import { IMealing } from "cookta-shared/src/models/days/mealing.interface";
+import { EssentialsController } from "../controllers/static/essentialsController";
+import { IIngredient } from "cookta-shared/src/models/ingredient/ingredient.interface";
+import { FamilyController } from "../controllers/static/family.controller";
+import { InviteFamilyRequest } from "cookta-shared/src/contracts/family/invite.family.request";
+import { FoodController } from "../controllers/static/food.controller";
+import { IUpdateFoodRequest } from "cookta-shared/src/contracts/foods/update-food.request";
+import { HomeController } from "../controllers/static/home.controller";
+import { IHomeContentRequest } from "cookta-shared/src/contracts/home/home-content.request";
+import { IngredientTypeController } from "../controllers/static/ingredient-type.controller";
+import { ISetIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
+import { IDeleteIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
+import { DeleteCustomUnitRequest } from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
+import { PingController } from "../controllers/static/ping.controller";
+import { ReportController } from "../controllers/static/report.controller";
+import { ICreateReportRequest } from "cookta-shared/src/contracts/reports/create-report.request.interface";
+import { ShoppingListController } from "../controllers/static/shopping-list.controller";
+import { StockController } from "../controllers/static/stock.controller";
+import { IStorageItemChangeRequest } from "cookta-shared/src/contracts/stock/StorageItemChange.request";
+import { SubscriptionController } from "../controllers/static/subscription.controller";
+import { TagController } from "../controllers/static/tag.controller";
+import { SetTagRequest } from "cookta-shared/src/contracts/tags/set.tag.request";
+import { UnitController } from "../controllers/static/unit.controller";
+import { FixBadUnitRequest } from "cookta-shared/src/contracts/unit-route/get-bad-units";
+import { RoleController } from "../controllers/static/role/role.controller";
+import { IRole } from "cookta-shared/src/models/roles/role.interface";
+import { UserController } from "../controllers/static/user/user.controller";
 
 export function RegisterRoutes(app: express.Express) {
     // <<=======-DAYS-======>>
     app.get('/day/:date',
         function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => {
-            }).then((user) => {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
                     date: request.params['date']
                 };
                 const controller = new DayController();
                 const promise = controller.GetDay(request.body as void, user, args.date);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => {
-                });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;
@@ -631,26 +630,29 @@ export function RegisterRoutes(app: express.Express) {
         });
 
 
+
     // <<=======-PING-======>>
     app.get('/ping/',
         function(request: any, response: any, next: any) {
-            const args = {};
+            const args = {
+            };
             const controller = new PingController();
             const promise = controller.Ping(request.body as void);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => {
-            });
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
+
 
 
     // <<=======-REPORT-======>>
     app.get('/report/',
         function(request: any, response: any, next: any) {
-            const args = {};
+            const args = {
+            };
             const controller = new ReportController();
             const promise = controller.GetReports(request.body as void);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => {
-            });
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
+
 
 
     app.delete('/report/:id',
@@ -660,9 +662,9 @@ export function RegisterRoutes(app: express.Express) {
             };
             const controller = new ReportController();
             const promise = controller.DeleteReport(request.body as void, args.id);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => {
-            });
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
+
 
 
     app.get('/report/resolve/:id',
@@ -672,33 +674,32 @@ export function RegisterRoutes(app: express.Express) {
             };
             const controller = new ReportController();
             const promise = controller.ResolveReport(request.body as void, args.id);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => {
-            });
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
+
 
 
     app.post('/report/',
         function(request: any, response: any, next: any) {
-            const args = {};
+            const args = {
+            };
             const controller = new ReportController();
             const promise = controller.CreateReport(request.body as ICreateReportRequest);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => {
-            });
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
+
 
 
     // <<=======-SHOPPINGLIST-======>>
     app.get('/ShoppingList/:nextShopping',
         function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => {
-            }).then((user) => {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
                     nextShopping: request.params['nextShopping']
                 };
                 const controller = new ShoppingListController();
                 const promise = controller.GetShoppingList(request.body as void, user, args.nextShopping);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => {
-                });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;

@@ -8,15 +8,16 @@ export class ServerReport {
         public desc: string,
         public data: any,
         public created: number,
-        public id: string) {
+        public id: string,
+        public count: number) {
     }
 
     static FromStoreReport(docs: IStoreReport): ServerReport {
-        return new ServerReport(docs.report_type, docs.source, docs.desc, docs.data, docs.created, docs._id.toHexString());
+        return new ServerReport(docs.report_type, docs.source, docs.desc, docs.data, docs.created, docs._id.toHexString(), docs.count);
     }
 
     ToReport(): IReport {
-        return {data: this.data, desc: this.desc, id: this.id, source: this.source, type: this.reportType, time: this.created};
+        return {data: this.data, desc: this.desc, id: this.id, source: this.source, type: this.reportType, time: this.created, count: this.count};
     }
 
     ToStoreReport(): IStoreReport {
@@ -26,7 +27,8 @@ export class ServerReport {
             data: this.data,
             desc: this.desc,
             report_type: this.reportType,
-            source: this.source
+            source: this.source,
+            count: this.count,
         };
     }
 
@@ -38,5 +40,6 @@ export interface IStoreReport {
     source: string,
     desc: string,
     data: any,
-    created: number
+    created: number,
+    count: number
 }
