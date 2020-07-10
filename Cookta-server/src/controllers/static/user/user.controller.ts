@@ -5,7 +5,6 @@ import {Security} from 'waxen/dist/deorators/security';
 import {Contracts} from 'cookta-shared/src/contracts/contracts';
 import {ExtendedUser} from 'cookta-shared/src/models/user/extendedUser';
 
-//@ts-ignore
 @Controller(Contracts.Users)
 export class UserController {
 

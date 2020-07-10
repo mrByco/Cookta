@@ -12,17 +12,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/mocha": "^7.0.2",
     "@types/mongodb": "^3.5.2",
     "@types/ts-nameof": "^4.2.1",
     "chai": "^4.2.0",
-    "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
     "ts-nameof": "^4.2.2",
     "ts-node": "^8.8.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "waxen": "file:../waxen/waxen-folder"
+    "waxen": "file:../packages/waxen-1.0.0.tgz"
   }
 }

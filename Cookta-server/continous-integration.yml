@@ -15,21 +15,33 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
+    versionSpec: '12.x'
   displayName: 'Install Node.js'
 
 
 - script: |
     npm install --force
+    npm run build
   displayName: 'Shared install'
   workingDirectory: 'Cookta-shared'
 
 - script: |
     npm install --force
-    npm test
   displayName: 'Server install'
   workingDirectory: 'Cookta-server'
 
+  
+- script: |
+    npm test
+  displayName: 'Unit tests'
+  workingDirectory: 'Cookta-server'
+  continueOnError: true
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'Cookta-server/junit.xml'
+    testRunTitle: 'Publish test results'
 
 - task: PublishCodeCoverageResults@1
   inputs:
