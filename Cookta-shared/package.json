@@ -21,6 +21,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "waxen": "file:../packages/waxen-1.0.1.tgz"
+    "waxen": "file:../packages/waxen-1.0.0.tgz"
   }
 }
