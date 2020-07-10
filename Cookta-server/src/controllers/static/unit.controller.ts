@@ -1,12 +1,12 @@
-import {Services} from "../../Services";
-import {Food} from "../../models/food/food.model";
-import {IBadUnit} from "cookta-shared/src/models/unit/bad-unit.interface";
-import {Controller} from "waxen/dist/deorators/controller";
+import {Services} from '../../Services';
+import {Food} from '../../models/food/food.model';
+import {IBadUnit} from 'cookta-shared/src/models/unit/bad-unit.interface';
+import {Controller} from 'waxen/src/deorators/controller';
 import {Contracts} from 'cookta-shared/src/contracts/contracts';
-import {Security} from "waxen/dist/deorators/security";
-import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
-import {FixBadUnitRequest, GetBadUnitResponse} from "cookta-shared/src/contracts/unit-route/get-bad-units";
-import { User } from "../../models/user.model";
+import {Security} from 'waxen/src/deorators/security';
+import {IUnit} from 'cookta-shared/src/models/unit/unit.interface';
+import {FixBadUnitRequest, GetBadUnitResponse} from 'cookta-shared/src/contracts/unit-route/get-bad-units';
+import {User} from '../../models/user.model';
 
 @Controller(Contracts.Units)
 export class UnitController {

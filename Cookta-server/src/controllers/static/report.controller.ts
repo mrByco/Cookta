@@ -1,4 +1,4 @@
-import {Controller} from 'waxen/dist/deorators/controller';
+import {Controller} from 'waxen/src/deorators/controller';
 import {Contracts} from 'cookta-shared/src/contracts/contracts';
 import {ICreateReportRequest} from 'cookta-shared/src/contracts/reports/create-report.request.interface';
 import {IReport} from 'cookta-shared/src/models/report/report.interface';
