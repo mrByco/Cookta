@@ -36,6 +36,11 @@ steps:
   workingDirectory: 'Cookta-server'
   continueOnError: true
 
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'Cookta-server/junit.xml'
+    testRunTitle: 'Publish test results'
 
 - task: PublishCodeCoverageResults@1
   inputs:
