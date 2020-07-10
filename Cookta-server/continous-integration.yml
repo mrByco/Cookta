@@ -19,9 +19,10 @@ steps:
     npm install
     npm test
   displayName: 'Npm install'
+  workingDirectory: 'Cookta-server'
 
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/Cookta-server/coverage/cobertura-coverage.xml
