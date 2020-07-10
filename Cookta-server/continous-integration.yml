@@ -8,9 +8,6 @@ trigger:
    include:
      - develop
      - master
- paths:
-   include:
-     - Cookta-server
 
 pool:
   vmImage: 'ubuntu-latest'
