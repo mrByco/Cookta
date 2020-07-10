@@ -1,0 +1,23 @@
+<div class="container" style="height: var(--MainContentSize)">
+    <div class="row p-2"><h2>Issues</h2></div>
+    <div class="row">
+        <div class="col-8" style="overflow: auto">
+            <div class="row" style="font-weight: bolder">
+                <div class="col-1">Source</div>
+                <div class="col-1">Type</div>
+                <div class="col-1">Count</div>
+                <div class="col">Time</div>
+            </div>
+            <hr>
+            <div class="row" *ngFor="let rep of Reports">
+                <div class="col-1">{{rep.source}}</div>
+                <div class="col-1">{{rep.type}}</div>
+                <div class="col-1">{{rep.count}}</div>
+                <div class="col">{{ToTimeString(rep.time)}}</div>
+            </div>
+        </div>
+        <div class="col-4">
+
+        </div>
+    </div>
+</div>
