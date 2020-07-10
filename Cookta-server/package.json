@@ -38,7 +38,7 @@
     "socket.io": "^2.3.0",
     "swagger-ui-express": "^4.1.2",
     "ts-node": "^8.4.1",
-    "waxen": "file:../packages/waxen-1.0.1.tgz",
+    "waxen": "file:../waxen/waxen-folder",
     "waxen-generator": "file:../packages/waxen-generator-1.0.0.tgz"
   },
   "devDependencies": {
