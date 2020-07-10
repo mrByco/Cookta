@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --require ts-node/register ./src/**/*.spec.ts",
-    "test-watch": "mocha --recursive --require ts-node/register ./src/**/*.spec.ts",
+    "test": "jest --coverage --coverageReporters=cobertura",
     "start": "set NODE_ENV=debug&& nodemon -x ts-node src/main.ts",
     "start-prod": "nodemon -x ts-node src/main.ts",
     "start-backup": "nodemon -x ts-node src/database-command-tool/main.ts",

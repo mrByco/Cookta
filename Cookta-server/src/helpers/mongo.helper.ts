@@ -11,7 +11,6 @@ export class MongoHelper {
                     reject(err);
                 }
                 else{
-                    console.log('Mongo connected!');
                     MongoHelper.Client = client;
                     resolve(client)
                 }
@@ -24,7 +23,8 @@ export class MongoHelper {
             return null;
         } else {
             let collections = await this.Client.db(db).collections();
-            return collections.find(x => x.collectionName == name);
+            return (await collections.find(x => x.collectionName == name))
+                ?? await this.CreateCollection(db, name);
         }
     }
 
