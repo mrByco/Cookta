@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --coverageReporters=cobertura",
+    "test": "jest --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura",
     "start": "set NODE_ENV=debug&& nodemon -x ts-node src/main.ts",
     "start-prod": "nodemon -x ts-node src/main.ts",
     "start-backup": "nodemon -x ts-node src/database-command-tool/main.ts",
@@ -55,6 +55,7 @@
     "chai": "^4.2.0",
     "chai-spies": "^1.0.0",
     "jest": "^26.1.0",
+    "jest-junit": "^11.0.1",
     "mongodb-memory-server": "^6.6.1",
     "nodemon": "^1.19.4",
     "nyc": "^15.0.0",
