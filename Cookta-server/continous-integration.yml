@@ -19,7 +19,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
+    npm install --force
     npm test
   displayName: 'Npm install'
   workingDirectory: 'Cookta-server'
