@@ -1,3 +1,13 @@
+
+let HandleError: (error) => void = (error) => {
+    console.error(error);
+}
+
+export function SetErrorHandler(func: (error) => void) {
+    HandleError = func;
+}
+
+
 export function ProcessPromiseResponse(controllerObj: any, promise: Promise<any> | any, response: any, next: any, onError: (error) => void) {
     return Promise.resolve(promise)
         .then((data: any) => {
@@ -5,7 +15,7 @@ export function ProcessPromiseResponse(controllerObj: any, promise: Promise<any>
             response.status(200).json(data);
         })
         .catch((error: any) => {
-            console.error(error);
+            HandleError(error);
             onError({...error});
             error.stack = undefined;
             error.status = error.status || 500;

@@ -38,7 +38,6 @@ export class UserController {
     public async GetAllUser(reqBody: void, user: User): Promise<ExtendedUser[]> {
         let users = Services.UserService.GetAllItems();
         let extended = users.map(u => u.ToExtendedUser());
-        console.log(extended);
         return extended;
     }
 

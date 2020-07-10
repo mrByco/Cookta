@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Server - All Tests --watch" type="JavaScriptTestRunnerJest">
+        <config-file value="$PROJECT_DIR$/../Cookta-server/jest.config.js"/>
+        <node-interpreter value="project"/>
+        <node-options value=""/>
+        <jest-package value="$PROJECT_DIR$/../Cookta-server/node_modules/jest"/>
+        <working-dir value="$PROJECT_DIR$/../Cookta-server"/>
+        <jest-options value="--watch"/>
+        <envs/>
+        <scope-kind value="ALL"/>
+        <method v="2"/>
+    </configuration>
+</component>
