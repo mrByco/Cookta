@@ -1,13 +1,13 @@
-import {User} from '../../models/user.model';
-import {Services} from '../../Services';
-import {ObjectId} from 'mongodb';
-import {Controller} from 'waxen/src/deorators/controller';
+import {User} from "../../models/user.model";
+import {Services} from "../../Services";
+import {ObjectId} from "mongodb";
+import {Controller} from "waxen/dist/deorators/controller";
 import {Contracts} from 'cookta-shared/src/contracts/contracts';
-import {Security} from 'waxen/src/deorators/security';
-import {NotFoundError} from '../../helpers/error.helper';
-import {IStorageSection} from 'cookta-shared/src/models/storage-sections/storage-section.interface';
-import {IStorageItemChangeRequest} from 'cookta-shared/src/contracts/stock/StorageItemChange.request';
-import {IStorageSectionRequest} from 'cookta-shared/src/contracts/stock/IStorageSectionRequest';
+import {Security} from 'waxen/dist/deorators/security';
+import {NotFoundError} from "../../helpers/error.helper";
+import {IStorageSection} from "cookta-shared/src/models/storage-sections/storage-section.interface";
+import {IStorageItemChangeRequest} from "cookta-shared/src/contracts/stock/StorageItemChange.request";
+import {IStorageSectionRequest} from "cookta-shared/src/contracts/stock/IStorageSectionRequest";
 
 @Controller(Contracts.Storage)
 export class StockController {

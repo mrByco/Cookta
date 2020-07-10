@@ -1,5 +1,5 @@
-import {Controller} from 'waxen/src/deorators/controller';
-import {Contracts} from 'cookta-shared/src/contracts/contracts';
+import { Controller } from 'waxen/dist/deorators/controller';
+import { Contracts } from 'cookta-shared/src/contracts/contracts';
 
 @Controller(Contracts.Ping)
 export class PingController {

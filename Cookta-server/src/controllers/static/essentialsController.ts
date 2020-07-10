@@ -1,9 +1,9 @@
-import {User} from '../../models/user.model';
-import {Services} from '../../Services';
-import {Controller} from 'waxen/src/deorators/controller';
-import {Contracts} from 'cookta-shared/src/contracts/contracts';
-import {Security} from 'waxen/src/deorators/security';
-import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {User} from "../../models/user.model";
+import {Services} from "../../Services";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Security} from 'waxen/dist/deorators/security';
+import {IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
 
 
 @Controller(Contracts.Essentials)

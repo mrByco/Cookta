@@ -1,11 +1,11 @@
-import {Tag} from '../../models/tag.model';
-import {SetTagRequest} from 'cookta-shared/src/contracts/tags/set.tag.request';
-import {Controller} from 'waxen/src/deorators/controller';
-import {Contracts} from 'cookta-shared/src/contracts/contracts';
-import {Security} from 'waxen/src/deorators/security';
-import {NotFoundError} from '../../helpers/error.helper';
-import {ITag} from 'cookta-shared/src/models/tag/tag.interface';
-import {User} from '../../models/user.model';
+import {Tag} from "../../models/tag.model";
+import {SetTagRequest} from "cookta-shared/src/contracts/tags/set.tag.request";
+import {Controller} from "waxen/dist/deorators/controller";
+import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {Security} from "waxen/dist/deorators/security";
+import {NotFoundError} from "../../helpers/error.helper";
+import {ITag} from "cookta-shared/src/models/tag/tag.interface";
+import {User} from "../../models/user.model";
 
 @Controller(Contracts.Tags)
 export class TagController {
