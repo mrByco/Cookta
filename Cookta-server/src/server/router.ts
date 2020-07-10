@@ -1,41 +1,41 @@
 import * as express from 'express';
-import { ProcessPromiseResponse } from 'waxen/dist/server/request-promise-handler';
-import { authenticationReqMiddleware } from 'waxen/dist/server/request-promise-handler';
-import { defaultAuthentication } from "./authentication";
-import { DayController } from "../controllers/static/day.controller";
-import { IMealing } from "cookta-shared/src/models/days/mealing.interface";
-import { EssentialsController } from "../controllers/static/essentialsController";
-import { IIngredient } from "cookta-shared/src/models/ingredient/ingredient.interface";
-import { FamilyController } from "../controllers/static/family.controller";
-import { InviteFamilyRequest } from "cookta-shared/src/contracts/family/invite.family.request";
-import { FoodController } from "../controllers/static/food.controller";
-import { IUpdateFoodRequest } from "cookta-shared/src/contracts/foods/update-food.request";
-import { HomeController } from "../controllers/static/home.controller";
-import { IHomeContentRequest } from "cookta-shared/src/contracts/home/home-content.request";
-import { IngredientTypeController } from "../controllers/static/ingredient-type.controller";
-import { ISetIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
-import { IDeleteIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
-import { DeleteCustomUnitRequest } from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
-import { PingController } from "../controllers/static/ping.controller";
-import { ReportController } from "../controllers/static/report.controller";
-import { ICreateReportRequest } from "cookta-shared/src/contracts/reports/create-report.request.interface";
-import { ShoppingListController } from "../controllers/static/shopping-list.controller";
-import { StockController } from "../controllers/static/stock.controller";
-import { IStorageItemChangeRequest } from "cookta-shared/src/contracts/stock/StorageItemChange.request";
-import { SubscriptionController } from "../controllers/static/subscription.controller";
-import { TagController } from "../controllers/static/tag.controller";
-import { SetTagRequest } from "cookta-shared/src/contracts/tags/set.tag.request";
-import { UnitController } from "../controllers/static/unit.controller";
-import { FixBadUnitRequest } from "cookta-shared/src/contracts/unit-route/get-bad-units";
-import { RoleController } from "../controllers/static/role/role.controller";
-import { IRole } from "cookta-shared/src/models/roles/role.interface";
-import { UserController } from "../controllers/static/user/user.controller";
+import {authenticationReqMiddleware, ProcessPromiseResponse} from 'waxen/dist/server/request-promise-handler';
+import {defaultAuthentication} from './authentication';
+import {DayController} from '../controllers/static/day.controller';
+import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
+import {EssentialsController} from '../controllers/static/essentialsController';
+import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {FamilyController} from '../controllers/static/family.controller';
+import {InviteFamilyRequest} from 'cookta-shared/src/contracts/family/invite.family.request';
+import {FoodController} from '../controllers/static/food.controller';
+import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
+import {HomeController} from '../controllers/static/home.controller';
+import {IHomeContentRequest} from 'cookta-shared/src/contracts/home/home-content.request';
+import {IngredientTypeController} from '../controllers/static/ingredient-type.controller';
+import {ISetIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
+import {IDeleteIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-ingredient-type';
+import {DeleteCustomUnitRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-custom-unit';
+import {PingController} from '../controllers/static/ping.controller';
+import {ReportController} from '../controllers/static/report.controller';
+import {ICreateReportRequest} from 'cookta-shared/src/contracts/reports/create-report.request.interface';
+import {ShoppingListController} from '../controllers/static/shopping-list.controller';
+import {StockController} from '../controllers/static/stock.controller';
+import {IStorageItemChangeRequest} from 'cookta-shared/src/contracts/stock/StorageItemChange.request';
+import {SubscriptionController} from '../controllers/static/subscription.controller';
+import {TagController} from '../controllers/static/tag.controller';
+import {SetTagRequest} from 'cookta-shared/src/contracts/tags/set.tag.request';
+import {UnitController} from '../controllers/static/unit.controller';
+import {FixBadUnitRequest} from 'cookta-shared/src/contracts/unit-route/get-bad-units';
+import {RoleController} from '../controllers/static/role/role.controller';
+import {IRole} from 'cookta-shared/src/models/roles/role.interface';
+import {UserController} from '../controllers/static/user/user.controller';
 
 export function RegisterRoutes(app: express.Express) {
     // <<=======-DAYS-======>>
     app.get('/day/:date',
         function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => {
+            }).then((user) => {
                 const args = {
                     date: request.params['date']
                 };
@@ -118,7 +118,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new EssentialsController();
-                const promise = controller.GetCurrentBaseList(request.body as void, user);
+                const promise = controller.GetCurrentBaseList(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -136,7 +136,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new EssentialsController();
-                const promise = controller.SetBaseList(request.body as IIngredient[], user);
+                const promise = controller.SetBaseList(request.body as IIngredient[], user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -271,7 +271,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new FoodController();
-                const promise = controller.GetPublicFoods(request.body as void, user);
+                const promise = controller.GetPublicFoods(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -309,7 +309,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new FoodController();
-                const promise = controller.GetOwnFoods(request.body as void, user);
+                const promise = controller.GetOwnFoods(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -327,7 +327,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new FoodController();
-                const promise = controller.GetSubscriptionFoods(request.body as void, user);
+                const promise = controller.GetSubscriptionFoods(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -345,7 +345,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new FoodController();
-                const promise = controller.GetFamilyFoods(request.body as void, user);
+                const promise = controller.GetFamilyFoods(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -363,7 +363,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new FoodController();
-                const promise = controller.GetCollectionFoods(request.body as void, user);
+                const promise = controller.GetCollectionFoods(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -420,7 +420,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new FoodController();
-                const promise = controller.AddOrUpdateFood(request.body as IUpdateFoodRequest, user);
+                const promise = controller.AddOrUpdateFood(request.body as IUpdateFoodRequest, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -516,7 +516,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new HomeController();
-                const promise = controller.GetHome(request.body as void, user);
+                const promise = controller.GetHome(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -534,7 +534,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new HomeController();
-                const promise = controller.GetHomeContent(request.body as IHomeContentRequest[], user);
+                const promise = controller.GetHomeContent(request.body as IHomeContentRequest[], user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -552,7 +552,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new IngredientTypeController();
-            const promise = controller.GetAll(request.body as void);
+            const promise = controller.GetAll(request.body as void,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -564,7 +564,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new IngredientTypeController();
-                const promise = controller.SetIngredient(request.body as ISetIngredientTypeRequest, user);
+                const promise = controller.SetIngredient(request.body as ISetIngredientTypeRequest, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -582,7 +582,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new IngredientTypeController();
-                const promise = controller.DeleteIngredient(request.body as IDeleteIngredientTypeRequest, user);
+                const promise = controller.DeleteIngredient(request.body as IDeleteIngredientTypeRequest, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -619,7 +619,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new IngredientTypeController();
-                const promise = controller.DeleteCustomUnit(request.body as DeleteCustomUnitRequest, user);
+                const promise = controller.DeleteCustomUnit(request.body as DeleteCustomUnitRequest, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -637,7 +637,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new PingController();
-            const promise = controller.Ping(request.body as void);
+            const promise = controller.Ping(request.body as void,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -649,7 +649,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new ReportController();
-            const promise = controller.GetReports(request.body as void);
+            const promise = controller.GetReports(request.body as void,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -684,7 +684,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new ReportController();
-            const promise = controller.CreateReport(request.body as ICreateReportRequest);
+            const promise = controller.CreateReport(request.body as ICreateReportRequest,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -717,7 +717,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new StockController();
-                const promise = controller.GetAll(request.body as void, user);
+                const promise = controller.GetAll(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -735,7 +735,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new StockController();
-                const promise = controller.CreateSection(request.body as void, user);
+                const promise = controller.CreateSection(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -753,7 +753,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new StockController();
-                const promise = controller.EditSection(request.body as IStorageItemChangeRequest, user);
+                const promise = controller.EditSection(request.body as IStorageItemChangeRequest, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -791,7 +791,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new SubscriptionController();
-                const promise = controller.GetSubscribedFoods(request.body as void, user);
+                const promise = controller.GetSubscribedFoods(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -809,7 +809,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new SubscriptionController();
-                const promise = controller.SetSubscriptionState(request.body as { foodId: string, state: boolean }, user);
+                const promise = controller.SetSubscriptionState(request.body as { foodId: string, state: boolean }, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -827,7 +827,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new TagController();
-            const promise = controller.GetAll(request.body as void);
+            const promise = controller.GetAll(request.body as void,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -839,7 +839,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new TagController();
-                const promise = controller.SetTag(request.body as SetTagRequest, user);
+                const promise = controller.SetTag(request.body as SetTagRequest, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -876,7 +876,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new UnitController();
-            const promise = controller.GetAll(request.body as void);
+            const promise = controller.GetAll(request.body as void,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -888,7 +888,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new UnitController();
-                const promise = controller.GetBadUnits(request.body as void, user);
+                const promise = controller.GetBadUnits(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -906,7 +906,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new UnitController();
-                const promise = controller.FixBadUnit(request.body as FixBadUnitRequest, user);
+                const promise = controller.FixBadUnit(request.body as FixBadUnitRequest, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -925,7 +925,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new RoleController();
-                const promise = controller.GetRoles(request.body as void, user);
+                const promise = controller.GetRoles(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -942,7 +942,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new RoleController();
-            const promise = controller.SetRole(request.body as IRole);
+            const promise = controller.SetRole(request.body as IRole,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -953,7 +953,7 @@ export function RegisterRoutes(app: express.Express) {
             const args = {
             };
             const controller = new RoleController();
-            const promise = controller.CreateRole(request.body as IRole);
+            const promise = controller.CreateRole(request.body as IRole,);
             ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
@@ -979,7 +979,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new UserController();
-                const promise = controller.User(request.body as void, user);
+                const promise = controller.User(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -1054,7 +1054,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new UserController();
-                const promise = controller.GetAllUser(request.body as void, user);
+                const promise = controller.GetAllUser(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -1072,7 +1072,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new UserController();
-                const promise = controller.EditUser(request.body as { primarySub: string, roleId: string }, user);
+                const promise = controller.EditUser(request.body as { primarySub: string, roleId: string }, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
@@ -1090,7 +1090,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new UserController();
-                const promise = controller.DeleteProfile(request.body as void, user);
+                const promise = controller.DeleteProfile(request.body as void, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
