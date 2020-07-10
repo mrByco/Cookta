@@ -1,16 +1,17 @@
-import * as mongodb from "mongodb";
-import {Collection, MongoClient} from "mongodb";
+import * as mongodb from 'mongodb';
+import {Collection, MongoClient} from 'mongodb';
 
-export class MongoHelper{
+export class MongoHelper {
     static Client: MongoClient;
 
     public static connect(url: string) {
         return new Promise((resolve, reject) => {
             mongodb.MongoClient.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client: mongodb.MongoClient) => {
-                if (err){
+                if (err) {
                     reject(err);
                 }
                 else{
+                    console.log('Mongo connected!');
                     MongoHelper.Client = client;
                     resolve(client)
                 }
@@ -27,11 +28,10 @@ export class MongoHelper{
         }
     }
 
-    public static async getCollections(db: string): Promise<Collection[]> {
+    public static async getCollections(db: string = 'Kuktadb'): Promise<Collection[]> {
         if (!this.Client.isConnected()) {
             return null;
-        }
-        else{
+        } else {
             return (await this.Client.db(db).collections());
         }
     }
