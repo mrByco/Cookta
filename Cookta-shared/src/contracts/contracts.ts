@@ -12,6 +12,7 @@ import {UnitControllerData} from './units/units';
 import {UserControllerData} from './users/users';
 import {RoleControllerData} from './roles/roles';
 import {HomeControllerData} from './home/home';
+import {ReportControllerData} from './reports/report';
 
 
 // @ts-ignore
@@ -30,4 +31,5 @@ export const Contracts = {
     Users: UserControllerData,
     Roles: RoleControllerData,
     Home: HomeControllerData,
+    Reports: ReportControllerData
 };

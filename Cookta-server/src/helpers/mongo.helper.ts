@@ -1,13 +1,13 @@
-import * as mongodb from "mongodb";
-import {Collection, MongoClient} from "mongodb";
+import * as mongodb from 'mongodb';
+import {Collection, MongoClient} from 'mongodb';
 
-export class MongoHelper{
+export class MongoHelper {
     static Client: MongoClient;
 
     public static connect(url: string) {
         return new Promise((resolve, reject) => {
             mongodb.MongoClient.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client: mongodb.MongoClient) => {
-                if (err){
+                if (err) {
                     reject(err);
                 }
                 else{
@@ -23,15 +23,15 @@ export class MongoHelper{
             return null;
         } else {
             let collections = await this.Client.db(db).collections();
-            return collections.find(x => x.collectionName == name);
+            return (await collections.find(x => x.collectionName == name))
+                ?? await this.CreateCollection(db, name);
         }
     }
 
-    public static async getCollections(db: string): Promise<Collection[]> {
+    public static async getCollections(db: string = 'Kuktadb'): Promise<Collection[]> {
         if (!this.Client.isConnected()) {
             return null;
-        }
-        else{
+        } else {
             return (await this.Client.db(db).collections());
         }
     }
