@@ -21,6 +21,7 @@ steps:
 
 - script: |
     npm install --force
+    npm run build
   displayName: 'Shared install'
   workingDirectory: 'Cookta-shared'
 
