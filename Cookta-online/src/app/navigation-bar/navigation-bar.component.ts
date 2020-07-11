@@ -14,6 +14,7 @@ export class NavigationBarComponent implements OnInit {
 
   public ShowIngredientEditor: boolean = false;
   public ShowRoleEditor: boolean = false;
+  public ShowErrorList: boolean = false;
   public ShowDebugOptions: boolean = false;
   public ShowUserEditor: boolean = false;
 
@@ -33,6 +34,7 @@ export class NavigationBarComponent implements OnInit {
     this.identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
     this.identityService.HasPermission('manage-roles').then(b => this.ShowRoleEditor = b);
     this.identityService.HasPermission('manage-users').then(b => this.ShowUserEditor = b);
+    this.identityService.HasPermission('read-reports').then(b => this.ShowErrorList = b);
   }
 
   ngOnInit() {

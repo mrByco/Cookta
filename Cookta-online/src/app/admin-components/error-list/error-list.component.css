@@ -1,0 +1,14 @@
+.rep-item {
+    cursor: pointer;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    transition: background-color 300ms;
+}
+.rep-item:hover {
+    background-color: #daf7ff;
+}
+
+
+.rep-item.selected {
+    background-color: #0080ff55;
+}
