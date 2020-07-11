@@ -12,6 +12,8 @@ export class ErrorListComponent implements OnInit {
 
   public Reports: IReport[] = [];
 
+  public SelectedReport: IReport;
+
   constructor(public reportService: ReportService) { }
 
   ngOnInit(): void {
@@ -20,5 +22,17 @@ export class ErrorListComponent implements OnInit {
 
   ToTimeString(time: number) {
     return new Date(time).toISOString()
+  }
+
+  async DeleteReport(rep: IReport) {
+    let sure = await confirm('Are you sure about deleting this report?');
+    if (!sure)
+      return;
+
+    this.Reports = [];
+    this.reportService.DeleteReport(rep.id)
+        .then(() => this.reportService.GetReports()
+            .then((r) => this.Reports = r));
+    this.SelectedReport = null;
   }
 }

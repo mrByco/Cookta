@@ -18,4 +18,15 @@ export class ReportService {
             });
         })
     }
+
+    public DeleteReport(id: string){
+        return new Promise(async (resolve, reject) => {
+            let resp = await this.serverService.DeleteRequest('/report/' + id)
+            resp.subscribe(() => {
+                resolve()
+            }, error => {
+                reject(error);
+            });
+        })
+    }
 }
