@@ -22,8 +22,8 @@ export class ReportService implements IReportService {
         return report.ToReport();
     }
 
-    DeleteReport(id: string): Promise<void> {
-        throw new Error('Not implemented');
+     async DeleteReport(id: string): Promise<void> {
+        await this.collection.deleteOne({_id: new ObjectID(id)});
     }
 
     GetAll(): Promise<IReport[]> {

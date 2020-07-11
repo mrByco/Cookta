@@ -3,19 +3,24 @@ import {Contracts} from 'cookta-shared/src/contracts/contracts';
 import {ICreateReportRequest} from 'cookta-shared/src/contracts/reports/create-report.request.interface';
 import {IReport} from 'cookta-shared/src/models/report/report.interface';
 import {Services} from '../../Services';
+import {Security} from 'waxen/dist/deorators/security';
+import { User } from "../../models/user.model";
 
 @Controller(Contracts.Reports)
 export class ReportController {
 
-    public async GetReports(reqBody: void): Promise<IReport[]> {
+    @Security(false, 'read-reports')
+    public async GetReports(reqBody: void, user: User): Promise<IReport[]> {
         return Services.ReportService.GetAll();
     }
 
-    public async DeleteReport(reqBody: void, id: string): Promise<void> {
+    @Security(false, 'manage-reports')
+    public async DeleteReport(reqBody: void, user: User, id: string): Promise<void> {
         await Services.ReportService.DeleteReport(id);
     }
 
-    public async ResolveReport(reqBody: void, id: string): Promise<void> {
+    @Security(false, 'manage-reports')
+    public async ResolveReport(reqBody: void, user: User, id: string): Promise<void> {
         await Services.ReportService.ResolveReport(id);
     }
 
