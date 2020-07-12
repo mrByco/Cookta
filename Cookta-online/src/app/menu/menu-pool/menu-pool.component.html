@@ -1,5 +1,6 @@
 <div style=" width: 100%; overflow: auto">
     <app-menu-pool-toolbar (OnRefreshRandom)="RandomPick()" [(SearchMode)]="SearchType"
+                           (SearchModeChange)="this.SearchMode = true" (SearchTextChange)="this.SearchMode = true"
                            [(SearchText)]="SearchText"></app-menu-pool-toolbar>
     <div class="row m-0"
          #ItemContainer
