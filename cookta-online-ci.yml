@@ -1,0 +1,32 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: 'Install Node.js'
+
+
+- script: |
+    npm install
+    npm run build
+  workingDirectory: Cookta-shared
+  displayName: 'install & build shared project'
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --prod
+  workingDirectory: Cookta-online
+  displayName: 'npm install and build'
+
+
