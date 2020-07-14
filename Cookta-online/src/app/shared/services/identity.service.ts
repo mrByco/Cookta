@@ -42,7 +42,7 @@ export class IdentityService {
     return this.authService.IsAuthenticated;
   }
 
-  public get LoggedIn(): Promise<boolean> | boolean {
+  public get LoggedIn(): boolean {
     return this.authService.loggedIn;
   }
 
@@ -62,7 +62,7 @@ export class IdentityService {
   }
 
   public async HasPermission(permission: string): Promise<boolean> {
-    let response = await this.serverService.GetRequest(Routes.User.HasPermission.replace('{permission}', permission));
+    let response = await this.serverService.GetRequest(Routes.User.HasPermission.replace('{permission}', permission), true);
     return new Promise<boolean>(async (resolve) => {
       response.subscribe(data => {
         resolve(JSON.parse(data));
@@ -74,8 +74,7 @@ export class IdentityService {
 
   public async RefreshUser(): Promise<void> {
     return new Promise(async (resolve) => {
-      let response = await this.serverService.GetRequest(Routes.User.GetUser);
-
+      let response = await this.serverService.GetRequest(Routes.User.GetUser, true);
       response.subscribe(data => {
         this.Identity = data as User;
         this.OnIdentityChanged.emit(this.Identity);

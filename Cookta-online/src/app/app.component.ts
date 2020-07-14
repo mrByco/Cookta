@@ -20,7 +20,7 @@ export class AppComponent {
     }
     else if (window.location.hostname.match('localhost')){
       console.log('Its localhost. Running in normal mode');
-      this.NeedCheckPermission = true;
+      this.NeedCheckPermission = false;
     }
     else if (window.location.hostname.match('test\\.cookta\\.online')) {
       console.log('Test cookta running test mode');

@@ -19,13 +19,13 @@ export class ServerService {
       response.subscribe(() => {
         console.log('Server ping success!');
         resolve();
-      }, async ()  => {
+      }, async () => {
         console.log('Server ping failed!');
         let confirmed = await confirm('Debug server not available on ' + this.GetBase() + '. Switching to production server...');
-        if (confirmed){
+        if (confirmed) {
           this.UseDebugServer = false;
           location.reload();
-        }else{
+        } else {
           location.reload();
         }
         resolve();
@@ -49,10 +49,12 @@ export class ServerService {
       ? 'http://localhost:8080' : 'https://cooktaservices.azurewebsites.net';
   }
 
-  public async GetRequest(route: string): Promise<Observable<any>> {
+  public async GetRequest(route: string, securedOnly?: boolean): Promise<Observable<any>> {
     let loggedIn: boolean = await this.authService.IsAuthenticated;
     if (!loggedIn) {
-      return this.http.get(this.GetBase() + route);
+      return securedOnly ? new Observable(() => {
+        throw Error('Logged in only')
+      }) : this.http.get(this.GetBase() + route);
     } else {
       let token = await this.authService.getTokenSilently$().toPromise();
       let options = {
