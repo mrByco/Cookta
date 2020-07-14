@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
 import {IdentityService} from "../shared/services/identity.service";
 import {FamilyService} from '../shared/services/family.service';
 

@@ -32,7 +32,7 @@ export class FamilyService {
 
   public async RefreshFamilies(data?: any): Promise<void> {
     data = data ? data : await new Promise(async (resolve) => {
-      let response = await this.serverService.GetRequest(Routes.User.GetUser);
+      let response = await this.serverService.GetRequest(Routes.User.GetUser, true);
       let foods: Food[] = [];
       response.subscribe(data => {
         resolve(data);
@@ -40,7 +40,7 @@ export class FamilyService {
         resolve();
       });
     });
-
+    if (!data) return;
     this.currentFamily = data['ActiveFamily'] as Family;
     this.families = data['Families'] as Family[];
     this.onActiveFamilyChanged.emit(this.currentFamily);

@@ -40,11 +40,11 @@ export class AuthService {
     private userProfileSubject$ = new BehaviorSubject<any>(null);
     userProfile$ = this.userProfileSubject$.asObservable();
     // Create a local property for login status
-    loggedIn: boolean = null;
+    public loggedIn: boolean = null;
 
     constructor(private router: Router) {
     }
-    
+
     public LoadIdentity(): void{
         this.IsAuthenticated = new Promise(async resolve => {
             // On initial load, check authentication state with authorization server
