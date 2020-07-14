@@ -29,4 +29,17 @@ steps:
   workingDirectory: Cookta-online
   displayName: 'npm install and build'
 
+- task: ArchiveFiles@1
+  displayName: 'Archive files '
+  inputs:
+    rootFolder: 'Cookta-online'
+    includeRootFolder: false
+  
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'online'
+    publishLocation: 'Container'
+
 
