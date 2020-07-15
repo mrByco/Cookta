@@ -1,57 +1,20 @@
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {ShoppingList} from "../../models/shopping-list.model";
-import {Family} from "../../models/family.model";
-import {Day} from "../../models/Days/day.model";
-import {Services} from "../../Services";
-import {IngredientHelper} from "../../helpers/ingredient.helper";
-import {IShoppingListService} from "./shopping-list.service.interface";
-import "../../extensions/string-extensions"
-import "../../extensions/date-extensions"
-import {ICompleteIngredient, IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
-import { IShoppingList } from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
-import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
+import {Day} from '../../models/Days/day.model';
+import {Services} from '../../Services';
+import {IngredientHelper} from '../../helpers/ingredient.helper';
+import {IShoppingListService} from './shopping-list.service.interface';
+import '../../extensions/string-extensions';
+import '../../extensions/date-extensions';
+import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
+import {Collection} from 'mongodb';
 
-export class ShoppingListService extends StoreService<ShoppingList> implements IShoppingListService {
+export class ShoppingListService implements IShoppingListService {
 
-    public async GetShoppingList(family: Family, nextShoppingDate: string): Promise<IShoppingList> {
-        let dates: string[] = ShoppingListService.GetDatesFromNowTo(new Date().Today().ToYYYYMMDDString(), nextShoppingDate);
-
-        let fixedMealings: IMealing[] = [];
-        for (let date of dates) {
-            let day = await Day.GetDay(date, family);
-            day.mealings.forEach(m => {
-                if (m.type == 'final') fixedMealings.push(m)
-            });
-        }
-
-        let foodIngredients: ICompleteIngredient[] = IngredientHelper.ToCompleteIngredientList(
-            ShoppingListService.GetFoodIngredientsFromMealings(fixedMealings)
-        );
-        foodIngredients = IngredientHelper.MergeIngredients(foodIngredients);
-
-        let sections = Services.StorageService.GetSections(family);
-        let ingredientListsAtHome = sections.map(s => IngredientHelper.ToCompleteIngredientList(s.Items));
-
-        let ingredientsAtHome = IngredientHelper.MergeLists(ingredientListsAtHome);
-
-        ingredientsAtHome = IngredientHelper.MergeIngredients(ingredientsAtHome);
-
-        let essentials = IngredientHelper.ToCompleteIngredientList(Services.EssentialsService.GetEssentials(family).Essentials);
-
-        let need = IngredientHelper.SubtractList(foodIngredients, essentials);
-        need = need.filter(i => i.value > 0);
-        need = IngredientHelper.MergeLists([need, essentials]);
-
-        let buy: IIngredient[] = [];
-        IngredientHelper.SubtractList(need, ingredientsAtHome).forEach(i => {
-            if (i.value > 0)
-                buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id});
-        });
-
-        return {IngredientsToBuy: buy, FamilyId: family.Id.toHexString(), IngredientsCompleted: []};
+    constructor(private collection: Collection) {
     }
 
-    public static GetDatesFromNowTo(from: string, last: string): string[] {
+    private static GetDatesFromNowTo(from: string, last: string): string[] {
         let dates: string[] = [];
 
         let fromDate: Date = from.YYYYMMDDToDate();
@@ -60,7 +23,9 @@ export class ShoppingListService extends StoreService<ShoppingList> implements I
         let i = 0;
         let currentDate: Date = new Date(fromDate);
         while (currentDate.ToYYYYMMDDString() !== lastDate.ToYYYYMMDDString()) {
-            if (i > limit) throw Error('Too many date string requested');
+            if (i > limit) {
+                throw Error('Too many date string requested');
+            }
             dates.push(currentDate.ToYYYYMMDDString());
             currentDate.setDate(currentDate.getDate() + 1);
             i++;
@@ -72,8 +37,7 @@ export class ShoppingListService extends StoreService<ShoppingList> implements I
 
     }
 
-
-    public static GetFoodIngredientsFromMealings(fixedMealings: IMealing[]): IIngredient[] {
+    private static GetFoodIngredientsFromMealings(fixedMealings: IMealing[]): IIngredient[] {
         let foodIngredients: IIngredient[] = [];
         for (let mealing of fixedMealings) {
             let mealDose = mealing.dose ? mealing.dose : 4;
@@ -88,4 +52,49 @@ export class ShoppingListService extends StoreService<ShoppingList> implements I
         }
         return foodIngredients;
     }
+
+    public async GetShoppingList(familyId: string, nextShoppingDate: string): Promise<IShoppingList> {
+        throw new Error("Not implemented")
+    }
+
+    public async GetReqList(familyId: string, nextShoppingDate: string): Promise<IIngredient[]> {
+        let dates: string[] = ShoppingListService.GetDatesFromNowTo(new Date().Today().ToYYYYMMDDString(), nextShoppingDate);
+
+        let fixedMealings: IMealing[] = [];
+        for (let date of dates) {
+            let day = await Day.GetDay(date, familyId);
+            day.mealings.forEach(m => {
+                if (m.type == 'final') {
+                    fixedMealings.push(m);
+                }
+            });
+        }
+
+        let foodIngredients: ICompleteIngredient[] = IngredientHelper.ToCompleteIngredientList(
+            ShoppingListService.GetFoodIngredientsFromMealings(fixedMealings)
+        );
+        foodIngredients = IngredientHelper.MergeIngredients(foodIngredients);
+
+        let sections = Services.StorageService.GetSections(familyId);
+        let ingredientListsAtHome = sections.map(s => IngredientHelper.ToCompleteIngredientList(s.Items));
+
+        let ingredientsAtHome = IngredientHelper.MergeLists(ingredientListsAtHome);
+
+        ingredientsAtHome = IngredientHelper.MergeIngredients(ingredientsAtHome);
+
+        let essentials = IngredientHelper.ToCompleteIngredientList(Services.EssentialsService.GetEssentials(familyId).Essentials);
+
+        let need = IngredientHelper.SubtractList(foodIngredients, essentials);
+        need = need.filter(i => i.value > 0);
+        need = IngredientHelper.MergeLists([need, essentials]);
+
+        let buy: IIngredient[] = [];
+        IngredientHelper.SubtractList(need, ingredientsAtHome).forEach(i => {
+            if (i.value > 0) {
+                buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id});
+            }
+        });
+        return buy;
+    }
+
 }

@@ -1,9 +1,9 @@
-import {User} from "../../models/user.model";
-import {Services} from "../../Services";
-import {Controller} from "waxen/dist/deorators/controller";
-import {Contracts} from "cookta-shared/src/contracts/contracts";
+import {User} from '../../models/user.model';
+import {Services} from '../../Services';
+import {Controller} from 'waxen/dist/deorators/controller';
+import {Contracts} from 'cookta-shared/src/contracts/contracts';
 import {Security} from 'waxen/dist/deorators/security';
-import {IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
+import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 
 
 @Controller(Contracts.Essentials)
@@ -11,17 +11,17 @@ export class EssentialsController {
 
     @Security(false)
     public async GetCurrentBaseList(reqBody: void, user: User): Promise<IIngredient[]> {
-        let essentials = Services.EssentialsService.GetEssentials(user.GetCurrentFamily());
+        let essentials = Services.EssentialsService.GetEssentials(user.GetCurrentFamily().Id.toHexString());
         if (!essentials) {
-            essentials = Services.EssentialsService.CreateEssentials(user.GetCurrentFamily());
+            essentials = Services.EssentialsService.CreateEssentials(user.GetCurrentFamily().Id.toHexString());
         }
         return essentials.Essentials;
     }
     @Security(false)
     public async SetBaseList(reqBody: IIngredient[], user: User): Promise<IIngredient[]> {
-        let essentialItem = Services.EssentialsService.GetEssentials(user.GetCurrentFamily());
+        let essentialItem = Services.EssentialsService.GetEssentials(user.GetCurrentFamily().Id.toHexString());
         if (!essentialItem)
-            essentialItem = Services.EssentialsService.CreateEssentials(user.GetCurrentFamily());
+            essentialItem = Services.EssentialsService.CreateEssentials(user.GetCurrentFamily().Id.toHexString());
         essentialItem.Essentials = reqBody;
         Services.EssentialsService.SaveItem(essentialItem);
         return essentialItem.Essentials;

@@ -1,30 +1,29 @@
-import * as http from "http";
-import {app} from "./app";
-import {MongoHelper} from "./helpers/mongo.helper";
-import {Role} from "./models/role.model";
-import {User} from "./models/user.model";
-import {StorageService} from "./services/storage/storage-service";
-import {StorageSection} from "./models/storage-section.model";
-import {Services} from "./Services";
-import {ItemStore} from "atomik/lib/store/item-store";
-import {FamilyService} from "./services/family/family-service";
-import {UserService} from "./services/user/user-service";
-import {Family} from "./models/family.model";
-import {EssentialsService} from "./services/essentials/essentials-service";
-import {EssentialSection} from "./models/essentials/essential-list.model";
-import {UnitService} from "./services/unit/unit.service";
-import {Unit} from "./models/unit/unit.model";
-import {IngredientTypeService} from "./services/ingredient-types/ingredient-type.service";
-import {IngredientType} from "./models/ingredient-type/ingredient-type.model";
-import {ShoppingListService} from "./services/shopping-list/shopping-list.service";
-import {ShoppingList} from "./models/shopping-list.model";
-import {BackupService} from "./services/backup/bcakup-service";
-import {RoleService} from "./services/role/role-service";
+import * as http from 'http';
+import {app} from './app';
+import {MongoHelper} from './helpers/mongo.helper';
+import {Role} from './models/role.model';
+import {User} from './models/user.model';
+import {StorageService} from './services/storage/storage-service';
+import {StorageSection} from './models/storage-section.model';
+import {Services} from './Services';
+import {ItemStore} from 'atomik/lib/store/item-store';
+import {FamilyService} from './services/family/family-service';
+import {UserService} from './services/user/user-service';
+import {Family} from './models/family.model';
+import {EssentialsService} from './services/essentials/essentials-service';
+import {EssentialSection} from './models/essentials/essential-list.model';
+import {UnitService} from './services/unit/unit.service';
+import {Unit} from './models/unit/unit.model';
+import {IngredientTypeService} from './services/ingredient-types/ingredient-type.service';
+import {IngredientType} from './models/ingredient-type/ingredient-type.model';
+import {ShoppingListService} from './services/shopping-list/shopping-list.service';
+import {BackupService} from './services/backup/bcakup-service';
+import {RoleService} from './services/role/role-service';
 import {FoodService} from './services/food/food.service';
 import {LiveConnect} from './services/live-connection/live.connect';
 import {MetricsService} from './services/metrics/metrics.service';
-import {SetErrorHandler} from "waxen/dist/server/request-promise-handler";
-import {ReportService} from "./services/reports/report.service";
+import {SetErrorHandler} from 'waxen/dist/server/request-promise-handler';
+import {ReportService} from './services/reports/report.service';
 
 require('dotenv').config();
 
@@ -71,7 +70,7 @@ try{
 
         let ingredientTypeService = new IngredientTypeService((id) => {return new IngredientType(id)}, 'Ingredients');
 
-        let shoppingListService = new ShoppingListService(id => new ShoppingList(id), 'ShoppingLists');
+        let shoppingListService = new ShoppingListService(await MongoHelper.getCollection('ShoppingLists'));
 
         let foodService = new FoodService('Foods');
 
@@ -92,7 +91,6 @@ try{
         await ServiceManager.AddService(unitService);
         await ServiceManager.AddService(roleService);
         await ServiceManager.AddService(ingredientTypeService);
-        await ServiceManager.AddService(shoppingListService);
         await ServiceManager.AddService(foodService);
         await ServiceManager.Start(MongoConnectionString);
 

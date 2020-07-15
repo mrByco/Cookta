@@ -1,20 +1,19 @@
-import {EssentialSection} from "../../models/essentials/essential-list.model";
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {Family} from "../../models/family.model";
-import { ObjectId } from "mongodb";
+import {EssentialSection} from '../../models/essentials/essential-list.model';
+import {StoreService} from 'atomik/lib/store-service/store-service';
+import {ObjectId} from 'mongodb';
 
 export class EssentialsService extends StoreService<EssentialSection>{
 
-    public GetEssentials(family: Family): EssentialSection{
-        return this.FindOne(i => i.FamilyId == family.Id.toHexString());
+    public GetEssentials(familyId: string): EssentialSection{
+        return this.FindOne(i => i.FamilyId == familyId);
     }
 
-    public CreateEssentials(family: Family): EssentialSection {
-        if (this.GetEssentials(family)){
-            return this.GetEssentials(family);
+    public CreateEssentials(familyId: string): EssentialSection {
+        if (this.GetEssentials(familyId)){
+            return this.GetEssentials(familyId);
         }
         let newEssentials = this.CreateItem(new ObjectId());
-        newEssentials.FamilyId = family.Id.toHexString();
+        newEssentials.FamilyId = familyId;
         newEssentials.Essentials = [];
         this.SaveItem(newEssentials);
         return newEssentials;

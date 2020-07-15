@@ -1,9 +1,8 @@
-import {StorageSection} from "../../models/storage-section.model";
-import {ObjectId} from "mongodb";
-import {User} from "../../models/user.model";
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {IStorageItemChangeRequest} from "cookta-shared/src/contracts/stock/StorageItemChange.request";
-import {Family} from "../../models/family.model";
+import {StorageSection} from '../../models/storage-section.model';
+import {ObjectId} from 'mongodb';
+import {User} from '../../models/user.model';
+import {StoreService} from 'atomik/lib/store-service/store-service';
+import {IStorageItemChangeRequest} from 'cookta-shared/src/contracts/stock/StorageItemChange.request';
 
 export class StorageService extends StoreService<StorageSection> {
 
@@ -12,8 +11,8 @@ export class StorageService extends StoreService<StorageSection> {
     }
 
 
-    public GetSections(family: Family): StorageSection[] {
-        return this.Items.filter(i => i.FamilyId == family.Id.toHexString());
+    public GetSections(familyId: string): StorageSection[] {
+        return this.Items.filter(i => i.FamilyId == familyId);
     }
 
     public CreateSection(user: User): StorageSection {
