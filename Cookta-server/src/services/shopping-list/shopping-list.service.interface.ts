@@ -3,6 +3,12 @@ import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interf
 
 export interface IShoppingListService {
 
-    GetShoppingList(familyId: string, NextShoppingDate: string): Promise<IShoppingList>;
-    GetReqList(familyId: string, NextShoppingDate: string): Promise<IIngredient[]>;
+    GetShoppingList(familyId: string, from: string, to: string): Promise<IShoppingList>;
+    GetReqList(familyId: string, from: string, to: string): Promise<IIngredient[]>;
+    SetItemComplete(ingredientId: string, completed: boolean, familyId: string);
+    SetItemCanceled(ingredientId: string, canceled: boolean, familyId: string);
+    //Cancels the completed items.
+    NewShoppingList(familyId: string);
+    FinishItems(familyId: string);
+
 }

@@ -14,6 +14,19 @@ export class ShoppingListService implements IShoppingListService {
     constructor(private collection: Collection) {
     }
 
+    SetItemComplete(ingredientId: string, completed: boolean, familyId: string) {
+        throw new Error("Method not implemented.");
+    }
+    SetItemCanceled(ingredientId: string, canceled: boolean, familyId: string) {
+        throw new Error("Method not implemented.");
+    }
+    NewShoppingList(familyId: string) {
+        throw new Error("Method not implemented.");
+    }
+    FinishItems(familyId: string) {
+        throw new Error("Method not implemented.");
+    }
+
     private static GetDatesFromNowTo(from: string, last: string): string[] {
         let dates: string[] = [];
 
@@ -53,12 +66,12 @@ export class ShoppingListService implements IShoppingListService {
         return foodIngredients;
     }
 
-    public async GetShoppingList(familyId: string, nextShoppingDate: string): Promise<IShoppingList> {
+    public async GetShoppingList(familyId: string, from: string, to: string): Promise<IShoppingList> {
         throw new Error("Not implemented")
     }
 
-    public async GetReqList(familyId: string, nextShoppingDate: string): Promise<IIngredient[]> {
-        let dates: string[] = ShoppingListService.GetDatesFromNowTo(new Date().Today().ToYYYYMMDDString(), nextShoppingDate);
+    public async GetReqList(familyId: string, from: string, to: string): Promise<IIngredient[]> {
+        let dates: string[] = ShoppingListService.GetDatesFromNowTo(from, to);
 
         let fixedMealings: IMealing[] = [];
         for (let date of dates) {

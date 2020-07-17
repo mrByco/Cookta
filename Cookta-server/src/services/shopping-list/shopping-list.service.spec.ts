@@ -1,8 +1,13 @@
-
-import {expect} from "chai";
-import {ShoppingListService} from "./shopping-list.service";
-import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
-import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
+import {expect} from 'chai';
+import {ShoppingListService} from './shopping-list.service';
+import {ISendableFood} from 'cookta-shared/src/models/food/food-sendable.interface';
+import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
+import {DBManager} from '../../mock/mongo-memory-server';
+import {Collection} from 'mongodb';
+import {MongoHelper} from '../../helpers/mongo.helper';
+import {ISaveShoppingList} from '../../models/shopping-list.model';
+import {Services} from '../../Services';
+import ObjectId = module;
 
 const placeholderFood: ISendableFood = {
     owner: 'owner',
@@ -21,7 +26,7 @@ const placeholderFood: ISendableFood = {
     foodId: 'string',
     SubscribedFor: false,
     OwnFood: true
-}
+};
 
 describe('Shopping list service', () => {
     describe('final mealings to ingredient list', () => {
@@ -49,6 +54,7 @@ describe('Shopping list service', () => {
                     }
                 }
             ];
+            // @ts-ignore
             const result = ShoppingListService.GetFoodIngredientsFromMealings(mealings);
             expect(result).to.eql([
                 {ingredientID: 'ing1', unit: 'unit1', value: 2},
@@ -85,6 +91,7 @@ describe('Shopping list service', () => {
                     }
                 }
             ];
+            // @ts-ignore
             const result = ShoppingListService.GetFoodIngredientsFromMealings(mealings);
             expect(result).to.eql([
                 {ingredientID: 'ing1', unit: 'unit1', value: 4},
@@ -96,8 +103,49 @@ describe('Shopping list service', () => {
         });
     });
     it('Get dates from now to x', () => {
+        // @ts-ignore
         const dateStrings: string[] = ShoppingListService.GetDatesFromNowTo('2020-03-30', '2020-04-02');
 
         expect(dateStrings).to.eql(['2020-03-30', '2020-03-31', '2020-04-01', '2020-04-02']);
+    });
+
+
+    const dbman = new DBManager();
+
+
+    beforeAll(() => dbman.start());
+    afterAll(() => dbman.stop());
+    afterEach(() => dbman.cleanup());
+
+    describe('Service', () => {
+
+        let service: ShoppingListService;
+        let collection: Collection;
+
+        beforeEach(async () => {
+            collection = await MongoHelper.getCollection('ShoppingLists');
+            service = new ShoppingListService(collection);
+
+            // @ts-ignore
+            Services.StorageService = {
+                GetSections: jest.fn(() => []),
+            };
+
+        });
+
+        it('should load existing shopping list', async function() {
+            let exampleShoppingList: ISaveShoppingList = {
+                CompletedOn: 5,
+                CreatedOn: 5,
+                FamilyId: new ObjectId(),
+                IngredientsCanceled: [],
+                IngredientsCompleted: [],
+                ShoppingUntil: 10
+            };
+            collection.insertOne(exampleShoppingList);
+
+            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString(), '2018-04-04', '2018-04-05');
+            expect(list.)
+        });
     });
 });

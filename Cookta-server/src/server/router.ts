@@ -732,46 +732,74 @@ export function RegisterRoutes(app: express.Express) {
 
     app.put('/ShoppingList/complete/',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
-            const controller = new ShoppingListController();
-            const promise = controller.SetComplete(request.body as { IngredientId: string, complete: boolean },);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new ShoppingListController();
+                const promise = controller.SetComplete(request.body as { IngredientId: string, complete: boolean }, user,);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 
 
     app.put('/ShoppingList/canceled/',
         function(request: any, response: any, next: any) {
-            const args = {
-            };
-            const controller = new ShoppingListController();
-            const promise = controller.SetCanceled(request.body as { IngredientId: string, Canceled: boolean },);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new ShoppingListController();
+                const promise = controller.SetCanceled(request.body as { IngredientId: string, Canceled: boolean }, user,);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 
 
     app.get('/ShoppingList/start/:nextShopping',
         function(request: any, response: any, next: any) {
-            const args = {
-                nextShopping: request.params['nextShopping']
-            };
-            const controller = new ShoppingListController();
-            const promise = controller.NewShoppingList(request.body as void, args.nextShopping);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    nextShopping: request.params['nextShopping']
+                };
+                const controller = new ShoppingListController();
+                const promise = controller.NewShoppingList(request.body as void, user, args.nextShopping);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 
 
     app.get('/ShoppingList/finish/:nextShopping',
         function(request: any, response: any, next: any) {
-            const args = {
-                nextShopping: request.params['nextShopping']
-            };
-            const controller = new ShoppingListController();
-            const promise = controller.FinishItems(request.body as void, args.nextShopping);
-            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                    nextShopping: request.params['nextShopping']
+                };
+                const controller = new ShoppingListController();
+                const promise = controller.FinishItems(request.body as void, user, args.nextShopping);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
         });
 
 
