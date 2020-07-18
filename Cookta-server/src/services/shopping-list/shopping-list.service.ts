@@ -8,30 +8,12 @@ import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredi
 import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
 import {Collection, ObjectId} from 'mongodb';
-import {ShoppingList} from "../../models/shopping-list.model";
+import {ShoppingList} from '../../models/shopping-list.model';
+import {IStorageSection} from 'cookta-shared/src/models/storage-sections/storage-section.interface';
 
 export class ShoppingListService implements IShoppingListService {
 
     constructor(private collection: Collection) {
-    }
-
-    SetItemComplete(ingredientId: string, completed: boolean, familyId: string) {
-
-    }
-    SetItemCanceled(ingredientId: string, canceled: boolean, familyId: string) {
-        throw new Error("Method not implemented.");
-    }
-    async NewShoppingList(familyId: string): Promise<IShoppingList> {
-        let oldList = await this.GetServerShoppingList(familyId);
-        oldList.CompletedOn = Date.now();
-        await this.SaveShoppingList(oldList);
-
-        let newList = await this.GetNewList(familyId);
-        await this.SaveShoppingList(newList);
-        return await newList.ToShoppingList();
-    }
-    FinishItems(familyId: string) {
-        throw new Error("Method not implemented.");
     }
 
     private static GetDatesFromNowTo(from: string, last: string): string[] {
@@ -73,22 +55,75 @@ export class ShoppingListService implements IShoppingListService {
         return foodIngredients;
     }
 
-    public async GetShoppingList(familyId: string): Promise<IShoppingList> {
-        return this.GetServerShoppingList(familyId).then(s => s.ToShoppingList());
-    }
+    async SetItemComplete(ingredientId: string, completed: boolean, familyId: string, familyStorages: IStorageSection[]): Promise<IShoppingList> {
+        if (!familyStorages || familyStorages.length == 0) {
+            throw new Error('Method need least one family storage');
+        }
+        let shoppingList = await this.GetServerShoppingList(familyId);
+        if (completed) {
+            let ing2Complete = (await shoppingList.GetIngredientsToBuy()).find(i => i.ingredientID == ingredientId);
+            if (!ing2Complete) {
+                return await shoppingList.ToSharedShoppingList();
+            }
+            let addTo = shoppingList.IngredientsCompleted.find(i => i.Ingredient.ingredientID == ingredientId);
+            if (addTo) {
+                addTo.Ingredient = IngredientHelper
+                    .MergeIngredients(IngredientHelper
+                        .ToCompleteIngredientList([addTo.Ingredient, ing2Complete]))
+                    .map(i => {
+                        return {ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id};
+                    })[0];
+            } else {
+                let shipStorage = familyStorages.find(i => i.Items.find(i => i.ingredientID == ing2Complete.ingredientID)) ?? familyStorages[0];
+                shoppingList.IngredientsCompleted.push({Ingredient: ing2Complete, ShippingSectionId: shipStorage.Id.toHexString()});
+            }
 
-    private async GetServerShoppingList(familyId: string): Promise<ShoppingList> {
-        let docs = await this.collection.findOne({FamilyId: new ObjectId(familyId), CompletedOn: undefined});
-
-        let shoppingList: ShoppingList;
-        if (!docs){
-            shoppingList = await this.GetNewList(familyId);
-        }else {
-            shoppingList = await ShoppingList.FromSaveShoppingList(docs);
+        } else {
+            shoppingList.IngredientsCompleted = shoppingList.IngredientsCompleted.filter(i => i.Ingredient.ingredientID != ingredientId);
         }
         await this.SaveShoppingList(shoppingList);
+        return shoppingList.ToSharedShoppingList();
+    }
 
-        return shoppingList;
+    async SetItemCanceled(ingredientId: string, canceled: boolean, familyId: string): Promise<IShoppingList> {
+        let shoppingList = await this.GetServerShoppingList(familyId);
+        if (canceled) {
+            let ing2Cancel = (await shoppingList.GetIngredientsToBuy()).find(i => i.ingredientID == ingredientId);
+            if (!ing2Cancel) {
+                return await shoppingList.ToSharedShoppingList();
+            }
+            shoppingList.IngredientsCanceled.push(ing2Cancel);
+            shoppingList.IngredientsCanceled = IngredientHelper
+                .MergeIngredients(IngredientHelper
+                    .ToCompleteIngredientList(shoppingList.IngredientsCanceled))
+                .map(ci => {
+                    return {ingredientID: ci.ingredientType.guid, value: ci.value, unit: ci.unit.id};
+                });
+
+
+        } else {
+            shoppingList.IngredientsCompleted = shoppingList.IngredientsCompleted.filter(i => i.Ingredient.ingredientID != ingredientId);
+        }
+        await this.SaveShoppingList(shoppingList);
+        return shoppingList.ToSharedShoppingList();
+    }
+
+    async NewShoppingList(familyId: string): Promise<IShoppingList> {
+        let oldList = await this.GetServerShoppingList(familyId);
+        oldList.CompletedOn = Date.now();
+        await this.SaveShoppingList(oldList);
+
+        let newList = await this.GetNewList(familyId);
+        await this.SaveShoppingList(newList);
+        return await newList.ToSharedShoppingList();
+    }
+
+    FinishItems(familyId: string) {
+        throw new Error('Method not implemented.');
+    }
+
+    public async GetShoppingList(familyId: string): Promise<IShoppingList> {
+        return this.GetServerShoppingList(familyId).then(s => s.ToSharedShoppingList());
     }
 
     public async GetReqList(familyId: string, from: string, to: string): Promise<IIngredient[]> {
@@ -131,11 +166,25 @@ export class ShoppingListService implements IShoppingListService {
         return buy;
     }
 
-    private async SaveShoppingList(list: ShoppingList){
+    private async GetServerShoppingList(familyId: string): Promise<ShoppingList> {
+        let docs = await this.collection.findOne({FamilyId: new ObjectId(familyId), CompletedOn: undefined});
+
+        let shoppingList: ShoppingList;
+        if (!docs) {
+            shoppingList = await this.GetNewList(familyId);
+        } else {
+            shoppingList = await ShoppingList.FromSaveShoppingList(docs);
+        }
+        await this.SaveShoppingList(shoppingList);
+
+        return shoppingList;
+    }
+
+    private async SaveShoppingList(list: ShoppingList) {
         await this.collection.replaceOne({_id: list.id}, list.ToSaveShoppingList(), {upsert: true});
     }
 
-    private async GetNewList(familyId: string): Promise<ShoppingList>{
+    private async GetNewList(familyId: string): Promise<ShoppingList> {
         let from = new Date(Date.now());
         let to = new Date(Date.now());
         to.setDate(to.getDate() + 7);

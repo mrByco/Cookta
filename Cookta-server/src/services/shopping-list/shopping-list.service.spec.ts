@@ -154,7 +154,7 @@ describe('Shopping list service', () => {
             let expectedShoppingList = await ShoppingList.FromSaveShoppingList(exampleShoppingList);
 
             let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString());
-            expect(list).to.be.eql(await expectedShoppingList.ToShoppingList());
+            expect(list).to.be.eql(await expectedShoppingList.ToSharedShoppingList());
         });
 
         it('should create and save list if it does not exist', async () => {
@@ -180,7 +180,7 @@ describe('Shopping list service', () => {
             let unExpectedShoppingList = await ShoppingList.FromSaveShoppingList(exampleShoppingList);
 
             let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString());
-            expect(list).to.be.not.eql(await unExpectedShoppingList.ToShoppingList());
+            expect(list).to.be.not.eql(await unExpectedShoppingList.ToSharedShoppingList());
         });
 
         it('should create new list on create list', async () => {

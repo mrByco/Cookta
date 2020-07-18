@@ -10,7 +10,7 @@ export class ShoppingList {
 
     constructor(public id: ObjectID,
                 public ShoppingTotal: IIngredient[],
-                public IngredientsCompleted: { Indredient: IIngredient, ShippingSectionId: string }[],
+                public IngredientsCompleted: { Ingredient: IIngredient, ShippingSectionId: string }[],
                 public IngredientsCanceled: IIngredient[],
                 public FamilyId: string,
                 public ShoppingTo: number,
@@ -48,7 +48,7 @@ export class ShoppingList {
         };
     }
 
-    public async ToShoppingList(): Promise<IShoppingList> {
+    public async ToSharedShoppingList(): Promise<IShoppingList> {
         return {
             FamilyId: this.FamilyId,
             IngredientsCanceled: this.IngredientsCanceled,
@@ -60,9 +60,9 @@ export class ShoppingList {
         };
     }
 
-    private async GetIngredientsToBuy(): Promise<IIngredient[]> {
+    public async GetIngredientsToBuy(): Promise<IIngredient[]> {
         let Total = await IngredientHelper.ToCompleteIngredientList(this.ShoppingTotal);
-        let Comlpeted = await IngredientHelper.ToCompleteIngredientList(this.IngredientsCompleted.map(i => i.Indredient));
+        let Comlpeted = await IngredientHelper.ToCompleteIngredientList(this.IngredientsCompleted.map(i => i.Ingredient));
         let Canceled = IngredientHelper.ToCompleteIngredientList(this.IngredientsCanceled);
         let TotalLeft = IngredientHelper.SubtractList(Total, IngredientHelper.MergeLists([Comlpeted, Canceled]));
         return TotalLeft
@@ -75,7 +75,7 @@ export class ShoppingList {
 
 export interface ISaveShoppingList {
     _id: ObjectID,
-    IngredientsCompleted: { Indredient: IIngredient, ShippingSectionId: string }[],
+    IngredientsCompleted: { Ingredient: IIngredient, ShippingSectionId: string }[],
     IngredientsCanceled: IIngredient[],
     FamilyId: ObjectID,
     CompletedOn: number,
