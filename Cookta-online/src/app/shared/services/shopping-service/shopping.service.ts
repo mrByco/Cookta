@@ -31,8 +31,7 @@ export class ShoppingService {
   public async RefreshShoppingItems(): Promise<void>{
     this.IsBusy = true;
     return new Promise(async (resolve) => {
-      let response = await this.serverService.GetRequest(Routes.Shopping.GetShoppingList);
-
+      let response = await this.serverService.GetRequest(Routes.Shopping.ShoppingListBase + '/' + this.GetSelectedShoppingDate.toISOString().slice(0, 10));
       response.subscribe(d => {
         this.IsBusy = false;
         let data: IShoppingList = d;
@@ -41,6 +40,42 @@ export class ShoppingService {
         this.IsBusy = false;
         this.CurrentShoppingList = undefined;
         alert('Hiba a bevásárló lista elkészítésénél.')
+        resolve();
+      });
+    });
+  }
+
+  public async SetComplete(ingredientId: string, complete: boolean): Promise<void>{
+    this.IsBusy = true;
+    let body: {IngredientId: string, complete: boolean} = {IngredientId: ingredientId, complete: complete}
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.PutRequest(Routes.Shopping.ShoppingListBase + '/complete', body);
+      response.subscribe(d => {
+        this.IsBusy = false;
+        let data: IShoppingList = d;
+        this.CurrentShoppingList = data;
+      }, () => {
+        this.IsBusy = false;
+        this.CurrentShoppingList = undefined;
+        alert('Hiba a bevásárló lista frissítésénél.')
+        resolve();
+      });
+    })
+  }
+
+  public async SetCanceled(ingredientId: string, canceled: boolean): Promise<void>{
+    this.IsBusy = true;
+    let body: {IngredientId: string, Canceled: boolean} = {IngredientId: ingredientId, Canceled: canceled}
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.PutRequest(Routes.Shopping.ShoppingListBase + '/canceled', body);
+      response.subscribe(d => {
+        this.IsBusy = false;
+        let data: IShoppingList = d;
+        this.CurrentShoppingList = data;
+      }, () => {
+        this.IsBusy = false;
+        this.CurrentShoppingList = undefined;
+        alert('Hiba a bevásárló lista frissítésénél.')
         resolve();
       });
     })
