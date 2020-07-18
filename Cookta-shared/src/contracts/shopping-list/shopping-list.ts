@@ -7,9 +7,8 @@ const GetShoppingList: IRoute<void, IShoppingList, { nextShopping: string }> = {
 const SetComplete: IRoute<{ IngredientId: string, complete: boolean }, IShoppingList, void> = {method: ERouteMethod.PUT, path: 'complete'};
 const SetCanceled: IRoute<{IngredientId: string, Canceled: boolean}, IShoppingList, void> = {method: ERouteMethod.PUT, path: 'canceled'};
 
-const NewShoppingList: IRoute<void, IShoppingList, { nextShopping: string }> = {method: ERouteMethod.GET, path: 'start'};
-const FinishItems: IRoute<void, IShoppingList, { nextShopping: string }> = {method: ERouteMethod.GET, path: 'finish'};
+const NewShoppingList: IRoute<{ cancelItems: boolean }, IShoppingList, void> = {method: ERouteMethod.PUT, path: 'new'};
 
 export const ShoppingListControllerData: ControllerData = {
-    basepath: "ShoppingList", name: "ShoppingList", routes: [GetShoppingList, SetComplete, SetCanceled, NewShoppingList, FinishItems]
+    basepath: "ShoppingList", name: "ShoppingList", routes: [GetShoppingList, SetComplete, SetCanceled, NewShoppingList]
 }

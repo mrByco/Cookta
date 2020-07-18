@@ -17,21 +17,25 @@ export class ShoppingListController {
 
     @Security(false)
     public async SetComplete(reqBody: { IngredientId: string, complete: boolean }, user: User): Promise<IShoppingList> {
-        throw new Error('Route SetComplete is not implemented');
+        return Services.ShoppingListService
+            .SetItemComplete(
+                reqBody.IngredientId,
+                reqBody.complete,
+                user.GetCurrentFamily().Id.toHexString(),
+                await Services.StorageService.GetSections(user.GetCurrentFamily().Id.toHexString()));
     }
 
     @Security(false)
     public async SetCanceled(reqBody: { IngredientId: string, Canceled: boolean }, user: User): Promise<IShoppingList> {
-        throw new Error('Route SetCanceled is not implemented');
+        return Services.ShoppingListService
+            .SetItemCanceled(
+                reqBody.IngredientId,
+                reqBody.Canceled,
+                user.GetCurrentFamily().Id.toHexString());
     }
 
     @Security(false)
-    public async NewShoppingList(reqBody: void, user: User, nextShopping: string): Promise<IShoppingList> {
-        throw new Error('Route NewShoppingList is not implemented');
-    }
-
-    @Security(false)
-    public async FinishItems(reqBody: void, user: User, nextShopping: string): Promise<IShoppingList> {
-        throw new Error('Route FinishItems is not implemented');
+    public async NewShoppingList(reqBody: { cancelItems: boolean }, user: User): Promise<IShoppingList> {
+        return Services.ShoppingListService.NewShoppingList(user.GetCurrentFamily().Id.toHexString(), reqBody.cancelItems)
     }
 }

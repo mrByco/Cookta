@@ -766,33 +766,13 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.get('/ShoppingList/start/:nextShopping',
+    app.put('/ShoppingList/new/',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
-                    nextShopping: request.params['nextShopping']
                 };
                 const controller = new ShoppingListController();
-                const promise = controller.NewShoppingList(request.body as void, user, args.nextShopping);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
-            }).catch((error) => {
-                console.error(error);
-                error.stack = undefined;
-                response.status(error.status || 401);
-                next(error)
-            });
-        });
-
-
-
-    app.get('/ShoppingList/finish/:nextShopping',
-        function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
-                const args = {
-                    nextShopping: request.params['nextShopping']
-                };
-                const controller = new ShoppingListController();
-                const promise = controller.FinishItems(request.body as void, user, args.nextShopping);
+                const promise = controller.NewShoppingList(request.body as { nextShopping: string, cancelItems: boolean }, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
