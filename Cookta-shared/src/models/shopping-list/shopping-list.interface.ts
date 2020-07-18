@@ -5,4 +5,7 @@ export interface IShoppingList {
     IngredientsCompleted: {Indredient: IIngredient, ShippingSectionId: string}[];
     IngredientsCanceled: IIngredient[]
     FamilyId: string;
+    ShoppingFrom: number;
+    ShoppingTo: number;
+    CreatedOn: number;
 }

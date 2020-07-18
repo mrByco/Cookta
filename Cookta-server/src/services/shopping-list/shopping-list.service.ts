@@ -7,7 +7,8 @@ import '../../extensions/date-extensions';
 import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
-import {Collection} from 'mongodb';
+import {Collection, ObjectId} from 'mongodb';
+import {ShoppingList} from "../../models/shopping-list.model";
 
 export class ShoppingListService implements IShoppingListService {
 
@@ -15,13 +16,19 @@ export class ShoppingListService implements IShoppingListService {
     }
 
     SetItemComplete(ingredientId: string, completed: boolean, familyId: string) {
-        throw new Error("Method not implemented.");
+
     }
     SetItemCanceled(ingredientId: string, canceled: boolean, familyId: string) {
         throw new Error("Method not implemented.");
     }
-    NewShoppingList(familyId: string) {
-        throw new Error("Method not implemented.");
+    async NewShoppingList(familyId: string): Promise<IShoppingList> {
+        let oldList = await this.GetServerShoppingList(familyId);
+        oldList.CompletedOn = Date.now();
+        await this.SaveShoppingList(oldList);
+
+        let newList = await this.GetNewList(familyId);
+        await this.SaveShoppingList(newList);
+        return await newList.ToShoppingList();
     }
     FinishItems(familyId: string) {
         throw new Error("Method not implemented.");
@@ -66,8 +73,22 @@ export class ShoppingListService implements IShoppingListService {
         return foodIngredients;
     }
 
-    public async GetShoppingList(familyId: string, from: string, to: string): Promise<IShoppingList> {
-        throw new Error("Not implemented")
+    public async GetShoppingList(familyId: string): Promise<IShoppingList> {
+        return this.GetServerShoppingList(familyId).then(s => s.ToShoppingList());
+    }
+
+    private async GetServerShoppingList(familyId: string): Promise<ShoppingList> {
+        let docs = await this.collection.findOne({FamilyId: new ObjectId(familyId), CompletedOn: undefined});
+
+        let shoppingList: ShoppingList;
+        if (!docs){
+            shoppingList = await this.GetNewList(familyId);
+        }else {
+            shoppingList = await ShoppingList.FromSaveShoppingList(docs);
+        }
+        await this.SaveShoppingList(shoppingList);
+
+        return shoppingList;
     }
 
     public async GetReqList(familyId: string, from: string, to: string): Promise<IIngredient[]> {
@@ -108,6 +129,19 @@ export class ShoppingListService implements IShoppingListService {
             }
         });
         return buy;
+    }
+
+    private async SaveShoppingList(list: ShoppingList){
+        await this.collection.replaceOne({_id: list.id}, list.ToSaveShoppingList(), {upsert: true});
+    }
+
+    private async GetNewList(familyId: string): Promise<ShoppingList>{
+        let from = new Date(Date.now());
+        let to = new Date(Date.now());
+        to.setDate(to.getDate() + 7);
+        let shoppingList = new ShoppingList(new ObjectId(), await this.GetReqList(familyId, from.ToYYYYMMDDString(), to.ToYYYYMMDDString())
+            , [], [], familyId, to.getTime(), Date.now(), undefined, from.getTime());
+        return shoppingList;
     }
 
 }

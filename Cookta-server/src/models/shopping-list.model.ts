@@ -8,35 +8,43 @@ require('../../src/extensions/date-extensions');
 
 export class ShoppingList {
 
-    constructor(public ShoppingTotal: IIngredient[],
+    constructor(public id: ObjectID,
+                public ShoppingTotal: IIngredient[],
                 public IngredientsCompleted: { Indredient: IIngredient, ShippingSectionId: string }[],
                 public IngredientsCanceled: IIngredient[],
                 public FamilyId: string,
-                public ShoppingUntil: number,
+                public ShoppingTo: number,
                 public CreatedOn: number,
-                public CompletedOn: number) {
+                public CompletedOn: number,
+                public ShoppingFrom: number) {
     }
 
 
     public static async FromSaveShoppingList(docs: ISaveShoppingList): Promise<ShoppingList> {
         return new ShoppingList(
-            await Services.ShoppingListService.GetReqList(docs.FamilyId.toHexString(), new Date(docs.ShoppingUntil).ToYYYYMMDDString()),
+            docs._id,
+            await Services.ShoppingListService.GetReqList(docs.FamilyId.toHexString(),
+                docs.ShoppingFrom ? new Date(docs.ShoppingFrom).ToYYYYMMDDString() : new Date(Date.now()).ToYYYYMMDDString(),
+                new Date(docs.ShoppingUntil).ToYYYYMMDDString()),
             docs.IngredientsCompleted,
             docs.IngredientsCanceled,
             docs.FamilyId.toHexString(),
             docs.ShoppingUntil,
             docs.CreatedOn,
-            docs.CompletedOn);
+            docs.CompletedOn,
+            docs.ShoppingFrom);
     }
 
     public ToSaveShoppingList(): ISaveShoppingList {
         return {
+            _id: this.id,
             FamilyId: new ObjectID(this.FamilyId),
             IngredientsCanceled: this.IngredientsCanceled,
             IngredientsCompleted: this.IngredientsCompleted,
-            ShoppingUntil: this.ShoppingUntil,
+            ShoppingUntil: this.ShoppingTo,
             CreatedOn: this.CreatedOn,
-            CompletedOn: this.CompletedOn
+            CompletedOn: this.CompletedOn,
+            ShoppingFrom: this.ShoppingFrom,
         };
     }
 
@@ -45,7 +53,10 @@ export class ShoppingList {
             FamilyId: this.FamilyId,
             IngredientsCanceled: this.IngredientsCanceled,
             IngredientsCompleted: this.IngredientsCompleted,
-            IngredientsToBuy: await this.GetIngredientsToBuy()
+            IngredientsToBuy: await this.GetIngredientsToBuy(),
+            CreatedOn: this.CreatedOn,
+            ShoppingFrom: this.ShoppingFrom,
+            ShoppingTo: this.ShoppingTo
         };
     }
 
@@ -56,15 +67,19 @@ export class ShoppingList {
         let TotalLeft = IngredientHelper.SubtractList(Total, IngredientHelper.MergeLists([Comlpeted, Canceled]));
         return TotalLeft
             .filter(i => i.value > 0)
-            .map(i => {return {ingredientID: i.ingredientType.guid, unit: i.unit.id, value: i.value}});
+            .map(i => {
+                return {ingredientID: i.ingredientType.guid, unit: i.unit.id, value: i.value}
+            });
     }
 }
 
 export interface ISaveShoppingList {
+    _id: ObjectID,
     IngredientsCompleted: { Indredient: IIngredient, ShippingSectionId: string }[],
     IngredientsCanceled: IIngredient[],
     FamilyId: ObjectID,
     CompletedOn: number,
     CreatedOn: number,
-    ShoppingUntil: number
+    ShoppingUntil: number,
+    ShoppingFrom: number,
 }
