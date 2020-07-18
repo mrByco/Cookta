@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
-import {ServerService} from "../server.service";
-import {IIngredient} from "../../models/grocery/ingredient.interface";
-import {Routes} from "../../routes";
-import {Food} from "../../models/grocery/food.model";
+import {Injectable} from '@angular/core';
+import {ServerService} from '../server.service';
+import {Routes} from '../../routes';
+import {IShoppingList} from '../../../../../../Cookta-shared/src/models/shopping-list/shopping-list.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingService {
 
-  public ShoppingItems: IIngredient[] = [];
+
+  public CurrentShoppingList: IShoppingList;
+
   public IsBusy: boolean = false;
+
   public get GetSelectedShoppingDate(): Date {
     return this.m_SelectedShoppingDate;
   }
@@ -26,20 +28,20 @@ export class ShoppingService {
     this.RefreshShoppingItems();
   }
 
-  public async RefreshShoppingItems(): Promise<IIngredient[]>{
+  public async RefreshShoppingItems(): Promise<void>{
+    this.IsBusy = true;
     return new Promise(async (resolve) => {
-      let response = await this.serverService.GetRequest(Routes.Shopping.GetShoppingList.replace('{nextShopping}', this.GetSelectedShoppingDate.toISOString().slice(0, 10)));
-      this.IsBusy = true;
+      let response = await this.serverService.GetRequest(Routes.Shopping.GetShoppingList);
 
-      response.subscribe(data => {
-        this.ShoppingItems.splice(0, this.ShoppingItems.length);
-        for (const d of (data.IngredientsToBuy as IIngredient[])) {
-          if (d != null) this.ShoppingItems.push(d);
-        }
+      response.subscribe(d => {
         this.IsBusy = false;
-        resolve(this.ShoppingItems);
+        let data: IShoppingList = d;
+        Object.assign(this.CurrentShoppingList, d);
       }, () => {
-        resolve([]);
+        this.IsBusy = false;
+        this.CurrentShoppingList = undefined;
+        alert('Hiba a bevásárló lista elkészítésénél.')
+        resolve();
       });
     })
   }

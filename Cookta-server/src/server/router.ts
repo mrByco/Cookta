@@ -772,7 +772,7 @@ export function RegisterRoutes(app: express.Express) {
                 const args = {
                 };
                 const controller = new ShoppingListController();
-                const promise = controller.NewShoppingList(request.body as { nextShopping: string, cancelItems: boolean }, user,);
+                const promise = controller.NewShoppingList(request.body as { cancelItems: boolean }, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);

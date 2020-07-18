@@ -52,13 +52,14 @@ export class StorageService extends StoreService<StorageSection> {
         section.Save();
         return section;
     }
-    public AddItemToSection(sectionId: string, ingredient: IIngredient){
+    public async AddItemToSection(sectionId: string, ingredient: IIngredient){
         let section = this.FindOne(i => i.Id.toHexString() == sectionId);
         if (!section) throw new Error('Session not found!');
         let sameTypeIngIndex = section.Items.findIndex(i => i.ingredientID == ingredient.ingredientID)
         if (sameTypeIngIndex != -1){
-            section.Items[sameTypeIngIndex] = IngredientHelper.Add()
+            section.Items[sameTypeIngIndex] = await IngredientHelper.AddNorm(section.Items[sameTypeIngIndex], ingredient);
         }
+        this.SaveItem(section);
     }
 
     public DeleteSection(user: User, sectionId: string){
