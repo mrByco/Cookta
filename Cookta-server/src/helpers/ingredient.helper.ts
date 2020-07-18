@@ -1,10 +1,9 @@
-
 import {Services} from '../Services';
 import {IngredientType} from '../models/ingredient-type/ingredient-type.model';
 import {Unit} from '../models/unit/unit.model';
-import {IUnit} from "cookta-shared/src/models/unit/unit.interface";
-import {EUnitType} from "cookta-shared/src/models/unit/unit-type.enum";
-import {ICompleteIngredient, IIngredient} from "cookta-shared/src/models/ingredient/ingredient.interface";
+import {IUnit} from 'cookta-shared/src/models/unit/unit.interface';
+import {EUnitType} from 'cookta-shared/src/models/unit/unit-type.enum';
+import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 
 export class IngredientHelper {
 
@@ -40,6 +39,12 @@ export class IngredientHelper {
             }
         }
         return merged;
+    }
+
+
+    static AddNorm(ing1: IIngredient, ing2: IIngredient): IIngredient {
+        let result = this.Add(IngredientHelper.ToCompleteIngredient(ing1), IngredientHelper.ToCompleteIngredient(ing2));
+        return {ingredientID: result.ingredientType.guid, unit: result.unit.id, value: result.value};
     }
 
     static Add(ing1: ICompleteIngredient, ing2: ICompleteIngredient): ICompleteIngredient {

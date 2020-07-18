@@ -9,7 +9,6 @@ export interface IShoppingListService {
     SetItemComplete(ingredientId: string, completed: boolean, familyId: string, familyStorages: IStorageSection[]): Promise<IShoppingList>;
     SetItemCanceled(ingredientId: string, canceled: boolean, familyId: string): Promise<IShoppingList>;
     //Cancels the completed items.
-    NewShoppingList(familyId: string);
-    FinishItems(familyId: string);
+    NewShoppingList(familyId: string, itemsToStorage?: boolean): Promise<IShoppingList>;
 
 }

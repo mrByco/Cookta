@@ -108,18 +108,34 @@ export class ShoppingListService implements IShoppingListService {
         return shoppingList.ToSharedShoppingList();
     }
 
-    async NewShoppingList(familyId: string): Promise<IShoppingList> {
+    async NewShoppingList(familyId: string, itemsToStorage: boolean = false): Promise<IShoppingList> {
         let oldList = await this.GetServerShoppingList(familyId);
         oldList.CompletedOn = Date.now();
+        if (!itemsToStorage) oldList.IngredientsCompleted = [];
+        else {
+            let familySections = Services.StorageService.GetSections(familyId);
+            if (familySections.length == 0){
+                let section = Services.StorageService.CreateSection(familyId);
+                section.Name = 'Autocreated section';
+                section.Items = oldList.IngredientsCompleted.map(i => i.Ingredient);
+                await Services.StorageService.SaveItem(section);
+            }else{
+                oldList.IngredientsCompleted.forEach(i => {
+                    let sectionToPut = i.ShippingSectionId;
+                    try {
+                        Services.StorageService.AddItemToSection(sectionToPut, i.Ingredient);
+                    }catch {
+                        sectionToPut = familySections[0].Id.toHexString();
+                        Services.StorageService.AddItemToSection(sectionToPut, i.Ingredient);
+                    }
+                });
+            }
+        }
         await this.SaveShoppingList(oldList);
 
         let newList = await this.GetNewList(familyId);
         await this.SaveShoppingList(newList);
         return await newList.ToSharedShoppingList();
-    }
-
-    FinishItems(familyId: string) {
-        throw new Error('Method not implemented.');
     }
 
     public async GetShoppingList(familyId: string): Promise<IShoppingList> {

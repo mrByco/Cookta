@@ -20,7 +20,7 @@ export class StockController {
 
     @Security(false)
     public async CreateSection(reqBody: void, user: User): Promise<IStorageSection> {
-        return await Services.StorageService.CreateSection(user).ToSendJson();
+        return await Services.StorageService.CreateSection(user.GetCurrentFamily().Id.toHexString()).ToSendJson();
     }
 
     @Security(false)
