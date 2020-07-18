@@ -36,7 +36,7 @@ export class ShoppingService {
       response.subscribe(d => {
         this.IsBusy = false;
         let data: IShoppingList = d;
-        Object.assign(this.CurrentShoppingList, d);
+        this.CurrentShoppingList = data;
       }, () => {
         this.IsBusy = false;
         this.CurrentShoppingList = undefined;

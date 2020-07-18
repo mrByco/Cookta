@@ -6,3 +6,16 @@
   color: dodgerblue;
   text-decoration: underline;
 }
+
+.shopping-panel {
+  padding-top: 2rem;
+
+  background-color: #ffffff;
+  height: var(--MainContentSize);
+  overflow: auto;
+
+
+  -webkit-box-shadow: 6px 9px 36px 0px rgba(0,0,0,0.45);
+  -moz-box-shadow: 6px 9px 36px 0px rgba(0,0,0,0.45);
+  box-shadow: 6px 9px 36px 0px rgba(0,0,0,0.45);
+}

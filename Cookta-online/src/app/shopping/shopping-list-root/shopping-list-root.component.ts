@@ -56,7 +56,7 @@ export class ShoppingListRootComponent implements OnInit {
   }
 
   public async CopyListToClipboard() {
-    let foodStrings = await Promise.all(this.shoppingService.ShoppingItems.map(async (item) => {
+    let foodStrings = await Promise.all(this.shoppingService.CurrentShoppingList.IngredientsToBuy.map(async (item) => {
       let ing = await this.ingredientService.GetIngredient(item.ingredientID);
       let unit = this.unitService.GetUnit(item.unit, ing).name;
       return `${item.value} ${unit ? unit : item.unit}  ${ing.name ? ing.name : `Ismeretlen: ${item.ingredientID}`}`;
