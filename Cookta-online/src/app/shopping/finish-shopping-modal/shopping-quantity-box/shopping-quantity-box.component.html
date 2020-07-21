@@ -1,0 +1,16 @@
+
+<div class="suggester">
+    <input class=""
+           [placeholder]=" Item.Ingredient.value + ' ' + unitService.GetUnit(Item.Ingredient.unit, ingredientService.GetIngredient(Item.Ingredient.ingredientID)).name"
+           [ngModel]="Text"
+           (focusin)="ShowSuggestions = true"
+           (focusout)="CloseWithDelay()"
+           (ngModelChange)="TextChange($event)">
+
+    <div class="suggestions" *ngIf="ShowSuggestions && filteredSuggestions.length > 0">
+        <a class="rounded-panel-item" style="color: white" *ngFor="let item of filteredSuggestions" (click)="SelectSuggestion(item)">
+            {{item}}
+        </a>
+    </div>
+</div>
+

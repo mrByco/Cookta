@@ -1,0 +1,28 @@
+
+input {
+    background: #FFFFFF !important;
+    border: 1px solid #000000AA;
+    border-radius: 10px;
+
+}
+input:focus {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(255, 0, 0, .9);
+    box-shadow: 0 0 16px 0 #FF0000BB;
+    outline: none;
+
+}
+
+.suggestions {
+    position: absolute;
+    top: 100%;
+
+    z-index: 2;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    background: #FF8888;
+
+
+    width: 100%;
+}

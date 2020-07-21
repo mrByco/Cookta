@@ -85,6 +85,8 @@ import {FoodSearchPageComponent} from './food/search/food-search-page/food-searc
 import {SearchService} from './food/search/search.service';
 import {ErrorListComponent} from './admin-components/error-list/error-list.component';
 import {FinishShoppingModalComponent} from './shopping/finish-shopping-modal/finish-shopping-modal.component';
+import {ShoppingQuantityBoxComponent} from './shopping/finish-shopping-modal/shopping-quantity-box/shopping-quantity-box.component';
+import {MatInputModule} from "@angular/material/input";
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponentComponent},
@@ -167,6 +169,7 @@ const appRoutes: Routes = [
         FoodSearchPageComponent,
         ErrorListComponent,
         FinishShoppingModalComponent,
+        ShoppingQuantityBoxComponent,
     ],
     imports: [
         BrowserModule,
@@ -189,6 +192,7 @@ const appRoutes: Routes = [
         MatSliderModule,
         MatProgressBarModule,
         MatTabsModule,
+        MatInputModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
