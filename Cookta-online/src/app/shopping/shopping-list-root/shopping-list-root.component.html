@@ -9,28 +9,21 @@
     </div>
     <div class="container shopping-root">
         <a class="copy-to-list-a" (click)="CopyListToClipboard()">Lista másolása a vágólapra</a>
-        <div class="row">
+        <br>
+        <div class="row pt-4">
             <div class="col-auto">
-                <h3>Bevásárlás eddig: </h3>
+                <h3>Vásárlás a következő: </h3>
             </div>
             <div class="col-auto">
-                <select class="browser-default custom-select" (change)="ChangeNextShoppingDay($event.target['value'])">
-                    <option selected>{{shoppingService.GetSelectedShoppingDate.toISOString().slice(0, 10)}}</option>
+                <select class="browser-default custom-select" [(ngModel)]="selected">
                     <option *ngFor="let i of [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]"
-                            [ngValue]="i">{{GetDateStringWithOffset(i)}}</option>
+                            [ngValue]="i">{{i + ' napra'}}</option>
                 </select>
             </div>
-            <div class="col-1"></div>
-            <div class="col-auto">
-                <h3>Pakolás helye: </h3>
-            </div>
-            <div class="col">
-                <select class="browser-default custom-select" [(ngModel)]="this.SelectedSection">
-                    <option *ngIf="storageService.Sections.length < 1"
-                            [ngValue]="null">{{SelectedSection ? SelectedSection.GetDisplayName() : "Betöltés..."}}</option>
-                    <option *ngFor="let section of storageService.Sections"
-                            [ngValue]="section">{{section.GetDisplayName()}}</option>
-                </select>
+            <div class="col"></div>
+            <div class="col-auto d-flex">
+                <h6 class="align-bottom" *ngIf="shoppingService.CurrentShoppingList"
+                >Tartalmazza: {{GetDateStringFromMilis(shoppingService.CurrentShoppingList.ShoppingFrom)}} - {{GetDateStringFromMilis(shoppingService.CurrentShoppingList.ShoppingTo)}}</h6>
             </div>
         </div>
 

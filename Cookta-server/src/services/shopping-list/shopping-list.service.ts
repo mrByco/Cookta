@@ -102,7 +102,7 @@ export class ShoppingListService implements IShoppingListService {
 
 
         } else {
-            shoppingList.IngredientsCompleted = shoppingList.IngredientsCompleted.filter(i => i.Ingredient.ingredientID != ingredientId);
+            shoppingList.IngredientsCanceled = shoppingList.IngredientsCanceled.filter(i => i.ingredientID != ingredientId);
         }
         await this.SaveShoppingList(shoppingList);
         return shoppingList.ToSharedShoppingList();
@@ -138,8 +138,9 @@ export class ShoppingListService implements IShoppingListService {
         return await newList.ToSharedShoppingList();
     }
 
-    public async GetShoppingList(familyId: string): Promise<IShoppingList> {
-        return this.GetServerShoppingList(familyId).then(s => s.ToSharedShoppingList());
+    public async GetShoppingList(familyId: string, from: string, to: string): Promise<IShoppingList> {
+        let shoppingList = await this.GetServerShoppingList(familyId, from, to);
+        return await shoppingList.ToSharedShoppingList();
     }
 
     public async GetReqList(familyId: string, from: string, to: string): Promise<IIngredient[]> {
@@ -182,7 +183,7 @@ export class ShoppingListService implements IShoppingListService {
         return buy;
     }
 
-    private async GetServerShoppingList(familyId: string): Promise<ShoppingList> {
+    private async GetServerShoppingList(familyId: string, from?: string, to?: string): Promise<ShoppingList> {
         let docs = await this.collection.findOne({FamilyId: new ObjectId(familyId), CompletedOn: undefined});
 
         let shoppingList: ShoppingList;
@@ -191,6 +192,7 @@ export class ShoppingListService implements IShoppingListService {
         } else {
             shoppingList = await ShoppingList.FromSaveShoppingList(docs);
         }
+        if (from && to) await shoppingList.SetFromTo(from.YYYYMMDDToDate(), to.YYYYMMDDToDate());
         await this.SaveShoppingList(shoppingList);
 
         return shoppingList;

@@ -11,7 +11,9 @@ export class ShoppingListController {
     @Security(false)
     public async GetShoppingList(reqBody: void, user: User, nextShopping: string): Promise<IShoppingList> {
         let family = user.GetCurrentFamily();
-        return Services.ShoppingListService.GetShoppingList(family.Id.toHexString(), new Date().Today().ToYYYYMMDDString(), nextShopping);
+        let from = new Date(Date.now()).ToYYYYMMDDString();
+        let list = await Services.ShoppingListService.GetShoppingList(family.Id.toHexString(), from, nextShopping);
+        return list;
     }
 
 

@@ -84,6 +84,7 @@ import {HomeService} from './shared/services/home.service';
 import {FoodSearchPageComponent} from './food/search/food-search-page/food-search-page.component';
 import {SearchService} from './food/search/search.service';
 import {ErrorListComponent} from './admin-components/error-list/error-list.component';
+import {FinishShoppingModalComponent} from './shopping/finish-shopping-modal/finish-shopping-modal.component';
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponentComponent},
@@ -165,6 +166,7 @@ const appRoutes: Routes = [
         RowHomeContentComponent,
         FoodSearchPageComponent,
         ErrorListComponent,
+        FinishShoppingModalComponent,
     ],
     imports: [
         BrowserModule,

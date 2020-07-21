@@ -1,0 +1,34 @@
+.link a {
+    color: #550000;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
+.shopping-item-row input {
+    background: #FFFFFF !important;
+    border: 1px solid #000000AA;
+    border-radius: 10px;
+
+}
+.shopping-item-row input:focus {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(255, 0, 0, .9);
+    box-shadow: 0 0 16px 0 #FF0000BB;
+    outline: none;
+
+}
+
+.shopping-item-row {
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+.shopping-item-row:hover    {
+    border: 1px solid #FFAAAA;
+    padding: 5px;
+}
+.shopping-item-row:focus-within {
+    border: 1px solid #FF3333;
+    padding:  5px;
+}

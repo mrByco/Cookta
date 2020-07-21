@@ -23,7 +23,7 @@ export class ShoppingService {
   }
 
   public async SetShoppingDate(date: Date): Promise<void>{
-    date.setDate(date.getDate() + 1)
+    date.setDate(date.getDate())
     this.m_SelectedShoppingDate = date;
     this.RefreshShoppingItems();
   }

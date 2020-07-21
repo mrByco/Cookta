@@ -13,6 +13,15 @@ import {UnitService} from '../../shared/services/unit-service/unit.service';
 export class ShoppingListRootComponent implements OnInit {
 
   public SelectedSection: StorageSection;
+  get selected(){
+    return this.m_selected;
+  }
+  set selected(v){
+    if (v != this.m_selected) this.shoppingService.SetShoppingDate(new Date(Date.now() + v * 24 * 60 * 60 * 1000));
+    this.m_selected = v;
+  }
+
+  private m_selected;
 
   constructor(public shoppingService: ShoppingService,
               public storageService: StorageService,
@@ -33,9 +42,9 @@ export class ShoppingListRootComponent implements OnInit {
   }
 
 
-  public GetDateStringWithOffset(days: number): string {
-    let now = new Date(Date.now());
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate() + days).toISOString().slice(0, 10);
+  public GetDateStringFromMilis(milis: number): string {
+    let now = new Date(milis);
+    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
   }
 
   private static copyStringToClipboard(str) {
@@ -74,5 +83,4 @@ export class ShoppingListRootComponent implements OnInit {
     console.log(dateObj);
     this.shoppingService.SetShoppingDate(dateObj);
   }
-
 }

@@ -60,6 +60,15 @@ export class ShoppingList {
         };
     }
 
+    public async SetFromTo(from: Date, to: Date){
+        if (from.getTime() > to.getTime()) return;
+        this.ShoppingFrom = from.getTime();
+        this.ShoppingTo = to.getTime();
+        this.ShoppingTotal = await Services.ShoppingListService.GetReqList(this.FamilyId,
+            from.ToYYYYMMDDString(),
+            to.ToYYYYMMDDString());
+    }
+
     public async GetIngredientsToBuy(): Promise<IIngredient[]> {
         let Total = await IngredientHelper.ToCompleteIngredientList(this.ShoppingTotal);
         let Comlpeted = await IngredientHelper.ToCompleteIngredientList(this.IngredientsCompleted.map(i => i.Ingredient));
