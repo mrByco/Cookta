@@ -75,7 +75,7 @@ export class ShoppingListService implements IShoppingListService {
                     })[0];
             } else {
                 let shipStorage = familyStorages.find(i => i.Items.find(i => i.ingredientID == ing2Complete.ingredientID)) ?? familyStorages[0];
-                shoppingList.IngredientsCompleted.push({Ingredient: ing2Complete, ShippingSectionId: shipStorage.Id.toHexString()});
+                shoppingList.IngredientsCompleted.push({Ingredient: ing2Complete, ShippingSectionId: shipStorage.Id.toHexString(), Bought: undefined});
             }
 
         } else {

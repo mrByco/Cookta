@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ICompletedShoppingItem} from '../../../../../../Cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {UnitService} from 'src/app/shared/services/unit-service/unit.service';
 import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
 import {Unit} from "../../../shared/models/unit.interface";
-import {FormControl} from "@angular/forms";
+import {BsDropdownDirective} from "angular-bootstrap-md";
 
 @Component({
     selector: 'app-shopping-quantity-box',
@@ -12,10 +12,11 @@ import {FormControl} from "@angular/forms";
 })
 export class ShoppingQuantityBoxComponent implements OnInit {
     public Text: string = '';
-    m_Item: ICompletedShoppingItem;
-    filteredSuggestions: string[];
-    control: FormControl;
-    public ShowSuggestions: boolean;
+    public filteredSuggestions: string[];
+
+    @ViewChild('SuggestionDropDown') public SuggestionDropDown: BsDropdownDirective;
+
+    private m_Item: ICompletedShoppingItem;
     private availableUnits: Unit[] = [];
     private highlightedSugg: string;
 
@@ -48,24 +49,27 @@ export class ShoppingQuantityBoxComponent implements OnInit {
 
         if (textParts.length > 1 && textParts[textParts.length - 1] != '')
             textParts.pop();
-        this.Text = textParts.reduce((pre, c) => pre = c + ' ', '');
+        this.Text = textParts.reduce((pre, c) => pre + c + ' ', '');
         console.log(this.Text);
         this.Text += item;
         this.reparse();
         this.refilter();
+        this.Text = ShoppingQuantityBoxComponent.RemoveDoubleSpaces(this.Text);
     }
 
-    CloseWithDelay() {
-        setTimeout(() => this.ShowSuggestions = false, 100);
+    public refilter() {
+        if (this.Item.Bought) this.filteredSuggestions = [];
+        else this.filteredSuggestions = this.availableUnits.map(u => u.name);
+
+        if (this.filteredSuggestions.length > 0 && !this.Item.Bought)
+            this.SuggestionDropDown?.show();
+        else
+            this.SuggestionDropDown?.hide();
+
     }
 
     private refreshAvailableUnits() {
         this.availableUnits = this.unitService.GetAvailableUnitsFor(this.ingredientService.GetIngredient(this.Item.Ingredient.ingredientID));
-    }
-
-    private refilter() {
-        if (this.Item.Bought) this.filteredSuggestions = [];
-        else this.filteredSuggestions = this.availableUnits.map(u => u.name);
     }
 
     private reparse() {
@@ -95,5 +99,14 @@ export class ShoppingQuantityBoxComponent implements OnInit {
             this.Item.Bought = {UnitId: unitFound.id, Value: valFound};
         else
             this.Item.Bought = undefined;
+    }
+
+
+    private static RemoveDoubleSpaces(str: string): string {
+        let workStr = str;
+        while (workStr.search('  ') != -1){
+            workStr = workStr.replace('  ', ' ');
+        }
+        return workStr;
     }
 }

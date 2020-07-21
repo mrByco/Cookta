@@ -1,16 +1,21 @@
-
-<div class="suggester">
+<div class="suggester" dropdown #SuggestionDropDown>
     <input class=""
            [placeholder]=" Item.Ingredient.value + ' ' + unitService.GetUnit(Item.Ingredient.unit, ingredientService.GetIngredient(Item.Ingredient.ingredientID)).name"
            [ngModel]="Text"
-           (focusin)="ShowSuggestions = true"
-           (focusout)="CloseWithDelay()"
-           (ngModelChange)="TextChange($event)">
+           (focusin)="refilter()"
+           (focusout)="SuggestionDropDown.hide()"
+           (ngModelChange)="TextChange($event)"
+           autocomplete="disabled">
 
-    <div class="suggestions" *ngIf="ShowSuggestions && filteredSuggestions.length > 0">
-        <a class="rounded-panel-item" style="color: white" *ngFor="let item of filteredSuggestions" (click)="SelectSuggestion(item)">
+    <div class="suggestions dropdown-menu">
+        <div class="rounded-panel-item" style="" *ngFor="let item of filteredSuggestions"
+           (click)="SelectSuggestion(item)">
             {{item}}
-        </a>
+        </div>
+        <div class="rounded-panel-item" style="font-family: 'Comic Sans MS'; font-style: italic; font-size: 14px"
+             (click)="SuggestionDropDown.hide()">
+            Elrejtés
+        </div>
     </div>
 </div>
 

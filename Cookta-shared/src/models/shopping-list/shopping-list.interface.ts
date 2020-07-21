@@ -3,7 +3,7 @@ import {IIngredient} from '../ingredient/ingredient.interface';
 export interface ICompletedShoppingItem {
     Ingredient: IIngredient,
     ShippingSectionId: string,
-    Bought: { UnitId: string, Value: number }
+    Bought?: { UnitId: string, Value: number }
 }
 
 export interface IShoppingList {

@@ -1,5 +1,5 @@
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
-import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {ICompletedShoppingItem, IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {ObjectID} from 'mongodb';
 import {Services} from '../Services';
 import {IngredientHelper} from '../helpers/ingredient.helper';
@@ -10,7 +10,7 @@ export class ShoppingList {
 
     constructor(public id: ObjectID,
                 public ShoppingTotal: IIngredient[],
-                public IngredientsCompleted: { Ingredient: IIngredient, ShippingSectionId: string }[],
+                public IngredientsCompleted: ICompletedShoppingItem[],
                 public IngredientsCanceled: IIngredient[],
                 public FamilyId: string,
                 public ShoppingTo: number,
@@ -84,7 +84,7 @@ export class ShoppingList {
 
 export interface ISaveShoppingList {
     _id: ObjectID,
-    IngredientsCompleted: { Ingredient: IIngredient, ShippingSectionId: string }[],
+    IngredientsCompleted: ICompletedShoppingItem[],
     IngredientsCanceled: IIngredient[],
     FamilyId: ObjectID,
     CompletedOn: number,

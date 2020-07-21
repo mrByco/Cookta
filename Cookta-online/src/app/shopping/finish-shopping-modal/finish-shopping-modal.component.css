@@ -9,13 +9,13 @@
 .shopping-item-row {
     padding: 6px;
     box-sizing: border-box;
+    border-radius: 13px;
 }
 
 .shopping-item-row:hover    {
-    border: 1px solid #FFAAAA;
-    padding: 5px;
+    background: #dff3ff;
 }
 .shopping-item-row:focus-within {
-    border: 1px solid #FF3333;
-    padding:  5px;
+    background: #d1e3ff;
+    padding:  6px;
 }
