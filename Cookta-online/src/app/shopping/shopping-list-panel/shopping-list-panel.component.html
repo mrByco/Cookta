@@ -8,16 +8,20 @@
   <p *ngIf="shoppingListService.CurrentShoppingList.IngredientsToBuy.length == 0"></p>
 
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsToBuy">
-    <div class="row" style="margin-left: 1rem">
+    <div class="row pl-5 pl-md-3 pl-lg-0">
       <label>{{ing.value}}</label>
       <label
-        style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
+              style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
       <a (click)="shoppingListService.SetComplete(ing.ingredientID, true)"
-         class="icon" style="position:absolute; right: 100px; top: 5px"><mdb-icon fas icon="check" size="lg"></mdb-icon></a>
+         class="icon icon-ok">
+        <mdb-icon fas icon="check" size="lg"></mdb-icon>
+      </a>
 
       <a (click)="shoppingListService.SetCanceled(ing.ingredientID, true)"
-         class="icon" style="position:absolute; right: 50px; top: 5px"><mdb-icon fas icon="times" size="lg"></mdb-icon></a>
+         class="icon icon-x">
+        <mdb-icon fas icon="times" size="lg"></mdb-icon>
+      </a>
     </div>
   </div>
 
@@ -32,13 +36,15 @@
     Még semmi nincs itt.
   </p>
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsCompleted">
-    <div class="row" style="margin-left: 1rem">
+    <div class="row ml-lg-1 pl-sm-3 pl-lg-0">
       <label>{{ing.Ingredient.value}}</label>
       <label
               style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.Ingredient.unit, ingredientService.GetIngredient(ing.Ingredient.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.Ingredient.ingredientID).name}}</label>
       <a (click)="shoppingListService.SetComplete(ing.Ingredient.ingredientID, false)"
-         class="icon" style="position:absolute; right: 50px; top: 5px"><mdb-icon fas size="lg" icon="times"></mdb-icon></a>
+         class="icon icon-ok">
+        <mdb-icon fas icon="times" size="lg"></mdb-icon>
+      </a>
     </div>
   </div>
   <hr>
@@ -47,13 +53,15 @@
     Még semmi nincs itt.
   </p>
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsCanceled">
-    <div class="row" style="margin-left: 1rem">
+    <div class="row ml-lg-1 pl-lg-0">
       <label>{{ing.value}}</label>
       <label
               style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
       <a (click)="shoppingListService.SetCanceled(ing.ingredientID, false)"
-         class="icon" style="position:absolute; right: 50px; top: 5px"><mdb-icon fas size="lg" icon="times"></mdb-icon></a>
+         class="icon icon-ok">
+        <mdb-icon fas icon="times" size="lg"></mdb-icon>
+      </a>
     </div>
   </div>
   <hr>
