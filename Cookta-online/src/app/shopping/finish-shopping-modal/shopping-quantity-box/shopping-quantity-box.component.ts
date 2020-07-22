@@ -4,6 +4,7 @@ import {UnitService} from 'src/app/shared/services/unit-service/unit.service';
 import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
 import {Unit} from "../../../shared/models/unit.interface";
 import {BsDropdownDirective} from "angular-bootstrap-md";
+import {ShoppingService} from "../../../shared/services/shopping-service/shopping.service";
 
 @Component({
     selector: 'app-shopping-quantity-box',
@@ -11,6 +12,9 @@ import {BsDropdownDirective} from "angular-bootstrap-md";
     styleUrls: ['./shopping-quantity-box.component.css']
 })
 export class ShoppingQuantityBoxComponent implements OnInit {
+    public CurrentSaveTask: Promise<void>;
+    public NextSaveTask: Promise<void>;
+
     public Text: string = '';
     public filteredSuggestions: string[];
 
@@ -18,9 +22,8 @@ export class ShoppingQuantityBoxComponent implements OnInit {
 
     private m_Item: ICompletedShoppingItem;
     private availableUnits: Unit[] = [];
-    private highlightedSugg: string;
 
-    constructor(public unitService: UnitService, public ingredientService: IngredientService) {
+    constructor(public unitService: UnitService, public ingredientService: IngredientService, public shoppingService: ShoppingService) {
     }
 
     get Item() {
@@ -30,6 +33,9 @@ export class ShoppingQuantityBoxComponent implements OnInit {
     @Input()
     set Item(v) {
         this.m_Item = v;
+        if (this.m_Item.Bought){
+            this.Text = this.m_Item.Bought.Value + ' ' + this.unitService.GetUnit(this.m_Item.Bought.UnitId, this.ingredientService.GetIngredient(this.m_Item.Ingredient.ingredientID)).name;
+        }
         this.refreshAvailableUnits();
         this.reparse();
         this.refilter();
@@ -73,6 +79,7 @@ export class ShoppingQuantityBoxComponent implements OnInit {
     }
 
     private reparse() {
+
         let text = this.Text.toLowerCase();
 
         let unitFound: Unit;
@@ -95,10 +102,36 @@ export class ShoppingQuantityBoxComponent implements OnInit {
             }
         }
 
+        let oldBoughtString = JSON.stringify(this.Item.Bought);
+
         if (unitFound && valFound)
             this.Item.Bought = {UnitId: unitFound.id, Value: valFound};
         else
             this.Item.Bought = undefined;
+
+
+        if (JSON.stringify(this.Item.Bought) != oldBoughtString){
+            this.SaveOrAddToSaveOrder({...this.Item});
+        }
+    }
+
+    private SaveOrAddToSaveOrder(stateCopy: ICompletedShoppingItem){
+        if (!this.CurrentSaveTask){
+            this.CurrentSaveTask = this.shoppingService.SaveCompletedQuantity(stateCopy);
+            this.ShiftSave()
+        }
+        else {
+            this.NextSaveTask = this.shoppingService.SaveCompletedQuantity(stateCopy);
+        }
+    }
+
+    private async ShiftSave(){
+        await this.CurrentSaveTask;
+        if (this.NextSaveTask){
+            this.CurrentSaveTask = this.NextSaveTask;
+            this.NextSaveTask = undefined;
+            this.ShiftSave();
+        }
     }
 
 

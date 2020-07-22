@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {ServerService} from '../server.service';
 import {Routes} from '../../routes';
-import {IShoppingList} from '../../../../../../Cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {
+  ICompletedShoppingItem,
+  IShoppingList
+} from '../../../../../../Cookta-shared/src/models/shopping-list/shopping-list.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -84,6 +87,22 @@ export class ShoppingService {
   public GetDateWithOffset(days: number): Date {
     let now = new Date(Date.now());
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + days);
+  }
+
+  public async SaveCompletedQuantity(save: ICompletedShoppingItem): Promise<void> {
+    let body: {Item: ICompletedShoppingItem} = {Item: {...save}}
+    if (!body.Item.Bought?.Value || !body.Item.Bought?.UnitId) body.Item.Bought = undefined;
+
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.PutRequest(Routes.Shopping.ShoppingListBase + '/qty', body);
+      response.subscribe(d => {
+        resolve();
+      }, () => {
+        this.CurrentShoppingList = undefined;
+        alert('Hiba a mennyiség frissítésénél.')
+        resolve();
+      });
+    })
   }
 
 }

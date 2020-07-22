@@ -19,6 +19,7 @@ import {PingController} from "../controllers/static/ping.controller";
 import {ReportController} from "../controllers/static/report.controller";
 import {ICreateReportRequest} from "cookta-shared/src/contracts/reports/create-report.request.interface";
 import {ShoppingListController} from "../controllers/static/shopping-list.controller";
+import {ICompletedShoppingItem} from "cookta-shared/src/models/shopping-list/shopping-list.interface";
 import {StockController} from "../controllers/static/stock.controller";
 import {IStorageItemChangeRequest} from "cookta-shared/src/contracts/stock/StorageItemChange.request";
 import {SubscriptionController} from "../controllers/static/subscription.controller";
@@ -773,6 +774,24 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new ShoppingListController();
                 const promise = controller.NewShoppingList(request.body as { cancelItems: boolean }, user,);
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
+            }).catch((error) => {
+                console.error(error);
+                error.stack = undefined;
+                response.status(error.status || 401);
+                next(error)
+            });
+        });
+
+
+
+    app.put('/ShoppingList/qty/',
+        function(request: any, response: any, next: any) {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
+                const args = {
+                };
+                const controller = new ShoppingListController();
+                const promise = controller.SetBoughtQuantity(request.body as { Item: ICompletedShoppingItem }, user,);
                 ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);

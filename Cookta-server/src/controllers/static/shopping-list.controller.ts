@@ -3,7 +3,7 @@ import {Services} from '../../Services';
 import {Controller} from 'waxen/dist/deorators/controller';
 import {Contracts} from 'cookta-shared/src/contracts/contracts';
 import {Security} from 'waxen/dist/deorators/security';
-import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {ICompletedShoppingItem, IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 
 
 @Controller(Contracts.ShoppingList)
@@ -39,5 +39,10 @@ export class ShoppingListController {
     @Security(false)
     public async NewShoppingList(reqBody: { cancelItems: boolean }, user: User): Promise<IShoppingList> {
         return Services.ShoppingListService.NewShoppingList(user.GetCurrentFamily().Id.toHexString(), reqBody.cancelItems)
+    }
+
+    @Security(false)
+    public async SetBoughtQuantity(reqBody: { Item: ICompletedShoppingItem }, user: User): Promise<void> {
+        return await Services.ShoppingListService.SetCompleteQuantity(user.GetCurrentFamily().Id.toHexString(), {ingredientID: reqBody.Item.Ingredient.ingredientID, value: reqBody.Item.Bought?.Value, unit: reqBody.Item.Bought?.UnitId});
     }
 }

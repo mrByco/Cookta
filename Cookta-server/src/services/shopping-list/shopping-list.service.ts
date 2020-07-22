@@ -8,7 +8,7 @@ import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredi
 import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
 import {Collection, ObjectId} from 'mongodb';
-import {ShoppingList} from '../../models/shopping-list.model';
+import {ISaveShoppingList, ShoppingList} from '../../models/shopping-list.model';
 import {IStorageSection} from 'cookta-shared/src/models/storage-sections/storage-section.interface';
 
 export class ShoppingListService implements IShoppingListService {
@@ -209,6 +209,13 @@ export class ShoppingListService implements IShoppingListService {
         let shoppingList = new ShoppingList(new ObjectId(), await this.GetReqList(familyId, from.ToYYYYMMDDString(), to.ToYYYYMMDDString())
             , [], [], familyId, to.getTime(), Date.now(), undefined, from.getTime());
         return shoppingList;
+    }
+
+    async SetCompleteQuantity(familyId: string, ingredient: IIngredient): Promise<void> {
+        let docs: ISaveShoppingList = await this.collection.findOne({FamilyId: new ObjectId(familyId), CompletedOn: undefined});
+        let item = docs.IngredientsCompleted.find(i => i.Ingredient.ingredientID == ingredient.ingredientID);
+        item.Bought = !ingredient.unit || !ingredient.value ? undefined : {UnitId: ingredient.unit, Value: ingredient.value};
+        await this.collection.replaceOne({_id: docs._id}, docs);
     }
 
 }

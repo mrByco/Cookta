@@ -50,6 +50,7 @@ try{
 
         Services.ReportService = new ReportService(await MongoHelper.getCollection('Reports'));
         SetErrorHandler((error) => {
+            console.error(error);
             let stack = JSON.parse(JSON.stringify(error.stack));
             Services.ReportService.Report('server', 'auto', {stack: stack});
         });
