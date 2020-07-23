@@ -153,13 +153,13 @@ describe('Shopping list service', () => {
 
             let expectedShoppingList = await ShoppingList.FromSaveShoppingList(exampleShoppingList);
 
-            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString());
+            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString(), '2001-03-16', '2001-03-20');
             expect(list).to.be.eql(await expectedShoppingList.ToSharedShoppingList());
         });
 
         it('should create and save list if it does not exist', async () => {
             let id = new ObjectId();
-            let list = await service.GetShoppingList(id.toHexString());
+            let list = await service.GetShoppingList(id.toHexString(), '2001-03-16', '2001-03-20');
             expect(list).to.be.ok;
             expect(await collection.find().toArray().then(a => a.length)).to.be.eql(1);
         });
@@ -179,15 +179,15 @@ describe('Shopping list service', () => {
 
             let unExpectedShoppingList = await ShoppingList.FromSaveShoppingList(exampleShoppingList);
 
-            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString());
+            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString(), '2001-03-16', '2001-03-20');
             expect(list).to.be.not.eql(await unExpectedShoppingList.ToSharedShoppingList());
         });
 
         it('should create new list on create list', async () => {
             let familyId = new ObjectId();
-            await service.GetShoppingList(familyId.toHexString());
+            await service.GetShoppingList(familyId.toHexString(), '2001-03-16', '2001-03-20');
             let newList = await service.NewShoppingList(familyId.toHexString());
-            let listAfter = await service.GetShoppingList(familyId.toHexString());
+            let listAfter = await service.GetShoppingList(familyId.toHexString(), '2001-03-16', '2001-03-20');
 
             expect(await collection.find().toArray().then(a => a.length)).to.be.eql(2);
             expect(newList).to.be.ok;
