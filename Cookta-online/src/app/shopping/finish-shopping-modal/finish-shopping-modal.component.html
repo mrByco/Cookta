@@ -32,10 +32,10 @@
                 <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close"
                         (click)="modal.hide()" mdbWavesEffect>Vissza
                 </button>
-                <button type="button" mdbBtn color="danger" class="relative waves-light" mdbWavesEffect>Vásárlás
+                <button type="button" mdbBtn color="danger" class="relative waves-light" mdbWavesEffect (click)="shoppingService.FinishShoppingList(false)">Vásárlás
                     Törlése
                 </button>
-                <button type="button" mdbBtn color="green" class="relative waves-light" mdbWavesEffect>Vásárlás
+                <button type="button" mdbBtn color="green" class="relative waves-light" mdbWavesEffect (click)="shoppingService.FinishShoppingList(true)">Vásárlás
                     befejezése
                 </button>
             </div>

@@ -31,6 +31,24 @@ export class ShoppingService {
     this.RefreshShoppingItems();
   }
 
+  public async FinishShoppingList(cancelItems: boolean){
+    this.IsBusy = true;
+    this.CurrentShoppingList = undefined;
+    return new Promise(async (resolve) => {
+      let response = await this.serverService.PutRequest(Routes.Shopping.ShoppingListBase + '/new', {cancelItems: cancelItems});
+      response.subscribe(d => {
+        this.IsBusy = false;
+        let data: IShoppingList = d;
+        this.CurrentShoppingList = data;
+      }, () => {
+        this.IsBusy = false;
+        this.CurrentShoppingList = undefined;
+        alert('Hiba a bevásárló lista elkészítésénél.')
+        resolve();
+      });
+    });
+  }
+
   public async RefreshShoppingItems(): Promise<void>{
     this.IsBusy = true;
     return new Promise(async (resolve) => {

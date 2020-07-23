@@ -75,7 +75,11 @@ export class ShoppingListService implements IShoppingListService {
                     })[0];
             } else {
                 let shipStorage = familyStorages.find(i => i.Items.find(i => i.ingredientID == ing2Complete.ingredientID)) ?? familyStorages[0];
-                shoppingList.IngredientsCompleted.push({Ingredient: ing2Complete, ShippingSectionId: shipStorage.Id.toHexString(), Bought: undefined});
+                shoppingList.IngredientsCompleted.push({
+                    Ingredient: ing2Complete,
+                    ShippingSectionId: shipStorage.Id.toHexString(),
+                    Bought: undefined
+                });
             }
 
         } else {
@@ -114,21 +118,27 @@ export class ShoppingListService implements IShoppingListService {
         if (!itemsToStorage) oldList.IngredientsCompleted = [];
         else {
             let familySections = Services.StorageService.GetSections(familyId);
-            if (familySections.length == 0){
+            if (familySections.length == 0) {
                 let section = Services.StorageService.CreateSection(familyId);
                 section.Name = 'Autocreated section';
                 section.Items = oldList.IngredientsCompleted.map(i => i.Ingredient);
                 await Services.StorageService.SaveItem(section);
-            }else{
-                oldList.IngredientsCompleted.forEach(i => {
+            } else {
+                for (let i of oldList.IngredientsCompleted) {
                     let sectionToPut = i.ShippingSectionId;
+                    let addIngredient: IIngredient = {
+                        ingredientID: i.Ingredient.ingredientID,
+                        unit: i.Bought?.UnitId ?? i.Ingredient.ingredientID,
+                        value: i.Bought?.Value ?? i.Ingredient.value
+                    };
                     try {
-                        Services.StorageService.AddItemToSection(sectionToPut, i.Ingredient);
-                    }catch {
+                        await Services.StorageService.AddItemToSection(sectionToPut, addIngredient);
+                    } catch {
                         sectionToPut = familySections[0].Id.toHexString();
-                        Services.StorageService.AddItemToSection(sectionToPut, i.Ingredient);
+                        await Services.StorageService.AddItemToSection(sectionToPut, addIngredient);
                     }
-                });
+                }
+                ;
             }
         }
         await this.SaveShoppingList(oldList);
@@ -183,6 +193,19 @@ export class ShoppingListService implements IShoppingListService {
         return buy;
     }
 
+    async SetCompleteQuantity(familyId: string, ingredient: IIngredient): Promise<void> {
+        let docs: ISaveShoppingList = await this.collection.findOne({
+            FamilyId: new ObjectId(familyId),
+            CompletedOn: undefined
+        });
+        let item = docs.IngredientsCompleted.find(i => i.Ingredient.ingredientID == ingredient.ingredientID);
+        item.Bought = !ingredient.unit || !ingredient.value ? undefined : {
+            UnitId: ingredient.unit,
+            Value: ingredient.value
+        };
+        await this.collection.replaceOne({_id: docs._id}, docs);
+    }
+
     private async GetServerShoppingList(familyId: string, from?: string, to?: string): Promise<ShoppingList> {
         let docs = await this.collection.findOne({FamilyId: new ObjectId(familyId), CompletedOn: undefined});
 
@@ -209,13 +232,6 @@ export class ShoppingListService implements IShoppingListService {
         let shoppingList = new ShoppingList(new ObjectId(), await this.GetReqList(familyId, from.ToYYYYMMDDString(), to.ToYYYYMMDDString())
             , [], [], familyId, to.getTime(), Date.now(), undefined, from.getTime());
         return shoppingList;
-    }
-
-    async SetCompleteQuantity(familyId: string, ingredient: IIngredient): Promise<void> {
-        let docs: ISaveShoppingList = await this.collection.findOne({FamilyId: new ObjectId(familyId), CompletedOn: undefined});
-        let item = docs.IngredientsCompleted.find(i => i.Ingredient.ingredientID == ingredient.ingredientID);
-        item.Bought = !ingredient.unit || !ingredient.value ? undefined : {UnitId: ingredient.unit, Value: ingredient.value};
-        await this.collection.replaceOne({_id: docs._id}, docs);
     }
 
 }
