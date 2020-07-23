@@ -75,7 +75,7 @@ export class Routes {
     SetEssentials: '/baselist',
   };
   public static readonly Shopping = {
-    GetShoppingList: '/ShoppingList/{nextShopping}',
+    ShoppingListBase: '/ShoppingList',
   };
   public static readonly Home = {
     GetHomeMarkup: '/home',

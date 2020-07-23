@@ -30,6 +30,10 @@ export class StorageService {
     return section;
   }
 
+  public GetStorageSection(id: string): StorageSection{
+    return this.Sections.find(i => i.Id == id);
+  }
+
   public RefreshStorageSections(): Promise<void> {
     this.Sections.splice(0, this.Sections.length);
 

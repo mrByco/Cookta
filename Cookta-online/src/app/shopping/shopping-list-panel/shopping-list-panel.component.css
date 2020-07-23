@@ -1,0 +1,35 @@
+.shopping-panel h4 {
+    font-weight: bold;
+    color: #880000;
+}
+
+.shopping-panel p {
+    font-style: italic;
+    margin-left: 2rem;
+    color: #550000;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .icon-x {
+        left: 0;
+        top: 5px
+    }
+
+    .icon-ok {
+        right: 0;
+        top: 5px
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .icon-x {
+        right: 100px;
+        top: 5px
+    }
+
+    .icon-ok {
+        right: 50px;
+        top: 5px
+    }
+}

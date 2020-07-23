@@ -1,0 +1,21 @@
+.link a {
+    color: #550000;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
+
+.shopping-item-row {
+    padding: 6px;
+    box-sizing: border-box;
+    border-radius: 13px;
+}
+
+.shopping-item-row:hover    {
+    background: #dff3ff;
+}
+.shopping-item-row:focus-within {
+    background: #d1e3ff;
+    padding:  6px;
+}
