@@ -42,6 +42,7 @@ export class StorageService {
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.Storage.GetSections);
       response.subscribe(data => {
+        this.Sections.splice(0, this.Sections.length);
         for (const d of (data as any)) {
           this.Sections.push(StorageService.SectionFromData(d));
         }
