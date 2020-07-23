@@ -1,9 +1,10 @@
-import {StorageSection} from "../../models/storage-section.model";
-import {ObjectId} from "mongodb";
-import {User} from "../../models/user.model";
-import {StoreService} from "atomik/lib/store-service/store-service";
-import {IStorageItemChangeRequest} from "cookta-shared/src/contracts/stock/StorageItemChange.request";
-import {Family} from "../../models/family.model";
+import {StorageSection} from '../../models/storage-section.model';
+import {ObjectId} from 'mongodb';
+import {User} from '../../models/user.model';
+import {StoreService} from 'atomik/lib/store-service/store-service';
+import {IStorageItemChangeRequest} from 'cookta-shared/src/contracts/stock/StorageItemChange.request';
+import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {IngredientHelper} from '../../helpers/ingredient.helper';
 
 export class StorageService extends StoreService<StorageSection> {
 
@@ -12,13 +13,13 @@ export class StorageService extends StoreService<StorageSection> {
     }
 
 
-    public GetSections(family: Family): StorageSection[] {
-        return this.Items.filter(i => i.FamilyId == family.Id.toHexString());
+    public GetSections(familyId: string): StorageSection[] {
+        return this.Items.filter(i => i.FamilyId == familyId);
     }
 
-    public CreateSection(user: User): StorageSection {
+    public CreateSection(familyId: string): StorageSection {
         let item = super.CreateItem(new ObjectId()) as StorageSection;
-        item.FamilyId = user.currentFamilyId;
+        item.FamilyId = familyId;
         if (!item.Items) item.Items = [];
         super.SaveItem(item);
         return item;
@@ -29,19 +30,19 @@ export class StorageService extends StoreService<StorageSection> {
         if (!section)
             return null;
 
-        if (sectionModify.Items){
+        if (sectionModify.Items) {
             section.Items = sectionModify.Items;
         }
-        if (sectionModify.Name){
+        if (sectionModify.Name) {
             section.Name = sectionModify.Name;
         }
-        if (sectionModify.GeneralList){
+        if (sectionModify.GeneralList) {
             section.GeneralList = sectionModify.GeneralList;
         }
-        if (sectionModify.IsDefaultList){
+        if (sectionModify.IsDefaultList) {
             let sections = super.FindAll(s => s.FamilyId == user.currentFamilyId);
-            for (let s of sections){
-                if (s.IsDefaultList && s !== section){
+            for (let s of sections) {
+                if (s.IsDefaultList && s !== section) {
                     s.IsDefaultList = false;
                     s.Save();
                 }
@@ -52,7 +53,19 @@ export class StorageService extends StoreService<StorageSection> {
         return section;
     }
 
-    public DeleteSection(user: User, sectionId: string){
+    public async AddItemToSection(sectionId: string, ingredient: IIngredient): Promise<void> {
+        let section = this.FindOne(i => i.Id.toHexString() == sectionId);
+        if (!section) throw new Error('Session not found!');
+        let sameTypeIngIndex = section.Items.findIndex(i => i.ingredientID == ingredient.ingredientID)
+        if (sameTypeIngIndex != -1)
+            section.Items[sameTypeIngIndex] = await IngredientHelper.AddNorm(section.Items[sameTypeIngIndex], ingredient);
+        else
+            section.Items.push(ingredient);
+
+        await this.SaveItem(section);
+    }
+
+    public DeleteSection(user: User, sectionId: string) {
         let section = super.FindOne(s => s.FamilyId == user.currentFamilyId && s.Id.toHexString() == sectionId);
         super.RemoveItem(section);
     }

@@ -1,9 +1,8 @@
-import {User} from "../user.model";
-import {MongoHelper} from "../../helpers/mongo.helper";
-import {Food} from "../food/food.model";
-import {Family} from "../family.model";
-import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
-import {Services} from "../../Services";
+import {User} from '../user.model';
+import {MongoHelper} from '../../helpers/mongo.helper';
+import {Food} from '../food/food.model';
+import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
+import {Services} from '../../Services';
 
 
 export class Day {
@@ -17,10 +16,10 @@ export class Day {
         })
     }
 
-    public static async GetDay(date: string, family: Family) {
+    public static async GetDay(date: string, familyId: string) {
         let collection = await MongoHelper.getCollection(this.CollectionName);
-        let document = await collection.findOne({date: date, familyId: family.Id.toHexString()});
-        if (!document) return new Day(date, [], family.Id.toHexString());
+        let document = await collection.findOne({date: date, familyId: familyId});
+        if (!document) return new Day(date, [], familyId);
         return this.FromDocument(document);
     }
 

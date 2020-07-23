@@ -1,8 +1,12 @@
-
-import {expect} from "chai";
-import {ShoppingListService} from "./shopping-list.service";
-import {ISendableFood} from "cookta-shared/src/models/food/food-sendable.interface";
-import { IMealing } from 'cookta-shared/src/models/days/mealing.interface';
+import {expect} from 'chai';
+import {ShoppingListService} from './shopping-list.service';
+import {ISendableFood} from 'cookta-shared/src/models/food/food-sendable.interface';
+import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
+import {DBManager} from '../../mock/mongo-memory-server';
+import {Collection, ObjectId} from 'mongodb';
+import {MongoHelper} from '../../helpers/mongo.helper';
+import {ISaveShoppingList, ShoppingList} from '../../models/shopping-list.model';
+import {Services} from '../../Services';
 
 const placeholderFood: ISendableFood = {
     owner: 'owner',
@@ -21,7 +25,7 @@ const placeholderFood: ISendableFood = {
     foodId: 'string',
     SubscribedFor: false,
     OwnFood: true
-}
+};
 
 describe('Shopping list service', () => {
     describe('final mealings to ingredient list', () => {
@@ -49,6 +53,7 @@ describe('Shopping list service', () => {
                     }
                 }
             ];
+            // @ts-ignore
             const result = ShoppingListService.GetFoodIngredientsFromMealings(mealings);
             expect(result).to.eql([
                 {ingredientID: 'ing1', unit: 'unit1', value: 2},
@@ -85,6 +90,7 @@ describe('Shopping list service', () => {
                     }
                 }
             ];
+            // @ts-ignore
             const result = ShoppingListService.GetFoodIngredientsFromMealings(mealings);
             expect(result).to.eql([
                 {ingredientID: 'ing1', unit: 'unit1', value: 4},
@@ -96,8 +102,96 @@ describe('Shopping list service', () => {
         });
     });
     it('Get dates from now to x', () => {
+        // @ts-ignore
         const dateStrings: string[] = ShoppingListService.GetDatesFromNowTo('2020-03-30', '2020-04-02');
 
         expect(dateStrings).to.eql(['2020-03-30', '2020-03-31', '2020-04-01', '2020-04-02']);
+    });
+
+
+    const dbman = new DBManager();
+
+
+    beforeAll(() => dbman.start());
+    afterAll(() => dbman.stop());
+    afterEach(() => dbman.cleanup());
+
+    describe('Service', () => {
+
+        let service: ShoppingListService;
+        let collection: Collection;
+
+        beforeEach(async () => {
+            collection = await MongoHelper.getCollection('ShoppingLists');
+            service = new ShoppingListService(collection);
+
+            Services.ShoppingListService = service;
+
+            // @ts-ignore
+            Services.StorageService = {
+                GetSections: jest.fn(() => []),
+            };
+            Services.EssentialsService = {
+                // @ts-ignore
+                GetEssentials: jest.fn(() => {return {Essentials: []}}),
+            };
+
+        });
+
+        it('should load existing shopping list', async function() {
+            let exampleShoppingList: ISaveShoppingList = {
+                _id: new ObjectId(),
+                CompletedOn: undefined,
+                CreatedOn: 5,
+                FamilyId: new ObjectId(),
+                IngredientsCanceled: [],
+                IngredientsCompleted: [],
+                ShoppingUntil: 50000,
+                ShoppingFrom: 1,
+            };
+            await collection.insertOne(exampleShoppingList);
+
+            let expectedShoppingList = await ShoppingList.FromSaveShoppingList(exampleShoppingList);
+
+            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString());
+            expect(list).to.be.eql(await expectedShoppingList.ToSharedShoppingList());
+        });
+
+        it('should create and save list if it does not exist', async () => {
+            let id = new ObjectId();
+            let list = await service.GetShoppingList(id.toHexString());
+            expect(list).to.be.ok;
+            expect(await collection.find().toArray().then(a => a.length)).to.be.eql(1);
+        });
+
+        it('should not load completed list', async () => {
+            let exampleShoppingList: ISaveShoppingList = {
+                _id: new ObjectId(),
+                CompletedOn: 10,
+                CreatedOn: 5,
+                FamilyId: new ObjectId(),
+                IngredientsCanceled: [],
+                IngredientsCompleted: [],
+                ShoppingUntil: 50000,
+                ShoppingFrom: 1,
+            };
+            await collection.insertOne(exampleShoppingList);
+
+            let unExpectedShoppingList = await ShoppingList.FromSaveShoppingList(exampleShoppingList);
+
+            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString());
+            expect(list).to.be.not.eql(await unExpectedShoppingList.ToSharedShoppingList());
+        });
+
+        it('should create new list on create list', async () => {
+            let familyId = new ObjectId();
+            await service.GetShoppingList(familyId.toHexString());
+            let newList = await service.NewShoppingList(familyId.toHexString());
+            let listAfter = await service.GetShoppingList(familyId.toHexString());
+
+            expect(await collection.find().toArray().then(a => a.length)).to.be.eql(2);
+            expect(newList).to.be.ok;
+            expect(newList).to.eql(listAfter);
+        });
     });
 });
