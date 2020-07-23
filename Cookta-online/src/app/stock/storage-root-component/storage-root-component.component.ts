@@ -21,6 +21,7 @@ export class StorageRootComponentComponent implements OnInit {
 
   constructor(public stockService: StorageService,
               public unitService: UnitService) {
+    stockService.RefreshStorageSections();
   }
 
   async ngOnInit() {

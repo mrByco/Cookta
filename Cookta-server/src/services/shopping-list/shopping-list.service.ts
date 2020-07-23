@@ -128,7 +128,7 @@ export class ShoppingListService implements IShoppingListService {
                     let sectionToPut = i.ShippingSectionId;
                     let addIngredient: IIngredient = {
                         ingredientID: i.Ingredient.ingredientID,
-                        unit: i.Bought?.UnitId ?? i.Ingredient.ingredientID,
+                        unit: i.Bought?.UnitId ?? i.Ingredient.unit,
                         value: i.Bought?.Value ?? i.Ingredient.value
                     };
                     try {
