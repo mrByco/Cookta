@@ -120,7 +120,7 @@ export class FoodController {
 
     @Security(true)
     public async GetFoodPageById(reqBody: void, user: User, id: string, count: number): Promise<{ food: ISendableFood, recommendations: ISendableFood[] }> {
-        let food = Services.FoodService.GetFoodForUser(id, user.sub);
+        let food = Services.FoodService.GetFoodForUser(id, user?.sub);
         let sendFood = await food.ToSendable(user);
         let recommendations: Food[] = await Services.FoodService.GetFoodRecommendations(food, count, user);
         let sendRecommendations: ISendableFood[] = await SendableFood.ToSendableAll(recommendations);

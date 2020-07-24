@@ -194,29 +194,36 @@ export class FoodService extends StoreService<Food> implements IFoodService {
     }
 
     async GetFoodRecommendations(food: Food, count: number, user?: User): Promise<Food[]> {
-        let userCollection = await this.GetCollectionForUser(user.sub, user.GetCurrentFamily());
-        let collectionIds = userCollection.map(f => f.id);
+        let publicFoods: Food[] = this.Items.filter(f => !f.private);
         let recommendations: Food[] = [];
 
-        let publicFoods: Food[] = this.Items.filter(f => !f.private);
+        let ignoreFirstRound = user ? (await this.GetCollectionForUser(user.sub, user.GetCurrentFamily())).map(f => f.id) : [];
+
+        //ignore self
+        ignoreFirstRound.push(food.id);
 
         for (let matchTags = food.tags.length;
              matchTags > 0 && recommendations.length < count;
              matchTags--) {
-            let unknownFound = publicFoods.filter(i => !collectionIds.includes(i.id) && this.countMatchTags(food, i) == matchTags);
-            recommendations.push(...recommendations.length + unknownFound.length > count
-                ? unknownFound.slice(0, count - recommendations.length)
-                : unknownFound);
+            let found = publicFoods
+                .filter(i => !ignoreFirstRound.includes(i.id) && this.countMatchTags(food, i) == matchTags);
+
+            recommendations.push(...recommendations.length + found.length > count
+                ? found.slice(0, count - recommendations.length)
+                : found);
         }
 
-        for (let matchTags = food.tags.length;
-             matchTags > 0 && recommendations.length < count;
-             matchTags--) {
-            let knownFound = userCollection.filter(i =>
-                !recommendations.find(r => r.id == i.id) && this.countMatchTags(food, i) == matchTags);
-            recommendations.push(...recommendations.length + knownFound.length > count ?
-                knownFound.slice(0, count - recommendations.length) :
-                knownFound);
+        if (user && recommendations.length < count){
+            for (let matchTags = food.tags.length;
+                 matchTags > 0 && recommendations.length < count;
+                 matchTags--) {
+                let found = publicFoods
+                    .filter(i => this.countMatchTags(food, i) == matchTags && food.id != i.id);
+
+                recommendations.push(...found.length + recommendations.length > count
+                    ? found.slice(0, count - recommendations.length)
+                    : found);
+            }
         }
 
         return recommendations;
