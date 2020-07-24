@@ -37,10 +37,10 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         return this.GetAllFoods({owner: userSub});
     }
 
-    GetFoodForUser(foodId: string, userSub: string): Food {
+    GetFoodForUser(foodId: string, userSub?: string): Food {
         let food = this.Items.find(f => f.foodId == foodId);
         if (food == null) return null;
-        if (userSub == food.owner) return food;
+        if (userSub && userSub == food.owner) return food;
         if (!food.private) return food;
         let relatives = Services.FamilyService.GetUserRelatedFamilies(userSub)
         if (relatives.find(f => f.members.find(m => m.sub == food.owner))) return food;

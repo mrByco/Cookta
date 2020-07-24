@@ -65,7 +65,7 @@ export class FoodController {
 
     @Security(true)
     public async GetFoodById(reqBody: void, user: User, id: string): Promise<ISendableFood> {
-        let food = await Services.FoodService.GetFoodForUser(id, user.sub);
+        let food = await Services.FoodService.GetFoodForUser(id, user?.sub);
         if (!food)
             throw NotFoundError();
         else

@@ -11,7 +11,7 @@ export interface IFoodService {
 
     GetAllOwnFoods(userSub: string): Food[];
 
-    GetFoodForUser(foodId: string, userSub: string): Food,
+    GetFoodForUser(foodId: string, userSub?: string): Food,
 
     GetIncremental(start: number, count: number, filter?: any): Promise<Food[]>
 
