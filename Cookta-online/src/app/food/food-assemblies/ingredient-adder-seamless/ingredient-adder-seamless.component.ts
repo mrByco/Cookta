@@ -49,7 +49,7 @@ export enum EIngredientAdderState {
 })
 export class IngredientAdderSeamlessComponent {
 
-  public readonly ErrorUnitInvalid = 'A választott hozzávaló nem nem használható ennél a hozzávalónál válassz másikat.';
+  public readonly ErrorUnitInvalid = 'A választott mértékegység nem használható ennél a hozzávalónál válassz másikat.';
   public readonly SuccessText = 'Minden jónak tűnik, Enter megnyomásával hozzáadhatod a listához';
   public readonly LetsStartText = 'Hozzávaló pl: 85 dkg liszt';
 
