@@ -148,7 +148,7 @@ export class ShoppingListService implements IShoppingListService {
         return await newList.ToSharedShoppingList();
     }
 
-    public async GetShoppingList(familyId: string, from: string, to: string): Promise<IShoppingList> {
+    public async GetShoppingList(familyId: string, from?: string, to?: string): Promise<IShoppingList> {
         let shoppingList = await this.GetServerShoppingList(familyId, from, to);
         return await shoppingList.ToSharedShoppingList();
     }

@@ -121,6 +121,9 @@ describe('Shopping list service', () => {
         let service: ShoppingListService;
         let collection: Collection;
 
+        const shoppingFrom = new Date(2001, 3, 16);
+        const shoppingUntil = new Date(2001, 3, 20);
+
         beforeEach(async () => {
             collection = await MongoHelper.getCollection('ShoppingLists');
             service = new ShoppingListService(collection);
@@ -146,14 +149,14 @@ describe('Shopping list service', () => {
                 FamilyId: new ObjectId(),
                 IngredientsCanceled: [],
                 IngredientsCompleted: [],
-                ShoppingUntil: 50000,
-                ShoppingFrom: 1,
+                ShoppingUntil: shoppingUntil.getTime(),
+                ShoppingFrom: shoppingFrom.getTime(),
             };
             await collection.insertOne(exampleShoppingList);
 
             let expectedShoppingList = await ShoppingList.FromSaveShoppingList(exampleShoppingList);
 
-            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString(), '2001-03-16', '2001-03-20');
+            let list = await service.GetShoppingList(exampleShoppingList.FamilyId.toHexString(), shoppingFrom.ToYYYYMMDDString(), shoppingUntil.ToYYYYMMDDString());
             expect(list).to.be.eql(await expectedShoppingList.ToSharedShoppingList());
         });
 
@@ -185,12 +188,15 @@ describe('Shopping list service', () => {
 
         it('should create new list on create list', async () => {
             let familyId = new ObjectId();
-            await service.GetShoppingList(familyId.toHexString(), '2001-03-16', '2001-03-20');
+            await service.GetShoppingList(familyId.toHexString(), shoppingFrom.ToYYYYMMDDString(), shoppingUntil.ToYYYYMMDDString());
             let newList = await service.NewShoppingList(familyId.toHexString());
-            let listAfter = await service.GetShoppingList(familyId.toHexString(), '2001-03-16', '2001-03-20');
+            let listAfter = await service.GetShoppingList(familyId.toHexString());
 
+            //Should have all 2 lists keep saved
             expect(await collection.find().toArray().then(a => a.length)).to.be.eql(2);
+            //Should return new list
             expect(newList).to.be.ok;
+            //Should return the same list as a new list request.
             expect(newList).to.eql(listAfter);
         });
     });
