@@ -86,7 +86,8 @@ import {SearchService} from './food/search/search.service';
 import {ErrorListComponent} from './admin-components/error-list/error-list.component';
 import {FinishShoppingModalComponent} from './shopping/finish-shopping-modal/finish-shopping-modal.component';
 import {ShoppingQuantityBoxComponent} from './shopping/finish-shopping-modal/shopping-quantity-box/shopping-quantity-box.component';
-import {MatInputModule} from "@angular/material/input";
+import {MatInputModule} from "@angular/material/input"
+
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponentComponent},
@@ -172,11 +173,13 @@ const appRoutes: Routes = [
         ShoppingQuantityBoxComponent,
     ],
     imports: [
-        BrowserModule,
+        BrowserModule.withServerTransition({ appId: 'serverApp' }),
         HttpClientModule,
         ImageCropperModule,
         MDBBootstrapModule.forRoot(),
-        RouterModule.forRoot(appRoutes),
+        RouterModule.forRoot(appRoutes, {
+    initialNavigation: 'enabled'
+}),
         FormsModule,
         IconsModule,
         BrowserAnimationsModule,
