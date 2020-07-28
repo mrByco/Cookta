@@ -18,8 +18,8 @@
     <div class="overlay"></div>
     <h4 class="food-title"><a>{{Food.name}}</a></h4>
   </a>
-  <div mdbDropdown style="position: absolute; right: 10px; top: 10px" *ngIf="identityService.LastKnownUserInfo">
-    <a mdbDropdownToggle class="more-options-icon-frame" *ngIf="identityService.LastKnownUserInfo['sub'] == Food.owner">
+  <div mdbDropdown style="position: absolute; right: 10px; top: 10px" *ngIf="identityService.Identity">
+    <a mdbDropdownToggle class="more-options-icon-frame" *ngIf="identityService.Identity['sub'] == Food.owner">
       <img src="assets/more-options-button.png">
     </a>
     <div class="dropdown-menu dropdown-primary"

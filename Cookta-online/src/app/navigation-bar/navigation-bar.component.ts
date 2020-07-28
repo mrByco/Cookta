@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IdentityService} from "../shared/services/identity.service";
 import {FamilyService} from '../shared/services/family.service';
 
@@ -19,7 +19,7 @@ export class NavigationBarComponent implements OnInit {
 
   constructor(public identityService: IdentityService,
               public familyService: FamilyService) {
-    this.identityService.OnUserChanged.subscribe((user) => {
+    this.identityService.OnIdentityChanged.subscribe((user) => {
       if (!user)
         return;
       this.updateState();
@@ -28,7 +28,7 @@ export class NavigationBarComponent implements OnInit {
   }
 
   private updateState() {
-    this.PictureUrl = this.identityService?.LastKnownUserInfo?.picture;
+    this.PictureUrl = this.identityService?.Identity?.profilpic;
     this.identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
     this.identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
     this.identityService.HasPermission('manage-roles').then(b => this.ShowRoleEditor = b);

@@ -87,6 +87,7 @@ import {ErrorListComponent} from './admin-components/error-list/error-list.compo
 import {FinishShoppingModalComponent} from './shopping/finish-shopping-modal/finish-shopping-modal.component';
 import {ShoppingQuantityBoxComponent} from './shopping/finish-shopping-modal/shopping-quantity-box/shopping-quantity-box.component';
 import {MatInputModule} from "@angular/material/input"
+import {MustLoginComponent} from "./profile/must-login/must-login.component";
 
 
 const appRoutes: Routes = [
@@ -111,7 +112,10 @@ const appRoutes: Routes = [
     {path: 'essentials', component: EssentialsRootComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'calendar', component: MenuEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'storage', component: StorageRootComponentComponent, canActivate: [CanActivateLoggedInGuard]},
-    {path: 'shopping', component: ShoppingListRootComponent, canActivate: [CanActivateLoggedInGuard]}
+    {path: 'shopping', component: ShoppingListRootComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'login', component: MustLoginComponent, children: [
+            { path: '**', component: MustLoginComponent}
+        ]}
 
 ];
 
@@ -171,6 +175,7 @@ const appRoutes: Routes = [
         ErrorListComponent,
         FinishShoppingModalComponent,
         ShoppingQuantityBoxComponent,
+        MustLoginComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -12,30 +12,20 @@ export class IdentityService {
     modalCallback: (loggedIn: boolean) => void,
     redirect: string
   }>();
-  public LastKnownUserInfo: any = {};
   public Identity: User;
-  public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
   public OnIdentityChanged: EventEmitter<User> = new EventEmitter<User>();
 
   constructor(private serverService: ServerService,
               private authService: AuthService) {
-    //authService.OnUserChanged.subscribe(user => this.OnUserChanged.emit(user));
-    //authService.OnUserChanged.subscribe(user => this.LastKnownUserInfo = user);
     authService.OnUserLoginChanged.subscribe(() => this.RefreshUser());
     if (!IdentityService.Instance) {
       IdentityService.Instance = this;
     }
-    this.IdentityInitTask = new Promise(resolve => this.OnIdentityInit = resolve);
   }
-
-  //For can activate logged in route
-  public OnIdentityInit = () => {};
-  public IdentityInitTask: Promise<void>;
 
   public async LoadIdentity(): Promise<any>{
     //this.authService.LoadIdentity();
     await this.IsAuthenticated;
-    this.OnIdentityInit();
   }
 
   public get IsAuthenticated(): Promise<boolean> | boolean {
@@ -57,6 +47,7 @@ export class IdentityService {
 
   public PleaseLogin(redirect: string = '/'): Promise<boolean> {
 
+    console.log('login activate')
     return new Promise<boolean>(resolve => {
       this.OnLoginRequired.emit({modalCallback: resolve, redirect: redirect});
     });

@@ -15,22 +15,30 @@ export class LoginModalComponent implements OnInit {
   @ViewChild('basicModal', {static: true}) public modal: ModalDirective;
 
   public Callback: (loggedIn: boolean) => void;
-  public RedirectUrl: string = '/';
 
   constructor(public identityService: IdentityService) {
+      console.log('subscribed');
   }
 
   ngOnInit() {
     this.identityService.OnLoginRequired.subscribe(
-        (generator: { modalCallback: (loggedIn: boolean) => void, redirect: string }) => {
+        (generator: { modalCallback: (loggedIn: boolean) => void }) => {
           this.modal.show();
           this.Callback = generator.modalCallback;
-          this.RedirectUrl = generator.redirect;
         });
+    console.log('subscribed');
   }
 
   Cancel() {
     this.modal.hide();
     if (this.Callback) this.Callback(false);
   }
+
+    async Login() {
+      await this.identityService.Login()
+        if (this.Callback){
+            this.Callback(true);
+        }
+        this.modal.hide();
+    }
 }
