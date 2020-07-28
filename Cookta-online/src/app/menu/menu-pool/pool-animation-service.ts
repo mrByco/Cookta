@@ -17,7 +17,6 @@ export class PoolItemAnimationService {
         this.OnStateChange.subscribe(s => {
             this.ChangeOnInit = s;
         });
-        console.log('Instance created');
         this.Open();
     }
 

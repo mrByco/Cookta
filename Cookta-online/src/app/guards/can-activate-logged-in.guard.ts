@@ -1,32 +1,48 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {IdentityService} from '../shared/services/identity.service';
+import {AuthService} from "../shared/services/auth.service";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CanActivateLoggedInGuard implements CanActivate {
-  canActivate(
-      next: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return new Promise(async resolve => {
-      await IdentityService.Instance.IdentityInitTask;
-      let loggedIn = await IdentityService.Instance.IsAuthenticated;
-      if (loggedIn) {
-        resolve(true);
-        return;
-      }
-      let url = this.getResolvedUrl(next);
-      resolve(await IdentityService.Instance.PleaseLogin(url));
-    });
-  }
 
-  getResolvedUrl(route: ActivatedRouteSnapshot): string {
-    return route.pathFromRoot
-        .map(v => v.url.map(segment => segment.toString()).join('/'))
-        .join('/');
-  }
+    private firstInit: boolean = false;
+
+    constructor(public identityService: IdentityService, private authService: AuthService, private router: Router) {
+        if (!window['OnGapiInit']) {
+            this.firstInit = true;
+            window['OnGapiInit'] = (gapi) => {
+                this.authService.InitGapiAuth(gapi)
+            };
+        }
+    }
+
+    canActivate(
+        next: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        return new Promise(async resolve => {
+            let loggedIn = await this.identityService.IsAuthenticated;
+            if (loggedIn) {
+                resolve(true);
+                return;
+            }
+            if (this.firstInit)
+                this.router.navigate(['login', ...next.url.map(s => s.toString())], {});
+            else{
+                let success = await this.identityService.PleaseLogin();
+                resolve(success);
+            }
+        });
+    }
+
+    getResolvedUrl(route: ActivatedRouteSnapshot): string {
+        return route.pathFromRoot
+            .map(v => v.url.map(segment => segment.toString()).join('/'))
+            .join('/');
+    }
 
 
 }

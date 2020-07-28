@@ -28,13 +28,22 @@ export class UserService extends StoreService<User> {
         });
     }
 
-    public async GetUserForAuth(sub: string, accessToken): Promise<User> {
+    public async GetUserForAuth(sub: string, additionalData: any): Promise<User>{
         let user: User;
         user = this.FindOne(u => u.sub == sub || (u.subs ? u.subs.includes(sub) : false));
         if (user)
             return user;
         else
-            return await this.UnknownUserSub(accessToken);
+            return await this.UnknownUserSub(await UserService.GetAdditionalUserInfo(additionalData));
+    }
+
+    public async GetUserForAuth0(sub: string, accessToken): Promise<User> {
+        let user: User;
+        user = this.FindOne(u => u.sub == sub || (u.subs ? u.subs.includes(sub) : false));
+        if (user)
+            return user;
+        else
+            return await this.UnknownUserSub(await UserService.GetAdditionalUserInfo(accessToken));
     }
 
     public ChangeRole(sub: string, roleId: string) {
@@ -129,8 +138,7 @@ export class UserService extends StoreService<User> {
         }
     }
 
-    private async UnknownUserSub(accessToken): Promise<User> {
-        let data = await UserService.GetAdditionalUserInfo(accessToken);
+    private async UnknownUserSub(data: any): Promise<User> {
         if (!data) return null;
         let user: User;
 
@@ -141,7 +149,7 @@ export class UserService extends StoreService<User> {
             user = this.CreateItem(new ObjectId());
             user.sub = data.sub;
             user.email = data.email;
-            user.username = data.username ?? data.nickname;
+            user.username = data.username ?? data.nickname ?? data.given_name;
             while (!user.username) {
                 let t = 'user' + Math.floor(Math.random() * 90000) + 9999;
                 if (this.FindOne(u => u.username == t)) continue;

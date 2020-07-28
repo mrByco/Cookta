@@ -9,6 +9,7 @@ import {GenericTwoButtonDialogComponent} from '../utilities/generic-two-button-d
 import {MDBModalService} from 'angular-bootstrap-md';
 import {LiveConnectionService} from '../shared/services/live-connect.service/live-connection.service';
 import {HomeService} from '../shared/services/home.service';
+import {ActivatedRoute, Router} from "@angular/router";
 
 interface ILoadTask {
   Name: string,
@@ -45,7 +46,10 @@ export class RootComponentComponent implements OnInit {
               private identityService: IdentityService,
               private modalService: MDBModalService,
               private liveService: LiveConnectionService,
-              private homeService: HomeService) {
+              private homeService: HomeService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) {
+
 
     console.log('Init app');
   }
@@ -55,6 +59,13 @@ export class RootComponentComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await new Promise(r => setTimeout(() => r(), 0));
+    if (this.router.url.startsWith('/login')){
+      this.LoadingText == 'Bejelentkezés';
+      await IdentityService.Instance.PleaseLogin();
+      let redirectUrl = this.router.url.replace('/login', '');
+      await this.router.navigate([...redirectUrl.split('/')]);
+    }
     await this.InitApplication();
   }
 

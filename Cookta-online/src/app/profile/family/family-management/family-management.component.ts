@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Family} from '../../../shared/models/family.model';
 import {FamilyService} from '../../../shared/services/family.service';
 import {IdentityService} from '../../../shared/services/identity.service';
@@ -11,8 +11,8 @@ import {IdentityService} from '../../../shared/services/identity.service';
 export class FamilyManagementComponent implements OnInit {
 
   constructor(public familyService: FamilyService, public identityService: IdentityService) {
-    this.username = identityService.LastKnownUserInfo.username;
-    this.email = identityService.LastKnownUserInfo.email;
+    this.username = identityService.Identity.username;
+    this.email = identityService.Identity.email;
     identityService.OnIdentityChanged.subscribe(u => {
       this.username = identityService.Identity.username;
       this.email = identityService.Identity.email;

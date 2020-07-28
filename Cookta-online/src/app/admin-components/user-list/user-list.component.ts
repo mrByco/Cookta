@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../shared/services/user-service/user.service";
 import {ExtendedUser} from "../../../../../Cookta-shared/src/models/user/extendedUser";
-import { RoleService } from 'src/app/shared/services/role-service/role.service';
+import {RoleService} from 'src/app/shared/services/role-service/role.service';
 
 @Component({
   selector: 'app-user-list',
@@ -11,7 +11,7 @@ import { RoleService } from 'src/app/shared/services/role-service/role.service';
 export class UserListComponent implements OnInit {
   SelectedUser: ExtendedUser;
 
-  @ViewChild(HTMLSelectElement) public select: HTMLSelectElement;
+
 
   constructor(public userService: UserService, public roleService: RoleService) {
 

@@ -1,12 +1,9 @@
-import {Role} from "./role.model";
-import {Food} from "./food/food.model";
 import {Subscription} from "./subscription.model";
 import {StoreItemBase} from "atomik/lib/store-item/store-item-base";
 import {Services} from "../Services";
-import { Family } from './family.model';
-import { ExtendedUser } from 'cookta-shared/src/models/user/extendedUser';
-import { ISendFamily } from 'cookta-shared/src/models/family/family.interface';
-import {IUpdateFoodRequest} from "cookta-shared/src/contracts/foods/update-food.request";
+import {Family} from './family.model';
+import {ExtendedUser} from 'cookta-shared/src/models/user/extendedUser';
+import {ISendFamily} from 'cookta-shared/src/models/family/family.interface';
 
 
 export class User extends StoreItemBase {

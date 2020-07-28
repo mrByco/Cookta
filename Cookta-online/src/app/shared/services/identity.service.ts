@@ -8,34 +8,21 @@ import {HttpErrorResponse} from '@angular/common/http';
 @Injectable()
 export class IdentityService {
   public static Instance: IdentityService;
-  public OnLoginRequired = new EventEmitter<{
-    modalCallback: (loggedIn: boolean) => void,
-    redirect: string
-  }>();
-  public LastKnownUserInfo: any = {};
+  public OnLoginRequired = new EventEmitter<{modalCallback: (loggedIn: boolean) => void, options?: {redirectOnFail?: string}}>();
   public Identity: User;
-  public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
   public OnIdentityChanged: EventEmitter<User> = new EventEmitter<User>();
 
   constructor(private serverService: ServerService,
               private authService: AuthService) {
-    authService.OnUserChanged.subscribe(user => this.OnUserChanged.emit(user));
-    authService.OnUserChanged.subscribe(user => this.LastKnownUserInfo = user);
-    authService.OnUserChanged.subscribe(() => this.RefreshUser());
+    authService.OnUserLoginChanged.subscribe(() => this.RefreshUser());
     if (!IdentityService.Instance) {
       IdentityService.Instance = this;
     }
-    this.IdentityInitTask = new Promise(resolve => this.OnIdentityInit = resolve);
   }
 
-  //For can activate logged in route
-  public OnIdentityInit = () => {};
-  public IdentityInitTask: Promise<void>;
-
   public async LoadIdentity(): Promise<any>{
-    this.authService.LoadIdentity();
+    //this.authService.LoadIdentity();
     await this.IsAuthenticated;
-    this.OnIdentityInit();
   }
 
   public get IsAuthenticated(): Promise<boolean> | boolean {
@@ -47,17 +34,16 @@ export class IdentityService {
   }
 
   public async Login(redirect?: string) {
-    this.authService.login(redirect);
+    await this.authService.Login();
   }
 
   public async Logout() {
     this.authService.logout();
   }
 
-  public PleaseLogin(redirect: string = '/'): Promise<boolean> {
-
+  public PleaseLogin(redirect: string = '/', options?: {redirectOnFail?: string}): Promise<boolean> {
     return new Promise<boolean>(resolve => {
-      this.OnLoginRequired.emit({modalCallback: resolve, redirect: redirect});
+      this.OnLoginRequired.emit({modalCallback: resolve, options});
     });
   }
 
@@ -122,17 +108,4 @@ export class IdentityService {
       });
     });
   }
-
-
-  public RequireAccessToken(): Promise<string> {
-    return new Promise(async () => {
-      if (!this.LoggedIn) {
-        await this.Login();
-      }
-      await this.authService.getUser$().toPromise();
-      return '';
-    });
-  }
-
-
 }
