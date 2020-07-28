@@ -16,12 +16,10 @@ export class AuthService {
         })
     };
     public async getTokenSilently(): Promise<string>{
-        console.log('Getting token');
         if (!this.GoogleUser || !await this.IsAuthenticated){
             return;
         }
         let response = this.GoogleAuth.currentUser.get().getAuthResponse(true)
-        console.log(response);
         return response.id_token;
     }
 
@@ -46,7 +44,6 @@ export class AuthService {
         if (this.GoogleAuth.currentUser.get()){
             this.PostLogin();
         }
-        console.log('User signed in ' + this.GoogleUser.isSignedIn());
         this.Gapi = gapi;
     }
 
@@ -54,41 +51,6 @@ export class AuthService {
         this.PostLogin();
         this.OnUserLoginChanged.emit();
     }
-
-/*    public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
-
-    public LoadIdentity(): void{
-        this.IsAuthenticated = new Promise(async resolve => {
-            // On initial load, check authentication state with authorization server
-            // Set up local auth streams if user is already authenticated
-            let loggedIn = await this.localAuthSetup()
-            if (loggedIn)
-                resolve(true);
-
-            // Handle redirect from Auth0 login
-            loggedIn = await this.handleAuthCallback();
-            resolve(loggedIn);
-        })
-
-        this.getUser$().subscribe(user => this.OnUserChanged.emit(user));
-    }
-
-    // When calling, options can be passed if desired
-    // https://auth0.github.io/auth0-spa-js/classes/auth0client.html#getuser
-    getUser$(options?): Observable<any> {
-        return this.auth0Client$.pipe(
-            concatMap((client: Auth0Client) => from(client.getUser(options))),
-            tap(user => this.userProfileSubject$.next(user))
-        );
-    }
-
-    getTokenSilently$(): Observable<string> {
-        return this.auth0Client$.pipe(
-            concatMap((client: Auth0Client) => from(client.getTokenSilently()))
-        );
-    }
-
-*/
 
     async logout() {
         this.GoogleAuth.signOut();
@@ -100,7 +62,6 @@ export class AuthService {
         this.PostLogin();
     }
     PostLogin(){
-        console.log('Successful sign in');
         this.GoogleUser = this.GoogleUser || this.GoogleAuth.currentUser.get();
         this.loggedIn = this.GoogleUser?.isSignedIn()?? false;
         this.OnUserLoginChanged.emit();

@@ -42,8 +42,6 @@ export class IdentityService {
   }
 
   public PleaseLogin(redirect: string = '/', options?: {redirectOnFail?: string}): Promise<boolean> {
-
-    console.log('login activate')
     return new Promise<boolean>(resolve => {
       this.OnLoginRequired.emit({modalCallback: resolve, options});
     });
@@ -61,7 +59,6 @@ export class IdentityService {
   }
 
   public async RefreshUser(): Promise<void> {
-    console.log('Get user data');
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.User.GetUser, true);
       response.subscribe(data => {
