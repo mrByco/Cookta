@@ -176,7 +176,7 @@
           }
         },
         "deploy": {
-          "builder": "@angular/fire:build",
+          "builder": "@angular/fire:deploy",
           "options": {
             "ssr": true
           }
