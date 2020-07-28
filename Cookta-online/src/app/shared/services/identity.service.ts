@@ -19,9 +19,9 @@ export class IdentityService {
 
   constructor(private serverService: ServerService,
               private authService: AuthService) {
-    authService.OnUserChanged.subscribe(user => this.OnUserChanged.emit(user));
-    authService.OnUserChanged.subscribe(user => this.LastKnownUserInfo = user);
-    authService.OnUserChanged.subscribe(() => this.RefreshUser());
+    //authService.OnUserChanged.subscribe(user => this.OnUserChanged.emit(user));
+    //authService.OnUserChanged.subscribe(user => this.LastKnownUserInfo = user);
+    authService.OnUserLoginChanged.subscribe(() => this.RefreshUser());
     if (!IdentityService.Instance) {
       IdentityService.Instance = this;
     }
@@ -33,7 +33,7 @@ export class IdentityService {
   public IdentityInitTask: Promise<void>;
 
   public async LoadIdentity(): Promise<any>{
-    this.authService.LoadIdentity();
+    //this.authService.LoadIdentity();
     await this.IsAuthenticated;
     this.OnIdentityInit();
   }
@@ -47,11 +47,12 @@ export class IdentityService {
   }
 
   public async Login(redirect?: string) {
-    this.authService.login(redirect);
+    await this.authService.Login();
   }
 
   public async Logout() {
-    this.authService.logout();
+    return;
+    //this.authService.logout();
   }
 
   public PleaseLogin(redirect: string = '/'): Promise<boolean> {
@@ -73,6 +74,7 @@ export class IdentityService {
   }
 
   public async RefreshUser(): Promise<void> {
+    console.log('Get user data');
     return new Promise(async (resolve) => {
       let response = await this.serverService.GetRequest(Routes.User.GetUser, true);
       response.subscribe(data => {
@@ -129,7 +131,7 @@ export class IdentityService {
       if (!this.LoggedIn) {
         await this.Login();
       }
-      await this.authService.getUser$().toPromise();
+      //await this.authService.getUser$().toPromise();
       return '';
     });
   }

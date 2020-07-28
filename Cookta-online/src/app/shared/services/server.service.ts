@@ -56,7 +56,7 @@ export class ServerService {
         throw Error('Logged in only')
       }) : this.http.get(this.GetBase() + route);
     } else {
-      let token = await this.authService.getTokenSilently$().toPromise();
+      let token = await this.authService.getTokenSilently();
       let options = {
         headers: new HttpHeaders({
           'Authorization': `Bearer ${token}`
@@ -70,7 +70,7 @@ export class ServerService {
     let loggedIn: boolean = await this.authService.IsAuthenticated;
     let options = {headers: new HttpHeaders()};
     if (loggedIn) {
-      let token = await this.authService.getTokenSilently$().toPromise();
+      let token = await this.authService.getTokenSilently();
       options.headers = options.headers.append('Authorization', `Bearer ${token}`);
     }
     let data = body;
@@ -87,7 +87,7 @@ export class ServerService {
     let loggedIn: boolean = await this.authService.IsAuthenticated;
     let options = {headers: new HttpHeaders()};
     if (loggedIn) {
-      let token = await this.authService.getTokenSilently$().toPromise();
+      let token = await this.authService.getTokenSilently();
       options.headers = options.headers.append('Authorization', `Bearer ${token}`);
     }
     let data = body;
@@ -105,7 +105,7 @@ export class ServerService {
     if (!loggedIn) {
       return this.http.delete(this.GetBase() + route);
     } else {
-      let token = await this.authService.getTokenSilently$().toPromise();
+      let token = await this.authService.getTokenSilently();
       let options = {
         headers: new HttpHeaders({
           'Authorization': `Bearer ${token}`

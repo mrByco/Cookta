@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="d-flex align-items-center" style="width: 100%">
     <h5 class="mr-auto">Felhasználó név:  </h5>
-    <h3 class="mr-auto">{{identityService.Identity.username}}</h3>
+    <h3 class="mr-auto">{{identityService?.Identity?.username}}</h3>
     <button mdbBtn color="blue" size="small" style="padding: 5px 8px 5px 8px" (click)="setUserName()">Változtatás</button>
   </div>
   <hr>
