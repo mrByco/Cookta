@@ -1,6 +1,21 @@
 {
   "hosting": [
     {
+      "target": "cookta",
+      "public": "dist/cookta/browser",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
       "target": "prod",
       "public": "dist/cookta",
       "ignore": [
@@ -18,21 +33,6 @@
     {
       "target": "test",
       "public": "dist/cookta",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "cookta",
-      "public": "dist/cookta/browser",
       "ignore": [
         "firebase.json",
         "**/.*",
