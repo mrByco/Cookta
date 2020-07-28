@@ -8,10 +8,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 @Injectable()
 export class IdentityService {
   public static Instance: IdentityService;
-  public OnLoginRequired = new EventEmitter<{
-    modalCallback: (loggedIn: boolean) => void,
-    redirect: string
-  }>();
+  public OnLoginRequired = new EventEmitter<{modalCallback: (loggedIn: boolean) => void, options?: {redirectOnFail?: string}}>();
   public Identity: User;
   public OnIdentityChanged: EventEmitter<User> = new EventEmitter<User>();
 
@@ -41,15 +38,14 @@ export class IdentityService {
   }
 
   public async Logout() {
-    return;
-    //this.authService.logout();
+    this.authService.logout();
   }
 
-  public PleaseLogin(redirect: string = '/'): Promise<boolean> {
+  public PleaseLogin(redirect: string = '/', options?: {redirectOnFail?: string}): Promise<boolean> {
 
     console.log('login activate')
     return new Promise<boolean>(resolve => {
-      this.OnLoginRequired.emit({modalCallback: resolve, redirect: redirect});
+      this.OnLoginRequired.emit({modalCallback: resolve, options});
     });
   }
 
@@ -115,17 +111,4 @@ export class IdentityService {
       });
     });
   }
-
-
-  public RequireAccessToken(): Promise<string> {
-    return new Promise(async () => {
-      if (!this.LoggedIn) {
-        await this.Login();
-      }
-      //await this.authService.getUser$().toPromise();
-      return '';
-    });
-  }
-
-
 }

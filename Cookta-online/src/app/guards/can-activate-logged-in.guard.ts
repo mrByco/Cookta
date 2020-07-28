@@ -5,33 +5,44 @@ import {IdentityService} from '../shared/services/identity.service';
 import {AuthService} from "../shared/services/auth.service";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CanActivateLoggedInGuard implements CanActivate {
 
+    private firstInit: boolean = false;
 
-  constructor(public identityService: IdentityService, private authService: AuthService, private router: Router) {
-    window['OnGapiInit'] =  (gapi) => {this.authService.InitGapiAuth(gapi)};
-  }
+    constructor(public identityService: IdentityService, private authService: AuthService, private router: Router) {
+        if (!window['OnGapiInit']) {
+            this.firstInit = true;
+            window['OnGapiInit'] = (gapi) => {
+                this.authService.InitGapiAuth(gapi)
+            };
+        }
+    }
 
-  canActivate(
-      next: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return new Promise(async resolve => {
-      let loggedIn = await this.identityService.IsAuthenticated;
-      if (loggedIn) {
-        resolve(true);
-        return;
-      }
-      this.router.navigate(['login', ...next.url.map(s => s.toString())]);
-    });
-  }
+    canActivate(
+        next: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        return new Promise(async resolve => {
+            let loggedIn = await this.identityService.IsAuthenticated;
+            if (loggedIn) {
+                resolve(true);
+                return;
+            }
+            if (this.firstInit)
+                this.router.navigate(['login', ...next.url.map(s => s.toString())], {});
+            else{
+                let success = await this.identityService.PleaseLogin();
+                resolve(success);
+            }
+        });
+    }
 
-  getResolvedUrl(route: ActivatedRouteSnapshot): string {
-    return route.pathFromRoot
-        .map(v => v.url.map(segment => segment.toString()).join('/'))
-        .join('/');
-  }
+    getResolvedUrl(route: ActivatedRouteSnapshot): string {
+        return route.pathFromRoot
+            .map(v => v.url.map(segment => segment.toString()).join('/'))
+            .join('/');
+    }
 
 
 }

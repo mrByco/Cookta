@@ -11,13 +11,13 @@ export class AuthService {
     }
 
     public get IsAuthenticated(): boolean | Promise<boolean>{
-        return this.GoogleAuth?.isSignedIn?.get() ?? (this.GoogleAuth as Promise<any>).then((a) => {
+        return this.GoogleUser?.isSignedIn() ?? (this.GoogleAuth as Promise<any>).then((a) => {
             a.isSignedIn.get();
         })
     };
     public async getTokenSilently(): Promise<string>{
         console.log('Getting token');
-        if (!this.GoogleAuth || !await this.IsAuthenticated){
+        if (!this.GoogleUser || !await this.IsAuthenticated){
             return;
         }
         let response = this.GoogleAuth.currentUser.get().getAuthResponse(true)
@@ -42,8 +42,17 @@ export class AuthService {
         let instance = gapi.auth2.getAuthInstance();
         this.resolveGoogleAuth(instance);
         this.GoogleAuth = instance;
-        console.log('User signed in ' + this.GoogleAuth.isSignedIn.get());
+        this.GoogleAuth.isSignedIn.listen(() => {this.UserLoginChanged();});
+        if (this.GoogleAuth.currentUser.get()){
+            this.PostLogin();
+        }
+        console.log('User signed in ' + this.GoogleUser.isSignedIn());
         this.Gapi = gapi;
+    }
+
+    UserLoginChanged() {
+        this.PostLogin();
+        this.OnUserLoginChanged.emit();
     }
 
 /*    public OnUserChanged: EventEmitter<any> = new EventEmitter<any>();
@@ -79,22 +88,21 @@ export class AuthService {
         );
     }
 
-    logout() {
-        // Ensure Auth0 client instance exists
-        this.auth0Client$.subscribe((client: Auth0Client) => {
-            // Call method to log out
-            client.logout({
-                client_id: "fEVmPj3vysPdmdQbJOGx020xIVoZusjV",
-                returnTo: `${window.location.origin}`
-            });
-        });
-    }
 */
+
+    async logout() {
+        this.GoogleAuth.signOut();
+        location.reload();
+    }
     async Login() {
         let auth = await this.GoogleAuth;
         await auth.signIn();
+        this.PostLogin();
+    }
+    PostLogin(){
         console.log('Successful sign in');
-        this.loggedIn = auth.isSignedIn.get();
+        this.GoogleUser = this.GoogleUser || this.GoogleAuth.currentUser.get();
+        this.loggedIn = this.GoogleUser?.isSignedIn()?? false;
         this.OnUserLoginChanged.emit();
     }
 }
