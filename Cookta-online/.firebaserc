@@ -1,14 +1,8 @@
 {
-  "projects": {
-    "default": "kukta-0712"
-  },
   "targets": {
     "kukta-0712": {
       "hosting": {
-        "test": [
-          "testcookta"
-        ],
-        "prod": [
+        "cookta": [
           "kukta-0712"
         ]
       }
