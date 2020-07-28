@@ -6,6 +6,9 @@ import {EventEmitter, Injectable} from '@angular/core';
 export class AuthService {
     loggedIn: boolean;
     readonly OnUserLoginChanged: EventEmitter<void> = new EventEmitter<void>();
+    public get CurrentAuthMethod(){
+        return 'google-oauth2';
+    }
 
     public get IsAuthenticated(): boolean | Promise<boolean>{
         return this.GoogleAuth?.isSignedIn?.get() ?? (this.GoogleAuth as Promise<any>).then((a) => {
@@ -19,7 +22,7 @@ export class AuthService {
         }
         let response = this.GoogleAuth.currentUser.get().getAuthResponse(true)
         console.log(response);
-        return response.access_token;
+        return response.id_token;
     }
 
     constructor() {

@@ -59,7 +59,8 @@ export class ServerService {
       let token = await this.authService.getTokenSilently();
       let options = {
         headers: new HttpHeaders({
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'auth-method': this.authService.CurrentAuthMethod,
         })
       };
       return this.http.get(this.GetBase() + route, options);
@@ -72,6 +73,7 @@ export class ServerService {
     if (loggedIn) {
       let token = await this.authService.getTokenSilently();
       options.headers = options.headers.append('Authorization', `Bearer ${token}`);
+      options.headers = options.headers.append('auth-method', this.authService.CurrentAuthMethod);
     }
     let data = body;
     if (file) {
@@ -89,6 +91,7 @@ export class ServerService {
     if (loggedIn) {
       let token = await this.authService.getTokenSilently();
       options.headers = options.headers.append('Authorization', `Bearer ${token}`);
+      options.headers = options.headers.append('auth-method', this.authService.CurrentAuthMethod);
     }
     let data = body;
     if (file) {
@@ -108,7 +111,8 @@ export class ServerService {
       let token = await this.authService.getTokenSilently();
       let options = {
         headers: new HttpHeaders({
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'auth-method': this.authService.CurrentAuthMethod,
         })
       };
       return this.http.delete(this.GetBase() + route, options);
