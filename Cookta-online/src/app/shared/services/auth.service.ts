@@ -53,12 +53,13 @@ export class AuthService {
     }
 
     async logout() {
-        this.GoogleAuth.signOut();
+        await this.GoogleAuth.signOut();
+        this.GoogleAuth.disconnect();
         location.reload();
     }
     async Login() {
         let auth = await this.GoogleAuth;
-        await auth.signIn();
+        await auth.signIn({prompt: 'select_account'});
         this.PostLogin();
     }
     PostLogin(){

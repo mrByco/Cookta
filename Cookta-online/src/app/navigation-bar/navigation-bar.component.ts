@@ -40,4 +40,9 @@ export class NavigationBarComponent implements OnInit {
 
   }
 
+  async login(){
+    await this.identityService.Login();
+    location.reload();
+  }
+
 }
