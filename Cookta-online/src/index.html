@@ -16,11 +16,18 @@
             gapi.load('auth2', function () {
                 gapi.auth2.init();
                 /* Ready. Make a call to gapi.auth2.init or some other API */
-
                 window['OnGapiInit'](gapi);
-
             });
         }
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HBSYYJ2WNS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-HBSYYJ2WNS');
     </script>
 
 
