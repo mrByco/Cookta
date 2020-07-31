@@ -13,11 +13,11 @@
           <button *ngIf="false" class="mr-auto btn btn-primary">Feltöltő</button>
           <button (click)="Subscribe(true)"
                   *ngIf="!Food.SubscribedFor && !Food.OwnFood"
-                  class="btn btn-primary">Feliratkozás
+                  class="btn btn-primary">Mentés gyüjteménybe
           </button>
           <button (click)="Subscribe(false)"
                   *ngIf="Food.SubscribedFor"
-                  class="btn btn-primary">Leiratkozás
+                  class="btn btn-primary">Eltávolítás gyüjteményből
           </button>
           <button (click)="GoEdit()" *ngIf="Food.OwnFood" class="btn btn-primary">Szerkesztés</button>
         </div>
