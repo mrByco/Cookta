@@ -142,4 +142,8 @@ export class IngredientHelper {
       value: ing.value
     }
   }
+
+  static ToNormalIngredient(item: ICompleteIngredient): IIngredient {
+    return {ingredientID: item.ingredientType.guid, unit: item.unit.id, value: item.value}
+  }
 }
