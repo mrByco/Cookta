@@ -8,7 +8,7 @@ import Fuse from "fuse.js";
 import {ICompleteIngredient, IngredientHelper} from "../../utilities/ingredient-helper/ingredient.helper";
 import {IngredientService} from "../../shared/services/ingredient-service/ingredient.service";
 
-interface SectionsSearchCache {
+interface ISectionsSearchCache {
   section: StorageSection,
   fuse: Fuse<ICompleteIngredient>,
 }
@@ -24,7 +24,7 @@ export class StorageRootComponentComponent implements OnInit {
   public SelectedItems: IIngredient[] = [];
   public ButtonLoading: boolean;
   public SelectedSection: StorageSection;
-  public SearchResult: {section: StorageSection, ingredients: IIngredient[]}[] = [];
+  public SearchResults: {section: StorageSection, ingredients: IIngredient[]}[] = [];
 
   private SearchCache: any = {};
 
@@ -39,28 +39,32 @@ export class StorageRootComponentComponent implements OnInit {
   private m_SearchText: string;
 
   private async RefilterResults(text: string){
-    if (!text) return;
+    if (!text) {
+      this.SearchResults = []
+      return;
+    }
     return await new Promise(r => {
       let results: {section: StorageSection, ingredients: IIngredient[]}[] = [];
       for (let section of this.stockService.Sections){
-        let fuse: Fuse<ICompleteIngredient>;
+        let cache: ISectionsSearchCache;
         if (!this.SearchCache[JSON.stringify(section)]){
           const options = {
             includeScore: true,
-            keys: ['ingredientType.name']
+            keys: ['ingredientType.name'],
+            threshold: 0.2,
           }
           let ingredients = IngredientHelper.ToCompleteIngredientList(section.Items, this.unitService, this.ingredientService);
-          fuse = new Fuse(ingredients, options)
-          this.SearchCache[JSON.stringify(section)] = {section: section, fuse: fuse};
+          let fuse = new Fuse(ingredients, options)
+          cache = this.SearchCache[JSON.stringify(section)] = {section: section, fuse: fuse};
         }else {
-          fuse = this.SearchCache[JSON.stringify(section)];
+          cache = this.SearchCache[JSON.stringify(section)];
         }
-        const foundIngredients = fuse.search(text)
+        const foundIngredients = cache.fuse.search(text)
         if (foundIngredients.length > 0)
           results.push({section: section, ingredients: foundIngredients.map(i => IngredientHelper.ToNormalIngredient(i.item))})
       }
 
-      this.SearchResult = text.length > 0 ? results : [];
+      this.SearchResults = text.length > 0 ? results : [];
     });
   }
 

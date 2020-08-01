@@ -21,7 +21,7 @@
         <mat-tab-group (selectedIndexChange)="SelectedChange()" #group color="accent"  style="height: inherit">
           <mat-tab [label]="section.GetDisplayName()" *ngFor="let section of stockService.Sections; let i = index">
             <app-storage-section
-              [SelectedItems]="SelectedItems" [SearchResults]="i == 0 ? SearchResult : []" [CurrentSection]="section"></app-storage-section>
+                    [SelectedItems]="SelectedItems" [SearchResults]="i == 0 ? SearchResults : []" [CurrentSection]="section"></app-storage-section>
           </mat-tab>
         </mat-tab-group>
       </div>
