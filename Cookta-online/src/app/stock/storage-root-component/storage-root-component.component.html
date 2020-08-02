@@ -4,7 +4,7 @@
     <div class="col-md"></div>
     <div class="col-md-9 storage-panel d-flex flex-column">
       <div class="storage-search row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <input type="text" placeholder="Keresés (hamarosan)" [(ngModel)]="SearchText">
         </div>
         <div class="col-sm-2 p-0">
@@ -12,6 +12,9 @@
         </div>
         <div class="col-sm-2 p-0">
           <button class="storage-header-btn" (click)="RemoveIngModal.show()">Felbontottam</button>
+        </div>
+        <div class="col-sm-2 p-0">
+          <button class="storage-header-btn" routerLink="/stocker">Leltárazás</button>
         </div>
         <div class="col-sm-2 p-0">
           <button class="storage-header-btn" (click)="AddNewSection()">Új tároló</button>

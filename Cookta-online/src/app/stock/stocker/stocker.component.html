@@ -1,0 +1,49 @@
+
+<div *ngIf="Loading" style="position: absolute; width: 100%; height: var(--MainContentSize); z-index: 5; background: #7b7b7b44">
+    <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+</div>
+<div class="container p-5" *ngIf="CheckList">
+    <div class="row">
+        <h3 class="page-title">Leltárazás...</h3>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Hátra van: {{CheckList.checkItems.length}}</p>
+        </div>
+        <div class="col">
+            <p>{{GetTimeLeftMonutes()}} perc</p>
+        </div>
+        <div class="col">
+            <p>{{GetLeftPercent()}}%</p>
+        </div>
+    </div>
+    <mat-progress-bar mode="determinate" color="accent" [value]="process * 100"></mat-progress-bar>
+    <hr>
+    <div class="col" *ngIf="CheckList.checkItems.length > 0">
+        <div class="row item-row" *ngFor="let item of CheckList.checkItems.slice(0, 30)">
+            <div class="col-3">
+                <app-ingredient-quantity-input [DefaultItem]="GetDefaultIngredient(item)" (OnActualChanged)="ChangeCheckListItem(item, $event)"></app-ingredient-quantity-input>
+            </div>
+            <div class="col-3">
+                {{item.ingredientType.name}}
+            </div>
+            <div class="col-3">
+                {{item.storage.Name}}
+            </div>
+            <div class="col">
+                <a (click)="CompleteCheckListItem(item)">Kész</a>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-column align-items-center" *ngIf="CheckList.checkItems.length == 0">
+        <h3 class="page-title">Kész vagy!</h3>
+        <div class="row p-3 m-3">
+            <div class="col">
+                <button mdbBtn style="height: 100%" color="green" routerLink="/storage">Tovább a kamrához</button>
+            </div>
+            <div class="col">
+                <button mdbBtn style="height: 100%" color="green" routerLink="/shopping">Tovább a bevásárló listához</button>
+            </div>
+        </div>
+    </div>
+</div>

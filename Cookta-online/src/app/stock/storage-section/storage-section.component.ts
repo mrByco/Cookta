@@ -50,7 +50,7 @@ export class StorageSectionComponent implements OnInit {
           modifyRequest[key] = this.CurrentSection[key];
         }
       }
-      this.storageSectionService.SetStorageSectionOnRemote(modifyRequest);
+      this.storageSectionService.ApplyChangeOnRemote(modifyRequest);
       delete this.ModifiedFields;
     } else {
       this.ModifiedFields = [];

@@ -56,7 +56,7 @@ export class StorageService {
     });
   }
 
-  public SetStorageSectionOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void> {
+  public ApplyChangeOnRemote(storageItemChangeRequest: IStorageItemChangeRequest): Promise<void> {
     this.IsBusy = true;
 
     return new Promise(async (resolve) => {
@@ -122,7 +122,7 @@ export class StorageService {
     }
 
     if (save) {
-      this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items});
+      this.ApplyChangeOnRemote({Id: section.Id, Items: section.Items});
     }
   }
 
@@ -156,7 +156,7 @@ export class StorageService {
       };
 
     if (save) {
-      this.SetStorageSectionOnRemote({Id: section.Id, Items: section.Items});
+      this.ApplyChangeOnRemote({Id: section.Id, Items: section.Items});
     }
     return {ingredientID: completeToSubtract.ingredientType.guid, unit: completeToSubtract.unit.id, value: completeToSubtract.value}
   }
