@@ -16,6 +16,16 @@ export class IngredientQuantityInputComponent {
     public Text: string = '';
     public filteredSuggestions: string[];
 
+    public Focusin() {
+        this.ClickedIn = true;
+        this.refilter();
+    }
+    public Focusout() {
+        this.ClickedIn = false;
+        this.SuggestionDropDown.hide()
+    }
+    public ClickedIn: boolean = false;
+
     @ViewChild('SuggestionDropDown') public SuggestionDropDown: BsDropdownDirective;
     @Output() public OnActualChanged: EventEmitter<IIngredient> = new EventEmitter<IIngredient>();
     private availableUnits: Unit[] = [];
@@ -31,7 +41,8 @@ export class IngredientQuantityInputComponent {
 
     @Input()
     public set DefaultItem(v) {
-        this.m_DefaultItem = v;
+        this.m_DefaultItem = v
+        if (!v) return;
         this.refreshAvailableUnits();
         this.reparse();
         this.refilter();
@@ -67,7 +78,7 @@ export class IngredientQuantityInputComponent {
         if (this.Actual) this.filteredSuggestions = [];
         else this.filteredSuggestions = this.availableUnits.map(u => u.name);
 
-        if (this.filteredSuggestions.length > 0 && !this.Actual)
+        if (this.filteredSuggestions.length > 0 && !this.Actual && this.ClickedIn && this.Text.length > 0)
             this.SuggestionDropDown?.show();
         else
             this.SuggestionDropDown?.hide();

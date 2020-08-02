@@ -45,6 +45,12 @@ body{
   --MainContentSize: calc(100vh - 72px);
 }
 
+.page-title {
+  font-style: normal;
+  font-weight: bolder;
+  font-family: "Comic Sans MS", serif;
+}
+
 
 
 /* CONTENT FOR COOKTA*/
