@@ -1,9 +1,10 @@
 {
   "name": "cookta",
-  "version": "1.0.18",
+  "version": "1.0.20",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run serve:ssr",
+    "debug": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -21,7 +22,6 @@
     "@angular/common": "~9.1.1",
     "@angular/compiler": "~9.1.1",
     "@angular/core": "~9.1.1",
-    "@angular/fire": "^5.4.2",
     "@angular/forms": "~9.1.1",
     "@angular/material": "^8.2.3",
     "@angular/platform-browser": "~9.1.1",
@@ -38,6 +38,7 @@
     "express": "^4.15.2",
     "firebase": "^6.6.0",
     "firebase-tools": "^7.11.0",
+    "fuse.js": "^6.4.1",
     "guid-typescript": "^1.0.9",
     "hammerjs": "^2.0.8",
     "ng2-adsense": "^6.0.2",
@@ -71,11 +72,6 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.8.3",
-    "@angular-devkit/architect": "<0.900 || ^0.900.0-0 || ^9.0.0-0",
-    "firebase-tools": "^7.12.0",
-    "fuzzy": "^0.1.3",
-    "inquirer": "^6.2.2",
-    "inquirer-autocomplete-prompt": "^1.0.1"
+    "typescript": "~3.8.3"
   }
 }

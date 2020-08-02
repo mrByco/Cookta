@@ -25,7 +25,7 @@ steps:
 - script: |
     npm install -g @angular/cli
     npm install
-    ng build --prod
+    ng build:ssr
   workingDirectory: Cookta-online
   displayName: 'npm install and build'
 

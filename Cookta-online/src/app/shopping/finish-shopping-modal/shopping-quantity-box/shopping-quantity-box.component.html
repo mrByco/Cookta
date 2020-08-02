@@ -1,21 +1,4 @@
-<div class="suggester" dropdown #SuggestionDropDown>
-    <input class=""
-           [placeholder]=" Item.Ingredient.value + ' ' + unitService.GetUnit(Item.Ingredient.unit, ingredientService.GetIngredient(Item.Ingredient.ingredientID)).name"
-           [ngModel]="Text"
-           (focusin)="refilter()"
-           (focusout)="SuggestionDropDown.hide()"
-           (ngModelChange)="TextChange($event)"
-           autocomplete="disabled">
+<app-ingredient-quantity-input [DefaultItem]="Item.Ingredient" (OnActualChanged)="OnActualChanged($event)">
 
-    <div class="suggestions dropdown-menu">
-        <div class="rounded-panel-item" style="" *ngFor="let item of filteredSuggestions"
-           (click)="SelectSuggestion(item)">
-            {{item}}
-        </div>
-        <div class="rounded-panel-item" style="font-family: 'Comic Sans MS'; font-style: italic; font-size: 14px"
-             (click)="SuggestionDropDown.hide()">
-            Elrejtés
-        </div>
-    </div>
-</div>
+</app-ingredient-quantity-input>
 

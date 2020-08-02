@@ -37,5 +37,4 @@ export class AppComponent {
     }
     AppComponent.instance = this;
   }
-
 }
