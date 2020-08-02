@@ -6,6 +6,7 @@ import {IIngredient} from '../../../shared/models/grocery/ingredient.interface';
 import {UnitService} from '../../../shared/services/unit-service/unit.service';
 import {IngredientService} from '../../../shared/services/ingredient-service/ingredient.service';
 import {IIngredientType} from "../../../shared/models/grocery/ingredient-type.interface";
+import Fuse from "fuse.js";
 
 interface ISuggestion {
   type: ESuggestionType;
@@ -326,14 +327,19 @@ export class IngredientAdderSeamlessComponent {
         //ingredients
         if (!parseResult.ingredient) {
           if (filterText != '' || parseResult.value && parseResult.unit) {
-            filtered.push(...this.CurrentSuggestionPool
-              .filter(s => s.text.includes(filterText) && s.type == ESuggestionType.ingredient)
-              .map<ISuggestion>((s) => {
-                return {...s, ...{action: ESuggestionAction.addToEnd}};
-              }));
+            const options = {
+              includeScore: true,
+              keys: ['text']
+            }
+            let fuse = new Fuse(this.CurrentSuggestionPool, options)
+            let results = fuse.search(filterText);
+            filtered.push(...results.map(i => i.item)
+                .filter(i => i.type == ESuggestionType.ingredient)
+                .map<ISuggestion>(s => {
+                  return {...s, ...{action: ESuggestionAction.addToEnd}}
+                }));
           }
         } else {
-
           let startsWithCurrent = (s: ISuggestion) =>
             IngredientAdderSeamlessComponent.startsWith(s.text, parseResult.ingredientSuggestion.text + filterText) && this.CurrentText[this.CurrentText.length - 1] != ' ';
 
@@ -370,9 +376,6 @@ export class IngredientAdderSeamlessComponent {
             .map<ISuggestion>((s) => {
               return {...s, ...{action: ESuggestionAction.replaceOld}};
             }));
-
-          console.log(validUnits);
-          console.log(filtered.length);
         } else {
           filtered.push(...this.CurrentSuggestionPool
             .filter(s => validUnitFilter(s))
