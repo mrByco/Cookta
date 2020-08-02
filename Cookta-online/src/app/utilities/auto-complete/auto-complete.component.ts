@@ -2,8 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {IDisplayable} from "../displayable";
 import {EFormState} from "../form-state.enum";
 import {BsDropdownDirective, MdbInputDirective} from "angular-bootstrap-md";
+import Fuse from "fuse.js";
 
 let numInstances = 0;
+
+
 
 @Component({
   selector: 'app-auto-complete',
@@ -68,13 +71,24 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   async TextInput() {
+    let searchables: {item: any, text: string}[] = [];
 
-    let filtered = [];
     if (this.isArrayOfStrings(this.SuggestionPool)){
-      filtered = (this.SuggestionPool as string[]).filter((sugg) => sugg.toLowerCase().includes(this.CurrentText.toLowerCase()));
+      searchables.push(...(this.SuggestionPool as string[]).map(i => {return {item: i, text: i}}))
     }else{
-      filtered = (await (this.SuggestionPool as Promise<IDisplayable[]>)).filter((sugg) => sugg.displayName().toLowerCase().includes(this.CurrentText.toLowerCase()));
+      searchables.push(...(await (this.SuggestionPool as Promise<IDisplayable[]>))
+          .map(r => {
+            return {item: r, text: r.displayName()}
+          }));
     }
+
+    const options = {
+      includeScore: true,
+      keys: ['text']
+    }
+    let fuse = new Fuse(searchables, options)
+    let filtered = fuse.search(this.CurrentText).map(i => i.item.item);
+
     this.Suggestions = filtered.slice(0, this.MaxItemsToShow);
     this.SelectedItem = filtered.find(item => item.displayName() == this.CurrentText);
     if (this.SelectedItem != null){

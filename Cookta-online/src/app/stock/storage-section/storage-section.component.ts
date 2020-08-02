@@ -20,11 +20,11 @@ export class StorageSectionComponent implements OnInit {
               public ingredientService: IngredientService) {
   }
 
-  public ModifiedFields: string[];
+  public ModifiedFields: string[]
 
   @Input() CurrentSection: StorageSection;
-
   @Input() public SelectedItems: IIngredient[] = [];
+  @Input() public SearchResults: {section: StorageSection, ingredients: IIngredient[]}[] = [];
 
   public async ToggleItemSelect(item: IIngredient) {
     if (this.ModifiedFields)

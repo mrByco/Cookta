@@ -88,6 +88,8 @@ import {FinishShoppingModalComponent} from './shopping/finish-shopping-modal/fin
 import {ShoppingQuantityBoxComponent} from './shopping/finish-shopping-modal/shopping-quantity-box/shopping-quantity-box.component';
 import {MatInputModule} from "@angular/material/input"
 import {MustLoginComponent} from "./profile/must-login/must-login.component";
+import {HowToComponent} from "./usability/how-to/how-to.component";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 
 const appRoutes: Routes = [
@@ -107,6 +109,7 @@ const appRoutes: Routes = [
         canDeactivate: [CanDeactivateGuard],
         canActivate: [CanActivateLoggedInGuard]
     },
+    {path: 'how-to', component: HowToComponent},
     {path: 'search/:text', component: SearchComponent},
     {path: 'family-manager', component: FamilyManagementComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'essentials', component: EssentialsRootComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -175,16 +178,17 @@ const appRoutes: Routes = [
         ErrorListComponent,
         FinishShoppingModalComponent,
         ShoppingQuantityBoxComponent,
-        MustLoginComponent
+        MustLoginComponent,
+        HowToComponent
     ],
     imports: [
-        BrowserModule.withServerTransition({ appId: 'serverApp' }),
+        BrowserModule.withServerTransition({appId: 'serverApp'}),
         HttpClientModule,
         ImageCropperModule,
         MDBBootstrapModule.forRoot(),
         RouterModule.forRoot(appRoutes, {
-    initialNavigation: 'enabled'
-}),
+            initialNavigation: 'enabled'
+        }),
         FormsModule,
         IconsModule,
         BrowserAnimationsModule,
@@ -201,6 +205,7 @@ const appRoutes: Routes = [
         MatProgressBarModule,
         MatTabsModule,
         MatInputModule,
+        MatExpansionModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],

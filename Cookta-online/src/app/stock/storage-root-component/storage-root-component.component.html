@@ -5,7 +5,7 @@
     <div class="col-md-9 storage-panel d-flex flex-column">
       <div class="storage-search row">
         <div class="col-sm-6">
-          <input type="text" placeholder="Keresés (hamarosan)">
+          <input type="text" placeholder="Keresés (hamarosan)" [(ngModel)]="SearchText">
         </div>
         <div class="col-sm-2 p-0">
           <button class="storage-header-btn" (click)="ShowAddModal()">Vásároltam</button>
@@ -18,10 +18,10 @@
         </div>
       </div>
       <div class="flex-grow-1" style="overflow: auto">
-        <mat-tab-group #group color="accent" style="height: inherit">
-          <mat-tab [label]="section.GetDisplayName()" *ngFor="let section of stockService.Sections">
+        <mat-tab-group (selectedIndexChange)="SelectedChange()" #group color="accent"  style="height: inherit">
+          <mat-tab [label]="section.GetDisplayName()" *ngFor="let section of stockService.Sections; let i = index">
             <app-storage-section
-              [SelectedItems]="SelectedItems" [CurrentSection]="section"></app-storage-section>
+                    [SelectedItems]="SelectedItems" [SearchResults]="i == 0 ? SearchResults : []" [CurrentSection]="section"></app-storage-section>
           </mat-tab>
         </mat-tab-group>
       </div>

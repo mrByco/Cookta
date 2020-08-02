@@ -1,6 +1,25 @@
 <div class="pt-2" style="height: calc(var(--MainContentSize) - 6.2rem); width: 100%;">
   <h2 *ngIf="!CurrentSection">Loading</h2>
-  <div *ngIf="CurrentSection" style="height: 100%">
+
+  <div *ngIf="SearchResults.length > 0">
+    <div *ngFor="let result of SearchResults">
+      <hr>
+      <h2>{{result.section.GetDisplayName()}}</h2>
+      <div style="overflow: auto">
+        <a *ngFor="let item of result.ingredients; let i = index" [ngClass]="{'even': i % 2 == 0, 'odd': i % 2 == 1}"
+           class="row rounded-panel-item">
+          <div class="row" style="margin-left: 1rem">
+            <label>{{item.value}}</label>
+            <label
+                    style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(item.unit, ingredientService.GetIngredient(item.ingredientID))?.name}}</label>
+            <label>{{ingredientService.GetIngredient(item.ingredientID).name}}</label>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="CurrentSection && SearchResults.length == 0" style="height: 100%">
     <a *ngIf="SelectedItems.length > 0" style="color: blue">Kijelöltek áthelyezése ide</a>
     <div class="d-flex" style="position: relative">
       <h2 *ngIf="!ModifiedFields">{{CurrentSection.GetDisplayName()}}</h2>
