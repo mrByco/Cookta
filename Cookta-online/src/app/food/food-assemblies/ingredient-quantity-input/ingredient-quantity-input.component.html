@@ -1,0 +1,20 @@
+<div class="suggester" dropdown #SuggestionDropDown>
+    <input class=""
+           [placeholder]=" DefaultItem.value + ' ' + unitService.GetUnit(DefaultItem.unit, ingredientService.GetIngredient(DefaultItem.ingredientID)).name"
+           [ngModel]="Text"
+           (focusin)="refilter()"
+           (focusout)="SuggestionDropDown.hide()"
+           (ngModelChange)="TextChange($event)"
+           autocomplete="disabled">
+
+    <div class="suggestions dropdown-menu">
+        <div class="rounded-panel-item" style="" *ngFor="let item of filteredSuggestions"
+             (click)="SelectSuggestion(item)">
+            {{item}}
+        </div>
+        <div class="rounded-panel-item" style="font-family: 'Comic Sans MS'; font-style: italic; font-size: 14px"
+             (click)="SuggestionDropDown.hide()">
+            Elrejtés
+        </div>
+    </div>
+</div>

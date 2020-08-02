@@ -90,6 +90,8 @@ import {MatInputModule} from "@angular/material/input"
 import {MustLoginComponent} from "./profile/must-login/must-login.component";
 import {HowToComponent} from "./usability/how-to/how-to.component";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {StockerComponent} from "./stock/stocker/stocker.component";
+import {IngredientQuantityInputComponent} from "./food/food-assemblies/ingredient-quantity-input/ingredient-quantity-input.component";
 
 
 const appRoutes: Routes = [
@@ -115,6 +117,7 @@ const appRoutes: Routes = [
     {path: 'essentials', component: EssentialsRootComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'calendar', component: MenuEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'storage', component: StorageRootComponentComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'stocker', component: StockerComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'shopping', component: ShoppingListRootComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'login', component: MustLoginComponent, children: [
             { path: '**', component: MustLoginComponent}
@@ -179,7 +182,10 @@ const appRoutes: Routes = [
         FinishShoppingModalComponent,
         ShoppingQuantityBoxComponent,
         MustLoginComponent,
-        HowToComponent
+        HowToComponent,
+        StockerComponent,
+        IngredientQuantityInputComponent
+
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'serverApp'}),
