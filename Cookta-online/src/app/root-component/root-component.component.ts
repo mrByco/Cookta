@@ -31,7 +31,6 @@ export class RootComponentComponent implements OnInit {
   public readonly LoadTasks: ILoadTask[] = [
     {Name: 'Csatlakozás a szerverhez', AsyncFunction: async () => await this.serverService.CheckServerAvailable()},
     {Name: 'Identitás indítása', AsyncFunction: async () => await this.identityService.LoadIdentity()},
-    {Name: 'Tesztelői jogosultság ellenörzése', AsyncFunction: async () => await this.RequireCheckTestPermission()},
     {Name: 'Egységek betöltése', AsyncFunction: async () => await this.unitService.LoadUnits()},
     {Name: 'Hozzávalók betöltése', AsyncFunction: async () => await this.ingredientService.LoadIngredients()},
     {Name: 'Cimkék betöltése', AsyncFunction: async () => await this.tagService.LoadTags()},
@@ -94,10 +93,12 @@ export class RootComponentComponent implements OnInit {
   }
 
   private async InitApplication() {
+    let tasks = [];
     for (let task of this.LoadTasks) {
       this.LoadingText = task.Name;
-      await task.AsyncFunction();
+      tasks.push(task.AsyncFunction());
     }
+    await Promise.all(tasks);
     this.LoadingText = null;
     AppComponent.instance.DisplayLoading = false;
   }
