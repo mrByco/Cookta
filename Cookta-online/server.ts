@@ -7,7 +7,25 @@ import {join} from 'path';
 import {AppServerModule} from './src/main.server';
 import {APP_BASE_HREF} from '@angular/common';
 import {existsSync} from 'fs';
+import * as url from 'url';
 
+
+const prodUrl = 'https://cookta.me';
+const renderUrl = 'https://render-tron.appspot.com/render';
+
+
+function generateUrl(request) {
+  return url.format({
+    protocol: request.protocol,
+    host: prodUrl,
+    pathname: request.originalUrl
+  })
+}
+
+function detectBot(userAgent) {
+  let test = new RegExp('/bot|crawler|spider|crawling/i');
+  return test.test(userAgent);
+}
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
@@ -32,9 +50,24 @@ export function app() {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
-  });
 
+
+    const isBot = detectBot(req.headers['User-Agent']);
+    if (isBot){
+      const botUrl = generateUrl(req);
+
+      fetch(`${renderUrl}/${botUrl}`)
+          .then(r => r.text())
+          .then(body => {
+            res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+            res.set('Vary', 'User-Agent');
+
+            res.send(body.toString());
+          });
+    }else{
+      res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    }
+  });
   return server;
 }
 

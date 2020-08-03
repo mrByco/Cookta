@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser";
 import * as router from './server/router';
 import {requestLoggerMiddleware} from "./middleware/request.logger.middleware";
 import {ForceHTTPS} from "./middleware/force-https.middleware";
+import {SitemapService} from "./services/sitemap-service";
 
 const fileUpload = require('express-fileupload');
 
@@ -22,7 +23,7 @@ router.RegisterRoutes(app);
 
 
 
-if (process.env.NODE_ENV == "debug "){
+if (process.env.NODE_ENV == "debug"){
     console.warn('You are running the server in debug mode.')
     console.warn('Api will available over http.')
 }else{
@@ -32,6 +33,9 @@ if (process.env.NODE_ENV == "debug "){
 app.get('/', (req, res) => {
     res.send('Hello friend! :)');
 });
+
+
+new SitemapService(app);
 /*if (process.env.NODE_ENV == "debug ") {
     try {
         const swaggerDocument = require('../swagger.json');
