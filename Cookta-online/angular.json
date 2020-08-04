@@ -149,32 +149,6 @@
               "optimization": true
             }
           }
-        },
-        "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
-          "options": {
-            "browserTarget": "cookta:build",
-            "serverTarget": "cookta:server"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "cookta:build:production",
-              "serverTarget": "cookta:server:production"
-            }
-          }
-        },
-        "prerender": {
-          "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "browserTarget": "cookta:build:production",
-            "serverTarget": "cookta:server:production",
-            "routes": [
-              "/"
-            ]
-          },
-          "configurations": {
-            "production": {}
-          }
         }
       }
     }
