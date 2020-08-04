@@ -91,7 +91,7 @@ export class IngredientQuantityInputComponent {
 
     private reparse() {
 
-        let text = this.Text.toLowerCase();
+        let text = this.Text.toLowerCase().replace(',', '.');
 
         let unitFound: Unit;
         for (let unit of this.availableUnits) {
@@ -115,7 +115,7 @@ export class IngredientQuantityInputComponent {
 
         let oldActualString = JSON.stringify(this.Actual);
 
-        if (unitFound && valFound)
+        if (unitFound && (valFound || valFound === 0))
             this.Actual = {unit: unitFound, value: valFound};
         else
             this.Actual = undefined;
