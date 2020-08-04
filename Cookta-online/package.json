@@ -30,6 +30,7 @@
     "dotenv": "^8.2.0",
     "element-resize-detector": "^1.2.1",
     "express": "^4.15.2",
+    "fetch": "^1.1.0",
     "firebase": "^6.6.0",
     "firebase-tools": "^7.11.0",
     "fuse.js": "^6.4.1",
