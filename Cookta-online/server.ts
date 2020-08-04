@@ -8,6 +8,7 @@ import {AppServerModule} from './src/main.server';
 import {APP_BASE_HREF} from '@angular/common';
 import {existsSync} from 'fs';
 import * as url from 'url';
+import * as fetch from 'fetch';
 
 
 const prodUrl = 'https://cookta.me';
@@ -48,6 +49,12 @@ export function app() {
     maxAge: '1y'
   }));
 
+  server.get('/sitemap.xml', (req, res) => {
+    fetch.fetchUrl('https://cooktaservices.azurewebsites.net/sitemap.xml', (error, meta, body) => {
+      res.send(body);
+    })
+  });
+
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
 
@@ -56,14 +63,16 @@ export function app() {
     if (isBot){
       const botUrl = generateUrl(req);
 
-      fetch(`${renderUrl}/${botUrl}`)
-          .then(r => r.text())
-          .then(body => {
-            res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
-            res.set('Vary', 'User-Agent');
+      fetch(`https://cooktaservices.azurewebsites.net/`).then(() => {
+        fetch(`${renderUrl}/${botUrl}`)
+            .then(r => r.text())
+            .then(body => {
+              res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+              res.set('Vary', 'User-Agent');
 
-            res.send(body.toString());
-          });
+              res.send(body.toString());
+            });
+      });
     }else{
       res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
     }
