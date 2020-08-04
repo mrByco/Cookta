@@ -2,7 +2,7 @@ require('zone.js/dist/zone-node');
 const express = require('express');
 const fs = require('fs');
 const url = require('url');
-const fetch = require('fetch');
+const fetch = require('node-fetch');
 const join = require('path').join
 const ForceHttps = require("./middleware/force-https.middleware");
 require('dotenv').config()
@@ -29,26 +29,19 @@ function detectBot(userAgent) {
 function app() {
     const server = express();
 
-    if (process.env.DEBUG !== undefined)
+    if (process.env.DEBUG === undefined){
         server.use(ForceHttps);
+    }
 
-    server.use(express.static(__dirname + '/dist/cookta/browser'));
-
-
-    server.get('/sitemap.xml', (req, res) => {
-        fetch.fetchUrl('https://cooktaservices.azurewebsites.net/sitemap.xml', (error, meta, body) => {
-            res.send(body);
-        })
-    });
-
-
-    // All regular routes use the Universal engine
-    server.get('*', (req, res) => {
-        const isBot = detectBot(req.headers['User-Agent']);
+    server.use((req, res, next) => {
+        let isBot = detectBot(req.headers['User-Agent']);
+        isBot = true;
         if (isBot) {
-            const botUrl = generateUrl(req);
+
+            const botUrl = 'https://cookta.me'
 
             fetch(`https://cooktaservices.azurewebsites.net/`).then(() => {
+                console.log('fetch');
                 fetch(`${renderUrl}/${botUrl}`)
                     .then(r => r.text())
                     .then(body => {
@@ -59,8 +52,23 @@ function app() {
                     });
             });
         } else {
-            res.sendFile(path.join(__dirname))
+            next();
         }
+    });
+
+    const public = __dirname + '/dist/cookta/browser';
+
+    server.use(express.static(public));
+
+
+    server.get('/sitemap.xml', (req, res) => {
+        fetch.fetchUrl('https://cooktaservices.azurewebsites.net/sitemap.xml', (error, meta, body) => {
+            res.send(body);
+        })
+    });
+
+    server.all('*', function (req, res) {
+        res.status(200).sendFile(`/`, {root: public});
     });
     return server;
 }
