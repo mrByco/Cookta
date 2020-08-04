@@ -35,10 +35,9 @@ function app() {
 
     server.use((req, res, next) => {
         let isBot = detectBot(req.headers['User-Agent']);
-        isBot = true;
         if (isBot) {
 
-            const botUrl = 'https://cookta.me'
+            const botUrl = generateUrl(req)
 
             fetch(`https://cooktaservices.azurewebsites.net/`).then(() => {
                 console.log('fetch');
