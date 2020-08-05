@@ -42,7 +42,7 @@ jobs:
       with:
         service_account_email: ${{ secrets.GCE_EMAIL }}
         service_account_key: ${{ secrets.GPC_AUTH }}
-        gae_config_path: Cookta-online/app.yml
+        gae_config_path: Cookta-online/app.yaml
         project_id: ${{ secrets.PROJECT }}
         
 
