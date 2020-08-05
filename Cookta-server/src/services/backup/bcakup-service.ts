@@ -6,6 +6,7 @@ import {Guid} from "guid-typescript";
 import {getBlobsInContainer, uploadLocalFile} from "../../helpers/blobs";
 import {CronJob} from "cron";
 import {MongoHelper} from "../../helpers/mongo.helper";
+
 require('../../extensions/date-extensions')
 require('../../extensions/string-extensions')
 
@@ -38,11 +39,15 @@ export class BackupService {
         fs.writeFileSync(path, JSON.stringify(data), {})
         console.log(`path: ${path}`);
 
-        await uploadLocalFile(this.containerName, path, data.name);
+        try {
+            await uploadLocalFile(this.containerName, path, data.name);
 
-        let res = await getBlobsInContainer(this.containerName)
-        if(!res.entries.find(b => b.name == data.name)){
-            throw new Error('Could not create backup!');
+            let res = await getBlobsInContainer(this.containerName)
+            if(!res.entries.find(b => b.name == data.name)){
+                throw new Error('Could not create backup!');
+            }
+        }catch{
+            console.log('Error on backup upload')
         }
         fs.unlinkSync(path);
 

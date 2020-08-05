@@ -10,6 +10,7 @@ import {MDBModalService} from 'angular-bootstrap-md';
 import {LiveConnectionService} from '../shared/services/live-connect.service/live-connection.service';
 import {HomeService} from '../shared/services/home.service';
 import {ActivatedRoute, Router} from "@angular/router";
+import set = Reflect.set;
 
 interface ILoadTask {
   Name: string,
@@ -99,8 +100,10 @@ export class RootComponentComponent implements OnInit {
       tasks.push(task.AsyncFunction());
     }
     await Promise.all(tasks);
+    let task = new Promise((r) => setTimeout(() => r(), 500));
     this.LoadingText = null;
     AppComponent.instance.DisplayLoading = false;
+
   }
 
   private ShowNoPermissionModal() {
