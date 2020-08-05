@@ -11,8 +11,11 @@
 name: Build and Deploy to GKE
 
 on:
-  release:
-    types: [created]
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
 
 # Environment variables available to all jobs and steps in this workflow
 env:
