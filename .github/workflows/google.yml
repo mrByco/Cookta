@@ -67,5 +67,5 @@ jobs:
     - name: Deploy
       run: |
         gcloud auth activate-service-account ${{ secrets.GCE_EMAIL }} --key-file=client-secret.json
-        gcloud config set project ${{ secrets.PROJECT_ID }
+        gcloud config set project ${{ secrets.PROJECT_ID }}
         gcloud app deploy
