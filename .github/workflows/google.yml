@@ -75,6 +75,7 @@ jobs:
         gcloud config set project ${{ secrets.GKE_PROJECT }}
         
     - name: Deploy 
+      working-directory: Cookta-online
       run: |
         gcloud -q app deploy --promote
         
