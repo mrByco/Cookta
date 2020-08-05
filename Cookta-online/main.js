@@ -30,7 +30,11 @@ function app() {
     }
     server.use((req, res, next) => {
         let isBot = detectBot(req.headers['user-agent']);
-        if (isBot && req.originalUrl !== '/favicon.ico') {
+        const ignoreUrls = [
+            '/favicon.ico',
+            '/sitemap.xml'
+        ]
+        if (isBot && !ignoreUrls.includes(req.originalUrl)) {
             const botUrl = generateUrl(req);
             fetchUrl(`${renderUrl}/${botUrl}`, (error, meta, body) => {
                 res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
@@ -47,7 +51,8 @@ function app() {
     server.use(express.static(public));
 
     server.get('/sitemap.xml', (req, res) => {
-        fetchUrl('https://cooktaservices.azurewebsites.net/sitemap.xml', (error, meta, body) => {
+       fetchUrl('https://cooktaservices.azurewebsites.net/sitemap.xml', (error, meta, body) => {
+           res.set('content-type', 'application/xml');
             res.send(body);
         })
     });
