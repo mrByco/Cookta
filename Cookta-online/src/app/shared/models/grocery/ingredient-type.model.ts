@@ -13,6 +13,7 @@ export class IngredientType implements IDisplayable, IIngredientType {
     public baseUnitType: EUnitType,
     public inshopping: string,
     public guid: string,
+    public nutrientCode: number,
     public options: {
       cunits: Unit[],
     }) {
@@ -32,6 +33,7 @@ export class IngredientType implements IDisplayable, IIngredientType {
       this.boolUnitTypeToEnum(data['volumeEnabled'], data['countEnabled'], data['massEnabled']),
       data['inshopping'],
       data['guid'],
+      data['nutrientCode'],
       data['options']
     );
     ingredientType.displayName = () => {return ingredientType.name}
@@ -47,6 +49,7 @@ export class IngredientType implements IDisplayable, IIngredientType {
       countEnabled: IngredientType.enumUnitTypeToBool(this.baseUnitType).countEnabled,
       massEnabled: IngredientType.enumUnitTypeToBool(this.baseUnitType).massEnabled,
       inshopping: this.inshopping,
+      nutrientCode: this.nutrientCode,
       guid: this.guid,
       options: this.options
     };

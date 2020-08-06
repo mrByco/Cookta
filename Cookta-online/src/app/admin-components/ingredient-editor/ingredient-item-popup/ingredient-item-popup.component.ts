@@ -6,6 +6,12 @@ import {Guid} from 'guid-typescript';
 import {EUnitType} from '../../../shared/models/grocery/unit-type.enum';
 import {Unit} from '../../../shared/models/unit.interface';
 import {UnitService} from '../../../shared/services/unit-service/unit.service';
+import {INutrientInfo} from "../../../../../../Cookta-shared/src/models/nutrient-info";
+import {IDisplayable} from "../../../utilities/displayable";
+
+interface DisplayNutrient extends INutrientInfo, IDisplayable {
+
+}
 
 @Component({
   selector: 'app-ingredient-item-popup',
@@ -13,6 +19,7 @@ import {UnitService} from '../../../shared/services/unit-service/unit.service';
   styleUrls: ['./ingredient-item-popup.component.css']
 })
 export class IngredientItemPopupComponent implements OnInit {
+  DisplayNutrients: DisplayNutrient[] = [];
 
   @Input() set Ingredient(value: IngredientType) {
     this.CurrentGuid = value.guid;
@@ -22,6 +29,8 @@ export class IngredientItemPopupComponent implements OnInit {
     this.CurrentBaseUnitType = value.baseUnitType != undefined ? value.baseUnitType : 0;
     this.CurrentInShopping = value.inshopping;
     this.CurrentCustomUnits = value.options && value.options.cunits ? [...value.options.cunits]: [];
+    if (value.nutrientCode)
+      this.IngredientService.GetNutrientData(value.nutrientCode).then(n => this.CurrentNutrient = n);
     console.log(value.baseUnitType != undefined);
   };
   @Output('OnDeleteCustomUnit') OnDeleteCustomUnits: EventEmitter<Unit> = new EventEmitter<Unit>();
@@ -41,12 +50,15 @@ export class IngredientItemPopupComponent implements OnInit {
   private m_CurrentBaseUnitType: EUnitType;
   public CurrentInShopping: string = "";
   public CurrentCustomUnits: Unit[] = [];
-
+  public CurrentNutrient?: INutrientInfo;
 
   @ViewChild('basicModal', {static: true}) public modal: ModalDirective;
 
-
   constructor(public IngredientService: IngredientService) {
+    this.IngredientService.LoadNutrientTypes().then(n => this.DisplayNutrients = n.map(n => {
+      n['displayName'] = () => n.name
+      return n as DisplayNutrient;
+    }))
   }
 
   ngOnInit() {
@@ -114,7 +126,11 @@ export class IngredientItemPopupComponent implements OnInit {
 
   public async SaveCurrent() {
     console.log(this.CurrentCategory, this.CurrentName, this.CurrentBaseUnit, this.CurrentBaseUnitType, this.CurrentInShopping, this.CurrentGuid, {cunits: this.CurrentCustomUnits});
-    await this.IngredientService.SaveIngredient(new IngredientType(this.CurrentCategory, this.CurrentName, this.CurrentBaseUnit, this.CurrentBaseUnitType, this.CurrentInShopping, this.CurrentGuid, {cunits: this.CurrentCustomUnits}));
+    await this.IngredientService.SaveIngredient(new IngredientType(this.CurrentCategory, this.CurrentName, this.CurrentBaseUnit, this.CurrentBaseUnitType, this.CurrentInShopping, this.CurrentGuid, this.CurrentNutrient?.code, {cunits: this.CurrentCustomUnits}));
     this.Close();
+  }
+
+  async SelectNutrient(nutrient: DisplayNutrient) {
+    this.CurrentNutrient = await this.IngredientService.GetNutrientData(nutrient.code)
   }
 }
