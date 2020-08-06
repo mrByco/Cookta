@@ -73,5 +73,5 @@ jobs:
     - name: Deploy 
       working-directory: Cookta-online
       run: |
-        gcloud -q app deploy --promote
+        gcloud -q app deploy
         
