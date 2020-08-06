@@ -40,7 +40,7 @@ export class IngredientEditorComponent implements OnInit {
       this.elements.paginator.firstPage();
     }
   }
-  public CurrentIngredient: IngredientType = new IngredientType("", "", "", EUnitType.volume, "", Guid.create().toString(), undefined,{cunits: []});
+  public CurrentIngredient: IngredientType = new IngredientType("", "", "", EUnitType.volume, "", Guid.create().toString(), {cunits: []}, undefined);
 
   constructor(private ingredientService: IngredientService) { }
 
@@ -60,7 +60,7 @@ export class IngredientEditorComponent implements OnInit {
     this.elements.sort = this.sort;
   }
   public NewIngredientType() {
-    this.OpenModalWith(new IngredientType("", "", "", EUnitType.volume, "", undefined, undefined, {cunits: []}))
+    this.OpenModalWith(new IngredientType("", "", "", EUnitType.volume, "", undefined, {cunits: []}, undefined))
   }
 
   OpenModalWith(row: IngredientType) {

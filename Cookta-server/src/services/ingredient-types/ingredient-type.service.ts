@@ -138,7 +138,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
 
     protected FromSaveJson(doc: any): IngredientType {
         let ingType = super.FromSaveJson(doc);
-        if (ingType.options == null) {
+        if (!ingType.options?.cunits) {
             ingType.options = {cunits: []};
         }
         for (let cunit of ingType.options.cunits) {

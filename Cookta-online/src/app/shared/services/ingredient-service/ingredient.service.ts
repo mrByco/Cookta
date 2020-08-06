@@ -11,6 +11,7 @@ import {
     IDeleteIngredientTypeResponse
 } from '../../../../../../Cookta-shared/src/contracts/ingredient-type/delete-ingredient-type';
 import {INutrientInfo} from "../../../../../../Cookta-shared/src/models/nutrient-info";
+import {ISetIngredientTypeRequest} from "../../../../../../Cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
 
 @Injectable()
 export class IngredientService {
@@ -104,7 +105,18 @@ export class IngredientService {
     }
 
     public async SaveIngredient(type: IngredientType): Promise<IngredientType> {
-        let response = await this.serverService.PostRequest(Routes.IngredientType.SaveIngredient, type.ToJson());
+        let updateRequest: ISetIngredientTypeRequest = {
+            guid: type.guid,
+            category: type.category,
+            volumeEnabled: IngredientType.enumUnitTypeToBool(type.baseUnitType).volumeEnabled,
+            countEnabled: IngredientType.enumUnitTypeToBool(type.baseUnitType).countEnabled,
+            massEnabled: IngredientType.enumUnitTypeToBool(type.baseUnitType).massEnabled,
+            name: type.name,
+            options: type.options as any,
+            nutrientCode: type.nutrientCode
+        }
+
+        let response = await this.serverService.PostRequest(Routes.IngredientType.SaveIngredient, updateRequest);
 
         return new Promise<IngredientType>(resolve => {
 

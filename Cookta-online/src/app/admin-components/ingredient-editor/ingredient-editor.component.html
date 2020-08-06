@@ -54,7 +54,7 @@
       <tr mat-row *matRowDef="let row; columns: headElements;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[10, 25, 100, 150, 200]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[9, 25, 100, 150, 200]"></mat-paginator>
 
   </div>
 <app-ingredient-item-popup (OnDeleteCustomUnit)="DeleteCustomUnit($event)" [Ingredient]="CurrentIngredient"></app-ingredient-item-popup>

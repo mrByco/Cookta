@@ -67,9 +67,15 @@
               <input mdbInput type="number" [ngModel]="CurrentNutrient ? CurrentNutrient.code : -1" disabled class="form-control">
             </div>
             <div class="col">
-              <app-auto-complete [SuggestionPool]="this.DisplayNutrients" (OnItemChosen)="SelectNutrient($event)"></app-auto-complete>
+              <app-auto-complete #nutrientSelector [SuggestionPool]="this.DisplayNutrients" [MaxItemsToShow]="40" (OnItemChosen)="SelectNutrient($event)"></app-auto-complete>
+            </div>
+            <div *ngIf="CurrentNutrient" class="col-auto">
+              <a (click)="SelectNutrient(undefined)" class="icon">
+                <mdb-icon fas icon="times" size="lg"></mdb-icon>
+              </a>
             </div>
           </div>
+          <div *ngIf="!CurrentNutrient" style="height: 13rem"></div>
           <div *ngIf="CurrentNutrient">
             <div class="row"><div class="col">Kalória: <div class="col">{{CurrentNutrient.kcal}}</div></div></div>
             <div class="row"><div class="col">Zsír: <div class="col">{{CurrentNutrient.totalFat}}</div></div></div>
