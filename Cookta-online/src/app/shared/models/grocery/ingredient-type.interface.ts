@@ -7,6 +7,7 @@ export interface IIngredientType {
   name: string,
   baseUnitType: EUnitType,
   guid: string,
+  nutrientCode?: number;
   options: {
     cunits: Unit[],
   };

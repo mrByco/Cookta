@@ -8,5 +8,6 @@ export interface ISetIngredientTypeRequest {
     volumeEnabled: boolean,
     countEnabled: boolean,
     massEnabled: boolean,
-    options: {cunits: IUnit[]}
+    options: {cunits: IUnit[]},
+    nutrientCode?: number,
 }
