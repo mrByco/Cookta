@@ -77,15 +77,16 @@
           </div>
           <div *ngIf="!CurrentNutrient" style="height: 13rem"></div>
           <div *ngIf="CurrentNutrient">
-            <div class="row"><div class="col">Kalória: <div class="col">{{CurrentNutrient.kcal}}</div></div></div>
-            <div class="row"><div class="col">Zsír: <div class="col">{{CurrentNutrient.totalFat}}</div></div></div>
-            <div class="row"><div class="col">Fehérje: <div class="col">{{CurrentNutrient.protein}}</div></div></div>
-            <div class="row"><div class="col">Szénhidrát: <div class="col">{{CurrentNutrient.carbohydrate}}</div></div></div>
+            <div class="row"><div class="col">Kalória: </div><div class="col">{{CurrentNutrient.kcal}}kcal</div></div>
+            <div class="row"><div class="col">Zsír: </div><div class="col">{{CurrentNutrient.totalFat}}g</div></div>
+            <div class="row"><div class="col">Fehérje: </div><div class="col">{{CurrentNutrient.protein}}g</div></div>
+            <div class="row"><div class="col">Szénhidrát: </div><div class="col">{{CurrentNutrient.carbohydrate}}g</div></div>
+            <div class="row"><div class="col">Kalcium: </div><div class="col">{{CurrentNutrient.calcium}}mg</div></div>
+            <div class="row"><div class="col">Megnézium: </div><div class="col">{{CurrentNutrient.magnesium}}mg</div></div>
+            <div class="row"><div class="col">C vitamin: </div><div class="col">{{CurrentNutrient.vitaminC}}mg</div></div>
+            <div class="row"><div class="col">B12 vitamin: </div><div class="col">{{CurrentNutrient.vitaminB12}}mg</div></div>
           </div>
         </div>
-
-
-
       </div>
       <div class="modal-footer">
         <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>
