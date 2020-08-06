@@ -13,6 +13,7 @@ import {UserControllerData} from './users/users';
 import {RoleControllerData} from './roles/roles';
 import {HomeControllerData} from './home/home';
 import {ReportControllerData} from './reports/report';
+import {NutrientControllerData} from "./nutrients/nutrients";
 
 
 // @ts-ignore
@@ -31,5 +32,6 @@ export const Contracts = {
     Users: UserControllerData,
     Roles: RoleControllerData,
     Home: HomeControllerData,
-    Reports: ReportControllerData
+    Reports: ReportControllerData,
+    Nutrients: NutrientControllerData
 };

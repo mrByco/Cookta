@@ -10,6 +10,7 @@ import {IRoleService} from './services/role/role-service.interface';
 import {IFoodService} from './services/food/food.service.interface';
 import {MetricsService} from './services/metrics/metrics.service';
 import {IReportService} from './services/reports/report.service.interface';
+import {NutrientService} from "./services/nutrients/nutrient-service";
 
 export class Services {
     static StorageService: StorageService;
@@ -23,6 +24,7 @@ export class Services {
     static RoleService: IRoleService;
     static MetricsService: MetricsService;
     static ReportService: IReportService;
+    static NutrientService: NutrientService;
 
     static ToSendableList(items: StoreItemBase[]): any[]{
         let sendItems: any[] = [];

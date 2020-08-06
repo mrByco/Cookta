@@ -24,6 +24,7 @@ import {LiveConnect} from './services/live-connection/live.connect';
 import {MetricsService} from './services/metrics/metrics.service';
 import {SetErrorHandler} from 'waxen/dist/server/request-promise-handler';
 import {ReportService} from './services/reports/report.service';
+import {NutrientService} from './services/nutrients/nutrient-service';
 
 require('dotenv').config();
 
@@ -86,6 +87,7 @@ try{
         Services.IngredientTypeService = ingredientTypeService;
         Services.ShoppingListService = shoppingListService;
         Services.FoodService = foodService;
+        Services.NutrientService = new NutrientService(await MongoHelper.getCollection('Nutrients'));
 
         await atomicMongoStart;
         await Promise.all([
