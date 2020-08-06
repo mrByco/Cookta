@@ -37,16 +37,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Initialize Google Cloud SDK
-      uses: zxyle/publish-gae-action@master
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
-        service_account_email: ${{ secrets.GCE_EMAIL }}
+        version: '304.0.0'
         service_account_key: ${{ secrets.GCP_AUTH }}
-        gae_config_path: Cookta-online/app.yaml
-        project_id: ${{ secrets.GKE_PROJECT }}
-        
-  
-  
+        export_default_credentials: true
+
   
     - uses:  actions/setup-node@v2.1.1
       with:
@@ -69,9 +65,9 @@ jobs:
 
     # Deploy the Docker image to the GKE cluster
     # This client-secret.json is converted by GCP_SA_KEY.
+        #gcloud auth activate-service-account ${{ secrets.GCE_EMAIL }} --key-file=client-secret.json
     - name: Gcloud config
       run: |
-        gcloud auth activate-service-account ${{ secrets.GCE_EMAIL }} --key-file=client-secret.json
         gcloud config set project ${{ secrets.GKE_PROJECT }}
         
     - name: Deploy 
