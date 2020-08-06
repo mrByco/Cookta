@@ -30,19 +30,20 @@ jobs:
      
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
+    
     runs-on: ubuntu-latest
     steps:
 
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Setup gcloud CLI
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
-        version: '270.0.0'
-        service_account_email: ${{ secrets.GKE_EMAIL }}
-        service_account_key: ${{ secrets.GKE_KEY }}
-        
+        version: '304.0.0'
+        service_account_key: ${{ secrets.GCP_AUTH }}
+        export_default_credentials: true
+
+  
     - uses:  actions/setup-node@v2.1.1
       with:
         node-version: 12
@@ -64,8 +65,13 @@ jobs:
 
     # Deploy the Docker image to the GKE cluster
     # This client-secret.json is converted by GCP_SA_KEY.
-    - name: Deploy
+        #gcloud auth activate-service-account ${{ secrets.GCE_EMAIL }} --key-file=client-secret.json
+    - name: Gcloud config
       run: |
-        gcloud auth activate-service-account ${{ secrets.GCE_EMAIL }} --key-file=client-secret.json
-        gcloud config set project ${{ secrets.PROJECT_ID }
-        gcloud app deploy
+        gcloud config set project ${{ secrets.GKE_PROJECT }}
+        
+    - name: Deploy 
+      working-directory: Cookta-online
+      run: |
+        gcloud -q app deploy
+        
