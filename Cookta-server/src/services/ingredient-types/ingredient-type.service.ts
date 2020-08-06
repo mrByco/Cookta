@@ -64,7 +64,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         return this.FindAll(i => i.arhived != true);
     }
 
-    SetIngredientType(request: ISetIngredientTypeRequest): IngredientType {
+    UpdateIngredient(request: ISetIngredientTypeRequest): IngredientType {
         let guid: Guid = request.guid ? Guid.parse(request.guid) : undefined;
         while (!guid) {
             guid = Guid.create();
@@ -83,6 +83,7 @@ export class IngredientTypeService extends StoreService<IngredientType> implemen
         currentItem.massEnabled = request.massEnabled;
         currentItem.guid = guid.toString();
         currentItem.options = request.options;
+        currentItem.nutrientCode = request.nutrientCode;
         this.SaveItem(currentItem);
         return currentItem;
     }

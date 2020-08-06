@@ -9,5 +9,6 @@ export interface IIngredientType {
     massEnabled: boolean;
     guid: string;
     options: {cunits: IUnit[]};
+    nutrientCode?: number;
     arhived?: boolean;
 }

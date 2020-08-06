@@ -1,6 +1,5 @@
 import {Services} from '../../Services';
 import {IIngredientDependendentObject} from "../../interfaces/ingredient-dependency-object.interface";
-import {Food} from "../../models/food/food.model";
 import {NotFoundError} from "../../helpers/error.helper";
 import {Controller} from 'waxen/dist/deorators/controller';
 import {Contracts} from "cookta-shared/src/contracts/contracts";
@@ -25,7 +24,7 @@ export class IngredientTypeController {
     @Security(false, 'edit-ingredients')
     public async SetIngredient(reqBody: ISetIngredientTypeRequest, user: User): Promise<{ all: IIngredientType[], created: IIngredientType }> {
         let result = { all: undefined, created: undefined };
-        result.created = Services.IngredientTypeService.SetIngredientType(reqBody);
+        result.created = Services.IngredientTypeService.UpdateIngredient(reqBody);
         result.all = await this.GetAll();
         return result;
     }
