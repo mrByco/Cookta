@@ -8,7 +8,7 @@
         </button>
         <h4 class="modal-title w-100" >{{CurrentGuid ? CurrentGuid : "Új, még nincs azonosító"}}</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="overflow: auto; max-height: 60vh">
         <div class="md-form" [ngClass]="{'is-invalid-fail-mdbInput': !IsValidIngredientName(CurrentName)}">
           <input mdbInput type="text" [(ngModel)]="CurrentName" id="name" class="form-control">
           <label for="name" class="">Név</label>
@@ -58,6 +58,35 @@
           </div>
         </div>
 
+
+        <p class="start-paragraph">Tápérték</p>
+        <!--        HEADER-->
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <input mdbInput type="number" [ngModel]="CurrentNutrient ? CurrentNutrient.code : -1" disabled class="form-control">
+            </div>
+            <div class="col">
+              <app-auto-complete #nutrientSelector [SuggestionPool]="this.DisplayNutrients" [MaxItemsToShow]="40" (OnItemChosen)="SelectNutrient($event)"></app-auto-complete>
+            </div>
+            <div *ngIf="CurrentNutrient" class="col-auto">
+              <a (click)="SelectNutrient(undefined)" class="icon">
+                <mdb-icon fas icon="times" size="lg"></mdb-icon>
+              </a>
+            </div>
+          </div>
+          <div *ngIf="!CurrentNutrient" style="height: 13rem"></div>
+          <div *ngIf="CurrentNutrient">
+            <div class="row"><div class="col">Kalória: </div><div class="col">{{CurrentNutrient.kcal}}kcal</div></div>
+            <div class="row"><div class="col">Zsír: </div><div class="col">{{CurrentNutrient.totalFat}}g</div></div>
+            <div class="row"><div class="col">Fehérje: </div><div class="col">{{CurrentNutrient.protein}}g</div></div>
+            <div class="row"><div class="col">Szénhidrát: </div><div class="col">{{CurrentNutrient.carbohydrate}}g</div></div>
+            <div class="row"><div class="col">Kalcium: </div><div class="col">{{CurrentNutrient.calcium}}mg</div></div>
+            <div class="row"><div class="col">Megnézium: </div><div class="col">{{CurrentNutrient.magnesium}}mg</div></div>
+            <div class="row"><div class="col">C vitamin: </div><div class="col">{{CurrentNutrient.vitaminC}}mg</div></div>
+            <div class="row"><div class="col">B12 vitamin: </div><div class="col">{{CurrentNutrient.vitaminB12}}mg</div></div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Mégse</button>

@@ -15,6 +15,7 @@ import {IngredientTypeController} from "../controllers/static/ingredient-type.co
 import {ISetIngredientTypeRequest} from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
 import {IDeleteIngredientTypeRequest} from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
 import {DeleteCustomUnitRequest} from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
+import {NutrientController} from "../controllers/static/nutrient.controller";
 import {PingController} from "../controllers/static/ping.controller";
 import {ReportController} from "../controllers/static/report.controller";
 import {ICreateReportRequest} from "cookta-shared/src/contracts/reports/create-report.request.interface";
@@ -627,6 +628,18 @@ export function RegisterRoutes(app: express.Express) {
                 response.status(error.status || 401);
                 next(error)
             });
+        });
+
+
+
+    // <<=======-NUTRIENTCONTROLLER-======>>
+    app.get('/nutrients/',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+            const controller = new NutrientController();
+            const promise = controller.GetAllNutrients(request.body as void,);
+            ProcessPromiseResponse(controller, promise, response, next, (error) => { });
         });
 
 

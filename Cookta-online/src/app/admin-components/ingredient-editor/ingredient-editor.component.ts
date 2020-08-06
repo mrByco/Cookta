@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IngredientService} from "../../shared/services/ingredient-service/ingredient.service";
 import {IngredientType} from "../../shared/models/grocery/ingredient-type.model";
 import {MatPaginator} from "@angular/material/paginator";
@@ -17,6 +17,8 @@ import {DeleteIngredientPupopComponent} from './delete-ingredient-pupop/delete-i
   styleUrls: ['./ingredient-editor.component.css']
 })
 export class IngredientEditorComponent implements OnInit {
+
+  loading: boolean = true;
 
   elements: MatTableDataSource<IngredientType> = new MatTableDataSource<IngredientType>();
 
@@ -38,11 +40,13 @@ export class IngredientEditorComponent implements OnInit {
       this.elements.paginator.firstPage();
     }
   }
-  public CurrentIngredient: IngredientType = new IngredientType("", "", "", EUnitType.volume, "", Guid.create().toString(), {cunits: []});
+  public CurrentIngredient: IngredientType = new IngredientType("", "", "", EUnitType.volume, "", Guid.create().toString(), {cunits: []}, undefined);
 
   constructor(private ingredientService: IngredientService) { }
 
   async ngOnInit() {
+    this.ingredientService.LoadNutrientTypes().then(() => this.loading = false);
+
     let ingredients = await this.ingredientService.IngredientTypes;
     this.elements = new MatTableDataSource(ingredients);
     this.table.dataSource = this.elements;
@@ -56,7 +60,7 @@ export class IngredientEditorComponent implements OnInit {
     this.elements.sort = this.sort;
   }
   public NewIngredientType() {
-    this.OpenModalWith(new IngredientType("", "", "", EUnitType.volume, "", undefined, {cunits: []}))
+    this.OpenModalWith(new IngredientType("", "", "", EUnitType.volume, "", undefined, {cunits: []}, undefined))
   }
 
   OpenModalWith(row: IngredientType) {

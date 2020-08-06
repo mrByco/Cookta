@@ -1,9 +1,10 @@
 
 
 <div class="container" style="margin-top: 1rem; font-size: 18px;">
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 
   <app-bad-unit-fixer></app-bad-unit-fixer>
-  <div class="mat-elevation-z8" style="background-color: white; padding-top: 20px">
+  <div class="mat-elevation-z8" style="background-color: white; padding-top: 20px;" [ngStyle]="{'visibility': loading ? 'hidden' : 'visible'}">
     <div class="row" style="margin: 5px">
       <div class="col md-form" style="background-color: white;  margin-bottom: 0; margin-left: 10px; margin-right: 10px">
         <input mdbInput type="text" id="form1" [(ngModel)]="Filter" class="form-control" autocomplete="off">
@@ -53,7 +54,7 @@
       <tr mat-row *matRowDef="let row; columns: headElements;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[10, 25, 100, 150, 200]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[9, 25, 100, 150, 200]"></mat-paginator>
 
   </div>
 <app-ingredient-item-popup (OnDeleteCustomUnit)="DeleteCustomUnit($event)" [Ingredient]="CurrentIngredient"></app-ingredient-item-popup>

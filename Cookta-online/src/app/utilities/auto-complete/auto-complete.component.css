@@ -1,0 +1,5 @@
+.scroll {
+    max-height: 10rem;
+    overflow: auto;
+    width: 100% !important;
+}
