@@ -67,15 +67,24 @@ export class SitemapService {
                     res.status(500).end();
                 }
             });
+            expressApp.get('/prerendered', (req, res) => {
+                let reqPath = '/';
+                this.GetRenderedPage(reqPath).then(r => {
+                    res.send(r);
+                });
+            });
             expressApp.get('/prerendered/*', (req, res) => {
                 let reqPath = req.path.replace('/prerendered', '');
+
+                if (!reqPath.endsWith('/')) {
+                    reqPath = reqPath + '/';
+                }
 
                 let isAllowed = AllowedUrls.find(o => o.pattern.test(reqPath)) != undefined;
                 if (!isAllowed) {
                     res.status(404).send();
                     return;
                 }
-
                 this.GetRenderedPage(reqPath).then(r => {
                     res.send(r);
                 });
