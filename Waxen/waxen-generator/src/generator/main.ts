@@ -1,6 +1,6 @@
 import {ClassDeclaration, Project, ScriptTarget, SourceFile} from "ts-morph";
-import {GenerateController} from "./sub-generators/controller-generator";
-import {GetControllerData} from "./utility/utility";
+import {GenerateController, GenerateControllers} from "./sub-generators/controller-generator";
+import {GetEndpointData, GetProject, MethodTypeRegister} from "./utility/utility";
 import {ERouteMethod} from "waxen/dist/route-method.enum";
 import { IGeneratorController } from "../extensions/generator-controller.interface";
 
@@ -12,31 +12,8 @@ export class Config {
             "authenticationModule": string,
             "UserType": string,
         }
+        apiDir?: string,
         authMethodName?: string}
-}
-
-
-const GetProject: (tsConfigPath?: string) => Project = (tsConfigPath?: string) => {
-    return tsConfigPath ?
-        new Project({tsConfigFilePath: tsConfigPath}) :
-        new Project({
-            compilerOptions: {
-                target: ScriptTarget.ES5
-            }
-        })
-}
-
-function GetControllerFiles(files: SourceFile[]): ClassDeclaration[] {
-    let classes = [];
-    for (let file of files) {
-        if (file.getClasses().length > 0)
-            for (let c of file.getClasses()) {
-                if (c.getDecorator('Controller')) {
-                    classes.push(c);
-                }
-            }
-    }
-    return classes;
 }
 
 
@@ -62,7 +39,6 @@ export function InitWaxen(tsConfigPath: string): boolean {
                     Config.c.authMethodName = exp.getName();
                     break;
                 }
-
             }
         }
         console.log(Config.c.authMethodName);
@@ -70,33 +46,6 @@ export function InitWaxen(tsConfigPath: string): boolean {
     } catch (error) {
         console.error(error);
         return false;
-    }
-}
-
-export function GenerateControllers(tsConfigPath: string): IGeneratorController[] {
-    console.log(`Reading tsconfig at: ${tsConfigPath}`)
-    const project = GetProject(tsConfigPath);
-    let files = project.getSourceFiles();
-    //TODO Check controller classes can not have the same name
-    console.log('Controller files: ');
-    let controllerClasses = GetControllerFiles(files);
-    controllerClasses.forEach(c => console.log('   - ' + c.getName()));
-    let controllerData: IGeneratorController[] = [];
-    controllerClasses.forEach(c => controllerData.push(GenerateController(c, GetControllerData(c))));
-    project.saveSync();
-    return controllerData;
-};
-
-function MethodTypeRegister(type: ERouteMethod): string{
-    switch (type){
-        case ERouteMethod.GET:
-            return 'get';
-        case ERouteMethod.PUT:
-            return 'put';
-        case ERouteMethod.POST:
-            return 'post';
-        case ERouteMethod.DELETE:
-            return 'delete';
     }
 }
 
@@ -137,12 +86,12 @@ export function GetStatementsForController(controller: IGeneratorController): st
         ])
         if (route.authentication && Config.c.authMethodName){
             statements.push(...[
-               '}).catch((error) => {',
-               'console.error(error);',
-               'error.stack = undefined;',
-               'response.status(error.status || 401);',
-               'next(error)',
-               '});',
+                '}).catch((error) => {',
+                'console.error(error);',
+                'error.stack = undefined;',
+                'response.status(error.status || 401);',
+                'next(error)',
+                '});',
                 '});\n\n\n\n'
             ]);
         }else {

@@ -1,6 +1,6 @@
 {
   "name": "waxen",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Server framework on top of express, it generates swagger docs",
   "main": "index.ts",
   "types": "index.js",

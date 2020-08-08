@@ -1,9 +1,37 @@
-import {ClassDeclaration, Scope, StringLiteral} from "ts-morph";
+import {ClassDeclaration, Scope, SourceFile} from "ts-morph";
 import {IGeneratorController} from "../../extensions/generator-controller.interface";
-import {IGeneratorRoute} from "../../extensions/extended-route.interface";
-import {cleanStr} from "../utility/utility";
-import {ADDRCONFIG} from "dns";
+import {cleanStr, GetEndpointData, GetProject} from "../utility/utility";
 import {Config} from "../main";
+
+
+function GetControllerFiles(files: SourceFile[]): ClassDeclaration[] {
+    let classes = [];
+    for (let file of files) {
+        if (file.getClasses().length > 0)
+            for (let c of file.getClasses()) {
+                if (c.getDecorator('Controller')) {
+                    classes.push(c);
+                }
+            }
+    }
+    return classes;
+}
+
+
+export function GenerateControllers(tsConfigPath: string): IGeneratorController[] {
+    console.log(`Reading tsconfig at: ${tsConfigPath}`)
+    const project = GetProject(tsConfigPath);
+    let files = project.getSourceFiles();
+    //TODO Check controller classes can not have the same name
+    console.log('Controller files: ');
+    let controllerClasses = GetControllerFiles(files);
+    controllerClasses.forEach(c => console.log('   - ' + c.getName()));
+    let controllerData: IGeneratorController[] = [];
+    controllerClasses.forEach(c => controllerData.push(GenerateController(c, GetEndpointData(c))));
+    project.saveSync();
+    return controllerData;
+};
+
 
 
 function GenerateRouteFunctions(controllerInfo: IGeneratorController, controller: ClassDeclaration) {
