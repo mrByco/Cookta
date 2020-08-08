@@ -6,7 +6,7 @@ require('dotenv').config()
 
 
 const prodUrl = 'https://cookta.me';
-const renderUrl = 'https://rendertron-285418.nw.r.appspot.com/render';
+const renderUrl = 'https://cooktaservices.azurewebsites.net/prerendered';
 
 
 function generateUrl(request) {
@@ -35,10 +35,8 @@ function app() {
             '/sitemap.xml'
         ]
         if (isBot && !ignoreUrls.includes(req.originalUrl)) {
-            const botUrl = generateUrl(req);
-            fetchUrl(`${renderUrl}/${botUrl}`, (error, meta, body) => {
+            fetchUrl(`${renderUrl}${req.originalUrl}`, (error, meta, body) => {
                 res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
-                res.set('Vary', 'User-Agent');
 
                 res.send(body.toString());
             });

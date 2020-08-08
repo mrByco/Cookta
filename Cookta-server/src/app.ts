@@ -1,10 +1,9 @@
 import * as express from 'express';
 import * as cors from 'cors';
-import * as bodyParser from "body-parser";
+import * as bodyParser from 'body-parser';
 import * as router from './server/router';
-import {requestLoggerMiddleware} from "./middleware/request.logger.middleware";
-import {ForceHTTPS} from "./middleware/force-https.middleware";
-import {SitemapService} from "./services/sitemap-service";
+import {requestLoggerMiddleware} from './middleware/request.logger.middleware';
+import {ForceHTTPS} from './middleware/force-https.middleware';
 
 const fileUpload = require('express-fileupload');
 
@@ -35,7 +34,6 @@ app.get('/', (req, res) => {
 });
 
 
-new SitemapService(app);
 /*if (process.env.NODE_ENV == "debug ") {
     try {
         const swaggerDocument = require('../swagger.json');

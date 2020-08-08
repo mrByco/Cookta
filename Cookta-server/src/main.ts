@@ -25,6 +25,7 @@ import {MetricsService} from './services/metrics/metrics.service';
 import {SetErrorHandler} from 'waxen/dist/server/request-promise-handler';
 import {ReportService} from './services/reports/report.service';
 import {NutrientService} from './services/nutrients/nutrient-service';
+import {SitemapService} from './services/sitemap-service';
 
 require('dotenv').config();
 
@@ -46,6 +47,7 @@ try{
     console.info("Connecting to Mongo...");
     let atomicMongoStart = ServiceManager.Start(MongoConnectionString);
     MongoHelper.connect(MongoConnectionString).then(async () => {
+        new SitemapService(app, await MongoHelper.getCollection('Rendered'));
 
         console.log("Start atomik services...");
 
@@ -96,24 +98,25 @@ try{
         ServiceManager.AddService(userService),
         ServiceManager.AddService(essentialsService),
         ServiceManager.AddService(unitService),
-        ServiceManager.AddService(roleService),
-        ServiceManager.AddService(ingredientTypeService),
-        ServiceManager.AddService(foodService),
+            ServiceManager.AddService(roleService),
+            ServiceManager.AddService(ingredientTypeService),
+            ServiceManager.AddService(foodService),
         ]);
 
 
-        console.info("Starting server...");
+        console.info('Starting server...');
         server.listen(PORT);
 
-        console.log(`Startup time: ${Date.now() - startStarupTime}ms`)
+        console.log(`Startup time: ${Date.now() - startStarupTime}ms`);
 
-        if (process.env.NODE_ENV != "debug"){
+        SitemapService.Instance.RunCacheRefresh();
+
+        if (process.env.NODE_ENV != 'debug') {
             try {
                 let backupService = new BackupService();
                 backupService.Schedule();
                 backupService.CreateBackup(MongoHelper.Client, 'Kuktadb').then(r => console.log('Backup created!'));
-            }
-            catch (err) {
+            } catch (err) {
                 console.log('Creating backup was unsuccessful');
             }
         }
