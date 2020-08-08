@@ -22,9 +22,9 @@ interface CachedUrl {
     url: string;
 }
 
-const DefaultTime: number = 1000 * 60 * 60 * 24 * 2;
-const MaxCacheOptions: { pattern: RegExp, time: number }[] = [
-    {pattern: new RegExp(/\/foods\//, 'i'), time: 1000 * 60 * 60 * 24 * 5}
+const AllowedUrls: { pattern: RegExp, time: number }[] = [
+    {pattern: new RegExp(/^\/foods\//, 'i'), time: 1000 * 60 * 60 * 24 * 5},
+    {pattern: new RegExp(/^\/$/, 'i'), time: 1000 * 60 * 60 * 12}
 ];
 
 export class SitemapService {
@@ -69,6 +69,13 @@ export class SitemapService {
             });
             expressApp.get('/prerendered/*', (req, res) => {
                 let reqPath = req.path.replace('/prerendered', '');
+
+                let isAllowed = AllowedUrls.find(o => o.pattern.test(reqPath)) != undefined;
+                if (!isAllowed) {
+                    res.status(404).send();
+                    return;
+                }
+
                 this.GetRenderedPage(reqPath).then(r => {
                     res.send(r);
                 });
@@ -96,13 +103,15 @@ export class SitemapService {
         if (!cached) {
             return true;
         }
-        let cacheTime = MaxCacheOptions.find(o => o.pattern.test(url))?.time ?? DefaultTime;
+        let cacheTime = AllowedUrls.find(o => o.pattern.test(url))?.time;
+        if (!cacheTime) {
+            return false;
+        }
         return cacheTime < Date.now() - cached.renderTime;
     }
 
     public async GetRenderedPage(url: string) {
         let cached = this.urls.find(u => u.url == url);
-
 
         return cached ?
             await getBlobToStirng(RenderedContainerName, cached.blobFileName) :
@@ -110,7 +119,10 @@ export class SitemapService {
     }
 
     public async RerenderPage(url: string) {
+
+
         let cached: CachedUrl = this.urls.find(u => u.url == url);
+
 
         if (!cached) {
             cached = {
