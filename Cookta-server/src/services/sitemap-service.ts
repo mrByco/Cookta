@@ -113,6 +113,17 @@ export class SitemapService {
     public async GetRenderedPage(url: string) {
         let cached = this.urls.find(u => u.url == url);
 
+
+        let MaxCacheTime = AllowedUrls.find(o => o.pattern.test(url))?.time;
+        if (cached) {
+            if (MaxCacheTime < Date.now() - cached.renderTime) {
+                setTimeout(() => this.RerenderPage(url), 500);
+            }
+            return getBlobToStirng(RenderedContainerName, cached.blobFileName);
+        } else {
+            return await this.RerenderPage(url);
+        }
+
         return cached ?
             await getBlobToStirng(RenderedContainerName, cached.blobFileName) :
             await this.RerenderPage(url);
