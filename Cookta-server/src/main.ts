@@ -25,7 +25,7 @@ import {MetricsService} from './services/metrics/metrics.service';
 import {SetErrorHandler} from 'waxen/dist/server/request-promise-handler';
 import {ReportService} from './services/reports/report.service';
 import {NutrientService} from './services/nutrients/nutrient-service';
-import {SitemapService} from './services/sitemap-service';
+import {BotService} from './services/bot-service';
 
 require('dotenv').config();
 
@@ -47,7 +47,7 @@ try{
     console.info("Connecting to Mongo...");
     let atomicMongoStart = ServiceManager.Start(MongoConnectionString);
     MongoHelper.connect(MongoConnectionString).then(async () => {
-        new SitemapService(app, await MongoHelper.getCollection('Rendered'));
+        new BotService(app, await MongoHelper.getCollection('Rendered'));
 
         console.log("Start atomik services...");
 
@@ -109,7 +109,7 @@ try{
 
         console.log(`Startup time: ${Date.now() - startStarupTime}ms`);
 
-        SitemapService.Instance.RunCacheRefresh();
+        BotService.Instance.RunCacheRefresh();
 
         if (process.env.NODE_ENV != 'debug') {
             try {

@@ -27,14 +27,14 @@ const AllowedUrls: { pattern: RegExp, time: number }[] = [
     {pattern: new RegExp(/^\/$/, 'i'), time: 1000 * 60 * 60 * 12}
 ];
 
-export class SitemapService {
-    public static Instance: SitemapService;
+export class BotService {
+    public static Instance: BotService;
     private sitemap: any;
     private urls: CachedUrl[] = [];
 
     constructor(expressApp: Express, private mongoCollection: Collection) {
         this.Startup().then(() => {
-            SitemapService.Instance = this;
+            BotService.Instance = this;
             expressApp.get('/sitemap.xml', (req, res) => {
                 res.header('Content-Type', 'application/xml');
                 res.header('Content-Encoding', 'gzip');

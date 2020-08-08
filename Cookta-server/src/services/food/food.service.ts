@@ -10,7 +10,7 @@ import {Family} from '../../models/family.model';
 import {uploadLocalJPEGImage} from '../../helpers/blobs';
 import {Tag} from '../../models/tag.model';
 import {User} from '../../models/user.model';
-import {SitemapService} from '../sitemap-service';
+import {BotService} from '../bot-service';
 
 const BlobContainerName = 'foodimages';
 
@@ -82,7 +82,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         Object.keys(request).forEach(k => food[k] = request[k]);
         food.published = !food.private;
         this.SaveFood(food);
-        SitemapService.Instance.RerenderPage(`/foods/${food.foodId}`);
+        BotService.Instance.RerenderPage(`/foods/${food.foodId}`);
         return this.GetFoodForUser(food.foodId, changerSub);
     }
 
