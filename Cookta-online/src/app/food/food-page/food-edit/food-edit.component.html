@@ -12,21 +12,21 @@
           <ul class="list-group list-group-vertical"
               style="background-color: transparent; margin-left: fill; width: 100%">
             <li class="list-group-item-2">
-              <button mdbBtn type="button" color="mdb-color" class="fillCol"
+              <button class="fillCol" color="blue" mdbBtn type="button"
                       (click)="uploadComponent.OpenInputDialog()">Képcsere
               </button>
             </li>
             <li class="list-group-item-2">
-              <button (click)="DeleteImage()" class="fillCol" color="mdb-color" mdbBtn type="button">Kép törlése
+              <button (click)="DeleteImage()" class="fillCol" color="blue" mdbBtn type="button">Kép törlése
               </button>
             </li>
             <li class="list-group-item-2" [hidden]="!uploadComponent.EditMode || !uploadComponent.EditAvailable">
-              <button mdbBtn type="button" color="mdb-color" class="fillCol" (click)="uploadComponent.EditMode = false">
+              <button (click)="uploadComponent.EditMode = false" class="fillCol" color="blue" mdbBtn type="button">
                 Kész
               </button>
             </li>
             <li class="list-group-item-2" [hidden]="uploadComponent.EditMode || !uploadComponent.EditAvailable">
-              <button mdbBtn type="button" color="mdb-color" class="fillCol" (click)="uploadComponent.EditMode = true">
+              <button (click)="uploadComponent.EditMode = true" class="fillCol" color="blue" mdbBtn type="button">
                 Szerkesztés
               </button>
             </li>
