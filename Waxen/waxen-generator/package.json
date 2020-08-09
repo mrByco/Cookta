@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@types/node": "^13.13.4",
-    "ts-morph": "^7.0.3",
-    "waxen": "file:../waxen-folder"
+    "ts-morph": "^7.0.3"
   }
 }

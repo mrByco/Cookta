@@ -85,10 +85,10 @@ function GenerateEndpoints(controllerInfo: IGeneratorController, controller: Cla
                 request = `DELETE(${completePathWithParams})`;
                 break;
             case ERouteMethod.PUT:
-                request = `PUT(${completePathWithParams}${routeInfo.requestTypeName != 'void' ? `, body}` : ''})`;
+                request = `PUT(${completePathWithParams}${routeInfo.requestTypeName != 'void' ? `, body` : ''})`;
                 break;
             case ERouteMethod.POST:
-                request = `POST(${completePathWithParams}${routeInfo.requestTypeName != 'void' ? `, body}` : ''}))`;
+                request = `POST(${completePathWithParams}${routeInfo.requestTypeName != 'void' ? `, body` : ''})`;
                 break;
         }
 
