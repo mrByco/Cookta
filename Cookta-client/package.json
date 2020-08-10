@@ -2,47 +2,72 @@
   "nativescript": {
     "id": "org.cookta.client",
     "tns-android": {
-      "version": "6.5.0"
-    },
-    "tns-ios": {
-      "version": "6.5.0"
+      "version": "6.5.3"
     }
   },
   "scripts": {
-    "api": "waxen api"
+    "clean": "npx rimraf hooks node_modules package-lock.json platforms",
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "android": "tns run android --no-hmr",
+    "ios": "tns run ios --no-hmr",
+    "mobile": "tns run",
+    "preview": "tns preview",
+    "ngcc": "ngcc --properties es2015 module main --first-only",
+    "postinstall": "npm run ngcc"
   },
-  "description": "NativeScript Application",
-  "license": "SEE LICENSE IN <your-license-filename>",
-  "repository": "<fill-your-repository-here>",
   "dependencies": {
-    "@angular/animations": "~9.1.12",
-    "@angular/cli": "^9.1.12",
-    "@angular/common": "~9.1.12",
-    "@angular/compiler": "~9.1.12",
-    "@angular/core": "~9.1.12",
-    "@angular/forms": "~9.1.12",
-    "@angular/platform-browser": "~9.1.12",
-    "@angular/platform-browser-dynamic": "~9.1.12",
-    "@angular/router": "~9.1.12",
-    "@nativescript/theme": "~2.3.0",
+    "@angular/animations": "~10.0.0",
+    "@angular/cli": "latest",
+    "@angular/common": "~10.0.0",
+    "@angular/compiler": "~10.0.0",
+    "@angular/core": "~10.0.0",
+    "@angular/forms": "~10.0.0",
+    "@angular/platform-browser": "~10.0.0",
+    "@angular/platform-browser-dynamic": "~10.0.0",
+    "@angular/router": "~10.0.0",
+    "@nativescript/angular": "~10.0.0",
+    "@nativescript/core": "rc",
+    "@nativescript/theme": "~2.2.1",
     "bootstrap": "^4.5.2",
     "cookta-shared": "file:../Cookta-shared",
-    "nativescript-angular": "~8.21.0",
+    "core-js": "^2.6.9",
+    "nativescript-angular": "^10.0.0",
     "nativescript-oauth2": "^2.4.2",
-    "tslib": "1.10.0",
     "reflect-metadata": "~0.1.12",
-    "rxjs": "^6.4.0",
+    "rxjs": "~6.5.5",
     "tns-core-modules": "~6.5.0",
+    "tslib": "1.10.0",
     "waxen": "file:../packages/waxen-1.0.3.tgz",
     "waxen-generator": "file:../packages/waxen-generator-1.0.3.tgz",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "~9.1.12",
-    "@ngtools/webpack": "~8.2.0",
+    "@angular/compiler-cli": "~10.0.0",
+    "@ngtools/webpack": "~10.0.0",
     "nativescript-dev-webpack": "~1.5.0",
-    "typescript": "~3.7.5"
-  },
-  "gitHead": "20a65d338ae8f8911087ab6615b89363f864b07b",
-  "readme": "NativeScript Application"
+    "typescript": "~3.9.0",
+    "@angular-devkit/build-angular": "~0.1000.2",
+    "@nativescript/tslint-rules": "~0.0.5",
+    "@types/jasmine": "~3.5.0",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
+    "codelyzer": "^5.1.2",
+    "jasmine-core": "~3.5.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~4.4.1",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~2.1.0",
+    "karma-jasmine": "~3.0.1",
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "@nativescript/webpack": "~2.0.0",
+    "protractor": "~5.4.3",
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "node-sass": "^4.7.1"
+  }
 }

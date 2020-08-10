@@ -1,10 +1,7 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {EventEmitter} from '@angular/core';
 
 import {ITnsOAuthTokenResult, TnsOAuthClient} from 'nativescript-oauth2';
 
-@Injectable({
-    providedIn: 'root'
-})
 export class AuthService {
 
     private static Instance: AuthService;
