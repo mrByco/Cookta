@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {AuthService} from '~/app/services/auth/auth.service';
+import {AuthService} from '~/services/auth/auth.service';
 import {RouterExtensions} from 'nativescript-angular/router';
 
 @Component({
