@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '~/services/auth/auth.service';
+import {RouterExtensions} from 'nativescript-angular/router'
 
 @Component({
     selector: "Home",
@@ -8,7 +9,7 @@ import {AuthService} from '~/services/auth/auth.service';
 export class HomeComponent implements OnInit {
     public authService: AuthService;
 
-    constructor() {
+    constructor(private router: RouterExtensions) {
         this.authService = AuthService.GetInstance();
         // Use the component constructor to inject providers.
     }
@@ -19,9 +20,10 @@ export class HomeComponent implements OnInit {
 
     logout() {
         this.authService.tnsOauthLogout().then(t => {
-            this.authService.AuthToken = undefined;
-            this.authService.LoggedIn = false;
-            this.authService.OnLoginStateRefreshed.emit();
         });
+    }
+
+    GoShoppingList() {
+        this.router.navigate(['shopping'])
     }
 }
