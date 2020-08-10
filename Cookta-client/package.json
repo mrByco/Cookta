@@ -16,7 +16,7 @@
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "@angular/animations": "~8.2.0",
-    "@angular/cli": "^10.0.5",
+    "@angular/cli": "^9.1.12",
     "@angular/common": "~8.2.0",
     "@angular/compiler": "~8.2.0",
     "@angular/core": "~8.2.0",
@@ -29,6 +29,7 @@
     "cookta-shared": "file:../Cookta-shared",
     "nativescript-angular": "~8.21.0",
     "nativescript-oauth2": "^2.4.2",
+    "tslib": "1.10.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "^6.4.0",
     "tns-core-modules": "~6.5.0",
