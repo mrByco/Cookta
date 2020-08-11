@@ -1,17 +1,15 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {EventEmitter} from '@angular/core';
 
 import {ITnsOAuthTokenResult, TnsOAuthClient} from 'nativescript-oauth2';
 
-@Injectable({
-    providedIn: 'root'
-})
 export class AuthService {
 
     private static Instance: AuthService;
     public LoggedIn: boolean = false;
-    public AuthToken: { accessToken: undefined, refreshToken: undefined, idToken: undefined };
     public OnLoginStateRefreshed = new EventEmitter<void>();
     private client: TnsOAuthClient = null;
+
+    public readonly CurrentAuthMethod = 'google-oauth2';
 
     constructor() {
         console.log(`${Math.round(Math.random() * 60)} - AUTH SERVICE INJECTED`);
@@ -25,6 +23,10 @@ export class AuthService {
             return this.Instance = new AuthService();
         }
         return this.Instance;
+    }
+
+    public getTokenSilently(): string{
+        return this?.client.tokenResult?.idToken;
     }
 
     public tnsOauthLogin(providerType): Promise<ITnsOAuthTokenResult> {
@@ -43,7 +45,6 @@ export class AuthService {
                         console.log('back to main page with an access token...');
                         this.LoggedIn = true;
                         this.OnLoginStateRefreshed.emit();
-                        console.log('back to main page with an access token...');
                         resolve(tokenResult);
                     }
                 }
@@ -52,8 +53,6 @@ export class AuthService {
     }
 
     public tnsOauthLogout(): Promise<any> {
-
-        this.AuthToken = undefined;
         this.LoggedIn = false;
         this.OnLoginStateRefreshed.emit();
         return new Promise<any>((resolve, reject) => {

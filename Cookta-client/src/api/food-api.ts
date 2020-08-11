@@ -11,7 +11,7 @@ export class FoodApi {
         return new Promise<ISendableFood[]>(async (resolve) => {
             const response = await client.GET('');
             response.subscribe(data => {
-                resolve(data as ISendableFood[]);
+                resolve(data as ISendableFood[])
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -24,7 +24,7 @@ export class FoodApi {
         return new Promise<ISendableFood[]>(async (resolve) => {
             const response = await client.GET('/' + `${from}/${count}`);
             response.subscribe(data => {
-                resolve(data as ISendableFood[]);
+                resolve(data as ISendableFood[])
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -37,7 +37,7 @@ export class FoodApi {
         return new Promise<ISendableFood[]>(async (resolve) => {
             const response = await client.GET('own');
             response.subscribe(data => {
-                resolve(data as ISendableFood[]);
+                resolve(data as ISendableFood[])
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -50,7 +50,7 @@ export class FoodApi {
         return new Promise<ISendableFood[]>(async (resolve) => {
             const response = await client.GET('subscription');
             response.subscribe(data => {
-                resolve(data as ISendableFood[]);
+                resolve(data as ISendableFood[])
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -63,7 +63,7 @@ export class FoodApi {
         return new Promise<ISendableFood[]>(async (resolve) => {
             const response = await client.GET('family');
             response.subscribe(data => {
-                resolve(data as ISendableFood[]);
+                resolve(data as ISendableFood[])
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -76,7 +76,7 @@ export class FoodApi {
         return new Promise<ISendableFood[]>(async (resolve) => {
             const response = await client.GET('collection');
             response.subscribe(data => {
-                resolve(data as ISendableFood[]);
+                resolve(data as ISendableFood[])
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -89,7 +89,7 @@ export class FoodApi {
         return new Promise<ISendableFood>(async (resolve) => {
             const response = await client.GET('/' + `${id}`);
             response.subscribe(data => {
-                resolve(data as ISendableFood);
+                resolve(data as ISendableFood)
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -102,7 +102,7 @@ export class FoodApi {
         return new Promise<{ food: ISendableFood, recommendations: ISendableFood[] }>(async (resolve) => {
             const response = await client.GET('page/' + `${id}/${count}`);
             response.subscribe(data => {
-                resolve(data as { food: ISendableFood, recommendations: ISendableFood[] });
+                resolve(data as { food: ISendableFood, recommendations: ISendableFood[] })
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -115,7 +115,7 @@ export class FoodApi {
         return new Promise<ISendableFood>(async (resolve) => {
             const response = await client.POST('', body);
             response.subscribe(data => {
-                resolve(data as ISendableFood);
+                resolve(data as ISendableFood)
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -128,7 +128,7 @@ export class FoodApi {
         return new Promise<ISendableFood>(async (resolve) => {
             const response = await client.DELETE('/' + `${foodId}`);
             response.subscribe(data => {
-                resolve(data as ISendableFood);
+                resolve(data as ISendableFood)
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -141,7 +141,7 @@ export class FoodApi {
         return new Promise<void>(async (resolve) => {
             const response = await client.POST('image/' + `${foodVersionId}`);
             response.subscribe(data => {
-                resolve(data as void);
+                resolve(data as void)
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -154,7 +154,7 @@ export class FoodApi {
         return new Promise<void>(async (resolve) => {
             const response = await client.DELETE('image/' + `${foodVersionId}`);
             response.subscribe(data => {
-                resolve(data as void);
+                resolve(data as void)
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -167,7 +167,7 @@ export class FoodApi {
         return new Promise<{ results: ISendableFood[] }>(async (resolve) => {
             const response = await client.GET('search/' + `${text}/${count}`);
             response.subscribe(data => {
-                resolve(data as { results: ISendableFood[] });
+                resolve(data as { results: ISendableFood[] })
             }, (err) => {
                 console.error(err);
                 resolve(undefined);

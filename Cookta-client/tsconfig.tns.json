@@ -5,6 +5,8 @@
     "moduleResolution": "node"
   },
   "angularCompilerOptions": {
-    "enableIvy": false
+    "enableIvy": false,
+    "skipTemplateCodegen": false,
+    "fullTemplateTypeCheck": false
   }
 }
