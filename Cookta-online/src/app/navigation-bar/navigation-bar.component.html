@@ -140,10 +140,10 @@
     </div>
 
 
-    <div class="align-self-end item p-0" *ngIf="identityService.LoggedIn">
+    <div class="item p-0" *ngIf="identityService.LoggedIn">
         <app-user-profile-modal #UserProfile></app-user-profile-modal>
         <div class="nav-item dropdown" dropdown [dropup]="true">
-            <a dropdownToggle mdbWavesEffect type="button" class="nav-link waves-light p-0">
+            <div dropdownToggle mdbWavesEffect type="button" class="nav-link waves-light p-0">
                 <div class="row">
                     <div class="col d-flex align-items-center justify-content-center">
                         <h4 style="font-size: 15px; color: white;">{{Email}}</h4>
@@ -153,7 +153,7 @@
                              class="img-fluid rounded-circle z-depth-0 profile-img">
                     </div>
                 </div>
-            </a>
+            </div>
             <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary dropdown-menu-left" role="menu"
                  style="left: initial">
                 <a class="dropdown-item waves-light" mdbWavesEffect (click)="UserProfile.Show()">Fiókod</a>
@@ -176,4 +176,3 @@
 </a>
 <div class="dark-back" [ngClass]="{'show': NavbarOpen}">
 </div>
-
