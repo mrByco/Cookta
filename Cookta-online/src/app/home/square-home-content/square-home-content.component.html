@@ -1,11 +1,10 @@
-
   <mdb-carousel (click)="Click()"
                 [interval]="5000"
                 class="carousel slide carousel-fade" [animation]="'fade'"
                 [isControls]="false" *ngIf="Content">
     <mdb-carousel-item *ngFor="let image of Content.images">
-      <div class="view w-100">
-        <img class="d-block w-100 slide-square" [src]="image.url" alt="{{image.subtitle}}">
+      <div class="view container-1-1">
+        <img class="slide-square" [src]="image.url" alt="{{image.subtitle}}">
         <div class="mask rgba-black-light waves-light"></div>
       </div>
       <div class="carousel-caption">

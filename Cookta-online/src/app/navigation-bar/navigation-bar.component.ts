@@ -3,7 +3,7 @@ import {IdentityService} from "../shared/services/identity.service";
 import {FamilyService} from '../shared/services/family.service';
 import * as ResizeDetector from 'element-resize-detector';
 
-const CollapseWitdh = 768;
+const CollapseWitdh = 1200;
 
 @Component({
   selector: 'app-navigation-bar',
