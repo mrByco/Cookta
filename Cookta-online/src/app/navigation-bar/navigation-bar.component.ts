@@ -13,6 +13,7 @@ const CollapseWitdh = 768;
 export class NavigationBarComponent implements AfterViewInit {
 
   public PictureUrl: string = "";
+  public Email: string = '';
 
   public NavbarCollapsed: boolean = false;
   public NavbarOpen: boolean = false;
@@ -27,18 +28,18 @@ export class NavigationBarComponent implements AfterViewInit {
   @ViewChild('NavRoot') public RootElement: ElementRef;
 
   constructor(public identityService: IdentityService,
-              public familyService: FamilyService) {
+              public familyService: FamilyService,) {
     this.identityService.OnIdentityChanged.subscribe((user) => {
       if (!user)
         return;
       this.updateState();
 
     });
-    this.updateState();
   }
 
   private updateState() {
     this.PictureUrl = this.identityService?.Identity?.profilpic;
+    this.Email = this.identityService?.Identity?.email;
     this.identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
     this.identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
     this.identityService.HasPermission('manage-roles').then(b => this.ShowRoleEditor = b);

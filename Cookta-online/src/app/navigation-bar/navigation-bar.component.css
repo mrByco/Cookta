@@ -40,9 +40,10 @@ mat-panel-title {
 }
 
 .sidebar .header {
-    font-weight: bold;
-    height: calc(3em + 0.5rem + 16px);
-    border-bottom: 1px solid #FFFFFF44;
+    font-weight: bolder;
+    background-color: #FFFFFF10;
+    border-bottom: 1px solid #FFFFFF24;
+    border-top: 1px solid #FFFFFF24;
 }
 
 div:active {
@@ -72,6 +73,7 @@ div:active {
 .sidebar .item {
     font-size: 1.5rem;
     color: #ffffff;
+    font-weight: 100;
     font-family: 'Comic Sans MS', serif;
 }
 
@@ -116,4 +118,9 @@ div:active {
 
 .dark-back.show {
     opacity: 1;
+}
+
+.profile-img {
+    border: 4px solid white;
+    height: 3rem;
 }
