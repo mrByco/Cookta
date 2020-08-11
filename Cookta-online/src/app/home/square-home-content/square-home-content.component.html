@@ -1,15 +1,16 @@
-  <mdb-carousel (click)="Click()"
-                [interval]="5000"
-                class="carousel slide carousel-fade" [animation]="'fade'"
-                [isControls]="false" *ngIf="Content">
-    <mdb-carousel-item *ngFor="let image of Content.images">
-      <div class="view container-1-1">
-        <img class="slide-square" [src]="image.url" alt="{{image.subtitle}}">
-        <div class="mask rgba-black-light waves-light"></div>
-      </div>
-      <div class="carousel-caption">
-        <h3 class="h3-responsive">{{Content.title}}</h3>
-        <p>{{image.subtitle}}</p>
-      </div>
-    </mdb-carousel-item>
-  </mdb-carousel>
+
+<mdb-carousel (click)="Click()"
+              [interval]="5000"
+              class="carousel  carousel-fade" [animation]="'fade'"
+              [isControls]="false" *ngIf="Content">
+  <mdb-carousel-item *ngFor="let image of Content.images">
+    <div class="view">
+      <img class="d-block w-100" [src]="image.url" alt="{{image.subtitle}}">
+      <div class="mask rgba-black-light waves-light"></div>
+    </div>
+    <div class="carousel-caption">
+      <h3 class="h3-responsive">{{Content.title}}</h3>
+      <p>{{image.subtitle}}</p>
+    </div>
+  </mdb-carousel-item>
+</mdb-carousel>
