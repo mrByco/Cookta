@@ -92,6 +92,8 @@ import {HowToComponent} from "./usability/how-to/how-to.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {StockerComponent} from "./stock/stocker/stocker.component";
 import {IngredientQuantityInputComponent} from "./food/food-assemblies/ingredient-quantity-input/ingredient-quantity-input.component";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 const appRoutes: Routes = [
@@ -212,6 +214,7 @@ const appRoutes: Routes = [
         MatTabsModule,
         MatInputModule,
         MatExpansionModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
