@@ -10,3 +10,32 @@ mat-panel-title {
   width: 300px;
 }
 
+.nav-bar {
+  width: 100vw !important;
+  height: 48px;
+  padding-right: 5px;
+  background-color: var(--MainColor);
+}
+
+.nav {
+  padding: 4px;
+}
+
+.nav li {
+  float: left;
+  padding: 0;
+}
+
+.nav-link {
+  color: white;
+}
+
+.nav-item .dropdown-menu a {
+  color: black;
+}
+
+.nav-link {
+  padding: 0.5rem !important;
+}
+
+

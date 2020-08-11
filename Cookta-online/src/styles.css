@@ -42,7 +42,8 @@ body{
 }
 
 :root {
-  --MainContentSize: calc(100vh - 72px);
+  --MainContentSize: calc(100vh - 48px);
+  --MainColor: #d32f2f;
 }
 
 .page-title {
