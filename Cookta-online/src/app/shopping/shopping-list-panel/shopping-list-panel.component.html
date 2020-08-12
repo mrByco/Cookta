@@ -13,7 +13,7 @@
       <label
               style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
-      <a (click)="shoppingListService.SetItem(ing.ingredientID, true)"
+      <a (click)="shoppingListService.SetComplete(ing.ingredientID, true)"
          class="icon icon-ok">
         <mdb-icon fas icon="check" size="lg"></mdb-icon>
       </a>
