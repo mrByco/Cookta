@@ -1,50 +1,49 @@
 import * as express from 'express';
-import {authenticationReqMiddleware, ProcessPromiseResponse} from 'waxen/dist/server/request-promise-handler';
-import {defaultAuthentication} from './authentication';
-import {DayController} from '../controllers/static/day.controller';
-import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
-import {EssentialsController} from '../controllers/static/essentialsController';
-import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
-import {FamilyController} from '../controllers/static/family.controller';
-import {InviteFamilyRequest} from 'cookta-shared/src/contracts/family/invite.family.request';
-import {FoodController} from '../controllers/static/food.controller';
-import {IUpdateFoodRequest} from 'cookta-shared/src/contracts/foods/update-food.request';
-import {HomeController} from '../controllers/static/home.controller';
-import {IHomeContentRequest} from 'cookta-shared/src/contracts/home/home-content.request';
-import {IngredientTypeController} from '../controllers/static/ingredient-type.controller';
-import {ISetIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request';
-import {IDeleteIngredientTypeRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-ingredient-type';
-import {DeleteCustomUnitRequest} from 'cookta-shared/src/contracts/ingredient-type/delete-custom-unit';
-import {NutrientController} from '../controllers/static/nutrient.controller';
-import {PingController} from '../controllers/static/ping.controller';
-import {ReportController} from '../controllers/static/report.controller';
-import {ICreateReportRequest} from 'cookta-shared/src/contracts/reports/create-report.request.interface';
-import {ShoppingListController} from '../controllers/static/shopping-list.controller';
-import {ICompletedShoppingItem} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
-import {StockController} from '../controllers/static/stock.controller';
-import {IStorageItemChangeRequest} from 'cookta-shared/src/contracts/stock/StorageItemChange.request';
-import {SubscriptionController} from '../controllers/static/subscription.controller';
-import {TagController} from '../controllers/static/tag.controller';
-import {SetTagRequest} from 'cookta-shared/src/contracts/tags/set.tag.request';
-import {UnitController} from '../controllers/static/unit.controller';
-import {FixBadUnitRequest} from 'cookta-shared/src/contracts/unit-route/get-bad-units';
-import {RoleController} from '../controllers/static/role/role.controller';
-import {IRole} from 'cookta-shared/src/models/roles/role.interface';
-import {UserController} from '../controllers/static/user/user.controller';
+import { ProcessPromiseResponse } from 'waxen/dist/server/request-promise-handler';
+import { authenticationReqMiddleware } from 'waxen/dist/server/request-promise-handler';
+import { defaultAuthentication } from "./authentication";
+import { DayController } from "../controllers/static/day.controller";
+import { IMealing } from "cookta-shared/src/models/days/mealing.interface";
+import { EssentialsController } from "../controllers/static/essentialsController";
+import { IIngredient } from "cookta-shared/src/models/ingredient/ingredient.interface";
+import { FamilyController } from "../controllers/static/family.controller";
+import { InviteFamilyRequest } from "cookta-shared/src/contracts/family/invite.family.request";
+import { FoodController } from "../controllers/static/food.controller";
+import { IUpdateFoodRequest } from "cookta-shared/src/contracts/foods/update-food.request";
+import { HomeController } from "../controllers/static/home.controller";
+import { IHomeContentRequest } from "cookta-shared/src/contracts/home/home-content.request";
+import { IngredientTypeController } from "../controllers/static/ingredient-type.controller";
+import { ISetIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/set.ingredient-type.request";
+import { IDeleteIngredientTypeRequest } from "cookta-shared/src/contracts/ingredient-type/delete-ingredient-type";
+import { DeleteCustomUnitRequest } from "cookta-shared/src/contracts/ingredient-type/delete-custom-unit";
+import { NutrientController } from "../controllers/static/nutrient.controller";
+import { PingController } from "../controllers/static/ping.controller";
+import { ReportController } from "../controllers/static/report.controller";
+import { ICreateReportRequest } from "cookta-shared/src/contracts/reports/create-report.request.interface";
+import { ShoppingListController } from "../controllers/static/shopping-list.controller";
+import { ICompletedShoppingItem } from "cookta-shared/src/models/shopping-list/shopping-list.interface";
+import { StockController } from "../controllers/static/stock.controller";
+import { IStorageItemChangeRequest } from "cookta-shared/src/contracts/stock/StorageItemChange.request";
+import { SubscriptionController } from "../controllers/static/subscription.controller";
+import { TagController } from "../controllers/static/tag.controller";
+import { SetTagRequest } from "cookta-shared/src/contracts/tags/set.tag.request";
+import { UnitController } from "../controllers/static/unit.controller";
+import { FixBadUnitRequest } from "cookta-shared/src/contracts/unit-route/get-bad-units";
+import { RoleController } from "../controllers/static/role/role.controller";
+import { IRole } from "cookta-shared/src/models/roles/role.interface";
+import { UserController } from "../controllers/static/user/user.controller";
 
 export function RegisterRoutes(app: express.Express) {
     // <<=======-DAYS-======>>
     app.get('/day/:date',
         function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => {
-            }).then((user) => {
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, [], (error) => { }).then((user) => {
                 const args = {
                     date: request.params['date']
                 };
                 const controller = new DayController();
                 const promise = controller.GetDay(request.body as void, user, args.date);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => {
-                });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;
@@ -637,18 +636,17 @@ export function RegisterRoutes(app: express.Express) {
     // <<=======-NUTRIENTCONTROLLER-======>>
     app.get('/nutrients/',
         function(request: any, response: any, next: any) {
-            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['edit-ingredients'], (error) => {
-            }).then((user) => {
-                const args = {};
+            authenticationReqMiddleware(defaultAuthentication, request, response, false, ['edit-ingredients'], (error) => { }).then((user) => {
+                const args = {
+                };
                 const controller = new NutrientController();
                 const promise = controller.GetAllNutrients(request.body as void, user,);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => {
-                });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;
                 response.status(error.status || 401);
-                next(error);
+                next(error)
             });
         });
 
@@ -1016,7 +1014,7 @@ export function RegisterRoutes(app: express.Express) {
 
 
 
-    app.post('/unit/',
+    app.post('/unit/bad-units/',
         function(request: any, response: any, next: any) {
             authenticationReqMiddleware(defaultAuthentication, request, response, false, ['advanced-ingredients'], (error) => { }).then((user) => {
                 const args = {

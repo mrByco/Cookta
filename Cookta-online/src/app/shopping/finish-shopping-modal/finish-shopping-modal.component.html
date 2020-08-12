@@ -18,11 +18,19 @@
                 <hr style="margin-top: 0">
                 <div class="row m-2 shopping-item-row"
                      *ngFor="let shopped of shoppingService.CurrentShoppingList.IngredientsCompleted">
-                    <div class="col-3 pl-0"><app-shopping-quantity-box [Item]="shopped"></app-shopping-quantity-box></div>
+                    <div class="col-3 pl-0">
+                        <app-shopping-quantity-box [Item]="shopped"></app-shopping-quantity-box>
+                    </div>
                     <div class="col-4">
                         <h6>{{ingredientService.GetIngredient(shopped.Ingredient.ingredientID).name}}</h6></div>
-                    <div class="col-3"><a
-                            class="link">{{storageService.GetStorageSection(shopped.ShippingSectionId)?.GetDisplayName()}}</a>
+                    <div class="col-3 btn-group" mdbDropdown>
+                        <a class="link" mdbDropdownToggle>
+                            {{storageService.GetStorageSection(shopped.ShippingSectionId)?.GetDisplayName()}}
+                        </a>
+
+                        <div class="dropdown-menu">
+                            <a *ngFor="let section of storageService.Sections" (click)="setTargetSection(shopped, section.Id)" class="dropdown-item" >{{section.GetDisplayName()}}</a>
+                        </div>
                     </div>
                     <div class="col p-0"><input class="w-100" style="min-width: 20px;" disabled [placeholder]="'Ár ft'">
                     </div>
@@ -32,10 +40,12 @@
                 <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close"
                         (click)="modal.hide()" mdbWavesEffect>Vissza
                 </button>
-                <button type="button" mdbBtn color="danger" class="relative waves-light" mdbWavesEffect (click)="shoppingService.FinishShoppingList(false)">Vásárlás
+                <button type="button" mdbBtn color="danger" class="relative waves-light" mdbWavesEffect
+                        (click)="shoppingService.FinishShoppingList(false)">Vásárlás
                     Törlése
                 </button>
-                <button type="button" mdbBtn color="green" class="relative waves-light" mdbWavesEffect (click)="shoppingService.FinishShoppingList(true)">Vásárlás
+                <button type="button" mdbBtn color="green" class="relative waves-light" mdbWavesEffect
+                        (click)="shoppingService.FinishShoppingList(true)">Vásárlás
                     befejezése
                 </button>
             </div>

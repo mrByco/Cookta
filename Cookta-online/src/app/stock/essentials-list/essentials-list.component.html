@@ -28,9 +28,10 @@
 
   <div *ngIf="Editing">
     <hr>
-    <div style="padding-left: 1rem">
-      <app-ingredient-adder (OnIngredientAdded)="AddIngredientToEssentials($event)"></app-ingredient-adder>
+    <div class="pr-2 pl-2" style="margin-bottom: 15rem">
+      <app-ingredient-adder-seamless (OnIngredientAdded)="AddIngredientToEssentials($event)"></app-ingredient-adder-seamless>
     </div>
   </div>
+
 </div>
 

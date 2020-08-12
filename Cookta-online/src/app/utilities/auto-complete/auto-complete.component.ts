@@ -25,6 +25,8 @@ export class AutoCompleteComponent implements OnInit {
 
     @Input() public set SuggestionPool(v) {
         let searchables: { item: any, text: string }[] = [];
+        if (!v) v = [];
+        console.log(v);
 
         if (this.isArrayOfStrings(v)) {
             searchables.push(...(v as string[]).map(i => {

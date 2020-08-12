@@ -66,7 +66,7 @@ export class ShoppingService {
     });
   }
 
-  public async SetComplete(ingredientId: string, complete: boolean): Promise<void>{
+  public async SetItem(ingredientId: string, complete: boolean): Promise<void>{
     this.IsBusy = true;
     let body: {IngredientId: string, complete: boolean} = {IngredientId: ingredientId, complete: complete}
     return new Promise(async (resolve) => {

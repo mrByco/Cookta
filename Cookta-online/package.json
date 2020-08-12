@@ -8,7 +8,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "api": "waxen api"
   },
   "private": true,
   "dependencies": {
@@ -44,7 +45,9 @@
     "rxjs": "~6.5.5",
     "socket.io-client": "^2.3.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "waxen-generator": "file:../packages/waxen-generator-1.0.3.tgz",
+    "waxen": "file:../packages/waxen-1.0.3.tgz"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.1",

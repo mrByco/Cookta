@@ -105,8 +105,7 @@ export class ShoppingListService implements IShoppingListService {
                 });
 
 
-        } else {
-            shoppingList.IngredientsCanceled = shoppingList.IngredientsCanceled.filter(i => i.ingredientID != ingredientId);
+        } else {            shoppingList.IngredientsCanceled = shoppingList.IngredientsCanceled.filter(i => i.ingredientID != ingredientId);
         }
         await this.SaveShoppingList(shoppingList);
         return shoppingList.ToSharedShoppingList();
@@ -193,16 +192,21 @@ export class ShoppingListService implements IShoppingListService {
         return buy;
     }
 
-    async SetCompleteQuantity(familyId: string, ingredient: IIngredient): Promise<void> {
+    async SetCompleteQuantityAndTarget(familyId: string, ingredient: IIngredient, targetSection: string): Promise<void> {
         let docs: ISaveShoppingList = await this.collection.findOne({
             FamilyId: new ObjectId(familyId),
             CompletedOn: undefined
         });
-        let item = docs.IngredientsCompleted.find(i => i.Ingredient.ingredientID == ingredient.ingredientID);
+        let itemIndex = docs.IngredientsCompleted.findIndex(i => i.Ingredient.ingredientID == ingredient
+            .ingredientID);
+        let item = docs.IngredientsCompleted[itemIndex];
+        if (!item) return;
         item.Bought = !ingredient.unit || !ingredient.value ? undefined : {
             UnitId: ingredient.unit,
             Value: ingredient.value
         };
+        if (targetSection) item.ShippingSectionId = targetSection;
+        docs.IngredientsCompleted[itemIndex] = item;
         await this.collection.replaceOne({_id: docs._id}, docs);
     }
 

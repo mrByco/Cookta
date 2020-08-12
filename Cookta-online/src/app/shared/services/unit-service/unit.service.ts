@@ -128,10 +128,12 @@ export class UnitService {
         let units = this.LastLoadedUnits;
 
         units = units.filter(unit => unit.type == CurrentType.baseUnitType);
+        console.log(units, CurrentType)
 
         try {
             units = units.concat(CurrentType.options.cunits);
-        } catch {
+        } catch  (err){
+            console.error(err);
         }
 
         return units;

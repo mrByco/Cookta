@@ -4,6 +4,7 @@ import {ModalDirective} from 'angular-bootstrap-md';
 import {UnitService} from '../../shared/services/unit-service/unit.service';
 import {IngredientService} from '../../shared/services/ingredient-service/ingredient.service';
 import {StorageService} from '../../shared/services/storage.service';
+import { ICompletedShoppingItem } from '../../../../../Cookta-shared/src/models/shopping-list/shopping-list.interface';
 
 @Component({
   selector: 'app-finish-shopping-modal',
@@ -23,4 +24,8 @@ export class FinishShoppingModalComponent {
     this.modal.show();
   }
 
+  setTargetSection(shopped: ICompletedShoppingItem, Id: string) {
+    shopped.ShippingSectionId = Id;
+    this.shoppingService.SaveCompletedQuantity(shopped);
+  }
 }
