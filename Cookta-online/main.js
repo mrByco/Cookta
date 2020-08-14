@@ -17,7 +17,7 @@ function generateUrl(request) {
 }
 
 function detectBot(userAgent) {
-    let test = new RegExp(/bot|crawler|spider|crawling/, 'i');
+    let test = new RegExp(/bot|crawler|spider|crawling|externalhit/, 'i');
     return test.test(userAgent);
 }
 

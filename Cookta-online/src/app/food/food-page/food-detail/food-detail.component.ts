@@ -9,6 +9,7 @@ import {Day} from '../../../shared/models/menu/day.model';
 import {ISendableFood} from '../../../../../../Cookta-shared/src/models/food/food-sendable.interface';
 import {ITag} from '../../../../../../Cookta-shared/src/models/tag/tag.interface';
 import {FoodListComponent} from '../../food-other/food-list/food-list.component';
+import {Meta, Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-food-detail',
@@ -27,12 +28,14 @@ export class FoodDetailComponent implements AfterViewInit {
   @ViewChild("RecommendList", {static: true}) RecommendList: FoodListComponent;
 
   constructor(
-    public route: ActivatedRoute,
-    public foodService: FoodService,
-    public identityService: IdentityService,
-    public router: Router,
-    public mealingService: MealingService,
-    public cookieService: CookieService) {
+      public route: ActivatedRoute,
+      public foodService: FoodService,
+      public identityService: IdentityService,
+      public router: Router,
+      public mealingService: MealingService,
+      public cookieService: CookieService,
+      private title: Title,
+      private meta: Meta) {
   }
 
   public async ngAfterViewInit() {
@@ -67,6 +70,8 @@ export class FoodDetailComponent implements AfterViewInit {
       this.Recommendations = data.recommendations;
       this.ScaleToDose = this.Food.dose;
     }
+    this.title.setTitle(`${this.Food.name} - Cookta receptek`);
+    this.meta.updateTag({name: 'description', content: this.Food.desc});
     window.scroll(0, 0);
   }
 
