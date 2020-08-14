@@ -24,7 +24,7 @@ interface CachedUrl {
 
 const DefaultTime: number = 1000 * 60 * 60 * 24 * 2;
 const MaxCacheOptions: { pattern: RegExp, time: number }[] = [
-    {pattern: new RegExp(/\/foods\//, 'i'), time: 1000 * 60 * 60 * 24 * 5}
+    {pattern: new RegExp(/\/foods\//, 'i'), time: 1000 * 60 * 60 * 24 * 3}
 ];
 
 export class SitemapService {
