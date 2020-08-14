@@ -22,19 +22,19 @@ interface CachedUrl {
     url: string;
 }
 
-const DefaultTime: number = 1000 * 60 * 60 * 24 * 2;
-const MaxCacheOptions: { pattern: RegExp, time: number }[] = [
-    {pattern: new RegExp(/\/foods\//, 'i'), time: 1000 * 60 * 60 * 24 * 5}
+const AllowedUrls: { pattern: RegExp, time: number }[] = [
+    {pattern: new RegExp(/^\/foods\//, 'i'), time: 1000 * 60 * 60 * 24 * 5},
+    {pattern: new RegExp(/^\/$/, 'i'), time: 1000 * 60 * 60 * 12}
 ];
 
-export class SitemapService {
-    public static Instance: SitemapService;
+export class BotService {
+    public static Instance: BotService;
     private sitemap: any;
     private urls: CachedUrl[] = [];
 
     constructor(expressApp: Express, private mongoCollection: Collection) {
         this.Startup().then(() => {
-            SitemapService.Instance = this;
+            BotService.Instance = this;
             expressApp.get('/sitemap.xml', (req, res) => {
                 res.header('Content-Type', 'application/xml');
                 res.header('Content-Encoding', 'gzip');
@@ -67,8 +67,24 @@ export class SitemapService {
                     res.status(500).end();
                 }
             });
+            expressApp.get('/prerendered', (req, res) => {
+                let reqPath = '/';
+                this.GetRenderedPage(reqPath).then(r => {
+                    res.send(r);
+                });
+            });
             expressApp.get('/prerendered/*', (req, res) => {
                 let reqPath = req.path.replace('/prerendered', '');
+
+                if (!reqPath.endsWith('/')) {
+                    reqPath = reqPath + '/';
+                }
+
+                let isAllowed = AllowedUrls.find(o => o.pattern.test(reqPath)) != undefined;
+                if (!isAllowed) {
+                    res.status(404).send();
+                    return;
+                }
                 this.GetRenderedPage(reqPath).then(r => {
                     res.send(r);
                 });
@@ -96,7 +112,10 @@ export class SitemapService {
         if (!cached) {
             return true;
         }
-        let cacheTime = MaxCacheOptions.find(o => o.pattern.test(url))?.time ?? DefaultTime;
+        let cacheTime = AllowedUrls.find(o => o.pattern.test(url))?.time;
+        if (!cacheTime) {
+            return false;
+        }
         return cacheTime < Date.now() - cached.renderTime;
     }
 
@@ -104,13 +123,26 @@ export class SitemapService {
         let cached = this.urls.find(u => u.url == url);
 
 
+        let MaxCacheTime = AllowedUrls.find(o => o.pattern.test(url))?.time;
+        if (cached) {
+            if (MaxCacheTime < Date.now() - cached.renderTime) {
+                setTimeout(() => this.RerenderPage(url), 500);
+            }
+            return getBlobToStirng(RenderedContainerName, cached.blobFileName);
+        } else {
+            return await this.RerenderPage(url);
+        }
+
         return cached ?
             await getBlobToStirng(RenderedContainerName, cached.blobFileName) :
             await this.RerenderPage(url);
     }
 
     public async RerenderPage(url: string) {
+
+
         let cached: CachedUrl = this.urls.find(u => u.url == url);
+
 
         if (!cached) {
             cached = {
