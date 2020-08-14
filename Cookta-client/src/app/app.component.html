@@ -1,1 +1,7 @@
-<page-router-outlet actionBarVisibility="never"></page-router-outlet>
+<StackLayout>
+    <ns-loading *ngIf="LoggedIn == undefined"></ns-loading>
+    <ns-login *ngIf="!LoggedIn"></ns-login>
+    <ns-header *ngIf="LoggedIn"></ns-header>
+    <page-router-outlet actionBarVisibility="never"
+                        visibility="{{LoggedIn ? 'visible' : 'collapsed'}}"></page-router-outlet>
+</StackLayout>

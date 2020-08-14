@@ -6,7 +6,7 @@ import {FixBadUnitRequest, GetBadUnitResponse} from "../unit-route/get-bad-units
 
 const GetAll: IRoute<void, IUnit[], void> = {method: ERouteMethod.GET, path: ''};
 const GetBadUnits: IRoute<void, GetBadUnitResponse, void> = {method: ERouteMethod.GET, path: 'bad-units'};
-const FixBadUnit: IRoute<FixBadUnitRequest, GetBadUnitResponse, void> = {method: ERouteMethod.POST, path: ''};
+const FixBadUnit: IRoute<FixBadUnitRequest, GetBadUnitResponse, void> = {method: ERouteMethod.POST, path: 'bad-units'};
 
 export const UnitControllerData: ControllerData = {
     basepath: "unit", name: "Unit", routes: [GetAll, GetBadUnits, FixBadUnit]

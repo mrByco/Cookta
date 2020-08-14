@@ -1,6 +1,17 @@
-.slide-square {
-  height: 550px;
+.container-1-1 {
   width: 550px;
+  padding-top: 100%;
+  position: relative;
+}
+
+.slide-square {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 div {
   cursor: pointer

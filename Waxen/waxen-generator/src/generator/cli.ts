@@ -1,4 +1,7 @@
-import {GenerateControllers, GenerateRouter, InitWaxen} from "./main";
+import {GenerateRouter, InitWaxen} from "./main";
+import {GenerateControllers} from "./sub-generators/controller-generator";
+import {GetEndpointData} from "./utility/utility";
+import {GenerateApis} from "./sub-generators/api-generator";
 
 export function waxen(args: any[]) {
     console.log('COMMANDO');
@@ -21,6 +24,10 @@ export function waxen(args: any[]) {
     if (args[2] == 'generate'){
         let data = GenerateControllers(process.cwd() + "/tsconfig.json");
         GenerateRouter(process.cwd() + "/tsconfig.json", data);
+    }
+
+    if (args[2] == 'api'){
+        let data = GenerateApis(process.cwd() + "/tsconfig.json");
     }
     if (args[2] == 'swagger'){
         console.log('Hello friend this feature not implemented :(');

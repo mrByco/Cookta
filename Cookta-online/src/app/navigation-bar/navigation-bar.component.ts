@@ -1,34 +1,45 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {IdentityService} from "../shared/services/identity.service";
 import {FamilyService} from '../shared/services/family.service';
+import * as ResizeDetector from 'element-resize-detector';
+
+const CollapseWitdh = 1200;
 
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.css']
 })
-export class NavigationBarComponent implements OnInit {
+export class NavigationBarComponent implements AfterViewInit {
 
   public PictureUrl: string = "";
+  public Email: string = '';
+
+  public NavbarCollapsed: boolean = false;
+  public NavbarOpen: boolean = false;
 
   public ShowIngredientEditor: boolean = false;
   public ShowRoleEditor: boolean = false;
   public ShowErrorList: boolean = false;
   public ShowDebugOptions: boolean = false;
   public ShowUserEditor: boolean = false;
+  private resizeDetector: ResizeDetector;
+
+  @ViewChild('NavRoot') public RootElement: ElementRef;
 
   constructor(public identityService: IdentityService,
-              public familyService: FamilyService) {
+              public familyService: FamilyService,) {
     this.identityService.OnIdentityChanged.subscribe((user) => {
       if (!user)
         return;
       this.updateState();
+
     });
-    this.updateState();
   }
 
   private updateState() {
     this.PictureUrl = this.identityService?.Identity?.profilpic;
+    this.Email = this.identityService?.Identity?.email;
     this.identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
     this.identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);
     this.identityService.HasPermission('manage-roles').then(b => this.ShowRoleEditor = b);
@@ -36,8 +47,9 @@ export class NavigationBarComponent implements OnInit {
     this.identityService.HasPermission('read-reports').then(b => this.ShowErrorList = b);
   }
 
-  ngOnInit() {
-
+  ngAfterViewInit() {
+    this.resizeDetector = ResizeDetector();
+    this.resizeDetector.listenTo(this.RootElement.nativeElement, () => this.AppResized());
   }
 
   async login(){
@@ -45,4 +57,9 @@ export class NavigationBarComponent implements OnInit {
     location.reload();
   }
 
+  private AppResized() {
+    let oldNav = this.NavbarCollapsed;
+    this.NavbarCollapsed = this.RootElement.nativeElement.offsetWidth < CollapseWitdh;
+    if (this.NavbarCollapsed != oldNav) this.NavbarOpen = false;
+  }
 }

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import {ExtendedUser} from "../../../../../../Cookta-shared/src/models/user/extendedUser";
-import {ServerService} from "../server.service";
-import {Routes} from "../../routes";
+import {Injectable} from '@angular/core';
+import {ExtendedUser} from '../../../../../../Cookta-shared/src/models/user/extendedUser';
+import {ServerService} from '../server.service';
+import {Routes} from '../../routes';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,8 @@ export class UserService {
 
   public Users: ExtendedUser[];
 
-  constructor(public serverService: ServerService) { }
-
-
+  constructor(public serverService: ServerService) {
+  }
 
   async ReloadUsers(): Promise<void> {
     this.Users = undefined;

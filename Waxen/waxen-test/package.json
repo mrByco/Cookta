@@ -5,7 +5,9 @@
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "debug": "nodemon -x ts-node ./src/index.ts"
+    "debug": "nodemon -x ts-node ./src/index.ts",
+    "api": "waxen api",
+    "gen": "waxen generate"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +17,8 @@
     "nodemon": "^2.0.3",
     "ts-node": "^8.9.1",
     "typescript": "^3.8.3",
-    "waxen": "file:../waxen-folder"
+    "waxen": "file:../waxen-folder",
+    "waxen-generator": "file:../waxen-generator"
   },
   "devDependencies": {
     "@types/express": "^4.17.6"

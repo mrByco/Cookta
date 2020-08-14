@@ -1,16 +1,16 @@
 <div class="container-fluid p-2" style="height: var(--MainContentSize); overflow: auto">
   <div *ngIf="homeService.HomeContent " class="row m-0 p-0">
-    <div class="col-auto m-1 p-0 " style="height: 550px; width: 550px; background: red">
+    <div class="col-auto m-1 p-0 " style="background: #ff0000; width: 550px; max-width: 100%">
       <app-square-home-content [Data]="homeService.HomeContent.Square"></app-square-home-content>
     </div>
     <div class="col m-0 p-0">
       <div class="row m-0 p-1" style="height: 50%;">
-        <div class="" style="background: red; height: 100%; width: 100%">
+        <div class="spec-row">
           <app-row-home-content [Content]="SpecRow1Content"></app-row-home-content>
         </div>
       </div>
       <div class="row m-0 p-1" style="height: 50%;">
-        <div class="" style="background: red; height: 100%; width: 100%">
+        <div class="spec-row">
           <app-row-home-content [Content]="SpecRow2Content"></app-row-home-content>
         </div>
       </div>

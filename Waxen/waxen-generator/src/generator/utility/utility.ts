@@ -1,8 +1,8 @@
 import {
     ArrayLiteralExpression,
-    ClassDeclaration, EnumMember, Identifier, ObjectLiteralExpression,
+    ClassDeclaration, EnumMember, Identifier, ObjectLiteralExpression, Project,
     PropertyAccessExpression,
-    PropertyAssignment,
+    PropertyAssignment, ScriptTarget,
     SyntaxList,
     TypeLiteralNode,
     VariableDeclaration
@@ -12,6 +12,31 @@ import {ERouteMethod} from "waxen/dist/route-method.enum";
 
 export function cleanStr(str: string): string {
     return str.split("'").join('').split('"').join('');
+}
+
+
+export function MethodTypeRegister(type: ERouteMethod): string{
+    switch (type){
+        case ERouteMethod.GET:
+            return 'get';
+        case ERouteMethod.PUT:
+            return 'put';
+        case ERouteMethod.POST:
+            return 'post';
+        case ERouteMethod.DELETE:
+            return 'delete';
+    }
+}
+
+
+export function GetProject(tsConfigPath?: string): Project {
+    return tsConfigPath ?
+        new Project({tsConfigFilePath: tsConfigPath}) :
+        new Project({
+            compilerOptions: {
+                target: ScriptTarget.ES5
+            }
+        })
 }
 
 function KindToTypeString(node: any): string | null {
@@ -75,8 +100,8 @@ function ParamDefListFromLast(statement: VariableDeclaration): { key: string, ty
 }
 
 
-export function GetControllerData(controller: ClassDeclaration) {
-    let firstArg: PropertyAccessExpression = controller.getDecorator('Controller')?.getArguments()[0] as PropertyAccessExpression;
+export function GetEndpointData(controller: ClassDeclaration, endPointDecorator: string = 'Controller') {
+    let firstArg: PropertyAccessExpression = controller.getDecorator(endPointDecorator)?.getArguments()[0] as PropertyAccessExpression;
     //Get the Controller data
     let propertyAssignment = firstArg.getSymbol().getValueDeclaration() as PropertyAssignment;
     controller.getProject().addSourceFilesAtPaths(propertyAssignment.getSourceFile().getDirectoryPath() + '/**/*.ts');

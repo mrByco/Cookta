@@ -22,17 +22,31 @@
 		android:theme="@style/AppTheme">
 
 		<activity
-			android:name="com.tns.NativeScriptActivity"
-			android:label="@string/title_activity_kimera"
-			android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|locale|uiMode"
-			android:theme="@style/LaunchScreenTheme">
+				android:name="com.tns.NativeScriptActivity"
+				android:label="@string/title_activity_kimera"
+				android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|locale|uiMode"
+				android:theme="@style/LaunchScreenTheme">
 
-			<meta-data android:name="SET_THEME_ON_LAUNCH" android:resource="@style/AppTheme" />
+			<meta-data android:name="SET_THEME_ON_LAUNCH" android:resource="@style/AppTheme"/>
 
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+
 			</intent-filter>
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+
+				<!-- Custom URL Schemes -->
+				<data android:path="/auth"
+					  android:scheme="com.googleusercontent.apps.186738034909-klmtjetbd8ldmda5sju8rgnur6bvbq7r"/>
+
+			</intent-filter>
+
+
 		</activity>
 		<activity android:name="com.tns.ErrorReportActivity"/>
 	</application>

@@ -30,11 +30,11 @@ export class UserService extends StoreService<User> {
 
     public async GetUserForAuth(sub: string, additionalData: any): Promise<User>{
         let user: User;
-        user = this.FindOne(u => u.sub == sub || (u.subs ? u.subs.includes(sub) : false));
+        user = this.Items.find(u => u.sub == sub || (u.subs ? u.subs.includes(sub) : undefined));
         if (user)
             return user;
-        else
-            return await this.UnknownUserSub(await UserService.GetAdditionalUserInfo(additionalData));
+        else {return await this.UnknownUserSub(additionalData);
+        }
     }
 
     public async GetUserForAuth0(sub: string, accessToken): Promise<User> {

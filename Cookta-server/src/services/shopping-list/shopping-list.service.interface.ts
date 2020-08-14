@@ -11,5 +11,5 @@ export interface IShoppingListService {
     //Cancels the completed items.
     NewShoppingList(familyId: string, itemsToStorage?: boolean): Promise<IShoppingList>;
 
-    SetCompleteQuantity(familyId: string, ingredient: IIngredient): Promise<void>;
+    SetCompleteQuantityAndTarget(familyId: string, ingredient: IIngredient, targetSection: string): Promise<void>;
 }

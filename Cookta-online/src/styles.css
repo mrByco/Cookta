@@ -13,6 +13,9 @@ body{
 .fill{
   height: 100%;
 }
+*:focus {
+  outline: 0;
+}
 
 .login-background {
   background: #ac4c00 url('assets/login-background.jpg') no-repeat center;
@@ -42,7 +45,8 @@ body{
 }
 
 :root {
-  --MainContentSize: calc(100vh - 72px);
+  --MainContentSize: calc(100vh - 48px);
+  --MainColor: #d32f2f;
 }
 
 .page-title {

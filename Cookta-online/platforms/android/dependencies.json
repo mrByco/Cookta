@@ -1,0 +1,26 @@
+[
+    {
+        "name": "@nativescript/angular",
+        "directory": "..\\..\\node_modules\\@nativescript\\angular"
+    },
+    {
+        "name": "@nativescript/core",
+        "directory": "..\\..\\node_modules\\@nativescript\\core"
+    },
+    {
+        "name": "@nativescript/theme",
+        "directory": "..\\..\\node_modules\\@nativescript\\theme"
+    },
+    {
+        "name": "nativescript-angular",
+        "directory": "..\\..\\node_modules\\nativescript-angular"
+    },
+    {
+        "name": "nativescript-intl",
+        "directory": "..\\..\\node_modules\\nativescript-intl"
+    },
+    {
+        "name": "tns-core-modules",
+        "directory": "..\\..\\node_modules\\tns-core-modules"
+    }
+]

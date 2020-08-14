@@ -41,8 +41,8 @@
     "swagger-ui-express": "^4.1.2",
     "tmp": "^0.2.1",
     "ts-node": "^8.4.1",
-    "waxen": "file:../packages/waxen-1.0.1.tgz",
-    "waxen-generator": "file:../packages/waxen-generator-1.0.0.tgz"
+    "waxen": "file:../packages/waxen-1.0.3.tgz",
+    "waxen-generator": "file:../packages/waxen-generator-1.0.3.tgz"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
