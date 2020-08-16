@@ -4,6 +4,16 @@ import {Unit} from '../models/unit/unit.model';
 import {IUnit} from 'cookta-shared/src/models/unit/unit.interface';
 import {EUnitType} from 'cookta-shared/src/models/unit/unit-type.enum';
 import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {IShoppingIngredient} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+
+
+export interface ICompletedShoppingIngredient extends ICompleteIngredient {
+    Relatives: {
+        SectionItems: {sectionId: string, ingredient: IIngredient}[];
+        MenuItems: {day: string, food: string, dose: number, ingredient: IIngredient}[];
+        EssentialItems: {ingredient: IIngredient}[];
+    };
+}
 
 export class IngredientHelper {
 
@@ -56,6 +66,11 @@ export class IngredientHelper {
             value1 = ing1.value * ing1.unit.tobase;
             value2 = ing2.value * ing2.unit.tobase;
         }
+
+        if (){
+
+        }
+
         return {ingredientType: ing1.ingredientType, unit, value: +(value1 + value2).toFixed(7)}
     }
 
@@ -118,6 +133,15 @@ export class IngredientHelper {
             ingredientType: Object.assign({}, type),
             unit: Object.assign({}, unit),
             value: ing.value}
+    }
+l
+    private static MergeRelatives(ing1: ICompleteIngredient, ing2: ICompleteIngredient): IShoppingIngredient {
+        let result: IShoppingIngredient;
+        if (!(ing1 as ICompletedShoppingIngredient).Relatives || (ing2 as ICompletedShoppingIngredient).Relatives){
+            result.Relatives = ing1['Relatives' || ing2['Relatives'];
+            return result;
+        }
+
     }
 
 }

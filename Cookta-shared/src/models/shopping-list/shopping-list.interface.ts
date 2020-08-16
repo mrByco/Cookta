@@ -6,8 +6,16 @@ export interface ICompletedShoppingItem {
     Bought?: { UnitId: string, Value: number }
 }
 
+export interface IShoppingIngredient extends IIngredient {
+    Relatives: {
+        SectionItems: {sectionId: string, ingredient: IIngredient}[];
+        MenuItems: {day: string, food: string, dose: number, ingredient: IIngredient}[];
+        EssentialItems: {ingredient: IIngredient}[];
+    };
+}
+
 export interface IShoppingList {
-    IngredientsToBuy: IIngredient[];
+    IngredientsToBuy: IShoppingIngredient[];
     IngredientsCompleted: ICompletedShoppingItem[];
     IngredientsCanceled: IIngredient[]
     FamilyId: string;
