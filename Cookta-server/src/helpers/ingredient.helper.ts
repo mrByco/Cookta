@@ -68,7 +68,7 @@ export class IngredientHelper {
         if (ing1.Relatives || ing2.Relatives)
             result.Relatives = this.MergeRelatives(ing1, ing2);
 
-        return {ingredientType: result.ingredientType, unit: result.unit, value: result.value, Relatives: result.Relatives}
+        return result;
     }
 
     static SubtractList(ingList1: ICompletedShoppingIngredient[], ingList2: ICompletedShoppingIngredient[]): ICompletedShoppingIngredient[] {
