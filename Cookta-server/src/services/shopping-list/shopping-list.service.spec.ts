@@ -159,7 +159,7 @@ describe('Shopping list service', () => {
                         "day": "date0",
                         "dose": 6,
                         "food": undefined,
-                        "ingredient": {"ingredientID": "ing1", "unit": "unit1", "value": 2}
+                        "ingredient": {"ingredientID": "ing1", "unit": "unit1", "value": 4}
                     }],
                     "SectionItems": []
                 }, "ingredientID": "ing1", "unit": "unit1", "value": 4
@@ -170,7 +170,7 @@ describe('Shopping list service', () => {
                         "day": "date0",
                         "dose": 6,
                         "food": undefined,
-                        "ingredient": {"ingredientID": "ing2", "unit": "unit2", "value": 5}
+                        "ingredient": {"ingredientID": "ing2", "unit": "unit2", "value": 10}
                     }],
                     "SectionItems": []
                 }, "ingredientID": "ing2", "unit": "unit2", "value": 10
@@ -181,7 +181,7 @@ describe('Shopping list service', () => {
                         "day": "date1",
                         "dose": 4,
                         "food": undefined,
-                        "ingredient": {"ingredientID": "ing3", "unit": "unit3", "value": 1}
+                        "ingredient": {"ingredientID": "ing3", "unit": "unit3", "value": 1.333}
                     }],
                     "SectionItems": []
                 }, "ingredientID": "ing3", "unit": "unit3", "value": 1.333
@@ -192,7 +192,7 @@ describe('Shopping list service', () => {
                         "day": "date1",
                         "dose": 4,
                         "food": undefined,
-                        "ingredient": {"ingredientID": "ing5", "unit": "unit5", "value": 1}
+                        "ingredient": {"ingredientID": "ing5", "unit": "unit5", "value": 1.333}
                     }],
                     "SectionItems": []
                 }, "ingredientID": "ing5", "unit": "unit5", "value": 1.333
