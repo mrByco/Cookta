@@ -43,8 +43,7 @@ export function RegisterRoutes(app: express.Express) {
                 };
                 const controller = new DayController();
                 const promise = controller.GetDay(request.body as void, user, args.date);
-                ProcessPromiseResponse(controller, promise, response, next, (error) => {
-                });
+                ProcessPromiseResponse(controller, promise, response, next, (error) => { });
             }).catch((error) => {
                 console.error(error);
                 error.stack = undefined;

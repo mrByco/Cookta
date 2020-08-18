@@ -4,11 +4,18 @@ import {Unit} from '../models/unit/unit.model';
 import {IUnit} from 'cookta-shared/src/models/unit/unit.interface';
 import {EUnitType} from 'cookta-shared/src/models/unit/unit-type.enum';
 import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
+import {IShoppingIngredient} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {IIngredientRelatives} from "cookta-shared/src/models/shopping-list/shopping-ingredient-relatives";
+
+
+export interface ICompletedShoppingIngredient extends ICompleteIngredient {
+    Relatives?: IIngredientRelatives;
+}
 
 export class IngredientHelper {
 
-    static MergeLists(lists: ICompleteIngredient[][]): ICompleteIngredient[] {
-        let added: ICompleteIngredient[] = [];
+    static MergeLists(lists: ICompletedShoppingIngredient[][]): ICompletedShoppingIngredient[] {
+        let added: ICompletedShoppingIngredient[] = [];
         for (let ingredientList of lists) {
             for (let ingredient of ingredientList) {
                 added.push(ingredient);
@@ -18,8 +25,8 @@ export class IngredientHelper {
 
     }
 
-    static MergeIngredients(ingredients: ICompleteIngredient[]): ICompleteIngredient[] {
-        let merged: ICompleteIngredient[] = [];
+    static MergeIngredients(ingredients: ICompletedShoppingIngredient[]): ICompletedShoppingIngredient[] {
+        let merged: ICompletedShoppingIngredient[] = [];
         for (let ing of ingredients) {
             let addedSameType = merged.find(x => x.ingredientType.guid == ing.ingredientType.guid);
             if (addedSameType) {
@@ -42,12 +49,12 @@ export class IngredientHelper {
     }
 
 
-    static AddNorm(ing1: IIngredient, ing2: IIngredient): IIngredient {
+    static AddNorm(ing1: IShoppingIngredient, ing2: IShoppingIngredient): IShoppingIngredient {
         let result = this.Add(IngredientHelper.ToCompleteIngredient(ing1), IngredientHelper.ToCompleteIngredient(ing2));
-        return {ingredientID: result.ingredientType.guid, unit: result.unit.id, value: result.value};
+        return {ingredientID: result.ingredientType.guid, unit: result.unit.id, value: result.value} as any;
     }
 
-    static Add(ing1: ICompleteIngredient, ing2: ICompleteIngredient): ICompleteIngredient {
+    static Add(ing1: ICompletedShoppingIngredient, ing2: ICompletedShoppingIngredient): ICompletedShoppingIngredient {
         let value1: number = ing1.value;
         let value2: number = ing2.value;
         let unit: IUnit = ing1.unit;
@@ -56,10 +63,15 @@ export class IngredientHelper {
             value1 = ing1.value * ing1.unit.tobase;
             value2 = ing2.value * ing2.unit.tobase;
         }
-        return {ingredientType: ing1.ingredientType, unit, value: +(value1 + value2).toFixed(7)}
+        let result: ICompletedShoppingIngredient =  {ingredientType: ing1.ingredientType, unit, value: +(value1 + value2).toFixed(7)};
+
+        if (ing1.Relatives || ing2.Relatives)
+            result.Relatives = this.MergeRelatives(ing1, ing2);
+
+        return {ingredientType: result.ingredientType, unit: result.unit, value: result.value, Relatives: result.Relatives}
     }
 
-    static SubtractList(ingList1: ICompleteIngredient[], ingList2: ICompleteIngredient[]): ICompleteIngredient[] {
+    static SubtractList(ingList1: ICompletedShoppingIngredient[], ingList2: ICompletedShoppingIngredient[]): ICompletedShoppingIngredient[] {
         let subtracted = ingList1;
         for (let ing of ingList2) {
             let containItem: ICompleteIngredient = subtracted.find(s => s.ingredientType.guid === ing.ingredientType.guid && s.unit.type === ing.unit.type);
@@ -70,31 +82,15 @@ export class IngredientHelper {
         return subtracted;
     }
 
-    static Subtract(ing1: ICompleteIngredient, ing2: ICompleteIngredient): ICompleteIngredient {
-        let value1: number = ing1.value;
-        let value2: number = ing2.value;
-        let unit: IUnit = ing1.unit;
-        if (ing1.unit.id != ing2.unit.id) {
-            if (ing1.unit.type != ing2.unit.type)
-                throw Error("Cannot add ingredients with different base");
-            switch (ing1.unit.type) {
-                case EUnitType.MASS:
-                    unit = {name: 'g', type: EUnitType.MASS, id: 'g', shortname: 'g', tobase: 1};
-                    break;
-                case EUnitType.COUNT:
-                    unit = {name: 'db', type: EUnitType.COUNT, id: 'db', shortname: 'db', tobase: 1};
-                    break;
-                case EUnitType.VOLUME:
-                    unit = {name: 'l', type: EUnitType.VOLUME, id: 'l', shortname: 'l', tobase: 1};
-                    break;
-            }
-            value1 = ing1.value * ing1.unit.tobase;
-            value2 = ing2.value * ing2.unit.tobase;
-        }
-        return {ingredientType: ing1.ingredientType, unit, value: Math.max(+(value1 - value2).toFixed(7), 0)}
+    static Subtract(ing1: ICompletedShoppingIngredient, ing2: ICompletedShoppingIngredient): ICompletedShoppingIngredient {
+        let ing2Negative = {...ing2};
+        ing2Negative.value = -(Math.abs(ing2Negative.value));
+        let result = this.Add(ing1, ing2Negative);
+        result.value = +Math.max(result.value, 0).toFixed(7)
+        return result;
     }
 
-    static ToCompleteIngredientList(ings: IIngredient[]): ICompleteIngredient[] {
+    static ToCompleteIngredientList(ings: IIngredient[]): ICompletedShoppingIngredient[] {
         let ingredients: ICompleteIngredient[] = [];
         if (!ings) return [];
         for (let i of ings){
@@ -103,7 +99,7 @@ export class IngredientHelper {
         return ingredients;
     }
 
-    static ToCompleteIngredient(ing: IIngredient): ICompleteIngredient {
+    static ToCompleteIngredient(ing: IIngredient): ICompletedShoppingIngredient {
         let type: IngredientType = Services.IngredientTypeService.FindOne(t => t.guid == ing.ingredientID);
         let unit: IUnit = (Services.UnitService.GetAllItems() as IUnit[]).find(u => u.id == ing.unit);
 
@@ -117,7 +113,18 @@ export class IngredientHelper {
         return {
             ingredientType: Object.assign({}, type),
             unit: Object.assign({}, unit),
-            value: ing.value}
+            value: ing.value,
+            Relatives: ing['Relatives']
+        }
+    }
+    private static MergeRelatives(ing1: ICompletedShoppingIngredient, ing2: ICompletedShoppingIngredient): IIngredientRelatives | undefined {
+        if (!ing1.Relatives || !ing2.Relatives) return ing1.Relatives || ing2.Relatives;
+        return {
+            EssentialItems: [...ing1.Relatives.EssentialItems, ...ing2.Relatives.EssentialItems],
+            MenuItems: [...ing1.Relatives.MenuItems, ...ing2.Relatives.MenuItems],
+            SectionItems: [...ing1.Relatives.SectionItems, ...ing2.Relatives.SectionItems]
+        }
+
     }
 
 }
