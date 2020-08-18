@@ -5,7 +5,7 @@ import {IShoppingListService} from './shopping-list.service.interface';
 import '../../extensions/string-extensions';
 import '../../extensions/date-extensions';
 import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
-import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {IShoppingIngredient, IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
 import {Collection, ObjectId} from 'mongodb';
 import {ISaveShoppingList, ShoppingList} from '../../models/shopping-list.model';
@@ -152,7 +152,7 @@ export class ShoppingListService implements IShoppingListService {
         return await shoppingList.ToSharedShoppingList();
     }
 
-    public async GetReqList(familyId: string, from: string, to: string): Promise<IIngredient[]> {
+    public async GetReqList(familyId: string, from: string, to: string): Promise<IShoppingIngredient[]> {
         let dates: string[] = ShoppingListService.GetDatesFromNowTo(from, to);
 
         let fixedMealings: IMealing[] = [];

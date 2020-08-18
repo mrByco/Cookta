@@ -7,7 +7,7 @@ export interface ICompletedShoppingItem {
 }
 
 export interface IShoppingIngredient extends IIngredient {
-    Relatives: {
+    Relatives?: {
         SectionItems: {sectionId: string, ingredient: IIngredient}[];
         MenuItems: {day: string, food: string, dose: number, ingredient: IIngredient}[];
         EssentialItems: {ingredient: IIngredient}[];
