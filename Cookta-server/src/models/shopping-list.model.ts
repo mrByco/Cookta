@@ -1,5 +1,5 @@
 import {IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
-import {ICompletedShoppingItem, IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {ICompletedShoppingItem, IShoppingList, IShoppingIngredient} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {ObjectID} from 'mongodb';
 import {Services} from '../Services';
 import {IngredientHelper} from '../helpers/ingredient.helper';
@@ -9,7 +9,7 @@ require('../../src/extensions/date-extensions');
 export class ShoppingList {
 
     constructor(public id: ObjectID,
-                public ShoppingTotal: IIngredient[],
+                public ShoppingTotal: IShoppingIngredient[],
                 public IngredientsCompleted: ICompletedShoppingItem[],
                 public IngredientsCanceled: IIngredient[],
                 public FamilyId: string,
@@ -69,7 +69,7 @@ export class ShoppingList {
             to.ToYYYYMMDDString());
     }
 
-    public async GetIngredientsToBuy(): Promise<IIngredient[]> {
+    public async GetIngredientsToBuy(): Promise<IShoppingIngredient[]> {
         let Total = await IngredientHelper.ToCompleteIngredientList(this.ShoppingTotal);
         let Comlpeted = await IngredientHelper.ToCompleteIngredientList(this.IngredientsCompleted.map(i => i.Ingredient));
         let Canceled = IngredientHelper.ToCompleteIngredientList(this.IngredientsCanceled);
@@ -77,7 +77,7 @@ export class ShoppingList {
         return TotalLeft
             .filter(i => i.value > 0)
             .map(i => {
-                return {ingredientID: i.ingredientType.guid, unit: i.unit.id, value: i.value}
+                return {ingredientID: i.ingredientType.guid, unit: i.unit.id, value: i.value, Relatives: i.Relatives}
             });
     }
 }

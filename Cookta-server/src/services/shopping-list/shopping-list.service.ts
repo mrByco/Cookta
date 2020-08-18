@@ -5,7 +5,7 @@ import {IShoppingListService} from './shopping-list.service.interface';
 import '../../extensions/string-extensions';
 import '../../extensions/date-extensions';
 import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
-import {IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {IShoppingIngredient, IShoppingList} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
 import {IMealing} from 'cookta-shared/src/models/days/mealing.interface';
 import {Collection, ObjectId} from 'mongodb';
 import {ISaveShoppingList, ShoppingList} from '../../models/shopping-list.model';
@@ -39,16 +39,25 @@ export class ShoppingListService implements IShoppingListService {
 
     }
 
-    private static GetFoodIngredientsFromMealings(fixedMealings: IMealing[]): IIngredient[] {
-        let foodIngredients: IIngredient[] = [];
+    private static GetFoodIngredientsFromMealings(fixedMealings: { m: IMealing, date: string }[]): IShoppingIngredient[] {
+        let foodIngredients: IShoppingIngredient[] = [];
         for (let mealing of fixedMealings) {
-            let mealDose = mealing.dose ? mealing.dose : 4;
-            let recipeDose = mealing.info.finalFood.dose;
-            for (let ing of mealing.info.finalFood.ingredients) {
+            let mealDose = mealing.m.dose ? mealing.m.dose : 4;
+            let recipeDose = mealing.m.info.finalFood.dose;
+            for (let ing of mealing.m.info.finalFood.ingredients) {
+                let scaledValue = Math.round(ing.value * mealDose / recipeDose * 1000) / 1000;
                 foodIngredients.push({
                     ingredientID: ing.ingredientID,
-                    value: Math.round(ing.value * mealDose / recipeDose * 1000) / 1000,
-                    unit: ing.unit
+                    value: scaledValue,
+                    unit: ing.unit,
+                    Relatives: {
+                        MenuItems: [{
+                            dose: mealDose,
+                            food: mealing.m.foodId,
+                            ingredient: {ingredientID: ing.ingredientID, unit: ing.unit, value: scaledValue},
+                            day: mealing.date
+                        }], EssentialItems: [], SectionItems: []
+                    },
                 });
             }
         }
@@ -105,7 +114,8 @@ export class ShoppingListService implements IShoppingListService {
                 });
 
 
-        } else {            shoppingList.IngredientsCanceled = shoppingList.IngredientsCanceled.filter(i => i.ingredientID != ingredientId);
+        } else {
+            shoppingList.IngredientsCanceled = shoppingList.IngredientsCanceled.filter(i => i.ingredientID != ingredientId);
         }
         await this.SaveShoppingList(shoppingList);
         return shoppingList.ToSharedShoppingList();
@@ -152,41 +162,53 @@ export class ShoppingListService implements IShoppingListService {
         return await shoppingList.ToSharedShoppingList();
     }
 
-    public async GetReqList(familyId: string, from: string, to: string): Promise<IIngredient[]> {
+    public async GetReqList(familyId: string, from: string, to: string): Promise<IShoppingIngredient[]> {
         let dates: string[] = ShoppingListService.GetDatesFromNowTo(from, to);
 
-        let fixedMealings: IMealing[] = [];
+        let menuMealings: { m: IMealing, date: string }[] = [];
         for (let date of dates) {
             let day = await Day.GetDay(date, familyId);
             day.mealings.forEach(m => {
                 if (m.type == 'final') {
-                    fixedMealings.push(m);
+                    menuMealings.push({m: m, date: day.date});
                 }
             });
         }
 
         let foodIngredients: ICompleteIngredient[] = IngredientHelper.ToCompleteIngredientList(
-            ShoppingListService.GetFoodIngredientsFromMealings(fixedMealings)
+            ShoppingListService.GetFoodIngredientsFromMealings(menuMealings)
         );
         foodIngredients = IngredientHelper.MergeIngredients(foodIngredients);
 
         let sections = Services.StorageService.GetSections(familyId);
-        let ingredientListsAtHome = sections.map(s => IngredientHelper.ToCompleteIngredientList(s.Items));
+        let sectionItems: IShoppingIngredient[] = [];
+        sections.forEach(s => s.Items.forEach(i => sectionItems.push({
+            ...i,
+            Relatives: {
+                MenuItems: [],
+                SectionItems: [{sectionId: s.Id.toHexString(), ingredient: i}],
+                EssentialItems: []
+            }
+        })))
+        let ingredientListsAtHome = IngredientHelper.ToCompleteIngredientList(sectionItems);
 
-        let ingredientsAtHome = IngredientHelper.MergeLists(ingredientListsAtHome);
+        let ingredientsAtHome = IngredientHelper.MergeIngredients(ingredientListsAtHome);
 
         ingredientsAtHome = IngredientHelper.MergeIngredients(ingredientsAtHome);
 
-        let essentials = IngredientHelper.ToCompleteIngredientList(Services.EssentialsService.GetEssentials(familyId).Essentials);
+        let essentials = IngredientHelper.ToCompleteIngredientList(Services.EssentialsService.GetEssentials(familyId).Essentials
+            .map(e => {
+                return {Relatives: {MenuItems: [], SectionItems: [], EssentialItems: [{ingredient: {...e}}]}, ...e}
+            }));
 
         let need = IngredientHelper.SubtractList(foodIngredients, essentials);
         need = need.filter(i => i.value > 0);
         need = IngredientHelper.MergeLists([need, essentials]);
 
-        let buy: IIngredient[] = [];
+        let buy: IShoppingIngredient[] = [];
         IngredientHelper.SubtractList(need, ingredientsAtHome).forEach(i => {
             if (i.value > 0) {
-                buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id});
+                buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id, Relatives: i.Relatives});
             }
         });
         return buy;

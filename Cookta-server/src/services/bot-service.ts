@@ -5,8 +5,10 @@ import {Collection} from 'mongodb';
 import {getBlobToStirng, setStringBlob} from '../helpers/blobs';
 
 
+import {SitemapStream, streamToPromise} from "sitemap";
+
 const express = require('express');
-const {SitemapStream, streamToPromise} = require('sitemap');
+
 const {createGzip} = require('zlib');
 
 const fetch = require('node-fetch');
@@ -24,7 +26,7 @@ interface CachedUrl {
 
 const AllowedUrls: { pattern: RegExp, time: number }[] = [
     {pattern: new RegExp(/^\/foods\//, 'i'), time: 1000 * 60 * 60 * 24 * 5},
-    {pattern: new RegExp(/^\/$/, 'i'), time: 1000 * 60 * 60 * 12}
+    {pattern: new RegExp(/^\/$/, 'i'), time: 1000 * 60 * 60 * 24 * 5}
 ];
 
 export class BotService {
@@ -150,13 +152,14 @@ export class BotService {
                 renderTime: Date.now(),
                 url: url,
             } as CachedUrl;
-            this.SaveCached(cached);
             this.urls.push(cached);
         }
 
         let res = await fetch(`${RenderUrl}/${SiteUrl}/${url}`);
         let data = await res.text();
         await setStringBlob(RenderedContainerName, cached.blobFileName, data);
+        cached.renderTime = Date.now();
+        await this.SaveCached(cached);
         return data;
     }
 

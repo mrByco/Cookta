@@ -7,7 +7,7 @@
   <h4>Vásárlás</h4>
   <p *ngIf="shoppingListService.CurrentShoppingList.IngredientsToBuy.length == 0"></p>
 
-  <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsToBuy">
+  <div class="rounded-panel-item" style="cursor: default; position: relative" (click)="ShowItemSources(ing)" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsToBuy">
     <div class="row pl-5 pl-md-3 pl-lg-0">
       <label>{{ing.value}}</label>
       <label
@@ -68,3 +68,4 @@
 </div>
 
 <app-finish-shopping-modal #finishModal></app-finish-shopping-modal>
+<app-shopping-item-modal></app-shopping-item-modal>
