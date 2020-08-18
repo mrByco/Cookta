@@ -77,7 +77,7 @@ export class ShoppingList {
         return TotalLeft
             .filter(i => i.value > 0)
             .map(i => {
-                return {ingredientID: i.ingredientType.guid, unit: i.unit.id, value: i.value}
+                return {ingredientID: i.ingredientType.guid, unit: i.unit.id, value: i.value, Relatives: i.Relatives}
             });
     }
 }

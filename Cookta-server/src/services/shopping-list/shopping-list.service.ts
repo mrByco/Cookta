@@ -45,15 +45,16 @@ export class ShoppingListService implements IShoppingListService {
             let mealDose = mealing.m.dose ? mealing.m.dose : 4;
             let recipeDose = mealing.m.info.finalFood.dose;
             for (let ing of mealing.m.info.finalFood.ingredients) {
+                let scaledValue = Math.round(ing.value * mealDose / recipeDose * 1000) / 1000;
                 foodIngredients.push({
                     ingredientID: ing.ingredientID,
-                    value: Math.round(ing.value * mealDose / recipeDose * 1000) / 1000,
+                    value: scaledValue,
                     unit: ing.unit,
                     Relatives: {
                         MenuItems: [{
                             dose: mealDose,
                             food: mealing.m.foodId,
-                            ingredient: ing,
+                            ingredient: {ingredientID: ing.ingredientID, unit: ing.unit, value: scaledValue},
                             day: mealing.date
                         }], EssentialItems: [], SectionItems: []
                     },
@@ -197,17 +198,17 @@ export class ShoppingListService implements IShoppingListService {
 
         let essentials = IngredientHelper.ToCompleteIngredientList(Services.EssentialsService.GetEssentials(familyId).Essentials
             .map(e => {
-                return {Relatives: {MenuItems: [], SectionItems: [], EssentialItems: [{...e}]}, ...e}
+                return {Relatives: {MenuItems: [], SectionItems: [], EssentialItems: [{ingredient: {...e}}]}, ...e}
             }));
 
         let need = IngredientHelper.SubtractList(foodIngredients, essentials);
         need = need.filter(i => i.value > 0);
         need = IngredientHelper.MergeLists([need, essentials]);
 
-        let buy: IIngredient[] = [];
+        let buy: IShoppingIngredient[] = [];
         IngredientHelper.SubtractList(need, ingredientsAtHome).forEach(i => {
             if (i.value > 0) {
-                buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id});
+                buy.push({ingredientID: i.ingredientType.guid, value: i.value, unit: i.unit.id, Relatives: i.Relatives});
             }
         });
         return buy;

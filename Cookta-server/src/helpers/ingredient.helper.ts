@@ -5,12 +5,8 @@ import {IUnit} from 'cookta-shared/src/models/unit/unit.interface';
 import {EUnitType} from 'cookta-shared/src/models/unit/unit-type.enum';
 import {ICompleteIngredient, IIngredient} from 'cookta-shared/src/models/ingredient/ingredient.interface';
 import {IShoppingIngredient} from 'cookta-shared/src/models/shopping-list/shopping-list.interface';
+import {IIngredientRelatives} from "cookta-shared/src/models/shopping-list/shopping-ingredient-relatives";
 
-export interface IIngredientRelatives {
-    SectionItems: {sectionId: string, ingredient: IIngredient}[];
-    MenuItems: {day: string, food: string, dose: number, ingredient: IIngredient}[];
-    EssentialItems: {ingredient: IIngredient}[];
-}
 
 export interface ICompletedShoppingIngredient extends ICompleteIngredient {
     Relatives?: IIngredientRelatives;
@@ -72,7 +68,7 @@ export class IngredientHelper {
         if (ing1.Relatives || ing2.Relatives)
             result.Relatives = this.MergeRelatives(ing1, ing2);
 
-        return {ingredientType: ing1.ingredientType, unit, value: +(value1 + value2).toFixed(7)}
+        return {ingredientType: result.ingredientType, unit: result.unit, value: result.value, Relatives: result.Relatives}
     }
 
     static SubtractList(ingList1: ICompletedShoppingIngredient[], ingList2: ICompletedShoppingIngredient[]): ICompletedShoppingIngredient[] {

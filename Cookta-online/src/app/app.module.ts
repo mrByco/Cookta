@@ -94,6 +94,7 @@ import {StockerComponent} from "./stock/stocker/stocker.component";
 import {IngredientQuantityInputComponent} from "./food/food-assemblies/ingredient-quantity-input/ingredient-quantity-input.component";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ShoppingItemModalComponent } from './shopping/shopping-item-modal/shopping-item-modal.component';
 
 
 const appRoutes: Routes = [
@@ -186,7 +187,9 @@ const appRoutes: Routes = [
         MustLoginComponent,
         HowToComponent,
         StockerComponent,
-        IngredientQuantityInputComponent
+        IngredientQuantityInputComponent,
+        ShoppingItemModalComponent,
+        ShoppingItemModalComponent
 
     ],
     imports: [
