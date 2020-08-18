@@ -30,75 +30,173 @@ const placeholderFood: ISendableFood = {
 describe('Shopping list service', () => {
     describe('final mealings to ingredient list', () => {
         it('Simple add ingredients', () => {
-            let mealings: IMealing[] = [{
-                type: 'final', mealIndex: 2, info: {
-                    finalFood: {
-                        ...placeholderFood, ...{
-                            ingredients: [
-                                {ingredientID: 'ing1', unit: 'unit1', value: 2},
-                                {ingredientID: 'ing2', unit: 'unit2', value: 5}]
-                        },
-                    }
-                }
-            },
-                {
-                    type: 'final', mealIndex: 4, dose: 4, info: {
+            let mealings: { m: IMealing, date: string }[] = [{
+                m: {
+                    type: 'final', mealIndex: 2, info: {
                         finalFood: {
                             ...placeholderFood, ...{
                                 ingredients: [
-                                    {ingredientID: 'ing3', unit: 'unit3', value: 1},
-                                    {ingredientID: 'ing5', unit: 'unit5', value: 1}]
+                                    {ingredientID: 'ing1', unit: 'unit1', value: 2},
+                                    {ingredientID: 'ing2', unit: 'unit2', value: 5}]
                             },
                         }
-                    }
+                    },
+                },
+                date: 'date1',
+            },
+                {
+                    m: {
+                        type: 'final', mealIndex: 4, dose: 4, info: {
+                            finalFood: {
+                                ...placeholderFood, ...{
+                                    ingredients: [
+                                        {ingredientID: 'ing3', unit: 'unit3', value: 1},
+                                        {ingredientID: 'ing5', unit: 'unit5', value: 1}]
+                                },
+                            }
+                        }
+                    },
+                    date: 'date2'
                 }
             ];
             // @ts-ignore
             const result = ShoppingListService.GetFoodIngredientsFromMealings(mealings);
             expect(result).to.eql([
-                {ingredientID: 'ing1', unit: 'unit1', value: 2},
-                {ingredientID: 'ing2', unit: 'unit2', value: 5},
+                {
+                    ingredientID: 'ing1', unit: 'unit1', value: 2,
+                    "Relatives": {
+                        "EssentialItems": [],
+                        "MenuItems": [{
+                            "day": "date1",
+                            "dose": 4,
+                            "food": undefined,
+                            "ingredient": {"ingredientID": "ing1", "unit": "unit1", "value": 2}
+                        }],
+                        "SectionItems": []
+                    }
+                },
+                {
+                    ingredientID: 'ing2', unit: 'unit2', value: 5,
+                    "Relatives": {
+                        "EssentialItems": [],
+                        "MenuItems": [{
+                            "day": "date1",
+                            "dose": 4,
+                            "food": undefined,
+                            "ingredient": {"ingredientID": "ing2", "unit": "unit2", "value": 5}
+                        }],
+                        "SectionItems": []
+                    }
+                },
 
-                {ingredientID: 'ing3', unit: 'unit3', value: 1},
-                {ingredientID: 'ing5', unit: 'unit5', value: 1}
-            ]);
+                {
+                    ingredientID: 'ing3', unit: 'unit3', value: 1,
+                    "Relatives": {
+                        "EssentialItems": [],
+                        "MenuItems": [{
+                            "day": "date2",
+                            "dose": 4,
+                            "food": undefined,
+                            "ingredient": {"ingredientID": "ing3", "unit": "unit3", "value": 1}
+                        }],
+                        "SectionItems": []
+                    }
+                },
+                {
+                    ingredientID: 'ing5', unit: 'unit5', value: 1,
+                    "Relatives": {
+                        "EssentialItems": [],
+                        "MenuItems": [{
+                            "day": "date2",
+                            "dose": 4,
+                            "food": undefined,
+                            "ingredient": {"ingredientID": "ing5", "unit": "unit5", "value": 1}
+                        }],
+                        "SectionItems": []
+                    }
+                }
+            ])
         });
         it('Scale ingredients from recipe food to mealing', () => {
 
-            let mealings: IMealing[] = [{
-                type: 'final', mealIndex: 2, dose: 6, info: {
-                    finalFood: {
-                        ...placeholderFood, ...{
-                            ingredients: [
-                                {ingredientID: 'ing1', unit: 'unit1', value: 2},
-                                {ingredientID: 'ing2', unit: 'unit2', value: 5}],
-                            dose: 3,
-                        },
-                    }
-                }
-            },
-                {
-                    type: 'final', mealIndex: 4, dose: 4, info: {
+            let mealings: { m: IMealing, date: string }[] = [{
+                m: {
+                    type: 'final', mealIndex: 2, dose: 6, info: {
                         finalFood: {
                             ...placeholderFood, ...{
                                 ingredients: [
-                                    {ingredientID: 'ing3', unit: 'unit3', value: 1},
-                                    {ingredientID: 'ing5', unit: 'unit5', value: 1}],
-                                dose: 3
+                                    {ingredientID: 'ing1', unit: 'unit1', value: 2},
+                                    {ingredientID: 'ing2', unit: 'unit2', value: 5}],
+                                dose: 3,
                             },
                         }
                     }
+                },
+                date: 'date0'
+            },
+                {
+                    m: {
+                        type: 'final', mealIndex: 4, dose: 4, info: {
+                            finalFood: {
+                                ...placeholderFood, ...{
+                                    ingredients: [
+                                        {ingredientID: 'ing3', unit: 'unit3', value: 1},
+                                        {ingredientID: 'ing5', unit: 'unit5', value: 1}],
+                                    dose: 3
+                                },
+                            }
+                        }
+                    },
+                    date: 'date1',
                 }
             ];
             // @ts-ignore
             const result = ShoppingListService.GetFoodIngredientsFromMealings(mealings);
-            expect(result).to.eql([
-                {ingredientID: 'ing1', unit: 'unit1', value: 4},
-                {ingredientID: 'ing2', unit: 'unit2', value: 10},
-
-                {ingredientID: 'ing3', unit: 'unit3', value: 1.333},
-                {ingredientID: 'ing5', unit: 'unit5', value: 1.333}
-            ]);
+            expect(result).to.eql([{
+                "Relatives": {
+                    "EssentialItems": [],
+                    "MenuItems": [{
+                        "day": "date0",
+                        "dose": 6,
+                        "food": undefined,
+                        "ingredient": {"ingredientID": "ing1", "unit": "unit1", "value": 2}
+                    }],
+                    "SectionItems": []
+                }, "ingredientID": "ing1", "unit": "unit1", "value": 4
+            }, {
+                "Relatives": {
+                    "EssentialItems": [],
+                    "MenuItems": [{
+                        "day": "date0",
+                        "dose": 6,
+                        "food": undefined,
+                        "ingredient": {"ingredientID": "ing2", "unit": "unit2", "value": 5}
+                    }],
+                    "SectionItems": []
+                }, "ingredientID": "ing2", "unit": "unit2", "value": 10
+            }, {
+                "Relatives": {
+                    "EssentialItems": [],
+                    "MenuItems": [{
+                        "day": "date1",
+                        "dose": 4,
+                        "food": undefined,
+                        "ingredient": {"ingredientID": "ing3", "unit": "unit3", "value": 1}
+                    }],
+                    "SectionItems": []
+                }, "ingredientID": "ing3", "unit": "unit3", "value": 1.333
+            }, {
+                "Relatives": {
+                    "EssentialItems": [],
+                    "MenuItems": [{
+                        "day": "date1",
+                        "dose": 4,
+                        "food": undefined,
+                        "ingredient": {"ingredientID": "ing5", "unit": "unit5", "value": 1}
+                    }],
+                    "SectionItems": []
+                }, "ingredientID": "ing5", "unit": "unit5", "value": 1.333
+            }]);
         });
     });
     it('Get dates from now to x', () => {
@@ -136,12 +234,14 @@ describe('Shopping list service', () => {
             };
             Services.EssentialsService = {
                 // @ts-ignore
-                GetEssentials: jest.fn(() => {return {Essentials: []}}),
+                GetEssentials: jest.fn(() => {
+                    return {Essentials: []}
+                }),
             };
 
         });
 
-        it('should load existing shopping list', async function() {
+        it('should load existing shopping list', async function () {
             let exampleShoppingList: ISaveShoppingList = {
                 _id: new ObjectId(),
                 CompletedOn: undefined,

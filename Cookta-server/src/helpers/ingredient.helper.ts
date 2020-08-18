@@ -90,7 +90,7 @@ export class IngredientHelper {
         let ing2Negative = {...ing2};
         ing2Negative.value = -(Math.abs(ing2Negative.value));
         let result = this.Add(ing1, ing2Negative);
-        result.value = +result.value.toFixed(7)
+        result.value = +Math.max(result.value, 0).toFixed(7)
         return result;
     }
 
