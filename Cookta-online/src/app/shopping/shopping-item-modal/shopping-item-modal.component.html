@@ -1,0 +1,48 @@
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="Shopping ingredient info" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="this.ItemType && this.UnitName">
+            <div class="modal-header">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h3 class="modal-title w-100" id="myModalLabel">{{ItemValue}} {{UnitName}} {{ItemType.name}}</h3>
+            </div>
+            <div class="modal-body" *ngIf="this.Relatives; else NoRelatives">
+                <div *ngIf="Relatives.EssentialItems.length > 0">
+                    <h5>Alaplista: </h5>
+                    <h6 *ngFor="let e of Relatives.EssentialItems">
+                        {{e.ingredient.value}} {{unitService.GetUnit(e.ingredient.unit, ingredientService.GetIngredient(e.ingredient.ingredientID)).name}} {{ingredientService.GetIngredient(e.ingredient.ingredientID).name}}
+                    </h6>
+                </div>
+                <div *ngIf="Relatives.MenuItems.length > 0">
+
+                    <h5>Menü: </h5>
+                    <h6 *ngFor="let menuItem of Relatives.MenuItems">
+                        <span>{{menuItem.day}}, </span>
+                        <span>{{menuItem.dose}} adag, </span>
+                        <span>{{FoodNameCache[menuItem.food]}}, </span>
+                        <span>{{menuItem.ingredient.value}} {{unitService.GetUnit(menuItem.ingredient.unit, ingredientService.GetIngredient(menuItem.ingredient.ingredientID)).name}} {{ingredientService.GetIngredient(menuItem.ingredient.ingredientID).name}}</span>
+                    </h6>
+                </div>
+                <div *ngIf="Relatives.SectionItems.length > 0">
+                    <h5>Otthon: </h5>
+                    <h6 *ngFor="let sectionItem of Relatives.SectionItems">
+                        <span>{{this.storageService.GetStorageSection(sectionItem.sectionId).GetDisplayName()}}
+                            adag, </span>
+                        <span>{{sectionItem.ingredient.value}} {{unitService.GetUnit(sectionItem.ingredient.unit, ingredientService.GetIngredient(sectionItem.ingredient.ingredientID)).name}} {{ingredientService.GetIngredient(sectionItem.ingredient.ingredientID).name}}</span>
+
+                    </h6>
+                </div>
+            </div>
+            <ng-template #NoRelatives>
+                <div class="modal-body">
+                    <h5 style="font-weight: bold; color: darkred">Nincs információ</h5>
+                </div>
+            </ng-template>
+            <div class="modal-footer">
+                <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect (click)="Modal.hide()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
