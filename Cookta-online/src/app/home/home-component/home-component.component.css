@@ -1,13 +1,11 @@
 .small-content-row {
     background: red;
-    height: 28vh;
     width: 100%;
     margin: 0.25rem;
 }
 
 .big-content-row {
     background: red;
-    height: 40vh;
     width: calc(100% + 1rem);
     margin: 0.25rem -0.5rem;
 }
@@ -16,9 +14,20 @@
 @media only screen and (max-width: 770px) {
     .spec-row {
         background: red;
-        height: 50vw;
+        height: 38vh;
         width: 100%
     }
+
+    .big-content-row {
+        height: 55vh;
+
+    }
+
+    .small-content-row {
+        height: 38vh;
+
+    }
+
 }
 
 @media only screen and (min-width: 771px) {
@@ -26,5 +35,15 @@
         background: red;
         height: 100%;
         width: 100%
+    }
+
+    .big-content-row {
+        height: 55vh;
+
+    }
+
+    .small-content-row {
+        height: 38vh;
+
     }
 }
