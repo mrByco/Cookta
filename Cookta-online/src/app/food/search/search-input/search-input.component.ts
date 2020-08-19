@@ -14,7 +14,7 @@ export class SearchInputComponent {
   constructor(public searchService: SearchService) {
   }
 
-  SearchSubmitted() {
+  SearchRequested() {
     this.searchService.Search(this.input.value.searchText);
   }
 
