@@ -82,7 +82,7 @@ export class FoodService extends StoreService<Food> implements IFoodService {
         Object.keys(request).forEach(k => food[k] = request[k]);
         food.published = !food.private;
         this.SaveFood(food);
-        BotService.Instance.RerenderPage(`/foods/${food.foodId}`);
+        BotService.Instance.RerenderPage(`/foods/${food.foodId}/`);
         return this.GetFoodForUser(food.foodId, changerSub);
     }
 
