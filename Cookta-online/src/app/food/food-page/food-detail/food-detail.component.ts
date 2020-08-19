@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Food} from '../../../shared/models/grocery/food.model';
 import {FoodService} from '../../../shared/services/food.service';
@@ -10,13 +10,14 @@ import {ISendableFood} from '../../../../../../Cookta-shared/src/models/food/foo
 import {ITag} from '../../../../../../Cookta-shared/src/models/tag/tag.interface';
 import {FoodListComponent} from '../../food-other/food-list/food-list.component';
 import {Meta, Title} from '@angular/platform-browser';
+import {MetaService} from '../../../shared/services/meta-service/meta.service';
 
 @Component({
   selector: 'app-food-detail',
   templateUrl: './food-detail.component.html',
   styleUrls: ['./food-detail.component.scss']
 })
-export class FoodDetailComponent implements AfterViewInit {
+export class FoodDetailComponent implements AfterViewInit, OnDestroy {
 
   public Food: ISendableFood = null;
 
@@ -35,8 +36,12 @@ export class FoodDetailComponent implements AfterViewInit {
       public mealingService: MealingService,
       public cookieService: CookieService,
       private title: Title,
-      private meta: Meta) {
+      private metaService: MetaService) {
   }
+
+  ngOnDestroy(): void {
+    this.metaService.ResetMetaTags();
+}
 
   public async ngAfterViewInit() {
     this.ShowShortUnitNames = this.cookieService.get('short-units') == 't';
@@ -71,7 +76,7 @@ export class FoodDetailComponent implements AfterViewInit {
       this.ScaleToDose = this.Food.dose;
     }
     this.title.setTitle(`${this.Food.name} - Cookta receptek`);
-    this.meta.updateTag({name: 'description', content: this.Food.desc});
+    this.metaService.SetFoodTags(this.Food);
     window.scroll(0, 0);
   }
 
@@ -104,4 +109,6 @@ export class FoodDetailComponent implements AfterViewInit {
   GetFoodUrl(ObjFood: ISendableFood): string {
     return Food.GetImageForFood(ObjFood);
   }
+
+
 }
