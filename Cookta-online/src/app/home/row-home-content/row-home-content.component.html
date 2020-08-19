@@ -1,6 +1,6 @@
-<div class="d-flex flex-column" style="height: 100%; width: 100%; background: #ffbebe" *ngIf="Content">
-  <div class="flex-item row-content-title"><h4>{{Content.title}}</h4></div>
-  <div class="flex-grow-1 d-flex flex-row home-row">
+<div class="row-container" style="background: #ffbebe" *ngIf="Content">
+  <div class="row-content-title"><h4>{{Content.title}}</h4></div>
+  <div class="row-content d-flex flex-row home-row">
     <div class="d-flex flex-row item-holder">
       <div class="row-item" (click)="FoodClick(food)" *ngFor="let food of Content.foods">
         <img [src]="GetFoodImage(food)" [alt]="food.name">

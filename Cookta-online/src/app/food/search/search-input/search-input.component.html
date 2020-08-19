@@ -1,10 +1,13 @@
     <!-- Search form -->
-    <form class="form-inline form-sm align-self-center search-box d-flex"  #searchForm="ngForm" (submit)="SearchSubmitted()" name="form">
-        <input class="form-control form-control-sm ml-3 w-responsive flex-grow-1" type="text"
+    <form class="form-inline form-sm align-self-center search-box d-flex" #searchForm="ngForm" (submit)="SearchRequested()" name="form">
+        <input class="form-control form-control-sm ml-3 w-responsive flex-grow-1" size="1"
                autocomplete="off"
+               style="width: 10px"
                name="searchText" placeholder="Ételek vagy hozzávalók keresése" [ngModel]="searchService.Text"
 
                aria-label="Search"
                mdbInput>
-        <mdb-icon fas icon="search" class="mr-3" aria-hidden="true"></mdb-icon>
+        <a class="icon" (click)="SearchRequested()" style="position: static">
+            <mdb-icon fas icon="search" class="mr-3" aria-hidden="true"></mdb-icon>
+        </a>
     </form>
