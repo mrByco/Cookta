@@ -1,6 +1,6 @@
 
 
-<div class="shopping-panel" style="width: 100%; overflow: auto;"
+<div class="shopping-panel" style="overflow: auto;"
      *ngIf="shoppingListService.CurrentShoppingList && unitService.LastLoadedUnits.length > 0 && ingredientService.LastLoadedTypes.length > 0">
 
 
@@ -9,10 +9,9 @@
 
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsToBuy">
     <a (click)="ShowItemSources(ing)" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></a>
-    <div class="row pl-5 pl-md-3 pl-lg-0">
+    <div class="row shopping-item-content">
       <label>{{ing.value}}</label>
-      <label
-              style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
+      <label class="shopping-item-label">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
       <a (click)="shoppingListService.SetComplete(ing.ingredientID, true)"
          class="icon icon-ok">
@@ -37,10 +36,9 @@
     Még semmi nincs itt.
   </p>
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsCompleted">
-    <div class="row ml-lg-1 pl-sm-3 pl-lg-0">
+    <div class="row shopping-item-content no-left-x">
       <label>{{ing.Ingredient.value}}</label>
-      <label
-              style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.Ingredient.unit, ingredientService.GetIngredient(ing.Ingredient.ingredientID)).name}}</label>
+      <label class="shopping-item-label">{{unitService.GetUnit(ing.Ingredient.unit, ingredientService.GetIngredient(ing.Ingredient.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.Ingredient.ingredientID).name}}</label>
       <a (click)="shoppingListService.SetComplete(ing.Ingredient.ingredientID, false)"
          class="icon icon-ok">
@@ -54,10 +52,9 @@
     Még semmi nincs itt.
   </p>
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsCanceled">
-    <div class="row ml-lg-1 pl-lg-0">
+    <div class="row shopping-item-content no-left-x">
       <label>{{ing.value}}</label>
-      <label
-              style="margin-left: .5rem; margin-right: .5rem;">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
+      <label class="shopping-item-label">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
       <a (click)="shoppingListService.SetCanceled(ing.ingredientID, false)"
          class="icon icon-ok">
