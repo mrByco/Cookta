@@ -6,7 +6,7 @@
      'margin-top.px': VertMargin,
      'margin-bottom.px': VertMargin}"
      class="highlight p-0">
-  <a (click)="OnCardClick()" style="width: 100%; height: 100%">
+  <a (click)="OnCardClick()" [hreflang]="'/foods/' + Food.foodId" style="width: 100%; height: 100%">
     <img [ngStyle]="{
            'height.px': Width * 0.93,
            'width.px': Width * 0.93,
