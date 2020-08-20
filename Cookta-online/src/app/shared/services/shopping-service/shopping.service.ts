@@ -107,7 +107,7 @@ export class ShoppingService {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + days);
   }
 
-  public async SaveCompletedQuantity(save: ICompletedShoppingItem): Promise<void> {
+  public async SaveCompletedItem(save: ICompletedShoppingItem): Promise<void> {
     let body: {Item: ICompletedShoppingItem} = {Item: {...save}}
     if (!body.Item.Bought?.Value || !body.Item.Bought?.UnitId) body.Item.Bought = undefined;
 

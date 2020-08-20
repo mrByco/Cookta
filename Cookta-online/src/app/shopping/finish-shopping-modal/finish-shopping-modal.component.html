@@ -29,10 +29,13 @@
                         </a>
 
                         <div class="dropdown-menu">
-                            <a *ngFor="let section of storageService.Sections" (click)="setTargetSection(shopped, section.Id)" class="dropdown-item" >{{section.GetDisplayName()}}</a>
+                            <a *ngFor="let section of storageService.Sections"
+                               (click)="setTargetSection(shopped, section.Id)"
+                               class="dropdown-item">{{section.GetDisplayName()}}</a>
                         </div>
                     </div>
-                    <div class="col p-0"><input class="w-100" style="min-width: 20px;" disabled [placeholder]="'Ár ft'">
+                    <div class="col p-0">
+                        <input class="w-100" style="min-width: 20px;" type="number" [(ngModel)]="shopped.Price" (focusout)="SavePrice(shopped)" [placeholder]="'Ár ft'">
                     </div>
                 </div>
             </div>
@@ -40,7 +43,7 @@
                 <button type="button" mdbBtn color="yellow" class="waves-light" aria-label="Close"
                         (click)="modal.hide()" mdbWavesEffect>Vissza
                 </button>
-                <button type="button" mdbBtn color="danger" class="relative waves-light" mdbWavesEffect
+                <button type="button" mdbBtn color="#8b0000" class="relative waves-light" mdbWavesEffect
                         (click)="shoppingService.FinishShoppingList(false)">Vásárlás
                     Törlése
                 </button>

@@ -8,22 +8,20 @@ import {Food} from '../../models/grocery/food.model';
 })
 export class MetaService {
 
+
+  public readonly Tags: HTMLMetaElement[] = [];
+
   constructor(private Meta: Meta) { }
 
   public SetFoodTags(food: ISendableFood){
-    this.Meta.addTag({name: 'description', property: "description", content: food.desc});
-    this.Meta.addTag({name: 'og:description', property: "og:description", content: food.desc});
-    this.Meta.addTag({name: 'og:title', property: "og:title", content: food.name});
-    this.Meta.addTag({name: 'og:image', property: "og:image", content: Food.GetImageForFood(food)});
-    this.Meta.addTag({name: 'og:type', property: "og:type", content: 'recipe'});
+    this.Tags.push(this.Meta.addTag({name: 'description', property: "description", content: food.desc}));
+    this.Tags.push(this.Meta.addTag({name: 'og:description', property: "og:description", content: food.desc}));
+    this.Tags.push(this.Meta.addTag({name: 'og:title', property: "og:title", content: food.name}));
+    this.Tags.push(this.Meta.addTag({name: 'og:image', property: "og:image", content: Food.GetImageForFood(food)}));
+    this.Tags.push(this.Meta.addTag({name: 'og:type', property: "og:type", content: 'recipe'}));
   }
 
   public ResetMetaTags(){
-    this.Meta.removeTag('description');
-    this.Meta.removeTag('og:description');
-    this.Meta.removeTag('og:title');
-    this.Meta.removeTag('og:image');
-    this.Meta.removeTag('og:type');
-
+    this.Tags.forEach(t => this.Meta.removeTagElement(t));
   }
 }

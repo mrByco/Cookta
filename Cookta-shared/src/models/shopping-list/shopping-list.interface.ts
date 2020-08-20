@@ -3,6 +3,7 @@ import {IIngredient} from '../ingredient/ingredient.interface';
 export interface ICompletedShoppingItem {
     Ingredient: IIngredient,
     ShippingSectionId: string,
+    Price: number;
     Bought?: { UnitId: string, Value: number }
 }
 

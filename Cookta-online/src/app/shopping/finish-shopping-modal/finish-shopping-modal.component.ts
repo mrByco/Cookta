@@ -26,6 +26,11 @@ export class FinishShoppingModalComponent {
 
   setTargetSection(shopped: ICompletedShoppingItem, Id: string) {
     shopped.ShippingSectionId = Id;
-    this.shoppingService.SaveCompletedQuantity(shopped);
+    this.shoppingService.SaveCompletedItem(shopped);
+  }
+
+  SavePrice(shopped: ICompletedShoppingItem) {
+    console.log("Saveprice");
+    this.shoppingService.SaveCompletedItem(shopped);
   }
 }
