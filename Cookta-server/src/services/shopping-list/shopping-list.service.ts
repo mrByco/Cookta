@@ -228,7 +228,7 @@ export class ShoppingListService implements IShoppingListService {
             UnitId: ingredient.unit,
             Value: ingredient.value
         };
-        if (price) item.Price = price;
+        item.Price = price;
         if (targetSection) item.ShippingSectionId = targetSection;
         docs.IngredientsCompleted[itemIndex] = item;
         await this.collection.replaceOne({_id: docs._id}, docs);

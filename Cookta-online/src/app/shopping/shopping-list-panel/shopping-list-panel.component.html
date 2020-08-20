@@ -9,7 +9,7 @@
 
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsToBuy">
     <a (click)="ShowItemSources(ing)" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></a>
-    <div class="row shopping-item-content">
+    <div class="shopping-item-content">
       <label>{{ing.value}}</label>
       <label class="shopping-item-label">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
@@ -26,17 +26,15 @@
   </div>
 
   <hr>
-  <div class="row">
-    <div class="col-auto"><h4>Kosárban</h4></div>
-    <div class="col"></div>
-    <div class="col-auto"><a (click)="finishModal.Show()">Vásárlás befejezése és elpakolás</a></div>
-    <div class="col-1"></div>
+  <div class="d-flex justify-content-between">
+    <div class=""><h4>Kosárban</h4></div>
+    <div class=""><a (click)="finishModal.Show()">Vásárlás befejezése és elpakolás</a></div>
   </div>
   <p *ngIf="shoppingListService.CurrentShoppingList.IngredientsCompleted.length == 0">
     Még semmi nincs itt.
   </p>
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsCompleted">
-    <div class="row shopping-item-content no-left-x">
+    <div class="shopping-item-content no-left-x">
       <label>{{ing.Ingredient.value}}</label>
       <label class="shopping-item-label">{{unitService.GetUnit(ing.Ingredient.unit, ingredientService.GetIngredient(ing.Ingredient.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.Ingredient.ingredientID).name}}</label>
@@ -52,7 +50,7 @@
     Még semmi nincs itt.
   </p>
   <div class="rounded-panel-item" style="cursor: default; position: relative" *ngFor="let ing of shoppingListService.CurrentShoppingList.IngredientsCanceled">
-    <div class="row shopping-item-content no-left-x">
+    <div class="shopping-item-content no-left-x">
       <label>{{ing.value}}</label>
       <label class="shopping-item-label">{{unitService.GetUnit(ing.unit, ingredientService.GetIngredient(ing.ingredientID)).name}}</label>
       <label>{{ingredientService.GetIngredient(ing.ingredientID).name}}</label>
