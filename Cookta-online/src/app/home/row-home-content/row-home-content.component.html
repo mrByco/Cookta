@@ -2,12 +2,12 @@
   <div class="row-content-title"><h4>{{Content.title}}</h4></div>
   <div class="row-content d-flex flex-row home-row">
     <div class="d-flex flex-row item-holder">
-      <div class="row-item" (click)="FoodClick(food)" *ngFor="let food of Content.foods">
+      <a class="row-item" (click)="FoodClick(food)" [hreflang]="'/foods/' + food.foodId" *ngFor="let food of Content.foods">
         <img [src]="GetFoodImage(food)" [alt]="food.name">
         <div class="food-item-overlay">
           <h5>{{food.name}}</h5>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </div>

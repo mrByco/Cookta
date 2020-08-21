@@ -33,11 +33,11 @@ export class ShoppingQuantityBoxComponent implements OnInit {
 
     private SaveOrAddToSaveOrder(stateCopy: ICompletedShoppingItem){
         if (!this.CurrentSaveTask){
-            this.CurrentSaveTask = this.shoppingService.SaveCompletedQuantity(stateCopy);
+            this.CurrentSaveTask = this.shoppingService.SaveCompletedItem(stateCopy);
             this.ShiftSave()
         }
         else {
-            this.NextSaveTask = this.shoppingService.SaveCompletedQuantity(stateCopy);
+            this.NextSaveTask = this.shoppingService.SaveCompletedItem(stateCopy);
         }
     }
 
@@ -49,7 +49,6 @@ export class ShoppingQuantityBoxComponent implements OnInit {
             this.ShiftSave();
         }
     }
-
 
     OnActualChanged(item: IIngredient) {
         if (JSON.stringify(this.Item.Bought) != JSON.stringify(item ? {UnitId: item.unit, Value: item.value} : undefined)){

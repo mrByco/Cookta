@@ -43,6 +43,7 @@ export class ShoppingListController {
 
     @Security(false)
     public async SetBoughtQuantity(reqBody: { Item: ICompletedShoppingItem }, user: User): Promise<void> {
-        return await Services.ShoppingListService.SetCompleteQuantityAndTarget(user.GetCurrentFamily().Id.toHexString(), { ingredientID: reqBody.Item.Ingredient.ingredientID, value: reqBody.Item.Bought?.Value, unit: reqBody.Item.Bought?.UnitId }, reqBody.Item.ShippingSectionId);
+        return await Services.ShoppingListService
+            .SetCompleteQuantityAndTargetPrice(user.GetCurrentFamily().Id.toHexString(), { ingredientID: reqBody.Item.Ingredient.ingredientID, value: reqBody.Item.Bought?.Value, unit: reqBody.Item.Bought?.UnitId}, reqBody.Item.ShippingSectionId, reqBody.Item.Price);
     }
 }

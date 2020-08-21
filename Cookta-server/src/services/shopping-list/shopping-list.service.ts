@@ -87,6 +87,7 @@ export class ShoppingListService implements IShoppingListService {
                 shoppingList.IngredientsCompleted.push({
                     Ingredient: ing2Complete,
                     ShippingSectionId: shipStorage.Id.toHexString(),
+                    Price: undefined,
                     Bought: undefined
                 });
             }
@@ -214,7 +215,7 @@ export class ShoppingListService implements IShoppingListService {
         return buy;
     }
 
-    async SetCompleteQuantityAndTarget(familyId: string, ingredient: IIngredient, targetSection: string): Promise<void> {
+    async SetCompleteQuantityAndTargetPrice(familyId: string, ingredient: IIngredient, targetSection: string, price?: number): Promise<void> {
         let docs: ISaveShoppingList = await this.collection.findOne({
             FamilyId: new ObjectId(familyId),
             CompletedOn: undefined
@@ -227,6 +228,7 @@ export class ShoppingListService implements IShoppingListService {
             UnitId: ingredient.unit,
             Value: ingredient.value
         };
+        item.Price = price;
         if (targetSection) item.ShippingSectionId = targetSection;
         docs.IngredientsCompleted[itemIndex] = item;
         await this.collection.replaceOne({_id: docs._id}, docs);
