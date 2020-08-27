@@ -76,8 +76,8 @@ function GenerateEndpoints(controllerInfo: IGeneratorController, controller: Cla
         let controllerBasePath = controllerInfo.basepath.length > 0 ? `/${controllerInfo.basepath}` : '';
 
         let completePathWithParams = routeInfo.paramTypeOrder.length > 0 ?
-            `${controllerBasePath}/'${routeInfo.path}/'` + '+ `' + routeInfo.paramTypeOrder.map(m => "${ " + m.key + "}").join('/') + '`'
-            : `'${routeInfo.path}'`;
+            `'${controllerBasePath}/${routeInfo.path}/'` + '+ `' + routeInfo.paramTypeOrder.map(m => "${ " + m.key + "}").join('/') + '`'
+            : `'${controllerBasePath}/${routeInfo.path}'`;
         let request: string;
         switch (routeInfo.method) {
             case ERouteMethod.GET:
