@@ -96,6 +96,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ShoppingItemModalComponent } from './shopping/shopping-item-modal/shopping-item-modal.component';
 import { TagEditorComponent } from './admin-components/tag-editor/tag-editor.component';
+import {MatTreeModule} from '@angular/material';
 
 
 const appRoutes: Routes = [
@@ -220,7 +221,8 @@ const appRoutes: Routes = [
         MatTabsModule,
         MatInputModule,
         MatExpansionModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+        MatTreeModule,
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
