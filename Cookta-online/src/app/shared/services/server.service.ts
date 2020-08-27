@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
+import {HttpResponse, IHttpCaller} from 'waxen/dist/client/IHttpCaller';
 
 @Injectable()
 export class ServerService {
@@ -116,6 +117,15 @@ export class ServerService {
         })
       };
       return this.http.delete(this.GetBase() + route, options);
+    }
+  }
+
+  public GetHttpCaller(): IHttpCaller {
+    return {
+      GET: (url: string) => this.GetRequest(url, false),
+      DELETE: (url: string) => this.DeleteRequest(url),
+      POST: (url: string, body?: any, file?: any) => this.PostRequest(url, body, file),
+      PUT: (url: string, body?: any) => this.PutRequest(url, body),
     }
   }
 }

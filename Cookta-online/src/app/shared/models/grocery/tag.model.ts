@@ -13,14 +13,9 @@ export class Tag implements IDisplayable, ITag {
     return name;
   }
 
-  public static FromJson(d) {
-    let tag = new Tag(
-      d['guid'],
-      d['name'],
-      d['parentId'],
-      d['ischildonly']
-    );
-    tag.displayName = () => {return tag.name};
-    return tag;
+  public static FromITag(itag: ITag): Tag {
+    return new Tag(itag.guid, itag.name, itag.parentId, itag.ischildonly);
   }
+
+
 }
