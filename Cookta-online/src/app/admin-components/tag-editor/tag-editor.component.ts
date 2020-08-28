@@ -1,40 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material';
 import {NestedTreeControl} from '@angular/cdk/tree';
+import { TagService } from 'src/app/shared/services/tag.service';
+import {Tag} from '../../shared/models/grocery/tag.model';
+import {TreeviewItem} from 'ngx-treeview';
 
-
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
-}
-
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [
-      {name: 'Apple'},
-      {name: 'Banana'},
-      {name: 'Fruit loops'},
-    ]
-  }, {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [
-          {name: 'Broccoli'},
-          {name: 'Brussels sprouts'},
-        ]
-      }, {
-        name: 'Orange',
-        children: [
-          {name: 'Pumpkins'},
-          {name: 'Carrots'},
-        ]
-      },
-    ]
-  },
-];
 
 @Component({
   selector: 'app-tag-editor',
@@ -42,16 +12,65 @@ const TREE_DATA: FoodNode[] = [
   styleUrls: ['./tag-editor.component.css']
 })
 export class TagEditorComponent implements OnInit {
+  Tags: any[] = [{
+    name: "Tag",
+    Children: []
+  }];
+  TreeItems: TreeviewItem[] = [new TreeviewItem({
+    text: "IT",
+    value: 9,
+    children: [
+      {
+        text: "Programming",
+        value: 91,
+        children: [
+          {
+            text: "Frontend",
+            value: 911,
+            children: [
+              { text: "Angular 1", value: 9111 },
+              { text: "Angular 2", value: 9112 },
+              { text: "ReactJS", value: 9113 },
+            ],
+          },
+          {
+            text: "Backend",
+            value: 912,
+            children: [
+              { text: "C#", value: 9121 },
+              { text: "Java", value: 9122 },
+              { text: "Python", value: 9123, checked: false },
+            ],
+          },
+        ],
+      },
+      {
+        text: "Networking",
+        value: 92,
+        children: [
+          { text: "Internet", value: 921 },
+          { text: "Security", value: 922 },
+        ],
+      },
+    ],
+  })];
 
-  constructor() {
-    this.dataSource.data = TREE_DATA;
+  constructor(public tagService: TagService) {
+    tagService.LoadTags().then(t => {
+      this.TreeItems = [];
+      for (let tag of t.filter(t => !t.parentId)){
+        this.TreeItems.push(this.GetTreeViewItem(tag))
+      }
+    });
   }
 
-
-  treeControl = new NestedTreeControl<FoodNode>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<FoodNode>();
-
-  hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
+  private GetTreeViewItem(tag: Tag): TreeviewItem{
+    return new TreeviewItem({
+      text: tag.name,
+      value: tag,
+      children: tag.Children ? tag.Children.map(child => this.GetTreeViewItem(child)): [],
+    })
+  }
 
   ngOnInit(): void {
   }

@@ -8,20 +8,23 @@ import {TagApi} from '../../../api/tags/tag.api';
 export class TagService {
 
   public TagsAsync: Promise<Tag[]>;
-  public Tags: Tag[];
+  public readonly Tags: Tag[] = [];
 
   private Api: TagApi = new TagApi();
 
   constructor(
-    private serverService: ServerService,
-    private http: HttpClient
+    private serverService: ServerService
   ) {
-    //this.TagsAsync = this.LoadTags().then(t => this.Tags = t);
+    this.TagsAsync = this.LoadTags();
   }
 
 
   public async LoadTags(): Promise<Tag[]> {
-    this.Tags = (await this.Api.GetAll(this.serverService.GetHttpCaller())).map(t => Tag.FromITag(t));
+    this.Tags.splice(0, this.Tags.length - 1);
+    this.Tags.push(
+        ...(await this.Api.GetAll(this.serverService.GetHttpCaller())).map(t => Tag.FromITag(t))
+    );
+    Tag.BuildReferences(this.Tags);
     return this.Tags;
   }
 
