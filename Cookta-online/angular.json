@@ -122,10 +122,11 @@
           }
         },
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@briebug/cypress-schematic:cypress",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "cookta:serve"
+            "devServerTarget": "cookta:serve",
+            "watch": true,
+            "headless": false
           },
           "configurations": {
             "production": {
@@ -151,6 +152,30 @@
               ],
               "sourceMap": false,
               "optimization": true
+            }
+          }
+        },
+        "cypress-run": {
+          "builder": "@briebug/cypress-schematic:cypress",
+          "options": {
+            "devServerTarget": "cookta:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "cookta:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@briebug/cypress-schematic:cypress",
+          "options": {
+            "devServerTarget": "cookta:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "cookta:serve:production"
             }
           }
         }

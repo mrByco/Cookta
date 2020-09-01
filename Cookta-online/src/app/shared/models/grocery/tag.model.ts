@@ -2,6 +2,10 @@ import {IDisplayable} from "../../../utilities/displayable";
 import {ITag} from "../../../../../../Cookta-shared/src/models/tag/tag.interface";
 
 export class Tag implements IDisplayable, ITag {
+
+  public Parent: Tag;
+  public Children: Tag[];
+
   constructor (
     public guid: string,
     public name: string,
@@ -13,14 +17,18 @@ export class Tag implements IDisplayable, ITag {
     return name;
   }
 
-  public static FromJson(d) {
-    let tag = new Tag(
-      d['guid'],
-      d['name'],
-      d['parentId'],
-      d['ischildonly']
-    );
-    tag.displayName = () => {return tag.name};
-    return tag;
+  public static FromITag(itag: ITag): Tag {
+    return new Tag(itag.guid, itag.name, itag.parentId, itag.ischildonly);
+  }
+
+  public static BuildReferences(tagsReference: Tag[]){
+    for (let tag of tagsReference){
+      if (tag.parentId){
+        let parent = tagsReference.find(f => f.guid == tag.parentId);
+        tag.Parent = parent;
+        if (!parent.Children) parent.Children = [tag];
+        else parent.Children.push(tag);
+      }
+    }
   }
 }

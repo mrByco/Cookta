@@ -95,12 +95,16 @@ import {IngredientQuantityInputComponent} from "./food/food-assemblies/ingredien
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ShoppingItemModalComponent } from './shopping/shopping-item-modal/shopping-item-modal.component';
+import { TagEditorComponent } from './admin-components/tag-editor/tag-editor.component';
+import {MatIconModule, MatTreeModule} from '@angular/material';
+import {TreeviewModule} from 'ngx-treeview';
 
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponentComponent},
     {path: 'foods', component: FoodSearchPageComponent},
     {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'tag-editor', component: TagEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'role-editor', component: RoleEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'user-editor', component: UserListComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'error-list', component: ErrorListComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -189,7 +193,8 @@ const appRoutes: Routes = [
         StockerComponent,
         IngredientQuantityInputComponent,
         ShoppingItemModalComponent,
-        ShoppingItemModalComponent
+        ShoppingItemModalComponent,
+        TagEditorComponent
 
     ],
     imports: [
@@ -217,7 +222,10 @@ const appRoutes: Routes = [
         MatTabsModule,
         MatInputModule,
         MatExpansionModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+        MatTreeModule,
+        MatIconModule,
+        TreeviewModule.forRoot()
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],

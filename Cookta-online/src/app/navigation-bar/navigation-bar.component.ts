@@ -29,16 +29,18 @@ export class NavigationBarComponent implements AfterViewInit {
 
   constructor(public identityService: IdentityService,
               public familyService: FamilyService,) {
+    this.updateState();
     this.identityService.OnIdentityChanged.subscribe((user) => {
+      console.log(user);
       if (!user)
         return;
       this.updateState();
-
     });
   }
 
   private updateState() {
     this.PictureUrl = this.identityService?.Identity?.profilpic;
+    console.log(this.PictureUrl);
     this.Email = this.identityService?.Identity?.email;
     this.identityService.HasPermission('debug-options').then(b => this.ShowDebugOptions = b);
     this.identityService.HasPermission('edit-ingredients').then(b => this.ShowIngredientEditor = b);

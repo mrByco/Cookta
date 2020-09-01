@@ -1,46 +1,31 @@
-import {IngredientType} from '../models/grocery/ingredient-type.model';
-import {Food} from "../models/grocery/food.model";
-import {Routes} from "../routes";
-import {ServerService} from "./server.service";
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Tag} from "../models/grocery/tag.model";
+import {ServerService} from './server.service';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Tag} from '../models/grocery/tag.model';
+import {TagApi} from '../../../api/tags/tag.api';
 
 @Injectable()
 export class TagService {
 
   public TagsAsync: Promise<Tag[]>;
-  public Tags: Tag[];
+  public readonly Tags: Tag[] = [];
+
+  private Api: TagApi = new TagApi();
 
   constructor(
-    private serverService: ServerService,
-    private http: HttpClient
+    private serverService: ServerService
   ) {
-    //this.TagsAsync = this.LoadTags().then(t => this.Tags = t);
+    this.TagsAsync = this.LoadTags();
   }
 
 
   public async LoadTags(): Promise<Tag[]> {
-    this.Tags = await this.LoadTagRequest();
+    this.Tags.splice(0, this.Tags.length - 1);
+    this.Tags.push(
+        ...(await this.Api.GetAll(this.serverService.GetHttpCaller())).map(t => Tag.FromITag(t))
+    );
+    Tag.BuildReferences(this.Tags);
     return this.Tags;
-  }
-
-  private async LoadTagRequest(): Promise<Tag[]>{
-
-    return new Promise(async resolve => {
-
-      let response = await this.http.get(this.serverService.GetBase() + Routes.Tag.GetAll);
-
-      let tags: Tag[] = [];
-      response.subscribe(data => {
-        for (const d of (data as any)){
-          tags.push(Tag.FromJson(d));
-        }
-        resolve(tags);
-      }, error => {
-        resolve([]);
-      });
-    });
   }
 
   public GetTag(id: string): Tag{
