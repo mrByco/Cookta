@@ -1,7 +1,7 @@
-import { Contracts } from '../../../../Cookta-shared/src/contracts/contracts';
+import {Contracts} from '../../../../Cookta-shared/src/contracts/contracts';
 import {Api} from 'waxen/dist/deorators/api';
-import {IHttpCaller} from "waxen/dist/client/IHttpCaller";
-import { IShoppingList, ICompletedShoppingItem } from "../../../../Cookta-shared/src/models/shopping-list/shopping-list.interface";
+import {IHttpCaller} from 'waxen/dist/client/IHttpCaller';
+import {ICompletedShoppingItem, IShoppingList} from '../../../../Cookta-shared/src/models/shopping-list/shopping-list.interface';
 
 @Api(Contracts.ShoppingList)
 export class ShoppingListApi {
@@ -10,7 +10,7 @@ export class ShoppingListApi {
         return new Promise<IShoppingList>(async (resolve) => {
             const response = await client.GET('/ShoppingList//' + `${nextShopping}`);
             response.subscribe(data => {
-                resolve(data as IShoppingList)
+                resolve(data as IShoppingList);
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -23,7 +23,7 @@ export class ShoppingListApi {
         return new Promise<IShoppingList>(async (resolve) => {
             const response = await client.PUT('/ShoppingList/complete', body);
             response.subscribe(data => {
-                resolve(data as IShoppingList)
+                resolve(data as IShoppingList);
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -36,7 +36,7 @@ export class ShoppingListApi {
         return new Promise<IShoppingList>(async (resolve) => {
             const response = await client.PUT('/ShoppingList/canceled', body);
             response.subscribe(data => {
-                resolve(data as IShoppingList)
+                resolve(data as IShoppingList);
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -49,7 +49,7 @@ export class ShoppingListApi {
         return new Promise<IShoppingList>(async (resolve) => {
             const response = await client.PUT('/ShoppingList/new', body);
             response.subscribe(data => {
-                resolve(data as IShoppingList)
+                resolve(data as IShoppingList);
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
@@ -62,7 +62,7 @@ export class ShoppingListApi {
         return new Promise<void>(async (resolve) => {
             const response = await client.PUT('/ShoppingList/qty', body);
             response.subscribe(data => {
-                resolve(data as void)
+                resolve(data as void);
             }, (err) => {
                 console.error(err);
                 resolve(undefined);
