@@ -18,7 +18,9 @@ export class Tag implements IDisplayable, ITag {
   }
 
   public static FromITag(itag: ITag): Tag {
-    return new Tag(itag.guid, itag.name, itag.parentId, itag.ischildonly);
+    let tag = new Tag(itag.guid, itag.name, itag.parentId, itag.ischildonly);
+    tag.displayName = () => tag.name;
+    return tag;
   }
 
   public static BuildReferences(tagsReference: Tag[]){

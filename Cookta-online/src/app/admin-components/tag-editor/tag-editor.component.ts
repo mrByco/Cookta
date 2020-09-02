@@ -4,6 +4,7 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {TagService} from 'src/app/shared/services/tag.service';
 import {Tag} from '../../shared/models/grocery/tag.model';
 import {TreeviewComponent, TreeviewItem} from 'ngx-treeview';
+import {IDisplayable} from "../../utilities/displayable";
 
 
 @Component({
@@ -25,11 +26,18 @@ export class TagEditorComponent implements OnInit {
 
     constructor(public tagService: TagService) {
         tagService.LoadTags().then(t => {
-            this.TreeItems = [];
-            for (let tag of t.filter(t => !t.parentId)) {
+            this.reloadTagTreeData(t)
+        });
+    }
+
+    private reloadTagTreeData(newTags: Tag[]) {
+        this.TreeItems = [];
+
+        setTimeout(() => {
+            for (let tag of newTags.filter(t => !t.parentId)) {
                 this.TreeItems.push(this.GetTreeViewItem(tag))
             }
-        });
+        }, 1000);
     }
 
     private GetTreeViewItem(tag: Tag): TreeviewItem {
@@ -53,10 +61,8 @@ export class TagEditorComponent implements OnInit {
         //Get first not member parent tag
         let grandParent = undefined;
         let currentCheck = newSelected[0];
-        console.log(newSelected)
         while (true) {
-            console.log(currentCheck)
-            if (currentCheck && currentCheck.Parent && !currentCheck.Parent.Children.find(t => !newSelected.includes(t))) {
+            if (currentCheck && currentCheck.Parent && !currentCheck.Parent.Children?.find(t => !newSelected.includes(t))) {
                 currentCheck = currentCheck.Parent;
             } else {
                 this.SelectedTag = currentCheck;
@@ -71,4 +77,19 @@ export class TagEditorComponent implements OnInit {
         }
         this.NgxTreeView.items.forEach(i => unselectItem(i));
     }
+
+    SaveCurrentTag() {
+        this.reloadTagTreeData(this.tagService.Tags);
+    }
+
+    SetSelectedParent(selectedSuggestion: any) {
+        let newParent = selectedSuggestion as Tag;
+        let tagToModify = this.tagService.Tags.find(t => t.guid == this.SelectedTag.guid);
+        tagToModify.Parent = newParent;
+        tagToModify.parentId = newParent.guid;
+        this.SelectedTag.parentId = newParent.guid;
+        this.SelectedTag.Parent = newParent;
+        this.SaveCurrentTag();
+    }
+
 }
