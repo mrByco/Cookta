@@ -1,18 +1,16 @@
 <div class="container-fluid main-content">
-    <div class="col-8" style="border: 1px solid gray">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <ngx-treeview
-                                  [config]="{hasAllCheckBox: false,hasFilter: false,
-   hasCollapseExpand: false,
-   decoupleChildFromParent: false,
-   maxHeight: undefined}"
-                            [items]="this.TreeItems"></ngx-treeview>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-8"  >
+            <ngx-treeview (selectedChange)="selectedChange($event)"
+                          #treeview
+                          [config]="{hasAllCheckBox: false,hasFilter: true,
+                                  hasCollapseExpand: true,
+                                  decoupleChildFromParent: false,
+                                  maxHeight: undefined}"
+                          [items]="this.TreeItems"></ngx-treeview>
         </div>
-    </div>
-    <div class="col-4" style="background-color: darkred">
+        <div class="col-4" style="background-color: lightcoral; border: 0.5px solid black; height: 100%" *ngIf="SelectedTag">
+            <h2>{{SelectedTag.name}}</h2>
+        </div>
     </div>
 </div>
