@@ -84,11 +84,12 @@ export class TagEditorComponent implements OnInit {
 
     SetSelectedParent(selectedSuggestion: any) {
         let newParent = selectedSuggestion as Tag;
-        let tagToModify = this.tagService.Tags.find(t => t.guid == this.SelectedTag.guid);
-        tagToModify.Parent = newParent;
-        tagToModify.parentId = newParent.guid;
+        let modifyIndex = this.tagService.Tags.findIndex(t => t.guid == this.SelectedTag.guid);
+
         this.SelectedTag.parentId = newParent.guid;
         this.SelectedTag.Parent = newParent;
+
+        Tag.BuildReferences(this.tagService.Tags);
         this.SaveCurrentTag();
     }
 
