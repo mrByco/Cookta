@@ -18,10 +18,16 @@ export class Tag implements IDisplayable, ITag {
   }
 
   public static FromITag(itag: ITag): Tag {
-    return new Tag(itag.guid, itag.name, itag.parentId, itag.ischildonly);
+    let tag = new Tag(itag.guid, itag.name, itag.parentId, itag.ischildonly);
+    tag.displayName = () => tag.name;
+    return tag;
   }
 
-  public static BuildReferences(tagsReference: Tag[]){
+  public static ReBuildReferences(tagsReference: Tag[]){
+    tagsReference.forEach(i => {
+      i.Parent = undefined;
+      i.Children = [];
+    });
     for (let tag of tagsReference){
       if (tag.parentId){
         let parent = tagsReference.find(f => f.guid == tag.parentId);

@@ -32,6 +32,7 @@ function app() {
         let isBot = detectBot(req.headers['user-agent']);
         const ignoreUrls = [
             '/favicon.ico',
+            '/ads.txt',
             '/sitemap.xml'
         ]
         if (isBot && !ignoreUrls.includes(req.originalUrl)) {

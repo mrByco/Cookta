@@ -1,18 +1,33 @@
 <div class="container-fluid main-content">
-    <div class="col-8" style="border: 1px solid gray">
-        <div class="container">
+    <div class="row">
+        <div class="col-8"  >
+            <ngx-treeview (selectedChange)="selectedChange($event)"
+                          #treeview
+                          [config]="{hasAllCheckBox: false,hasFilter: true,
+                                  hasCollapseExpand: true,
+                                  decoupleChildFromParent: false,
+                                  maxHeight: undefined}"
+                          [items]="this.TreeItems"></ngx-treeview>
+        </div>
+        <div class="col-4" style="background-color: white; border: 0.5px solid black; height: 100%" *ngIf="SelectedTag">
+            <div class="row p-2">
+                <h4 class="col-auto m-2" style="font-weight: 400">Név:</h4>
+                <input class="col" [(ngModel)]="SelectedTag.name" (focusout)="SaveCurrentTag()"/>
+            </div>
             <div class="row">
-                <div class="col-md-6">
-                    <ngx-treeview
-                                  [config]="{hasAllCheckBox: false,hasFilter: false,
-   hasCollapseExpand: false,
-   decoupleChildFromParent: false,
-   maxHeight: undefined}"
-                            [items]="this.TreeItems"></ngx-treeview>
+                <h4 class="col-auto m-2" style="font-weight: 400">Szülő:</h4>
+                <app-auto-complete class="col"
+                                   style="background-color: white;"
+                                   [PlaceholderText]="SelectedTag.Parent?.name"
+                                   [SuggestionPool]="tagService.Tags"
+                                   (OnItemChosen)="SetSelectedParent($event)"></app-auto-complete>
+                <div class="col-auto" *ngIf="SelectedTag.Parent">
+                    <a class="icon">
+                        <mdb-icon (click)="SetSelectedParent(undefined)" fas icon="times"></mdb-icon>
+                    </a>
                 </div>
+
             </div>
         </div>
-    </div>
-    <div class="col-4" style="background-color: darkred">
     </div>
 </div>
