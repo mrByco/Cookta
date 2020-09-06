@@ -23,7 +23,11 @@ export class Tag implements IDisplayable, ITag {
     return tag;
   }
 
-  public static BuildReferences(tagsReference: Tag[]){
+  public static ReBuildReferences(tagsReference: Tag[]){
+    tagsReference.forEach(i => {
+      i.Parent = undefined;
+      i.Children = [];
+    });
     for (let tag of tagsReference){
       if (tag.parentId){
         let parent = tagsReference.find(f => f.guid == tag.parentId);

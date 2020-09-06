@@ -24,11 +24,19 @@ export class TagService {
     this.Tags.push(
         ...(await this.Api.GetAll(this.serverService.GetHttpCaller())).map(t => Tag.FromITag(t))
     );
-    Tag.BuildReferences(this.Tags);
+    Tag.ReBuildReferences(this.Tags);
     return this.Tags;
   }
 
   public GetTag(id: string): Tag{
     return this.Tags.find(tag => tag.guid == id);
+  }
+
+  public async SaveTag(tag: Tag){
+    let tags = await this.Api.SetTag(this.serverService.GetHttpCaller(), {name: tag.name, guid: tag.guid, parent: tag.parentId})
+        .then(t => t.map(tag => Tag.FromITag(tag)));
+    Tag.ReBuildReferences(tags);
+    this.Tags.splice(0, this.Tags.length);
+    this.Tags.push(...tags.map(t => Tag.FromITag(t)));
   }
 }

@@ -33,11 +33,9 @@ export class TagEditorComponent implements OnInit {
     private reloadTagTreeData(newTags: Tag[]) {
         this.TreeItems = [];
 
-        setTimeout(() => {
-            for (let tag of newTags.filter(t => !t.parentId)) {
-                this.TreeItems.push(this.GetTreeViewItem(tag))
-            }
-        }, 1000);
+        for (let tag of newTags.filter(t => !t.parentId)) {
+            this.TreeItems.push(this.GetTreeViewItem(tag))
+        }
     }
 
     private GetTreeViewItem(tag: Tag): TreeviewItem {
@@ -79,17 +77,19 @@ export class TagEditorComponent implements OnInit {
     }
 
     SaveCurrentTag() {
+        this.tagService.SaveTag(this.SelectedTag);
         this.reloadTagTreeData(this.tagService.Tags);
     }
 
     SetSelectedParent(selectedSuggestion: any) {
         let newParent = selectedSuggestion as Tag;
-        let modifyIndex = this.tagService.Tags.findIndex(t => t.guid == this.SelectedTag.guid);
 
-        this.SelectedTag.parentId = newParent.guid;
-        this.SelectedTag.Parent = newParent;
+        console.log(this.tagService.Tags);
 
-        Tag.BuildReferences(this.tagService.Tags);
+        this.SelectedTag.parentId = newParent?.guid?? null;
+        this.SelectedTag.Parent = newParent?? null;
+
+        Tag.ReBuildReferences(this.tagService.Tags);
         this.SaveCurrentTag();
     }
 
