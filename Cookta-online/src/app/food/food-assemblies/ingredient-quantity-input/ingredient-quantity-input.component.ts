@@ -90,21 +90,20 @@ export class IngredientQuantityInputComponent {
     }
 
     private reparse() {
-
-        let text = this.Text.toLowerCase().replace(',', '.');
+        let textParts = this.Text.toLowerCase().replace(',', '.').split(' ');
 
         let unitFound: Unit;
         for (let unit of this.availableUnits) {
-            let i = text.search(unit.name.toLowerCase());
-            if (i != -1) {
-                text.replace(unit.name.toLowerCase(), '');
+            let unitNameFound =  textParts.findIndex(i => i == unit.name.toLocaleLowerCase() || i == unit.shortname.toLocaleLowerCase());
+            if (unitNameFound > -1){
+                textParts.splice(unitNameFound, 1);
                 unitFound = unit;
                 break;
             }
         }
 
         let valFound: number;
-        for (let subText of text.split(' ')) {
+        for (let subText of textParts) {
             try {
                 valFound = +subText;
                 break;
