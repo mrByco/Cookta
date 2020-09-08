@@ -13,7 +13,6 @@ export class AppComponent {
   public NeedCheckPermission: boolean;
 
   constructor(private authService: AuthService) {
-    window['OnGapiInit'] = (gapi) => {this.authService.InitGapiAuth(gapi)};
 
     this.NeedCheckPermission = false;
     if (window.location.hostname.match('192\\.168\\.\\d{1,3}\\.\\d{1,3}')){
