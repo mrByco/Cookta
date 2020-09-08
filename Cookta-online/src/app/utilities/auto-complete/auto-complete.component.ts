@@ -34,9 +34,9 @@ export class AutoCompleteComponent implements OnInit {
             }))
         } else {
             searchables.push(...(v as IDisplayable[])
-                .map(r => {
+                ?.map(r => {
                     return {item: r, text: r.displayName()}
-                }));
+                })??[]);
         }
 
         const options = {
