@@ -14,14 +14,14 @@ export class IdentityService {
 
   constructor(private serverService: ServerService,
               private authService: AuthService) {
-    authService.OnUserLoginChanged.subscribe(() => this.RefreshUser());
+    authService.OnUserChanged.subscribe(() => this.RefreshUser());
     if (!IdentityService.Instance) {
       IdentityService.Instance = this;
     }
   }
 
   public async LoadIdentity(): Promise<any>{
-    //this.authService.LoadIdentity();
+    this.authService.LoadIdentity();
     await this.IsAuthenticated;
   }
 
@@ -34,7 +34,7 @@ export class IdentityService {
   }
 
   public async Login(redirect?: string) {
-    await this.authService.Login();
+    await this.authService.login(redirect);
   }
 
   public async Logout() {
