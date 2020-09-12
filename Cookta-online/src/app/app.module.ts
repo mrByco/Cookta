@@ -98,6 +98,7 @@ import { ShoppingItemModalComponent } from './shopping/shopping-item-modal/shopp
 import { TagEditorComponent } from './admin-components/tag-editor/tag-editor.component';
 import {MatIconModule, MatTreeModule} from '@angular/material';
 import {TreeviewModule} from 'ngx-treeview';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 const appRoutes: Routes = [
@@ -225,7 +226,8 @@ const appRoutes: Routes = [
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
         MatTreeModule,
         MatIconModule,
-        TreeviewModule.forRoot()
+        TreeviewModule.forRoot(),
+        MatTooltipModule
     ],
     schemas: [NO_ERRORS_SCHEMA],
     providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard, MDBModalRef, MDBModalService],

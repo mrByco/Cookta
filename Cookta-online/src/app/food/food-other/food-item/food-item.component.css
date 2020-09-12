@@ -45,11 +45,30 @@ h3 {
 
 .public-status-icon {
   position: absolute;
-  right: 10px;
+  color: lightcyan;
+  right: 18px;
+  bottom: 60px;
+  opacity: 65%;
+  transition: 200ms;
+  transform: scale(1.3);
+}
+
+.public-status-icon .public {
+  color: #6eee6e;
+}
+.public-status-icon .private {
+  color: #59d1de;
+}
+.public-status-icon .saved {
+  color: #ffda56;
+}
+
+.highlight:hover .public-status-icon {
+  opacity: 100%;
 }
 
 .more-options-icon-frame {
-  right: 10px;
+  right: 5px;
   top: 10px;
   position: absolute;
   transition: height 0.2s, right 0.2s, top 0.2s;
