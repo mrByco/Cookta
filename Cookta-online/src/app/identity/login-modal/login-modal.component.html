@@ -1,23 +1,18 @@
-<div mdbModal #basicModal class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button (click)="Cancel()" aria-label="Close" class="close pull-right" type="button">
-          <span aria-hidden="true">×</span>
-        </button>
-        <h4 class="modal-title w-100" id="myModalLabel">Jelentkezz be</h4>
-      </div>
-      <div class="modal-body">
-        <p>A bejelentkezésnek számos előnye van, ennek az egy funkciónak a használatán kívül.</p>
-      </div>
-      <div class="modal-footer">
-        <button (click)="Cancel()" aria-label="Close" class="waves-light" color="secondary" mdbBtn mdbWavesEffect
-                type="button">Mégse
-        </button>
-        <button (click)="Login()" class="relative waves-light" color="primary" mdbBtn
-                mdbWavesEffect type="button">Bejelentkezés
-        </button>
-      </div>
-    </div>
-  </div>
+
+<div class="modal-header">
+  <button (click)="Cancel()" aria-label="Close" class="close pull-right" type="button">
+    <span aria-hidden="true">×</span>
+  </button>
+  <h4 class="modal-title w-100" id="myModalLabel">Jelentkezz be</h4>
+</div>
+<div class="modal-body">
+  <p>A bejelentkezésnek számos előnye van, ennek az egy funkciónak a használatán kívül.</p>
+</div>
+<div class="modal-footer">
+  <button (click)="Cancel()" aria-label="Close" class="waves-light" color="secondary" mdbBtn mdbWavesEffect
+          type="button">Mégse
+  </button>
+  <button (click)="Login()" class="relative waves-light" color="primary" mdbBtn
+          mdbWavesEffect type="button">Bejelentkezés
+  </button>
 </div>

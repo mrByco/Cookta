@@ -11,6 +11,7 @@ import {LiveConnectionService} from '../shared/services/live-connect.service/liv
 import {HomeService} from '../shared/services/home.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import set = Reflect.set;
+import {MustLoginComponent} from "../profile/must-login/must-login.component";
 
 interface ILoadTask {
   Name: string,
@@ -60,12 +61,6 @@ export class RootComponentComponent implements OnInit {
 
   async ngOnInit() {
     await new Promise(r => setTimeout(() => r(), 0));
-    if (this.router.url.startsWith('/login')){
-      this.LoadingText == 'Bejelentkezés';
-      await IdentityService.Instance.PleaseLogin();
-      let redirectUrl = this.router.url.replace('/login', '');
-      await this.router.navigate([...redirectUrl.split('/')]);
-    }
     await this.InitApplication();
   }
 

@@ -9,12 +9,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <app-user-profile-panel
-          (ModalOperationStart)="frame.hide()"
-          (ModalOperationEnd)="frame.show()"
-        [OutsideRenameModal]="SetUsernameModal"
-        [OutsideDeleteModal]="DeleteUserModal">
-        </app-user-profile-panel>
       </div>
     </div>
   </div>

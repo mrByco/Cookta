@@ -4,16 +4,18 @@ import {AuthService} from './auth.service';
 import {Routes} from '../routes';
 import {User} from '../models/identity/User';
 import {HttpErrorResponse} from '@angular/common/http';
+import {MDBModalService} from "angular-bootstrap-md";
+import {LoginModalComponent} from "../../identity/login-modal/login-modal.component";
 
 @Injectable()
 export class IdentityService {
   public static Instance: IdentityService;
-  public OnLoginRequired = new EventEmitter<{modalCallback: (loggedIn: boolean) => void, options?: {redirectOnFail?: string}}>();
   public Identity: User;
   public OnIdentityChanged: EventEmitter<User> = new EventEmitter<User>();
 
   constructor(private serverService: ServerService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private modalService: MDBModalService) {
     authService.OnUserChanged.subscribe(() => this.RefreshUser());
     if (!IdentityService.Instance) {
       IdentityService.Instance = this;
@@ -41,11 +43,6 @@ export class IdentityService {
     this.authService.logout();
   }
 
-  public PleaseLogin(redirect: string = '/', options?: {redirectOnFail?: string}): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
-      this.OnLoginRequired.emit({modalCallback: resolve, options});
-    });
-  }
 
   public async HasPermission(permission: string): Promise<boolean> {
     let response = await this.serverService.GetRequest(Routes.User.HasPermission.replace('{permission}', permission), true);

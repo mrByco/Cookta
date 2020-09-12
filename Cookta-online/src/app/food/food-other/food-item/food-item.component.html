@@ -6,6 +6,7 @@
      'margin-top.px': VertMargin,
      'margin-bottom.px': VertMargin}"
      class="highlight p-0">
+
   <a (click)="OnCardClick()" [hreflang]="'/foods/' + Food.foodId" style="width: 100%; height: 100%">
     <img [ngStyle]="{
            'height.px': Width * 0.93,
@@ -17,8 +18,13 @@
          class="food-image">
     <div class="overlay"></div>
     <h4 class="food-title"><a>{{Food.name}}</a></h4>
+    <div class="public-status-icon" *ngIf="Food.OwnFood || Food.SubscribedFor">
+      <mdb-icon size="lg" fas icon="globe" class="public" matTooltip="Nyilvánosan közzétett" *ngIf="Food.OwnFood && !Food.isPrivate"></mdb-icon>
+      <mdb-icon size="lg" fas icon="lock" class="private" matTooltip="Privát, csak csapattagok láthatják" *ngIf="Food.OwnFood && Food.isPrivate"></mdb-icon>
+      <mdb-icon size="lg" fas icon="star" class="saved" matTooltip="Gyüjteményben" *ngIf="Food.SubscribedFor"></mdb-icon>
+    </div>
   </a>
-  <div mdbDropdown style="position: absolute; right: 10px; top: 10px" *ngIf="identityService.Identity">
+  <div mdbDropdown style="position: absolute; right: 0px; top: 10px" *ngIf="identityService.Identity">
     <a mdbDropdownToggle class="more-options-icon-frame" *ngIf="identityService.Identity['sub'] == Food.owner">
       <img src="assets/more-options-button.png">
     </a>

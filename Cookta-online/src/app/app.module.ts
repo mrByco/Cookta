@@ -7,7 +7,7 @@ import {NavigationBarComponent} from './navigation-bar/navigation-bar.component'
 import {FoodItemComponent} from './food/food-other/food-item/food-item.component';
 import {FoodDetailComponent} from './food/food-page/food-detail/food-detail.component';
 import {FoodListComponent} from './food/food-other/food-list/food-list.component';
-import {IconsModule, MDBBootstrapModule} from 'angular-bootstrap-md';
+import {IconsModule, MDBBootstrapModule, MDBModalRef, MDBModalService} from 'angular-bootstrap-md';
 import {HttpClientModule} from '@angular/common/http';
 import {IdentityService} from './shared/services/identity.service';
 import {FoodService} from './shared/services/food.service';
@@ -98,6 +98,8 @@ import { ShoppingItemModalComponent } from './shopping/shopping-item-modal/shopp
 import { TagEditorComponent } from './admin-components/tag-editor/tag-editor.component';
 import {MatIconModule, MatTreeModule} from '@angular/material';
 import {TreeviewModule} from 'ngx-treeview';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import { UserProfileComponent } from './profile/user-profile/user-profile.component';
 
 
 const appRoutes: Routes = [
@@ -194,7 +196,8 @@ const appRoutes: Routes = [
         IngredientQuantityInputComponent,
         ShoppingItemModalComponent,
         ShoppingItemModalComponent,
-        TagEditorComponent
+        TagEditorComponent,
+        UserProfileComponent
 
     ],
     imports: [
@@ -225,10 +228,11 @@ const appRoutes: Routes = [
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
         MatTreeModule,
         MatIconModule,
-        TreeviewModule.forRoot()
+        TreeviewModule.forRoot(),
+        MatTooltipModule
     ],
     schemas: [NO_ERRORS_SCHEMA],
-    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard],
+    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard, MDBModalRef, MDBModalService],
     entryComponents: [GenericTwoButtonDialogComponent],
     bootstrap: [AppComponent]
 })
