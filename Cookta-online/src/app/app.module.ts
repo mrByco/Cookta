@@ -99,6 +99,7 @@ import { TagEditorComponent } from './admin-components/tag-editor/tag-editor.com
 import {MatIconModule, MatTreeModule} from '@angular/material';
 import {TreeviewModule} from 'ngx-treeview';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { UserProfileComponent } from './profile/user-profile/user-profile.component';
 
 
 const appRoutes: Routes = [
@@ -195,7 +196,8 @@ const appRoutes: Routes = [
         IngredientQuantityInputComponent,
         ShoppingItemModalComponent,
         ShoppingItemModalComponent,
-        TagEditorComponent
+        TagEditorComponent,
+        UserProfileComponent
 
     ],
     imports: [
