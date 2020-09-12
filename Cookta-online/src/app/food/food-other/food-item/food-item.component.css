@@ -43,6 +43,11 @@ h3 {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+.public-status-icon {
+  position: absolute;
+  right: 10px;
+}
+
 .more-options-icon-frame {
   right: 10px;
   top: 10px;

@@ -11,6 +11,8 @@ import {ITag} from '../../../../../../Cookta-shared/src/models/tag/tag.interface
 import {FoodListComponent} from '../../food-other/food-list/food-list.component';
 import {Meta, Title} from '@angular/platform-browser';
 import {MetaService} from '../../../shared/services/meta-service/meta.service';
+import {MDBModalService} from "angular-bootstrap-md";
+import {LoginModalComponent} from "../../../identity/login-modal/login-modal.component";
 
 @Component({
   selector: 'app-food-detail',
@@ -35,6 +37,7 @@ export class FoodDetailComponent implements AfterViewInit, OnDestroy {
       public router: Router,
       public mealingService: MealingService,
       public cookieService: CookieService,
+      public modalService: MDBModalService,
       private title: Title,
       private metaService: MetaService) {
   }
@@ -83,7 +86,7 @@ export class FoodDetailComponent implements AfterViewInit, OnDestroy {
 
   public async Subscribe(state: boolean) {
     if (!this.identityService.LoggedIn) {
-      this.identityService.PleaseLogin();
+      this.modalService.show(LoginModalComponent);
       return;
     }
     console.log(this.Food);

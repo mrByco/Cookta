@@ -43,9 +43,6 @@ export class AuthService {
     public loggedIn: boolean = null;
 
     constructor(private router: Router) {
-    }
-
-    public LoadIdentity(): void{
         this.IsAuthenticated = new Promise(async resolve => {
             // On initial load, check authentication state with authorization server
             // Set up local auth streams if user is already authenticated
@@ -57,6 +54,10 @@ export class AuthService {
             loggedIn = await this.handleAuthCallback();
             resolve(loggedIn);
         })
+        this.LoadIdentity();
+    }
+
+    public LoadIdentity(): void{
 
         this.getUser$().subscribe(user => this.OnUserChanged.emit(user));
     }

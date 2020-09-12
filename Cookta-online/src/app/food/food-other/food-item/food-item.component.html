@@ -18,6 +18,9 @@
     <div class="overlay"></div>
     <h4 class="food-title"><a>{{Food.name}}</a></h4>
   </a>
+  <div class="public-status-icon" *ngIf="Food.OwnFood || Food.SubscribedFor">
+    <mdb-icon fas icon="globe"></mdb-icon>
+  </div>
   <div mdbDropdown style="position: absolute; right: 10px; top: 10px" *ngIf="identityService.Identity">
     <a mdbDropdownToggle class="more-options-icon-frame" *ngIf="identityService.Identity['sub'] == Food.owner">
       <img src="assets/more-options-button.png">
