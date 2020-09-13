@@ -1,5 +1,6 @@
 
-<mdb-carousel (click)="Click()"
+<mdb-carousel (click)="OpenCurrentActive(carousel.activeSlide)"
+              #carousel
               [interval]="5000"
               class="carousel  carousel-fade" [animation]="'fade'"
               [isControls]="false" *ngIf="Content">
