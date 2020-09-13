@@ -73,7 +73,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {UserListComponent} from './admin-components/user-list/user-list.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {LiveConnectionService} from './shared/services/live-connect.service/live-connection.service';
-import {UserProfileModalComponent} from './profile/user-profile/user-profile-modal/user-profile-modal.component';
 import {UserProfilePanelComponent} from './profile/user-profile/user-profile-panel/user-profile-panel.component';
 import {ConfirmDeleteModalComponent} from './identity/confirm-delete-modal/confirm-delete-modal.component';
 import {PublicFoodsComponent} from './food/food-other/public-foods/public-foods.component';
@@ -180,7 +179,6 @@ const appRoutes: Routes = [
         RenameModalComponent,
         RoleEditorComponent,
         UserListComponent,
-        UserProfileModalComponent,
         UserProfilePanelComponent,
         ConfirmDeleteModalComponent,
         PublicFoodsComponent,
