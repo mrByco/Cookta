@@ -27,7 +27,7 @@
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link waves-light" mdbWavesEffect routerLink="/how-to">Hol kezdjem?</a>
             </li>
-            <li class="nav-item btn-group" mdbDropdown>
+            <li class="nav-item btn-group" mdbDropdown *ngIf="ShowAdminOptions">
                 <a mdbDropdownToggle class="dropdown-toggle waves-light" style="padding: 0.5rem 1rem; color: white"
                    mdbWavesEffect>
                     Admin

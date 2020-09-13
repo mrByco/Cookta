@@ -23,6 +23,9 @@ export class NavigationBarComponent implements AfterViewInit {
   public ShowErrorList: boolean = false;
   public ShowDebugOptions: boolean = false;
   public ShowUserEditor: boolean = false;
+  public get ShowAdminOptions(){
+    return this.ShowIngredientEditor || this.ShowRoleEditor || this.ShowErrorList || this.ShowDebugOptions || this.ShowUserEditor;
+  }
   private resizeDetector: ResizeDetector;
 
   @ViewChild('NavRoot') public RootElement: ElementRef;
