@@ -86,8 +86,10 @@
                          style="height: 35px"></a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary dropdown-menu-right" role="menu"
                      style="left: initial">
-                    <a class="dropdown-item waves-light" mdbWavesEffect (click)="UserProfile.Show()">Fiókod</a>
-                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/family-manager">Család</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/profile"
+                       hreflang="/profile">Profil</a>
+                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/family-manager"
+                       hreflang="/family-manager">Család</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item waves-light" mdbWavesEffect
                        (click)="identityService.Logout()">Kijelentkezés</a>

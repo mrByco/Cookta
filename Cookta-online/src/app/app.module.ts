@@ -127,6 +127,7 @@ const appRoutes: Routes = [
     {path: 'calendar', component: MenuEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'storage', component: StorageRootComponentComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'stocker', component: StockerComponent, canActivate: [CanActivateLoggedInGuard]},
+    {path: 'profile', component: UserProfileComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'shopping', component: ShoppingListRootComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'login', component: MustLoginComponent, children: [
             { path: '**', component: MustLoginComponent}
