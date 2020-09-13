@@ -26,17 +26,18 @@ export class HomeController {
             cursor.limit(5);
             return cursor.toArray();
         });
-        let images = last5FoodUpload.map(f => {
+        let items = last5FoodUpload.map(f => {
             return {
                 subtitle: `${f.name} - ${new Date(f.lastModified).ToYYYYMMDDString()}`,
-                url: `https://kuktaimages.blob.core.windows.net/foodimages/${f.id}.jpg`
+                url: `https://kuktaimages.blob.core.windows.net/foodimages/${f.id}.jpg`,
+                foodId: f.foodId,
             };
         });
 
         return {
             title: 'Nem rég frissítve',
             clickAction: 'lastest',
-            images: images,
+            images: items,
         };
     }
 
