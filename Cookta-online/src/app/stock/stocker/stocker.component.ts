@@ -47,8 +47,11 @@ export class StockerComponent implements OnInit {
         return existing;
     }
 
-    ChangeCheckListItem(item: ICheckListItem, actual: IIngredient) {
-        item.finalQuantity = actual ? {unitId: actual.unit, value: actual.value} : undefined;
+    ChangeCheckListItem(item: ICheckListItem, actual: IIngredient, def: IIngredient) {
+        item.finalQuantity = {unitId: actual.unit?? def.unit, value: actual.value?? def.value};
+        if (item.finalQuantity.unitId == def.unit && item.finalQuantity.value == def.value)
+            item.finalQuantity = undefined;
+        console.log(item.finalQuantity);
     }
 
     CompleteCheckListItem(Item: ICheckListItem) {

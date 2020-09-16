@@ -1,20 +1,29 @@
-<div class="suggester" dropdown #SuggestionDropDown>
-    <input class=""
-           [placeholder]=" DefaultItem.value + ' ' + unitService.GetUnit(DefaultItem.unit, ingredientService.GetIngredient(DefaultItem.ingredientID)).name"
-           [ngModel]="Text"
-           (focusin)="Focusin()"
-           (focusout)="Focusout()"
-           (ngModelChange)="TextChange($event)"
-           autocomplete="disabled">
+<div class="row">
 
-    <div class="suggestions dropdown-menu">
-        <div class="" style="" *ngFor="let item of filteredSuggestions"
-             (click)="SelectSuggestion(item)">
-            {{item}}
-        </div>
-        <div class="" style="font-family: 'Comic Sans MS'; font-style: italic; font-size: 14px"
-             (click)="SuggestionDropDown.hide()">
-            Elrejtés
+    <div class="col-auto pr-0 pl-1 suggester" dropdown #SuggestionDropDown>
+        <input class=""
+               type="number"
+               size="1"
+               [placeholder]=" DefaultItem.value"
+               [ngModel]="Text"
+               (focusout)="Focusout()"
+               (ngModelChange)="TextChange($event)"
+               autocomplete="disabled">
+
+    </div>
+
+    <div class="col pl-0 pr-1" mdbDropdown>
+        <a mdbDropdownToggle>{{GetCurrentDisplayUnit().name}}</a>
+
+        <div class="suggestions dropdown-menu">
+            <div class="" style="" *ngFor="let item of availableUnits"
+                 (click)="ChangeCurrentUnit(item)">
+                {{item.name}}
+            </div>
+            <div class="" style="font-family: 'Comic Sans MS'; font-style: italic; font-size: 14px"
+                 (click)="SuggestionDropDown.hide()">
+                Elrejtés
+            </div>
         </div>
     </div>
 </div>
