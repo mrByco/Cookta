@@ -1,7 +1,7 @@
-<div class="container-fluid"
+<div class="container-fluid" #root
      style="background: #ac4c00 url('../../../../assets/background/search-background.jpg') no-repeat center; background-size: cover; min-height: var(--MainContentSize)" >
   <div class="d-flex flex-column align-items-center" >
     <app-search-input style="margin-top: 25vh; width: 40vw; max-width: 700px; min-width: 340px"></app-search-input>
-    <app-food-list [MinItemSize]="180" [Foods]="Foods" style="height: 40vh; min-height: 316px; width: 70vw; margin-top: 10vh"></app-food-list>
+    <app-food-list *ngIf="ShowFoods" [MinItemSize]="190" [Foods]="Foods" style="height: 40vh; min-height: 316px; width: 70vw; margin-top: 10vh"></app-food-list>
   </div>
 </div>
