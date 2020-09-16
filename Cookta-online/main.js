@@ -57,7 +57,7 @@ function app() {
     });
 
     server.all('*', function (req, res) {
-        res.status(200).sendFile(`/`, {root: public});
+        res.status(200).sendFile(`/assets${req.path}`, {root: public});
     });
     return server;
 }
