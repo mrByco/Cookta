@@ -99,6 +99,7 @@ import {MatIconModule, MatTreeModule} from '@angular/material';
 import {TreeviewModule} from 'ngx-treeview';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { UserProfileComponent } from './profile/user-profile/user-profile.component';
+import {UpdateService} from './shared/services/update-service';
 
 
 const appRoutes: Routes = [
@@ -231,7 +232,7 @@ const appRoutes: Routes = [
         MatTooltipModule
     ],
     schemas: [NO_ERRORS_SCHEMA],
-    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService, CanDeactivateGuard, CanActivateLoggedInGuard, MDBModalRef, MDBModalService],
+    providers: [IdentityService, FoodService, ServerService, IngredientService, UnitService, AuthService, TagService, FamilyService, SearchService, HomeService, MealingService, LiveConnectionService,  UpdateService, CanDeactivateGuard, CanActivateLoggedInGuard, MDBModalRef, MDBModalService],
     entryComponents: [GenericTwoButtonDialogComponent],
     bootstrap: [AppComponent]
 })

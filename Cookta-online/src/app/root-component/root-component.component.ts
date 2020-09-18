@@ -10,8 +10,7 @@ import {MDBModalService} from 'angular-bootstrap-md';
 import {LiveConnectionService} from '../shared/services/live-connect.service/live-connection.service';
 import {HomeService} from '../shared/services/home.service';
 import {ActivatedRoute, Router} from "@angular/router";
-import set = Reflect.set;
-import {MustLoginComponent} from "../profile/must-login/must-login.component";
+import {UpdateService} from '../shared/services/update-service';
 
 interface ILoadTask {
   Name: string,
@@ -49,7 +48,8 @@ export class RootComponentComponent implements OnInit {
               private liveService: LiveConnectionService,
               private homeService: HomeService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private updateService: UpdateService) {
 
 
     console.log('Init app');
