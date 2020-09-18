@@ -1,0 +1,7 @@
+<div class="main-content">
+    <div *ngFor="let food of FeedItems" class="food-feed-item">
+        <img [src]="GetFoodImage(food)" alt="">
+        <h3>{{food.name}}</h3>
+        <p>{{food.desc}}</p>
+    </div>
+</div>

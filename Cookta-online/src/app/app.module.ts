@@ -100,10 +100,12 @@ import {TreeviewModule} from 'ngx-treeview';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { UserProfileComponent } from './profile/user-profile/user-profile.component';
 import {UpdateService} from './shared/services/update-service';
+import { FoodFeedComponent } from './food/food-feed/food-feed.component';
 
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponentComponent},
+    {path: 'feed', component: FoodFeedComponent},
     {path: 'foods', component: FoodSearchPageComponent},
     {path: 'ingredient-editor', component: IngredientEditorComponent, canActivate: [CanActivateLoggedInGuard]},
     {path: 'tag-editor', component: TagEditorComponent, canActivate: [CanActivateLoggedInGuard]},
@@ -197,7 +199,8 @@ const appRoutes: Routes = [
         ShoppingItemModalComponent,
         ShoppingItemModalComponent,
         TagEditorComponent,
-        UserProfileComponent
+        UserProfileComponent,
+        FoodFeedComponent
 
     ],
     imports: [
