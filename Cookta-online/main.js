@@ -21,13 +21,24 @@ function detectBot(userAgent) {
     return test.test(userAgent);
 }
 
-// The Express app is exported so that it can be used by serverless Functions.
-function app() {
-    const server = express();
+function serveApp(server) {
+    const public = __dirname + '/dist/cookta/browser';
+    server.get('*.*', express.static(public, {maxAge: '1y'}));
+    server.all('*', function (req, res) {
+        res.status(200).sendFile(`/`, {root: public});
+    });
+}
 
-    if (process.env.DEBUG != 'TRUE') {
-        server.use(ForceHttps);
-    }
+function serveSitemap(server) {
+    server.get('/sitemap.xml', (req, res) => {
+        fetchUrl('https://cooktaservices.azurewebsites.net/sitemap.xml', (error, meta, body) => {
+            res.set('content-type', 'application/xml');
+            res.send(body);
+        })
+    });
+}
+
+function useBotDetector(server) {
     server.use((req, res, next) => {
         let isBot = detectBot(req.headers['user-agent']);
         const ignoreUrls = [
@@ -38,34 +49,28 @@ function app() {
         if (isBot && !ignoreUrls.includes(req.originalUrl)) {
             fetchUrl(`${renderUrl}${req.originalUrl}`, (error, meta, body) => {
                 res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
-
                 res.send(body.toString());
             });
         } else {
             next();
         }
     });
+}
 
-    const public = __dirname + '/dist/cookta/browser';
-    server.use(express.static(public));
+// The Express app is exported so that it can be used by serverless Functions.
+function app() {
+    const server = express();
 
-    server.get('/sitemap.xml', (req, res) => {
-       fetchUrl('https://cooktaservices.azurewebsites.net/sitemap.xml', (error, meta, body) => {
-           res.set('content-type', 'application/xml');
-            res.send(body);
-        })
-    });
+    if (process.env.DEBUG != 'TRUE') server.use(ForceHttps);
+    useBotDetector(server);
+    serveSitemap(server);
+    serveApp(server);
 
-    server.all('*', function (req, res) {
-        res.status(200).sendFile(`/assets${req.path}`, {root: public});
-    });
     return server;
 }
 
 function run() {
     const port = process.env.PORT || 4200;
-
-    // Start up the Node server
     const server = app();
     server.listen(port, () => {
         console.log(`Node Express server listening on http://localhost:${port}`);
