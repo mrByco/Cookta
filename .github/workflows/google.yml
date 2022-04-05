@@ -39,7 +39,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    - uses: google-github-actions/setup-gcloud@v0
       with:
         version: '304.0.0'
         service_account_key: ${{ secrets.GCP_AUTH }}
